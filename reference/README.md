@@ -1,0 +1,83 @@
+# reference/ — TCM source material
+
+Raw third-party TCM resources used to build and verify the app's knowledge base.
+Nothing here is shipped to end users as-is: the app's own knowledge base
+(`data/`, created in a later task) is **derived** from these sources, and every
+derived record must keep a pointer back to the source it came from
+(see [PRD §8 Knowledge base](../docs/PRD.md)).
+
+## Layout
+
+```
+reference/
+├── README.md              # this catalog
+└── sources/               # git submodules (shallow, pinned by commit)
+    ├── TCM-Library/       # structured classics + Pharmacopoeia entries
+    ├── TCM-Ancient-Books/ # ~700 classical TCM texts (plain text)
+    └── tcm-mkg/           # herb entity corpus (property / meridian / flavour)
+```
+
+`reference/derived/` (git-ignored) is reserved for scratch output of conversion scripts.
+
+## Getting the sources
+
+Fresh clone:
+
+```bash
+git clone --recurse-submodules <repo-url>
+```
+
+Already cloned:
+
+```bash
+git submodule update --init --depth 1
+```
+
+Update a source to its latest upstream commit (then commit the new pointer):
+
+```bash
+git submodule update --remote --depth 1 reference/sources/<name>
+```
+
+## Catalog of downloaded sources
+
+| Source | Content | Language / encoding | Licence | Size | Primary use in this project |
+|---|---|---|---|---|---|
+| [TCM-Library](https://github.com/Xiaoqin-Mo/TCM-Library) | 素問 81 / 靈樞 81 / 傷寒論 ~660 clauses / 金匱要略 25 / 難經 81, 43 classical formulas (經方), 144 神農本草經 herbs, Pharmacopoeia 2025 (Part I) 637 herb entries, diagnosis / 辨證 / 四診 entries. Markdown + YAML front-matter (`conditions`: 證型 / 治法 / 症狀 / 方名 / 藥名 …) and `manifest.json` | Simplified Chinese, UTF-8 | MIT (compilation). Underlying classics are public domain. Entries have three layers: 原文 (source text), 古注 (classical commentary), 白話提要 (plain-language summary). **Treat 白話提要 as secondary, un-reviewed editorial text** | ~21 MB | Citable passages for 內經 / 傷寒 / 金匱 / 難經; formula and herb seed data; symptom→證型 metadata |
+| [TCM-Ancient-Books](https://github.com/xiaopangxia/TCM-Ancient-Books) | 704 classical texts, one `.txt` per book, e.g. 景岳全書, 醫學心悟, 脾胃論, 溫病條辨, 溫熱經緯, 醫林改錯, 太平惠民和劑局方, 瀕湖脈學, 診家正眼, 傷寒舌鑑, 望診遵經, 醫方集解, 湯頭歌訣 | Simplified Chinese, **GB18030** (not UTF-8) | **No licence declared** upstream. The texts are ancient (public domain) but the compilation is not licensed → keep as a *reference only*; do not copy files into the shipped app | ~165 MB | Locating original passages for citations (e.g. 十問歌 in 景岳全書·傳忠錄); source for later formula / syndrome extraction |
+| [tcm-mkg](https://github.com/lm203688/tcm-mkg) | 6,207 herb entities with 五味 / 歸經 / 四氣 properties and Latin / English names; 701 classical-book metadata rows; 120 case-evidence records | Simplified Chinese + English, JSON | MIT (mirror of upstream [GraphAI-for-TCM](https://github.com/ZENGJingqi/GraphAI-for-TCM), Zenodo DOI 10.5281/zenodo.13763953). `evidence_level` is a downstream curator label, **not** clinical evidence | ~6 MB | Herb property tables (四氣五味歸經) and English / Latin herb names for the bilingual UI |
+
+### Reading the GB18030 books
+
+```bash
+iconv -f GB18030 -t UTF-8 reference/sources/TCM-Ancient-Books/637-景岳全书.txt | less
+```
+
+### Simplified → Traditional conversion
+
+All three sources are Simplified Chinese; the app is Traditional-first. Convert at
+**build time** with OpenCC using the `s2twp` profile (Taiwan standard + TCM-relevant
+phrase mapping) and spot-check TCM terms by hand — OpenCC mis-converts some
+classical characters (e.g. 症/證, 藥名, 古字). See `docs/` (tech spec, to be written)
+for the conversion pipeline.
+
+## Candidate sources — not downloaded yet
+
+Listed so we remember them; each needs a licence check before use.
+
+| Source | What it offers | Constraint / note |
+|---|---|---|
+| [維基文庫 Wikisource](https://zh.wikisource.org/zh-hant/黃帝內經) | Traditional-script 黃帝內經 (素問 / 靈樞) and other classics; public domain | Fetch via the MediaWiki API (polite rate limit). Best source for Traditional-script originals and for cross-checking the Simplified texts above |
+| [Chinese Text Project (ctext.org)](https://ctext.org/tools/linked-open-data) | 黃帝內經 · 素問 / 靈樞, 傷寒論, 金匱要略 and others, with an API | Data is **CC BY-NC-SA 3.0**: attribution required, **non-commercial**, share-alike. Bulk text download needs a subscription / API key. Use only for cross-checking unless the project's licence plan allows it |
+| [TCM-MKG upstream (Zenodo)](https://doi.org/10.5281/zenodo.13763953) | Original multi-dimensional TCM knowledge graph | Check its licence directly rather than relying on the mirror |
+| 《中醫體質分類與判定》(中華中醫藥學會標準 ZYYXH/T157-2009) | Standard 9-constitution questionnaire (王琦) | Standard text may be copyright-restricted; obtain the official text and confirm reuse terms before embedding questions verbatim |
+| WHO International Standard Terminologies on Traditional Medicine / ICD-11 Chapter 26 (TM1) | Standardised English terms for TCM patterns and disorders | Needed for consistent English labels; check the WHO licence |
+| 中華人民共和國藥典 (2025 ed., Part I) | Official herb monographs | Already partially mirrored in TCM-Library (637 entries). For Taiwan, the 臺灣中藥典 / 衛福部 publications are the regional counterpart — **region decision pending** (PRD §14) |
+
+## Rules for using these sources
+
+1. **Provenance first.** Every record in the app KB stores `source` (book + chapter / clause), `source_repo`, and the submodule commit it was read from.
+2. **Original text is authoritative.** When a source's 白話提要 / commentary disagrees with the original classical text, the original wins; flag it for expert review.
+3. **No silent redistribution.** Only MIT / public-domain material may be copied into shipped data. `TCM-Ancient-Books` is a lookup aid; extract *facts* (formula composition, citation location), not whole files.
+4. **Pin versions.** Submodules are pinned by commit; bump deliberately and re-run the KB build + tests.
+5. **Medical content is reviewed content.** Machine-extracted rows start as `status: draft` and only become `reviewed` after a qualified TCM practitioner signs off.

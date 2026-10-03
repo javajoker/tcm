@@ -1,0 +1,9 @@
+[submodule "reference/sources/TCM-Library"]
+	path = reference/sources/TCM-Library
+	url = https://github.com/Xiaoqin-Mo/TCM-Library.git
+[submodule "reference/sources/tcm-mkg"]
+	path = reference/sources/tcm-mkg
+	url = https://github.com/lm203688/tcm-mkg.git
+[submodule "reference/sources/TCM-Ancient-Books"]
+	path = reference/sources/TCM-Ancient-Books
+	url = https://github.com/xiaopangxia/TCM-Ancient-Books.git
