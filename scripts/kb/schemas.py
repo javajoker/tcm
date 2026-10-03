@@ -36,8 +36,9 @@ def arr(items: dict, min_items: int | None = None, unique: bool = False) -> dict
     return out
 
 
-def tup(*items: dict) -> dict:
-    return {"type": "array", "prefixItems": list(items), "items": False, "minItems": len(items)}
+def tup(item: dict, n: int) -> dict:
+    """A fixed-length array of one item type (typed as a tuple by the TypeScript generator)."""
+    return {"type": "array", "items": item, "minItems": n, "maxItems": n}
 
 
 def obj(props: dict, required: list[str] | None = None, extra: bool = False) -> dict:
@@ -193,7 +194,7 @@ def pulse() -> dict:
                       "name": ref("bilingualNamed"), "source": obj({"book": STR, "chapter": STR, "verified_heading": BOOL}), "yin_yang": enum("陽", "陰", "陽中陰", "陰中陽")})
     position = obj({"id": pattern(r"^[LR]-(cun|guan|chi)$"), "organs": arr(STR), "zh": STR})
     guidance = obj({"education": STR, "note": STR, "optional": BOOL, "positions_source": STR, "quality_coefficient": NUM,
-                    "rate_bands": obj({"normal_range_modern": tup(NUM, NUM), "rapid_gt": NUM, "slow_lt": NUM})})
+                    "rate_bands": obj({"normal_range_modern": tup(NUM, 2), "rapid_gt": NUM, "slow_lt": NUM})})
     return {"type": "object", "properties": {"_meta": meta({"exclusive_groups": arr(arr(ref("symptomId"), 2)), "guidance": guidance}, ["exclusive_groups", "guidance"]),
                                              "positions": arr(position, 6), "pulses": arr(pulse_item, 1)}, "required": ["_meta", "positions", "pulses"], "additionalProperties": False}
 
@@ -236,7 +237,7 @@ def herbs() -> dict:
     flavor = obj({"element": ref("element"), "flavor": enum("辛", "苦", "甘", "酸", "澀", "鹹", "淡"), "weight": NUM})
     source = obj({"book": STR, "commit": NSTR, "entry_id": STR, "path": STR, "repo": STR})
     item = obj({
-        "aliases": arr(STR), "category": STR, "caution": NSTR, "classical_formulas": arr(STR), "data_quality": arr(STR), "dose_g_reference": {"oneOf": [{"type": "null"}, tup(NUM, NUM)]},
+        "aliases": arr(STR), "category": STR, "caution": NSTR, "classical_formulas": arr(STR), "data_quality": arr(STR), "dose_g_reference": {"oneOf": [{"type": "null"}, tup(NUM, 2)]},
         "effects": ref("panelMap"), "flavors": arr(flavor), "functions": arr(STR), "harms": ref("panelMap"), "id": ref("herbId"), "interactions": arr(STR), "latin": NSTR,
         "name": ref("bilingual"), "organs": arr(STR), "pregnancy": enum("ok", "ok-unreviewed", "caution", "avoid"), "siqi": arr(STR), "slug": STR, "source": source,
         "status": enum("derived", "curated-draft", "reviewed"), "tags": arr(STR), "temperature": NUM, "toxic": BOOL,

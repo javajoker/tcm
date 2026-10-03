@@ -20,7 +20,7 @@ const purity = (extraImportPatterns) => ({
 });
 
 export default tseslint.config(
-  { ignores: ["**/node_modules/**", "**/dist/**", "**/coverage/**", "reference/**", "data/**", ".venv/**", "**/*.generated.ts", "packages/wuxing/src/astro/vsop87-earth.ts"] },
+  { ignores: ["**/node_modules/**", "**/dist/**", "**/coverage/**", "reference/**", "data/**", ".venv/**", "**/*.generated.ts", "packages/kb/src/generated/**", "packages/wuxing/src/astro/vsop87-earth.ts"] },
   ...tseslint.configs.recommended,
   {
     files: ["**/*.ts", "**/*.tsx"],
@@ -57,7 +57,7 @@ export default tseslint.config(
   },
   // Tests and scripts may use Node and the console.
   {
-    files: ["**/test/**/*.ts", "scripts/**/*.ts", "**/*.config.*"],
+    files: ["**/test/**/*.ts", "**/test-support/**/*.ts", "scripts/**/*.ts", "**/*.config.*"],
     rules: { "no-console": "off", "no-restricted-properties": "off", "no-restricted-globals": "off", "no-restricted-imports": "off" },
   },
 );

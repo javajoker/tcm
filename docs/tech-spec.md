@@ -137,7 +137,7 @@ Delivery: the package is ≈ 160 KB of source, of which 51 KB is the VSOP87 tabl
 longitude, so the module is needed for **every** assessment, not only the birth module: it is bundled into the lazy *engine chunk* (`@tcm/engine` +
 `@tcm/wuxing`), fetched at the first inquiry and never in the initial bundle. Birth data merely adds the chart and innate/annual blocks.
 
-### 4.2 `@tcm/kb`
+### 4.2 `@tcm/kb` ✔ (task E-02)
 
 Types, loader, indices and version handling for the knowledge base. **No medical logic.**
 

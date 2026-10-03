@@ -75,6 +75,7 @@ Root scripts: `pnpm lint`, `pnpm typecheck`, `pnpm test`, `pnpm check`, `pnpm bu
 | `scripts/kb/**` or `data/**` | `.venv/bin/python -m scripts.kb.build_kb` (must be a no-op diff if you changed nothing; schema validation, integrity checks and the self-test must pass) and `pnpm test:kb` (Python tests) |
 | `packages/wuxing/**` | `pnpm --filter @tcm/wuxing test && pnpm --filter @tcm/wuxing typecheck` |
 | `packages/engine/**` (planned) | `pnpm --filter @tcm/engine test`, parity fixtures regenerated if parameters/KB changed |
+| `data/schema` or `scripts/kb/schemas.py` | `pnpm generate:kb-types` (commit the result; CI runs `pnpm check:kb-types`) |
 | UI strings | `pnpm check:i18n` |
 | `apps/web/**` (planned) | `pnpm --filter web test`, `pnpm --filter web e2e` for flows you touched, axe |
 | Docs | `python3 scripts/check_doc_links.py`; docs index and version tables updated |
