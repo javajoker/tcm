@@ -22,7 +22,7 @@
 | Workstream | Done | Total |
 |---|---:|---:|
 | **A** Documentation | 18 | 18 |
-| **DEC** Decisions | 0 | 6 |
+| **DEC** Decisions | 1 | 6 |
 | **K** Knowledge base | 1 | 20 |
 | **E** Engine and packages | 1 | 21 |
 | **I** Internationalisation | 0 | 6 |
@@ -31,11 +31,11 @@
 | **R** Release and operations | 0 | 7 |
 | **V** Review (non-code) | 0 | 7 |
 | **PF** Performance (P2) | 0 | 3 |
-| **All** | **20** | **124** |
+| **All** | **21** | **124** |
 
 | Priority | Done | Total |
 |---|---:|---:|
-| P0 | 11 | 74 |
+| P0 | 12 | 74 |
 | P1 | 9 | 42 |
 | P2 | 0 | 8 |
 
@@ -85,7 +85,7 @@ Suggested waves: **1** foundation (E-01, K-01, K-02, I-01, U-01, R-01) → **2**
 | ✔ | ID | Task | Pri | Size | Deps | Done when |
 |---|---|---|---|---|---|---|
 | [ ] | DEC-01 | Resolve SOP Appendix D items D2, D3, D6, D9–D18 with the project owner (module list, parameter ownership, questionnaire approach, diet/acupoint strictness, pharmacopoeia, English standard, symptom-weight process, birth default, 長夏 model, tier thresholds, modification scope, prior effect on order, radar reference outline) | P0 | S | — | Decisions logged in PRD §14.1 and SOP Appendix D |
-| [ ] | DEC-02 | Decide PRD Q1 (target region, regulatory framing, emergency list), Q7 (commercial or not), Q8 (appoint reviewers and cadence) | P0 | S | — | Names/roles recorded; `data/safety/emergency.json` scope known; review calendar |
+| [x] | DEC-02 | Decide PRD Q1 (target region, regulatory framing, emergency list), Q7 (commercial or not), Q8 (appoint reviewers and cadence) | P0 | S | — | Names/roles recorded; `data/safety/emergency.json` scope known; review calendar |
 | [ ] | DEC-03 | Choose hosting, preview access control and repository visibility (TQ1, RQ1, RQ2) | P1 | S | DEC-02 | Decision in tech spec §13 and release process §13 |
 | [ ] | DEC-04 | App name, logo direction, domain (UQ1) | P2 | S | — | Placeholder replaced in UX spec and `index.html` |
 | [ ] | DEC-05 | City dataset for the birth-place picker: source and licence (TQ2) | P1 | S | DEC-02 | Source, licence and attribution text decided |

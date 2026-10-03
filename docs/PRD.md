@@ -3,8 +3,8 @@
 | | |
 |---|---|
 | **Working title** | TCM Self-Assessment App (name TBD) |
-| **Version** | 0.4 (draft) |
-| **Status** | Draft — documentation set complete (M0); decisions in §14.2–§14.3 await confirmation |
+| **Version** | 0.5 (draft) |
+| **Status** | Draft — documentation set complete (M0); open questions resolved with MVP defaults (§14.2), supporting-document proposals confirmed (§14.3); all to be revisited after the MVP |
 | **Last updated** | 2026-10-04 |
 | **Related docs** | [Documentation index](README.md) · [Diagnosis SOP v0.2 (繁體中文)](diagnosis-sop.zh-TW.md) · [Algorithm spec](wuxing-algorithm.md) ([繁中](wuxing-algorithm.zh-TW.md)) · [Tech spec](tech-spec.md) · [UI/UX spec](ux-spec.md) · [KB schema](kb-schema.md) · [i18n guide](i18n-guide.md) · [Content review](content-review.md) · [Safety policy](safety-policy.md) · [Privacy](privacy.md) · [Test plan](test-plan.md) · [Release process](release-process.md) · [Tasks](../TASKS.md) · [Checklist](../CHECKLIST.md) · [Knowledge base (`data/`)](../data/README.md) · [Reference sources](../reference/README.md) |
 
@@ -343,7 +343,7 @@ Design consequences: the questionnaire is adaptive; the engine exposes per-evide
 
 | Milestone | Content | Status |
 |---|---|---|
-| **M0 — Docs** | PRD ✔ · Diagnosis SOP ✔ (v0.2) · algorithm spec ✔ · **tech spec ✔ · UI/UX spec ✔ · KB schema ✔ · i18n guide ✔ · content review ✔ · safety policy ✔ · privacy ✔ · test plan ✔ · release process ✔ · contributing ✔ · task list ✔ · checklist ✔** | done — open decisions in §14.2–§14.3 |
+| **M0 — Docs** | PRD ✔ · Diagnosis SOP ✔ (v0.2) · algorithm spec ✔ · **tech spec ✔ · UI/UX spec ✔ · KB schema ✔ · i18n guide ✔ · content review ✔ · safety policy ✔ · privacy ✔ · test plan ✔ · release process ✔ · contributing ✔ · task list ✔ · checklist ✔** | done — decisions recorded in §14.2–§14.3 |
 | **M1 — Knowledge base** | Reference ingestion, Traditional conversion, **built and validated first data set ✔** (127 quotes, 704 herbs, 33 formulas, 23 patterns, policy) | first pass done; review pending |
 | **M2 — MVP app** | Responsive UI, bilingual, intake → engine → panel/report (dev builds; no public release) | not started (`packages/wuxing` ✔); see [`TASKS.md`](../TASKS.md) |
 | **M3 — Review & hardening** | Practitioner review ([process](content-review.md)), golden-case calibration, a11y/perf passes | blocked on Q8 |
@@ -367,25 +367,29 @@ Implementation proceeds from [`TASKS.md`](../TASKS.md) with acceptance in [`CHEC
 | Formulas | 君臣佐使 and herb yin-yang / five-phase / organ benefit–burden weights in the KB; matching, proportions and modification supported by the engine; display gated by configuration (FR-10, FR-20). |
 | Framework | 內傷: 臟腑 + 氣血津液; 外感: 六經 / 衛氣營血; unified in the five-phase panel (previous Q7 confirmed and extended). |
 
-### 14.2 Still open (draft defaults in use)
+### 14.2 Open questions — MVP defaults confirmed (2026-10-04)
+
+**Decision:** the project owner accepted the recommended default for every item below for the MVP, and will revisit them **after the MVP is finished**. Only Q8 changes how work is sequenced (see its row).
 
 | # | Question | Default |
 |---|---|---|
-| Q1 | Target region and regulatory framing (Taiwan / HK / mainland / global); which pharmacopoeia | Taiwan-first wording; international English |
+| Q1 | Target region and regulatory framing (Taiwan / HK / mainland / global); which pharmacopoeia | **Taiwan-first** wording and emergency numbers; international English; the Pharmacopoeia in the source data (PRC 2025) is used as structured facts |
 | Q2 | Which complaint modules and patterns are in the MVP | 23 patterns, 8 modules (SOP §9.4) |
 | Q3 | LLM involvement | None in the diagnostic core; optional rewording post-MVP |
 | Q4 | Tongue-photo analysis or pulse devices | Not in MVP |
 | Q5 | Accounts / cloud sync | Purely local |
 | Q6 | Simplified Chinese UI | Post-MVP |
 | Q7 | Commercial or non-commercial release (affects CC BY-NC-SA material) | Treat as potentially commercial → exclude NC data |
-| Q8 | Who reviews the content (TCM practitioner, pharmacist, physician); cadence | TBD — blocks M3 |
+| Q8 | Who reviews the content (TCM practitioner, pharmacist, physician); cadence | **Not appointed for the MVP.** The MVP is built and run as **dev builds only** (no public clinical output, per §14.3 P4); reviewers per [content review §2](content-review.md) are appointed before M3 |
 | Q9 | Minimum age, pregnancy and elderly handling beyond the profiles | Per release profile |
 | Q10 | Release default of the birth-based blocks | **Opt-in** (SOP D13) |
 | Q11 | 長夏 model, tier thresholds, automatic modification scope | SOP D14–D16 defaults |
 
 Detailed SOP-level open items (D2, D3, D6, D9–D18) live in SOP Appendix D; technical, UX, safety, privacy and release open questions live in the respective documents (tech spec §13, UX spec §15, safety policy §10, privacy §9, release process §13).
 
-### 14.3 Proposed by the supporting documents (2026-10-04) — please confirm or change
+### 14.3 Proposed by the supporting documents — **confirmed 2026-10-04**
+
+The project owner confirmed P1–P10 on 2026-10-04 (to be revisited after the MVP). They are now decisions, not proposals.
 
 | # | Proposal | Where |
 |---|---|---|
@@ -432,3 +436,4 @@ Detailed SOP-level open items (D2, D3, D6, D9–D18) live in SOP Appendix D; tec
 | 0.2 | 2026-10-03 | Aligned with diagnosis SOP v0.1 |
 | 0.3 | 2026-10-03 | Scope configuration with dev/release profiles and "notice then continue" (FR-4, FR-17); birth-based five-phase module and personal reference panel (FR-18); body panel and offsets (FR-19); tongue zones and special signs, optional pulse (FR-6); herb and formula knowledge with 君臣佐使 and benefit–burden weights, matching, modification and proportions (FR-10, FR-20); implemented KB pipeline and `packages/wuxing`; decisions log; aligned with SOP v0.2 |
 | 0.4 | 2026-10-04 | Documentation set completed (tech spec, UX spec, KB schema, i18n guide, content review, safety policy, privacy, test plan, release process, contributing, task list, checklist); related-docs header, M0–M3 status, performance NFR and FR-4 cross-references updated; new §14.3 lists the decisions proposed by those documents for confirmation |
+| 0.5 | 2026-10-04 | Owner decisions recorded: P1–P10 of §14.3 confirmed; §14.2 questions resolved with the recommended MVP defaults (Q1 Taiwan-first; Q8 reviewers appointed before M3, MVP runs as dev builds); all to be revisited after the MVP |
