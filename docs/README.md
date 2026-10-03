@@ -4,7 +4,7 @@ Reading order for a new contributor: **PRD → Diagnosis SOP → Tech spec → U
 
 | Document | Language | What it answers | Owner of … | Version |
 |---|---|---|---|---|
-| [PRD](PRD.md) | English | Why the product exists, who it is for, requirements (FR/NFR), scope, risks, decisions | Product requirements and priorities | 0.3 |
+| [PRD](PRD.md) | English | Why the product exists, who it is for, requirements (FR/NFR), scope, risks, decisions | Product requirements and priorities | 0.4 |
 | [Diagnosis SOP](diagnosis-sop.zh-TW.md) | **繁體中文** | What is asked, how answers become a pattern, a body panel and a formula suggestion, with classical sources | **The diagnosis logic** (source of truth) | 0.2 |
 | [Yin-yang / five-phase algorithm](wuxing-algorithm.md) | English | The birth + annual + seasonal five-phase mathematics; extraction from the source engine; parameters; verification | The five-phase mathematics | 0.1 |
 | [Technical specification](tech-spec.md) | English | Architecture, packages, data delivery, profiles, engine contract, state, storage, security, performance | Technical decisions and contracts | 0.1 |

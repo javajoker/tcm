@@ -3,10 +3,10 @@
 | | |
 |---|---|
 | **Working title** | TCM Self-Assessment App (name TBD) |
-| **Version** | 0.3 (draft) |
-| **Status** | Draft — under review; diagnosis SOP still being refined |
-| **Last updated** | 2026-10-03 |
-| **Related docs** | [Diagnosis SOP v0.2 (繁體中文)](diagnosis-sop.zh-TW.md) · [Yin-yang / five-phase algorithm](wuxing-algorithm.md) · [Knowledge base (`data/`)](../data/README.md) · [Reference sources](../reference/README.md) |
+| **Version** | 0.4 (draft) |
+| **Status** | Draft — documentation set complete (M0); decisions in §14.2–§14.3 await confirmation |
+| **Last updated** | 2026-10-04 |
+| **Related docs** | [Documentation index](README.md) · [Diagnosis SOP v0.2 (繁體中文)](diagnosis-sop.zh-TW.md) · [Algorithm spec](wuxing-algorithm.md) · [Tech spec](tech-spec.md) · [UI/UX spec](ux-spec.md) · [KB schema](kb-schema.md) · [i18n guide](i18n-guide.md) · [Content review](content-review.md) · [Safety policy](safety-policy.md) · [Privacy](privacy.md) · [Test plan](test-plan.md) · [Release process](release-process.md) · [Tasks](../TASKS.md) · [Checklist](../CHECKLIST.md) · [Knowledge base (`data/`)](../data/README.md) · [Reference sources](../reference/README.md) |
 
 > **Source-of-truth rule.** The diagnosis logic (what is asked, how answers become a pattern and a body panel, how that becomes a
 > recommendation) is owned by the [Diagnosis SOP](diagnosis-sop.zh-TW.md); the yin-yang / five-phase mathematics by the
@@ -148,7 +148,7 @@ Priority: **P0** = MVP must-have · **P1** = MVP should-have · **P2** = post-MV
 - Before any assessment, ask the red-flag list (`data/diagnosis/red-flags.json`: level A emergency, B within 24 h, C out of intended scope).
 - A positive answer or an out-of-scope population triggers the **configured notice** (SOP §0.2): `blocking_ack` = a full-screen "seek medical care" notice that the user acknowledges, **after which the flow continues**; `inline` = a banner. The notice is always shown in every profile for the risky populations and conditions.
 - The **output level** (L0–L3) is decided by the active profile and the most restrictive matched dimension; there is no dead end.
-- Emergency resources are shown for the user's region (Q1).
+- Emergency resources are shown for the user's region (Q1). Notice wording, the filter semantics and the incident process are owned by the [safety policy](safety-policy.md).
 
 ### FR-5 Structured inquiry (問診) — P0
 - 12-dimension questionnaire derived from the 十問歌 (SOP §4.2); about 25 core questions then module-specific follow-ups; the next question is chosen by discriminating power (SOP §4.8).
@@ -231,7 +231,7 @@ Sections in order: safety/scope banner and acknowledged notices · summary (cons
 | Area | Requirement |
 |---|---|
 | **Responsive** | Mobile-first; 320 px – 1920 px; phone single column with bottom-anchored primary action; tablet/desktop two-pane report with sticky reasoning/citation and panel; touch targets ≥ 44 px; no horizontal scroll. |
-| **Performance** | LCP ≤ 2.5 s, INP ≤ 200 ms on mid-range mobile over 4G; initial JS ≤ 200 KB gzip; knowledge data lazy-loaded per module; engine fully client-side; the wuxing engine already runs a chart in ≈ 1 ms. The 975 KB herb file must be split or minified for delivery. |
+| **Performance** | LCP ≤ 2.5 s, INP ≤ 200 ms on mid-range mobile over 4G; initial JS ≤ 200 KB gzip; knowledge data lazy-loaded per module; engine fully client-side; the wuxing engine already runs a chart in ≈ 1 ms. The 975 KB herb file is never shipped whole: knowledge data is chunked and pruned per profile ([tech spec §5](tech-spec.md); a release session fetches ≈ 55–65 KB gzip). |
 | **Accessibility** | WCAG 2.1 AA; keyboard operable; screen-reader labels in both languages; colour never the only signal (tongue and panel views carry text labels); CJK-friendly typography. |
 | **i18n** | zh-Hant default; strict key coverage check in CI; Traditional-script fonts with fallbacks; ICU messages. |
 | **Privacy** | No PII to any server in MVP; assessments and birth data stored only locally with an "erase everything" control; birth data never in URLs or logs; analytics (if any) opt-in, aggregate, no answers. |
@@ -343,13 +343,13 @@ Design consequences: the questionnaire is adaptive; the engine exposes per-evide
 
 | Milestone | Content | Status |
 |---|---|---|
-| **M0 — Docs** | PRD ✔ · Diagnosis SOP ✔ (v0.2) · **algorithm spec ✔** · tech spec · UI/UX spec · supporting docs (KB schema, i18n & glossary guide, content-review process, safety policy, test plan, contributing) · task list + checklist | in progress |
+| **M0 — Docs** | PRD ✔ · Diagnosis SOP ✔ (v0.2) · algorithm spec ✔ · **tech spec ✔ · UI/UX spec ✔ · KB schema ✔ · i18n guide ✔ · content review ✔ · safety policy ✔ · privacy ✔ · test plan ✔ · release process ✔ · contributing ✔ · task list ✔ · checklist ✔** | done — open decisions in §14.2–§14.3 |
 | **M1 — Knowledge base** | Reference ingestion, Traditional conversion, **built and validated first data set ✔** (127 quotes, 704 herbs, 33 formulas, 23 patterns, policy) | first pass done; review pending |
-| **M2 — MVP app** | Responsive UI, bilingual, intake → engine → panel/report | not started (`packages/wuxing` ✔) |
-| **M3 — Review & hardening** | Practitioner review, golden-case calibration, a11y/perf passes | blocked on Q8 |
+| **M2 — MVP app** | Responsive UI, bilingual, intake → engine → panel/report (dev builds; no public release) | not started (`packages/wuxing` ✔); see [`TASKS.md`](../TASKS.md) |
+| **M3 — Review & hardening** | Practitioner review ([process](content-review.md)), golden-case calibration, a11y/perf passes | blocked on Q8 |
 | **M4 — Beta** | Limited release, feedback loop, weight calibration | — |
 
-Remaining doc deliverables (English): tech spec, UI/UX spec, supporting docs, `TASKS.md`, `CHECKLIST.md`. One commit per finished task.
+Implementation proceeds from [`TASKS.md`](../TASKS.md) with acceptance in [`CHECKLIST.md`](../CHECKLIST.md). One commit per finished task.
 
 ---
 
@@ -383,7 +383,22 @@ Remaining doc deliverables (English): tech spec, UI/UX spec, supporting docs, `T
 | Q10 | Release default of the birth-based blocks | **Opt-in** (SOP D13) |
 | Q11 | 長夏 model, tier thresholds, automatic modification scope | SOP D14–D16 defaults |
 
-Detailed SOP-level open items (D2, D3, D6, D9–D18) live in SOP Appendix D.
+Detailed SOP-level open items (D2, D3, D6, D9–D18) live in SOP Appendix D; technical, UX, safety, privacy and release open questions live in the respective documents (tech spec §13, UX spec §15, safety policy §10, privacy §9, release process §13).
+
+### 14.3 Proposed by the supporting documents (2026-10-04) — please confirm or change
+
+| # | Proposal | Where |
+|---|---|---|
+| P1 | Client-only static SPA; React 19 + Vite + TypeScript; pure, deterministic TS packages (`@tcm/kb`, `@tcm/engine`, `@tcm/i18n`, existing `@tcm/wuxing`); no UI/chart library; own tiny i18n | Tech spec §3 |
+| P2 | The Python reference pipeline is the **oracle** for engine parity; practitioner **golden cases** become the authority once they exist | Tech spec §7.4, test plan §3.5 |
+| P3 | **Profile pruning:** the release bundle physically lacks doses, tier-C formulas, herb weights and the dev profile; CI asserts it; no runtime profile switch in release | Tech spec §5.3, §6 |
+| P4 | **Review-gated release:** a release level is enabled only when the owning content areas have valid review records; **until then only dev builds run**. A closed beta may ship draft content with a visible draft label and a recorded exception (physician review of red flags/scope/notices is never waived) | Content review §7 |
+| P5 | "Not sure" on A/B red flags counts as **yes**; a positive A/B flag is cleared only by an explicit, recorded correction | Safety policy §2.2, §3 |
+| P6 | Birth data: opt-in in release; "remember on this device" **off by default**; no analytics, cookies or third-party calls in MVP | Privacy §2–§3 |
+| P7 | Default language `zh-Hant` for everyone (English offered once for English browsers); terms rendered as Chinese · pinyin · English (WHO ISTM for English); UI in **您** register | i18n guide §1–§2 |
+| P8 | Panel presented as words/bands, never as a "health score"; Pct only in details; no red/green good-bad colouring; emergency notices alone use red | UX spec §4.10, §6.2, §9 |
+| P9 | Own-written constitution questionnaire items and question bank, reviewed by the clinical reviewer (SOP D6) | KB schema §9, tasks K-05, K-08 |
+| P10 | A question-bank, scoring-parameter file, exclusions file, JSON Schemas, emergency numbers and a city list are added to `data/` | KB schema §9 |
 
 ---
 
@@ -416,3 +431,4 @@ Detailed SOP-level open items (D2, D3, D6, D9–D18) live in SOP Appendix D.
 | 0.1 | 2026-10-03 | Initial draft from project brief |
 | 0.2 | 2026-10-03 | Aligned with diagnosis SOP v0.1 |
 | 0.3 | 2026-10-03 | Scope configuration with dev/release profiles and "notice then continue" (FR-4, FR-17); birth-based five-phase module and personal reference panel (FR-18); body panel and offsets (FR-19); tongue zones and special signs, optional pulse (FR-6); herb and formula knowledge with 君臣佐使 and benefit–burden weights, matching, modification and proportions (FR-10, FR-20); implemented KB pipeline and `packages/wuxing`; decisions log; aligned with SOP v0.2 |
+| 0.4 | 2026-10-04 | Documentation set completed (tech spec, UX spec, KB schema, i18n guide, content review, safety policy, privacy, test plan, release process, contributing, task list, checklist); related-docs header, M0–M3 status, performance NFR and FR-4 cross-references updated; new §14.3 lists the decisions proposed by those documents for confirmation |

@@ -76,7 +76,7 @@ Once the workspace exists (task T-ENG-01) the same will be `pnpm install`, `pnpm
 | `packages/engine/**` (planned) | `pnpm --filter @tcm/engine test`, parity fixtures regenerated if parameters/KB changed |
 | UI strings | `pnpm check:i18n` |
 | `apps/web/**` (planned) | `pnpm --filter web test`, `pnpm --filter web e2e` for flows you touched, axe |
-| Docs | Links resolve; docs list/index and version tables updated |
+| Docs | `python3 scripts/check_doc_links.py`; docs index and version tables updated |
 
 ## 7. PR checklist
 

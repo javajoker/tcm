@@ -5,20 +5,25 @@ A bilingual (Traditional Chinese default / English), responsive web app that gui
 conclusion with citations to classical texts (《黃帝內經》《傷寒論》《金匱要略》 …), and suggests classical formulas — with their
 君臣佐使 structure — and lifestyle guidance as **educational reference**, not a medical diagnosis.
 
-> Status: **documentation, knowledge base and the five-phase engine are done; the web app is not started.**
+> Status: **documentation set (M0), first-pass knowledge base and the five-phase engine are done; the web app is not started.** Start with the [documentation index](docs/README.md); the work plan is [`TASKS.md`](TASKS.md).
 
 ## What is here
 
 | Path | What | Status |
 |---|---|---|
-| [`docs/PRD.md`](docs/PRD.md) | Product requirements (English) | v0.3 draft |
+| [`docs/PRD.md`](docs/PRD.md) | Product requirements | v0.4 draft |
 | [`docs/diagnosis-sop.zh-TW.md`](docs/diagnosis-sop.zh-TW.md) | 辨證論治作業流程 — the diagnosis logic (繁體中文) | v0.2 draft |
-| [`docs/wuxing-algorithm.md`](docs/wuxing-algorithm.md) | Yin-yang / five-phase algorithm specification (English) | v0.1, implemented |
+| [`docs/wuxing-algorithm.md`](docs/wuxing-algorithm.md) | Yin-yang / five-phase algorithm specification | v0.1, implemented |
+| [`docs/tech-spec.md`](docs/tech-spec.md) · [`docs/ux-spec.md`](docs/ux-spec.md) | Technical specification · UI/UX specification | v0.1 drafts |
+| [`docs/kb-schema.md`](docs/kb-schema.md) · [`docs/i18n-guide.md`](docs/i18n-guide.md) | Data contracts · terminology, copy and translation rules | v0.1 drafts |
+| [`docs/content-review.md`](docs/content-review.md) · [`docs/safety-policy.md`](docs/safety-policy.md) · [`docs/privacy.md`](docs/privacy.md) | Review process and release gates · notice wording and safety filter · data handling | v0.1 drafts |
+| [`docs/test-plan.md`](docs/test-plan.md) · [`docs/release-process.md`](docs/release-process.md) | Quality strategy · versions, gates, deployment | v0.1 drafts |
+| [`TASKS.md`](TASKS.md) · [`CHECKLIST.md`](CHECKLIST.md) · [`CONTRIBUTING.md`](CONTRIBUTING.md) | Task list (one commit per task) · definition of done and release checklists · how to contribute | v0.1 |
 | [`packages/wuxing`](packages/wuxing) | Zero-dependency TypeScript engine: birth chart, element weights, propagation, 大運/流年, 五運六氣, reference panel (74 tests) | done |
 | [`data/`](data/README.md) | Knowledge base: 127 verified quotations, 704 herbs, 33 formulas, 23 patterns, tongue/pulse, scope profiles, safety rules | first pass, review pending |
 | [`scripts/kb`](scripts/kb) | Deterministic KB build, validation, pattern self-test, reference diagnosis pipeline | done |
 | [`reference/`](reference/README.md) | Source texts and datasets as git submodules | — |
-| Tech spec, UI/UX spec, other docs, task list, checklist | English | not started |
+| `packages/{kb,engine,i18n}`, `apps/web` | Knowledge-base loader, diagnosis engine, i18n, the web app | planned ([tech spec §2.1](docs/tech-spec.md)) |
 
 ## Quick start
 
@@ -43,5 +48,6 @@ flags, serious chronic disease) first get a **"see a doctor" notice that the use
 ## Conventions
 
 - All docs are English except the diagnosis SOP (Traditional Chinese).
-- One commit per finished task.
+- One commit per finished task ([`TASKS.md`](TASKS.md); `python3 scripts/tasks_summary.py --write` refreshes its summary).
+- Docs links and anchors are checked with `python3 scripts/check_doc_links.py`.
 - Medical content is `draft` until reviewed by a qualified practitioner; see [`data/README.md`](data/README.md#review-status).
