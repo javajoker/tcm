@@ -14,7 +14,7 @@ function read<T>(rel: string): T {
 
 export function readDataFiles(): DataFiles {
   return {
-    scope: read("config/scope-profiles.json"), symptoms: read("diagnosis/symptoms.json"), questions: read("diagnosis/questions.json"), exclusions: read("diagnosis/exclusions.json"),
+    scope: read("config/scope-profiles.json"), symptoms: read("diagnosis/symptoms.json"), questions: read("diagnosis/questions.json"), exclusions: read("diagnosis/exclusions.json"), orientation: read("diagnosis/orientation.json"),
     patterns: read("diagnosis/patterns.json"), elements: read("diagnosis/pattern-elements.json"), constitutions: read("diagnosis/constitutions.json"),
     redFlags: read("diagnosis/red-flags.json"), tongue: read("diagnosis/tongue.json"), pulse: read("diagnosis/pulse.json"), panelSchema: read("diagnosis/panel-schema.json"),
     params: read("diagnosis/scoring-params.json"), safety: read("safety/rules.json"), treatment: read("treatment/guidance.json"),

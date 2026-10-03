@@ -392,6 +392,21 @@ def validate(load: Loader = load, check_sources: bool = True) -> list[str]:
             if not any(set(qg) <= gs for gs in group_sets):
                 err(f"question {q['id']}: exclusive group {qg} is not covered by diagnosis/exclusions.json")
 
+    # ── 7d. orientation ────────────────────────────────────────────────────
+    ori = load("diagnosis/orientation.json")
+    lists = {"external_triggers": ori["external_triggers"], "cold_signs": ori["cold_signs"], "heat_signs": ori["heat_signs"], "deficiency_signs": ori["deficiency_signs"],
+             "excess_signs": ori["excess_signs"], "exterior.supporting": ori["exterior"]["supporting"], "exterior.half": [s for g in ori["exterior"]["half"] for s in g]}
+    for name, ids in lists.items():
+        for s in ids:
+            if s not in sym_ids:
+                err(f"orientation {name}: unknown symptom {s}")
+    if ori["exterior"]["required"] not in sym_ids:
+        err("orientation: unknown required exterior symptom")
+    if set(ori["cold_signs"]) & set(ori["heat_signs"]):
+        err("orientation: a sign cannot be both a cold and a heat sign")
+    if set(ori["deficiency_signs"]) & set(ori["excess_signs"]):
+        err("orientation: a sign cannot be both a deficiency and an excess sign")
+
     # ── 8. policy and safety ───────────────────────────────────────────────
     dims, levels = scope["dimensions"], scope["levels"]
     for pname, prof in scope["profiles"].items():

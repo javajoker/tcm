@@ -7,3 +7,4 @@ export { synthesizePanel, observedPanel, wuxingFunction, bagang, yinYangOf, type
 export { fitFormula, fitFormulas, formulaVector, cost, bestScale, strengthOf, candidateFormulaIds, passesSymptomFit, recomputeTier, compositionOf, coreFitOf, dimensionWeight, type FormulaFit, type CompositionRow, type PanelVector, type Tier, type Strength, type Role } from "./formulas.ts";
 export { herbVector, compositionVector, modificationPool, classicalModifications, greedyModify, modifyFormula, type ClassicalModification, type ResidualStep, type ResidualModification } from "./modify.ts";
 export { reconcile, kappaOf, mixedKinds, patternElements, type Verdict, type Confidence, type MixedKind, type PresentedPattern, type TieBreak, type Differential, type DifferentialSymptom, type ReconcileInput } from "./reconcile.ts";
+export { orient, checkConsistency, type Orientation, type ConsistencyFlag, type Channel, type ExteriorKind, type Lean, type DeficiencyLean } from "./orient.ts";

@@ -149,6 +149,15 @@ def exclusions() -> dict:
             "required": ["_meta", "groups", "splits"], "additionalProperties": False}
 
 
+def orientation() -> dict:
+    ids = arr(ref("symptomId"), 1, True)
+    return {"type": "object", "properties": {
+        "_meta": meta({"status": ref("reviewStatus")}, ["status"]), "external_triggers": ids,
+        "exterior": obj({"required": ref("symptomId"), "supporting": ids, "half": arr(ids, 1)}),
+        "cold_signs": ids, "heat_signs": ids, "deficiency_signs": ids, "excess_signs": ids, "lean_margin": INT},
+        "required": ["_meta", "cold_signs", "deficiency_signs", "excess_signs", "exterior", "external_triggers", "heat_signs", "lean_margin"], "additionalProperties": False}
+
+
 def patterns() -> dict:
     item = obj({
         "against": dictionary(NUM, ref("symptomId")), "citations": arr(ref("citationId")), "elements": arr(ref("elementId")), "formulas": arr(ref("formulaId")),
@@ -376,6 +385,7 @@ SCHEMAS = {
     "diagnosis/symptoms.json": ("symptoms", symptoms, "Symptom registry"),
     "diagnosis/questions.json": ("questions", questions, "Question bank"),
     "diagnosis/exclusions.json": ("exclusions", exclusions, "Exclusive groups, conflicts and splits"),
+    "diagnosis/orientation.json": ("orientation", orientation, "Eight-principle first-impression signs"),
     "diagnosis/patterns.json": ("patterns", patterns, "Patterns"),
     "diagnosis/pattern-elements.json": ("pattern-elements", pattern_elements, "Pattern elements (證素)"),
     "diagnosis/constitutions.json": ("constitutions", constitutions, "Constitutions"),

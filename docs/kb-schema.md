@@ -100,6 +100,10 @@ The adaptive inquiry's content (SOP §4.2, §4.8). `modules[]` = the eight compl
 `groups[]`: `{ id (X_* / C_*), kind, symptoms[≥2], reason }`. **`exclusive`** (19 groups: cold kind, stool consistency, urine, food temperature, thirst, tinnitus, nose, complexion, lips/nails, abdominal pressing, tongue body colour/shape/coating/cracks, the five pulse groups) — the symptoms cannot all be true; the UI prevents choosing two and the engine reports a conflict if two still arrive, never silently picking one (SOP §5.3). **`conflict`** (4 groups, e.g. cold limbs with hot palms) — unusual together but possible: reported so the app can ask a follow-up; scoring unchanged. The pulse groups are generated from the same source as `pulse.json` and checked equal; every question's `exclusive_groups` must be covered by a group here.
 `splits[]`: `{ id (SPLIT_*), symptoms[], summary }` — look-alike symptoms that must never be merged (惡寒 ≠ 畏寒, 渴喜冷 ≠ 渴不欲飲, 喜按 ≠ 拒按, tongue red tip ≠ edge ≠ whole, …) with the one-line difference the UI shows as a hint (SOP §5.2).
 
+### 3.2d `diagnosis/orientation.json` — first-impression signs
+
+`external_triggers[]` (symptoms of a new external illness, SOP §9.1), `exterior {required, supporting[], half[][]}` (表: acute + 惡寒 + one supporting sign; 半表半裡: alternating chills and fever, or bitter mouth with hypochondriac fullness), `cold_signs[]`, `heat_signs[]`, `deficiency_signs[]`, `excess_signs[]`, `lean_margin` (a lean needs this many more signs on one side). Used only for routing, the consistency check against the panel-derived 八綱 (寒熱真假, 虛實真假 are reported, never resolved) and the explanation.
+
 ### 3.3 `diagnosis/patterns.json` — 23 patterns
 
 | Field | Type | Meaning |

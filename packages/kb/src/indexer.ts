@@ -63,6 +63,7 @@ export function indexKnowledgeBase(raw: RawKbChunks): KnowledgeBase {
     questionById,
     modules: core.questions.modules,
     exclusions: core.exclusions,
+    orientation: core.orientation,
     patterns: core.patterns.items,
     patternById,
     elements: core.elements.items,

@@ -7,6 +7,7 @@ import type { Exclusions } from "./generated/exclusions.ts";
 import type { Formulas } from "./generated/formulas.ts";
 import type { Glossary } from "./generated/glossary.ts";
 import type { Herbs } from "./generated/herbs.ts";
+import type { Orientation } from "./generated/orientation.ts";
 import type { PanelSchema } from "./generated/panel-schema.ts";
 import type { PatternElements } from "./generated/pattern-elements.ts";
 import type { Patterns } from "./generated/patterns.ts";
@@ -47,7 +48,7 @@ export type SafetyRule = SafetyRules["rules"][number];
 export type ScopeProfile = ScopeProfiles["profiles"]["release"];
 export type Bilingual = Herb["name"];
 
-export type { Citations, Constitutions, Correspondences, Exclusions, Formulas, Glossary, Herbs, PanelSchema, PatternElements, Patterns, Pulse, Questions, RedFlags, SafetyRules };
+export type { Citations, Constitutions, Correspondences, Exclusions, Formulas, Glossary, Herbs, Orientation, PanelSchema, PatternElements, Patterns, Pulse, Questions, RedFlags, SafetyRules };
 export type { ScopeProfiles, ScoringParams, Susceptibility, Symptoms, Tongue, TreatmentGuidance, Yunqi };
 
 // ── chunks (what the bundler writes and the loader reads; tech spec §5) ─────
@@ -66,6 +67,7 @@ export interface CoreChunk {
   readonly symptoms: Symptoms;
   readonly questions: Questions;
   readonly exclusions: Exclusions;
+  readonly orientation: Orientation;
   readonly patterns: Patterns;
   readonly elements: PatternElements;
   readonly constitutions: Constitutions;
@@ -117,6 +119,7 @@ export interface KnowledgeBase {
   readonly questionById: ReadonlyMap<string, Question>;
   readonly modules: readonly QuestionModule[];
   readonly exclusions: Exclusions;
+  readonly orientation: Orientation;
 
   readonly patterns: readonly Pattern[];
   readonly patternById: ReadonlyMap<string, Pattern>;

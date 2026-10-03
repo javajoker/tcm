@@ -3,7 +3,7 @@
 // content even if the UI is bypassed. Doses, tier-C formulas, herb weights, internal provenance and the other profile never reach a
 // bundle that cannot use them.
 import type {
-  Citations, Constitutions, Correspondences, Exclusions, Formula, Formulas, Glossary, Herb, Herbs, Level, PanelSchema, PatternElements, Patterns, ProfileName, Pulse, Questions,
+  Citations, Constitutions, Correspondences, Exclusions, Formula, Formulas, Glossary, Herb, Herbs, Level, Orientation, PanelSchema, PatternElements, Patterns, ProfileName, Pulse, Questions,
   RawKbChunks, RedFlags, SafetyRules, ScopeConfig, ScopeProfile, ScopeProfiles, ScoringParams, Susceptibility, Symptoms, Tongue, TreatmentGuidance, Yunqi, FormulasChunk, HerbName,
 } from "./types.ts";
 
@@ -13,6 +13,7 @@ export interface DataFiles {
   readonly symptoms: Symptoms;
   readonly questions: Questions;
   readonly exclusions: Exclusions;
+  readonly orientation: Orientation;
   readonly patterns: Patterns;
   readonly elements: PatternElements;
   readonly constitutions: Constitutions;
@@ -190,7 +191,7 @@ export function buildChunks(files: DataFiles, opts: BuildOptions): BuildResult {
     version: opts.version,
     schemaVersion: files.params._meta.schema,
     core: {
-      config, symptoms: files.symptoms, questions: files.questions, exclusions: files.exclusions, patterns, elements: files.elements, constitutions: files.constitutions,
+      config, symptoms: files.symptoms, questions: files.questions, exclusions: files.exclusions, orientation: files.orientation, patterns, elements: files.elements, constitutions: files.constitutions,
       redFlags: files.redFlags, tongue: files.tongue, pulse: files.pulse, panelSchema: files.panelSchema, params: files.params, safety, treatment: files.treatment,
       wuxing: { correspondences: files.correspondences, susceptibility: files.susceptibility, yunqi: files.yunqi }, glossary: files.glossary,
     },
