@@ -9,3 +9,4 @@ export { herbVector, compositionVector, modificationPool, classicalModifications
 export { reconcile, kappaOf, mixedKinds, patternElements, type Verdict, type Confidence, type MixedKind, type PresentedPattern, type TieBreak, type Differential, type DifferentialSymptom, type ReconcileInput } from "./reconcile.ts";
 export { orient, checkConsistency, type Orientation, type ConsistencyFlag, type Channel, type ExteriorKind, type Lean, type DeficiencyLean } from "./orient.ts";
 export { evaluateSafety, formulaNature, incompatiblePairs, allergyMatches, type SafetyInput, type SafetyReport, type SafetyItem, type SafetySubject, type SuppressedItem, type FiredRule, type Candidate, type FormulaNature } from "./safety.ts";
+export { explain, citationsOf, type TraceItem, type ExplainInput, type PriorBlock } from "./explain.ts";
