@@ -1,11 +1,13 @@
 // Dev-only component catalogue (UX spec §6): every base component in every state, so states can be reviewed (and axe-checked) in one place.
 // Strings here are developer-facing and deliberately not localised; the module is only reachable behind IS_DEV_PROFILE.
 import { useState, type ReactNode } from "react";
+import { usePageTitle } from "../app/usePageTitle.ts";
 import { Button, Card, Chip, Dialog, DialogActions, Field, LinkButton, Notice, Progress, SegmentedControl, Select, Skeleton, Tile, TextInput, Tooltip } from "../ui/index.ts";
 
 type Sev = "light" | "moderate" | "severe";
 
 export default function Catalogue(): ReactNode {
+  usePageTitle(null);
   const [sev, setSev] = useState<Sev | null>("moderate");
   const [one, setOne] = useState("b");
   const [many, setMany] = useState<readonly string[]>(["x"]);

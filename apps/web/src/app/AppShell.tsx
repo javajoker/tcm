@@ -1,6 +1,8 @@
 import type { ReactNode } from "react";
+import { Link } from "wouter";
 import { useI18n } from "../i18n/I18nProvider.tsx";
 import { APP_PROFILE, IS_DEV_PROFILE } from "./profile.ts";
+import { LanguageToggle } from "./LanguageToggle.tsx";
 import styles from "./AppShell.module.css";
 
 const DEV_BADGE = `DEV · ${APP_PROFILE}`;        // developer-facing text, present only in dev builds
@@ -13,8 +15,9 @@ export function AppShell({ children }: { children: ReactNode }): ReactNode {
       <a className={styles.skip} href="#main">{t.t("common.nav.skip")}</a>
       <header className={styles.header}>
         <div className={styles.bar}>
-          <a className={styles.brand} href="/">{t.t("common.app.name")}</a>
+          <Link className={styles.brand} href="/">{t.t("common.app.name")}</Link>
           {IS_DEV_PROFILE ? <span className={styles.badge} data-testid="profile-badge">{DEV_BADGE}</span> : null}
+          <LanguageToggle />
         </div>
       </header>
       <main id="main" className={styles.main} tabIndex={-1}>{children}</main>

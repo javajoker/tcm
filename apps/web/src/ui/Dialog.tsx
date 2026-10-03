@@ -15,10 +15,12 @@ export interface DialogProps {
 
 /**
  * A native modal <dialog>: the browser traps focus inside it, makes the rest of the page inert and restores focus to the opener on close.
- * `dismissable={false}` swallows Esc (cancel) and backdrop clicks; the content must then offer its own explicit action.
+ * `dismissable={false}` swallows Esc (cancel) and backdrop clicks and re-opens if the browser closes it anyway; the content must then offer its own explicit action.
  */
 export function Dialog({ open, onClose, labelledBy, dismissable = true, variant = "modal", alert = false, children }: DialogProps): ReactNode {
   const ref = useRef<HTMLDialogElement>(null);
+  const openRef = useRef(open);
+  useEffect(() => { openRef.current = open; }, [open]);          // declared before the effects that open/close, so a close event sees the new value
   useEffect(() => {
     const d = ref.current;
     if (!d) return;
@@ -29,7 +31,12 @@ export function Dialog({ open, onClose, labelledBy, dismissable = true, variant 
     const d = ref.current;
     if (!d) return;
     const onCancel = (e: Event): void => { if (!dismissable) e.preventDefault(); };
-    const onNativeClose = (): void => onClose();
+    // Chrome lets a second Esc close a dialog whose first `cancel` was prevented (anti-abuse). A blocking dialog must not be closable that way:
+    // if it closed while the owner still wants it open, show it again.
+    const onNativeClose = (): void => {
+      if (!dismissable && openRef.current) { d.showModal(); return; }
+      onClose();
+    };
     d.addEventListener("cancel", onCancel);
     d.addEventListener("close", onNativeClose);
     return () => { d.removeEventListener("cancel", onCancel); d.removeEventListener("close", onNativeClose); };

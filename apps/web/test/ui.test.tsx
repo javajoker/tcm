@@ -4,6 +4,7 @@ import { useState } from "react";
 import { axe } from "vitest-axe";
 import { describe, expect, it, vi } from "vitest";
 import Catalogue from "../src/dev/Catalogue.tsx";
+import { I18nProvider } from "../src/i18n/I18nProvider.tsx";
 import { Button, Dialog, DialogActions, Field, Notice, Progress, SegmentedControl, TextInput, Tile, Tooltip } from "../src/ui/index.ts";
 
 describe("Tile", () => {
@@ -118,6 +119,16 @@ describe("Dialog", () => {
     await userEvent.click(screen.getByRole("dialog", { name: "Title" }));
     expect(screen.queryByRole("dialog")).toBeNull();
   });
+  it("a blocking dialog that the browser closes anyway (Chrome's second-Esc rule) is shown again", async () => {
+    render(<Harness dismissable={false} />);
+    await userEvent.click(screen.getByRole("button", { name: "open" }));
+    const dialog = screen.getByRole("alertdialog", { name: "Title" });
+    dialog.removeAttribute("open");
+    dialog.dispatchEvent(new Event("close"));
+    expect(screen.getByRole("alertdialog", { name: "Title" })).toBeInTheDocument();
+    await userEvent.click(within(dialog).getByRole("button", { name: "OK" }));
+    expect(screen.queryByRole("alertdialog")).toBeNull();
+  });
   it("a blocking dialog ignores Esc (cancel) and backdrop clicks and only closes through its action", async () => {
     render(<Harness dismissable={false} />);
     await userEvent.click(screen.getByRole("button", { name: "open" }));
@@ -134,7 +145,7 @@ describe("Dialog", () => {
 
 describe("catalogue", () => {
   it("renders every component state without axe violations", async () => {
-    const { container } = render(<main><Catalogue /></main>);
+    const { container } = render(<I18nProvider lang="en" setLang={() => undefined}><main><Catalogue /></main></I18nProvider>);
     const results = await axe(container, { rules: { "color-contrast": { enabled: false } } });   // jsdom has no layout/CSS: contrast is covered by tokens.test.ts
     expect(results.violations.map((v) => `${v.id}: ${v.nodes.map((n) => n.target.join(" ")).join(", ")}`)).toEqual([]);
   });
