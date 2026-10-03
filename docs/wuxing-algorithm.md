@@ -156,6 +156,8 @@ Resolution of a commanding stem that is **not** hidden in the month branch (it i
 
 ### 4.1 Input
 
+The input is **validated** before any computation (`validateBirthInput`; `buildChart` throws a `RangeError` listing every problem): Gregorian date (year 1583–2200, real month and day), hour 0–23, minute/second 0–59, longitude −180…180, sex, IANA zone. Without this JavaScript's `Date` would silently roll month 13 or 30 February over into another day and the chart would be wrong without any warning.
+
 ```ts
 interface BirthInput {
   year; month; day; hour; minute; second?;   // civil wall-clock time, Gregorian

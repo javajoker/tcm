@@ -24,18 +24,18 @@
 | **A** Documentation | 18 | 18 |
 | **DEC** Decisions | 6 | 6 |
 | **K** Knowledge base | 8 | 20 |
-| **E** Engine and packages | 8 | 21 |
+| **E** Engine and packages | 9 | 21 |
 | **I** Internationalisation | 0 | 6 |
 | **U** Web application | 0 | 26 |
 | **Q** Quality assurance | 0 | 10 |
 | **R** Release and operations | 0 | 7 |
 | **V** Review (non-code) | 0 | 7 |
 | **PF** Performance (P2) | 0 | 3 |
-| **All** | **40** | **124** |
+| **All** | **41** | **124** |
 
 | Priority | Done | Total |
 |---|---:|---:|
-| P0 | 26 | 74 |
+| P0 | 27 | 74 |
 | P1 | 12 | 42 |
 | P2 | 2 | 8 |
 
@@ -126,7 +126,7 @@ Suggested waves: **1** foundation (E-01, K-01, K-02, I-01, U-01, R-01) → **2**
 | [x] | E-03 | `scripts/bundle-data.ts`: validate, profile pruning ([tech spec §5.3](docs/tech-spec.md)), chunking, hashing, manifest, per-chunk budgets | P0 | L | E-02 | Release bundle has no amounts/tier C/dev profile (tests); budgets enforced |
 | [x] | E-04 | `@tcm/engine` types + `policy.ts` (resolution, merge, two-phase, suppressed record) with table-driven and property tests | P0 | L | E-02 | Full matrix of both profiles; properties P3, P4 |
 | [x] | E-05 | `normalize.ts` (findings, quality classes, exclusions, coverage, κ) | P0 | M | E-02, K-06 | Unit tests; property P2, P9 |
-| [ ] | E-06 | `reference.ts` adapter over `@tcm/wuxing` (blocks, caps, trace, notes, season model) | P0 | M | E-01 | SOP §6.4 worked example reproduced; property P1 (reference part) |
+| [x] | E-06 | `reference.ts` adapter over `@tcm/wuxing` (blocks, caps, trace, notes, season model) | P0 | M | E-01 | SOP §6.4 worked example reproduced; property P1 (reference part) |
 | [ ] | E-07 | `constitution.ts` (scores, primary/secondary, susceptibility × season) | P1 | M | K-08 | Unit tests |
 | [ ] | E-08 | `orient.ts` (八綱/六邪 routing and consistency) | P1 | S | E-05 | Unit tests |
 | [x] | E-09 | `patterns.ts` (scoring + 證素 decomposition) | P0 | M | E-05, K-01 | 23 typical patients rank first; parity with oracle |

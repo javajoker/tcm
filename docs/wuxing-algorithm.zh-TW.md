@@ -145,6 +145,8 @@ current date ─► solar longitude ─► season · 五運六氣 ────�
 
 ### 4.1 輸入
 
+輸入在任何計算之前先**驗證**（`validateBirthInput`；`buildChart` 會丟出 `RangeError` 並列出全部問題）：公曆日期（年 1583–2200、真實存在的月與日）、時 0–23、分／秒 0–59、經度 −180…180、性別、IANA 時區。若不驗證，JavaScript 的 `Date` 會把 13 月或 2 月 30 日默默進位到別的日期，命盤就會在沒有任何警告下出錯。
+
 ```ts
 interface BirthInput {
   year; month; day; hour; minute; second?;   // civil wall-clock time, Gregorian
