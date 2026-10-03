@@ -7,6 +7,7 @@
 | **Last updated** | 2026-10-03 |
 | **Consumers** | [Diagnosis SOP](diagnosis-sop.zh-TW.md) §6 (先天・流年・時令) and §10 (盤面), [PRD](PRD.md) FR-18/19, knowledge base [`data/wuxing/`](../data/wuxing) |
 | **Provenance** | Extracted from the author's earlier BaZi engine, *fate4* (private repository, commit `aba58ee`), and re-implemented independently. Nothing in this project depends on that repository. |
+| **Translations** | [繁體中文版](wuxing-algorithm.zh-TW.md) (kept in sync; **this English version is authoritative** if they differ) |
 
 ---
 

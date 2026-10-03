@@ -6,7 +6,7 @@ Reading order for a new contributor: **PRD → Diagnosis SOP → Tech spec → U
 |---|---|---|---|---|
 | [PRD](PRD.md) | English | Why the product exists, who it is for, requirements (FR/NFR), scope, risks, decisions | Product requirements and priorities | 0.4 |
 | [Diagnosis SOP](diagnosis-sop.zh-TW.md) | **繁體中文** | What is asked, how answers become a pattern, a body panel and a formula suggestion, with classical sources | **The diagnosis logic** (source of truth) | 0.2 |
-| [Yin-yang / five-phase algorithm](wuxing-algorithm.md) | English | The birth + annual + seasonal five-phase mathematics; extraction from the source engine; parameters; verification | The five-phase mathematics | 0.1 |
+| [Yin-yang / five-phase algorithm](wuxing-algorithm.md) · [繁體中文版](wuxing-algorithm.zh-TW.md) | English · **繁體中文** | The birth + annual + seasonal five-phase mathematics; extraction from the source engine; parameters; verification | The five-phase mathematics | 0.1 |
 | [Technical specification](tech-spec.md) | English | Architecture, packages, data delivery, profiles, engine contract, state, storage, security, performance | Technical decisions and contracts | 0.1 |
 | [UI/UX specification](ux-spec.md) | English | Screens, flows, components, design tokens, responsive and accessibility rules, copy rules | Interface behaviour and look | 0.1 |
 | [Knowledge-base schema](kb-schema.md) | English | Shape and integrity rules of every `data/` file; planned additions | Data contracts | 0.1 |
@@ -31,4 +31,4 @@ Reading order for a new contributor: **PRD → Diagnosis SOP → Tech spec → U
 
 ## Language rule
 
-All documents are English **except** the diagnosis SOP, which is Traditional Chinese (Taiwan wording). User-visible app text is `zh-Hant` by default with an English translation.
+All documents are English **except** the diagnosis SOP, which is Traditional Chinese (Taiwan wording), and the Traditional Chinese translation of the algorithm spec (`wuxing-algorithm.zh-TW.md`, kept in sync with the authoritative English version). User-visible app text is `zh-Hant` by default with an English translation.

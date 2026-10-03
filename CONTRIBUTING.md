@@ -55,7 +55,7 @@ Once the workspace exists (task T-ENG-01) the same will be `pnpm install`, `pnpm
 - Do **not** copy published translations of classical texts; write your own and label it unreviewed ([i18n guide §4.3](docs/i18n-guide.md)).
 
 **Language**
-- All docs and code comments are **English**, except the diagnosis SOP (`docs/diagnosis-sop.zh-TW.md`, Traditional Chinese) and Chinese UI/data strings.
+- All docs and code comments are **English**, except the diagnosis SOP (`docs/diagnosis-sop.zh-TW.md`, Traditional Chinese), the Traditional Chinese translation of the algorithm spec (`docs/wuxing-algorithm.zh-TW.md` — change the English version first, then sync the translation and note both changelogs) and Chinese UI/data strings.
 - UI copy follows the [i18n guide](docs/i18n-guide.md): no hard-coded strings, zh-Hant is the source catalog, `en` in the same change, no forbidden wording ("diagnose", "prescribe", "cure", "you have …" …).
 
 **Privacy**

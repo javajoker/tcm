@@ -13,7 +13,7 @@ conclusion with citations to classical texts (《黃帝內經》《傷寒論》�
 |---|---|---|
 | [`docs/PRD.md`](docs/PRD.md) | Product requirements | v0.4 draft |
 | [`docs/diagnosis-sop.zh-TW.md`](docs/diagnosis-sop.zh-TW.md) | 辨證論治作業流程 — the diagnosis logic (繁體中文) | v0.2 draft |
-| [`docs/wuxing-algorithm.md`](docs/wuxing-algorithm.md) | Yin-yang / five-phase algorithm specification | v0.1, implemented |
+| [`docs/wuxing-algorithm.md`](docs/wuxing-algorithm.md) · [`.zh-TW`](docs/wuxing-algorithm.zh-TW.md) | Yin-yang / five-phase algorithm specification (English; 繁體中文版) | v0.1, implemented |
 | [`docs/tech-spec.md`](docs/tech-spec.md) · [`docs/ux-spec.md`](docs/ux-spec.md) | Technical specification · UI/UX specification | v0.1 drafts |
 | [`docs/kb-schema.md`](docs/kb-schema.md) · [`docs/i18n-guide.md`](docs/i18n-guide.md) | Data contracts · terminology, copy and translation rules | v0.1 drafts |
 | [`docs/content-review.md`](docs/content-review.md) · [`docs/safety-policy.md`](docs/safety-policy.md) · [`docs/privacy.md`](docs/privacy.md) | Review process and release gates · notice wording and safety filter · data handling | v0.1 drafts |
@@ -47,7 +47,7 @@ flags, serious chronic disease) first get a **"see a doctor" notice that the use
 
 ## Conventions
 
-- All docs are English except the diagnosis SOP (Traditional Chinese).
+- All docs are English except the diagnosis SOP and the Traditional Chinese version of the algorithm spec (both Traditional Chinese).
 - One commit per finished task ([`TASKS.md`](TASKS.md); `python3 scripts/tasks_summary.py --write` refreshes its summary).
 - Docs links and anchors are checked with `python3 scripts/check_doc_links.py`.
 - Medical content is `draft` until reviewed by a qualified practitioner; see [`data/README.md`](data/README.md#review-status).
