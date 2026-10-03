@@ -61,6 +61,7 @@ export interface SafetyRules {
       conflict?: unknown;
       effect?: unknown;
       flavor_share_over?: unknown;
+      food_pregnancy_caution?: unknown;
       formula_tier?: unknown;
       herb_in_user_allergy_list?: unknown;
       herb_interaction?: unknown;

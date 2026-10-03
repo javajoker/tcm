@@ -237,7 +237,7 @@ def scoring_params() -> dict:
                    "modification": obj({"max_add": INT, "max_remove": INT, "add_share": NUM, "min_gain": NUM})})
     return {"type": "object", "properties": {
         "_meta": meta({"sources": dictionary(STR), "status": ref("reviewStatus")}, ["sources", "status"]), "severity": sev, "quality": quality, "pattern": pattern_, "panel": panel,
-        "reconcile": reconcile, "formula": formula, "tier": obj({"c_bitter_cold_share": NUM, "b_activating_share": NUM, "strong_herbs": arr(ref("herbId"), 1), "bitter_cold_tag": STR, "activating_tag": STR, "aristolochic_flag": STR}), "safety": obj({"flavor_excess_share": NUM}),
+        "reconcile": reconcile, "formula": formula, "tier": obj({"c_bitter_cold_share": NUM, "b_activating_share": NUM, "strong_herbs": arr(ref("herbId"), 1), "bitter_cold_tag": STR, "activating_tag": STR, "aristolochic_flag": STR}), "safety": obj({"flavor_excess_share": NUM, "conflict": obj({"axis": NUM, "warming_min": NUM, "cooling_min": NUM, "tonic_min": NUM, "attacking_min": NUM})}),
         "questionnaire": obj({"core_coverage_stop": NUM, "max_questions": INT, "candidate_pct_floor": NUM})},
         "required": ["_meta", "formula", "pattern", "panel", "quality", "questionnaire", "reconcile", "safety", "severity", "tier"], "additionalProperties": False}
 
@@ -347,7 +347,7 @@ def scope_profiles() -> dict:
 def safety_rules() -> dict:
     applies = obj({"always": BOOL, "population": arr(STR), "condition": arr(STR), "medication_class": arr(STR), "state": arr(STR), "constitution": arr(ref("constitutionId"))}, [])
     target = {"type": "object", "minProperties": 1, "maxProperties": 1, "properties": {
-        k: {} for k in ("herb_pregnancy", "herb_interaction", "formula_tier", "acupoints", "conflict", "herb_in_user_allergy_list", "flavor_share_over", "herb_pairs", "effect",
+        k: {} for k in ("herb_pregnancy", "herb_interaction", "formula_tier", "acupoints", "conflict", "herb_in_user_allergy_list", "flavor_share_over", "herb_pairs", "effect", "food_pregnancy_caution",
                         "output_level_max")}, "additionalProperties": False}
     rule = obj({"applies_to": applies, "citation": ref("citationId"), "condition": STR, "id": ref("ruleId"), "message": ref("bilingualNamed"), "note": STR, "reference": {"oneOf": [STR, arr(obj({"age": STR, "fraction_of_adult": STR}))]},
                 "severity": enum("hard", "soft"), "target": target}, ["applies_to", "id", "message", "severity", "target"])

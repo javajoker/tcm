@@ -7,7 +7,7 @@
       "the conflict-rule thresholds",
       "the contraindicated acupoint list"
     ],
-    "count": 25,
+    "count": 26,
     "description": "Safety filter rules. severity=hard rules remove the item when the profile suppresses (suppress_hard); a development profile annotates instead of removing. The filter never hides an item silently: a suppressed item is listed with its reason.",
     "schema": 1,
     "status": "draft"
@@ -533,6 +533,22 @@
       "severity": "hard",
       "target": {
         "conflict": "deficiency_pattern_with_attacking_formula"
+      }
+    },
+    {
+      "applies_to": {
+        "population": [
+          "pregnant"
+        ]
+      },
+      "id": "R_PREG_FOOD_CAUTION",
+      "message": {
+        "en": "Use this food with caution in pregnancy (traditionally thought to affect the pregnancy); ask your doctor first.",
+        "zh-Hant": "孕期請謹慎食用此食材（傳統上認為可能影響胎氣），並先諮詢醫師。"
+      },
+      "severity": "soft",
+      "target": {
+        "food_pregnancy_caution": true
       }
     },
     {

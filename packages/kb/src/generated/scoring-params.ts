@@ -110,6 +110,13 @@ export interface ScoringParams {
     tie_margin: number;
   };
   safety: {
+    conflict: {
+      attacking_min: number;
+      axis: number;
+      cooling_min: number;
+      tonic_min: number;
+      warming_min: number;
+    };
     flavor_excess_share: number;
   };
   severity: {

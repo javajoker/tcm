@@ -153,7 +153,7 @@ Nine constitutions `C_PINGHE, C_QIXU, C_YANGXU, C_YINXU, C_TANSHI, C_SHIRE, C_XU
 
 ### 3.9 `diagnosis/scoring-params.json` — engine parameters (single source)
 
-Shared by the Python oracle (`scripts/kb/oracle.py`) and the TypeScript engine; built from `scripts/kb/curated/params.py` by `build_params.py`; `_meta.schema` = 1. Groups: `severity` (light 0.6 · moderate 0.8 · severe 1.0 · ungraded 1.0) · `quality` (`by_source` inquiry 1.0 / measured 0.9 / guided 0.7 / pulse 0.5, `by_prefix` T_ → guided, P_ → pulse, `default_source`) · `pattern` (`required_any_missing_factor` 0.5, `bands` high 60 / medium 40 / weak 20) · `panel` (`noisy_or_floor` 20, `degree_max` 3, `dimension_weights`, `wuxing_function` 0.7/0.3, `bagang` divisors and weights) · `reconcile` (merge threshold 40, max 3 patterns, mixed threshold 40 with the `nature_groups` of the opposed groups, tie margin 5, confidence grid, differential size) · `formula` (`symptom_fit_min` 0.6, `k_max` 3, `strength_bands`, `role_weights` 君 1.0 / 臣 0.6 / 佐 0.35 / 使 0.15, `modification` limits) · `tier` (bitter-cold 0.45, activating 0.10) · `safety` (`flavor_excess_share` 0.55) · `questionnaire` (coverage stop 0.8, max 50, candidate floor 20). Role weights and tier limits also drive `build_formulas.py`, and the pulse coefficient is checked against `pulse.json`. All values are draft placeholders (SOP D3).
+Shared by the Python oracle (`scripts/kb/oracle.py`) and the TypeScript engine; built from `scripts/kb/curated/params.py` by `build_params.py`; `_meta.schema` = 1. Groups: `severity` (light 0.6 · moderate 0.8 · severe 1.0 · ungraded 1.0) · `quality` (`by_source` inquiry 1.0 / measured 0.9 / guided 0.7 / pulse 0.5, `by_prefix` T_ → guided, P_ → pulse, `default_source`) · `pattern` (`required_any_missing_factor` 0.5, `bands` high 60 / medium 40 / weak 20) · `panel` (`noisy_or_floor` 20, `degree_max` 3, `dimension_weights`, `wuxing_function` 0.7/0.3, `bagang` divisors and weights) · `reconcile` (merge threshold 40, max 3 patterns, mixed threshold 40 with the `nature_groups` of the opposed groups, tie margin 5, confidence grid, differential size) · `formula` (`symptom_fit_min` 0.6, `k_max` 3, `strength_bands`, `role_weights` 君 1.0 / 臣 0.6 / 佐 0.35 / 使 0.15, `modification` limits) · `tier` (bitter-cold 0.45, activating 0.10) · `safety` (`flavor_excess_share` 0.55 and the pattern-direction `conflict` thresholds: axis 0.3, warming 0.3, cooling 0.3, tonic 0.5, attacking 0.8) · `questionnaire` (coverage stop 0.8, max 50, candidate floor 20). Role weights and tier limits also drive `build_formulas.py`, and the pulse coefficient is checked against `pulse.json`. All values are draft placeholders (SOP D3).
 
 ### 3.10 `diagnosis/panel-schema.json`
 
@@ -233,13 +233,13 @@ Invariants: proportions sum to 1; **effective weights** (`proportion × role_wei
 show_formula_modification, show_herb_weights, show_tier_c}, safety_enforcement: "suppress_hard" | "annotate_only" }` · `resolution{effective_level, effective_notice, flow: "continue", …}`.
 Every profile must define **every** dimension key (checked). `dev` must have level `L3` everywhere and keep every `blocking_ack` of `release` (checked).
 
-### 6.2 `safety/rules.json` — 25 rules
+### 6.2 `safety/rules.json` — 26 rules
 
 | Field | Meaning |
 |---|---|
 | `id` | `R_*` (see SOP §13.2 for the table) |
 | `applies_to` | One of `always`, `population[]`, `condition[]` (+ `medication_class[]`), `state[]`, `constitution[]` — when the rule is evaluated |
-| `target` | What it tests: `herb_pregnancy`, `herb_interaction`, `formula_tier`, `acupoints`, `conflict`, `herb_in_user_allergy_list`, `flavor_share_over`, `herb_pairs`, `effect`, `output_level_max` |
+| `target` | What it tests: `herb_pregnancy`, `herb_interaction`, `formula_tier`, `acupoints`, `conflict`, `herb_in_user_allergy_list`, `flavor_share_over`, `herb_pairs`, `effect`, `food_pregnancy_caution`, `output_level_max` |
 | `severity` | `hard` (removed under `suppress_hard`) \| `soft` (annotated) |
 | `message` | Bilingual text shown with the item or in the suppressed list |
 | `citation?`, `condition?`, `reference?`, `note?` | Optional theory basis, extra predicate, textbook reference value |

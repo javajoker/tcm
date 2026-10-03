@@ -258,7 +258,7 @@ The KB is **derived from real sources**, never authored from memory or generated
 | Formulas | `formulas/formulas.json` | 33 with roles, proportions, tiers, modifications, verification |
 | Diagnosis | `symptoms`, `patterns`, `pattern-elements`, `tongue`, `pulse`, `constitutions`, `red-flags`, `panel-schema` | 171 symptoms (incl. 32 tongue, 28 pulse), 23 patterns, 24 pattern elements, 9 constitutions, 28 red flags |
 | Five phases | `wuxing/correspondences`, `ganzhi`, `yunqi`, `susceptibility`, `engine-params` | parsed from 《素問》; exported from `packages/wuxing` |
-| Policy | `config/scope-profiles.json`, `safety/rules.json`, `treatment/guidance.json`, `glossary.json` | 2 profiles, 25 safety rules, 31 acupoints, 139 terms |
+| Policy | `config/scope-profiles.json`, `safety/rules.json`, `treatment/guidance.json`, `glossary.json` | 2 profiles, 26 safety rules, 31 acupoints, 139 terms |
 
 ### 8.3 Sources and licences
 `TCM-Library` (MIT), `TCM-Ancient-Books` (no licence: reference only, short quotations only), `tcm-mkg` (MIT, not yet used), Pharmacopoeia facts as structured data, and the project's own `packages/wuxing`. Non-commercial-only sources (ctext.org) are excluded from the shipped bundle (Q10). The author's earlier BaZi engine is a private repository and is **not** a dependency; the needed algorithm was re-implemented and verified against it numerically.

@@ -716,7 +716,7 @@ c = 已答核心題 / 核心題總數；  m = Pct₁ − Pct₂；  κ = Σ(w·q
 
 ### 13.1 原則
 
-- 過濾規則在 [`data/safety/rules.json`](../data/safety/rules.json)（25 條），每條有 `severity`：**hard**（release 移除並顯示原因）／**soft**（標註）。
+- 過濾規則在 [`data/safety/rules.json`](../data/safety/rules.json)（26 條），每條有 `severity`：**hard**（release 移除並顯示原因）／**soft**（標註）。
 - **dev 版 `annotate_only`**：一律保留並顯示警告，讓開發者看到完整輸出。
 - **永遠不靜默消失**；被抑制項目列出原因與規則代碼。
 - **配置先決，過濾在後**：先依配置決定等級，再逐項過濾。
@@ -726,6 +726,7 @@ c = 已答核心題 / 核心題總數；  m = Pct₁ − Pct₂；  κ = Σ(w·q
 | 規則 | 條件 | release | dev |
 |---|---|---|---|
 | `R_PREG_HERB_AVOID`／`R_PREG_HERB_CAUTION`／`R_PREG_ACUPOINTS` | 懷孕＋孕禁／孕慎藥或穴位 | 抑制 | 標註 |
+| `R_PREG_FOOD_CAUTION` | 懷孕＋孕期慎食的食材（薏仁、山楂、黑木耳、桂圓） | 標註（保留並提醒） | 標註 |
 | `R_LACTATING_HERB` | 哺乳＋B、C 級 | 抑制 | 標註 |
 | `R_MINOR_FORMULA` | 未成年＋B、C 級 | 抑制（折算表供醫師） | 標註 |
 | `R_ELDERLY` | 65 歲以上＋C 級 | 標註（約 2/3 用量，由醫師定） | 標註 |

@@ -453,6 +453,11 @@ def validate(load: Loader = load, check_sources: bool = True) -> list[str]:
             for pt in t["acupoints"]:
                 if pt not in acu:
                     err(f"rule {r['id']}: unknown acupoint {pt}")
+        if "conflict" in t and t["conflict"] not in ("heat_pattern_with_warming_formula", "cold_pattern_with_cooling_formula", "excess_pattern_with_tonic_formula",
+                                                       "deficiency_pattern_with_attacking_formula"):
+            err(f"rule {r['id']}: unknown conflict kind {t['conflict']}")
+        if "food_pregnancy_caution" in t and not load("treatment/guidance.json")["food_pregnancy_caution"]:
+            err(f"rule {r['id']}: the food pregnancy caution list is empty")
         if "flavor_share_over" in t and t["flavor_share_over"] != params["safety"]["flavor_excess_share"]:
             err(f"rule {r['id']}: flavor_share_over differs from scoring-params")
     for pt in rules["pregnancy_acupoints"]:

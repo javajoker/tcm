@@ -166,6 +166,8 @@ RULES = [
     dict(id="R_DEFICIENCY_VS_ATTACK", applies_to=dict(always=True), target=dict(conflict="deficiency_pattern_with_attacking_formula"), severity="hard",
          message={"zh-Hant": "虛證不宜攻伐（無盛盛，無虛虛）。", "en": "Do not attack a deficiency."}, citation="suwen-070-3",
          condition="panel.bagang.deficiency_excess < −0.3 and formula attacking index (−Σ product/liuxie effects) > +0.8"),
+    dict(id="R_PREG_FOOD_CAUTION", applies_to=dict(population=["pregnant"]), target=dict(food_pregnancy_caution=True), severity="soft",
+         message={"zh-Hant": "孕期請謹慎食用此食材（傳統上認為可能影響胎氣），並先諮詢醫師。", "en": "Use this food with caution in pregnancy (traditionally thought to affect the pregnancy); ask your doctor first."}),
     dict(id="R_FLAVOR_EXCESS", applies_to=dict(always=True), target=dict(flavor_share_over=0.55), severity="soft",
          message={"zh-Hant": "單一味道占比過高：久用易傷其所克之臟（味過於酸，肝氣以津，脾氣乃絕…）。", "en": "A single flavour dominates; prolonged use can damage the organ it overcomes."},
          citation="suwen-003-1"),

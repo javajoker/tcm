@@ -593,11 +593,40 @@
     "safety": {
       "additionalProperties": false,
       "properties": {
+        "conflict": {
+          "additionalProperties": false,
+          "properties": {
+            "attacking_min": {
+              "type": "number"
+            },
+            "axis": {
+              "type": "number"
+            },
+            "cooling_min": {
+              "type": "number"
+            },
+            "tonic_min": {
+              "type": "number"
+            },
+            "warming_min": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "attacking_min",
+            "axis",
+            "cooling_min",
+            "tonic_min",
+            "warming_min"
+          ],
+          "type": "object"
+        },
         "flavor_excess_share": {
           "type": "number"
         }
       },
       "required": [
+        "conflict",
         "flavor_excess_share"
       ],
       "type": "object"

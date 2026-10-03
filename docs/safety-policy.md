@@ -160,7 +160,7 @@ After formulas are matched (SOP step 10) and before explanation (step 12), `safe
 
 | Family | Rules | Intent |
 |---|---|---|
-| Pregnancy / lactation / minor / elderly | `R_PREG_HERB_AVOID`, `R_PREG_HERB_CAUTION`, `R_PREG_ACUPOINTS`, `R_LACTATING_HERB`, `R_MINOR_FORMULA`, `R_ELDERLY` | Avoid contraindicated herbs and points; restrict stronger formulas |
+| Pregnancy / lactation / minor / elderly | `R_PREG_HERB_AVOID`, `R_PREG_HERB_CAUTION`, `R_PREG_ACUPOINTS`, `R_PREG_FOOD_CAUTION`, `R_LACTATING_HERB`, `R_MINOR_FORMULA`, `R_ELDERLY` | Avoid contraindicated herbs and points; caution on certain foods; restrict stronger formulas |
 | Serious illness | `R_SERIOUS_CHRONIC` | No formulas |
 | Medication classes | `R_ANTICOAGULANT`, `R_HYPOGLYCEMIC`, `R_BP_RAISING`, `R_HYPOKALEMIA`, `R_IMMUNOSUPPRESSANT`, `R_SEDATIVE`, `R_SYMPATHOMIMETIC` | Interactions by class |
 | Herb hazards | `R_STRONG_HERB`, `R_ARISTOLOCHIC`, `R_SHIBAFAN` | Strong herbs; aristolochic-acid risk; 十八反/十九畏 |

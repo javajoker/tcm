@@ -71,8 +71,11 @@ PARAMS = {
     "tier": {"c_bitter_cold_share": 0.45, "b_activating_share": 0.10, "strong_herbs": ["herb-mahuang", "herb-fuzi"],
              "bitter_cold_tag": "苦寒", "activating_tag": "活血", "aristolochic_flag": "aristolochic-risk"},
 
-    # SOP §13.2: R_FLAVOR_EXCESS
-    "safety": {"flavor_excess_share": 0.55},
+    # SOP §13.2: R_FLAVOR_EXCESS and the four pattern-direction conflict rules. A person is hot/cold/excess/deficient beyond `axis` on the panel-derived
+    # 八綱 scalars; a formula is warming / cooling / tonic / attacking beyond its `*_min` index, computed from its panel effect:
+    #   warming = −effect[liuxie.寒] + Σ yang gains · cooling = −effect[liuxie.火] · tonic = Σ qi/blood/yin/yang gains
+    #   attacking = −Σ negative effects on product.* and liuxie.* (what it removes)
+    "safety": {"flavor_excess_share": 0.55, "conflict": {"axis": 0.3, "warming_min": 0.3, "cooling_min": 0.3, "tonic_min": 0.5, "attacking_min": 0.8}},
 
     # SOP §4.8: adaptive questionnaire.
     "questionnaire": {"core_coverage_stop": 0.8, "max_questions": 50, "candidate_pct_floor": 20.0},
