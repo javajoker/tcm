@@ -1,6 +1,7 @@
 {
   "_meta": {
     "description": "Application configuration: output levels and the dev/release profiles. dev opens everything; release restricts by default. Risky populations/conditions always get a 'see a doctor' notice and the flow continues.",
+    "schema": 1,
     "version": 1
   },
   "dimensions": {

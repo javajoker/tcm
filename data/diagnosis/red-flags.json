@@ -1,7 +1,8 @@
 {
   "_meta": {
     "description": "Red-flag and scope lists (draft, must be physician-reviewed). Levels: A emergency, B see a doctor within 24 h, C out of intended scope.",
-    "flow": "In every profile the matching notice is shown and acknowledged and the flow then continues (see data/config/scope-profiles.json)."
+    "flow": "In every profile the matching notice is shown and acknowledged and the flow then continues (see data/config/scope-profiles.json).",
+    "schema": 1
   },
   "items": [
     {

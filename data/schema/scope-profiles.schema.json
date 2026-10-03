@@ -1,0 +1,1136 @@
+{
+  "$defs": {
+    "bilingual": {
+      "additionalProperties": false,
+      "properties": {
+        "en": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "zh-Hant": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "en",
+        "zh-Hant"
+      ],
+      "type": "object"
+    },
+    "bilingualNamed": {
+      "additionalProperties": false,
+      "properties": {
+        "en": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "zh-Hant": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "en",
+        "zh-Hant"
+      ],
+      "type": "object"
+    },
+    "citationId": {
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+      "type": "string"
+    },
+    "constitutionId": {
+      "pattern": "^C_[A-Z]+$",
+      "type": "string"
+    },
+    "element": {
+      "enum": [
+        "木",
+        "火",
+        "土",
+        "金",
+        "水"
+      ]
+    },
+    "elementId": {
+      "pattern": "^PE_.+$",
+      "type": "string"
+    },
+    "evil": {
+      "enum": [
+        "風",
+        "寒",
+        "暑",
+        "濕",
+        "燥",
+        "火"
+      ]
+    },
+    "formulaId": {
+      "pattern": "^F_[A-Z0-9_]+$",
+      "type": "string"
+    },
+    "herbId": {
+      "pattern": "^herb-[a-z0-9_]+$",
+      "type": "string"
+    },
+    "level": {
+      "enum": [
+        "L0",
+        "L1",
+        "L2",
+        "L3"
+      ]
+    },
+    "notice": {
+      "enum": [
+        "none",
+        "inline",
+        "blocking_ack"
+      ]
+    },
+    "panelDim": {
+      "pattern": "^((肝|心|脾|肺|腎|膽|小腸|胃|大腸|膀胱)\\.(qi|blood|yin|yang|stasis)|liuxie\\.(風|寒|暑|濕|燥|火)|product\\.(痰|飲|瘀|食積)|bagang\\.exterior)$",
+      "type": "string"
+    },
+    "panelMap": {
+      "additionalProperties": {
+        "type": "number"
+      },
+      "propertyNames": {
+        "$ref": "#/$defs/panelDim"
+      },
+      "type": "object"
+    },
+    "patternId": {
+      "pattern": "^(EX|SP|LV|HT|LG|KD|QB)[0-9]$",
+      "type": "string"
+    },
+    "redFlagId": {
+      "pattern": "^RF_[ABC]_[A-Z_]+$",
+      "type": "string"
+    },
+    "reviewStatus": {
+      "enum": [
+        "derived",
+        "curated-draft",
+        "draft",
+        "reviewed"
+      ]
+    },
+    "ruleId": {
+      "pattern": "^R_[A-Z_]+$",
+      "type": "string"
+    },
+    "symptomId": {
+      "pattern": "^[STP]_[A-Z0-9_]+$",
+      "type": "string"
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "_meta": {
+      "additionalProperties": true,
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "schema": {
+          "type": "integer"
+        },
+        "version": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "description",
+        "schema",
+        "version"
+      ],
+      "type": "object"
+    },
+    "dimensions": {
+      "additionalProperties": false,
+      "properties": {
+        "condition": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 7,
+          "type": "array"
+        },
+        "population": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 5,
+          "type": "array"
+        },
+        "state": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 3,
+          "type": "array"
+        }
+      },
+      "required": [
+        "condition",
+        "population",
+        "state"
+      ],
+      "type": "object"
+    },
+    "levels": {
+      "additionalProperties": false,
+      "properties": {
+        "L0": {
+          "additionalProperties": false,
+          "properties": {
+            "includes": {
+              "items": {
+                "type": "string"
+              },
+              "minItems": 1,
+              "type": "array"
+            },
+            "name": {
+              "$ref": "#/$defs/bilingualNamed"
+            }
+          },
+          "required": [
+            "includes",
+            "name"
+          ],
+          "type": "object"
+        },
+        "L1": {
+          "additionalProperties": false,
+          "properties": {
+            "includes": {
+              "items": {
+                "type": "string"
+              },
+              "minItems": 1,
+              "type": "array"
+            },
+            "name": {
+              "$ref": "#/$defs/bilingualNamed"
+            }
+          },
+          "required": [
+            "includes",
+            "name"
+          ],
+          "type": "object"
+        },
+        "L2": {
+          "additionalProperties": false,
+          "properties": {
+            "includes": {
+              "items": {
+                "type": "string"
+              },
+              "minItems": 1,
+              "type": "array"
+            },
+            "name": {
+              "$ref": "#/$defs/bilingualNamed"
+            }
+          },
+          "required": [
+            "includes",
+            "name"
+          ],
+          "type": "object"
+        },
+        "L3": {
+          "additionalProperties": false,
+          "properties": {
+            "includes": {
+              "items": {
+                "type": "string"
+              },
+              "minItems": 1,
+              "type": "array"
+            },
+            "name": {
+              "$ref": "#/$defs/bilingualNamed"
+            }
+          },
+          "required": [
+            "includes",
+            "name"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "L0",
+        "L1",
+        "L2",
+        "L3"
+      ],
+      "type": "object"
+    },
+    "notice_kinds": {
+      "additionalProperties": false,
+      "properties": {
+        "blocking_ack": {
+          "type": "string"
+        },
+        "inline": {
+          "type": "string"
+        },
+        "none": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "blocking_ack",
+        "inline",
+        "none"
+      ],
+      "type": "object"
+    },
+    "profiles": {
+      "additionalProperties": false,
+      "properties": {
+        "dev": {
+          "additionalProperties": false,
+          "properties": {
+            "condition": {
+              "additionalProperties": false,
+              "properties": {
+                "acute_external_symptoms": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "level": {
+                      "$ref": "#/$defs/level"
+                    },
+                    "notice": {
+                      "$ref": "#/$defs/notice"
+                    }
+                  },
+                  "required": [
+                    "level",
+                    "notice"
+                  ],
+                  "type": "object"
+                },
+                "allergy_match": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "level": {
+                      "$ref": "#/$defs/level"
+                    },
+                    "notice": {
+                      "$ref": "#/$defs/notice"
+                    }
+                  },
+                  "required": [
+                    "level",
+                    "notice"
+                  ],
+                  "type": "object"
+                },
+                "on_anticoagulant": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "level": {
+                      "$ref": "#/$defs/level"
+                    },
+                    "notice": {
+                      "$ref": "#/$defs/notice"
+                    }
+                  },
+                  "required": [
+                    "level",
+                    "notice"
+                  ],
+                  "type": "object"
+                },
+                "on_other_interacting_medication": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "level": {
+                      "$ref": "#/$defs/level"
+                    },
+                    "notice": {
+                      "$ref": "#/$defs/notice"
+                    }
+                  },
+                  "required": [
+                    "level",
+                    "notice"
+                  ],
+                  "type": "object"
+                },
+                "red_flag_A": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "level": {
+                      "$ref": "#/$defs/level"
+                    },
+                    "notice": {
+                      "$ref": "#/$defs/notice"
+                    }
+                  },
+                  "required": [
+                    "level",
+                    "notice"
+                  ],
+                  "type": "object"
+                },
+                "red_flag_B": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "level": {
+                      "$ref": "#/$defs/level"
+                    },
+                    "notice": {
+                      "$ref": "#/$defs/notice"
+                    }
+                  },
+                  "required": [
+                    "level",
+                    "notice"
+                  ],
+                  "type": "object"
+                },
+                "serious_chronic_disease": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "level": {
+                      "$ref": "#/$defs/level"
+                    },
+                    "notice": {
+                      "$ref": "#/$defs/notice"
+                    }
+                  },
+                  "required": [
+                    "level",
+                    "notice"
+                  ],
+                  "type": "object"
+                }
+              },
+              "required": [
+                "acute_external_symptoms",
+                "allergy_match",
+                "on_anticoagulant",
+                "on_other_interacting_medication",
+                "red_flag_A",
+                "red_flag_B",
+                "serious_chronic_disease"
+              ],
+              "type": "object"
+            },
+            "description": {
+              "type": "string"
+            },
+            "features": {
+              "additionalProperties": false,
+              "properties": {
+                "show_acupoints": {
+                  "type": "boolean"
+                },
+                "show_diet": {
+                  "type": "boolean"
+                },
+                "show_dosage_reference": {
+                  "type": "boolean"
+                },
+                "show_formula_modification": {
+                  "type": "boolean"
+                },
+                "show_herb_weights": {
+                  "type": "boolean"
+                },
+                "show_tier_c": {
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "show_acupoints",
+                "show_diet",
+                "show_dosage_reference",
+                "show_formula_modification",
+                "show_herb_weights",
+                "show_tier_c"
+              ],
+              "type": "object"
+            },
+            "population": {
+              "additionalProperties": false,
+              "properties": {
+                "adult": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "level": {
+                      "$ref": "#/$defs/level"
+                    },
+                    "notice": {
+                      "$ref": "#/$defs/notice"
+                    }
+                  },
+                  "required": [
+                    "level",
+                    "notice"
+                  ],
+                  "type": "object"
+                },
+                "elderly_65_plus": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "level": {
+                      "$ref": "#/$defs/level"
+                    },
+                    "notice": {
+                      "$ref": "#/$defs/notice"
+                    }
+                  },
+                  "required": [
+                    "level",
+                    "notice"
+                  ],
+                  "type": "object"
+                },
+                "lactating": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "level": {
+                      "$ref": "#/$defs/level"
+                    },
+                    "notice": {
+                      "$ref": "#/$defs/notice"
+                    }
+                  },
+                  "required": [
+                    "level",
+                    "notice"
+                  ],
+                  "type": "object"
+                },
+                "minor_under_18": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "level": {
+                      "$ref": "#/$defs/level"
+                    },
+                    "notice": {
+                      "$ref": "#/$defs/notice"
+                    }
+                  },
+                  "required": [
+                    "level",
+                    "notice"
+                  ],
+                  "type": "object"
+                },
+                "pregnant": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "level": {
+                      "$ref": "#/$defs/level"
+                    },
+                    "notice": {
+                      "$ref": "#/$defs/notice"
+                    }
+                  },
+                  "required": [
+                    "level",
+                    "notice"
+                  ],
+                  "type": "object"
+                }
+              },
+              "required": [
+                "adult",
+                "elderly_65_plus",
+                "lactating",
+                "minor_under_18",
+                "pregnant"
+              ],
+              "type": "object"
+            },
+            "safety_enforcement": {
+              "enum": [
+                "suppress_hard",
+                "annotate_only"
+              ]
+            },
+            "state": {
+              "additionalProperties": false,
+              "properties": {
+                "conflicting_data": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "level": {
+                      "$ref": "#/$defs/level"
+                    },
+                    "notice": {
+                      "$ref": "#/$defs/notice"
+                    }
+                  },
+                  "required": [
+                    "level",
+                    "notice"
+                  ],
+                  "type": "object"
+                },
+                "insufficient_information": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "level": {
+                      "$ref": "#/$defs/level"
+                    },
+                    "notice": {
+                      "$ref": "#/$defs/notice"
+                    }
+                  },
+                  "required": [
+                    "level",
+                    "notice"
+                  ],
+                  "type": "object"
+                },
+                "low_confidence": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "level": {
+                      "$ref": "#/$defs/level"
+                    },
+                    "notice": {
+                      "$ref": "#/$defs/notice"
+                    }
+                  },
+                  "required": [
+                    "level",
+                    "notice"
+                  ],
+                  "type": "object"
+                }
+              },
+              "required": [
+                "conflicting_data",
+                "insufficient_information",
+                "low_confidence"
+              ],
+              "type": "object"
+            },
+            "tongue_pulse": {
+              "additionalProperties": false,
+              "properties": {
+                "pulse_input": {
+                  "type": "boolean"
+                },
+                "pulse_quality_coefficient": {
+                  "type": "number"
+                },
+                "tongue_special_signs": {
+                  "type": "boolean"
+                },
+                "tongue_zones": {
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "pulse_input",
+                "pulse_quality_coefficient",
+                "tongue_special_signs",
+                "tongue_zones"
+              ],
+              "type": "object"
+            },
+            "wuxing": {
+              "additionalProperties": false,
+              "properties": {
+                "bazi_annual": {
+                  "enum": [
+                    true,
+                    false,
+                    "opt_in"
+                  ]
+                },
+                "bazi_innate": {
+                  "enum": [
+                    true,
+                    false,
+                    "opt_in"
+                  ]
+                },
+                "enabled": {
+                  "type": "boolean"
+                },
+                "season": {
+                  "type": "boolean"
+                },
+                "season_model": {
+                  "enum": [
+                    "changxia",
+                    "tuwang18"
+                  ]
+                },
+                "yunqi": {
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "bazi_annual",
+                "bazi_innate",
+                "enabled",
+                "season",
+                "season_model",
+                "yunqi"
+              ],
+              "type": "object"
+            }
+          },
+          "required": [
+            "condition",
+            "description",
+            "features",
+            "population",
+            "safety_enforcement",
+            "state",
+            "tongue_pulse",
+            "wuxing"
+          ],
+          "type": "object"
+        },
+        "release": {
+          "additionalProperties": false,
+          "properties": {
+            "condition": {
+              "additionalProperties": false,
+              "properties": {
+                "acute_external_symptoms": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "level": {
+                      "$ref": "#/$defs/level"
+                    },
+                    "notice": {
+                      "$ref": "#/$defs/notice"
+                    }
+                  },
+                  "required": [
+                    "level",
+                    "notice"
+                  ],
+                  "type": "object"
+                },
+                "allergy_match": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "level": {
+                      "$ref": "#/$defs/level"
+                    },
+                    "notice": {
+                      "$ref": "#/$defs/notice"
+                    }
+                  },
+                  "required": [
+                    "level",
+                    "notice"
+                  ],
+                  "type": "object"
+                },
+                "on_anticoagulant": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "level": {
+                      "$ref": "#/$defs/level"
+                    },
+                    "notice": {
+                      "$ref": "#/$defs/notice"
+                    }
+                  },
+                  "required": [
+                    "level",
+                    "notice"
+                  ],
+                  "type": "object"
+                },
+                "on_other_interacting_medication": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "level": {
+                      "$ref": "#/$defs/level"
+                    },
+                    "notice": {
+                      "$ref": "#/$defs/notice"
+                    }
+                  },
+                  "required": [
+                    "level",
+                    "notice"
+                  ],
+                  "type": "object"
+                },
+                "red_flag_A": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "level": {
+                      "$ref": "#/$defs/level"
+                    },
+                    "notice": {
+                      "$ref": "#/$defs/notice"
+                    }
+                  },
+                  "required": [
+                    "level",
+                    "notice"
+                  ],
+                  "type": "object"
+                },
+                "red_flag_B": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "level": {
+                      "$ref": "#/$defs/level"
+                    },
+                    "notice": {
+                      "$ref": "#/$defs/notice"
+                    }
+                  },
+                  "required": [
+                    "level",
+                    "notice"
+                  ],
+                  "type": "object"
+                },
+                "serious_chronic_disease": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "level": {
+                      "$ref": "#/$defs/level"
+                    },
+                    "notice": {
+                      "$ref": "#/$defs/notice"
+                    }
+                  },
+                  "required": [
+                    "level",
+                    "notice"
+                  ],
+                  "type": "object"
+                }
+              },
+              "required": [
+                "acute_external_symptoms",
+                "allergy_match",
+                "on_anticoagulant",
+                "on_other_interacting_medication",
+                "red_flag_A",
+                "red_flag_B",
+                "serious_chronic_disease"
+              ],
+              "type": "object"
+            },
+            "description": {
+              "type": "string"
+            },
+            "features": {
+              "additionalProperties": false,
+              "properties": {
+                "show_acupoints": {
+                  "type": "boolean"
+                },
+                "show_diet": {
+                  "type": "boolean"
+                },
+                "show_dosage_reference": {
+                  "type": "boolean"
+                },
+                "show_formula_modification": {
+                  "type": "boolean"
+                },
+                "show_herb_weights": {
+                  "type": "boolean"
+                },
+                "show_tier_c": {
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "show_acupoints",
+                "show_diet",
+                "show_dosage_reference",
+                "show_formula_modification",
+                "show_herb_weights",
+                "show_tier_c"
+              ],
+              "type": "object"
+            },
+            "population": {
+              "additionalProperties": false,
+              "properties": {
+                "adult": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "level": {
+                      "$ref": "#/$defs/level"
+                    },
+                    "notice": {
+                      "$ref": "#/$defs/notice"
+                    }
+                  },
+                  "required": [
+                    "level",
+                    "notice"
+                  ],
+                  "type": "object"
+                },
+                "elderly_65_plus": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "level": {
+                      "$ref": "#/$defs/level"
+                    },
+                    "notice": {
+                      "$ref": "#/$defs/notice"
+                    }
+                  },
+                  "required": [
+                    "level",
+                    "notice"
+                  ],
+                  "type": "object"
+                },
+                "lactating": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "level": {
+                      "$ref": "#/$defs/level"
+                    },
+                    "notice": {
+                      "$ref": "#/$defs/notice"
+                    }
+                  },
+                  "required": [
+                    "level",
+                    "notice"
+                  ],
+                  "type": "object"
+                },
+                "minor_under_18": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "level": {
+                      "$ref": "#/$defs/level"
+                    },
+                    "notice": {
+                      "$ref": "#/$defs/notice"
+                    }
+                  },
+                  "required": [
+                    "level",
+                    "notice"
+                  ],
+                  "type": "object"
+                },
+                "pregnant": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "level": {
+                      "$ref": "#/$defs/level"
+                    },
+                    "notice": {
+                      "$ref": "#/$defs/notice"
+                    }
+                  },
+                  "required": [
+                    "level",
+                    "notice"
+                  ],
+                  "type": "object"
+                }
+              },
+              "required": [
+                "adult",
+                "elderly_65_plus",
+                "lactating",
+                "minor_under_18",
+                "pregnant"
+              ],
+              "type": "object"
+            },
+            "safety_enforcement": {
+              "enum": [
+                "suppress_hard",
+                "annotate_only"
+              ]
+            },
+            "state": {
+              "additionalProperties": false,
+              "properties": {
+                "conflicting_data": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "level": {
+                      "$ref": "#/$defs/level"
+                    },
+                    "notice": {
+                      "$ref": "#/$defs/notice"
+                    }
+                  },
+                  "required": [
+                    "level",
+                    "notice"
+                  ],
+                  "type": "object"
+                },
+                "insufficient_information": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "level": {
+                      "$ref": "#/$defs/level"
+                    },
+                    "notice": {
+                      "$ref": "#/$defs/notice"
+                    }
+                  },
+                  "required": [
+                    "level",
+                    "notice"
+                  ],
+                  "type": "object"
+                },
+                "low_confidence": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "level": {
+                      "$ref": "#/$defs/level"
+                    },
+                    "notice": {
+                      "$ref": "#/$defs/notice"
+                    }
+                  },
+                  "required": [
+                    "level",
+                    "notice"
+                  ],
+                  "type": "object"
+                }
+              },
+              "required": [
+                "conflicting_data",
+                "insufficient_information",
+                "low_confidence"
+              ],
+              "type": "object"
+            },
+            "tongue_pulse": {
+              "additionalProperties": false,
+              "properties": {
+                "pulse_input": {
+                  "type": "boolean"
+                },
+                "pulse_quality_coefficient": {
+                  "type": "number"
+                },
+                "tongue_special_signs": {
+                  "type": "boolean"
+                },
+                "tongue_zones": {
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "pulse_input",
+                "pulse_quality_coefficient",
+                "tongue_special_signs",
+                "tongue_zones"
+              ],
+              "type": "object"
+            },
+            "wuxing": {
+              "additionalProperties": false,
+              "properties": {
+                "bazi_annual": {
+                  "enum": [
+                    true,
+                    false,
+                    "opt_in"
+                  ]
+                },
+                "bazi_innate": {
+                  "enum": [
+                    true,
+                    false,
+                    "opt_in"
+                  ]
+                },
+                "enabled": {
+                  "type": "boolean"
+                },
+                "season": {
+                  "type": "boolean"
+                },
+                "season_model": {
+                  "enum": [
+                    "changxia",
+                    "tuwang18"
+                  ]
+                },
+                "yunqi": {
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "bazi_annual",
+                "bazi_innate",
+                "enabled",
+                "season",
+                "season_model",
+                "yunqi"
+              ],
+              "type": "object"
+            }
+          },
+          "required": [
+            "condition",
+            "description",
+            "features",
+            "population",
+            "safety_enforcement",
+            "state",
+            "tongue_pulse",
+            "wuxing"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "dev",
+        "release"
+      ],
+      "type": "object"
+    },
+    "resolution": {
+      "additionalProperties": true,
+      "required": [
+        "effective_level",
+        "effective_notice",
+        "flow"
+      ],
+      "type": "object"
+    }
+  },
+  "required": [
+    "_meta",
+    "dimensions",
+    "levels",
+    "notice_kinds",
+    "profiles",
+    "resolution"
+  ],
+  "title": "Application configuration (profiles)",
+  "type": "object"
+}

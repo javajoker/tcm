@@ -1,0 +1,599 @@
+{
+  "$defs": {
+    "bilingual": {
+      "additionalProperties": false,
+      "properties": {
+        "en": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "zh-Hant": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "en",
+        "zh-Hant"
+      ],
+      "type": "object"
+    },
+    "bilingualNamed": {
+      "additionalProperties": false,
+      "properties": {
+        "en": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "zh-Hant": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "en",
+        "zh-Hant"
+      ],
+      "type": "object"
+    },
+    "citationId": {
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+      "type": "string"
+    },
+    "constitutionId": {
+      "pattern": "^C_[A-Z]+$",
+      "type": "string"
+    },
+    "element": {
+      "enum": [
+        "木",
+        "火",
+        "土",
+        "金",
+        "水"
+      ]
+    },
+    "elementId": {
+      "pattern": "^PE_.+$",
+      "type": "string"
+    },
+    "evil": {
+      "enum": [
+        "風",
+        "寒",
+        "暑",
+        "濕",
+        "燥",
+        "火"
+      ]
+    },
+    "formulaId": {
+      "pattern": "^F_[A-Z0-9_]+$",
+      "type": "string"
+    },
+    "herbId": {
+      "pattern": "^herb-[a-z0-9_]+$",
+      "type": "string"
+    },
+    "level": {
+      "enum": [
+        "L0",
+        "L1",
+        "L2",
+        "L3"
+      ]
+    },
+    "notice": {
+      "enum": [
+        "none",
+        "inline",
+        "blocking_ack"
+      ]
+    },
+    "panelDim": {
+      "pattern": "^((肝|心|脾|肺|腎|膽|小腸|胃|大腸|膀胱)\\.(qi|blood|yin|yang|stasis)|liuxie\\.(風|寒|暑|濕|燥|火)|product\\.(痰|飲|瘀|食積)|bagang\\.exterior)$",
+      "type": "string"
+    },
+    "panelMap": {
+      "additionalProperties": {
+        "type": "number"
+      },
+      "propertyNames": {
+        "$ref": "#/$defs/panelDim"
+      },
+      "type": "object"
+    },
+    "patternId": {
+      "pattern": "^(EX|SP|LV|HT|LG|KD|QB)[0-9]$",
+      "type": "string"
+    },
+    "redFlagId": {
+      "pattern": "^RF_[ABC]_[A-Z_]+$",
+      "type": "string"
+    },
+    "reviewStatus": {
+      "enum": [
+        "derived",
+        "curated-draft",
+        "draft",
+        "reviewed"
+      ]
+    },
+    "ruleId": {
+      "pattern": "^R_[A-Z_]+$",
+      "type": "string"
+    },
+    "symptomId": {
+      "pattern": "^[STP]_[A-Z0-9_]+$",
+      "type": "string"
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "_meta": {
+      "additionalProperties": true,
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "schema": {
+          "type": "integer"
+        },
+        "sources": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object"
+        },
+        "status": {
+          "$ref": "#/$defs/reviewStatus"
+        }
+      },
+      "required": [
+        "description",
+        "schema",
+        "sources",
+        "status"
+      ],
+      "type": "object"
+    },
+    "formula": {
+      "additionalProperties": false,
+      "properties": {
+        "k_max": {
+          "type": "number"
+        },
+        "modification": {
+          "additionalProperties": false,
+          "properties": {
+            "add_share": {
+              "type": "number"
+            },
+            "max_add": {
+              "type": "integer"
+            },
+            "max_remove": {
+              "type": "integer"
+            },
+            "min_gain": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "add_share",
+            "max_add",
+            "max_remove",
+            "min_gain"
+          ],
+          "type": "object"
+        },
+        "role_weights": {
+          "additionalProperties": false,
+          "properties": {
+            "佐": {
+              "type": "number"
+            },
+            "使": {
+              "type": "number"
+            },
+            "君": {
+              "type": "number"
+            },
+            "臣": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "佐",
+            "使",
+            "君",
+            "臣"
+          ],
+          "type": "object"
+        },
+        "strength_bands": {
+          "additionalProperties": false,
+          "properties": {
+            "light_below": {
+              "type": "number"
+            },
+            "strong_above": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "light_below",
+            "strong_above"
+          ],
+          "type": "object"
+        },
+        "symptom_fit_min": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "k_max",
+        "modification",
+        "role_weights",
+        "strength_bands",
+        "symptom_fit_min"
+      ],
+      "type": "object"
+    },
+    "panel": {
+      "additionalProperties": false,
+      "properties": {
+        "bagang": {
+          "additionalProperties": false,
+          "properties": {
+            "excess_divisor": {
+              "type": "number"
+            },
+            "exterior_divisor": {
+              "type": "number"
+            },
+            "heat_divisor": {
+              "type": "number"
+            },
+            "yang_deficit_weight": {
+              "type": "number"
+            },
+            "yin_deficit_weight": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "excess_divisor",
+            "exterior_divisor",
+            "heat_divisor",
+            "yang_deficit_weight",
+            "yin_deficit_weight"
+          ],
+          "type": "object"
+        },
+        "degree_max": {
+          "type": "number"
+        },
+        "dimension_weights": {
+          "additionalProperties": false,
+          "properties": {
+            "bagang": {
+              "type": "number"
+            },
+            "liuxie": {
+              "type": "number"
+            },
+            "organ": {
+              "type": "number"
+            },
+            "product": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "bagang",
+            "liuxie",
+            "organ",
+            "product"
+          ],
+          "type": "object"
+        },
+        "noisy_or_floor": {
+          "type": "number"
+        },
+        "wuxing_function": {
+          "additionalProperties": false,
+          "properties": {
+            "fu": {
+              "type": "number"
+            },
+            "zang": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "fu",
+            "zang"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "bagang",
+        "degree_max",
+        "dimension_weights",
+        "noisy_or_floor",
+        "wuxing_function"
+      ],
+      "type": "object"
+    },
+    "pattern": {
+      "additionalProperties": false,
+      "properties": {
+        "bands": {
+          "additionalProperties": false,
+          "properties": {
+            "high": {
+              "type": "number"
+            },
+            "medium": {
+              "type": "number"
+            },
+            "weak": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "high",
+            "medium",
+            "weak"
+          ],
+          "type": "object"
+        },
+        "required_any_missing_factor": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "bands",
+        "required_any_missing_factor"
+      ],
+      "type": "object"
+    },
+    "quality": {
+      "additionalProperties": false,
+      "properties": {
+        "by_prefix": {
+          "additionalProperties": {
+            "enum": [
+              "inquiry",
+              "measured",
+              "guided",
+              "pulse"
+            ]
+          },
+          "type": "object"
+        },
+        "by_source": {
+          "additionalProperties": false,
+          "properties": {
+            "guided": {
+              "type": "number"
+            },
+            "inquiry": {
+              "type": "number"
+            },
+            "measured": {
+              "type": "number"
+            },
+            "pulse": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "guided",
+            "inquiry",
+            "measured",
+            "pulse"
+          ],
+          "type": "object"
+        },
+        "default_source": {
+          "enum": [
+            "inquiry",
+            "measured",
+            "guided",
+            "pulse"
+          ]
+        }
+      },
+      "required": [
+        "by_prefix",
+        "by_source",
+        "default_source"
+      ],
+      "type": "object"
+    },
+    "questionnaire": {
+      "additionalProperties": false,
+      "properties": {
+        "candidate_pct_floor": {
+          "type": "number"
+        },
+        "core_coverage_stop": {
+          "type": "number"
+        },
+        "max_questions": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "candidate_pct_floor",
+        "core_coverage_stop",
+        "max_questions"
+      ],
+      "type": "object"
+    },
+    "reconcile": {
+      "additionalProperties": false,
+      "properties": {
+        "confidence": {
+          "additionalProperties": false,
+          "properties": {
+            "high": {
+              "additionalProperties": false,
+              "properties": {
+                "coverage": {
+                  "type": "number"
+                },
+                "kappa": {
+                  "type": "number"
+                },
+                "margin": {
+                  "type": "number"
+                },
+                "pct1": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "coverage",
+                "kappa",
+                "margin",
+                "pct1"
+              ],
+              "type": "object"
+            },
+            "low": {
+              "additionalProperties": false,
+              "properties": {
+                "pct1": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "pct1"
+              ],
+              "type": "object"
+            },
+            "medium": {
+              "additionalProperties": false,
+              "properties": {
+                "coverage": {
+                  "type": "number"
+                },
+                "margin": {
+                  "type": "number"
+                },
+                "pct1": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "coverage",
+                "margin",
+                "pct1"
+              ],
+              "type": "object"
+            }
+          },
+          "required": [
+            "high",
+            "low",
+            "medium"
+          ],
+          "type": "object"
+        },
+        "max_patterns": {
+          "type": "integer"
+        },
+        "merge_threshold": {
+          "type": "number"
+        },
+        "mixed_threshold": {
+          "type": "number"
+        },
+        "tie_margin": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "confidence",
+        "max_patterns",
+        "merge_threshold",
+        "mixed_threshold",
+        "tie_margin"
+      ],
+      "type": "object"
+    },
+    "safety": {
+      "additionalProperties": false,
+      "properties": {
+        "flavor_excess_share": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "flavor_excess_share"
+      ],
+      "type": "object"
+    },
+    "severity": {
+      "additionalProperties": false,
+      "properties": {
+        "light": {
+          "type": "number"
+        },
+        "moderate": {
+          "type": "number"
+        },
+        "severe": {
+          "type": "number"
+        },
+        "ungraded": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "light",
+        "moderate",
+        "severe",
+        "ungraded"
+      ],
+      "type": "object"
+    },
+    "tier": {
+      "additionalProperties": false,
+      "properties": {
+        "b_activating_share": {
+          "type": "number"
+        },
+        "c_bitter_cold_share": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "b_activating_share",
+        "c_bitter_cold_share"
+      ],
+      "type": "object"
+    }
+  },
+  "required": [
+    "_meta",
+    "formula",
+    "pattern",
+    "panel",
+    "quality",
+    "questionnaire",
+    "reconcile",
+    "safety",
+    "severity",
+    "tier"
+  ],
+  "title": "Diagnosis engine parameters",
+  "type": "object"
+}

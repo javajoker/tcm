@@ -2,6 +2,7 @@
   "_meta": {
     "count": 23,
     "description": "23-pattern MVP library with weighted symptom evidence. Panel projection is per degree; degree = 3 × Pct / 100.",
+    "schema": 1,
     "scoring": "Pct = Σ w·sev·q (present) − Σ v·q (against) ÷ Σ w × 100; required_any missing → ×0.5 (SOP §8.3)"
   },
   "items": [

@@ -14,6 +14,8 @@ from pathlib import Path
 import yaml
 from opencc import OpenCC
 
+from .schemas import SCHEMA_VERSION
+
 ROOT = Path(__file__).resolve().parents[2]
 REF = ROOT / "reference" / "sources"
 DATA = ROOT / "data"
@@ -83,7 +85,9 @@ def front_matter(md: str) -> tuple[dict, str]:
 
 
 def dump(path: Path, obj) -> None:
-    """Write deterministic UTF-8 JSON (sorted keys, 2-space indent, trailing newline)."""
+    """Write deterministic UTF-8 JSON (sorted keys, 2-space indent, trailing newline). Stamps `_meta.schema` (the data schema version)."""
+    if isinstance(obj, dict) and isinstance(obj.get("_meta"), dict):
+        obj = {**obj, "_meta": {**obj["_meta"], "schema": SCHEMA_VERSION}}
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(obj, ensure_ascii=False, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 

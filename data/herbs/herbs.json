@@ -35,6 +35,7 @@
     "count": 704,
     "description": "Herb knowledge base: structured source properties plus the derived yin-yang / five-phase / organ model.",
     "licence_note": "Pharmacopoeia-derived facts (properties, functions, cautions) are used as structured data; whole source text is not redistributed.",
+    "schema": 1,
     "status_counts": {
       "curated-draft": 94,
       "derived": 610

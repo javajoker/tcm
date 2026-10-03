@@ -72,7 +72,7 @@ Root scripts: `pnpm lint`, `pnpm typecheck`, `pnpm test`, `pnpm check`, `pnpm bu
 
 | Change | Run |
 |---|---|
-| `scripts/kb/**` or `data/**` | `.venv/bin/python -m scripts.kb.build_kb` (must be a no-op diff if you changed nothing; validation and self-test must pass) |
+| `scripts/kb/**` or `data/**` | `.venv/bin/python -m scripts.kb.build_kb` (must be a no-op diff if you changed nothing; schema validation, integrity checks and the self-test must pass) and `pnpm test:kb` (Python tests) |
 | `packages/wuxing/**` | `pnpm --filter @tcm/wuxing test && pnpm --filter @tcm/wuxing typecheck` |
 | `packages/engine/**` (planned) | `pnpm --filter @tcm/engine test`, parity fixtures regenerated if parameters/KB changed |
 | UI strings | `pnpm check:i18n` |

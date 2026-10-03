@@ -1,6 +1,7 @@
 {
   "_meta": {
-    "description": "Stem/branch tables, hidden stems, 人元司令, solar terms. Exported from packages/wuxing (single source)."
+    "description": "Stem/branch tables, hidden stems, 人元司令, solar terms. Exported from packages/wuxing (single source).",
+    "schema": 1
   },
   "branches": [
     {

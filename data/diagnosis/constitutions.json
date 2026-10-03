@@ -1,6 +1,7 @@
 {
   "_meta": {
     "description": "Nine constitutions (王琦). Questionnaire items are intentionally NOT included (licensing, SOP D6). `susceptibility` = risk (0–2) per pathogenic qi.",
+    "schema": 1,
     "standard": "中醫體質分類與判定 (ZYYXH/T157-2009), scoring rule in SOP §6.3"
   },
   "items": [

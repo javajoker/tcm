@@ -1,0 +1,330 @@
+{
+  "$defs": {
+    "bilingual": {
+      "additionalProperties": false,
+      "properties": {
+        "en": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "zh-Hant": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "en",
+        "zh-Hant"
+      ],
+      "type": "object"
+    },
+    "bilingualNamed": {
+      "additionalProperties": false,
+      "properties": {
+        "en": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "zh-Hant": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "en",
+        "zh-Hant"
+      ],
+      "type": "object"
+    },
+    "citationId": {
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+      "type": "string"
+    },
+    "constitutionId": {
+      "pattern": "^C_[A-Z]+$",
+      "type": "string"
+    },
+    "element": {
+      "enum": [
+        "木",
+        "火",
+        "土",
+        "金",
+        "水"
+      ]
+    },
+    "elementId": {
+      "pattern": "^PE_.+$",
+      "type": "string"
+    },
+    "evil": {
+      "enum": [
+        "風",
+        "寒",
+        "暑",
+        "濕",
+        "燥",
+        "火"
+      ]
+    },
+    "formulaId": {
+      "pattern": "^F_[A-Z0-9_]+$",
+      "type": "string"
+    },
+    "herbId": {
+      "pattern": "^herb-[a-z0-9_]+$",
+      "type": "string"
+    },
+    "level": {
+      "enum": [
+        "L0",
+        "L1",
+        "L2",
+        "L3"
+      ]
+    },
+    "notice": {
+      "enum": [
+        "none",
+        "inline",
+        "blocking_ack"
+      ]
+    },
+    "panelDim": {
+      "pattern": "^((肝|心|脾|肺|腎|膽|小腸|胃|大腸|膀胱)\\.(qi|blood|yin|yang|stasis)|liuxie\\.(風|寒|暑|濕|燥|火)|product\\.(痰|飲|瘀|食積)|bagang\\.exterior)$",
+      "type": "string"
+    },
+    "panelMap": {
+      "additionalProperties": {
+        "type": "number"
+      },
+      "propertyNames": {
+        "$ref": "#/$defs/panelDim"
+      },
+      "type": "object"
+    },
+    "patternId": {
+      "pattern": "^(EX|SP|LV|HT|LG|KD|QB)[0-9]$",
+      "type": "string"
+    },
+    "redFlagId": {
+      "pattern": "^RF_[ABC]_[A-Z_]+$",
+      "type": "string"
+    },
+    "reviewStatus": {
+      "enum": [
+        "derived",
+        "curated-draft",
+        "draft",
+        "reviewed"
+      ]
+    },
+    "ruleId": {
+      "pattern": "^R_[A-Z_]+$",
+      "type": "string"
+    },
+    "symptomId": {
+      "pattern": "^[STP]_[A-Z0-9_]+$",
+      "type": "string"
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "_meta": {
+      "additionalProperties": true,
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "exclusive_groups": {
+          "items": {
+            "items": {
+              "$ref": "#/$defs/symptomId"
+            },
+            "minItems": 2,
+            "type": "array"
+          },
+          "type": "array"
+        },
+        "guidance": {
+          "additionalProperties": false,
+          "properties": {
+            "education": {
+              "type": "string"
+            },
+            "note": {
+              "type": "string"
+            },
+            "optional": {
+              "type": "boolean"
+            },
+            "positions_source": {
+              "type": "string"
+            },
+            "quality_coefficient": {
+              "type": "number"
+            },
+            "rate_bands": {
+              "additionalProperties": false,
+              "properties": {
+                "normal_range_modern": {
+                  "items": false,
+                  "minItems": 2,
+                  "prefixItems": [
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "type": "number"
+                    }
+                  ],
+                  "type": "array"
+                },
+                "rapid_gt": {
+                  "type": "number"
+                },
+                "slow_lt": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "normal_range_modern",
+                "rapid_gt",
+                "slow_lt"
+              ],
+              "type": "object"
+            }
+          },
+          "required": [
+            "education",
+            "note",
+            "optional",
+            "positions_source",
+            "quality_coefficient",
+            "rate_bands"
+          ],
+          "type": "object"
+        },
+        "schema": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "description",
+        "exclusive_groups",
+        "guidance",
+        "schema"
+      ],
+      "type": "object"
+    },
+    "positions": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "pattern": "^[LR]-(cun|guan|chi)$",
+            "type": "string"
+          },
+          "organs": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "zh": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "organs",
+          "zh"
+        ],
+        "type": "object"
+      },
+      "minItems": 6,
+      "type": "array"
+    },
+    "pulses": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "feature": {
+            "type": "string"
+          },
+          "group": {
+            "enum": [
+              "depth",
+              "rate",
+              "rhythm",
+              "strength",
+              "tension",
+              "flow",
+              "length",
+              "width"
+            ]
+          },
+          "id": {
+            "$ref": "#/$defs/symptomId"
+          },
+          "indications": {
+            "type": "string"
+          },
+          "name": {
+            "$ref": "#/$defs/bilingualNamed"
+          },
+          "source": {
+            "additionalProperties": false,
+            "properties": {
+              "book": {
+                "type": "string"
+              },
+              "chapter": {
+                "type": "string"
+              },
+              "verified_heading": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "book",
+              "chapter",
+              "verified_heading"
+            ],
+            "type": "object"
+          },
+          "yin_yang": {
+            "enum": [
+              "陽",
+              "陰",
+              "陽中陰",
+              "陰中陽"
+            ]
+          }
+        },
+        "required": [
+          "feature",
+          "group",
+          "id",
+          "indications",
+          "name",
+          "source",
+          "yin_yang"
+        ],
+        "type": "object"
+      },
+      "minItems": 1,
+      "type": "array"
+    }
+  },
+  "required": [
+    "_meta",
+    "positions",
+    "pulses"
+  ],
+  "title": "Pulses and positions",
+  "type": "object"
+}

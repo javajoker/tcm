@@ -1,6 +1,7 @@
 {
   "_meta": {
-    "description": "Default engine and profile parameters (exported from packages/wuxing; the TypeScript is the source of truth). All [calibrate] values await practitioner calibration."
+    "description": "Default engine and profile parameters (exported from packages/wuxing; the TypeScript is the source of truth). All [calibrate] values await practitioner calibration.",
+    "schema": 1
   },
   "engine": {
     "chart": {

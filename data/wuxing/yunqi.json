@@ -1,6 +1,7 @@
 {
   "_meta": {
     "description": "Wuyun liuqi tables (exported from @tcm/wuxing) plus 民病 excerpts parsed from 《素問·氣交變大論》. Classical doctrine, disputed predictive power: used only as a bounded prior.",
+    "schema": 1,
     "sources": [
       "suwen-066-1",
       "suwen-066-2",

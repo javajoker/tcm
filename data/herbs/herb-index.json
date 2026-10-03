@@ -1,6 +1,7 @@
 {
   "_meta": {
-    "description": "Canonical/alias name (zh-Hant) → herb id"
+    "description": "Canonical/alias name (zh-Hant) → herb id",
+    "schema": 1
   },
   "index": {
     "一枝黃花": "herb-yizhihuanghua",

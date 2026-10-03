@@ -1,6 +1,7 @@
 {
   "_meta": {
-    "description": "Panel (盤面) schema. All values are deviations from the average healthy person (zero). See docs/wuxing-algorithm.md §9 and SOP §8."
+    "description": "Panel (盤面) schema. All values are deviations from the average healthy person (zero). See docs/wuxing-algorithm.md §9 and SOP §8.",
+    "schema": 1
   },
   "channels": {
     "blood": "−3 … +3",

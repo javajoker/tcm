@@ -1,0 +1,394 @@
+{
+  "$defs": {
+    "bilingual": {
+      "additionalProperties": false,
+      "properties": {
+        "en": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "zh-Hant": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "en",
+        "zh-Hant"
+      ],
+      "type": "object"
+    },
+    "bilingualNamed": {
+      "additionalProperties": false,
+      "properties": {
+        "en": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "zh-Hant": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "en",
+        "zh-Hant"
+      ],
+      "type": "object"
+    },
+    "citationId": {
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+      "type": "string"
+    },
+    "constitutionId": {
+      "pattern": "^C_[A-Z]+$",
+      "type": "string"
+    },
+    "element": {
+      "enum": [
+        "木",
+        "火",
+        "土",
+        "金",
+        "水"
+      ]
+    },
+    "elementId": {
+      "pattern": "^PE_.+$",
+      "type": "string"
+    },
+    "evil": {
+      "enum": [
+        "風",
+        "寒",
+        "暑",
+        "濕",
+        "燥",
+        "火"
+      ]
+    },
+    "formulaId": {
+      "pattern": "^F_[A-Z0-9_]+$",
+      "type": "string"
+    },
+    "herbId": {
+      "pattern": "^herb-[a-z0-9_]+$",
+      "type": "string"
+    },
+    "level": {
+      "enum": [
+        "L0",
+        "L1",
+        "L2",
+        "L3"
+      ]
+    },
+    "notice": {
+      "enum": [
+        "none",
+        "inline",
+        "blocking_ack"
+      ]
+    },
+    "panelDim": {
+      "pattern": "^((肝|心|脾|肺|腎|膽|小腸|胃|大腸|膀胱)\\.(qi|blood|yin|yang|stasis)|liuxie\\.(風|寒|暑|濕|燥|火)|product\\.(痰|飲|瘀|食積)|bagang\\.exterior)$",
+      "type": "string"
+    },
+    "panelMap": {
+      "additionalProperties": {
+        "type": "number"
+      },
+      "propertyNames": {
+        "$ref": "#/$defs/panelDim"
+      },
+      "type": "object"
+    },
+    "patternId": {
+      "pattern": "^(EX|SP|LV|HT|LG|KD|QB)[0-9]$",
+      "type": "string"
+    },
+    "redFlagId": {
+      "pattern": "^RF_[ABC]_[A-Z_]+$",
+      "type": "string"
+    },
+    "reviewStatus": {
+      "enum": [
+        "derived",
+        "curated-draft",
+        "draft",
+        "reviewed"
+      ]
+    },
+    "ruleId": {
+      "pattern": "^R_[A-Z_]+$",
+      "type": "string"
+    },
+    "symptomId": {
+      "pattern": "^[STP]_[A-Z0-9_]+$",
+      "type": "string"
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "_meta": {
+      "additionalProperties": true,
+      "properties": {
+        "conventions": {
+          "additionalProperties": true,
+          "required": [],
+          "type": "object"
+        },
+        "count": {
+          "type": "integer"
+        },
+        "description": {
+          "type": "string"
+        },
+        "licence_note": {
+          "type": "string"
+        },
+        "schema": {
+          "type": "integer"
+        },
+        "status_counts": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "type": "object"
+        }
+      },
+      "required": [
+        "conventions",
+        "count",
+        "description",
+        "licence_note",
+        "schema",
+        "status_counts"
+      ],
+      "type": "object"
+    },
+    "items": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "aliases": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "category": {
+            "type": "string"
+          },
+          "caution": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "classical_formulas": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "data_quality": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "dose_g_reference": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "items": false,
+                "minItems": 2,
+                "prefixItems": [
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "number"
+                  }
+                ],
+                "type": "array"
+              }
+            ]
+          },
+          "effects": {
+            "$ref": "#/$defs/panelMap"
+          },
+          "flavors": {
+            "items": {
+              "additionalProperties": false,
+              "properties": {
+                "element": {
+                  "$ref": "#/$defs/element"
+                },
+                "flavor": {
+                  "enum": [
+                    "辛",
+                    "苦",
+                    "甘",
+                    "酸",
+                    "澀",
+                    "鹹",
+                    "淡"
+                  ]
+                },
+                "weight": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "element",
+                "flavor",
+                "weight"
+              ],
+              "type": "object"
+            },
+            "type": "array"
+          },
+          "functions": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "harms": {
+            "$ref": "#/$defs/panelMap"
+          },
+          "id": {
+            "$ref": "#/$defs/herbId"
+          },
+          "interactions": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "latin": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "name": {
+            "$ref": "#/$defs/bilingual"
+          },
+          "organs": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "pregnancy": {
+            "enum": [
+              "ok",
+              "ok-unreviewed",
+              "caution",
+              "avoid"
+            ]
+          },
+          "siqi": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "slug": {
+            "type": "string"
+          },
+          "source": {
+            "additionalProperties": false,
+            "properties": {
+              "book": {
+                "type": "string"
+              },
+              "commit": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "entry_id": {
+                "type": "string"
+              },
+              "path": {
+                "type": "string"
+              },
+              "repo": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "book",
+              "commit",
+              "entry_id",
+              "path",
+              "repo"
+            ],
+            "type": "object"
+          },
+          "status": {
+            "enum": [
+              "derived",
+              "curated-draft",
+              "reviewed"
+            ]
+          },
+          "tags": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "temperature": {
+            "type": "number"
+          },
+          "toxic": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "category",
+          "caution",
+          "classical_formulas",
+          "data_quality",
+          "dose_g_reference",
+          "effects",
+          "flavors",
+          "functions",
+          "harms",
+          "id",
+          "interactions",
+          "latin",
+          "name",
+          "organs",
+          "pregnancy",
+          "siqi",
+          "slug",
+          "source",
+          "status",
+          "tags",
+          "temperature",
+          "toxic"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    }
+  },
+  "required": [
+    "_meta",
+    "items"
+  ],
+  "title": "Herbs",
+  "type": "object"
+}

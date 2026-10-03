@@ -3,6 +3,7 @@
     "count": 127,
     "description": "Registry of quotations cited by the SOP and knowledge base. Every quote is checked against the source text.",
     "note": "shanghan-NNN ids carry the standard Song-edition clause number; the number is not verified against the data.",
+    "schema": 1,
     "unverified": [],
     "verified": 127
   },

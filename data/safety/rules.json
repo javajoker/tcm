@@ -9,6 +9,7 @@
     ],
     "count": 25,
     "description": "Safety filter rules. severity=hard rules remove the item in the release profile (suppress_hard); everything is annotated in dev (annotate_only). The filter never hides an item silently: a suppressed item is listed with its reason.",
+    "schema": 1,
     "status": "draft"
   },
   "dose_references": {

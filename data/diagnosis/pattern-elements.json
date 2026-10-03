@@ -1,7 +1,8 @@
 {
   "_meta": {
     "count": 24,
-    "description": "Decomposed pattern elements (證素 = location × nature) with symptom weights taken as the maximum over the patterns that contain them. Used when no library pattern fits (compose from the top elements) and for formula modification."
+    "description": "Decomposed pattern elements (證素 = location × nature) with symptom weights taken as the maximum over the patterns that contain them. Used when no library pattern fits (compose from the top elements) and for formula modification.",
+    "schema": 1
   },
   "items": [
     {

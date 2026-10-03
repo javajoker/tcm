@@ -13,6 +13,7 @@
       "when": "晨起、未進食飲、未刷舌、自然光下"
     },
     "note": "Textbook zones (舌尖 心肺, 舌中 脾胃, 舌根 腎, 舌邊 肝膽) are not verified against the classics; the classical statement is verified.",
+    "schema": 1,
     "zone_citation": "shanghan-zhizhang-tongue-zones"
   },
   "features": [

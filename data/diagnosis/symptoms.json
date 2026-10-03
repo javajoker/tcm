@@ -19,7 +19,8 @@
       "voice-breath": 7
     },
     "count": 171,
-    "description": "Symptom / sign registry: 12 inquiry dimensions + tongue + pulse. English needs review."
+    "description": "Symptom / sign registry: 12 inquiry dimensions + tongue + pulse. English needs review.",
+    "schema": 1
   },
   "items": [
     {

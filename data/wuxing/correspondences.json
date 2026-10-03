@@ -2,7 +2,8 @@
   "_meta": {
     "default_orifice_source": "suwen-005",
     "description": "Five-phase correspondences parsed from 《素問·陰陽應象大論》 (suwen_005). The orifices of 心 and 腎 differ in 《金匱真言論》 and both are kept.",
-    "fu_and_season_note": "六腑 pairing and 長夏 are standard doctrine, not parsed from this passage."
+    "fu_and_season_note": "六腑 pairing and 長夏 are standard doctrine, not parsed from this passage.",
+    "schema": 1
   },
   "rows": [
     {

@@ -1,6 +1,7 @@
 {
   "_meta": {
-    "description": "Self-acupressure points and diet/lifestyle guidance per pattern (draft)."
+    "description": "Self-acupressure points and diet/lifestyle guidance per pattern (draft).",
+    "schema": 1
   },
   "acupoints": {
     "三陰交": {

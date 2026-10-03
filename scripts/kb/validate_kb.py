@@ -5,7 +5,10 @@ import json
 import sys
 from pathlib import Path
 
+from jsonschema import Draft202012Validator
+
 from .common import DATA
+from .schemas import SCHEMAS, SCHEMA_VERSION
 from .curated import panel as panel_cfg
 
 ORGANS = set(panel_cfg.ZANG) | set(panel_cfg.FU)
@@ -32,6 +35,18 @@ def valid_target(t: str) -> bool:
 def main() -> int:
     errors: list[str] = []
     err = errors.append
+
+    # 1. JSON Schema contract: every file validates against data/schema/*.schema.json and carries the current schema version
+    for rel, (stem, _b, _t) in SCHEMAS.items():
+        schema = json.loads((DATA / "schema" / f"{stem}.schema.json").read_text(encoding="utf-8"))
+        data = load(rel)
+        if data.get("_meta", {}).get("schema") != SCHEMA_VERSION:
+            err(f"{rel}: _meta.schema is {data.get('_meta', {}).get('schema')!r}, expected {SCHEMA_VERSION}")
+        problems = sorted(Draft202012Validator(schema).iter_errors(data), key=lambda e: [str(p) for p in e.absolute_path])
+        for e in problems[:6]:
+            err(f"{rel}: schema violation at /{'/'.join(str(p) for p in e.absolute_path)}: {e.message[:160]}")
+        if len(problems) > 6:
+            err(f"{rel}: … and {len(problems) - 6} more schema violations")
 
     cit = load("citations.json")
     cit_ids = {c["id"] for c in cit["items"]}

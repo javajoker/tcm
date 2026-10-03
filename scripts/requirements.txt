@@ -2,3 +2,4 @@
 #   python3 -m venv .venv && .venv/bin/pip install -r scripts/requirements.txt
 opencc-python-reimplemented>=0.1.7   # Simplified -> Traditional (s2twp profile)
 PyYAML>=6.0                          # reading front matter of TCM-Library entries
+jsonschema>=4.23

@@ -1,7 +1,8 @@
 {
   "_meta": {
     "count": 139,
-    "description": "zh-Hant ⇄ English glossary (English follows WHO ISTM where known; needs review)."
+    "description": "zh-Hant ⇄ English glossary (English follows WHO ISTM where known; needs review).",
+    "schema": 1
   },
   "items": [
     {

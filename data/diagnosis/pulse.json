@@ -38,7 +38,8 @@
         "rapid_gt": 90,
         "slow_lt": 60
       }
-    }
+    },
+    "schema": 1
   },
   "positions": [
     {

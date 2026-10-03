@@ -8,7 +8,8 @@ reviews them (see [Review status](#review-status)).
 ```bash
 python3 -m venv .venv && .venv/bin/pip install -r scripts/requirements.txt
 git submodule update --init --depth 1
-.venv/bin/python -m scripts.kb.build_kb     # build all + validate + pattern self-test (deterministic: same inputs → same bytes)
+.venv/bin/python -m scripts.kb.build_kb     # build all + schema validation + integrity checks + pattern self-test (deterministic: same inputs → same bytes)
+.venv/bin/python -m unittest discover -s scripts/kb/tests -t .   # KB pipeline tests
 ```
 
 Needs Node ≥ 22.18 for the one TypeScript export step (`scripts/kb/export_wuxing_tables.ts`).
@@ -38,6 +39,7 @@ Needs Node ≥ 22.18 for the one TypeScript export step (`scripts/kb/export_wuxi
 | `config/scope-profiles.json` | 2 profiles | **Application configuration**: output levels L0–L3, `dev` (everything open) and `release` (restricted) profiles, notice policy | curated |
 | `safety/rules.json` | 25 rules | Safety filter rules per population / condition / state / medication class, 十八反・十九畏, pregnancy acupoints, reference amounts | curated |
 | `treatment/guidance.json` | 26 points | Acupoint registry (WHO code, meridian, pregnancy flag) and general lifestyle text | curated |
+| `schema/*.schema.json` | 22 | **JSON Schemas** (draft 2020-12) for every data file; the contract validated in the build and the source of the TypeScript types | `scripts/kb/schemas.py` |
 | `glossary.json` | 139 | zh-Hant ⇄ English ⇄ pinyin (needs review) | curated |
 
 ## Core modelling conventions
