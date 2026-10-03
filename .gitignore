@@ -24,3 +24,4 @@ reference/derived/
 # Python virtualenv for KB build scripts
 .venv/
 __pycache__/
+apps/web/.kb/

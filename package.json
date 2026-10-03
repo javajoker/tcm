@@ -16,11 +16,16 @@
     "test:kb": ".venv/bin/python -m unittest discover -s scripts/kb/tests -t .",
     "generate:kb-types": "node scripts/generate-kb-types.ts",
     "check:kb-types": "node scripts/generate-kb-types.ts --check",
-    "bundle:kb": "node scripts/bundle-data.ts"
+    "bundle:kb": "node scripts/bundle-data.ts",
+    "dev": "pnpm --filter @tcm/web dev",
+    "build": "pnpm --filter @tcm/web build",
+    "build:dev": "pnpm --filter @tcm/web build:dev"
   },
   "devDependencies": {
     "@types/node": "^22.10.0",
     "eslint": "^9.39.0",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
+    "eslint-plugin-react-hooks": "^7.1.1",
     "json-schema-to-typescript": "^16.0.0",
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.46.0"

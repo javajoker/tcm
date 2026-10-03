@@ -1,0 +1,61 @@
+/* Design tokens (docs/ux-spec.md §6). Contrast ratios are measured and unit-tested (test/tokens.test.ts). */
+:root {
+  --bg: #faf7f2;
+  --surface: #ffffff;
+  --ink: #1f2a2e;
+  --ink-muted: #4a5a60;
+  --primary: #1d6b74;
+  --on-primary: #ffffff;
+  --link: #16565e;
+  --border: #d9d2c5;
+  --border-strong: #7c8a8f;
+  --focus: #0b57d0;
+  --notice-bg: #fff4d6;
+  --notice-text: #6b4500;
+  --danger-bg: #fdecec;
+  --danger-text: #8e1b1b;
+  --info-bg: #e6f2f8;
+  --info-text: #1b4d6b;
+
+  /* sequential scale for ordered quantities (magnitude): one hue, nine steps */
+  --scale-0: #f1f7f7; --scale-1: #e3f0f1; --scale-2: #c5e0e2; --scale-3: #a1ced2; --scale-4: #7db8bd;
+  --scale-5: #4b97a0; --scale-6: #1d6b74; --scale-7: #15595f; --scale-8: #0f4e56;
+  --scale-0-text: var(--ink); --scale-1-text: var(--ink); --scale-2-text: var(--ink); --scale-3-text: var(--ink); --scale-4-text: var(--ink);
+  --scale-5-text: #ffffff; --scale-6-text: #ffffff; --scale-7-text: #ffffff; --scale-8-text: #ffffff;
+
+  /* five-phase identity colours: IDENTITY ONLY, never magnitude or sign (docs/ux-spec.md §6.2 rule 2) */
+  --wx-wood: #4f7d5b; --wx-fire: #b5523e; --wx-earth: #a8842f; --wx-metal: #7b8794; --wx-water: #3f5f86;
+
+  --font-sans-zh: "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", system-ui, sans-serif;
+  --font-sans-en: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-serif-zh: "Noto Serif TC", "Songti TC", "PMingLiU", serif;
+
+  --space-1: 0.25rem; --space-2: 0.5rem; --space-3: 0.75rem; --space-4: 1rem; --space-5: 1.5rem; --space-6: 2rem; --space-7: 3rem;
+  --radius-card: 12px; --radius-control: 8px; --radius-pill: 999px;
+  --gutter: 16px;
+  --text-scale: 1;
+  --measure: 40em;
+}
+@media (min-width: 600px) { :root { --gutter: 24px; } }
+@media (min-width: 900px) { :root { --gutter: 32px; } }
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #121a1c; --surface: #1a2427; --ink: #e8ecea; --ink-muted: #a9b6b8; --primary: #6fc1c9; --on-primary: #0a2327; --link: #8ed0d6;
+    --border: #2c393d; --border-strong: #6b7b80; --focus: #8ab4f8;
+    --notice-bg: #3a2e10; --notice-text: #f4d58a; --danger-bg: #431818; --danger-text: #ffb4b4; --info-bg: #14313f; --info-text: #a6d4ea;
+    --scale-0: #1d2f33; --scale-1: #24474d; --scale-2: #2f6168; --scale-3: #3d7c84; --scale-4: #55979f; --scale-5: #78b3ba; --scale-6: #9fcdd2; --scale-7: #c2e0e3; --scale-8: #e3f2f3;
+    --scale-0-text: var(--ink); --scale-1-text: var(--ink); --scale-2-text: var(--ink); --scale-3-text: #ffffff; --scale-4-text: #0a2327;
+    --scale-5-text: #0a2327; --scale-6-text: #0a2327; --scale-7-text: #0a2327; --scale-8-text: #0a2327;
+    --wx-wood: #86b894; --wx-fire: #e49a88; --wx-earth: #d6b968; --wx-metal: #b3bcc6; --wx-water: #8fb0d8;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #121a1c; --surface: #1a2427; --ink: #e8ecea; --ink-muted: #a9b6b8; --primary: #6fc1c9; --on-primary: #0a2327; --link: #8ed0d6;
+  --border: #2c393d; --border-strong: #6b7b80; --focus: #8ab4f8;
+  --notice-bg: #3a2e10; --notice-text: #f4d58a; --danger-bg: #431818; --danger-text: #ffb4b4; --info-bg: #14313f; --info-text: #a6d4ea;
+  --scale-0: #1d2f33; --scale-1: #24474d; --scale-2: #2f6168; --scale-3: #3d7c84; --scale-4: #55979f; --scale-5: #78b3ba; --scale-6: #9fcdd2; --scale-7: #c2e0e3; --scale-8: #e3f2f3;
+  --scale-0-text: var(--ink); --scale-1-text: var(--ink); --scale-2-text: var(--ink); --scale-3-text: #ffffff; --scale-4-text: #0a2327;
+  --scale-5-text: #0a2327; --scale-6-text: #0a2327; --scale-7-text: #0a2327; --scale-8-text: #0a2327;
+  --wx-wood: #86b894; --wx-fire: #e49a88; --wx-earth: #d6b968; --wx-metal: #b3bcc6; --wx-water: #8fb0d8;
+}

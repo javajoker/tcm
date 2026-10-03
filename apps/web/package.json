@@ -1,0 +1,36 @@
+{
+  "name": "@tcm/web",
+  "version": "0.1.0",
+  "private": true,
+  "description": "The TCM self-assessment web app: a client-only static SPA (tech spec \u00a78).",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "build:dev": "APP_PROFILE=dev vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "typecheck": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@tcm/engine": "workspace:*",
+    "@tcm/i18n": "workspace:*",
+    "@tcm/kb": "workspace:*",
+    "@tcm/wuxing": "workspace:*",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "wouter": "^3.13.0",
+    "zustand": "^5.0.15"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^7.0.1",
+    "@testing-library/react": "^16.3.3",
+    "@testing-library/user-event": "^14.6.7",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.1.1",
+    "jsdom": "^30.1.1",
+    "vite": "^8.3.2",
+    "vitest": "^5.0.3"
+  }
+}

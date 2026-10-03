@@ -19,7 +19,7 @@ pnpm install
 pnpm check            # lint + typecheck + tests for every package
 ```
 
-Root scripts: `pnpm lint`, `pnpm typecheck`, `pnpm test`, `pnpm check`, `pnpm build:kb`. Per package: `pnpm --filter @tcm/wuxing test`. The web app (`pnpm dev`, `pnpm build`) and `pnpm check:i18n` arrive with tasks U-01 and I-03.
+Root scripts: `pnpm lint`, `pnpm typecheck`, `pnpm test`, `pnpm check`, `pnpm build:kb`, `pnpm dev` (web app, dev profile), `pnpm build` (release profile), `pnpm build:dev`. Per package: `pnpm --filter @tcm/wuxing test`. `pnpm check:i18n` arrives with task I-03.
 
 ## 2. Layout
 

@@ -2,6 +2,8 @@
 //   @tcm/wuxing imports nothing; @tcm/engine imports only @tcm/kb (types) and @tcm/wuxing;
 //   the pure packages never touch the DOM, clock, randomness, network or storage.
 import tseslint from "typescript-eslint";
+import reactHooks from "eslint-plugin-react-hooks";
+import jsxA11y from "eslint-plugin-jsx-a11y";
 
 const PURE_GLOBALS = ["window", "document", "localStorage", "sessionStorage", "indexedDB", "fetch", "navigator", "XMLHttpRequest", "Worker"];
 const FRAMEWORK_IMPORTS = ["react", "react/*", "react-dom", "react-dom/*", "wouter", "zustand", "zustand/*", "node:*"];
@@ -54,6 +56,13 @@ export default tseslint.config(
       ...purity(["@tcm/engine", "@tcm/web", "@tcm/i18n"]),
       "no-restricted-globals": ["error", ...PURE_GLOBALS.filter((n) => n !== "fetch").map((name) => ({ name, message: "@tcm/kb must not touch the DOM or storage." }))],
     },
+  },
+  // The web app: React hooks rules and accessibility rules; it may use the DOM and the engine packages, never the other way round.
+  {
+    files: ["apps/web/**/*.{ts,tsx}"],
+    ...jsxA11y.flatConfigs.recommended,
+    plugins: { ...jsxA11y.flatConfigs.recommended.plugins, "react-hooks": reactHooks },
+    rules: { ...jsxA11y.flatConfigs.recommended.rules, ...reactHooks.configs.recommended.rules, "react-hooks/exhaustive-deps": "error" },
   },
   // Tests and scripts may use Node and the console.
   {

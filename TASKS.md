@@ -26,16 +26,16 @@
 | **K** Knowledge base | 8 | 20 |
 | **E** Engine and packages | 19 | 21 |
 | **I** Internationalisation | 1 | 6 |
-| **U** Web application | 0 | 26 |
+| **U** Web application | 1 | 26 |
 | **Q** Quality assurance | 0 | 10 |
 | **R** Release and operations | 0 | 7 |
 | **V** Review (non-code) | 0 | 7 |
 | **PF** Performance (P2) | 0 | 3 |
-| **All** | **52** | **124** |
+| **All** | **53** | **124** |
 
 | Priority | Done | Total |
 |---|---:|---:|
-| P0 | 36 | 74 |
+| P0 | 37 | 74 |
 | P1 | 14 | 42 |
 | P2 | 2 | 8 |
 
@@ -157,7 +157,7 @@ Suggested waves: **1** foundation (E-01, K-01, K-02, I-01, U-01, R-01) → **2**
 
 | ✔ | ID | Task | Pri | Size | Deps | Done when |
 |---|---|---|---|---|---|---|
-| [ ] | U-01 | App scaffold: Vite + React + TS, wouter, Zustand, CSS Modules, `__APP_PROFILE__`, CSP, `index.html` | P0 | M | E-01 | Dev server runs; `release` and `dev` builds produce different profile constants |
+| [x] | U-01 | App scaffold: Vite + React + TS, wouter, Zustand, CSS Modules, `__APP_PROFILE__`, CSP, `index.html` | P0 | M | E-01 | Dev server runs; `release` and `dev` builds produce different profile constants |
 | [ ] | U-02 | Design tokens (light/dark, scale), typography, base components (Button, Card, Chip, Tile, Dialog, Sheet, Tooltip, `Term`), contrast unit test, component catalogue route | P0 | L | U-01 | Token table passes 4.5 : 1 / 3 : 1 tests; catalogue lists states |
 | [ ] | U-03 | i18n integration, language toggle, `/:lang` routing, `<html lang>`, route-preserving switch | P0 | M | I-01, U-01 | E11 passes |
 | [ ] | U-04 | Storage layer (`storage.ts`), draft autosave, prefs, erase-all, migration scaffold, "Not saved" chip | P0 | L | U-01 | E12, E14, E20 pass; privacy rules satisfied |
