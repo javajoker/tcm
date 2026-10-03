@@ -1,0 +1,202 @@
+# Content Review Process
+
+| | |
+|---|---|
+| **Version** | 0.1 (draft) |
+| **Status** | Proposed process — **no reviewer has been appointed yet** (PRD Q8 blocks milestone M3) |
+| **Last updated** | 2026-10-04 |
+| **Audience** | Maintainers, clinical and linguistic reviewers |
+| **Related** | [KB schema §8](kb-schema.md) (status model) · [Safety policy](safety-policy.md) · [i18n guide](i18n-guide.md) · [Test plan §4](test-plan.md) (golden cases) · [Release process](release-process.md) (gates) |
+
+> **Why this document exists.** Every weight, threshold, formula role, herb effect and safety rule in `data/` is currently `draft`, `curated-draft` or
+> `derived` ([`data/README.md`](../data/README.md#review-status)). The app's outputs are only as sound as that content. This process defines *who* reviews *what*,
+> *how* the result is recorded, and *which reviews must be complete* before each output level can ship.
+
+---
+
+## 1. Principles
+
+1. **Nothing medical ships unreviewed in `release`.** The release profile's output level for each content area is capped until the owning review is complete (§7).
+2. **Reviewers decide content; engineers decide mechanics.** A reviewer never needs to read code; a developer never changes a medical value without a recorded decision.
+3. **Every decision is recorded** with reviewer, date, KB version, scope and outcome ([§5](#5-review-records)).
+4. **Conservative on disagreement.** If reviewers disagree, the more restrictive position ships and the dissent is recorded.
+5. **Sources before opinions.** A claim is supported by a classical passage or a named textbook/guideline; otherwise it is labelled "teaching-level" or removed.
+6. **Reviewers are credited only with their consent**, and "reviewed by" never implies endorsement of the app as a whole.
+
+---
+
+## 2. Roles
+
+| Role | Qualification (proposed) | Reviews | Needed for |
+|---|---|---|---|
+| **Content owner** | Project maintainer | Prepares review packs, merges decisions, keeps records, owns releases | Always |
+| **Clinical reviewer (TCM)** | Licensed TCM practitioner with clinical experience; familiar with the classics and with the region's practice (Q1) | Patterns, constitutions, tongue/pulse content, formulas (indications, roles, 加減), treatment guidance, copy that makes clinical statements | L1 and above |
+| **Pharmacy / pharmacology reviewer** | Pharmacist or clinical pharmacologist with Chinese-herb knowledge | Herb effects/burdens flags, pregnancy and interaction flags, toxicity, 十八反/十九畏, dose references, tier outcomes | L1 and above |
+| **Physician reviewer** | Licensed physician (family or emergency medicine) | Red-flag lists A/B/C, scope rules (minors, pregnancy, serious chronic disease), emergency resource text, notice wording | Always (blocks any release) |
+| **Linguistic reviewer** | Bilingual (zh-Hant / en) with TCM terminology skills | Glossary, UI strings, notices, English renderings, translations of quotations | Always |
+| **Regulatory / legal reviewer** | Counsel familiar with health-information rules of the target region | Disclaimers, claim wording, privacy statement, birth-module wording | Before any public release |
+
+One person may hold several roles if qualified; the physician and the TCM clinical reviewer must be **different people** for the red-flag and safety-rule areas (second pair of eyes).
+
+---
+
+## 3. What is reviewed
+
+| Area | Files | What the reviewer decides | Primary reviewer |
+|---|---|---|---|
+| **Red flags and scope** | `diagnosis/red-flags.json`, `config/scope-profiles.json` | Completeness and levels of A/B/C items; which populations/conditions block; wording | Physician |
+| **Safety rules** | `safety/rules.json` | Each rule's condition, target, severity (hard/soft) and message; interaction classes; 十九畏 list; dose references; pregnancy acupoints | Pharmacy + physician |
+| **Patterns** | `diagnosis/patterns.json`, `pattern-elements.json` | Symptom weights, `against`, `required_any`, panel projection, linked formulas; closest confusable pairs and discriminating questions | TCM clinical |
+| **Symptoms and questions** | `symptoms.json`, `questions.json` (planned), `exclusions.json` (planned) | Wording in plain language, synonym splits, exclusivity, severity options | TCM clinical + linguistic |
+| **Tongue and pulse** | `tongue.json`, `pulse.json` | Zone assignments (classical vs textbook), feature meanings, quality coefficients, the educational note | TCM clinical |
+| **Constitutions** | `constitutions.json`, `constitution-items.json` (planned), `susceptibility.json` | Feature lists, susceptibility values, items and scoring | TCM clinical |
+| **Panel model** | `panel-schema.json`, nature projection, `scoring-params.json` (planned) | Projection per nature, dimension weights, thresholds, noisy-OR floor, confidence cut-offs | TCM clinical (with developer present) |
+| **Herbs** | `herbs/herbs.json` | `effects`, `harms`, `tags`, `pregnancy`, `toxic`, `interactions`, `dose_g_reference` — for the 94 curated herbs in full; the 610 derived herbs by **sampling** (§4.3) and by rule review | Pharmacy + TCM clinical |
+| **Formulas** | `formulas/formulas.json` | Composition, roles, proportions, `core_indications`, pattern links, classical modifications, computed tier outcome (does the tier match practice?) | TCM clinical + pharmacy |
+| **Treatment guidance** | `treatment/guidance.json`, pattern `treatment` | Foods, acupoints (location text, cautions), lifestyle advice, pregnancy cautions | TCM clinical + pharmacy |
+| **Five-phase priors** | `wuxing/*`, `engine-params.json`, wording of birth/yunqi/season copy | Reasonableness of caps and wording; that the content is framed as tendency reference | TCM clinical + regulatory |
+| **Citations** | `citations.json` | That each quotation actually supports the sentence where it is used (machine verification only proves the text exists) | TCM clinical |
+| **Copy** | UI catalogs, notices, disclaimers | Tone, forbidden wording, clinical accuracy | Linguistic + regulatory (+ physician for notices) |
+| **Glossary / translations** | `glossary.json`, `en` fields | Term choices, WHO conformity, readability | Linguistic |
+
+---
+
+## 4. Evidence standard and method
+
+### 4.1 Source hierarchy
+
+1. **Classical text** (《黃帝內經》《難經》《傷寒論》《金匱要略》 …) — primary support; quoted with the verified citation id.
+2. **Standard textbooks and standards** (e.g. 中醫診斷學, 方劑學, 中藥學; 《中醫體質分類與判定》ZYYXH/T 157-2009; the Pharmacopoeia in use) — "teaching-level" support. The reviewer records which textbook edition is the reference.
+3. **Clinical guidance / modern pharmacology** for safety facts (interactions, pregnancy, toxicity).
+4. **Reviewer experience** — acceptable for calibration of weights, recorded as such ("expert judgement").
+
+A content item supported only by 3–4 is shown as *expert-calibrated*; one supported only by an unverified textbook claim stays `draft`.
+
+### 4.2 Review pack
+
+For each area the content owner generates a **review pack** (`scripts/review/pack.py`, planned): a read-only document (Markdown/HTML or spreadsheet) with each record rendered in Chinese and English, its sources, the engine's behaviour on it (e.g. for a pattern: the "typical patient" score, rank, closest confusable pair; for a formula: its panel effect/burden in words, computed tier and reasons, matched patterns), and an empty decision column (*accept · change · remove · escalate*) with a comment field. Packs never require the reviewer to read JSON.
+
+### 4.3 Sampling the derived herbs
+
+The 610 derived herbs are produced by transparent rules (`herb_model.py`). They are reviewed by **(a) reviewing the rules** (organ, flavour, tag and burden rules) and **(b) a stratified sample**: ≥ 10 herbs per category (補虛, 清熱, 解表, 化痰, 活血, 利水 …), always including every herb flagged `toxic`, `avoid`, or `caution` in pregnancy. If more than 5 % of the sample needs a change, the rule is revised and the sample redrawn; individual corrections become `EFFECT_OVERRIDES` (curated).
+
+### 4.4 Calibration sessions (patterns, weights, thresholds)
+
+Held with the clinical reviewer using the **dev profile's inspector** ([tech spec §8.6](tech-spec.md)):
+
+1. Present vignettes (the "typical patient" for each pattern and the confusable pairs).
+2. The reviewer adjusts presented findings; the inspector shows pattern scores and contributions; disagreements about ranking become **golden cases** (input + expected top patterns + expected suppressed items).
+3. Weight changes are made in the curated tables (never in `data/`), the KB is rebuilt, the self-test and golden cases re-run.
+4. Each session ends with a recorded list of changes and the new **scoring-params fingerprint**.
+
+Target: ≥ 100 golden cases, ≥ 80 % top-3 concordance on the held-out half ([PRD §11](PRD.md)).
+
+---
+
+## 5. Review records
+
+Records live in `data/review/records.json` (planned; schema in [KB schema §9](kb-schema.md)), generated from `review/records/*.yaml` that reviewers' decisions are committed to:
+
+```json
+{
+  "id": "REV-2026-0001",
+  "area": "patterns",
+  "scope": { "files": ["diagnosis/patterns.json"], "ids": ["SP1", "SP2", "SP3"] },
+  "reviewer": { "role": "tcm-clinical", "name": "(recorded with consent)", "credential": "licence no. / body" },
+  "date": "2026-11-02",
+  "kb_version": "<hash>",
+  "outcome": "accepted-with-changes",
+  "changes": ["SP1: S_LOOSE_STOOL weight 3 → 2", "SP3: added required_any S_PROLAPSE_SENSATION"],
+  "dissent": [],
+  "notes": "Expert judgement; textbook 中醫診斷學 (edition …)"
+}
+```
+
+Rules: the record's `kb_version` is the version **reviewed**; if the covered records later change, their status falls back to `curated-draft` until re-reviewed (a build step compares the content hash of each reviewed record with the hash at review time). `status: reviewed` is set **only by the build** from a valid record — never by hand.
+
+---
+
+## 6. Workflow
+
+```mermaid
+flowchart LR
+  A[Change proposed\n(code, curated table, translation)] --> B[Build KB + validate + self-test]
+  B --> C{Medical content changed?}
+  C -- no --> M[Merge]
+  C -- yes --> D[Content owner builds review pack]
+  D --> E[Reviewer decides per record]
+  E -->|changes| A
+  E -->|accepted| F[Record committed; build sets status = reviewed]
+  F --> M
+```
+
+1. **Authoring** — all medical content changes are made in `scripts/kb/curated/*` with a citation or an *expert-judgement* note.
+2. **Automated gates** — `build_kb` (validation, citation verification, pattern self-test), engine parity fixtures regenerated, lint for wording.
+3. **Review** — for changed or new records the owner opens a review request containing the pack. Turnaround target ≤ 10 working days.
+4. **Decision** — accept / change / remove / escalate; changes loop back to authoring.
+5. **Record and merge** — the record is committed with the content change; the build marks the covered records `reviewed`.
+6. **Release gate** — [§7](#7-release-gates).
+
+**Small safe edits** (typo fixes, formatting, adding a citation that already exists) are classed *editorial* and do not need review, but the build still resets the status if the record's content hash changes — so editorial edits to a reviewed record require a lightweight reviewer re-confirmation (one-line record).
+
+---
+
+## 7. Release gates
+
+What must be `reviewed` before each output level is enabled in a **release** build:
+
+| Level / feature | Required reviewed areas |
+|---|---|
+| **Any release** | Red flags and scope · scope-profile configuration · all notices and disclaimers · UI strings (both languages) · glossary rows used · birth/yunqi/season copy (or the birth module stays off) |
+| **L0** (education) | Patterns and elements in use · symptoms/questions · tongue and pulse content · constitutions and susceptibility · panel model and scoring params · lifestyle/seasonal text · citations used |
+| **L1** (+ diet, acupoints, tier-A formulas without dose) | + treatment guidance (diet, acupoints, pregnancy cautions) · the tier-A formulas (composition, roles, indications) · **the herbs in those formulas** (effects, burdens, flags) · the safety rules those formulas can trigger |
+| **L2** (+ tier B, modification, herb weights) | + tier-B formulas and their herbs · classical modifications · the residual-modification candidate pool · herb weight display text |
+| **L3** (dev only) | None required, but items remain labelled *draft* in the UI |
+
+A release build **must fail** (`check-release.ts`) if a required area has no valid review record for the shipped KB version, or if the record's covered content hash differs from the shipped content (§5). Until the reviews exist, the release configuration is lowered to the highest level whose gates are satisfied — in the current state, **no clinical output is releasable**; only the dev profile runs.
+
+**Closed-beta exception (milestone M4 only).** A limited beta may ship draft content if **all** hold: (a) the content owner records an explicit, dated exception in the release notes naming the unreviewed areas; (b) every result screen carries a visible "draft content — not yet reviewed by a practitioner" label (a build flag that `check-release.ts` verifies); (c) the beta is invitation-only and participants are told so in the consent text; (d) the physician review of red flags, scope and notices is **complete** (never waived). Public releases have no exception.
+
+---
+
+## 8. Disagreement, errors and re-review
+
+| Situation | Action |
+|---|---|
+| Reviewers disagree | Ship the more restrictive version; record both positions in `dissent`; the owner may escalate to a third reviewer |
+| Classical schools differ (e.g. tongue zone assignments, 長夏 extent, orifice correspondences, formula variants) | Keep both in the data when feasible; state which one the app uses in the copy; record the choice |
+| Error found after release | Follow the incident process in the [safety policy §8](safety-policy.md): triage, hotfix (usually restricting the item through a rule), re-review of the area, public note in the changelog |
+| Source updated (new Pharmacopoeia edition, guideline change, new upstream commit) | The KB build detects the changed source commit/hash of affected records and resets them to `curated-draft` for re-review |
+| Annual re-review | At least yearly for safety rules, red flags, interaction/pregnancy flags; every two years for the rest |
+| Reported by a user | Logged in the issue tracker with the KB version and the item id; triaged by the owner; routed to the matching reviewer |
+
+---
+
+## 9. Reviewer guide (one page)
+
+1. You review **content**, not code. The pack shows each record in plain language with its sources.
+2. For each record choose **accept / change / remove / escalate**; for *change* write the new value or text.
+3. Where a value is your judgement rather than a textbook fact, say so ("expert judgement") — it is recorded as such.
+4. If you are unsure, choose *escalate*: it is better to restrict than to guess.
+5. You may decline to review an area outside your competence; say which.
+6. Your name and credential are published only with your written consent.
+
+---
+
+## 10. Tooling (to build; see `TASKS.md`)
+
+| Tool | Purpose |
+|---|---|
+| `scripts/review/pack.py` | Generate review packs per area (Markdown/HTML/CSV) with engine behaviour annotated |
+| `review/records/*.yaml` → `data/review/records.json` | Record format and compilation, with content hashes |
+| Build step "apply review status" | Sets `reviewed` only from valid records; resets on content change |
+| `check-release.ts` | Release gate (§7) |
+| Dashboard (Markdown report from the build) | Coverage by status per area; list of unreviewed items; golden-case concordance |
+
+---
+
+## 11. Changelog
+
+| Version | Date | Change |
+|---|---|---|
+| 0.1 | 2026-10-04 | Initial proposal |
