@@ -5,3 +5,4 @@ export { scorePatterns, scorePattern, scoreElements, scoreElement, bandOf, type 
 export { buildReference, profileParamsFor, type ReferenceBlock, type ReferenceInput } from "./reference.ts";
 export { synthesizePanel, observedPanel, wuxingFunction, bagang, yinYangOf, type PanelResult, type BagangScalars, type Alignment, type YinYang, type Projection } from "./panel.ts";
 export { fitFormula, fitFormulas, formulaVector, cost, bestScale, strengthOf, candidateFormulaIds, passesSymptomFit, recomputeTier, compositionOf, coreFitOf, dimensionWeight, type FormulaFit, type CompositionRow, type PanelVector, type Tier, type Strength, type Role } from "./formulas.ts";
+export { herbVector, compositionVector, modificationPool, classicalModifications, greedyModify, modifyFormula, type ClassicalModification, type ResidualStep, type ResidualModification } from "./modify.ts";
