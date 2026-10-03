@@ -40,6 +40,7 @@ export interface ScoringParams {
       heat_divisor: number;
       yang_deficit_weight: number;
       yin_deficit_weight: number;
+      yin_yang_axis_threshold: number;
     };
     degree_max: number;
     dimension_weights: {

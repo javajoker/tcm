@@ -279,6 +279,9 @@
             },
             "yin_deficit_weight": {
               "type": "number"
+            },
+            "yin_yang_axis_threshold": {
+              "type": "number"
             }
           },
           "required": [
@@ -286,7 +289,8 @@
             "exterior_divisor",
             "heat_divisor",
             "yang_deficit_weight",
-            "yin_deficit_weight"
+            "yin_deficit_weight",
+            "yin_yang_axis_threshold"
           ],
           "type": "object"
         },

@@ -38,7 +38,8 @@
       "exterior_divisor": 3.0,
       "heat_divisor": 3.0,
       "yang_deficit_weight": 0.5,
-      "yin_deficit_weight": 0.5
+      "yin_deficit_weight": 0.5,
+      "yin_yang_axis_threshold": 0.15
     },
     "degree_max": 3.0,
     "dimension_weights": {

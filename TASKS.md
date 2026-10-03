@@ -24,18 +24,18 @@
 | **A** Documentation | 18 | 18 |
 | **DEC** Decisions | 6 | 6 |
 | **K** Knowledge base | 8 | 20 |
-| **E** Engine and packages | 9 | 21 |
+| **E** Engine and packages | 10 | 21 |
 | **I** Internationalisation | 0 | 6 |
 | **U** Web application | 0 | 26 |
 | **Q** Quality assurance | 0 | 10 |
 | **R** Release and operations | 0 | 7 |
 | **V** Review (non-code) | 0 | 7 |
 | **PF** Performance (P2) | 0 | 3 |
-| **All** | **41** | **124** |
+| **All** | **42** | **124** |
 
 | Priority | Done | Total |
 |---|---:|---:|
-| P0 | 27 | 74 |
+| P0 | 28 | 74 |
 | P1 | 12 | 42 |
 | P2 | 2 | 8 |
 
@@ -130,7 +130,7 @@ Suggested waves: **1** foundation (E-01, K-01, K-02, I-01, U-01, R-01) → **2**
 | [ ] | E-07 | `constitution.ts` (scores, primary/secondary, susceptibility × season) | P1 | M | K-08 | Unit tests |
 | [ ] | E-08 | `orient.ts` (八綱/六邪 routing and consistency) | P1 | S | E-05 | Unit tests |
 | [x] | E-09 | `patterns.ts` (scoring + 證素 decomposition) | P0 | M | E-05, K-01 | 23 typical patients rank first; parity with oracle |
-| [ ] | E-10 | `panel.ts` (noisy-OR observed panel, W, derived 八綱, offsets, alignment, transmission) | P0 | L | E-09, E-06 | Parity; property P1, P6 |
+| [x] | E-10 | `panel.ts` (noisy-OR observed panel, W, derived 八綱, offsets, alignment, transmission) | P0 | L | E-09, E-06 | Parity; property P1, P6 |
 | [ ] | E-11 | `reconcile.ts` (top-3, 錯雜, tie-break, confidence, differential) | P0 | M | E-10 | Boundary tests for the confidence grid |
 | [ ] | E-12 | `formulas.ts` (candidates, ≥ 60 % fit, `k*`, explained fraction, tiers, 君臣佐使 view, proportions) | P0 | L | E-10 | Parity; tier equals KB for all 33; brute-force check of `k*` |
 | [ ] | E-13 | `modify.ts` (classical 加減, greedy residual 加減, pool filtering) | P1 | M | E-12 | Parity on greedy steps; never removes 君 |

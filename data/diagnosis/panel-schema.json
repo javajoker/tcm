@@ -14,7 +14,7 @@
     "bagang.cold_heat": "clamp(−1…1) = (liuxie.火 + liuxie.暑 − liuxie.寒 − 0.5·Σ yang deficit + 0.5·Σ yin deficit) / 3",
     "bagang.deficiency_excess": "clamp(−1…1) = (Σ positive channel excess + products + stasis − Σ negative channel deficit) / 6",
     "bagang.exterior": "clamp(0…1) = Pct(表 location elements) / 100",
-    "bagang.yin_yang": "derived summary: cold+deficient → yin (yang deficiency); hot+excess → yang; hot+deficient → yin (yin deficiency with heat)",
+    "bagang.yin_yang": "derived summary (axes beyond scoring-params panel.bagang.yin_yang_axis_threshold): hot and not deficient → yang; cold and not excess, or hot with deficiency (陰虛內熱) → yin; only excess → yang; only deficiency → yin; cold with excess (寒實) → mixed; nothing beyond the threshold → balanced",
     "degree_from_pct": "degree = 3 · Pct / 100 for each pattern element",
     "wuxing_function": "W_e = 0.7·mean(zang_e.qi, zang_e.yang) + 0.3·mean(fu_e.qi, fu_e.yang)"
   },

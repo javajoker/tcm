@@ -154,7 +154,7 @@ Shared by the Python oracle (`scripts/kb/oracle.py`) and the TypeScript engine; 
 ### 3.10 `diagnosis/panel-schema.json`
 
 The panel model: `organs.{zang, fu, element_of}`, `channels` (ranges), `liuxie` (six), `products` (痰 飲 瘀 食積), `location_organs` (證素 location → organs), `nature_projection`
-(nature → panel targets; `{organ}` is a placeholder), `exterior_locations`, `derived` (formulas for `bagang.cold_heat`, `deficiency_excess`, `exterior`, `yin_yang`, `wuxing_function`),
+(nature → panel targets; `{organ}` is a placeholder), `exterior_locations`, `derived` (formulas for `bagang.cold_heat`, `deficiency_excess`, `exterior`, `yin_yang` — the rule is in the text and uses `scoring-params panel.bagang.yin_yang_axis_threshold` —, `wuxing_function`),
 `offsets` (definition of the primary and secondary offset).
 
 ---

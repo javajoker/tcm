@@ -3,3 +3,4 @@ export { resolvePolicy, baselineFacts, matchedKeys, summariseRedFlags, SERIOUS_R
 export { normalize, applies, qualityOf, sourceOf, type Normalized, type NormalizedFinding, type Conflict, type NormalizeInput } from "./normalize.ts";
 export { scorePatterns, scorePattern, scoreElements, scoreElement, bandOf, type ScoredPattern, type ScoredElement, type EvidenceFor, type EvidenceAgainst, type Band } from "./patterns.ts";
 export { buildReference, profileParamsFor, type ReferenceBlock, type ReferenceInput } from "./reference.ts";
+export { synthesizePanel, observedPanel, wuxingFunction, bagang, yinYangOf, type PanelResult, type BagangScalars, type Alignment, type YinYang, type Projection } from "./panel.ts";

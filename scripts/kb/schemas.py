@@ -217,7 +217,8 @@ def scoring_params() -> dict:
     pattern_ = obj({"required_any_missing_factor": NUM, "bands": obj({"high": NUM, "medium": NUM, "weak": NUM})})
     panel = obj({"noisy_or_floor": NUM, "degree_max": NUM, "dimension_weights": obj({"organ": NUM, "liuxie": NUM, "product": NUM, "bagang": NUM}),
                  "wuxing_function": obj({"zang": NUM, "fu": NUM}),
-                 "bagang": obj({"heat_divisor": NUM, "yang_deficit_weight": NUM, "yin_deficit_weight": NUM, "excess_divisor": NUM, "exterior_divisor": NUM})})
+                 "bagang": obj({"heat_divisor": NUM, "yang_deficit_weight": NUM, "yin_deficit_weight": NUM, "excess_divisor": NUM, "exterior_divisor": NUM,
+                                "yin_yang_axis_threshold": NUM})})
     reconcile = obj({"merge_threshold": NUM, "max_patterns": INT, "mixed_threshold": NUM, "tie_margin": NUM,
                      "confidence": obj({"high": obj({"pct1": NUM, "margin": NUM, "coverage": NUM, "kappa": NUM}), "medium": obj({"pct1": NUM, "margin": NUM, "coverage": NUM}),
                                         "low": obj({"pct1": NUM})})})

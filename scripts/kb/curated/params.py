@@ -35,7 +35,9 @@ PARAMS = {
         # W(e) = zang · mean(zang.qi, zang.yang) + fu · mean(fu.qi, fu.yang)
         "wuxing_function": {"zang": 0.7, "fu": 0.3},
         # 八綱 derived scalars (SOP §10.4)
-        "bagang": {"heat_divisor": 3.0, "yang_deficit_weight": 0.5, "yin_deficit_weight": 0.5, "excess_divisor": 6.0, "exterior_divisor": 3.0},
+        "bagang": {"heat_divisor": 3.0, "yang_deficit_weight": 0.5, "yin_deficit_weight": 0.5, "excess_divisor": 6.0, "exterior_divisor": 3.0,
+                   # 陰陽 summary of the other axes (engine only): an axis counts as hot/cold/excess/deficient beyond this magnitude
+                   "yin_yang_axis_threshold": 0.15},
     },
 
     # SOP §11: reconciliation and confidence.
