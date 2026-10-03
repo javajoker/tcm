@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 0.1 (draft) |
+| **Version** | 0.2 (draft) |
 | **Status** | Draft — **all clinical content and wording require physician, pharmacy and legal review before any public release** ([content review](content-review.md)) |
 | **Last updated** | 2026-10-04 |
 | **Audience** | Developers, content reviewers, whoever answers user reports |
@@ -218,7 +218,9 @@ Vignette suites in the [test plan §3.3](test-plan.md): every red-flag item, eve
 
 ## 10. Open questions
 
-| # | Question | Default |
+**Decided 2026-10-04:** every default below is confirmed for the MVP and will be revisited after the MVP is finished (legal review of the wording, SQ6, still happens before any public release).
+
+| # | Question | Decision (MVP) |
 |---|---|---|
 | SQ1 | Target region(s) and the emergency list per region | Taiwan first; list in data |
 | SQ2 | Is "not sure" for A/B red flags treated as "yes"? | Yes (conservative) |
@@ -235,3 +237,4 @@ Vignette suites in the [test plan §3.3](test-plan.md): every red-flag item, eve
 | Version | Date | Change |
 |---|---|---|
 | 0.1 | 2026-10-04 | Initial policy, notice catalogue (draft wording), filter semantics, incident process |
+| 0.2 | 2026-10-04 | Open-question defaults confirmed for the MVP (SQ1–SQ7) |
