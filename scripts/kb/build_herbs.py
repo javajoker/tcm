@@ -7,7 +7,7 @@ from __future__ import annotations
 
 import re
 
-from .common import DATA, LIB, dump, front_matter, submodule_commits, tw
+from .common import DATA, LIB, dump, front_matter, submodule_commits, term
 from .curated.herbs import EFFECT_OVERRIDES, EXTRA, NAME_TO_LIB, OVERLAY
 from .herb_model import (
     FLAVOR_ELEMENT, FLAVOR_EXCESS_HARM, derive_effects, derive_harms, is_toxic, parse_flavors, parse_organs,
@@ -18,7 +18,7 @@ NAME_FIX = {"黃芪": "黃耆", "硃砂": "朱砂"}
 
 
 def canonical(name: str) -> str:
-    n = tw(name)
+    n = term(name)
     return NAME_FIX.get(n, n)
 
 
@@ -95,15 +95,15 @@ def build() -> tuple[list[dict], dict[str, str]]:
         seen_lib.add(lib)
         ov = OVERLAY.get(lib)
         organs = parse_organs(e["guijing"])
-        temp = parse_temps([tw(s) for s in e["siqi"]])
-        flavors, dq = parse_flavors([tw(w) for w in e["wuwei"]])
+        temp = parse_temps([term(s) for s in e["siqi"]])
+        flavors, dq = parse_flavors([term(w) for w in e["wuwei"]])
         for f in flavors:
             f["element"] = FLAVOR_ELEMENT[f["flavor"]]
         zhifa = e["zhifa"]
         tags = (ov or {}).get("tags", [])
         effects = dict(EFFECT_OVERRIDES[lib]) if lib in EFFECT_OVERRIDES else derive_effects(zhifa, organs)
         harms = derive_harms(temp, flavors, tags, organs)
-        category = tw(e["category_zh_hans"])
+        category = term(e["category_zh_hans"])
         note_text = e["note_zh_hans"]
         preg = pregnancy_level(note_text, e["category_zh_hans"], (ov or {}).get("pregnancy"))
         toxic = is_toxic(e["property_sentence"], (ov or {}).get("toxic"))
@@ -114,11 +114,11 @@ def build() -> tuple[list[dict], dict[str, str]]:
             "name": {"zh-Hant": name, "en": (ov or {}).get("en")},
             "category": category,
             "latin": e["latin"],
-            "siqi": [tw(s) for s in e["siqi"]],
+            "siqi": [term(s) for s in e["siqi"]],
             "temperature": round(temp, 2),
             "flavors": flavors,
             "organs": organs,
-            "functions": [tw(z) for z in zhifa],
+            "functions": [term(z) for z in zhifa],
             "effects": effects,
             "harms": harms,
             "tags": tags,
@@ -126,12 +126,12 @@ def build() -> tuple[list[dict], dict[str, str]]:
             "interactions": (ov or {}).get("interactions", []),
             "toxic": toxic,
             "dose_g_reference": e["dose_g"],
-            "caution": (ov or {}).get("note") or (tw(note_text) if note_text else None),
-            "classical_formulas": [tw(f) for f in e["fangming"]],
+            "caution": (ov or {}).get("note") or (term(note_text) if note_text else None),
+            "classical_formulas": [term(f) for f in e["fangming"]],
             "status": "curated-draft" if ov else "derived",
             "data_quality": dq,
             "source": {"repo": "TCM-Library", "commit": commits.get("TCM-Library"), "path": e["path"], "entry_id": e["entry_id"],
-                       "book": tw(e["book"])},
+                       "book": term(e["book"])},
         }
         if herb["name"]["zh-Hant"] == "地黃":
             herb["aliases"] = ["生地黃", "乾地黃", "鮮地黃"]

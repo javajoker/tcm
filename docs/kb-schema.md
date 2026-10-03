@@ -266,7 +266,7 @@ After validation `selftest_patterns.py` checks that each of the 23 patterns rank
 
 ### 8.2 Still to add
 
-A **forbidden-wording lint** on all user-visible zh-Hant/en strings ([i18n guide](i18n-guide.md), task I-03); a check that no `溼` remains outside quotations (K-04); bilingual completeness report (K-13); question-bank coverage (K-05).
+A **forbidden-wording lint** on all user-visible zh-Hant/en strings ([i18n guide](i18n-guide.md), task I-03); bilingual completeness report (K-13); question-bank coverage (K-05).
 
 ### 8.3 Review status
 

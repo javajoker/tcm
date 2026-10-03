@@ -39,6 +39,12 @@ def tw(text: str) -> str:
     return out
 
 
+def term(text: str) -> str:
+    """Like `tw`, for TERMS and descriptive text (not quotations): also normalises 溼 → 濕, the form used in TCM terms (濕熱, 痰濕).
+    Classical quotations keep the converted form of the source text, so the quotation builders use `tw` directly."""
+    return tw(text).replace("溼", "濕")
+
+
 @lru_cache(maxsize=None)
 def read_lib(rel: str) -> str:
     """Read a UTF-8 file under reference/sources/TCM-Library."""

@@ -3,7 +3,7 @@ from __future__ import annotations
 
 import re
 
-from .common import DATA, dump, read_lib, tw
+from .common import DATA, dump, read_lib, term, tw
 
 ELEMENT_OF_DIRECTION = {"东": "木", "南": "火", "中": "土", "西": "金", "北": "水"}
 DIR_CITATION = {"木": "suwen-005-6", "火": "suwen-005-7", "土": "suwen-005-8", "金": "suwen-005-9", "水": "suwen-005-10"}
@@ -56,20 +56,20 @@ def build_correspondences() -> dict:
     rows = []
     for e in ELEMENTS:
         p = parsed[e]
-        zang = tw(p["zang"])
+        zang = term(p["zang"])
         rows.append({
             "element": e,
             "zang": zang,
             "fu": FU[e],
             "season": SEASON[e],
-            "qi": tw(p["qi_in_heaven"]),
-            "tissue": tw(p["tissue"]),
-            "color": tw(p["color"]),
-            "tone": tw(p["tone"]),
-            "voice": tw(p["voice"]),
-            "flavor": tw(p["flavor"]),
-            "emotion": tw(p["emotion"]),
-            "orifice": {"suwen-005-default": tw(p["orifice_yinyang_yingxiang"]), "suwen-004-alternative": ORIFICE_JINGUI[e]},
+            "qi": term(p["qi_in_heaven"]),
+            "tissue": term(p["tissue"]),
+            "color": term(p["color"]),
+            "tone": term(p["tone"]),
+            "voice": term(p["voice"]),
+            "flavor": term(p["flavor"]),
+            "emotion": term(p["emotion"]),
+            "orifice": {"suwen-005-default": term(p["orifice_yinyang_yingxiang"]), "suwen-004-alternative": ORIFICE_JINGUI[e]},
             "generates": GENERATES[e],
             "controls": CONTROLS[e],
             "source": DIR_CITATION[e],

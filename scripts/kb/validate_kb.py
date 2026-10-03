@@ -46,6 +46,21 @@ def valid_template_target(t: str) -> bool:
     return valid_target(t.replace("{organ}", "肝"))
 
 
+# Orthography: terms use 濕, never 溼. Classical quotations keep the converted source text, so these fields are exempt.
+QUOTATION_FIELDS = {("citations.json", "quote_zh_hant"), ("wuxing/yunqi.json", "excerpt")}
+
+
+def variant_hits(rel: str, node, key: str = "") -> list[str]:
+    """Paths of strings under `node` that contain 溼, excluding quotation fields."""
+    if isinstance(node, str):
+        return [f"{rel}:{key}"] if "溼" in node and (rel, key) not in QUOTATION_FIELDS else []
+    if isinstance(node, dict):
+        return [h for k, v in node.items() for h in variant_hits(rel, v, k if not isinstance(v, (dict, list)) else key or k)]
+    if isinstance(node, list):
+        return [h for v in node for h in variant_hits(rel, v, key)]
+    return []
+
+
 def duplicates(values) -> list:
     return [v for v, n in Counter(values).items() if n > 1]
 
@@ -67,6 +82,11 @@ def validate(load: Loader = load, check_sources: bool = True) -> list[str]:
             err(f"{rel}: … and {len(problems) - 6} more schema violations")
     if errors:       # later checks assume the shapes are right
         return errors
+
+    for rel in SCHEMAS:
+        hits = variant_hits(rel, load(rel))
+        if hits:
+            err(f"{rel}: 溼 found outside quotations (use 濕): {sorted(set(hits))[:4]}")
 
     cit = load("citations.json")
     cit_ids = {c["id"] for c in cit["items"]}

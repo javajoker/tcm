@@ -112,6 +112,15 @@ class Corruptions(unittest.TestCase):
     def test_unverified_citation(self):
         self.assertReported({"citations.json": lambda d: d["items"][0].update(verified=False)}, "verified")
 
+    def test_orthography_variant_outside_quotations(self):
+        self.assertReported({"herbs/herbs.json": lambda d: d["items"][0]["functions"].append("清利溼熱")}, "溼 found outside quotations")
+
+    def test_orthography_variant_is_allowed_in_quotations(self):
+        def m(d):
+            d["items"][0]["quote_zh_hant"] = "秋傷於溼"
+        problems = validate_with({"citations.json": m})
+        self.assertFalse(any("溼" in p for p in problems), problems)
+
     def test_scoring_params_ordering(self):
         self.assertReported({"diagnosis/scoring-params.json": lambda d: d["pattern"]["bands"].update(high=10)}, "pattern bands")
         self.assertReported({"diagnosis/scoring-params.json": lambda d: d["formula"]["role_weights"].update(使=2.0)}, "role weights")

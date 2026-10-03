@@ -90,6 +90,7 @@ Every herb carries `source.path` and the submodule commit; every formula carries
 ### Data-quality findings in the sources (kept visible)
 
 - `TCM-Library` entry `shenqiwan_001`: its 原文 begins with an unrelated 血痹 passage; the 腎氣丸 composition is parsed from 《金匱要略》 (raw `jingui_22`) instead.
+- Orthography: the Pharmacopoeia and classical sources use 溼; terms and descriptive fields are normalised to 濕 (`common.term()`), classical quotations keep the source form. `validate_kb` fails on 溼 outside quotations.
 - 穿山甲 appears twice in TCM-Library (the Pharmacopoeia 2025 entry and the textbook's non-Pharmacopoeia list); the build keeps the Pharmacopoeia entry and notes the dropped one in `data_quality` (found by the duplicate-name check, task K-03).
 - A few Pharmacopoeia rows list a temperature word inside 五味 (`wuwei`); these are ignored and recorded in `herbs[].data_quality`.
 - `TCM-Ancient-Books` is GB18030 Simplified Chinese with occasional dropped characters (e.g. 芪 in “黃芪”), which is why composition checks can report partial matches.
