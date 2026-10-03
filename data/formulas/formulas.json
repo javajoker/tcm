@@ -19,11 +19,11 @@
       "臣": 0.6
     },
     "tier_counts": {
-      "A": 15,
-      "B": 12,
+      "A": 20,
+      "B": 7,
       "C": 6
     },
-    "tier_rule": "C if a strong herb (麻黃, 附子) or bitter-cold herbs ≥ 45 % of effective weight or outside MVP; else B if it contains a blood-activating herb or an aristolochic-risk herb; else A. Medication interactions are not part of the tier (see safety/rules.json)."
+    "tier_rule": "C if a strong herb (麻黃, 附子) or bitter-cold herbs ≥ 45 % of effective weight or outside MVP; else B if blood-activating herbs carry ≥ 10 % of the effective weight or it contains an aristolochic-risk herb; else A. Medication interactions are not part of the tier (see safety/rules.json)."
   },
   "items": [
     {
@@ -1539,10 +1539,8 @@
         "repo_path": "reference/sources/TCM-Ancient-Books/614-脾胃论.txt"
       },
       "status": "draft",
-      "tier": "B",
-      "tier_reasons": [
-        "contains blood-activating herbs or an aristolochic-acid risk herb"
-      ],
+      "tier": "A",
+      "tier_reasons": [],
       "verification": {
         "composition_check": {
           "book_path": "reference/sources/TCM-Ancient-Books/614-脾胃论.txt",
@@ -2326,7 +2324,7 @@
       "status": "draft",
       "tier": "B",
       "tier_reasons": [
-        "contains blood-activating herbs or an aristolochic-acid risk herb"
+        "contains an aristolochic-acid risk herb"
       ],
       "verification": {
         "composition_check": {
@@ -2684,7 +2682,7 @@
       "status": "draft",
       "tier": "B",
       "tier_reasons": [
-        "contains blood-activating herbs or an aristolochic-acid risk herb"
+        "blood-activating herbs carry 19% of the effective weight"
       ],
       "verification": {
         "composition_check": {
@@ -2853,7 +2851,7 @@
       "status": "draft",
       "tier": "B",
       "tier_reasons": [
-        "contains blood-activating herbs or an aristolochic-acid risk herb"
+        "blood-activating herbs carry 16% of the effective weight"
       ],
       "verification": {
         "composition_check": {
@@ -2990,7 +2988,7 @@
       "status": "draft",
       "tier": "B",
       "tier_reasons": [
-        "contains blood-activating herbs or an aristolochic-acid risk herb"
+        "blood-activating herbs carry 21% of the effective weight"
       ],
       "verification": {
         "composition_check": {
@@ -3351,7 +3349,7 @@
       "status": "draft",
       "tier": "B",
       "tier_reasons": [
-        "contains blood-activating herbs or an aristolochic-acid risk herb"
+        "blood-activating herbs carry 31% of the effective weight"
       ],
       "verification": {
         "composition_check": {
@@ -3551,10 +3549,8 @@
         "ref": "jingui-006-1"
       },
       "status": "draft",
-      "tier": "B",
-      "tier_reasons": [
-        "contains blood-activating herbs or an aristolochic-acid risk herb"
-      ],
+      "tier": "A",
+      "tier_reasons": [],
       "verification": {
         "classical": {
           "anchor": "酸枣仁二升",
@@ -3759,10 +3755,8 @@
         "repo_path": "reference/sources/TCM-Ancient-Books/077-严氏济生方.txt"
       },
       "status": "draft",
-      "tier": "B",
-      "tier_reasons": [
-        "contains blood-activating herbs or an aristolochic-acid risk herb"
-      ],
+      "tier": "A",
+      "tier_reasons": [],
       "verification": {
         "composition_check": {
           "book_path": "reference/sources/TCM-Ancient-Books/077-严氏济生方.txt",
@@ -4196,10 +4190,8 @@
         "repo_path": "reference/sources/TCM-Ancient-Books/087-医方集解.txt"
       },
       "status": "draft",
-      "tier": "B",
-      "tier_reasons": [
-        "contains blood-activating herbs or an aristolochic-acid risk herb"
-      ],
+      "tier": "A",
+      "tier_reasons": [],
       "verification": {
         "composition_check": {
           "book_path": "reference/sources/TCM-Ancient-Books/087-医方集解.txt",
@@ -5069,10 +5061,8 @@
         "repo_path": "reference/sources/TCM-Ancient-Books/133-小儿药证直诀.txt"
       },
       "status": "draft",
-      "tier": "B",
-      "tier_reasons": [
-        "contains blood-activating herbs or an aristolochic-acid risk herb"
-      ],
+      "tier": "A",
+      "tier_reasons": [],
       "verification": {
         "composition_check": {
           "book_path": "reference/sources/TCM-Ancient-Books/133-小儿药证直诀.txt",
@@ -5736,7 +5726,7 @@
       "status": "draft",
       "tier": "B",
       "tier_reasons": [
-        "contains blood-activating herbs or an aristolochic-acid risk herb"
+        "blood-activating herbs carry 16% of the effective weight"
       ],
       "verification": {
         "composition_check": {
@@ -5948,7 +5938,7 @@
       "status": "draft",
       "tier": "B",
       "tier_reasons": [
-        "contains blood-activating herbs or an aristolochic-acid risk herb"
+        "blood-activating herbs carry 82% of the effective weight"
       ],
       "verification": {
         "composition_check": {

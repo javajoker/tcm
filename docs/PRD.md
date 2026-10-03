@@ -3,15 +3,15 @@
 | | |
 |---|---|
 | **Working title** | TCM Self-Assessment App (name TBD) |
-| **Version** | 0.2 (draft) |
+| **Version** | 0.3 (draft) |
 | **Status** | Draft — under review; diagnosis SOP still being refined |
 | **Last updated** | 2026-10-03 |
-| **Related docs** | [Diagnosis SOP (繁體中文)](diagnosis-sop.zh-TW.md) · [Reference sources](../reference/README.md) |
+| **Related docs** | [Diagnosis SOP v0.2 (繁體中文)](diagnosis-sop.zh-TW.md) · [Yin-yang / five-phase algorithm](wuxing-algorithm.md) · [Knowledge base (`data/`)](../data/README.md) · [Reference sources](../reference/README.md) |
 
-> **Source-of-truth rule.** The diagnosis logic (what is asked, how answers become a
-> pattern, how a pattern becomes a recommendation) is owned by the
-> [Diagnosis SOP](diagnosis-sop.zh-TW.md). This PRD summarises it (§9) and derives product
-> requirements from it. If the two disagree, the SOP wins and this PRD is updated.
+> **Source-of-truth rule.** The diagnosis logic (what is asked, how answers become a pattern and a body panel, how that becomes a
+> recommendation) is owned by the [Diagnosis SOP](diagnosis-sop.zh-TW.md); the yin-yang / five-phase mathematics by the
+> [algorithm spec](wuxing-algorithm.md). This PRD summarises them (§9) and derives product requirements. If documents disagree, the SOP
+> (then the algorithm spec) wins and this PRD is updated. Numbers in `data/` win over numbers in prose.
 
 ---
 
@@ -19,26 +19,24 @@
 
 ### 1.1 Vision
 
-Make the reasoning of Traditional Chinese Medicine (TCM) approachable and transparent. A user
-describes their body and symptoms; the app walks through the classical diagnostic method
-(四診 → 辨證 → 論治), tells the user which **pattern (證)** and **constitution (體質)** fit best,
-**why** (symptom-by-symptom, with quotations from classics such as 《黃帝內經》《傷寒論》《金匱要略》),
-and which classical formulas and lifestyle measures traditionally address that pattern.
+Make the reasoning of Traditional Chinese Medicine (TCM) approachable and transparent. A user describes their body and symptoms
+(optionally also their birth data); the app walks through the classical method (四診 → 辨證 → 論治), shows a **body panel** — the
+deviation of their five-phase organ balance, pathogenic qi and eight principles from a healthy norm — says which **pattern (證)** and
+**constitution (體質)** fit best, **why** (symptom by symptom, with quotations from 《黃帝內經》《傷寒論》《金匱要略》 …), and which classical
+formulas and lifestyle measures traditionally address it, including how the formula's **sovereign–minister–assistant–envoy (君臣佐使)**
+structure works and how it could be adjusted.
 
 ### 1.2 Problem
 
-- Laypeople who are curious about TCM cannot tell which advice applies to them; generic
-  "TCM tips" ignore individual pattern differences, which is the core of TCM.
-- Existing apps give conclusions without reasoning, or cite no sources, so users cannot judge
-  reliability and learners cannot learn.
-- Good TCM content is mostly in Chinese classical text, hard to access for English speakers and
-  hard for modern readers even in Chinese.
+- Laypeople curious about TCM cannot tell which advice applies to them; generic "TCM tips" ignore individual pattern differences, the core of TCM.
+- Existing apps give conclusions without reasoning or sources, so users cannot judge reliability and learners cannot learn.
+- Good TCM content is mostly classical Chinese: hard to access for English speakers and for modern readers.
 
 ### 1.3 Positioning
 
-An **educational self-assessment and decision-support tool**, not a diagnostic or prescribing
-service. Output is "what classical TCM reasoning suggests for the information you gave", always
-paired with safety guidance and a pointer to a licensed practitioner (see §10).
+An **educational self-assessment and decision-support tool**, not a diagnostic or prescribing service. Output is "what classical TCM reasoning
+suggests for the information you gave", always paired with safety guidance. How much it outputs, for whom, is **configurable** (§6 FR-17):
+the development profile opens everything, the release profile restricts.
 
 ---
 
@@ -49,21 +47,25 @@ paired with safety guidance and a pointer to a licensed practitioner (see §10).
 | # | Goal |
 |---|---|
 | G1 | Guide a non-expert through a structured TCM assessment on any device (phone, tablet, desktop). |
-| G2 | Produce a pattern/constitution result with a **transparent, citable reasoning trace**. |
+| G2 | Produce a pattern / constitution result with a **transparent, citable reasoning trace**. |
 | G3 | Recommend classical formulas plus diet, acupressure and lifestyle advice, each with reasons, cautions and contraindications. |
 | G4 | Be fully bilingual: Traditional Chinese (default) and English, with consistent TCM terminology. |
 | G5 | Ground every medical statement in a real, traceable source; build the knowledge base from downloaded, licence-checked resources. |
-| G6 | Be safe by design: red-flag triage, contraindication filtering, clear disclaimers. |
-| G7 | Be privacy-first: no account needed, health data stays on the user's device by default. |
+| G6 | Be safe by design: every risky population or condition gets a "see a doctor" notice, then the flow continues under a restricted or annotated output. |
+| G7 | Be privacy-first: no account needed; health and birth data stay on the device. |
+| G8 | Be **configurable**: output levels per population / condition / state; `dev` opens everything, `release` restricts by default. |
+| G9 | Express the person's state as a **five-phase organ panel** relative to a normal body, calibrated by three blocks — innate (birth), annual and seasonal, and the person's observed deviation — to support regulation toward balance (調理和中). |
+| G10 | Make formulas computable: herb-level yin-yang / five-phase / organ benefit–burden weights and 君臣佐使 roles, so formulas can be matched to a panel, proportioned and modified (加減). |
 
 ### 2.2 Non-goals (MVP)
 
 - Not a medical device; no claim to diagnose, treat, cure or prevent disease.
-- No acute / emergency, paediatric (< 18) or pregnancy-specific prescribing.
 - No e-commerce, herb sales, telemedicine, or practitioner marketplace.
-- No image-based tongue/face diagnosis in MVP (guided self-selection only; see FR-6).
-- No Simplified Chinese UI in MVP (data is converted from Simplified sources, but not offered as a UI language).
+- No image-based tongue/face diagnosis in MVP (guided selection of zones and signs only).
+- No Simplified Chinese UI in MVP (data is converted from Simplified sources but only zh-Hant and en are offered).
 - No LLM-generated diagnosis. The diagnostic core is deterministic and explainable (§9, Q3).
+- No fate/fortune prediction. Birth data is used **only** as a bounded, optional tendency prior for the five-phase panel.
+- Dosing: the release profile never shows amounts; amounts and ratios are a development / practitioner feature (FR-10, FR-17).
 
 ---
 
@@ -71,31 +73,32 @@ paired with safety guidance and a pointer to a licensed practitioner (see §10).
 
 | Persona | Description | Needs |
 |---|---|---|
-| **Curious Health-Seeker** (primary) | Adult, 25–60, has chronic "sub-health" complaints (poor sleep, fatigue, bloating, cold hands/feet …), curious about TCM, not a practitioner | Simple questions, plain language, clear next steps, safety |
-| **TCM Learner** | Student or hobbyist studying 四診/辨證 | See *why* a pattern was chosen; classical citations; compare differential patterns |
+| **Curious Health-Seeker** (primary) | Adult, 25–60, chronic "sub-health" complaints (sleep, fatigue, bloating, cold hands/feet …), curious about TCM | Simple questions, plain language, clear next steps, safety |
+| **TCM Learner** | Student or hobbyist studying 四診/辨證 | See *why* a pattern was chosen; the panel; citations; formula structure; compare differentials |
 | **English-speaking User** | Interested in TCM, cannot read classical Chinese | Accurate English terms (with Chinese + pinyin), translated citations |
-| **Practitioner (secondary)** | Licensed TCM practitioner | Quick structured intake summary of a patient; (not a replacement for clinical judgement) |
+| **Practitioner (secondary)** | Licensed TCM practitioner | Structured intake summary and panel; formula modification suggestions (dev / L2–L3 profile) |
 
 ---
 
 ## 4. Scope
 
-### 4.1 MVP (v1.0)
+### 4.1 MVP (v1.0, release profile default)
 
-- Adults (≥ 18), non-pregnant, non-acute, self-limited functional / chronic complaints.
-- Eight complaint modules (SOP §4.7): sleep, fatigue, digestion (bloating / appetite / stool),
-  cold-heat sensitivity & sweating, head/body pain, mood/stress, women's cycle (non-pregnant),
-  and mild early-stage external contraction (cold/flu onset).
-- Constitution assessment (9 types) + pattern differentiation across the 23-pattern draft set in SOP §8.5.
-- Result report with reasoning trace, recommendations and citations.
-- zh-Hant and English; responsive; local history; print-friendly export.
+- Adults: output level **L1** (education, diet, safe acupressure points, tier-A formulas without dose). Other populations and conditions per the release profile in `data/config/scope-profiles.json` (e.g. minors, pregnancy, breastfeeding, red flags, serious chronic disease: a blocking "see a doctor" notice, then **L0**).
+- Eight complaint modules (SOP §4.8): sleep, fatigue, digestion, cold-heat & sweating, head/body pain, mood/stress, women's cycle (non-pregnant), mild early external contraction.
+- Constitution (9 types, with seasonal susceptibility) + pattern differentiation over the 23-pattern draft library (SOP §9.4), decomposed into 24 pattern elements.
+- **Body panel** (五行臟腑・六邪・八綱) with observed deviation, personal reference and transmission (SOP §10).
+- **Season and 五運六氣** reference; **birth-based innate / annual blocks as a user opt-in** (FR-18).
+- Result report with reasoning trace, recommendations and citations; zh-Hant and en; responsive; local history; print-friendly export.
 
-### 4.2 Later (post-MVP)
+### 4.2 Development profile
 
-- Seasonal / solar-term (節氣) guidance; follow-up re-assessment reminders; PWA/offline.
-- On-device tongue photo assistance; knowledge-base browser; practitioner summary export.
-- Additional complaint modules and schools (溫病 衛氣營血 / 三焦 for more external-contraction cases).
-- Optional accounts / cloud sync; Simplified Chinese UI.
+Everything open for every population, condition and state (L3): tier-C formulas as learning display, relative proportions and reference amounts, formula modification, herb weights; the safety filter annotates instead of removing; the "see a doctor" notices are still shown.
+
+### 4.3 Later (post-MVP)
+
+- Additional complaint modules, 衛氣營血 / 三焦 patterns; on-device tongue photo assistance; knowledge-base browser; practitioner summary export.
+- Optional accounts / cloud sync; Simplified Chinese UI; PWA / offline.
 
 ---
 
@@ -104,125 +107,122 @@ paired with safety guidance and a pointer to a licensed practitioner (see §10).
 ```mermaid
 flowchart LR
   A[Landing + disclaimer] --> B[Language & basic profile]
-  B --> C[Red-flag screening]
-  C -- red flag --> X[Stop: seek care guidance]
+  B --> B2[Optional: birth data]
+  B2 --> C[Scope and red-flag screening]
+  C -- risk found --> X[See-a-doctor notice: acknowledge]
+  X --> D
   C -- clear --> D[Choose main complaint]
   D --> E[Adaptive inquiry 問診]
-  E --> F[Self-observation: tongue / face / voice / pulse]
+  E --> F[Self-observation: tongue zones & signs / face / voice / optional pulse]
   F --> G[Constitution quiz 體質]
   G --> H[Review & confirm answers]
-  H --> I[Result report]
-  I --> J[Reasoning & citations]
-  I --> K[Recommendations]
+  H --> I[Result report: panel, pattern, reasoning]
+  I --> J[Recommendations: formula, diet, points, lifestyle]
   I --> L[Save / export / follow-up]
 ```
 
-Target completion time: **≤ 10 minutes** for the first assessment; progress is saved so the user can resume.
+Target completion time: **≤ 10 minutes** for the first assessment; progress is saved so the user can resume. Birth data, tongue and pulse are optional and never block the flow.
 
 ---
 
 ## 6. Functional requirements
 
 Priority: **P0** = MVP must-have · **P1** = MVP should-have · **P2** = post-MVP.
-Each requirement is verifiable; detailed acceptance criteria move into the tech spec and test plan.
 
 ### FR-1 Onboarding and disclaimer — P0
-- First screen explains purpose, limits (education, not diagnosis) and privacy (data stays on device).
-- User must acknowledge before starting; acknowledgement is stored with a version so changed wording re-prompts.
-- Persistent, unobtrusive disclaimer on result and recommendation views.
+- First screen explains purpose, limits (education, not diagnosis) and privacy (data stays on the device).
+- Acknowledgement is stored with a version so changed wording re-prompts. A permanent, unobtrusive disclaimer stays on result and recommendation views.
 
 ### FR-2 Language and localisation — P0
-- Default **Traditional Chinese (zh-Hant)**; English (en) selectable at any time without losing progress.
-- Language is part of the URL (e.g. `/zh-Hant/…`, `/en/…`), remembered, and honours browser language only for first visit when no choice is stored (zh-Hant remains the fallback for all unsupported languages).
+- Default **Traditional Chinese (zh-Hant)**; English selectable at any time without losing progress; language is part of the URL and remembered; zh-Hant is the fallback.
 - No hard-coded UI strings; all content (questions, patterns, formulas, citations) is keyed and translatable.
-- TCM terms follow a glossary: Chinese term + pinyin + English (WHO standard terminology where it exists); a term tooltip/definition is available wherever a term appears.
-- Classical citations are shown in the original Traditional-script text; an English rendering is shown when the user is in English mode and is labelled as a translation.
+- TCM terms follow `data/glossary.json`: Chinese + pinyin + English (WHO terminology where known); a term tooltip is available wherever a term appears.
+- Classical citations are shown in the original Traditional-script text with an English rendering labelled as a translation.
 
-### FR-3 Body-information intake — P0
-Collect (all optional except those marked ★; wording in the SOP §3):
-- ★ Age, sex at birth, pregnancy/lactation status (affects safety filters).
-- Height, weight (→ BMI), usual sleep hours, activity level, diet habits, smoking/alcohol, stress.
-- Region / climate type and the current season/solar term (auto from date) for 因時、因地制宜.
-- ★ Current medications, known allergies, chronic diseases (for safety filtering, §10).
-- Main complaint(s) from a list; free-text note (stored locally, not interpreted by the engine in MVP).
+### FR-3 Body and birth information intake — P0
+- ★ Age, sex at birth, pregnancy/lactation, ★ medications, allergies, chronic disease (safety and scope inputs); height, weight, sleep, activity, diet, smoking/alcohol, stress; region/climate; current season (auto).
+- **Optional birth data (FR-18):** date, time (or "unknown hour"), place (longitude, time zone). Never required; processed on the device only.
+- Main complaint(s) from a list; free-text note (stored locally, not interpreted in MVP).
 
-### FR-4 Red-flag screening — P0
-- Before any assessment, ask a short list of emergency / "see a doctor now" symptoms (chest pain, severe
-  breathlessness, loss of consciousness, uncontrolled bleeding, sudden severe headache, suicidal thoughts …; list in SOP §2).
-- Any positive answer stops the flow and shows localised guidance to seek urgent medical care. The engine never continues to recommendations.
-- Out-of-scope users (< 18, pregnant, acute fever with warning signs) get a scoped result (lifestyle-only or "please consult a practitioner").
+### FR-4 Red-flag screening and "see a doctor" notice — P0 (rewritten)
+- Before any assessment, ask the red-flag list (`data/diagnosis/red-flags.json`: level A emergency, B within 24 h, C out of intended scope).
+- A positive answer or an out-of-scope population triggers the **configured notice** (SOP §0.2): `blocking_ack` = a full-screen "seek medical care" notice that the user acknowledges, **after which the flow continues**; `inline` = a banner. The notice is always shown in every profile for the risky populations and conditions.
+- The **output level** (L0–L3) is decided by the active profile and the most restrictive matched dimension; there is no dead end.
+- Emergency resources are shown for the user's region (Q1).
 
 ### FR-5 Structured inquiry (問診) — P0
-- Questionnaire derived from the 十問歌 framework extended to 12 dimensions (寒熱, 汗, 頭身, 二便, 飲食口味, 胸腹, 耳目口咽, 口渴飲水, 睡眠, 情志, 經帶, 病程與誘因) — see SOP §4.2.
-- About 25 core questions asked of everyone, then module-specific follow-ups; next question chosen by discriminating power (SOP §4.7).
-- **Adaptive:** the next question depends on earlier answers and on the chosen complaint module; irrelevant questions are skipped.
-- Plain-language wording with the TCM term available as secondary info; examples for ambiguous questions.
-- Every question maps to one or more symptom codes in the knowledge base (traceable to a classical source for the underlying sign).
-- Back/forward navigation, edit any answer, "not sure / skip" allowed; skipped data reduces confidence rather than blocking results.
+- 12-dimension questionnaire derived from the 十問歌 (SOP §4.2); about 25 core questions then module-specific follow-ups; the next question is chosen by discriminating power (SOP §4.8).
+- Plain-language wording with the TCM term as secondary info; every question maps to symptom codes (`data/diagnosis/symptoms.json`); back/forward, edit, "not sure / skip" allowed; skipped data lowers confidence rather than blocking results.
 
-### FR-6 Self-observation (望 / 聞 / 切) — P0 for selection-based, P2 for photo
-- **Tongue:** guided selection of body colour, coating colour/thickness/moisture, shape/teeth-marks/cracks, using illustrated examples (and lighting/time-of-day guidance).
-- **Complexion & spirit:** selection of 面色, 神 (vitality), lips, eyes.
-- **Voice/breath/odour:** self-reported 聞診 items.
-- **Pulse (proxy):** resting pulse rate and regularity as entered by the user (manual count or wearable); the app states that this is a coarse proxy and does not claim 脈象 recognition.
-- **Palpation self-check:** simple items such as cold limbs, abdominal pressure preference (喜按/拒按).
-- Every observation shows its confidence class (self-reported / guided / measured) which feeds into result confidence.
-- P2: on-device tongue-photo assistance (no image upload to a server).
+### FR-6 Self-observation: tongue, face, voice, optional pulse — P0 (updated)
+- **Tongue (zones and special signs):** guided selection with illustrated examples of body colour/shape, coating, **zone-specific findings (tip, centre, root, edge/side)** and **special signs (tooth marks, cracks, red dots/prickles, ecchymosis, sublingual veins)**; `data/diagnosis/tongue.json`. Quality coefficient 0.7.
+- **Complexion & spirit; voice/breath/odour:** selection-based; quality coefficient 0.7 / 1.0.
+- **Pulse is optional input and enters the calculation:** resting pulse rate and regularity (measured), plus optional self-assessed pulse qualities (**float, sink, wiry, rapid, slippery, thin …**, 28 pulses, mutually exclusive groups enforced) and optional **position** (left/right 寸關尺). Quality coefficient 0.5. A fixed educational note explains why self-assessed pulse is low-confidence; missing pulse never lowers a score. `data/diagnosis/pulse.json`.
+- Every observation shows its data-quality class, which feeds result confidence. P2: on-device tongue-photo assistance (no upload).
 
-### FR-7 Constitution assessment (體質) — P0
-- 9-type questionnaire (平和、氣虛、陽虛、陰虛、痰濕、濕熱、血瘀、氣鬱、特稟) following the 王琦 standard; wording subject to licence check (reference/README).
-- Output: primary + secondary tendency with scores; used as a prior for pattern scoring and for recommendation style.
+### FR-7 Constitution and susceptibility — P0
+- 9-type questionnaire following the 王琦 standard (item wording: own-written pending licence decision, D6); primary + secondary tendency with scores.
+- **Seasonal susceptibility**: constitution × pathogenic-qi risk combined with the current season and the year's climate (SOP §7.3).
+- Constitution is a tie-breaker and advice-style input; it never adds to pattern scores.
 
 ### FR-8 Diagnosis engine — P0
-- Input: normalised symptom/sign set + profile + constitution. Output: ranked patterns (證型) with score, confidence band, and per-pattern evidence.
-- **Deterministic, explainable:** same input → same output; scoring is a published weighted-symptom model over 證素 (SOP §8.3), not a black box. Weights, thresholds and quality coefficients are placeholders until calibrated by a practitioner (SOP App. D, D3).
-- Handles conflicting data (e.g. 寒熱錯雜, 虛實夾雜) by returning compound/co-existing patterns, not forcing one answer.
-- Returns an explicit **"insufficient information"** state when no pattern passes the minimum threshold; suggests which questions would discriminate best.
-- Differential: shows the top alternatives and "what would make this a different pattern".
-- Golden test set: curated case vignettes with practitioner-agreed expected patterns (see §11).
+- Deterministic and explainable: pattern scoring over weighted symptoms (SOP §9.2), pattern decomposition into 證素 (SOP §9.3), compound patterns for 寒熱錯雜 / 虛實夾雜, an explicit "insufficient information" state, a differential with "what would change this". Weights, thresholds and quality coefficients are placeholders until calibrated by a practitioner.
+- **Golden test set** (≥ 100 vignettes with practitioner-agreed expectations) and the **reference pipeline** `scripts/kb/example_pipeline.py` as an executable specification; the pattern self-test must pass in CI.
 
 ### FR-9 Result report — P0
-Sections, in order:
-1. Safety banner + scope note.
-2. Summary: constitution tendency; top pattern(s) in plain language; confidence.
-3. **Why** (reasoning trace): matched symptoms → which pattern evidence → theory explanation → classical citation. Symptoms that argued *against* the pattern are listed too.
-4. Recommendations (FR-10).
-5. When to see a practitioner / warning signs.
-6. Data summary of what the user entered (editable → re-run).
+Sections in order: safety/scope banner and acknowledged notices · summary (constitution, patterns, confidence) · **body panel** (FR-19) · **why** (reasoning trace with citations, including evidence against) · transmission and susceptibility hints · recommendations (FR-10) · when to see a practitioner · data summary (editable → re-run) · what would change the conclusion.
 
-### FR-10 Recommendations — P0
-For each top pattern, provide with reasons:
-- **Treatment principle (治則/治法)** in plain language.
-- **Classical formula(s)** (方劑): name, source book/chapter, composition (herbs), the "monarch–minister–assistant–envoy" explanation (君臣佐使/方義), which of the user's symptoms match the formula's indications, and key cautions.
-- **Diet/food therapy**, **acupressure points** (safe self-massage points only), and **lifestyle/seasonal** advice.
-- Every recommendation carries: rationale, source citation, contraindications, and a "who should not use this" line.
-- **Safety filter:** a formula/food/point is suppressed or downgraded when the profile conflicts (pregnancy, interacting medication, allergy, known-toxic herb, constitution mismatch). The suppression is shown with the reason, never silent.
-- **Formula tiers**, computed from a formula's herbs (SOP §10.5), not hand-assigned: **A** shown with cautions; **B** shown only if extra safety conditions pass (no pregnancy, no anticoagulants, no bleeding tendency …), otherwise demoted to C; **C** "learning only" — composition and source text shown, not recommended, with a mandatory "licensed practitioner required" notice. Formulas containing toxic/strong herbs (e.g. 附子, 麻黃, 細辛) are always C.
-- A formula is recommended only if the user matches ≥ 60 % of its indication core symptoms (**formula–pattern match**, SOP §10.5); otherwise only lifestyle advice is given.
-- Dosage handling is an open question (Q4); default for MVP: show classical composition, **no personal dose**.
+### FR-10 Recommendations: formula matching, 君臣佐使, modification, proportions — P0 (updated)
+- **Formula selection:** candidates from the pattern→formula links, then symptom-level fit (≥ 60 % of the formula's core indications), then **panel-level fit**: relative strength `k*` and the fraction of the deviation explained (SOP §12.4), then the safety filter and the active profile.
+- **Explanation:** composition table with each herb's role (君/臣/佐/使), formula rationale, which of the user's symptoms match, what does not match, cautions, contraindications, sources (verification status shown).
+- **Modification (加減) — L2 feature:** classical modifications first (e.g. 四君子湯 → 六君子湯), then residual-based add/remove suggestions (SOP §12.5), each with its reason.
+- **Proportions and amounts:** the engine works with relative proportions and a relative strength; the release profile shows composition and roles but **no amounts**; the development profile may show relative proportions and reference amounts; classical amounts parsed from the original text are labelled as such, never as advice.
+- **Tiers A / B / C** are computed from the formula's herbs (SOP §12.3): C = learning-only display, never a recommendation; B = conditional on the safety filter.
+- Diet, safe self-acupressure points and lifestyle/seasonal advice per pattern, each with rationale and contraindications.
 
 ### FR-11 Citation and knowledge viewer — P0
-- Every claim in the reasoning trace and recommendations has a citation chip: tap/click opens the original passage (book, chapter / clause number, original text, edition note) and the English rendering.
-- Each citation links back to its provenance record (source repository + version) used to build it (§8).
-- Citation IDs are stable so saved reports keep working across KB versions (version stamp stored with each report).
+- Every claim has a citation chip opening the original passage (book, chapter / clause, original text, edition note) and the English rendering, with its provenance record (`data/citations.json`: 127 machine-verified quotations).
+- Citation ids are stable; saved reports record the knowledge-base version.
 
 ### FR-12 History and follow-up — P1
-- Assessments are saved locally; user can reopen, compare two assessments, and delete all data.
-- Optional "re-assess in N weeks" prompt that reuses previous answers as defaults.
+- Local save, reopen, compare two assessments (including panel changes), delete all data; optional "re-assess in N weeks".
 
 ### FR-13 Export — P1
-- Print-optimised stylesheet and PDF export of the report (local generation).
-- "Practitioner summary" view: concise intake summary (complaints, 四診 findings, pattern hypotheses) suitable to show a practitioner.
+- Print-optimised stylesheet and PDF export; "practitioner summary" view (complaints, 四診 findings, panel, pattern hypotheses).
 
 ### FR-14 Knowledge browser — P2
-- Browse/search patterns, formulas, herbs, acupoints and classical passages (bilingual), each with provenance.
+- Browse patterns, formulas, herbs (with benefit/burden weights), acupoints and classical passages, each with provenance.
 
-### FR-15 Content pipeline (internal tool) — P0
-- Reproducible build that turns `reference/` sources into the app KB: extract → normalise (Simplified→Traditional, term mapping) → enrich → validate → mark review status → emit versioned data bundle.
-- Validation fails the build on missing citation, unknown symptom code, untranslated required field, or unreviewed record flagged for production use.
+### FR-15 Content pipeline (internal) — P0 (implemented)
+- `scripts/kb/build_kb.py` builds `data/` deterministically from `reference/` plus curated tables, then validates references and runs the pattern self-test. Validation fails on a missing citation, unknown symptom or herb, bad panel target, inconsistent profile, unverified quotation. `data/README.md` records provenance, verification status and known gaps.
 
 ### FR-16 Feedback — P1
-- "Was this helpful / did this match?" per result and per reasoning item, stored locally and optionally exported by the user; used by maintainers to calibrate weights.
+- "Did this match?" per result and per reasoning item, stored locally, exportable by the user; used by maintainers to calibrate weights.
+
+### FR-17 Scope and safety configuration — P0 (new)
+- Application configuration (`data/config/scope-profiles.json`) defines **output levels L0–L3** and **profiles** (`release`, `dev`) mapping each **population** (adult, 65+, minor, pregnant, lactating), **condition** (red flag A/B, serious chronic disease, anticoagulant use, other interacting medication, allergy match, acute external symptoms) and **state** (low confidence, insufficient information, conflicting data) to an output level and a notice kind.
+- **Defaults:** `dev` opens everything (L3) with `annotate_only` safety; `release` restricts (adult L1, risky populations L0) with `suppress_hard` safety.
+- **Resolution:** effective level = most restrictive matched dimension, further limited by feature flags; effective notice = most severe; **flow always continues**; suppressed items are always listed with their reason.
+- Feature flags: dosage reference, formula modification, herb weights, tier C, acupoints, diet, and the five-phase module blocks (FR-18).
+- The active profile is chosen at build time and overridable by environment configuration; the active profile name is shown in dev builds and recorded with every saved report.
+
+### FR-18 Birth-based five-phase module — P1 (new)
+- Optional. With birth data the app computes the **innate** five-phase profile and the **annual** (流年) shift from the four pillars, solar terms (astronomical), true solar time, hidden stems, month command and generation/restraint propagation; without it the module still gives **season** and **五運六氣** references.
+- Output: a **personal reference panel** (innate + annual + yunqi + season, each block capped and switchable, reported separately with a trace) and a forecast for the next seasons (docs/wuxing-algorithm.md §9).
+- **Rules:** priors never add to pattern scores and never reduce the primary deviation (the population offset equals the observation); the personal offset and the alignment (aligned / opposed / neutral) are context only; they may break ties and set the advice direction (SOP §6.3).
+- **Privacy and wording:** birth data is optional, local-only and erasable; release default is **opt-in** with a "traditional-culture tendency reference, not clinically validated" notice; wording stays at the level of tendencies — no fate, disease or time-window claims.
+- Implemented and verified in `packages/wuxing` (zero-dependency TypeScript; parity with the source engine, HKO solar-term check, calendar anchors, invariants).
+
+### FR-19 Body panel (盤面) and offsets — P0 (new)
+- The report shows the panel as deviations from a healthy norm: ten organ nodes × qi/blood/yin/yang and stagnation, the five-phase function radar, the six pathogenic qi, pathological products, and the eight-principle axes (SOP §10).
+- Two offsets: **population offset** (observed − 0; primary) and **personal offset** (observed − reference; context), with per-element alignment and the three-block explanation (innate, annual/seasonal, observed).
+- Transmission hints from 生克乘侮 and 母子 (e.g. weak earth → lung at risk → "培土生金"), and constitution × season susceptibility.
+- Visual design: single-hue scales for ordered quantities; no red/green good-bad colouring; the reference outline is shown dashed, the main plot is relative to the healthy norm.
+
+### FR-20 Herb and formula knowledge — P0 (new)
+- Herb records carry 四氣 (signed warmth), 五味 → 五行, 歸經 → organs, functions, **panel effects** (benefit) and **burden weights** (harm), tags, pregnancy / interaction / toxicity flags, and sources. 704 herbs: 94 hand-curated for the MVP formulas, 610 machine-derived (labelled `derived`).
+- Formula records carry herb roles and proportions (`effective weight = proportion × role weight`), the aggregate panel effect/burden, the flavour profile, the computed tier, and a verification record: **9** formulas verified against the classical text (amounts parsed), **18** against the source book, **6** partially (lost characters in the compilation, or herbs added later).
+- Data model and conventions in `data/README.md`.
 
 ---
 
@@ -230,107 +230,76 @@ For each top pattern, provide with reasons:
 
 | Area | Requirement |
 |---|---|
-| **Responsive** | Mobile-first; supported viewports 320 px – 1920 px; layouts for phone (single column, bottom-anchored primary action), tablet and desktop (two-pane report with sticky reasoning/citation panel); touch targets ≥ 44 px; no horizontal scroll. |
-| **Performance** | LCP ≤ 2.5 s and INP ≤ 200 ms on mid-range mobile over 4G; initial JS ≤ 200 KB gzip; KB data loaded lazily per module/complaint; engine runs fully client-side in < 200 ms. |
-| **Accessibility** | WCAG 2.1 AA; keyboard operable; screen-reader labels in both languages; colour is never the only signal (tongue/complexion pickers include text labels); CJK-friendly line height and font stack. |
-| **i18n** | zh-Hant default; strict key coverage check in CI; Traditional-script fonts with proper fallbacks; locale-aware dates/units; pluralisation via ICU messages. |
-| **Privacy** | No PII sent to any server in MVP; all assessments stored locally (IndexedDB/localStorage), with an obvious "erase everything" control; analytics, if any, are opt-in, aggregate and contain no answers. |
-| **Security** | Static hosting with strict CSP and security headers; no third-party scripts that see user input; dependencies audited in CI. |
-| **Reliability / offline** | Works without a backend. P1: installable PWA with offline use after first load. |
-| **Content integrity** | 100 % of recommendations and reasoning items carry citations; KB bundle is versioned and each saved report records the version it was generated with. |
-| **Testability** | Engine and KB covered by automated tests, including golden-case regression; i18n and a11y checks in CI. |
-| **Browser support** | Last 2 versions of Chrome, Safari (incl. iOS), Firefox, Edge. |
-| **Maintainability** | Clear separation: content (data) · engine (pure functions) · UI. Content changes must not require engine/UI code changes. |
+| **Responsive** | Mobile-first; 320 px – 1920 px; phone single column with bottom-anchored primary action; tablet/desktop two-pane report with sticky reasoning/citation and panel; touch targets ≥ 44 px; no horizontal scroll. |
+| **Performance** | LCP ≤ 2.5 s, INP ≤ 200 ms on mid-range mobile over 4G; initial JS ≤ 200 KB gzip; knowledge data lazy-loaded per module; engine fully client-side; the wuxing engine already runs a chart in ≈ 1 ms. The 975 KB herb file must be split or minified for delivery. |
+| **Accessibility** | WCAG 2.1 AA; keyboard operable; screen-reader labels in both languages; colour never the only signal (tongue and panel views carry text labels); CJK-friendly typography. |
+| **i18n** | zh-Hant default; strict key coverage check in CI; Traditional-script fonts with fallbacks; ICU messages. |
+| **Privacy** | No PII to any server in MVP; assessments and birth data stored only locally with an "erase everything" control; birth data never in URLs or logs; analytics (if any) opt-in, aggregate, no answers. |
+| **Security** | Static hosting with strict CSP; no third-party scripts seeing user input; dependency audit in CI. |
+| **Configuration** | The scope profile is part of the build; a release build must fail CI if it ships the `dev` profile; a test asserts that the dev profile opens everything and keeps the blocking notices. |
+| **Content integrity** | 100 % of recommendations and reasoning items carry citations; the knowledge-base bundle is versioned; each saved report records the KB version, the engine parameter fingerprint and the profile. |
+| **Testability** | Engine and KB covered by tests: golden cases, reference pipeline parity, pattern self-test, i18n and a11y checks; the wuxing package keeps its 74 tests (oracle parity, HKO, invariants). |
+| **Browser support** | Last 2 versions of Chrome, Safari (iOS), Firefox, Edge. |
+| **Maintainability** | Clear separation: content (data) · engine (pure functions) · UI; content changes never require engine/UI changes. |
 
 ---
 
 ## 8. Knowledge base
 
 ### 8.1 Principle
+The KB is **derived from real sources**, never authored from memory or generated freely; every record keeps provenance and a review status; every quotation is machine-checked against the source text.
 
-The KB is **derived from real sources**, never authored from memory or generated freely.
-Every record keeps provenance and a review status.
+### 8.2 Contents (see [`data/README.md`](../data/README.md))
 
-### 8.2 Sources (see [`reference/README.md`](../reference/README.md))
-
-| Layer | Primary sources | Notes |
+| Area | Files | Records |
 |---|---|---|
-| Theory & citations | 《黃帝內經》(素問/靈樞)、《難經》、《傷寒論》、《金匱要略》 | From `TCM-Library` raw/curated text; cross-check against Wikisource (Traditional script) |
-| Diagnostics | 《景岳全書·傳忠錄》(十問)、《醫學心悟》(八綱)、《瀕湖脈學》《診家正眼》(脈)、《傷寒舌鑑》《望診遵經》(舌/望) | From `TCM-Ancient-Books` (GB18030) |
-| Formulas | 《傷寒論》《金匱要略》(經方); 《太平惠民和劑局方》《脾胃論》《溫病條辨》《醫林改錯》《醫方集解》 etc. (時方) | Composition & indications extracted, then reviewed |
-| Herbs | 《神農本草經》、Pharmacopoeia entries, `tcm-mkg` property data (四氣五味歸經) | Needed for formula explanation and contraindication logic |
-| Constitution | 《中醫體質分類與判定》標準 (王琦), 《靈樞·陰陽二十五人》《通天》 as classical roots | Licence check before embedding questionnaire text |
+| Citations | `citations.json` | 127 verified quotations |
+| Herbs | `herbs/herbs.json`, `herb-index.json` | 704 (94 curated, 610 derived) |
+| Formulas | `formulas/formulas.json` | 33 with roles, proportions, tiers, modifications, verification |
+| Diagnosis | `symptoms`, `patterns`, `pattern-elements`, `tongue`, `pulse`, `constitutions`, `red-flags`, `panel-schema` | 171 symptoms (incl. 32 tongue, 28 pulse), 23 patterns, 24 pattern elements, 9 constitutions, 28 red flags |
+| Five phases | `wuxing/correspondences`, `ganzhi`, `yunqi`, `susceptibility`, `engine-params` | parsed from 《素問》; exported from `packages/wuxing` |
+| Policy | `config/scope-profiles.json`, `safety/rules.json`, `treatment/guidance.json`, `glossary.json` | 2 profiles, 25 safety rules, 26 acupoints, 139 terms |
 
-### 8.3 Record model (conceptual — detailed schema in tech spec)
+### 8.3 Sources and licences
+`TCM-Library` (MIT), `TCM-Ancient-Books` (no licence: reference only, short quotations only), `tcm-mkg` (MIT, not yet used), Pharmacopoeia facts as structured data, and the project's own `packages/wuxing`. Non-commercial-only sources (ctext.org) are excluded from the shipped bundle (Q10). The author's earlier BaZi engine is a private repository and is **not** a dependency; the needed algorithm was re-implemented and verified against it numerically.
 
-Core entities: `Symptom`, `Sign`, `Pattern(證型)`, `PatternEvidence(weights)`, `Constitution`, `Formula`, `Herb`,
-`Acupoint`, `FoodItem`, `Citation`, `Glossary term`, `Question`.
-Each record carries: `id`, `zh-Hant` + `en` fields, `source[]` (book, chapter/clause, repo, commit), `status`
-(`draft → reviewed → approved`), `reviewer`, `updated_at`.
-
-### 8.4 Pipeline requirements
-
-1. Fetch via git submodules (pinned) and, where needed, public-domain web sources through scripted, rate-limited download.
-2. Convert Simplified → Traditional with OpenCC `s2twp`, followed by a TCM-term override list and spot checks.
-3. Extract structured records; machine-extracted rows start as `draft`.
-4. English text: glossary-first (WHO terminology), machine-drafted for prose and flagged `needs-review`.
-5. Validation gates (§FR-15). Production bundle contains only `approved` records.
-6. Licence ledger: each source's licence and attribution requirement is recorded; non-commercial or unlicensed material is excluded from the shipped bundle.
-
-### 8.5 Content review
-
-A qualified TCM practitioner (to be identified — Q8) reviews: pattern evidence weights, formula–pattern mapping, contraindication rules, and all recommendation text. No production release without a recorded review.
+### 8.4 Review
+Every record is `draft`, `curated-draft` or `derived` until a qualified practitioner reviews it: pattern weights and thresholds, formula–pattern mapping and roles, herb effect/burden weights, pregnancy/interaction/toxicity flags, red-flag lists, dose references and conflict thresholds (Q8, blocks M3). Known gaps: English prose, constitution questionnaire items, acupoint locations and illustrations, a second-source check of later formulas.
 
 ---
 
 ## 9. Diagnostic approach (summary of the SOP)
 
-Full detail: [Diagnosis SOP](diagnosis-sop.zh-TW.md). In summary the app implements this pipeline:
-
-| Step | Name (SOP section) | What happens |
+| Step | Name (SOP §) | What happens |
 |---|---|---|
-| 0 | Safety screening (§2) | Red-flag and scope checks; stop or restrict |
-| 1 | Profile & 三因 context (§3) | Age, sex, region, season, lifestyle, medications — priors and safety inputs |
-| 2 | 四診 collection (§4) | 問診 (12 dimensions) as the core; guided 望 / 聞; proxy 切 (pulse rate, abdominal self-check) |
-| 3 | Normalisation (§5) | Answers → standard symptom/sign codes; data-quality class per datum; conflict checks |
-| 4 | 體質 assessment (§6) | 9-constitution scoring; baseline tendency, used as tie-breaker and for advice style |
-| 5 | 八綱 orientation (§7) | 表裏 · 寒熱 · 虛實 · 陰陽 |
-| 6 | 辨證 (§8) | 證素 (location × nature) weighted scoring → pattern from the 23-pattern draft library; 六經 for mild external presentations |
-| 7 | Reconcile & confidence (§9) | Combine, resolve conflicts, rank patterns, differential, confidence level or "insufficient information" |
-| 8 | 論治 (§10) | 治則 → 治法 → formula / diet / acupoint / lifestyle candidates |
-| 9 | Safety filter (§11) | Contraindications, interactions, toxic-herb rules; suppressed items are shown with reasons |
-| 10 | Explanation (§12) | Reasoning trace with citations; confidence and "what would change this" |
+| 0 | Safety and scope policy (§2) | Red flags + population/condition/state → output level and notice; the flow always continues |
+| 1 | Profile, optional birth data, 三因 (§3) | Safety inputs, region, season, optional birth data |
+| 2 | 四診 (§4) | 問診 (12 dimensions), tongue zones and special signs, voice/face, **optional pulse** |
+| 3 | Normalisation (§5) | Standard symptom codes, data-quality class, conflict checks |
+| 4 | Innate · annual · seasonal reference (§6) | Birth chart → five-phase profile; 流年; 五運六氣; season → personal reference panel (three capped blocks) |
+| 5 | Constitution and susceptibility (§7) | 9 types; constitution × season risk |
+| 6 | 八綱 and six-qi orientation (§8) | Routing and consistency |
+| 7 | 辨證 (§9) | Pattern scoring; decomposition into 證素 |
+| 8 | Panel synthesis (§10) | Observed panel (noisy-OR projection), two offsets, 八綱 derived, transmission |
+| 9 | Reconcile and confidence (§11) | Ranking, differential, confidence; priors only break ties |
+| 10 | 論治 (§12) | Formula matching (symptom + panel level), 君臣佐使, modification, proportions |
+| 11 | Safety filter (§13) | Rules per population/condition/medication; enforcement per profile |
+| 12 | Explanation (§14) | Panel, reasoning with citations, what would change the result |
 
-Design consequences for the product: the questionnaire must be adaptive (step 2), the engine must expose
-per-evidence contributions (steps 6–7, FR-8/9), and recommendations must be generated from KB records, not free text (step 8, FR-10).
-
----|---|---|
-| 0 | Safety screening | Red-flag and scope checks; stop or restrict |
-| 1 | 四診 information collection | 問診 (十問) as core; guided 望 / 聞; proxy 切 |
-| 2 | Normalisation | Answers → standard symptom/sign codes; confidence per datum |
-| 3 | 體質 assessment | 9-constitution scoring as prior |
-| 4 | 八綱 orientation | 表裏 · 寒熱 · 虛實 · 陰陽 |
-| 5 | 辨證 | Pattern scoring using 證素 (location × nature) and 臟腑 / 氣血津液 (and 六經 for external-contraction presentations) |
-| 6 | Reconcile | Combine, resolve conflicts, produce ranked patterns + differential |
-| 7 | 論治 | 治則 → 治法 → formula / diet / acupoint / lifestyle candidates |
-| 8 | Safety filter | Contraindications, interactions, toxic-herb rules |
-| 9 | Explanation | Reasoning trace with citations; confidence and "what would change this" |
-
-Design consequences for the product: the questionnaire must be adaptive (step 1), the engine must expose
-per-evidence contributions (steps 5–6, FR-8/9), and recommendations must be generated from KB records, not free text (step 7, FR-10).
+Design consequences: the questionnaire is adaptive; the engine exposes per-evidence contributions and the panel; recommendations are generated from KB records, never free text; the priors are bounded and never create or hide evidence.
 
 ---
 
 ## 10. Safety, ethics and compliance
 
-- **Positioning:** educational; every result screen states it does not replace a licensed practitioner or emergency care.
-- **Red flags** stop the flow (FR-4). The list is clinically reviewed before release.
-- **Scope limits:** no paediatric, pregnancy, acute illness or serious-chronic-disease management.
-- **Contraindication engine:** pregnancy/lactation, anticoagulants and other medicines (e.g. herb–drug interactions), allergies, known-toxic herbs (e.g. 附子, 麻黃, 細辛, 馬兜鈴科) and constitution/pattern mismatches (補益 for 實證 etc.).
-- **No treatment claims**; wording avoids "cure", "treat disease X". Language is reviewed by a TCM practitioner and by legal counsel for the target region (Q1).
-- **Transparency:** show confidence, the data used, and sources; never present speculative content as classical fact.
-- **Privacy:** health data is sensitive; local-first by default (see §7). If sync/accounts are added later, a separate privacy and consent design is required (GDPR / PDPA-type regimes).
-- **Content licensing:** respect upstream licences (see `reference/README.md`); attribute where required; exclude non-commercial-only data from commercial builds.
+- **Positioning:** educational; every result screen says it does not replace a licensed practitioner or emergency care.
+- **Notice, then continue:** risky populations and conditions always get a "see a doctor" notice (blocking acknowledgement for A/B red flags, minors, pregnancy, breastfeeding, serious chronic disease), in **every** profile; the flow then continues with the output level of the active profile. No dead ends; suppressed items are always shown with their reason.
+- **Safety filter (configuration-driven):** pregnancy/breastfeeding/minor/elderly rules, medication-class interactions (anticoagulants, antidiabetics, antihypertensives, diuretics and cardiac glycosides, immunosuppressants, sedatives, MAOIs), strong herbs, aristolochic-acid risk, allergy match, 十八反/十九畏, pattern-direction conflicts, flavour excess, low confidence. `release` removes hard-rule items; `dev` annotates all.
+- **No treatment claims:** wording avoids "cure" and disease-specific claims; reviewed by a practitioner and by legal counsel for the target region (Q1).
+- **Birth and five-phase content:** presented as a traditional-culture tendency reference; no fate, disease, prognosis or time-window statements; off by default in `release`.
+- **Transparency:** show confidence, data used, quality classes and sources; never present speculative content as classical fact.
+- **Privacy:** local-first; a separate privacy and consent design is required if sync/accounts are added (GDPR / PDPA-type regimes).
+- **Content licensing:** respect upstream licences; attribute where required; exclude non-commercial-only data from commercial builds.
 
 ---
 
@@ -340,12 +309,14 @@ per-evidence contributions (steps 5–6, FR-8/9), and recommendations must be ge
 |---|---|
 | Assessment completion rate (start → result) | ≥ 60 % |
 | Median time to result | ≤ 10 min |
-| Result clarity ("I understand why") — in-app rating | ≥ 4.0 / 5 |
+| "I understand why" rating | ≥ 4.0 / 5 |
 | Expert concordance: top-3 patterns contain the practitioner's pattern on the golden set (≥ 100 vignettes) | ≥ 80 % |
+| Formula concordance: practitioner's choice is in the top-3 matched formulas | ≥ 70 % |
 | Citation coverage of recommendations and reasoning items | 100 % |
-| Safety: red-flag vignettes correctly stopped | 100 % |
+| Safety: red-flag and scope vignettes show the notice and respect the profile | 100 % |
+| Release build never ships the dev profile (CI assertion) | 100 % |
 | Lighthouse (mobile) performance / accessibility | ≥ 90 / ≥ 95 |
-| i18n completeness (zh-Hant and en keys) | 100 % |
+| i18n completeness | 100 % |
 
 ---
 
@@ -353,51 +324,66 @@ per-evidence contributions (steps 5–6, FR-8/9), and recommendations must be ge
 
 | Risk | Impact | Mitigation |
 |---|---|---|
-| User treats output as medical advice / delays care | Harm, liability | Red-flag triage, scope limits, persistent disclaimers, "see a practitioner" triggers, no dosing in MVP, legal review |
-| Incorrect or inconsistent pattern logic | Bad advice, trust loss | SOP as source of truth, practitioner-reviewed weights, golden-case regression, confidence bands, "insufficient info" state |
-| Source text errors (OCR, editions, Simplified→Traditional conversion) | Wrong citations | Provenance + cross-check with second source, review status, spot checks of converted terms |
-| Licence issues (unlicensed or NC data) | Legal exposure | Licence ledger; ship only MIT/public-domain-derived data; reference-only sources excluded |
-| TCM terminology mistranslation | Confusion | Glossary-first, WHO terminology, reviewer sign-off |
-| Different schools disagree (經方 vs 時方 vs 溫病) | Inconsistent output | Declare the primary framework in SOP; show alternatives as "other schools" rather than hiding disagreement |
-| Self-reported tongue/pulse unreliable | Low accuracy | Guided inputs with examples, confidence weighting, don't over-weight proxies |
-| Herb safety (toxicity, interactions) | Physical harm | Safety filter, display-only for strong herbs, interaction table reviewed by pharmacist/practitioner |
-| Over-long questionnaire → drop-off | Low completion | Adaptive questioning, 10-min budget, save/resume |
+| User treats output as medical advice / delays care | Harm, liability | Notices, scope profiles, disclaimers, no amounts in release, legal review |
+| Incorrect or inconsistent pattern logic | Bad advice | SOP as source of truth, practitioner-reviewed weights, golden cases, self-test, confidence, "insufficient info" |
+| **Birth / yunqi priors treated as evidence** | Pseudo-scientific claims; masking symptoms | Capped and switchable blocks; priors never change scores or the primary offset; opt-in in release; wording rules; tested invariant |
+| **Dev profile shipped to production** | Unrestricted output for risky users | Build-time profile, CI assertion, visible profile badge |
+| Source text errors (lost characters, editions, conversion) | Wrong citations/compositions | Machine verification, partial-verification flags, second-source check, review status |
+| Machine-derived herb properties wrong | Wrong formula matching | `derived` label, hand-curated MVP herbs, review before use in release |
+| Licence issues (unlicensed or NC data) | Legal exposure | Licence ledger; short quotations only from reference-only sources |
+| Terminology mistranslation | Confusion | Glossary-first, WHO terminology, reviewer sign-off |
+| Schools disagree (經方 vs 時方 vs 溫病; 長夏 extent; orifice schools) | Inconsistent output | Declared choices recorded with every result; alternatives shown |
+| Self-reported tongue/pulse unreliable | Low accuracy | Guided inputs, quality coefficients, optional pulse, no penalty when absent |
+| Herb safety (toxicity, interactions) | Physical harm | Safety filter, tiers, practitioner review of flags |
+| Long questionnaire | Drop-off | Adaptive, 10-minute budget, optional extras never block |
 
 ---
 
 ## 13. Release plan and document roadmap
 
-| Milestone | Content |
-|---|---|
-| **M0 — Docs** | PRD ✔ draft · Diagnosis SOP ✔ draft (iterating) · tech spec · UI/UX spec · supporting docs (KB schema, i18n & glossary guide, content-review process, safety policy, test plan, contributing) · task list + checklist |
-| **M1 — Knowledge base** | Reference ingestion pipeline, Traditional conversion, first reviewed pattern/formula set |
-| **M2 — MVP app** | Responsive UI, bilingual, intake → engine → report |
-| **M3 — Review & hardening** | Practitioner review, golden-case calibration, a11y/perf passes |
-| **M4 — Beta** | Limited release, feedback loop, weight calibration |
+| Milestone | Content | Status |
+|---|---|---|
+| **M0 — Docs** | PRD ✔ · Diagnosis SOP ✔ (v0.2) · **algorithm spec ✔** · tech spec · UI/UX spec · supporting docs (KB schema, i18n & glossary guide, content-review process, safety policy, test plan, contributing) · task list + checklist | in progress |
+| **M1 — Knowledge base** | Reference ingestion, Traditional conversion, **built and validated first data set ✔** (127 quotes, 704 herbs, 33 formulas, 23 patterns, policy) | first pass done; review pending |
+| **M2 — MVP app** | Responsive UI, bilingual, intake → engine → panel/report | not started (`packages/wuxing` ✔) |
+| **M3 — Review & hardening** | Practitioner review, golden-case calibration, a11y/perf passes | blocked on Q8 |
+| **M4 — Beta** | Limited release, feedback loop, weight calibration | — |
 
-Doc deliverables, all English except the SOP: `PRD.md`, `diagnosis-sop.zh-TW.md` (繁中), tech spec,
-UI/UX spec, KB schema, i18n/glossary, safety & content-review policy, test plan, task list (`TASKS.md`)
-and `CHECKLIST.md`. One commit per finished task.
+Remaining doc deliverables (English): tech spec, UI/UX spec, supporting docs, `TASKS.md`, `CHECKLIST.md`. One commit per finished task.
 
 ---
 
-## 14. Open questions
+## 14. Decisions and open questions
 
-Proposed defaults are used in this draft until confirmed.
+### 14.1 Decided (2026-10-03)
 
-| # | Question | Default assumed |
+| # | Decision |
+|---|---|
+| Scope | Application configuration with output levels and `dev` / `release` profiles (FR-17). Dev opens everything; release restricts. |
+| Notices | Every risky population/condition gets a "see a doctor" notice in every profile; the flow then continues; the safety filter is part of the configuration (FR-4, §10). |
+| Five phases | Birth data → innate five-phase profile; annual and seasonal blocks; observed deviation; **panel** relative to a normal body (FR-18/19). Reference algorithm: the author's BaZi engine, re-implemented in `packages/wuxing`. |
+| Tongue / pulse | Tongue zones and special signs; **pulse optional and entering the calculation** with an educational note (FR-6). |
+| 五運六氣 | **Included** as a bounded prior (previous default was "not included"). |
+| Formulas | 君臣佐使 and herb yin-yang / five-phase / organ benefit–burden weights in the KB; matching, proportions and modification supported by the engine; display gated by configuration (FR-10, FR-20). |
+| Framework | 內傷: 臟腑 + 氣血津液; 外感: 六經 / 衛氣營血; unified in the five-phase panel (previous Q7 confirmed and extended). |
+
+### 14.2 Still open (draft defaults in use)
+
+| # | Question | Default |
 |---|---|---|
-| Q1 | Target region and regulatory framing (Taiwan / HK / mainland / global)? Affects wording, herb availability and which pharmacopoeia is the reference | Taiwan-first wording; international English |
-| Q2 | Which complaint modules and which patterns are in the MVP? | SOP §4.7 and §8.5: 23 draft patterns across 8 complaint modules |
-| Q3 | LLM involvement? (none / plain-language rewording only / diagnosis) | **None** in diagnostic core; optional rewording post-MVP, never for pattern choice |
-| Q4 | Show dosage for formulas? | No personal dosing; composition + classical context only |
-| Q5 | Include tongue-photo analysis or pulse devices? | Not in MVP; manual inputs only |
-| Q6 | Accounts / cloud sync, or purely local? | Purely local |
-| Q7 | Primary diagnostic framework: 八綱 + 臟腑/氣血津液 for 雜病, 六經 for 外感, 衛氣營血/三焦 later? | As described in §9 |
-| Q8 | Who is the qualified TCM reviewer(s)? Review cadence? | TBD — blocks M3 |
-| Q9 | Simplified Chinese UI later? | Post-MVP |
-| Q10 | Commercial or non-commercial release? (affects use of CC BY-NC-SA material such as ctext.org) | Treat as potentially commercial → exclude NC data |
-| Q11 | Minimum age and handling of pregnancy / elderly users | ≥ 18; pregnancy → lifestyle-only |
+| Q1 | Target region and regulatory framing (Taiwan / HK / mainland / global); which pharmacopoeia | Taiwan-first wording; international English |
+| Q2 | Which complaint modules and patterns are in the MVP | 23 patterns, 8 modules (SOP §9.4) |
+| Q3 | LLM involvement | None in the diagnostic core; optional rewording post-MVP |
+| Q4 | Tongue-photo analysis or pulse devices | Not in MVP |
+| Q5 | Accounts / cloud sync | Purely local |
+| Q6 | Simplified Chinese UI | Post-MVP |
+| Q7 | Commercial or non-commercial release (affects CC BY-NC-SA material) | Treat as potentially commercial → exclude NC data |
+| Q8 | Who reviews the content (TCM practitioner, pharmacist, physician); cadence | TBD — blocks M3 |
+| Q9 | Minimum age, pregnancy and elderly handling beyond the profiles | Per release profile |
+| Q10 | Release default of the birth-based blocks | **Opt-in** (SOP D13) |
+| Q11 | 長夏 model, tier thresholds, automatic modification scope | SOP D14–D16 defaults |
+
+Detailed SOP-level open items (D2, D3, D6, D9–D18) live in SOP Appendix D.
 
 ---
 
@@ -405,16 +391,21 @@ Proposed defaults are used in this draft until confirmed.
 
 | Term | Meaning |
 |---|---|
-| 四診 (Four examinations) | 望 inspection, 聞 listening/smelling, 問 inquiry, 切 palpation/pulse |
-| 辨證 (Pattern differentiation) | Identifying the pattern (證) from collected information |
-| 論治 | Deciding treatment principles and methods from the pattern |
-| 證 / 證型 | Pattern — the syndrome-level conclusion (e.g. 脾氣虛) |
-| 證素 | Pattern element: disease location (病位) and disease nature (病性), combined to form a pattern |
-| 八綱 | Eight principles: 陰陽、表裏、寒熱、虛實 |
-| 體質 | Constitution — baseline tendency of an individual |
-| 方劑 / 方義 | Formula / the rationale of its composition (君臣佐使) |
-| 治則 / 治法 | Treatment principle / treatment method |
-| 經方 / 時方 | Classical formulas (mainly 傷寒論 & 金匱要略) / later-era formulas |
+| 四診 | Four examinations: 望 inspection, 聞 listening/smelling, 問 inquiry, 切 palpation/pulse |
+| 辨證 / 論治 | Pattern differentiation / treatment determination |
+| 證 / 證型 / 證素 | Pattern / pattern type / pattern element (location × nature) |
+| 八綱 | Eight principles: 陰陽、表裡、寒熱、虛實 |
+| 六邪 | Six pathogenic qi: 風寒暑濕燥火 |
+| 盤面 (panel) | The person's deviation from a healthy norm across five-phase organs, six qi, products and the eight principles |
+| 常模 (reference panel) | The personalised "normal for me, now" from innate, annual and seasonal blocks |
+| 先天 / 流年 / 時令 | Innate (birth) / annual cycle / season |
+| 五運六氣 | Five periods and six qi: the classical model of the year's climate |
+| 君臣佐使 | Sovereign, minister, assistant, envoy — the roles of herbs in a formula |
+| 加減 | Modification of a formula by adding/removing herbs |
+| 治則 / 治法 | Treatment principle / method |
+| 經方 / 時方 | Classical formulas (傷寒論, 金匱要略) / later-era formulas |
+| Output level L0–L3 | Education only / standard / extended / full |
+| Profile | Application configuration (`dev`, `release`) mapping populations, conditions and states to output levels and notices |
 
 ---
 
@@ -423,4 +414,5 @@ Proposed defaults are used in this draft until confirmed.
 | Version | Date | Change |
 |---|---|---|
 | 0.1 | 2026-10-03 | Initial draft from project brief |
-| 0.2 | 2026-10-03 | Aligned with diagnosis SOP v0.1: 8 complaint modules, 23-pattern draft library, 12-dimension inquiry, formula tiers A/B/C, step numbering and SOP section references |
+| 0.2 | 2026-10-03 | Aligned with diagnosis SOP v0.1 |
+| 0.3 | 2026-10-03 | Scope configuration with dev/release profiles and "notice then continue" (FR-4, FR-17); birth-based five-phase module and personal reference panel (FR-18); body panel and offsets (FR-19); tongue zones and special signs, optional pulse (FR-6); herb and formula knowledge with 君臣佐使 and benefit–burden weights, matching, modification and proportions (FR-10, FR-20); implemented KB pipeline and `packages/wuxing`; decisions log; aligned with SOP v0.2 |

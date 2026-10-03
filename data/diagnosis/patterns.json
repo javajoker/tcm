@@ -31,7 +31,7 @@
         "zh-Hant": "風寒束表（太陽傷寒）"
       },
       "panel_projection_per_degree": {
-        "bagang.exterior": 2.0,
+        "bagang.exterior": 1.0,
         "liuxie.寒": 1.0,
         "liuxie.風": 1.0
       },
@@ -147,7 +147,7 @@
         "zh-Hant": "風熱犯表"
       },
       "panel_projection_per_degree": {
-        "bagang.exterior": 2.0,
+        "bagang.exterior": 1.0,
         "liuxie.火": 1.0,
         "liuxie.風": 1.0,
         "肺.yang": 0.5

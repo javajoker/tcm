@@ -24,6 +24,7 @@ ROLE_WEIGHT = {"君": 1.0, "臣": 0.6, "佐": 0.35, "使": 0.15}
 ROLE_CITATIONS = ["suwen-074-10", "suwen-074-11"]
 STRONG_HERB_SLUGS = {"mahuang", "fuzi"}
 BITTER_COLD_SHARE_LIMIT = 0.45
+ACTIVATING_SHARE_LIMIT = 0.10
 PREG_ORDER = {"ok": 0, "ok-unreviewed": 1, "caution": 2, "avoid": 3}
 
 _t2s = OpenCC("t2s")
@@ -199,7 +200,8 @@ def build(herbs_by_id: dict[str, dict], index: dict[str, str]) -> list[dict]:
         interactions = sorted({i for c in comp for i in herbs_by_id[c["herb"]]["interactions"]})
         preg = max((herbs_by_id[c["herb"]]["pregnancy"] for c in comp), key=lambda p: PREG_ORDER.get(p, 1))
         # Medication interactions are handled per patient by safety rules; the tier only encodes the formula's own risk.
-        has_activating = any("活血" in herbs_by_id[c["herb"]]["tags"] for c in comp)
+        activating_share = sum(c["effective_weight"] for c in comp if "活血" in herbs_by_id[c["herb"]]["tags"])
+        has_activating = activating_share >= ACTIVATING_SHARE_LIMIT
         if slugs & STRONG_HERB_SLUGS or bitter_cold_share >= BITTER_COLD_SHARE_LIMIT or f.get("mvp") is False:
             tier = "C"
         elif has_activating or "aristolochic-risk" in interactions:
@@ -214,7 +216,7 @@ def build(herbs_by_id: dict[str, dict], index: dict[str, str]) -> list[dict]:
         if f.get("mvp") is False:
             tier_reasons.append("outside the MVP: learning only")
         if tier == "B":
-            tier_reasons.append("contains blood-activating herbs or an aristolochic-acid risk herb")
+            tier_reasons.append(f"blood-activating herbs carry {activating_share:.0%} of the effective weight" if has_activating else "contains an aristolochic-acid risk herb")
 
         # verification
         verification: dict = {"role_status": "textbook-unreviewed", "proportion_basis": "textbook-typical (unverified)"}
@@ -295,7 +297,7 @@ def main() -> list[dict]:
             "description": "Formula knowledge base: composition with 君臣佐使 roles and proportions, aggregate panel effect, computed safety tier, verification against the sources.",
             "count": len(formulas), "composition_status_counts": dict(status), "tier_counts": dict(Counter(f["tier"] for f in formulas)),
             "role_weights": ROLE_WEIGHT, "role_weight_basis": ROLE_CITATIONS,
-            "tier_rule": "C if a strong herb (麻黃, 附子) or bitter-cold herbs ≥ 45 % of effective weight or outside MVP; else B if it contains a blood-activating herb or an aristolochic-risk herb; else A. Medication interactions are not part of the tier (see safety/rules.json).",
+            "tier_rule": "C if a strong herb (麻黃, 附子) or bitter-cold herbs ≥ 45 % of effective weight or outside MVP; else B if blood-activating herbs carry ≥ 10 % of the effective weight or it contains an aristolochic-risk herb; else A. Medication interactions are not part of the tier (see safety/rules.json).",
             "proportion_note": "typical_g is a textbook-typical amount used only to derive relative proportions; classical_amount is parsed from the original text where available. Neither is a dosing recommendation.",
         },
         "items": formulas,

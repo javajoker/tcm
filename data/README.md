@@ -54,7 +54,7 @@ Needs Node ≥ 22.18 for the one TypeScript export step (`scripts/kb/export_wuxi
 Flavour excess harm follows 《素問·生氣通天論》 (酸→脾, 鹹→心, 甘→腎, 苦→脾, 辛→肝; citations `suwen-003-1…5`).
 
 **Tiers are computed, not assigned.** C: a strong herb (麻黃, 附子), bitter-cold herbs ≥ 45 % of effective weight, or outside the MVP.
-B: contains a blood-activating herb or an aristolochic-acid-risk herb (木通). Else A. Medication interactions are *not* part of the tier;
+B: blood-activating herbs carry ≥ 10 % of the effective weight, or it contains an aristolochic-acid-risk herb (木通). Else A (20 of the 33 formulas). Medication interactions are *not* part of the tier;
 they are applied per patient by `safety/rules.json`.
 
 **Scope profiles.** `release` restricts output (adult L1 …); `dev` opens L3 for everyone. In *both*, risky populations/conditions

@@ -5,7 +5,7 @@
 | **Version** | 0.1 |
 | **Status** | Implemented and verified — [`packages/wuxing`](../packages/wuxing) (74 tests) |
 | **Last updated** | 2026-10-03 |
-| **Consumers** | [Diagnosis SOP](diagnosis-sop.zh-TW.md) (§ 先天盤・流年・時令・盤面), [PRD](PRD.md) FR-18/19 |
+| **Consumers** | [Diagnosis SOP](diagnosis-sop.zh-TW.md) §6 (先天・流年・時令) and §10 (盤面), [PRD](PRD.md) FR-18/19, knowledge base [`data/wuxing/`](../data/wuxing) |
 | **Provenance** | Extracted from the author's earlier BaZi engine, *fate4* (private repository, commit `aba58ee`), and re-implemented independently. Nothing in this project depends on that repository. |
 
 ---
@@ -547,8 +547,8 @@ transmission(deviation, p?)                    → pressure, ranked rules
 yunqiOfYear / yunqiAt / seasonAt               → classical tables for a year / instant
 ```
 
-**App configuration** (see PRD FR-17 and `data/config/scope-profiles.json`): `wuxing.enabled` (module on/off), `wuxing.innate_bazi` (needs birth data), `wuxing.liunian_bazi`, `wuxing.yunqi`, `wuxing.season`,
-`wuxing.season_model`. Development profile: all on. Release profile: season and yunqi on; birth-data (BaZi) blocks **opt-in** by the user.
+**App configuration** (see PRD FR-17 and `data/config/scope-profiles.json`): `wuxing.enabled` (module on/off), `wuxing.bazi_innate` and `wuxing.bazi_annual` (need birth data), `wuxing.yunqi`, `wuxing.season`,
+`wuxing.season_model` (`changxia` | `tuwang18`). Development profile: all on. Release profile: season and yunqi on; the birth-data (BaZi) blocks are **opt-in** by the user (`"opt_in"`).
 
 **Execution:** everything runs client-side; birth data never leaves the device (§15). Measured on a laptop (Node 25): chart + base ≈ 0.8 ms, a year evaluation ≈ 0.4 ms, a reference panel ≈ 0.5 ms.
 

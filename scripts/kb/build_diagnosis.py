@@ -71,6 +71,8 @@ def build_patterns(formula_ids: set[str], citation_ids: set[str]) -> tuple[dict,
                 e["weights"][s] = max(e["weights"].get(s, 0), w)
             for s, v in p["against"].items():
                 e["against"][s] = max(e["against"].get(s, 0), v)
+        if any(loc in panel.EXTERIOR_LOCATIONS for loc, _ in p["elements"]):
+            unit_projection["bagang.exterior"] = 1.0       # a pattern is "exterior" once, however many natures it has
         grp_formulas = p["formulas"]
         plist.append({
             "id": p["id"], "name": {"zh-Hant": p["zh"], "en": p["en"]}, "group": p["group"], "elements": els, "principle": p["principle"],
