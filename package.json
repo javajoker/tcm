@@ -1,0 +1,21 @@
+{
+  "name": "tcm-app",
+  "private": true,
+  "type": "module",
+  "description": "TCM self-assessment app — workspace root (see docs/tech-spec.md §2.1).",
+  "packageManager": "pnpm@11.0.5",
+  "engines": { "node": ">=22.18" },
+  "scripts": {
+    "typecheck": "pnpm -r --if-present typecheck",
+    "test": "pnpm -r --if-present test",
+    "lint": "eslint .",
+    "check": "pnpm lint && pnpm typecheck && pnpm test",
+    "build:kb": ".venv/bin/python -m scripts.kb.build_kb"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "eslint": "^9.39.0",
+    "typescript": "~5.9.3",
+    "typescript-eslint": "^8.46.0"
+  }
+}

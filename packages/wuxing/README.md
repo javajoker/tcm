@@ -40,9 +40,9 @@ panel is built from season and 五運六氣 only.
 ## Develop
 
 ```bash
-npm install          # dev dependencies only (typescript, @types/node)
-npm test             # node:test, runs .ts directly (Node ≥ 22.18 / 24 / 25, type stripping)
-npm run typecheck    # tsc --strict, noUncheckedIndexedAccess, erasableSyntaxOnly
+pnpm install                          # once, at the repository root (workspace)
+pnpm --filter @tcm/wuxing test        # node:test, runs .ts directly (Node ≥ 22.18 / 24 / 25, type stripping)
+pnpm --filter @tcm/wuxing typecheck   # tsc --strict, noUncheckedIndexedAccess, erasableSyntaxOnly (tsconfig.base.json)
 ```
 
 Sources use only *erasable* TypeScript syntax and `.ts` import specifiers so they run unbuilt under Node's

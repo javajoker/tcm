@@ -35,8 +35,8 @@ python3 -m venv .venv && .venv/bin/pip install -r scripts/requirements.txt
 .venv/bin/python -m scripts.kb.build_kb            # build data/ + validate + self-test (deterministic)
 .venv/bin/python -m scripts.kb.example_pipeline    # worked example used in the SOP
 
-# five-phase engine
-cd packages/wuxing && npm install && npm test && npm run typecheck
+# workspace: five-phase engine tests, type checks and lint
+pnpm install && pnpm check
 ```
 
 ## Configuration in one paragraph

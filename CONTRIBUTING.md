@@ -14,11 +14,12 @@ git clone --recurse-submodules <repo-url>        # or: git submodule update --in
 python3 -m venv .venv && .venv/bin/pip install -r scripts/requirements.txt
 .venv/bin/python -m scripts.kb.build_kb          # build data/ + validate + pattern self-test (deterministic)
 
-# five-phase engine (exists today)
-cd packages/wuxing && npm install && npm test && npm run typecheck
+# workspace (packages/*, apps/*)
+pnpm install
+pnpm check            # lint + typecheck + tests for every package
 ```
 
-Once the workspace exists (task T-ENG-01) the same will be `pnpm install`, `pnpm test`, `pnpm typecheck`, `pnpm dev`, `pnpm build`, `pnpm check:i18n`.
+Root scripts: `pnpm lint`, `pnpm typecheck`, `pnpm test`, `pnpm check`, `pnpm build:kb`. Per package: `pnpm --filter @tcm/wuxing test`. The web app (`pnpm dev`, `pnpm build`) and `pnpm check:i18n` arrive with tasks U-01 and I-03.
 
 ## 2. Layout
 
@@ -72,7 +73,7 @@ Once the workspace exists (task T-ENG-01) the same will be `pnpm install`, `pnpm
 | Change | Run |
 |---|---|
 | `scripts/kb/**` or `data/**` | `.venv/bin/python -m scripts.kb.build_kb` (must be a no-op diff if you changed nothing; validation and self-test must pass) |
-| `packages/wuxing/**` | `cd packages/wuxing && npm test && npm run typecheck` |
+| `packages/wuxing/**` | `pnpm --filter @tcm/wuxing test && pnpm --filter @tcm/wuxing typecheck` |
 | `packages/engine/**` (planned) | `pnpm --filter @tcm/engine test`, parity fixtures regenerated if parameters/KB changed |
 | UI strings | `pnpm check:i18n` |
 | `apps/web/**` (planned) | `pnpm --filter web test`, `pnpm --filter web e2e` for flows you touched, axe |

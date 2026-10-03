@@ -24,18 +24,18 @@
 | **A** Documentation | 18 | 18 |
 | **DEC** Decisions | 6 | 6 |
 | **K** Knowledge base | 1 | 20 |
-| **E** Engine and packages | 1 | 21 |
+| **E** Engine and packages | 2 | 21 |
 | **I** Internationalisation | 0 | 6 |
 | **U** Web application | 0 | 26 |
 | **Q** Quality assurance | 0 | 10 |
 | **R** Release and operations | 0 | 7 |
 | **V** Review (non-code) | 0 | 7 |
 | **PF** Performance (P2) | 0 | 3 |
-| **All** | **26** | **124** |
+| **All** | **27** | **124** |
 
 | Priority | Done | Total |
 |---|---:|---:|
-| P0 | 13 | 74 |
+| P0 | 14 | 74 |
 | P1 | 11 | 42 |
 | P2 | 2 | 8 |
 
@@ -121,7 +121,7 @@ Suggested waves: **1** foundation (E-01, K-01, K-02, I-01, U-01, R-01) → **2**
 | ✔ | ID | Task | Pri | Size | Deps | Done when |
 |---|---|---|---|---|---|---|
 | [x] | W-01 | `@tcm/wuxing` engine (chart, weights, propagation, temporal, yunqi, reference panel, offsets, transmission) | P0 | XL | A-04 | `58dd36b`, `b132c7c`; 74 tests, oracle parity, HKO check |
-| [ ] | E-01 | Workspace scaffold: pnpm workspace, root scripts, `tsconfig.base.json`, ESLint (typescript-eslint, layering rules, `no-literal-strings` later), Prettier; adopt `@tcm/wuxing` into the workspace | P0 | M | — | `pnpm install && pnpm typecheck && pnpm test` green at the root |
+| [x] | E-01 | Workspace scaffold: pnpm workspace, root scripts, `tsconfig.base.json`, ESLint (typescript-eslint, layering rules, `no-literal-strings` later), Prettier; adopt `@tcm/wuxing` into the workspace | P0 | M | — | `pnpm install && pnpm typecheck && pnpm test` green at the root |
 | [ ] | E-02 | `@tcm/kb`: types generated from schemas (freshness check), `indexKnowledgeBase`, `loadKnowledgeBase`, manifest/version verification | P0 | L | E-01, K-02 | Loads the real `data/` in Node; mismatch refused; tests |
 | [ ] | E-03 | `scripts/bundle-data.ts`: validate, profile pruning ([tech spec §5.3](docs/tech-spec.md)), chunking, hashing, manifest, per-chunk budgets | P0 | L | E-02 | Release bundle has no amounts/tier C/dev profile (tests); budgets enforced |
 | [ ] | E-04 | `@tcm/engine` types + `policy.ts` (resolution, merge, two-phase, suppressed record) with table-driven and property tests | P0 | L | E-02 | Full matrix of both profiles; properties P3, P4 |
