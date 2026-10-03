@@ -222,9 +222,7 @@
           "book",
           "chapter",
           "id",
-          "quote_source_zh_hans",
           "quote_zh_hant",
-          "source_path",
           "source_repo",
           "verified"
         ],

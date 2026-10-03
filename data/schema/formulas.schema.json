@@ -327,8 +327,7 @@
                 "note",
                 "proportion",
                 "role",
-                "role_weight",
-                "typical_g"
+                "role_weight"
               ],
               "type": "object"
             },
@@ -389,8 +388,7 @@
                     "required": [
                       "herb",
                       "name",
-                      "role",
-                      "typical_g"
+                      "role"
                     ],
                     "type": "object"
                   },
@@ -425,8 +423,7 @@
                     "required": [
                       "herb",
                       "name",
-                      "role",
-                      "typical_g"
+                      "role"
                     ],
                     "type": "object"
                   },
@@ -592,8 +589,7 @@
                   "matched_in_formula",
                   "not_in_formula",
                   "note",
-                  "parsed",
-                  "path"
+                  "parsed"
                 ],
                 "type": "object"
               },
@@ -623,7 +619,6 @@
                   }
                 },
                 "required": [
-                  "book_path",
                   "found",
                   "missing",
                   "occurrences",
@@ -664,7 +659,6 @@
           "flavor_profile",
           "id",
           "interactions",
-          "kb_commit",
           "modifications",
           "mvp",
           "name",

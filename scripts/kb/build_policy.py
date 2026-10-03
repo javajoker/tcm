@@ -14,7 +14,7 @@ def main() -> None:
         "profiles": policy.PROFILES, "resolution": policy.RESOLUTION,
     })
     dump(DATA / "safety" / "rules.json", {
-        "_meta": {"description": "Safety filter rules. severity=hard rules remove the item in the release profile (suppress_hard); everything is annotated in dev (annotate_only). "
+        "_meta": {"description": "Safety filter rules. severity=hard rules remove the item when the profile suppresses (suppress_hard); a development profile annotates instead of removing. "
                                  "The filter never hides an item silently: a suppressed item is listed with its reason.",
                   "status": "draft", "clinical_review_required": policy.CLINICAL_REVIEW_REQUIRED, "count": len(policy.RULES)},
         "rules": policy.RULES,

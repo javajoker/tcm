@@ -8,14 +8,15 @@
     "node": ">=22.18"
   },
   "scripts": {
-    "typecheck": "pnpm -r --if-present typecheck",
+    "typecheck": "pnpm -r --if-present typecheck && tsc -p scripts/tsconfig.json",
     "test": "pnpm -r --if-present test",
     "lint": "eslint .",
     "check": "pnpm lint && pnpm typecheck && pnpm test",
     "build:kb": ".venv/bin/python -m scripts.kb.build_kb",
     "test:kb": ".venv/bin/python -m unittest discover -s scripts/kb/tests -t .",
     "generate:kb-types": "node scripts/generate-kb-types.ts",
-    "check:kb-types": "node scripts/generate-kb-types.ts --check"
+    "check:kb-types": "node scripts/generate-kb-types.ts --check",
+    "bundle:kb": "node scripts/bundle-data.ts"
   },
   "devDependencies": {
     "@types/node": "^22.10.0",

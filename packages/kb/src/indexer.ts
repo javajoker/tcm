@@ -42,8 +42,11 @@ export function indexKnowledgeBase(raw: RawKbChunks): KnowledgeBase {
   for (const q of core.questions.items) {
     for (const o of q.options) for (const s of o.symptoms) if (!symptoms.has(s)) throw new KbError("index-invalid", `question ${q.id} uses unknown symptom ${s}`);
   }
-  if (herbs) {
-    for (const f of formulas.values()) for (const c of f.composition) if (!herbs.has(c.herb)) throw new KbError("index-invalid", `formula ${f.id} uses herb ${c.herb} which is not in this bundle`);
+  for (const f of formulas.values()) {
+    for (const c of f.composition) {
+      if (!(c.herb in raw.formulas.herbNames)) throw new KbError("index-invalid", `formula ${f.id} uses herb ${c.herb} without a display name`);
+      if (herbs && !herbs.has(c.herb)) throw new KbError("index-invalid", `formula ${f.id} uses herb ${c.herb} which is not in this bundle`);
+    }
   }
 
   const terms = new Map<string, GlossaryTerm>();
@@ -75,6 +78,7 @@ export function indexKnowledgeBase(raw: RawKbChunks): KnowledgeBase {
     treatment: core.treatment,
     wuxing: core.wuxing,
     glossary: core.glossary.items,
+    herbName: (id) => raw.formulas.herbNames[id],
     citation: (id) => citations.get(id),
     term: (zh) => terms.get(zh),
   };

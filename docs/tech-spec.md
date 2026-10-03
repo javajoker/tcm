@@ -260,7 +260,7 @@ Measured on the current `data/` (minified JSON, gzip):
 Total KB currently **≈ 143 KB gzip** for everything including all 703 herbs. With pruning (§5.3) a **release** session fetches roughly **55–65 KB gzip**
 (core, tier-A formulas without amounts, citations; no herb records), a **dev** session about 100 KB (plus `herbs-ext` on demand). The 975 KB `herbs.json` is never shipped whole. Per-chunk budgets are asserted by `bundle-data.ts` (fails the build on overrun).
 
-### 5.3 Profile pruning
+### 5.3 Profile pruning ✔ (task E-03: `packages/kb/src/bundle.ts`, `scripts/bundle-data.ts`)
 
 A profile cannot show anything above its **maximum reachable level** `Lmax(profile)` = the highest `level` in any population/condition/state entry,
 further capped by feature flags. Pruning removes whatever is unreachable:
@@ -272,7 +272,8 @@ further capped by feature flags. Pruning removes whatever is unreachable:
 | Tier-B formulas | `Lmax ≥ L2` |
 | Formula modifications, `herbs-core` effects/harms (herb weights) | `features.show_formula_modification` or `show_herb_weights`, and `Lmax ≥ L2` |
 | The other profile's block in `scope-profiles.json` | never kept — only the active profile is emitted |
-| Review-status badges, internal `source.path`, build commit fields | `dev` only |
+| Internal provenance (`kb_commit`, `source.repo_path`, verification file paths, the Simplified-script source quotation and `source_path` of citations) and the resolution documentation strings | `dev` only |
+| Herb records | Only the 94 curated herbs (formula herbs and the modification pool), and only when herb records are reachable; the 609 derived herbs are a knowledge-browser concern (P2). A tiny `herbNames` map (id → name, Latin) always ships with the formulas so a bundle without herb records can still name every herb |
 
 For the **release** profile as configured today (adult L1, every other cell ≤ L1, all of dose / modification / weights / tier C off) the bundle contains:
 tier-A formulas without amounts, no herb records beyond display names, no dev profile. `scripts/check-release.ts` asserts this on the built output (§6.3).

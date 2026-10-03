@@ -407,7 +407,6 @@
   },
   "required": [
     "_meta",
-    "dose_references",
     "incompatibilities",
     "pregnancy_acupoints",
     "rules"

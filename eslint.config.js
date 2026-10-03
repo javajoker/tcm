@@ -57,7 +57,7 @@ export default tseslint.config(
   },
   // Tests and scripts may use Node and the console.
   {
-    files: ["**/test/**/*.ts", "**/test-support/**/*.ts", "scripts/**/*.ts", "**/*.config.*"],
+    files: ["**/test/**/*.ts", "**/node/**/*.ts", "scripts/**/*.ts", "**/*.config.*"],
     rules: { "no-console": "off", "no-restricted-properties": "off", "no-restricted-globals": "off", "no-restricted-imports": "off" },
   },
 );

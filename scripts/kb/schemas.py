@@ -109,7 +109,7 @@ def finish(body: dict, title: str) -> dict:
 
 def citations() -> dict:
     item = obj({"book": STR, "chapter": STR, "clause_no": INT, "clause_no_verified": BOOL, "id": ref("citationId"), "quote_source_zh_hans": STR, "quote_zh_hant": STR,
-                "source_path": STR, "source_repo": STR, "verified": BOOL}, ["book", "chapter", "id", "quote_source_zh_hans", "quote_zh_hant", "source_path", "source_repo", "verified"])
+                "source_path": STR, "source_repo": STR, "verified": BOOL}, ["book", "chapter", "id", "quote_zh_hant", "source_repo", "verified"])  # source script and path are pruned from release bundles
     return envelope(item, meta({"count": INT, "note": STR, "unverified": arr(STR), "verified": INT}, ["count", "unverified", "verified"]))
 
 
@@ -253,13 +253,14 @@ def herb_index() -> dict:
 def formulas() -> dict:
     classical = obj({"processing": STR, "unit": enum("两", "个", "枚", "升", "合", "斤"), "value": NUM})
     comp = obj({"classical_amount": classical, "effective_weight": NUM, "herb": ref("herbId"), "name": STR, "note": NSTR, "proportion": NUM, "role": enum("君", "臣", "佐", "使"),
-                "role_weight": NUM, "typical_g": NUM}, ["effective_weight", "herb", "name", "note", "proportion", "role", "role_weight", "typical_g"])
-    mod_herb = obj({"herb": ref("herbId"), "name": STR, "role": enum("君", "臣", "佐", "使"), "typical_g": NUM})
+                "role_weight": NUM, "typical_g": NUM}, ["effective_weight", "herb", "name", "note", "proportion", "role", "role_weight"])  # amounts are pruned from release bundles
+    mod_herb = obj({"herb": ref("herbId"), "name": STR, "role": enum("君", "臣", "佐", "使"), "typical_g": NUM}, ["herb", "name", "role"])
     mod = obj({"add": arr(mod_herb), "id": pattern(r"^M_[A-Z0-9_]+$"), "remove": arr(mod_herb), "result_name": STR,
                "source": obj({"book": STR, "verification": STR}), "status": STR, "when_symptoms": arr(ref("symptomId"))})
     verification = obj({
-        "classical": obj({"anchor": STR, "matched_in_formula": arr(STR), "not_in_formula": arr(STR), "note": NSTR, "parsed": INT, "path": STR}),
-        "composition_check": obj({"book_path": STR, "found": INT, "missing": arr(STR), "note": STR, "occurrences": INT, "total": INT}, ["book_path", "found", "missing", "occurrences", "total"]),
+        "classical": obj({"anchor": STR, "matched_in_formula": arr(STR), "not_in_formula": arr(STR), "note": NSTR, "parsed": INT, "path": STR},
+                         ["anchor", "matched_in_formula", "not_in_formula", "note", "parsed"]),
+        "composition_check": obj({"book_path": STR, "found": INT, "missing": arr(STR), "note": STR, "occurrences": INT, "total": INT}, ["found", "missing", "occurrences", "total"]),
         "composition_status": enum("verified-against-classical-text", "verified-against-source-book", "partially-verified"),
         "proportion_basis": STR, "role_status": STR, "source_note": STR,
     }, ["composition_status", "proportion_basis", "role_status"])
@@ -270,7 +271,8 @@ def formulas() -> dict:
         "patterns": arr(ref("patternId")), "pregnancy": enum("ok", "ok-unreviewed", "caution", "avoid"), "principle": STR, "rationale_citations": arr(ref("citationId")),
         "rationale_zh": STR, "school": enum("經方", "時方"), "source": obj({"book": STR, "ref": STR, "repo_path": STR}, ["book", "ref"]), "status": ref("reviewStatus"),
         "tier": enum("A", "B", "C"), "tier_reasons": arr(STR), "verification": verification,
-    })
+    }, ["cautions", "classical_amounts", "composition", "core_indications", "flavor_profile", "id", "interactions", "modifications", "mvp", "name", "panel_burden", "panel_effect", "patterns",
+        "pregnancy", "principle", "rationale_citations", "rationale_zh", "school", "source", "status", "tier", "tier_reasons", "verification"])  # kb_commit is internal: pruned from release bundles
     return envelope(item, meta({"composition_status_counts": dictionary(INT), "count": INT, "proportion_note": STR, "role_weight_basis": arr(ref("citationId")), "role_weights": dictionary(NUM),
                                 "tier_counts": dictionary(INT), "tier_rule": STR},
                                ["composition_status_counts", "count", "proportion_note", "role_weight_basis", "role_weights", "tier_counts", "tier_rule"]))
@@ -345,7 +347,7 @@ def safety_rules() -> dict:
                                   "shijiuwei": arr(obj({"a": STR, "b": STR}))}),
         "dose_references": obj({"elderly": STR, "minor_fractions": arr(obj({"age": STR, "fraction_of_adult": STR})), "note": STR}),
         "pregnancy_acupoints": arr(STR, 1)},
-        "required": ["_meta", "dose_references", "incompatibilities", "pregnancy_acupoints", "rules"], "additionalProperties": False}
+        "required": ["_meta", "incompatibilities", "pregnancy_acupoints", "rules"], "additionalProperties": False}  # dose_references is pruned from bundles that cannot show doses
 
 
 def treatment_guidance() -> dict:

@@ -49,7 +49,7 @@ export interface Formulas {
       proportion: number;
       role: "君" | "臣" | "佐" | "使";
       role_weight: number;
-      typical_g: number;
+      typical_g?: number;
     }[];
     core_indications: SymptomId[];
     flavor_profile: {
@@ -57,20 +57,20 @@ export interface Formulas {
     };
     id: FormulaId;
     interactions: string[];
-    kb_commit: string;
+    kb_commit?: string;
     modifications: {
       add: {
         herb: HerbId;
         name: string;
         role: "君" | "臣" | "佐" | "使";
-        typical_g: number;
+        typical_g?: number;
       }[];
       id: string;
       remove: {
         herb: HerbId;
         name: string;
         role: "君" | "臣" | "佐" | "使";
-        typical_g: number;
+        typical_g?: number;
       }[];
       result_name: string;
       source: {
@@ -105,10 +105,10 @@ export interface Formulas {
         not_in_formula: string[];
         note: string | null;
         parsed: number;
-        path: string;
+        path?: string;
       };
       composition_check?: {
-        book_path: string;
+        book_path?: string;
         found: number;
         missing: string[];
         note?: string;

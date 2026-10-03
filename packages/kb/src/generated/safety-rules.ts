@@ -14,7 +14,7 @@ export interface SafetyRules {
     status: ReviewStatus;
     [k: string]: unknown;
   };
-  dose_references: {
+  dose_references?: {
     elderly: string;
     minor_fractions: {
       age: string;

@@ -3,7 +3,7 @@ import { createHash } from "node:crypto";
 import { test } from "node:test";
 import { indexKnowledgeBase, loadKnowledgeBase, KbError } from "../src/index.ts";
 import type { Manifest, RawKbChunks } from "../src/index.ts";
-import { rawChunksFromDisk } from "../test-support/fromDisk.ts";
+import { rawChunksFromDisk } from "../node/fromDisk.ts";
 
 const raw = rawChunksFromDisk("dev");
 const kb = indexKnowledgeBase(raw);
@@ -14,7 +14,8 @@ test("the real data indexes: counts and lookups", () => {
   assert.equal(kb.questions.length, 28);
   assert.equal(kb.modules.length, 8);
   assert.equal(kb.formulas.size, 33);
-  assert.equal(kb.herbs?.size, 703);
+  assert.equal(kb.herbs?.size, 94, "dev bundle: the curated herbs");
+  assert.equal(kb.herbName("herb-renshen")?.name["zh-Hant"], "人參");
   assert.equal(kb.constitutions.length, 9);
   assert.equal(kb.redFlags.length, 28);
   assert.equal(kb.profile, "dev");
@@ -45,7 +46,7 @@ test("duplicate ids are refused", () => {
 });
 
 test("a pattern that lists a formula missing from the bundle is refused", () => {
-  const pruned: RawKbChunks = { ...raw, formulas: { items: raw.formulas.items.filter((f) => f.id !== "F_SIJUNZI") } };
+  const pruned: RawKbChunks = { ...raw, formulas: { ...raw.formulas, items: raw.formulas.items.filter((f) => f.id !== "F_SIJUNZI") } };
   assert.throws(() => indexKnowledgeBase(pruned), (e: unknown) => e instanceof KbError && /F_SIJUNZI/.test(e.message));
 });
 

@@ -79,7 +79,9 @@ export interface CoreChunk {
   readonly wuxing: { readonly correspondences: Correspondences; readonly susceptibility: Susceptibility; readonly yunqi: Yunqi };
   readonly glossary: Glossary;
 }
-export interface FormulasChunk { readonly items: readonly Formula[] }
+/** Display names of every herb the retained formulas use: always present, so a bundle without herb records can still name the herbs. */
+export interface HerbName { readonly name: Bilingual; readonly latin: string | null }
+export interface FormulasChunk { readonly items: readonly Formula[]; readonly herbNames: Readonly<Record<string, HerbName>> }
 export interface HerbsChunk { readonly items: readonly Herb[] }
 export interface CitationsChunk { readonly items: readonly Citation[] }
 
@@ -129,6 +131,8 @@ export interface KnowledgeBase {
   readonly formulas: ReadonlyMap<string, Formula>;
   /** Null when the profile cannot reach the levels that use herb records (release at L1). */
   readonly herbs: ReadonlyMap<string, Herb> | null;
+  /** Display name of any herb used by a formula of this bundle (works without herb records). */
+  herbName(id: string): HerbName | undefined;
 
   readonly safety: SafetyRules;
   readonly treatment: TreatmentGuidance;

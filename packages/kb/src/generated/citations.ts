@@ -18,9 +18,9 @@ export interface Citations {
     clause_no?: number;
     clause_no_verified?: boolean;
     id: CitationId;
-    quote_source_zh_hans: string;
+    quote_source_zh_hans?: string;
     quote_zh_hant: string;
-    source_path: string;
+    source_path?: string;
     source_repo: string;
     verified: boolean;
   }[];
