@@ -1,0 +1,19 @@
+{
+  "name": "@tcm/engine",
+  "version": "0.1.0",
+  "private": true,
+  "description": "TCM diagnosis engine: pure, deterministic pipeline from findings to pattern, body panel, formulas and safety-filtered recommendations (tech spec §7).",
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": { ".": "./src/index.ts" },
+  "sideEffects": false,
+  "scripts": {
+    "test": "node --test \"test/*.test.ts\"",
+    "typecheck": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@tcm/kb": "workspace:*",
+    "@tcm/wuxing": "workspace:*"
+  }
+}

@@ -24,6 +24,15 @@ importers:
         specifier: ^8.46.0
         version: 8.71.0(eslint@9.39.5)(typescript@5.9.3)
 
+  packages/engine:
+    dependencies:
+      '@tcm/kb':
+        specifier: workspace:*
+        version: link:../kb
+      '@tcm/wuxing':
+        specifier: workspace:*
+        version: link:../wuxing
+
   packages/kb: {}
 
   packages/wuxing: {}

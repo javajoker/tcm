@@ -24,18 +24,18 @@
 | **A** Documentation | 18 | 18 |
 | **DEC** Decisions | 6 | 6 |
 | **K** Knowledge base | 8 | 20 |
-| **E** Engine and packages | 4 | 21 |
+| **E** Engine and packages | 5 | 21 |
 | **I** Internationalisation | 0 | 6 |
 | **U** Web application | 0 | 26 |
 | **Q** Quality assurance | 0 | 10 |
 | **R** Release and operations | 0 | 7 |
 | **V** Review (non-code) | 0 | 7 |
 | **PF** Performance (P2) | 0 | 3 |
-| **All** | **36** | **124** |
+| **All** | **37** | **124** |
 
 | Priority | Done | Total |
 |---|---:|---:|
-| P0 | 22 | 74 |
+| P0 | 23 | 74 |
 | P1 | 12 | 42 |
 | P2 | 2 | 8 |
 
@@ -140,7 +140,7 @@ Suggested waves: **1** foundation (E-01, K-01, K-02, I-01, U-01, R-01) → **2**
 | [ ] | E-17 | `assess.ts` orchestration, public API, `ENGINE_VERSION`, determinism | P0 | M | E-04…E-16 | Properties P1–P12 green; save/load idempotence |
 | [ ] | E-18 | Parity tests + CI fixture-freshness job | P0 | S | K-15, E-17 | Fails on drift |
 | [ ] | E-19 | Engine micro-benchmarks (`assess` ≤ 50 ms p95) | P2 | S | E-17 | Bench runs in CI; regression guard |
-| [ ] | E-20 | Seeded generator and test utilities shared by property tests | P0 | S | E-01 | Used by E-04 onwards; prints seed on failure |
+| [x] | E-20 | Seeded generator and test utilities shared by property tests | P0 | S | E-01 | Used by E-04 onwards; prints seed on failure |
 
 ## I. Internationalisation
 
