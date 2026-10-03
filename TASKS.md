@@ -23,7 +23,7 @@
 |---|---:|---:|
 | **A** Documentation | 18 | 18 |
 | **DEC** Decisions | 6 | 6 |
-| **K** Knowledge base | 1 | 20 |
+| **K** Knowledge base | 2 | 20 |
 | **E** Engine and packages | 2 | 21 |
 | **I** Internationalisation | 0 | 6 |
 | **U** Web application | 0 | 26 |
@@ -31,11 +31,11 @@
 | **R** Release and operations | 0 | 7 |
 | **V** Review (non-code) | 0 | 7 |
 | **PF** Performance (P2) | 0 | 3 |
-| **All** | **27** | **124** |
+| **All** | **28** | **124** |
 
 | Priority | Done | Total |
 |---|---:|---:|
-| P0 | 14 | 74 |
+| P0 | 15 | 74 |
 | P1 | 11 | 42 |
 | P2 | 2 | 8 |
 
@@ -96,7 +96,7 @@ Suggested waves: **1** foundation (E-01, K-01, K-02, I-01, U-01, R-01) → **2**
 | ✔ | ID | Task | Pri | Size | Deps | Done when |
 |---|---|---|---|---|---|---|
 | [x] | K-00 | KB build pipeline, validation, pattern self-test, reference diagnosis pipeline, first-pass `data/` | P0 | XL | A-03 | `da2fc30`; 127/127 citations verified; deterministic build |
-| [ ] | K-01 | Move engine parameters into `data/diagnosis/scoring-params.json`; refactor `selftest_patterns.py` and `example_pipeline.py` to read it | P0 | M | — | Params live in data; the SOP worked-example numbers (SP1 55.8 %, 64.7 % / 62.6 %) reproduce exactly; build deterministic |
+| [x] | K-01 | Move engine parameters into `data/diagnosis/scoring-params.json`; refactor `selftest_patterns.py` and `example_pipeline.py` to read it | P0 | M | — | Params live in data; the SOP worked-example numbers (SP1 55.8 %, 64.7 % / 62.6 %) reproduce exactly; build deterministic |
 | [ ] | K-02 | JSON Schemas for every `data/**` file (`data/schema/*.schema.json`), `_meta.schema` version, validation in `validate_kb.py` | P0 | L | — | `build_kb` fails on any schema violation; schema documented in [KB schema](docs/kb-schema.md) |
 | [ ] | K-03 | Additional integrity checks ([KB schema §8.2](docs/kb-schema.md)): symptom ids used everywhere exist, exclusive groups real, tongue zones real, `kb_commit` matches submodule pin, tier recomputation, herb-model unit tests | P0 | M | K-02 | Checks implemented with failing-case tests |
 | [ ] | K-04 | Orthography normalisation 溼 → 濕 in every non-quotation field (herbs functions, correspondences…) and a CI check | P1 | S | — | `grep` of non-quotation fields shows no `溼`; deterministic rebuild |

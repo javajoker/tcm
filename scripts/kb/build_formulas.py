@@ -18,13 +18,14 @@ from opencc import OpenCC
 
 from .common import DATA, LIB, ROOT, book_path, dump, norm_ws, read_book, submodule_commits, tw
 from .curated.formulas import FORMULAS
+from .curated.params import PARAMS
 from .curated.herbs import NAME_TO_LIB
 
-ROLE_WEIGHT = {"君": 1.0, "臣": 0.6, "佐": 0.35, "使": 0.15}
+ROLE_WEIGHT = PARAMS["formula"]["role_weights"]
 ROLE_CITATIONS = ["suwen-074-10", "suwen-074-11"]
 STRONG_HERB_SLUGS = {"mahuang", "fuzi"}
-BITTER_COLD_SHARE_LIMIT = 0.45
-ACTIVATING_SHARE_LIMIT = 0.10
+BITTER_COLD_SHARE_LIMIT = PARAMS["tier"]["c_bitter_cold_share"]
+ACTIVATING_SHARE_LIMIT = PARAMS["tier"]["b_activating_share"]
 PREG_ORDER = {"ok": 0, "ok-unreviewed": 1, "caution": 2, "avoid": 3}
 
 _t2s = OpenCC("t2s")

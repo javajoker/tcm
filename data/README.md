@@ -28,6 +28,7 @@ Needs Node ≥ 22.18 for the one TypeScript export step (`scripts/kb/export_wuxi
 | `diagnosis/pulse.json` | 28 + 6 positions | Pulses with yin/yang class, features, indications; optional-input guidance and quality coefficient | 《瀕湖脈學》 (headings verified) + 《診家正眼》 |
 | `diagnosis/constitutions.json` | 9 | Nine constitutions, features, nature priors, susceptibility (questionnaire items deliberately excluded) | curated |
 | `diagnosis/red-flags.json` | 28 | Red-flag lists A / B / C | curated (needs physician review) |
+| `diagnosis/scoring-params.json` | — | **Engine parameters** shared by the Python oracle and the TypeScript engine: severity and quality factors, pattern bands, panel and reconciliation thresholds, formula and 加減 limits, tier thresholds, questionnaire limits | `scripts/kb/curated/params.py` (draft, SOP D3) |
 | `diagnosis/panel-schema.json` | — | The panel (五行臟腑・六邪・八綱) schema and the 證素 → panel projection | curated |
 | `wuxing/correspondences.json` | 5 | Five-phase correspondences **parsed from 《素問·陰陽應象大論》** (both orifice schools kept) | TCM-Library raw text |
 | `wuxing/ganzhi.json` | — | Stems, branches, hidden stems, 人元司令, solar terms | exported from `packages/wuxing` |

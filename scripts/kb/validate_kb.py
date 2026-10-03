@@ -38,6 +38,29 @@ def main() -> int:
     if cit["_meta"]["unverified"]:
         err(f"unverified citations: {cit['_meta']['unverified']}")
 
+    params = load("diagnosis/scoring-params.json")
+    sev, qual = params["severity"], params["quality"]
+    if not (0 < sev["light"] <= sev["moderate"] <= sev["severe"] <= 1 and sev["ungraded"] == sev["severe"]):
+        err("scoring-params: severity factors must satisfy 0 < light ≤ moderate ≤ severe ≤ 1 and ungraded = severe")
+    if set(qual["by_source"]) != {"inquiry", "measured", "guided", "pulse"} or not all(0 < v <= 1 for v in qual["by_source"].values()):
+        err("scoring-params: quality needs inquiry/measured/guided/pulse coefficients in (0, 1]")
+    if not set(qual["by_prefix"].values()) <= set(qual["by_source"]) or qual["default_source"] not in qual["by_source"]:
+        err("scoring-params: quality prefix or default source is not a known source")
+    bands = params["pattern"]["bands"]
+    if not (bands["high"] > bands["medium"] > bands["weak"] > 0):
+        err("scoring-params: pattern bands must satisfy high > medium > weak > 0")
+    conf = params["reconcile"]["confidence"]
+    if not (conf["high"]["pct1"] >= conf["medium"]["pct1"] >= conf["low"]["pct1"] and conf["high"]["margin"] >= conf["medium"]["margin"]
+            and conf["high"]["coverage"] >= conf["medium"]["coverage"]):
+        err("scoring-params: confidence thresholds must be non-increasing from high to low")
+    roles = params["formula"]["role_weights"]
+    if not (set(roles) == {"君", "臣", "佐", "使"} and roles["君"] > roles["臣"] > roles["佐"] > roles["使"] > 0):
+        err("scoring-params: role weights must satisfy 君 > 臣 > 佐 > 使 > 0")
+    if params["panel"]["noisy_or_floor"] < 0 or params["panel"]["degree_max"] <= 0:
+        err("scoring-params: invalid panel floor or degree_max")
+    if params["quality"]["by_source"]["pulse"] != load("diagnosis/pulse.json")["_meta"]["guidance"]["quality_coefficient"]:
+        err("pulse.json quality coefficient differs from scoring-params")
+
     herbs = load("herbs/herbs.json")["items"]
     herb_ids = {h["id"] for h in herbs}
     index = load("herbs/herb-index.json")["index"]

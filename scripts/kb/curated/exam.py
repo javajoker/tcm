@@ -1,5 +1,7 @@
 """Examination data: tongue zones and features, the 28 pulses, constitutions, red flags (curated draft)."""
 
+from .params import PARAMS
+
 # ── tongue ────────────────────────────────────────────────────────────────
 
 # Zone → organs. `classical` follows 《傷寒指掌》 (citation shanghan-zhizhang-tongue-zones): 滿舌屬胃，
@@ -105,8 +107,8 @@ PULSE_EXCLUSIVE = [["P_FLOAT", "P_SINK"], ["P_SLOW", "P_RAPID", "P_HASTY"], ["P_
 PULSE_GUIDANCE = dict(
     optional=True,
     note="脈象為可選輸入：只有能自行分辨時才填；不確定請留空。App 不會替您「辨脈」。",
-    quality_coefficient=0.5,
-    education="脈象需要受過訓練的手指與大量練習才能穩定分辨；自述的脈象可信度低，因此以較低的資料品質係數（0.5）進入計算，並在結果頁標示。",
+    quality_coefficient=PARAMS["quality"]["by_source"]["pulse"],
+    education=f"脈象需要受過訓練的手指與大量練習才能穩定分辨；自述的脈象可信度低，因此以較低的資料品質係數（{PARAMS['quality']['by_source']['pulse']}）進入計算，並在結果頁標示。",
     rate_bands={"slow_lt": 60, "rapid_gt": 90, "normal_range_modern": [60, 100]},
     positions_source="binhu-maixue-sanbu",
 )

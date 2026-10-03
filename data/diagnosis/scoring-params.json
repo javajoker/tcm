@@ -1,0 +1,117 @@
+{
+  "_meta": {
+    "description": "Diagnosis engine parameters shared by the Python oracle (scripts/kb/oracle.py) and the TypeScript engine (@tcm/engine). All values are draft placeholders awaiting practitioner calibration (SOP D3).",
+    "schema": 1,
+    "sources": {
+      "formula, tier": "SOP §12",
+      "panel": "SOP §10",
+      "questionnaire": "SOP §4.8",
+      "reconcile": "SOP §11",
+      "safety": "SOP §13.2",
+      "severity, quality": "SOP §4.7, §9.2"
+    },
+    "status": "draft"
+  },
+  "formula": {
+    "k_max": 3.0,
+    "modification": {
+      "add_share": 0.12,
+      "max_add": 2,
+      "max_remove": 1,
+      "min_gain": 1e-06
+    },
+    "role_weights": {
+      "佐": 0.35,
+      "使": 0.15,
+      "君": 1.0,
+      "臣": 0.6
+    },
+    "strength_bands": {
+      "light_below": 0.7,
+      "strong_above": 1.5
+    },
+    "symptom_fit_min": 0.6
+  },
+  "panel": {
+    "bagang": {
+      "excess_divisor": 6.0,
+      "exterior_divisor": 3.0,
+      "heat_divisor": 3.0,
+      "yang_deficit_weight": 0.5,
+      "yin_deficit_weight": 0.5
+    },
+    "degree_max": 3.0,
+    "dimension_weights": {
+      "bagang": 0.0,
+      "liuxie": 0.7,
+      "organ": 1.0,
+      "product": 0.7
+    },
+    "noisy_or_floor": 20.0,
+    "wuxing_function": {
+      "fu": 0.3,
+      "zang": 0.7
+    }
+  },
+  "pattern": {
+    "bands": {
+      "high": 60,
+      "medium": 40,
+      "weak": 20
+    },
+    "required_any_missing_factor": 0.5
+  },
+  "quality": {
+    "by_prefix": {
+      "P_": "pulse",
+      "T_": "guided"
+    },
+    "by_source": {
+      "guided": 0.7,
+      "inquiry": 1.0,
+      "measured": 0.9,
+      "pulse": 0.5
+    },
+    "default_source": "inquiry"
+  },
+  "questionnaire": {
+    "candidate_pct_floor": 20.0,
+    "core_coverage_stop": 0.8,
+    "max_questions": 50
+  },
+  "reconcile": {
+    "confidence": {
+      "high": {
+        "coverage": 0.8,
+        "kappa": 0.85,
+        "margin": 15.0,
+        "pct1": 60.0
+      },
+      "low": {
+        "pct1": 40.0
+      },
+      "medium": {
+        "coverage": 0.6,
+        "margin": 8.0,
+        "pct1": 40.0
+      }
+    },
+    "max_patterns": 3,
+    "merge_threshold": 40.0,
+    "mixed_threshold": 40.0,
+    "tie_margin": 5.0
+  },
+  "safety": {
+    "flavor_excess_share": 0.55
+  },
+  "severity": {
+    "light": 0.6,
+    "moderate": 0.8,
+    "severe": 1.0,
+    "ungraded": 1.0
+  },
+  "tier": {
+    "b_activating_share": 0.1,
+    "c_bitter_cold_share": 0.45
+  }
+}

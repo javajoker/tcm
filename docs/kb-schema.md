@@ -120,7 +120,11 @@ Nine constitutions `C_PINGHE, C_QIXU, C_YANGXU, C_YINXU, C_TANSHI, C_SHIRE, C_XU
 
 `{ id (RF_A_*, RF_B_*, RF_C_*), level (A emergency | B within 24 h | C out of intended scope), text: bilingual }`. `_meta.flow` records that the notice is shown in every profile and the flow continues.
 
-### 3.9 `diagnosis/panel-schema.json`
+### 3.9 `diagnosis/scoring-params.json` — engine parameters (single source)
+
+Shared by the Python oracle (`scripts/kb/oracle.py`) and the TypeScript engine; built from `scripts/kb/curated/params.py` by `build_params.py`; `_meta.schema` = 1. Groups: `severity` (light 0.6 · moderate 0.8 · severe 1.0 · ungraded 1.0) · `quality` (`by_source` inquiry 1.0 / measured 0.9 / guided 0.7 / pulse 0.5, `by_prefix` T_ → guided, P_ → pulse, `default_source`) · `pattern` (`required_any_missing_factor` 0.5, `bands` high 60 / medium 40 / weak 20) · `panel` (`noisy_or_floor` 20, `degree_max` 3, `dimension_weights`, `wuxing_function` 0.7/0.3, `bagang` divisors and weights) · `reconcile` (merge threshold 40, max 3 patterns, mixed threshold 40, tie margin 5, confidence grid) · `formula` (`symptom_fit_min` 0.6, `k_max` 3, `strength_bands`, `role_weights` 君 1.0 / 臣 0.6 / 佐 0.35 / 使 0.15, `modification` limits) · `tier` (bitter-cold 0.45, activating 0.10) · `safety` (`flavor_excess_share` 0.55) · `questionnaire` (coverage stop 0.8, max 50, candidate floor 20). Role weights and tier limits also drive `build_formulas.py`, and the pulse coefficient is checked against `pulse.json`. All values are draft placeholders (SOP D3).
+
+### 3.10 `diagnosis/panel-schema.json`
 
 The panel model: `organs.{zang, fu, element_of}`, `channels` (ranges), `liuxie` (six), `products` (痰 飲 瘀 食積), `location_organs` (證素 location → organs), `nature_projection`
 (nature → panel targets; `{organ}` is a placeholder), `exterior_locations`, `derived` (formulas for `bagang.cold_heat`, `deficiency_excess`, `exterior`, `yin_yang`, `wuxing_function`),
@@ -275,7 +279,6 @@ Nothing is `reviewed` yet; the release gate in the [release process](release-pro
 | File | Purpose | Notes |
 |---|---|---|
 | `data/schema/*.schema.json` | JSON Schema for every file above | Python `jsonschema` in `validate_kb.py`; TS types generated into `@tcm/kb` |
-| `diagnosis/scoring-params.json` | All engine parameters: severity factors `{light .6, moderate .8, severe 1}`, quality coefficients `{inquiry 1, measured .9, guided .7, pulse .5}`, noisy-OR floor 20, merge threshold 40, tie margin 5, confidence thresholds, 方證 ≥ 60 %, `k` max 3, 加減 limits (add ≤ 2, remove ≤ 1, share 12 %), dimension weights, alignment threshold 0.25, position discount 0.6 | Today constants in `selftest_patterns.py` / `example_pipeline.py`; moving them here lets both languages share them |
 | `diagnosis/questions.json` | Adaptive question bank: id, dimension, module(s), `core`, prerequisites (sex, not pregnant …), prompt (plain zh-Hant, en), term line, answer options → `{symptomId, severity?}`, exclusivity group | SOP §4.2 and §4.8 define ≈ 25 core questions and 8 modules |
 | `diagnosis/exclusions.json` | Mutually exclusive symptom groups and synonym splits (惡寒 ≠ 畏寒, 渴喜冷 ≠ 渴不欲飲, 喜按 ≠ 拒按) | SOP §5.2–§5.3 |
 | `diagnosis/constitution-items.json` | Own-written 9-type items, 1–5 scale, scoring map | SOP D6; needs review |
