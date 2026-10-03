@@ -73,3 +73,26 @@ export interface Policy {
   /** Notices to show, most severe first, one entry per cause; blocking ones need an acknowledgement. */
   readonly notices: readonly NoticeRequest[];
 }
+
+// ── findings ────────────────────────────────────────────────────────────────
+
+export type Severity = "light" | "moderate" | "severe";
+export type FindingState = "present" | "absent" | "unsure";
+/** Data-quality class of a finding (SOP §4.7); decides the quality coefficient q. */
+export type FindingSource = "inquiry" | "measured" | "guided" | "pulse";
+export type PulsePosition = "L-cun" | "L-guan" | "L-chi" | "R-cun" | "R-guan" | "R-chi";
+
+export interface Finding {
+  readonly state: FindingState;
+  /** Only for `present`; absent means "not graded" (factor `ungraded`). */
+  readonly severity?: Severity;
+  /** Defaults from the symptom-id prefix (T_ guided, P_ pulse, otherwise inquiry). */
+  readonly source?: FindingSource;
+  readonly position?: PulsePosition;
+}
+export type Findings = Readonly<Record<string, Finding>>;
+
+/** Non-symptom answers of the inquiry (today only the onset duration, SOP §9.1). */
+export interface AssessContext {
+  readonly course?: "acute" | "subacute" | "chronic";
+}

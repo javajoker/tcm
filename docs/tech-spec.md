@@ -171,7 +171,7 @@ export function indexKnowledgeBase(raw: RawKbChunks): KnowledgeBase;   // pure; 
 - The loader verifies `manifest.json` (version, file hashes, schema version) and refuses to run on a **schema-version mismatch** (the app and the KB were built together; a mismatch can only mean a stale cache).
 - **Review status** (`draft` / `curated-draft` / `derived` / `reviewed`) is a field on every record and is exposed to the UI (see [content review](content-review.md)).
 
-### 4.3 `@tcm/engine` (in progress: `policy.ts` ✔ task E-04)
+### 4.3 `@tcm/engine` (in progress: `policy.ts` ✔ E-04, `normalize.ts` ✔ E-05)
 
 The diagnosis pipeline. One module per SOP step; each is a pure function with its own unit tests. Contract in §7.
 
@@ -436,7 +436,7 @@ type TraceItem =
 **Binding rules (enforced by tests):**
 
 1. **Priors never create or hide evidence.** `reference` and `constitution` never enter step 7; `offsetPopulation` = `observed` exactly, for every possible reference (SOP §6.3, tested as a property).
-2. **Missing optional data never lowers a score** (tongue, pulse, birth). `absent` is negative evidence; `unsure`/skip is neutral and lowers coverage only.
+2. **Missing optional data never lowers a score** (tongue, pulse, birth). `absent` and `unsure` both add **nothing** to a pattern's score (the denominator Σw is fixed): `absent` is an *answered* question (it counts for coverage and is never asked again), `unsure`/skip is unanswered (it lowers coverage only). Evidence **against** a pattern is a *present* contradictory symptom (SOP §9.2 `v`), not an `absent` one.
 3. **Deterministic ordering.** Every sort breaks ties by id; no iteration over unordered keys without sorting; no floating-point accumulation order that depends on object key order.
 4. **Policy applies at the producer.** Steps 10–12 receive the `Policy` and omit what it forbids; the UI cannot render what it was not given.
 5. **Tiers are computed from herbs, not stored** (SOP §12.3): the engine recomputes the tier from `composition` and herb flags and a test asserts it equals the KB's `tier` field (guards KB/engine drift).
