@@ -1,5 +1,6 @@
 // Public input/output types of the diagnosis engine (tech spec §7.1). The engine returns structured data and message keys, never prose.
 import type { Level, Notice, ProfileName } from "@tcm/kb";
+import type { BirthInput } from "@tcm/wuxing";
 
 export type Sex = "female" | "male";
 export type PregnancyStatus = "no" | "possible" | "yes" | "not-applicable";
@@ -95,4 +96,21 @@ export type Findings = Readonly<Record<string, Finding>>;
 /** Non-symptom answers of the inquiry (today only the onset duration, SOP §9.1). */
 export interface AssessContext {
   readonly course?: "acute" | "subacute" | "chronic";
+}
+
+// ── subject ─────────────────────────────────────────────────────────────────
+
+/** The person (SOP §3). Safety inputs are required; everything else is optional context. */
+export interface Subject {
+  readonly ageYears: number;
+  readonly sex: Sex;
+  readonly pregnancy: PregnancyStatus;
+  readonly lactating: boolean;
+  readonly medications: readonly MedicationClass[];
+  /** Herb / food names the user is allergic to (free text, matched by name). */
+  readonly allergies: readonly string[];
+  /** One of the listed serious conditions (kidney failure, cirrhosis, cancer treatment, transplant, severe psychiatric or cardiopulmonary disease). */
+  readonly seriousChronicDisease: boolean;
+  /** Optional birth data (local only); used only when the birth blocks are enabled. */
+  readonly birth?: BirthInput;
 }

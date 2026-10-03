@@ -171,7 +171,7 @@ export function indexKnowledgeBase(raw: RawKbChunks): KnowledgeBase;   // pure; 
 - The loader verifies `manifest.json` (version, file hashes, schema version) and refuses to run on a **schema-version mismatch** (the app and the KB were built together; a mismatch can only mean a stale cache).
 - **Review status** (`draft` / `curated-draft` / `derived` / `reviewed`) is a field on every record and is exposed to the UI (see [content review](content-review.md)).
 
-### 4.3 `@tcm/engine` (in progress: `policy.ts` ✔ E-04, `normalize.ts` ✔ E-05, `patterns.ts` ✔ E-09, `reference.ts` ✔ E-06, `panel.ts` ✔ E-10, `formulas.ts` ✔ E-12, `modify.ts` ✔ E-13, `reconcile.ts` ✔ E-11, `orient.ts` ✔ E-08, `safety.ts` ✔ E-14, `explain.ts` ✔ E-15, `questionnaire.ts` ✔ E-16)
+### 4.3 `@tcm/engine` (in progress: `policy.ts` ✔ E-04, `normalize.ts` ✔ E-05, `patterns.ts` ✔ E-09, `reference.ts` ✔ E-06, `panel.ts` ✔ E-10, `formulas.ts` ✔ E-12, `modify.ts` ✔ E-13, `reconcile.ts` ✔ E-11, `orient.ts` ✔ E-08, `safety.ts` ✔ E-14, `explain.ts` ✔ E-15, `questionnaire.ts` ✔ E-16, `assess.ts` + `recommend.ts` ✔ E-17)
 
 The diagnosis pipeline. One module per SOP step; each is a pure function with its own unit tests. Contract in §7.
 
@@ -349,52 +349,52 @@ Invariants (property-tested): resolution is monotone (adding a risk can only low
 
 ## 7. Diagnosis engine contract
 
-### 7.1 Public API
+### 7.1 Public API ✔ (`packages/engine/src/assess.ts`, task E-17)
 
 ```ts
+export interface Subject {            // SOP §3
+  ageYears: number; sex: "female" | "male"; pregnancy: "no" | "possible" | "yes" | "not-applicable"; lactating: boolean;
+  medications: MedicationClass[];     // classes, "other" for anything unlisted
+  allergies: string[];                // herb / food names, matched by name
+  seriousChronicDisease: boolean;
+  birth?: BirthInput;                 // optional, local only
+}
 export interface AssessInput {
-  readonly subject: Subject;               // step 1 (age, sex, pregnancy, meds, allergies, chronic, region, birth?)
-  readonly redFlags: ReadonlySet<RedFlagId>;
-  readonly findings: Readonly<Record<SymptomId, Finding>>;   // steps 2–3 (inquiry, tongue, face, voice, pulse)
-  readonly constitutionAnswers?: Readonly<Record<ItemId, 1 | 2 | 3 | 4 | 5>>;
-  readonly context?: { readonly course?: "acute" | "subacute" | "chronic" };   // from the course question (SOP §9.1 routing)
-  readonly options: {
-    readonly now: number;                  // UTC ms — injected (T14)
-    readonly birthModule: boolean;         // user opt-in (release) / default on (dev)
-    readonly seasonModel: "changxia" | "tuwang18";
-  };
+  subject: Subject;
+  redFlags: ReadonlySet<string>;      // answered yes OR unsure (unsure counts as yes)
+  findings: Findings;                 // Record<SymptomId, Finding>: inquiry, tongue, face, voice, pulse
+  context?: { course?: "acute" | "subacute" | "chronic" };      // from the course question (SOP §9.1 routing)
+  options: { now: number /* UTC ms, injected (T14) */; birthModule: boolean /* user opt-in */; seasonModel?: "changxia" | "tuwang18" };
 }
 
-export function assess(kb: KnowledgeBase, input: AssessInput): Assessment;                      // the whole pipeline
-export function resolvePolicy(kb: KnowledgeBase, subject: Subject, flags: ReadonlySet<RedFlagId>, state?: State): Policy;
-export function nextQuestions(kb: KnowledgeBase, input: PartialInput, k: number): QuestionSuggestion[];   // adaptive inquiry
-export const ENGINE_VERSION: string;       // semver; bump on any behavioural change
+assess(kb, input): Assessment                          // the whole pipeline
+resolvePolicy(kb, facts): Policy                       // step 0 (and the state re-check)
+nextQuestions(kb, inquiryState, k): NextQuestions      // adaptive inquiry (§7.5)
+ENGINE_VERSION                                         // semver; bump on any behavioural change
 ```
 
 ```ts
-interface Finding {
-  state: "present" | "absent" | "unsure";
-  severity?: "light" | "moderate" | "severe";           // present only
-  source: "inquiry" | "measured" | "guided" | "pulse";  // → quality coefficient q (SOP §4.7)
-  position?: PulsePosition;                              // pulse only
-}
+interface Finding { state: "present" | "absent" | "unsure"; severity?: "light" | "moderate" | "severe"; source?: "inquiry" | "measured" | "guided" | "pulse"; position?: PulsePosition }
 
 interface Assessment {
-  meta: { engineVersion: string; kbVersion: string; paramsFingerprint: string; profile: ProfileName; computedAt: number; seasonModel: string };
-  policy: Policy;                               // final (after state re-check)
-  acknowledgements: RequiredAcknowledgement[];
-  quality: { coverage: number; kappa: number; missingCore: SymptomId[]; conflicts: ConflictItem[] };
-  reference: ReferenceBlock | null;             // personal reference panel, three blocks reported separately (null if disabled)
-  constitution: ConstitutionResult | null;
-  patterns: ScoredPattern[];                    // all, sorted by Pct desc then id (deterministic)
-  elements: ScoredElement[];                    // 證素 decomposition
-  panel: PanelResult;                           // observed, offsetPopulation (primary), offsetPersonal, alignment, derived 八綱, transmission
-  verdict: Verdict;                             // top ≤ 3, 錯雜 flag, tie-break note, confidence, differential, "what would change"
-  recommendations: Recommendations;             // only what policy allows
-  suppressed: SuppressedItem[];                 // everything removed or downgraded, with reason + rule id
-  trace: TraceItem[];                           // structured reasoning (below)
+  meta: { engineVersion; kbVersion; profile; computedAt; seasonModel; paramsFingerprint };
+  policy: Policy;                         // final: after the states the engine found and an allergy match
+  requiredAcknowledgements: NoticeId[];   // blocking notices to collect before showing the result; the flow continues
+  quality: { coverage; kappa; unansweredCore; conflicts; unknownFindings; unmatchedAllergies };
+  reference: ReferenceBlock | null;       // personal reference panel; blocks reported separately
+  orientation: Orientation;               // channel (external / internal), 表裡, cold-heat and deficiency-excess leans
+  consistency: ConsistencyFlag[];         // 寒熱真假 / 虛實真假: signs against the panel
+  patterns: ScoredPattern[];              // all, best first (ties by id)
+  elements: ScoredElement[];              // 證素
+  panel: PanelResult;                     // observed, projections, W, 八綱, offsetPopulation (PRIMARY), offsetPersonal, alignment, transmission
+  verdict: Verdict;                       // ≤ 3 patterns, 錯雜, tie-break, confidence + inputs, differential, policy states
+  recommendations: Recommendations;       // principles, formulas (君臣佐使 view, k*, explained, 加減), study-only, foods, points, lifestyle, general
+  suppressed: SuppressedItem[];           // everything removed or limited, with rule id or the level reason
+  trace: TraceItem[];                     // structured reasoning (§7.2)
 }
 ```
+
+Not yet in `Assessment`: the constitution result (steps 5: task E-07, waiting for the questionnaire items K-08).
 
 ### 7.2 No prose from the engine
 

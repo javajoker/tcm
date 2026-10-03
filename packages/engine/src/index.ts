@@ -11,3 +11,5 @@ export { orient, checkConsistency, type Orientation, type ConsistencyFlag, type 
 export { evaluateSafety, formulaNature, incompatiblePairs, allergyMatches, type SafetyInput, type SafetyReport, type SafetyItem, type SafetySubject, type SuppressedItem, type FiredRule, type Candidate, type FormulaNature } from "./safety.ts";
 export { explain, citationsOf, type TraceItem, type ExplainInput, type PriorBlock } from "./explain.ts";
 export { nextQuestions, isAsked, type InquiryState, type NextQuestions, type QuestionSuggestion, type QuestionReason, type StopReason } from "./questionnaire.ts";
+export { assess, ENGINE_VERSION, type AssessInput, type Assessment } from "./assess.ts";
+export { recommend, MAX_RECOMMENDED_FORMULAS, type Recommendations, type FormulaRecommendation, type FoodRecommendation, type AcupointRecommendation, type RecommendInput, type RecommendResult } from "./recommend.ts";
