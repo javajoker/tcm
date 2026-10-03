@@ -1,0 +1,244 @@
+# Test Plan
+
+| | |
+|---|---|
+| **Version** | 0.1 (draft) |
+| **Status** | Plan — only `packages/wuxing` (74 tests) and the KB validation/self-test exist today |
+| **Last updated** | 2026-10-04 |
+| **Audience** | Developers, QA, content reviewers |
+| **Related** | [PRD §11 metrics](PRD.md) · [SOP App. C](diagnosis-sop.zh-TW.md) · [Tech spec §7, §12](tech-spec.md) · [UX spec §8, §14](ux-spec.md) · [Safety policy §6.3, §9](safety-policy.md) · [Content review §4.4](content-review.md) · [`CHECKLIST.md`](../CHECKLIST.md) |
+
+---
+
+## 1. Goals and principles
+
+1. **Correctness of the diagnostic core** is proven three ways: against the Python oracle (parity), against practitioner-agreed cases (golden), and against invariants that must hold for *every* input (properties).
+2. **Safety behaviour is tested exhaustively**, not sampled: every population/condition/state × profile cell and every red-flag item.
+3. **Determinism**: same input + same KB + same parameters ⇒ byte-identical output.
+4. **Synthetic data only.** No real person's health or birth data appears in tests, fixtures, screenshots or bug reports ([privacy §6](privacy.md)).
+5. **Tests are fast and local first**; heavy suites (E2E, Lighthouse) run in CI and on demand.
+6. Every defect found after merge gets a **regression test** (golden case, property, or vignette) before the fix.
+
+---
+
+## 2. Test pyramid and tooling
+
+| Layer | What | Tool | Where | Runs |
+|---|---|---|---|---|
+| **Unit — packages** | Pure functions of `@tcm/wuxing` ✔, `@tcm/kb`, `@tcm/engine`, `@tcm/i18n` | `node:test` (Node ≥ 22.18 type stripping, no build step) | `packages/*/test/*.test.ts` | every commit |
+| **Property** | Invariants over seeded random inputs (§3.2) | `node:test` + an in-repo seeded generator (mulberry32; no dependency) | `packages/engine/test/props/` | every commit |
+| **Parity** | TS engine vs Python oracle fixtures | `node:test` | `packages/engine/test/parity.test.ts` | every commit; fixtures freshness check in CI |
+| **Golden cases** | Practitioner-agreed expectations | `node:test` data-driven | `test/golden/*.json` | every commit (non-blocking until M3, then blocking) |
+| **KB** | Build determinism, schema validation, integrity rules, citation verification, pattern self-test, forbidden-wording lint | Python + `jsonschema`, `node:test` | `scripts/kb`, `packages/kb/test` | every commit touching `data/` or `scripts/kb` |
+| **i18n** | Key parity, placeholders, glossary and wording lint | `scripts/check-i18n.ts` | CI | every commit |
+| **Component** | Rendering, interaction, a11y roles | Vitest + Testing Library (+ `vitest-axe`) | `apps/web/src/**/*.test.tsx` | every commit |
+| **E2E** | Full flows on desktop and mobile viewports, both languages | Playwright | `apps/web/e2e/` | CI; nightly full matrix |
+| **Accessibility** | axe on every route × language × theme; manual AT runs | `@axe-core/playwright`, VoiceOver/TalkBack/NVDA | CI + release checklist | CI; per release |
+| **Performance** | Bundle budgets, Lighthouse CI, engine micro-benchmarks | `size-limit`, Lighthouse CI, `node --test` bench | CI | CI; per release |
+| **Visual regression** | Key screens in `zh-Hant`, `en`, `en-XA` at 320 px and 1280 px | Playwright screenshots | CI (diffs reviewed, not auto-approved) | CI |
+| **Usability** | Moderated sessions | Protocol §7 | — | before beta; each major UX change |
+| **Practitioner evaluation** | Concordance on blinded vignettes | Protocol §4.3 | — | M3, M4 |
+
+---
+
+## 3. Engine and knowledge-base tests
+
+### 3.1 Unit tests (per module)
+
+| Module | Must cover |
+|---|---|
+| `policy` | Table-driven for every cell of both profiles; merged notices; two-phase resolution (state after step 9 only tightens); feature flags only lower |
+| `normalize` | present/absent/unsure handling; severity factors; quality coefficients by prefix; exclusion conflicts; coverage and κ; position discount |
+| `reference` | Delegation to `@tcm/wuxing`; capped blocks; birth missing/invalid (nonexistent local time) → `null` with notes; season model switch; trace lines |
+| `constitution` | Scoring and primary/secondary; susceptibility × season |
+| `patterns` | Formula `Pct`; `required_any` ×0.5; `against`; the 23 "typical patient" cases rank first (mirrors `selftest_patterns.py`) |
+| `panel` | noisy-OR per sign with cap and floor; `W`; derived 八綱; offsets; alignment thresholds; transmission rules |
+| `reconcile` | Top-3 rule, 錯雜 flag, tie-break by alignment, confidence grid boundaries (Pct 40/60, margins 8/15, c 0.6/0.8, κ 0.85) |
+| `formulas` | `k*` closed form against brute-force minimisation; explained fraction; ≥ 60 % symptom fit filter; tier recomputation equals KB `tier` for all 33 formulas |
+| `modify` | Classical modifications trigger by symptoms; greedy add ≤ 2 / remove ≤ 1; never removes 君; pool filtering (pregnancy, toxic); each step lowers cost |
+| `safety` | Every rule family with positive and negative examples; `suppress_hard` vs `annotate_only`; suppressed listing |
+| `explain` | Every trace kind produced; every recommendation has ≥ 1 citation; "what would change" is consistent with scoring |
+| `questionnaire` | Deterministic ranking; module prerequisites; stop rule; cap at 50 |
+| `@tcm/kb` | `indexKnowledgeBase` on the real `data/`; manifest/hash verification; schema-version mismatch refused; pruning removes exactly what §5.3 of the tech spec lists |
+| `@tcm/i18n` | Interpolation, plural, fallback marking, missing key behaviour |
+| `storage` (web) | Throwing storage, quota, migrations with fixtures |
+
+### 3.2 Property tests (invariants for *all* inputs)
+
+| # | Property |
+|---|---|
+| P1 | **Priors never change evidence:** `offsetPopulation === observed` for any reference panel; pattern scores are identical with the birth module on or off, and across any `now`, for the same findings |
+| P2 | **Missing optional data never lowers a score:** adding `unsure` or removing tongue/pulse/birth never decreases any pattern `Pct` |
+| P3 | **Monotone policy:** adding a risk factor never raises the level and never lowers the notice severity; `flow` is always `continue` |
+| P4 | **dev opens, release restricts:** `dev` ≥ `release` in level for every input; `release` ≤ L1 (current config); blocking notices equal in both |
+| P5 | **Determinism:** two runs give deep-equal results; shuffling the order of input keys changes nothing |
+| P6 | **Bounded values:** `Pct ∈ [0,100]`, panel channels ∈ [−3,3], `k ∈ [0,3]`, explained fraction ≤ 1 |
+| P7 | **Suppression is visible:** every item present in the candidate set is either in the output or in `suppressed[]` |
+| P8 | **Policy at the producer:** no output field exists above the policy (e.g. no amounts when `dosage` is off) |
+| P9 | **Exclusion handling:** mutually exclusive findings produce a conflict item, never a silent choice |
+| P10 | **Formula safety:** in `release`, pregnant (or possibly pregnant) subjects never receive a formula with an `avoid`/`caution` herb; anticoagulant users never receive formulas with activating herbs |
+| P11 | **Tier consistency:** recomputed tier equals the KB `tier` for every formula after any herb-data change |
+| P12 | **Idempotent save/load:** `assess(load(save(assess(x))).input) = assess(x)` for the same versions |
+
+Generators produce subjects, red flags, findings, medications and allergies with seeded randomness; each failure prints its seed and a minimised case.
+
+### 3.3 Safety vignette suite (exhaustive)
+
+| Group | Cases |
+|---|---|
+| Red flags | All **28** items individually × both profiles → expected notice kind (A emergency, B 24 h, C scope) and level; "not sure" treated as yes for A/B; multiple matches merge by severity |
+| Populations | adult · 65+ · minor · pregnant · possibly pregnant · lactating × both profiles → level, notice, suppressed set |
+| Conditions | each of the 7 × both profiles; combinations (pregnant + anticoagulant; minor + red flag B; elderly + antihypertensive + MAOI/stimulant) |
+| Medication classes | each class × the formulas that can trigger it; free-text → N-MED-UNKNOWN |
+| Allergies | herb/food match; unmatched free text → N-ALLERGY-UNKNOWN |
+| States | low confidence, insufficient information, conflicting data × both profiles |
+| Hazard rules | tier C; aristolochic-risk; 十八反/十九畏 pairs; flavour excess; pattern-direction conflicts |
+| Pregnancy acupoints | each of the 8 points |
+| Notice content | Both languages render every notice id with all parameters; the wording lint passes on them |
+
+A vignette is `{ input, expect: { level, notice, suppressed[], mustShow[], mustNotShow[] } }` stored in `test/safety/*.json`. **A release is blocked if any vignette fails** ([safety policy §9](safety-policy.md)).
+
+### 3.4 Parity with the Python oracle
+
+`scripts/kb/export_parity_cases.py` ([tech spec §7.4](tech-spec.md)) writes `packages/engine/test/fixtures/parity.json` with: the SOP worked example (SP1 55.8 %, formula matches 64.7 % / 62.6 %), the 23 typical-patient cases, ≥ 200 seeded random finding sets, and edge cases. Tolerance 1e-9 on all numbers; identical rankings; identical greedy 加減 steps. CI regenerates the fixture and fails on `git diff`.
+
+### 3.5 Golden cases (practitioner-agreed)
+
+| Item | Specification |
+|---|---|
+| Format | `test/golden/G-xxxx.json`: `{ id, title, authoredBy (reviewer record id), input, expect }` with `expect` = `{ patterns: { first?, top3[], mustNotInclude[] }, confidence?, policy: { level, notice }, suppressed[], formulas: { top3[], mustNotInclude[] }, panelSigns: { "脾.qi": "-" } }` |
+| Source | Authored in calibration sessions with the dev inspector's **Export case** ([content review §4.4](content-review.md)); synthetic only |
+| Size and mix | ≥ **100**: typical and atypical for each of the 23 patterns; the confusable pairs (EX2/EX4, LG1/EX4, HT2/KD1); 寒熱錯雜 / 虛實夾雜; insufficient information; red flags and each population; medication interactions; tongue-zone and special-sign cases; optional pulse (with and without positions); birth-module on/off (the diagnosis must not change); season variants |
+| Split | 50 % **tuning** (visible when calibrating) / 50 % **held-out** (never inspected while tuning) |
+| Metrics | Top-3 pattern concordance ≥ 80 % and formula top-3 concordance ≥ 70 % on the held-out half (PRD §11); 100 % on policy and suppressed expectations |
+| Status | Non-blocking in CI until M3; thereafter blocking for the policy fields and tracked for concordance |
+| Maintenance | A change to weights re-runs the whole set; the diff of outcomes is part of the review request |
+
+### 3.6 Knowledge-base tests
+
+Build determinism (build twice → identical bytes) · JSON Schema validation · the integrity rules of [KB schema §8](kb-schema.md) · 127/127 citations verified · pattern self-test (each pattern first for its typical patient; the closest-pair margins reported) · tier recomputation · orthography check (no `溼` in non-quotation fields) · bilingual completeness report · forbidden-wording lint on all display strings · bundle pruning tests (release bundle contains no amounts, no tier-C, no dev profile) · size budgets per chunk.
+
+---
+
+## 4. Product-level validation
+
+### 4.1 Five-phase module (`packages/wuxing` ✔ and the adapter)
+
+Existing: oracle parity with the source engine (10 births / 168 terms), HKO 240 solar terms ≤ 60 s, calendar anchors, invariants (74 tests). Add: adapter tests for `reference.ts` (block capping, trace, notes), snapshots of the SOP §6.4 worked example, and the "priors do not change the diagnosis" property (P1).
+
+### 4.2 Reasoning quality checks
+
+For every pattern: the `against` list and the "what would change this" suggestion are non-empty; every `TraceItem` of kind *theory* resolves to a verified citation; no sentence-level citation is attached to a claim it does not support (reviewed by the clinical reviewer in content review, not automatable).
+
+### 4.3 Practitioner evaluation (M3, M4)
+
+Blinded vignettes (written, synthetic) are given to ≥ 3 practitioners **and** to the engine; practitioners choose pattern(s) and formula(s); concordance and inter-practitioner agreement are reported (disagreement among practitioners is expected and informs which cases are "contested"); results feed calibration, never silent tuning to the test half.
+
+---
+
+## 5. Application tests
+
+### 5.1 End-to-end scenarios (Playwright; mobile 375 × 812 and desktop 1280 × 800; `zh-Hant` and `en`)
+
+| # | Scenario | Asserts |
+|---|---|---|
+| E1 | First-time user, healthy adult, no birth data, full flow to result | Disclaimer ack stored; result sections in order; confidence shown; evidence-against list present; no amounts (release); level L1 content only |
+| E2 | Red flag A | Blocking emergency notice, acknowledge, flow continues, result limited to L0, emergency numbers shown, notice recorded and collapsed on result |
+| E3 | Red flag B + minor | One merged notice (most severe first); L0 |
+| E4 | Pregnant | Notice; L0; no formulas or pregnancy points; gentle lifestyle content |
+| E5 | On anticoagulant | Inline notice; activating-herb formulas suppressed with reason listed |
+| E6 | Allergy match | Matching items suppressed with reason; unknown allergen shows the "cannot confirm" notice |
+| E7 | Insufficient information | Result shows what is missing and top questions; no formula |
+| E8 | Birth module on (dev) / opt-in (release) | Echo of longitude/time zone; panel shows three blocks; the **diagnosis is unchanged** vs module off |
+| E9 | Tongue zones and signs | Zone selection and checklist twin stay in sync (keyboard and touch); selections reach the trace as *self-observed* |
+| E10 | Optional pulse | Rate, rhythm, exclusive groups enforced; irregular rhythm → B notice; educational note present |
+| E11 | Language switch mid-flow | Route and all answers preserved; `lang` attributes update |
+| E12 | Resume | Reload mid-inquiry → Resume card; answers intact |
+| E13 | Save, history, compare | Two assessments compare; "computed with an older version" label after a simulated KB bump |
+| E14 | Erase everything | IndexedDB, `localStorage`, Cache Storage empty |
+| E15 | Offline after load / KB fetch failure | Error state with retry; draft intact; no partial medical output |
+| E16 | Print view | Panel as table and figure; citations footnoted; disclaimer in footer |
+| E17 | Dev profile | Badge visible; everything open; blocking notices still acknowledged; suppressed items annotated |
+| E18 | Release bundle | `check-release.ts` passes; no dev profile, amounts, tier C or inspector route |
+| E19 | Privacy | No cross-origin request after load; no marker value in URL/history/console |
+| E20 | Storage blocked | "Not saved" chip; flow and result still work |
+
+### 5.2 Accessibility
+
+Automated: axe (WCAG 2.1 A/AA) on every route × `zh-Hant`/`en` × light/dark, in default and 200 % zoom. Manual before each release: VoiceOver (iOS and macOS), TalkBack, NVDA — full flow including the tongue map (zone buttons and the checklist twin), the notice dialog (focus trap/restore), the radar's table equivalent and the citation sheet; keyboard-only run; reduced-motion; text-size presets; colour-blindness simulation of the panel visuals; contrast of the token table (unit-tested). Exit criterion: zero axe violations and all manual tasks completed.
+
+### 5.3 Responsive and cross-browser
+
+Viewports 320, 375, 600, 900, 1200, 1920; landscape phone; touch targets ≥ 44 px (measured in Playwright); no horizontal scroll; Chrome, Safari (iOS), Firefox, Edge (last 2 versions) on the E1/E2/E9/E10 scenarios.
+
+### 5.4 Internationalisation
+
+`check-i18n.ts` (key/placeholder parity, glossary, wording); pseudo-locale (`en-XA`) screenshots for truncation; `zh-Hant` long-text mode; `lang` attribute audit; font fallback check for rare characters in classical quotations (reports glyphs rendered from fallback).
+
+### 5.5 Performance
+
+| Test | Budget |
+|---|---|
+| `size-limit` | Initial JS ≤ 200 KB gzip; engine chunk and KB chunks within their budgets |
+| Lighthouse CI (mobile, throttled) | Performance ≥ 90, Accessibility ≥ 95, LCP ≤ 2.5 s, INP ≤ 200 ms on landing and result routes |
+| Engine bench | `assess` ≤ 50 ms p95 (reference mid-range device profile, CPU throttled); regression > 20 % fails |
+| Memory | No growth after 50 consecutive assessments in one session |
+
+### 5.6 Security
+
+CSP present and strict in the built output; no inline scripts; dependency audit; license check; no `dangerouslySetInnerHTML`; `console.*` stripped in release; static scan for `localStorage`/`indexedDB` use outside `storage.ts`.
+
+---
+
+## 6. CI mapping
+
+| Stage | Jobs |
+|---|---|
+| **Fast (every push)** | typecheck all packages · unit + property + parity + golden (non-blocking) · KB build determinism and validation · i18n lint · component tests · ESLint |
+| **Build** | `bundle-data` per profile with budgets · web build `release` and `dev` · `check-release.ts` on the release output · size-limit |
+| **Integration** | Playwright E1–E20 (desktop + mobile, both languages) · axe sweep · Lighthouse CI · visual regression · privacy network test |
+| **Nightly** | Full browser matrix · property tests with 10× iterations · long-running oracle comparison with fresh seeds |
+| **Release** | All of the above on the release candidate + the manual checklist ([`CHECKLIST.md`](../CHECKLIST.md)) |
+
+Blocking: everything except golden concordance (until M3), nightly, and visual-regression approvals (which need human review).
+
+---
+
+## 7. Usability testing
+
+| Item | Plan |
+|---|---|
+| **Participants per round** | 8–12: 4–5 `zh-Hant` phone users (curious health-seekers), 2–3 English users, 1–2 TCM learners, 1–2 licensed practitioners, 1–2 screen-reader users, at least 2 aged 55+ |
+| **Materials** | Persona scenario cards with synthetic symptoms (default); participants may use their own situation **only** with written consent and local-only processing, no screen recording of health content |
+| **Tasks** | (1) start and complete an assessment; (2) explain in their own words *why* they got the result; (3) find the evidence against the leading pattern; (4) find and understand the formula's 君臣佐使 and cautions; (5) respond to a blocking notice and continue; (6) enter tongue findings by zone; (7) skip pulse; (8) switch language; (9) erase data |
+| **Measures** | Completion and time (median ≤ 10 min); errors; "I understand why" (1–5, target ≥ 4); SUS; notice comprehension (100 % know what to do); can-find evidence-against (≥ 80 %); tongue step unaided (≥ 80 %) |
+| **Rounds** | R1 clickable prototype of S01–S07 and S13 (before building the full UI); R2 MVP build; R3 beta |
+| **Output** | Issue list with severity (blocker / major / minor), mapped to UX spec sections; changes recorded in the UX spec changelog |
+
+---
+
+## 8. Test data policy
+
+- All inputs are **synthetic**; no real health or birth data. Birth fixtures are public historical dates or invented.
+- Fixtures regenerated by script are committed with their generator and seed.
+- The dev inspector's *Export case* strips free text and birth data unless explicitly kept.
+- Screenshots and videos use synthetic profiles only.
+
+---
+
+## 9. Exit criteria per milestone
+
+| Milestone | Exit criteria |
+|---|---|
+| **M1 KB complete** | All tasks in the KB workstream done; schema validation, determinism and wording lint green; question bank covers all 12 dimensions and 8 modules |
+| **M2 MVP app** | Unit + property + parity green; safety vignettes 100 %; E1–E20 green; axe clean; budgets met; dev and release builds produced; `check-release.ts` green |
+| **M3 Review and hardening** | Review records for the gates in [content review §7](content-review.md); golden set ≥ 100 with concordance targets met; manual accessibility passes; usability R2 issues closed |
+| **M4 Beta** | Beta exception recorded (if draft content remains); usability R3; privacy verification (§7 of the privacy doc); legal review of wording; release checklist complete |
+
+---
+
+## 10. Changelog
+
+| Version | Date | Change |
+|---|---|---|
+| 0.1 | 2026-10-04 | Initial test plan |
