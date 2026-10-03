@@ -1,0 +1,66 @@
+{
+  "_meta": {
+    "description": "Constitution × pathogenic-qi susceptibility, combined with the season and the year's climate. status: draft teaching-level rule."
+  },
+  "citations": [
+    "suwen-004-2",
+    "suwen-003-6",
+    "suwen-003-7",
+    "suwen-003-8",
+    "suwen-003-9",
+    "lingshu-046-1"
+  ],
+  "formula": "susceptibility(c, t) = Σ_e risk[c][e] × exposure_e(t),  exposure_e = 1.0 if e is the season's qi, plus the reference-panel climate[e] (docs/wuxing-algorithm.md §9.4)",
+  "note": "《靈樞·五變》「同時得病，其病各異」: the same exposure produces different disease according to constitution.",
+  "risk": {
+    "C_PINGHE": {},
+    "C_QIXU": {
+      "寒": 1,
+      "風": 1
+    },
+    "C_QIYU": {
+      "風": 1
+    },
+    "C_SHIRE": {
+      "暑": 2,
+      "濕": 2,
+      "火": 1
+    },
+    "C_TANSHI": {
+      "濕": 2
+    },
+    "C_TEBING": {
+      "風": 2
+    },
+    "C_XUEYU": {
+      "寒": 1
+    },
+    "C_YANGXU": {
+      "寒": 2,
+      "濕": 1
+    },
+    "C_YINXU": {
+      "暑": 2,
+      "火": 1,
+      "燥": 2
+    }
+  },
+  "season_evil": {
+    "冬": [
+      "寒"
+    ],
+    "夏": [
+      "暑",
+      "火"
+    ],
+    "春": [
+      "風"
+    ],
+    "秋": [
+      "燥"
+    ],
+    "長夏": [
+      "濕"
+    ]
+  }
+}

@@ -1,0 +1,410 @@
+{
+  "_meta": {
+    "description": "Tongue zones (classical per 《傷寒指掌》, textbook alternative alongside), zone-specific features and special signs.",
+    "guidance": {
+      "avoid": [
+        "染苔食物（咖啡、茶、染色糖果、藥物）",
+        "剛喝熱飲或冷飲",
+        "刮舌後",
+        "強烈色光"
+      ],
+      "confidence": "引導式自我觀察，品質係數 0.7（見 SOP §4.6）",
+      "sublingual": "舌尖上翹抵上顎，觀察舌下兩條絡脈的粗細與顏色",
+      "when": "晨起、未進食飲、未刷舌、自然光下"
+    },
+    "note": "Textbook zones (舌尖 心肺, 舌中 脾胃, 舌根 腎, 舌邊 肝膽) are not verified against the classics; the classical statement is verified.",
+    "zone_citation": "shanghan-zhizhang-tongue-zones"
+  },
+  "features": [
+    {
+      "category": "body",
+      "id": "T_BODY_PALE",
+      "meaning": "舌淡：陽虛、氣血不足",
+      "name": {
+        "en": "pale tongue",
+        "zh-Hant": "舌淡"
+      },
+      "zone": "all"
+    },
+    {
+      "category": "body",
+      "id": "T_BODY_PALE_SWOLLEN",
+      "meaning": "舌淡胖：陽虛、脾虛水濕內停",
+      "name": {
+        "en": "pale, swollen tongue",
+        "zh-Hant": "舌淡胖"
+      },
+      "zone": "all"
+    },
+    {
+      "category": "body",
+      "id": "T_BODY_RED",
+      "meaning": "舌紅：熱證；少苔者陰虛",
+      "name": {
+        "en": "red tongue",
+        "zh-Hant": "舌紅"
+      },
+      "zone": "all"
+    },
+    {
+      "category": "body",
+      "id": "T_BODY_CRIMSON",
+      "meaning": "舌絳：熱入營血或陰虛火旺之甚",
+      "name": {
+        "en": "crimson tongue",
+        "zh-Hant": "舌絳"
+      },
+      "zone": "all"
+    },
+    {
+      "category": "body",
+      "id": "T_BODY_PURPLE",
+      "meaning": "舌紫暗：血瘀；寒凝亦可見",
+      "name": {
+        "en": "purple, dusky tongue",
+        "zh-Hant": "舌紫暗"
+      },
+      "zone": "all"
+    },
+    {
+      "category": "shape",
+      "id": "T_SWOLLEN",
+      "meaning": "胖大：脾虛、水濕痰飲",
+      "name": {
+        "en": "swollen tongue",
+        "zh-Hant": "舌體胖大"
+      },
+      "zone": "all"
+    },
+    {
+      "category": "shape",
+      "id": "T_THIN",
+      "meaning": "瘦薄：氣血陰液不足",
+      "name": {
+        "en": "thin tongue",
+        "zh-Hant": "舌體瘦薄"
+      },
+      "zone": "all"
+    },
+    {
+      "category": "shape",
+      "id": "T_TENDER",
+      "meaning": "質嫩：虛證",
+      "name": {
+        "en": "tender tongue",
+        "zh-Hant": "舌質嫩"
+      },
+      "zone": "all"
+    },
+    {
+      "category": "special",
+      "id": "T_TOOTHMARK_EDGE",
+      "meaning": "舌邊齒痕：脾虛濕盛（舌體胖大受齒擠壓）",
+      "name": {
+        "en": "tooth marks on the tongue edges",
+        "zh-Hant": "舌邊齒痕"
+      },
+      "zone": "edge"
+    },
+    {
+      "category": "special",
+      "id": "T_CRACKS_CENTER",
+      "meaning": "舌中裂紋：胃陰不足、胃熱傷津",
+      "name": {
+        "en": "central crack on the tongue",
+        "zh-Hant": "舌中裂紋"
+      },
+      "zone": "center"
+    },
+    {
+      "category": "special",
+      "id": "T_CRACKS_ALL",
+      "meaning": "滿舌裂紋：陰液耗損、精血虧虛",
+      "name": {
+        "en": "multiple cracks over the tongue",
+        "zh-Hant": "滿舌裂紋"
+      },
+      "zone": "all"
+    },
+    {
+      "category": "special",
+      "id": "T_RED_DOTS_TIP",
+      "meaning": "舌尖紅點／芒刺：心火上炎；外感風熱初起亦可見",
+      "name": {
+        "en": "red dots or prickles on the tongue tip",
+        "zh-Hant": "舌尖紅點／芒刺"
+      },
+      "zone": "tip"
+    },
+    {
+      "category": "special",
+      "id": "T_RED_DOTS_EDGE",
+      "meaning": "舌邊紅點：肝膽火熱",
+      "name": {
+        "en": "red dots on the tongue edges",
+        "zh-Hant": "舌邊紅點"
+      },
+      "zone": "edge"
+    },
+    {
+      "category": "special",
+      "id": "T_RED_DOTS_CENTER",
+      "meaning": "舌中芒刺：胃腸熱盛",
+      "name": {
+        "en": "prickles in the middle of the tongue",
+        "zh-Hant": "舌中芒刺"
+      },
+      "zone": "center"
+    },
+    {
+      "category": "special",
+      "id": "T_ECCHYMOSIS",
+      "meaning": "瘀斑瘀點：血瘀",
+      "name": {
+        "en": "ecchymoses or petechiae on the tongue",
+        "zh-Hant": "舌有瘀斑瘀點"
+      },
+      "zone": "all"
+    },
+    {
+      "category": "special",
+      "id": "T_SUBLINGUAL_VEINS",
+      "meaning": "舌下絡脈怒張紫暗：血瘀",
+      "name": {
+        "en": "engorged, dusky sublingual veins",
+        "zh-Hant": "舌下絡脈怒張紫暗"
+      },
+      "zone": "all"
+    },
+    {
+      "category": "zone-body",
+      "id": "T_TIP_RED",
+      "meaning": "舌尖紅：心火",
+      "name": {
+        "en": "red tongue tip",
+        "zh-Hant": "舌尖紅"
+      },
+      "zone": "tip"
+    },
+    {
+      "category": "zone-body",
+      "id": "T_EDGE_RED",
+      "meaning": "舌邊紅：肝膽有熱",
+      "name": {
+        "en": "red tongue edges",
+        "zh-Hant": "舌邊紅"
+      },
+      "zone": "edge"
+    },
+    {
+      "category": "coat",
+      "id": "T_COAT_THIN_WHITE",
+      "meaning": "薄白苔：正常，或表證初起",
+      "name": {
+        "en": "thin white coat",
+        "zh-Hant": "薄白苔"
+      },
+      "zone": "all"
+    },
+    {
+      "category": "coat",
+      "id": "T_COAT_WHITE_GREASY",
+      "meaning": "白膩苔：痰濕、寒濕",
+      "name": {
+        "en": "white greasy coat",
+        "zh-Hant": "白膩苔"
+      },
+      "zone": "all"
+    },
+    {
+      "category": "coat",
+      "id": "T_COAT_SLIPPERY",
+      "meaning": "白滑苔：寒濕、陽虛水停",
+      "name": {
+        "en": "white slippery coat",
+        "zh-Hant": "白滑苔"
+      },
+      "zone": "all"
+    },
+    {
+      "category": "coat",
+      "id": "T_COAT_YELLOW",
+      "meaning": "黃苔：熱證",
+      "name": {
+        "en": "yellow coat",
+        "zh-Hant": "黃苔"
+      },
+      "zone": "all"
+    },
+    {
+      "category": "coat",
+      "id": "T_COAT_YELLOW_GREASY",
+      "meaning": "黃膩苔：濕熱、痰熱",
+      "name": {
+        "en": "yellow greasy coat",
+        "zh-Hant": "黃膩苔"
+      },
+      "zone": "all"
+    },
+    {
+      "category": "coat",
+      "id": "T_COAT_THICK_ROT",
+      "meaning": "厚腐苔：食積、痰濁",
+      "name": {
+        "en": "thick curdy coat",
+        "zh-Hant": "厚腐苔"
+      },
+      "zone": "all"
+    },
+    {
+      "category": "coat",
+      "id": "T_COAT_PEELED_ALL",
+      "meaning": "少苔或剝苔：陰虛、胃氣陰兩傷",
+      "name": {
+        "en": "scanty or peeled coat",
+        "zh-Hant": "少苔或剝苔"
+      },
+      "zone": "all"
+    },
+    {
+      "category": "coat",
+      "id": "T_COAT_DRY",
+      "meaning": "苔乾：津傷",
+      "name": {
+        "en": "dry coat",
+        "zh-Hant": "苔乾"
+      },
+      "zone": "all"
+    },
+    {
+      "category": "zone-coat",
+      "id": "T_TIP_COAT_PEELED",
+      "meaning": "舌尖少苔：心肺陰虛",
+      "name": {
+        "en": "peeled coat at the tongue tip",
+        "zh-Hant": "舌尖少苔"
+      },
+      "zone": "tip"
+    },
+    {
+      "category": "zone-coat",
+      "id": "T_CENTER_COAT_THICK",
+      "meaning": "舌中苔厚：脾胃濕滯、食積",
+      "name": {
+        "en": "thick coat in the middle",
+        "zh-Hant": "舌中部苔厚"
+      },
+      "zone": "center"
+    },
+    {
+      "category": "zone-coat",
+      "id": "T_CENTER_COAT_YELLOW_GREASY",
+      "meaning": "舌中黃膩：脾胃濕熱",
+      "name": {
+        "en": "yellow greasy coat in the middle",
+        "zh-Hant": "舌中部黃膩苔"
+      },
+      "zone": "center"
+    },
+    {
+      "category": "zone-coat",
+      "id": "T_CENTER_COAT_PEELED",
+      "meaning": "舌中少苔或剝落：胃陰不足",
+      "name": {
+        "en": "peeled coat in the middle",
+        "zh-Hant": "舌中部少苔或剝落"
+      },
+      "zone": "center"
+    },
+    {
+      "category": "zone-coat",
+      "id": "T_ROOT_COAT_THICK_GREASY",
+      "meaning": "舌根厚膩：下焦濕濁、腎與膀胱濕熱",
+      "name": {
+        "en": "thick greasy coat at the root",
+        "zh-Hant": "舌根部厚膩苔"
+      },
+      "zone": "root"
+    },
+    {
+      "category": "zone-coat",
+      "id": "T_ROOT_COAT_PEELED",
+      "meaning": "舌根少苔或剝落：腎陰虧虛",
+      "name": {
+        "en": "peeled coat at the root",
+        "zh-Hant": "舌根部少苔或剝落"
+      },
+      "zone": "root"
+    }
+  ],
+  "zones": [
+    {
+      "classical": [
+        "心"
+      ],
+      "en": "tongue tip",
+      "id": "tip",
+      "textbook": [
+        "心",
+        "肺"
+      ],
+      "zh": "舌尖"
+    },
+    {
+      "classical": [
+        "胃"
+      ],
+      "en": "tongue centre",
+      "id": "center",
+      "textbook": [
+        "脾",
+        "胃"
+      ],
+      "zh": "舌中"
+    },
+    {
+      "classical": [
+        "腎"
+      ],
+      "en": "tongue root",
+      "id": "root",
+      "textbook": [
+        "腎",
+        "膀胱",
+        "大腸"
+      ],
+      "zh": "舌根"
+    },
+    {
+      "classical": [
+        "肝",
+        "膽"
+      ],
+      "en": "tongue edges (left liver, right gallbladder)",
+      "id": "edge",
+      "textbook": [
+        "肝",
+        "膽"
+      ],
+      "zh": "舌邊（左肝右膽）"
+    },
+    {
+      "classical": [
+        "脾"
+      ],
+      "en": "tongue periphery",
+      "id": "border",
+      "textbook": [],
+      "zh": "舌四畔"
+    },
+    {
+      "classical": [
+        "胃"
+      ],
+      "en": "whole tongue",
+      "id": "all",
+      "textbook": [],
+      "zh": "全舌"
+    }
+  ]
+}

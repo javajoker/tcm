@@ -1,0 +1,945 @@
+{
+  "_meta": {
+    "count": 24,
+    "description": "Decomposed pattern elements (證素 = location × nature) with symptom weights taken as the maximum over the patterns that contain them. Used when no library pattern fits (compose from the top elements) and for formula modification."
+  },
+  "items": [
+    {
+      "against": {
+        "S_FACE_PALE": 1,
+        "T_BODY_PALE": 1
+      },
+      "id": "PE_全身_瘀",
+      "location": "全身",
+      "name": {
+        "en": null,
+        "zh-Hant": "全身血瘀"
+      },
+      "nature": "瘀",
+      "patterns": [
+        "QB2"
+      ],
+      "projection_per_degree": {
+        "product.瘀": 1.0
+      },
+      "weights": {
+        "P_CHOPPY": 3,
+        "S_ABD_REFUSE_PRESS": 1,
+        "S_DYSMENORRHEA": 2,
+        "S_FACE_DARK": 2,
+        "S_LIPS_PURPLE": 2,
+        "S_MENSES_CLOTS_DARK": 3,
+        "S_PAIN_NIGHT_WORSE": 2,
+        "S_SKIN_SQUAMOUS": 1,
+        "S_STABBING_PAIN_FIXED": 3,
+        "T_BODY_PURPLE": 3,
+        "T_ECCHYMOSIS": 3,
+        "T_SUBLINGUAL_VEINS": 2
+      }
+    },
+    {
+      "against": {
+        "S_FEAR_COLD": 2,
+        "T_BODY_PALE": 2,
+        "T_COAT_PEELED_ALL": 2,
+        "T_COAT_WHITE_GREASY": 1
+      },
+      "id": "PE_心_火",
+      "location": "心",
+      "name": {
+        "en": null,
+        "zh-Hant": "心火熱"
+      },
+      "nature": "火",
+      "patterns": [
+        "HT2",
+        "HT3"
+      ],
+      "projection_per_degree": {
+        "liuxie.火": 1.0,
+        "心.yang": 0.5
+      },
+      "weights": {
+        "P_RAPID": 2,
+        "P_SLIPPERY": 2,
+        "P_THIN": 1,
+        "S_BITTER_MOUTH": 2,
+        "S_CHEST_OPPRESSION": 2,
+        "S_DREAM_MANY": 2,
+        "S_DRY_MOUTH_THROAT": 1,
+        "S_FORGETFUL": 1,
+        "S_HEAT_PALMS_SOLES": 3,
+        "S_INSOMNIA_ONSET": 2,
+        "S_LOW_BACK_SORE": 2,
+        "S_NAUSEA": 1,
+        "S_NIGHT_SWEAT": 2,
+        "S_PALPITATION": 2,
+        "S_PHLEGM_COPIOUS": 2,
+        "S_RESTLESS_NO_SLEEP": 3,
+        "S_SEMINAL_EMISSION": 1,
+        "S_STARTLE": 3,
+        "S_TINNITUS_THIN": 2,
+        "T_BODY_RED": 2,
+        "T_COAT_PEELED_ALL": 2,
+        "T_COAT_YELLOW_GREASY": 3,
+        "T_ROOT_COAT_PEELED": 2,
+        "T_TIP_RED": 3
+      }
+    },
+    {
+      "against": {
+        "S_FEAR_COLD": 1,
+        "T_COAT_PEELED_ALL": 2
+      },
+      "id": "PE_心_痰",
+      "location": "心",
+      "name": {
+        "en": null,
+        "zh-Hant": "心痰"
+      },
+      "nature": "痰",
+      "patterns": [
+        "HT3"
+      ],
+      "projection_per_degree": {
+        "product.痰": 1.0
+      },
+      "weights": {
+        "P_RAPID": 2,
+        "P_SLIPPERY": 2,
+        "S_BITTER_MOUTH": 2,
+        "S_CHEST_OPPRESSION": 2,
+        "S_DREAM_MANY": 2,
+        "S_INSOMNIA_ONSET": 2,
+        "S_NAUSEA": 1,
+        "S_PHLEGM_COPIOUS": 2,
+        "S_RESTLESS_NO_SLEEP": 2,
+        "S_STARTLE": 3,
+        "T_BODY_RED": 1,
+        "T_COAT_YELLOW_GREASY": 3,
+        "T_TIP_RED": 1
+      }
+    },
+    {
+      "against": {
+        "S_FACE_RED": 1,
+        "S_IRRITABLE": 1,
+        "T_BODY_RED": 1
+      },
+      "id": "PE_心_血虛",
+      "location": "心",
+      "name": {
+        "en": null,
+        "zh-Hant": "心血虛"
+      },
+      "nature": "血虛",
+      "patterns": [
+        "HT1",
+        "QB1"
+      ],
+      "projection_per_degree": {
+        "心.blood": -1.0
+      },
+      "weights": {
+        "P_DEFICIENT": 2,
+        "P_THIN": 2,
+        "S_DREAM_MANY": 2,
+        "S_FACE_PALE": 2,
+        "S_FACE_SALLOW": 2,
+        "S_FATIGUE": 3,
+        "S_FORGETFUL": 3,
+        "S_HEAD_DIZZY": 2,
+        "S_INSOMNIA_MAINT": 2,
+        "S_LAZY_SPEAK": 1,
+        "S_LIPS_NAILS_PALE": 2,
+        "S_LOOSE_STOOL": 2,
+        "S_MENSES_SCANTY_PALE": 1,
+        "S_PALPITATION": 3,
+        "S_POOR_APPETITE": 2,
+        "S_SHORT_BREATH": 2,
+        "T_BODY_PALE": 3,
+        "T_TENDER": 1
+      }
+    },
+    {
+      "against": {
+        "S_ABD_PREFER_PRESS": 1,
+        "S_FEAR_COLD": 1
+      },
+      "id": "PE_肝_氣滯",
+      "location": "肝",
+      "name": {
+        "en": null,
+        "zh-Hant": "肝氣滯"
+      },
+      "nature": "氣滯",
+      "patterns": [
+        "LV1",
+        "LV4"
+      ],
+      "projection_per_degree": {
+        "肝.stasis": 1.0
+      },
+      "weights": {
+        "P_WIRY": 3,
+        "S_ACID_REFLUX": 2,
+        "S_BELCHING": 3,
+        "S_BREAST_DISTENSION": 2,
+        "S_CHEST_OPPRESSION": 1,
+        "S_DEPRESSED": 3,
+        "S_EMOTION_TRIGGERED": 2,
+        "S_EPIGASTRIC_PAIN": 3,
+        "S_HYPOCHONDRIAC_DISTENSION": 3,
+        "S_IRRITABLE": 1,
+        "S_MENSES_IRREGULAR": 1,
+        "S_PAIN_DISTENDING": 2,
+        "S_PAIN_WANDERING": 1,
+        "S_POOR_APPETITE": 1,
+        "S_SIGHING": 3,
+        "S_THROAT_FOREIGN": 2,
+        "T_COAT_THIN_WHITE": 1,
+        "T_COAT_YELLOW": 1,
+        "T_EDGE_RED": 1
+      }
+    },
+    {
+      "against": {
+        "S_FATIGUE": 1,
+        "S_FEAR_COLD": 2,
+        "T_BODY_PALE": 2
+      },
+      "id": "PE_肝_火",
+      "location": "肝",
+      "name": {
+        "en": null,
+        "zh-Hant": "肝火熱"
+      },
+      "nature": "火",
+      "patterns": [
+        "LV2"
+      ],
+      "projection_per_degree": {
+        "liuxie.火": 1.0,
+        "肝.yang": 0.5
+      },
+      "weights": {
+        "P_RAPID": 2,
+        "P_WIRY": 2,
+        "S_BITTER_MOUTH": 3,
+        "S_CONSTIPATION": 1,
+        "S_FACE_RED": 2,
+        "S_HEAD_DISTENDING": 3,
+        "S_HEAD_DIZZY": 1,
+        "S_IRRITABLE": 3,
+        "S_RED_EYES": 2,
+        "S_THIRST_COLD_DRINK": 1,
+        "S_TINNITUS_HIGH_LOUD": 2,
+        "S_URINE_YELLOW_SCANTY": 1,
+        "T_BODY_RED": 2,
+        "T_COAT_YELLOW": 2,
+        "T_EDGE_RED": 3
+      }
+    },
+    {
+      "against": {
+        "S_FACE_RED": 1,
+        "S_THIRST_COLD_DRINK": 1,
+        "T_BODY_RED": 1
+      },
+      "id": "PE_肝_血虛",
+      "location": "肝",
+      "name": {
+        "en": null,
+        "zh-Hant": "肝血虛"
+      },
+      "nature": "血虛",
+      "patterns": [
+        "LV3"
+      ],
+      "projection_per_degree": {
+        "肝.blood": -1.0
+      },
+      "weights": {
+        "P_THIN": 2,
+        "S_BLURRED_VISION": 3,
+        "S_DREAM_MANY": 1,
+        "S_DRY_EYES": 2,
+        "S_FACE_PALE": 1,
+        "S_HEAD_DIZZY": 2,
+        "S_INSOMNIA_MAINT": 1,
+        "S_LIMB_NUMB": 2,
+        "S_LIPS_NAILS_PALE": 1,
+        "S_MENSES_SCANTY_PALE": 2,
+        "S_NAIL_BRITTLE": 2,
+        "T_BODY_PALE": 2
+      }
+    },
+    {
+      "against": {
+        "S_NIGHT_SWEAT": 1,
+        "T_BODY_RED": 2
+      },
+      "id": "PE_肺_氣虛",
+      "location": "肺",
+      "name": {
+        "en": null,
+        "zh-Hant": "肺氣虛"
+      },
+      "nature": "氣虛",
+      "patterns": [
+        "LG1"
+      ],
+      "projection_per_degree": {
+        "肺.qi": -1.0
+      },
+      "weights": {
+        "P_DEFICIENT": 2,
+        "S_AVERSION_WIND": 2,
+        "S_COUGH_WEAK": 1,
+        "S_EASY_COLD": 3,
+        "S_FATIGUE": 1,
+        "S_LOW_VOICE": 2,
+        "S_SHORT_BREATH": 3,
+        "S_SPONTANEOUS_SWEAT": 3,
+        "T_BODY_PALE": 1,
+        "T_COAT_THIN_WHITE": 1
+      }
+    },
+    {
+      "against": {
+        "S_FEAR_COLD": 1,
+        "S_PHLEGM_COPIOUS": 2,
+        "T_COAT_WHITE_GREASY": 2
+      },
+      "id": "PE_肺_陰虛",
+      "location": "肺",
+      "name": {
+        "en": null,
+        "zh-Hant": "肺陰虛"
+      },
+      "nature": "陰虛",
+      "patterns": [
+        "LG2"
+      ],
+      "projection_per_degree": {
+        "肺.yin": -1.0
+      },
+      "weights": {
+        "P_RAPID": 1,
+        "P_THIN": 1,
+        "S_COUGH_DRY": 3,
+        "S_DRY_MOUTH_THROAT": 2,
+        "S_DRY_THROAT": 1,
+        "S_HEAT_PALMS_SOLES": 2,
+        "S_HOARSE": 2,
+        "S_NIGHT_SWEAT": 2,
+        "S_TIDAL_FEVER": 2,
+        "T_BODY_RED": 2,
+        "T_COAT_DRY": 1,
+        "T_COAT_PEELED_ALL": 2,
+        "T_TIP_COAT_PEELED": 2
+      }
+    },
+    {
+      "against": {
+        "S_FEAR_COLD": 1
+      },
+      "id": "PE_胃_氣滯",
+      "location": "胃",
+      "name": {
+        "en": null,
+        "zh-Hant": "胃氣滯"
+      },
+      "nature": "氣滯",
+      "patterns": [
+        "LV4"
+      ],
+      "projection_per_degree": {
+        "胃.stasis": 1.0
+      },
+      "weights": {
+        "P_WIRY": 2,
+        "S_ACID_REFLUX": 2,
+        "S_BELCHING": 3,
+        "S_DEPRESSED": 1,
+        "S_EMOTION_TRIGGERED": 2,
+        "S_EPIGASTRIC_PAIN": 3,
+        "S_HYPOCHONDRIAC_DISTENSION": 2,
+        "S_PAIN_DISTENDING": 2,
+        "S_POOR_APPETITE": 1,
+        "S_SIGHING": 1,
+        "T_COAT_THIN_WHITE": 1,
+        "T_COAT_YELLOW": 1
+      }
+    },
+    {
+      "against": {
+        "S_FEAR_COLD": 2,
+        "S_PREFER_HOT_FOOD": 1,
+        "T_COAT_PEELED_ALL": 2,
+        "T_COAT_WHITE_GREASY": 1
+      },
+      "id": "PE_胃_火",
+      "location": "胃",
+      "name": {
+        "en": null,
+        "zh-Hant": "胃火熱"
+      },
+      "nature": "火",
+      "patterns": [
+        "SP5"
+      ],
+      "projection_per_degree": {
+        "liuxie.火": 1.0,
+        "胃.yang": 0.5
+      },
+      "weights": {
+        "P_RAPID": 1,
+        "P_SLIPPERY": 1,
+        "S_BITTER_MOUTH": 2,
+        "S_BODY_HEAVY": 2,
+        "S_EPIGASTRIC_FULLNESS": 2,
+        "S_FEVER_UNEVEN": 2,
+        "S_LEUKORRHEA_YELLOW": 1,
+        "S_NAUSEA": 1,
+        "S_STICKY_MOUTH": 2,
+        "S_STICKY_STOOL": 3,
+        "S_THIRST_NO_DRINK": 1,
+        "S_URINE_YELLOW_SCANTY": 2,
+        "T_BODY_RED": 1,
+        "T_CENTER_COAT_YELLOW_GREASY": 2,
+        "T_COAT_YELLOW_GREASY": 3,
+        "T_ROOT_COAT_THICK_GREASY": 1
+      }
+    },
+    {
+      "against": {
+        "S_BODY_HEAVY": 1,
+        "S_LOOSE_STOOL": 1,
+        "T_COAT_WHITE_GREASY": 2
+      },
+      "id": "PE_胃_陰虛",
+      "location": "胃",
+      "name": {
+        "en": null,
+        "zh-Hant": "胃陰虛"
+      },
+      "nature": "陰虛",
+      "patterns": [
+        "SP6"
+      ],
+      "projection_per_degree": {
+        "胃.yin": -1.0
+      },
+      "weights": {
+        "P_RAPID": 1,
+        "P_THIN": 1,
+        "S_CONSTIPATION": 2,
+        "S_DRY_MOUTH_THROAT": 3,
+        "S_DRY_RETCH": 1,
+        "S_EPIGASTRIC_BURNING": 3,
+        "S_HEAT_PALMS_SOLES": 1,
+        "S_HUNGER_NO_EAT": 3,
+        "S_THIRST_COLD_DRINK": 1,
+        "T_BODY_RED": 2,
+        "T_CENTER_COAT_PEELED": 2,
+        "T_COAT_DRY": 1,
+        "T_COAT_PEELED_ALL": 2,
+        "T_CRACKS_CENTER": 3
+      }
+    },
+    {
+      "against": {
+        "S_CONSTIPATION": 2,
+        "S_FEAR_HEAT": 2,
+        "S_THIRST_COLD_DRINK": 3,
+        "T_BODY_RED": 2
+      },
+      "id": "PE_脾_寒",
+      "location": "脾",
+      "name": {
+        "en": null,
+        "zh-Hant": "脾寒"
+      },
+      "nature": "寒",
+      "patterns": [
+        "SP2"
+      ],
+      "projection_per_degree": {
+        "liuxie.寒": 1.0
+      },
+      "weights": {
+        "P_DEFICIENT": 1,
+        "P_SINK": 2,
+        "P_SLOW": 2,
+        "S_ABD_PAIN_PREFER_WARM_PRESS": 3,
+        "S_BLAND_MOUTH": 2,
+        "S_COLD_LIMBS": 2,
+        "S_EDEMA": 1,
+        "S_FEAR_COLD": 3,
+        "S_LOOSE_STOOL": 3,
+        "S_NO_THIRST": 1,
+        "S_POOR_APPETITE": 2,
+        "S_POSTPRANDIAL_BLOAT": 1,
+        "S_PREFER_HOT_FOOD": 2,
+        "S_UNDIGESTED_STOOL": 2,
+        "T_BODY_PALE_SWOLLEN": 2,
+        "T_COAT_SLIPPERY": 2,
+        "T_TOOTHMARK_EDGE": 1
+      }
+    },
+    {
+      "against": {
+        "S_ABD_REFUSE_PRESS": 2,
+        "S_CONSTIPATION": 2,
+        "S_FACE_RED": 1,
+        "S_IRRITABLE": 1,
+        "S_THIRST_COLD_DRINK": 2,
+        "T_BODY_RED": 1,
+        "T_COAT_YELLOW_GREASY": 1
+      },
+      "id": "PE_脾_氣虛",
+      "location": "脾",
+      "name": {
+        "en": null,
+        "zh-Hant": "脾氣虛"
+      },
+      "nature": "氣虛",
+      "patterns": [
+        "SP1",
+        "SP3",
+        "HT1",
+        "QB1"
+      ],
+      "projection_per_degree": {
+        "脾.qi": -1.0
+      },
+      "weights": {
+        "P_DEFICIENT": 2,
+        "P_SOFT": 1,
+        "P_THIN": 2,
+        "S_BLAND_MOUTH": 1,
+        "S_DREAM_MANY": 2,
+        "S_EDEMA": 1,
+        "S_FACE_PALE": 2,
+        "S_FACE_SALLOW": 2,
+        "S_FATIGUE": 3,
+        "S_FORGETFUL": 3,
+        "S_HEAD_DIZZY": 2,
+        "S_INSOMNIA_MAINT": 2,
+        "S_LAZY_SPEAK": 2,
+        "S_LIPS_NAILS_PALE": 2,
+        "S_LOOSE_STOOL": 3,
+        "S_MENSES_SCANTY_PALE": 1,
+        "S_PALPITATION": 3,
+        "S_POOR_APPETITE": 3,
+        "S_POSTPRANDIAL_BLOAT": 3,
+        "S_PROLAPSE_SENSATION": 3,
+        "S_SHORT_BREATH": 2,
+        "T_BODY_PALE": 3,
+        "T_BODY_PALE_SWOLLEN": 1,
+        "T_COAT_THIN_WHITE": 1,
+        "T_TENDER": 1,
+        "T_TOOTHMARK_EDGE": 2
+      }
+    },
+    {
+      "against": {
+        "S_DRY_MOUTH_THROAT": 2,
+        "S_FEAR_COLD": 2,
+        "S_PREFER_HOT_FOOD": 1,
+        "S_THIRST_COLD_DRINK": 1,
+        "T_COAT_DRY": 2,
+        "T_COAT_PEELED_ALL": 3,
+        "T_COAT_WHITE_GREASY": 1
+      },
+      "id": "PE_脾_濕",
+      "location": "脾",
+      "name": {
+        "en": null,
+        "zh-Hant": "脾濕"
+      },
+      "nature": "濕",
+      "patterns": [
+        "SP4",
+        "SP5"
+      ],
+      "projection_per_degree": {
+        "liuxie.濕": 1.0
+      },
+      "weights": {
+        "P_RAPID": 1,
+        "P_SLIPPERY": 2,
+        "S_BITTER_MOUTH": 2,
+        "S_BODY_HEAVY": 3,
+        "S_CHEST_OPPRESSION": 2,
+        "S_EPIGASTRIC_FULLNESS": 2,
+        "S_FEVER_UNEVEN": 2,
+        "S_HEAD_HEAVY": 2,
+        "S_LEUKORRHEA_YELLOW": 1,
+        "S_NAUSEA": 1,
+        "S_PHLEGM_COPIOUS": 3,
+        "S_POOR_APPETITE": 1,
+        "S_STICKY_MOUTH": 2,
+        "S_STICKY_STOOL": 3,
+        "S_THIRST_NO_DRINK": 1,
+        "S_URINE_YELLOW_SCANTY": 2,
+        "T_BODY_PALE_SWOLLEN": 1,
+        "T_BODY_RED": 1,
+        "T_CENTER_COAT_THICK": 1,
+        "T_CENTER_COAT_YELLOW_GREASY": 2,
+        "T_COAT_WHITE_GREASY": 3,
+        "T_COAT_YELLOW_GREASY": 3,
+        "T_ROOT_COAT_THICK_GREASY": 1,
+        "T_TOOTHMARK_EDGE": 1
+      }
+    },
+    {
+      "against": {
+        "S_DRY_MOUTH_THROAT": 2,
+        "S_THIRST_COLD_DRINK": 1,
+        "T_COAT_DRY": 2,
+        "T_COAT_PEELED_ALL": 3
+      },
+      "id": "PE_脾_痰",
+      "location": "脾",
+      "name": {
+        "en": null,
+        "zh-Hant": "脾痰"
+      },
+      "nature": "痰",
+      "patterns": [
+        "SP4"
+      ],
+      "projection_per_degree": {
+        "product.痰": 1.0
+      },
+      "weights": {
+        "P_SLIPPERY": 2,
+        "S_BODY_HEAVY": 3,
+        "S_CHEST_OPPRESSION": 2,
+        "S_EPIGASTRIC_FULLNESS": 2,
+        "S_HEAD_HEAVY": 2,
+        "S_NAUSEA": 1,
+        "S_PHLEGM_COPIOUS": 3,
+        "S_POOR_APPETITE": 1,
+        "S_STICKY_MOUTH": 2,
+        "S_STICKY_STOOL": 1,
+        "S_THIRST_NO_DRINK": 1,
+        "T_BODY_PALE_SWOLLEN": 1,
+        "T_CENTER_COAT_THICK": 1,
+        "T_COAT_WHITE_GREASY": 3,
+        "T_TOOTHMARK_EDGE": 1
+      }
+    },
+    {
+      "against": {
+        "S_CONSTIPATION": 2,
+        "S_FEAR_HEAT": 2,
+        "S_THIRST_COLD_DRINK": 3,
+        "T_BODY_RED": 2
+      },
+      "id": "PE_脾_陽虛",
+      "location": "脾",
+      "name": {
+        "en": null,
+        "zh-Hant": "脾陽虛"
+      },
+      "nature": "陽虛",
+      "patterns": [
+        "SP2"
+      ],
+      "projection_per_degree": {
+        "liuxie.寒": 0.5,
+        "脾.yang": -1.0
+      },
+      "weights": {
+        "P_DEFICIENT": 1,
+        "P_SINK": 2,
+        "P_SLOW": 2,
+        "S_ABD_PAIN_PREFER_WARM_PRESS": 3,
+        "S_BLAND_MOUTH": 2,
+        "S_COLD_LIMBS": 2,
+        "S_EDEMA": 1,
+        "S_FEAR_COLD": 3,
+        "S_LOOSE_STOOL": 3,
+        "S_NO_THIRST": 1,
+        "S_POOR_APPETITE": 2,
+        "S_POSTPRANDIAL_BLOAT": 1,
+        "S_PREFER_HOT_FOOD": 2,
+        "S_UNDIGESTED_STOOL": 2,
+        "T_BODY_PALE_SWOLLEN": 2,
+        "T_COAT_SLIPPERY": 2,
+        "T_TOOTHMARK_EDGE": 1
+      }
+    },
+    {
+      "against": {
+        "S_HEAT_PALMS_SOLES": 3,
+        "S_THIRST_COLD_DRINK": 2,
+        "T_BODY_RED": 2
+      },
+      "id": "PE_腎_寒",
+      "location": "腎",
+      "name": {
+        "en": null,
+        "zh-Hant": "腎寒"
+      },
+      "nature": "寒",
+      "patterns": [
+        "KD2"
+      ],
+      "projection_per_degree": {
+        "liuxie.寒": 1.0
+      },
+      "weights": {
+        "P_DEFICIENT": 2,
+        "P_SINK": 2,
+        "P_SLOW": 1,
+        "S_COLD_LIMBS": 2,
+        "S_EDEMA": 1,
+        "S_FATIGUE": 1,
+        "S_FEAR_COLD": 3,
+        "S_FREQUENT_NOCTURIA": 3,
+        "S_LOOSE_STOOL": 1,
+        "S_LOW_BACK_COLD": 3,
+        "S_SPIRIT_WITHDRAWN": 2,
+        "S_URINE_CLEAR_LONG": 2,
+        "T_BODY_PALE_SWOLLEN": 2,
+        "T_COAT_SLIPPERY": 1
+      }
+    },
+    {
+      "against": {
+        "S_FEAR_COLD": 2,
+        "T_BODY_PALE": 2,
+        "T_COAT_WHITE_GREASY": 1
+      },
+      "id": "PE_腎_陰虛",
+      "location": "腎",
+      "name": {
+        "en": null,
+        "zh-Hant": "腎陰虛"
+      },
+      "nature": "陰虛",
+      "patterns": [
+        "HT2",
+        "KD1"
+      ],
+      "projection_per_degree": {
+        "腎.yin": -1.0
+      },
+      "weights": {
+        "P_RAPID": 2,
+        "P_THIN": 2,
+        "S_DRY_MOUTH_THROAT": 2,
+        "S_FORGETFUL": 1,
+        "S_HEAD_DIZZY": 1,
+        "S_HEAT_PALMS_SOLES": 3,
+        "S_LOW_BACK_SORE": 3,
+        "S_NIGHT_SWEAT": 2,
+        "S_PALPITATION": 2,
+        "S_RESTLESS_NO_SLEEP": 3,
+        "S_SEMINAL_EMISSION": 1,
+        "S_TIDAL_FEVER": 1,
+        "S_TINNITUS_THIN": 2,
+        "T_BODY_RED": 2,
+        "T_COAT_PEELED_ALL": 2,
+        "T_CRACKS_ALL": 1,
+        "T_ROOT_COAT_PEELED": 3,
+        "T_TIP_RED": 3
+      }
+    },
+    {
+      "against": {
+        "S_HEAT_PALMS_SOLES": 3,
+        "S_THIRST_COLD_DRINK": 2,
+        "T_BODY_RED": 2
+      },
+      "id": "PE_腎_陽虛",
+      "location": "腎",
+      "name": {
+        "en": null,
+        "zh-Hant": "腎陽虛"
+      },
+      "nature": "陽虛",
+      "patterns": [
+        "KD2"
+      ],
+      "projection_per_degree": {
+        "liuxie.寒": 0.5,
+        "腎.yang": -1.0
+      },
+      "weights": {
+        "P_DEFICIENT": 2,
+        "P_SINK": 2,
+        "P_SLOW": 1,
+        "S_COLD_LIMBS": 2,
+        "S_EDEMA": 1,
+        "S_FATIGUE": 1,
+        "S_FEAR_COLD": 3,
+        "S_FREQUENT_NOCTURIA": 3,
+        "S_LOOSE_STOOL": 1,
+        "S_LOW_BACK_COLD": 3,
+        "S_SPIRIT_WITHDRAWN": 2,
+        "S_URINE_CLEAR_LONG": 2,
+        "T_BODY_PALE_SWOLLEN": 2,
+        "T_COAT_SLIPPERY": 1
+      }
+    },
+    {
+      "against": {
+        "S_SORE_THROAT": 1,
+        "S_SPONTANEOUS_SWEAT": 2,
+        "S_THIRST_COLD_DRINK": 2,
+        "T_BODY_RED": 1
+      },
+      "id": "PE_表_寒",
+      "location": "表",
+      "name": {
+        "en": null,
+        "zh-Hant": "表寒"
+      },
+      "nature": "寒",
+      "patterns": [
+        "EX1"
+      ],
+      "projection_per_degree": {
+        "bagang.exterior": 1.0,
+        "liuxie.寒": 1.0
+      },
+      "weights": {
+        "P_FLOAT": 2,
+        "P_TIGHT": 2,
+        "S_AVERSION_COLD": 3,
+        "S_BODY_ACHE": 2,
+        "S_FEVER": 2,
+        "S_HEADACHE": 2,
+        "S_NASAL_CONGESTION": 1,
+        "S_NO_SWEAT": 3,
+        "S_NO_THIRST": 1,
+        "S_RUNNY_NOSE_CLEAR": 2,
+        "T_COAT_THIN_WHITE": 1
+      }
+    },
+    {
+      "against": {
+        "S_NIGHT_SWEAT": 1,
+        "S_NO_SWEAT": 2,
+        "S_THIRST_COLD_DRINK": 1
+      },
+      "id": "PE_表_氣虛",
+      "location": "表",
+      "name": {
+        "en": null,
+        "zh-Hant": "表氣虛"
+      },
+      "nature": "氣虛",
+      "patterns": [
+        "EX4"
+      ],
+      "projection_per_degree": {
+        "bagang.exterior": 1.0,
+        "肺.qi": -1.0
+      },
+      "weights": {
+        "P_FLOAT": 1,
+        "P_MODERATE": 1,
+        "S_AVERSION_WIND": 3,
+        "S_EASY_COLD": 2,
+        "S_FATIGUE": 1,
+        "S_SPONTANEOUS_SWEAT": 3,
+        "T_COAT_THIN_WHITE": 1
+      }
+    },
+    {
+      "against": {
+        "S_NO_THIRST": 2,
+        "T_COAT_WHITE_GREASY": 1
+      },
+      "id": "PE_表_火",
+      "location": "表",
+      "name": {
+        "en": null,
+        "zh-Hant": "表火熱"
+      },
+      "nature": "火",
+      "patterns": [
+        "EX3"
+      ],
+      "projection_per_degree": {
+        "bagang.exterior": 1.0,
+        "liuxie.火": 1.0,
+        "肺.yang": 0.5
+      },
+      "weights": {
+        "P_FLOAT": 2,
+        "P_RAPID": 2,
+        "S_AVERSION_COLD": 1,
+        "S_COUGH_PHLEGM_YELLOW": 2,
+        "S_DRY_THROAT": 1,
+        "S_FEVER": 3,
+        "S_HEADACHE": 1,
+        "S_NASAL_CONGESTION": 1,
+        "S_SORE_THROAT": 3,
+        "S_THIRST_LIGHT": 2,
+        "T_COAT_YELLOW": 1,
+        "T_EDGE_RED": 2,
+        "T_RED_DOTS_TIP": 2,
+        "T_TIP_RED": 2
+      }
+    },
+    {
+      "against": {
+        "S_NO_SWEAT": 3,
+        "S_NO_THIRST": 2,
+        "S_SORE_THROAT": 1,
+        "S_SPONTANEOUS_SWEAT": 2,
+        "S_THIRST_COLD_DRINK": 2,
+        "T_BODY_RED": 1,
+        "T_COAT_WHITE_GREASY": 1
+      },
+      "id": "PE_表_風",
+      "location": "表",
+      "name": {
+        "en": null,
+        "zh-Hant": "表風"
+      },
+      "nature": "風",
+      "patterns": [
+        "EX1",
+        "EX2",
+        "EX3"
+      ],
+      "projection_per_degree": {
+        "bagang.exterior": 1.0,
+        "liuxie.風": 1.0
+      },
+      "weights": {
+        "P_FLOAT": 2,
+        "P_MODERATE": 2,
+        "P_RAPID": 2,
+        "P_TIGHT": 2,
+        "S_AVERSION_COLD": 3,
+        "S_AVERSION_WIND": 3,
+        "S_BODY_ACHE": 2,
+        "S_COUGH_PHLEGM_YELLOW": 2,
+        "S_DRY_THROAT": 1,
+        "S_FEVER": 3,
+        "S_HEADACHE": 2,
+        "S_NASAL_CONGESTION": 1,
+        "S_NO_SWEAT": 3,
+        "S_NO_THIRST": 1,
+        "S_RUNNY_NOSE_CLEAR": 2,
+        "S_SORE_THROAT": 3,
+        "S_SPONTANEOUS_SWEAT": 3,
+        "S_THIRST_LIGHT": 2,
+        "T_COAT_THIN_WHITE": 1,
+        "T_COAT_YELLOW": 1,
+        "T_EDGE_RED": 2,
+        "T_RED_DOTS_TIP": 2,
+        "T_TIP_RED": 2
+      }
+    }
+  ]
+}

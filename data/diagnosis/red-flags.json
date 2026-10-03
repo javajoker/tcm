@@ -1,0 +1,232 @@
+{
+  "_meta": {
+    "description": "Red-flag and scope lists (draft, must be physician-reviewed). Levels: A emergency, B see a doctor within 24 h, C out of intended scope.",
+    "flow": "In every profile the matching notice is shown and acknowledged and the flow then continues (see data/config/scope-profiles.json)."
+  },
+  "items": [
+    {
+      "id": "RF_A_CHEST_PAIN",
+      "level": "A",
+      "text": {
+        "en": "Chest pain or pressure with cold sweat",
+        "zh-Hant": "胸痛或胸悶壓迫，伴冷汗"
+      }
+    },
+    {
+      "id": "RF_A_DYSPNEA",
+      "level": "A",
+      "text": {
+        "en": "Severe difficulty breathing",
+        "zh-Hant": "呼吸困難、喘不過氣"
+      }
+    },
+    {
+      "id": "RF_A_CONSCIOUSNESS",
+      "level": "A",
+      "text": {
+        "en": "Altered consciousness or fainting",
+        "zh-Hant": "意識不清、昏厥"
+      }
+    },
+    {
+      "id": "RF_A_STROKE",
+      "level": "A",
+      "text": {
+        "en": "Sudden one-sided weakness, facial droop or slurred speech",
+        "zh-Hant": "突發單側肢體無力、口角歪斜或言語不清"
+      }
+    },
+    {
+      "id": "RF_A_BLEEDING",
+      "level": "A",
+      "text": {
+        "en": "Heavy bleeding, vomiting blood, black or bloody stools",
+        "zh-Hant": "大量出血、吐血、黑便或血便"
+      }
+    },
+    {
+      "id": "RF_A_THUNDERCLAP",
+      "level": "A",
+      "text": {
+        "en": "Sudden worst-ever headache",
+        "zh-Hant": "突發劇烈頭痛（有生以來最痛）"
+      }
+    },
+    {
+      "id": "RF_A_SEIZURE",
+      "level": "A",
+      "text": {
+        "en": "Seizure",
+        "zh-Hant": "抽搐"
+      }
+    },
+    {
+      "id": "RF_A_ANAPHYLAXIS",
+      "level": "A",
+      "text": {
+        "en": "Severe allergic reaction",
+        "zh-Hant": "嚴重過敏：喉頭緊縮、全身蕁麻疹伴呼吸困難"
+      }
+    },
+    {
+      "id": "RF_A_SELF_HARM",
+      "level": "A",
+      "text": {
+        "en": "Thoughts of harming self or others",
+        "zh-Hant": "自傷或傷人的念頭"
+      }
+    },
+    {
+      "id": "RF_B_HIGH_FEVER",
+      "level": "B",
+      "text": {
+        "en": "Fever ≥ 39 °C or lasting more than 3 days",
+        "zh-Hant": "發燒 ≥ 39°C 或發燒超過 3 天"
+      }
+    },
+    {
+      "id": "RF_B_VOMITING",
+      "level": "B",
+      "text": {
+        "en": "Persistent vomiting or dehydration",
+        "zh-Hant": "持續嘔吐、無法進食水或明顯脫水"
+      }
+    },
+    {
+      "id": "RF_B_SEVERE_ABD_PAIN",
+      "level": "B",
+      "text": {
+        "en": "Severe abdominal pain",
+        "zh-Hant": "劇烈腹痛"
+      }
+    },
+    {
+      "id": "RF_B_WEIGHT_LOSS",
+      "level": "B",
+      "text": {
+        "en": "Unexplained rapid weight loss",
+        "zh-Hant": "不明原因的體重快速下降"
+      }
+    },
+    {
+      "id": "RF_B_HEMATURIA",
+      "level": "B",
+      "text": {
+        "en": "Blood in urine",
+        "zh-Hant": "血尿"
+      }
+    },
+    {
+      "id": "RF_B_NEW_MASS",
+      "level": "B",
+      "text": {
+        "en": "New lump",
+        "zh-Hant": "新出現的腫塊"
+      }
+    },
+    {
+      "id": "RF_B_JAUNDICE",
+      "level": "B",
+      "text": {
+        "en": "Jaundice",
+        "zh-Hant": "黃疸"
+      }
+    },
+    {
+      "id": "RF_B_HEMOPTYSIS",
+      "level": "B",
+      "text": {
+        "en": "Coughing blood",
+        "zh-Hant": "咳血"
+      }
+    },
+    {
+      "id": "RF_B_VISION",
+      "level": "B",
+      "text": {
+        "en": "Sudden change in vision",
+        "zh-Hant": "視力突然改變"
+      }
+    },
+    {
+      "id": "RF_B_IRREGULAR_PULSE",
+      "level": "B",
+      "text": {
+        "en": "New palpitations with an irregular pulse",
+        "zh-Hant": "新發心悸並脈搏不規則"
+      }
+    },
+    {
+      "id": "RF_C_MINOR",
+      "level": "C",
+      "text": {
+        "en": "Under 18",
+        "zh-Hant": "未滿 18 歲"
+      }
+    },
+    {
+      "id": "RF_C_PREGNANT",
+      "level": "C",
+      "text": {
+        "en": "Pregnant",
+        "zh-Hant": "懷孕"
+      }
+    },
+    {
+      "id": "RF_C_LACTATING",
+      "level": "C",
+      "text": {
+        "en": "Breastfeeding",
+        "zh-Hant": "哺乳"
+      }
+    },
+    {
+      "id": "RF_C_CANCER_TREATMENT",
+      "level": "C",
+      "text": {
+        "en": "Under cancer treatment",
+        "zh-Hant": "癌症治療中"
+      }
+    },
+    {
+      "id": "RF_C_KIDNEY",
+      "level": "C",
+      "text": {
+        "en": "Dialysis or kidney failure",
+        "zh-Hant": "洗腎或腎衰竭"
+      }
+    },
+    {
+      "id": "RF_C_LIVER",
+      "level": "C",
+      "text": {
+        "en": "Cirrhosis or severe liver disease",
+        "zh-Hant": "肝硬化或嚴重肝病"
+      }
+    },
+    {
+      "id": "RF_C_TRANSPLANT",
+      "level": "C",
+      "text": {
+        "en": "Organ transplant recipient",
+        "zh-Hant": "器官移植後"
+      }
+    },
+    {
+      "id": "RF_C_PSYCHIATRIC",
+      "level": "C",
+      "text": {
+        "en": "Severe psychiatric illness",
+        "zh-Hant": "重度精神疾病"
+      }
+    },
+    {
+      "id": "RF_C_CARDIOPULMONARY",
+      "level": "C",
+      "text": {
+        "en": "Diagnosed severe heart or lung disease",
+        "zh-Hant": "已確診的嚴重心肺疾病"
+      }
+    }
+  ]
+}

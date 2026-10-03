@@ -1,0 +1,583 @@
+{
+  "_meta": {
+    "clinical_review_required": [
+      "all herb pregnancy / interaction flags",
+      "age-band and elderly amount rules",
+      "red-flag lists (physicians)",
+      "the conflict-rule thresholds",
+      "the contraindicated acupoint list"
+    ],
+    "count": 25,
+    "description": "Safety filter rules. severity=hard rules remove the item in the release profile (suppress_hard); everything is annotated in dev (annotate_only). The filter never hides an item silently: a suppressed item is listed with its reason.",
+    "status": "draft"
+  },
+  "dose_references": {
+    "elderly": "約 2/3（並注意肝腎功能；教材通則，未核對）",
+    "minor_fractions": [
+      {
+        "age": "新生兒",
+        "fraction_of_adult": "1/6"
+      },
+      {
+        "age": "乳兒",
+        "fraction_of_adult": "1/3"
+      },
+      {
+        "age": "幼兒",
+        "fraction_of_adult": "1/2"
+      },
+      {
+        "age": "學齡兒童",
+        "fraction_of_adult": "2/3"
+      }
+    ],
+    "note": "Textbook rules of thumb; never shown as a recommendation (practitioner decides)."
+  },
+  "incompatibilities": {
+    "citation": "bencao-bianxue-18fan-1",
+    "note": "十九畏 pairs are standard teaching, not verified against the local sources.",
+    "shibafan": [
+      {
+        "herb": "烏頭類（附子、川烏、草烏）",
+        "opposes": [
+          "半夏",
+          "瓜蔞",
+          "貝母",
+          "白蘞",
+          "白及"
+        ]
+      },
+      {
+        "herb": "甘草",
+        "opposes": [
+          "海藻",
+          "大戟",
+          "甘遂",
+          "芫花"
+        ]
+      },
+      {
+        "herb": "藜蘆",
+        "opposes": [
+          "人參",
+          "沙參",
+          "丹參",
+          "玄參",
+          "苦參",
+          "細辛",
+          "芍藥"
+        ]
+      }
+    ],
+    "shijiuwei": [
+      {
+        "a": "硫黃",
+        "b": "朴硝"
+      },
+      {
+        "a": "水銀",
+        "b": "砒霜"
+      },
+      {
+        "a": "狼毒",
+        "b": "密陀僧"
+      },
+      {
+        "a": "巴豆",
+        "b": "牽牛"
+      },
+      {
+        "a": "丁香",
+        "b": "鬱金"
+      },
+      {
+        "a": "川烏、草烏",
+        "b": "犀角"
+      },
+      {
+        "a": "牙硝",
+        "b": "三棱"
+      },
+      {
+        "a": "官桂",
+        "b": "赤石脂"
+      },
+      {
+        "a": "人參",
+        "b": "五靈脂"
+      }
+    ]
+  },
+  "pregnancy_acupoints": [
+    "合谷",
+    "三陰交",
+    "血海",
+    "至陰",
+    "崑崙",
+    "肩井",
+    "次髎",
+    "石門"
+  ],
+  "rules": [
+    {
+      "applies_to": {
+        "population": [
+          "pregnant"
+        ]
+      },
+      "id": "R_PREG_HERB_AVOID",
+      "message": {
+        "en": "Contains herbs contraindicated in pregnancy; not recommended.",
+        "zh-Hant": "含孕婦禁用藥物，不予推薦。"
+      },
+      "severity": "hard",
+      "target": {
+        "herb_pregnancy": "avoid"
+      }
+    },
+    {
+      "applies_to": {
+        "population": [
+          "pregnant"
+        ]
+      },
+      "citation": "suwen-071-1",
+      "id": "R_PREG_HERB_CAUTION",
+      "message": {
+        "en": "Contains herbs to be used with caution in pregnancy; not recommended.",
+        "zh-Hant": "含孕婦慎用藥物（活血、峻下、辛熱、滑利等），不予推薦。"
+      },
+      "note": "《素問·六元正紀大論》「有故無殞，亦無殞也」是醫師在必要時的專業判斷，App 不採用。",
+      "severity": "hard",
+      "target": {
+        "herb_pregnancy": "caution"
+      }
+    },
+    {
+      "applies_to": {
+        "population": [
+          "pregnant"
+        ]
+      },
+      "id": "R_PREG_ACUPOINTS",
+      "message": {
+        "en": "Acupoints contraindicated in pregnancy; not recommended.",
+        "zh-Hant": "孕期禁按的穴位，不予推薦。"
+      },
+      "severity": "hard",
+      "target": {
+        "acupoints": [
+          "合谷",
+          "三陰交",
+          "血海",
+          "至陰",
+          "崑崙",
+          "肩井",
+          "次髎",
+          "石門"
+        ]
+      }
+    },
+    {
+      "applies_to": {
+        "population": [
+          "lactating"
+        ]
+      },
+      "id": "R_LACTATING_HERB",
+      "message": {
+        "en": "While breastfeeding only gentle advice is given.",
+        "zh-Hant": "哺乳期僅提供溫和建議；活血或強藥類方劑不予推薦。"
+      },
+      "severity": "hard",
+      "target": {
+        "formula_tier": [
+          "B",
+          "C"
+        ]
+      }
+    },
+    {
+      "applies_to": {
+        "population": [
+          "minor_under_18"
+        ]
+      },
+      "id": "R_MINOR_FORMULA",
+      "message": {
+        "en": "No tier B/C formulas for minors; amounts must be set by a practitioner.",
+        "zh-Hant": "未成年人不予推薦 B、C 級方劑；用量須依年齡折算並由醫師決定。"
+      },
+      "reference": [
+        {
+          "age": "新生兒",
+          "fraction_of_adult": "1/6"
+        },
+        {
+          "age": "乳兒",
+          "fraction_of_adult": "1/3"
+        },
+        {
+          "age": "幼兒",
+          "fraction_of_adult": "1/2"
+        },
+        {
+          "age": "學齡兒童",
+          "fraction_of_adult": "2/3"
+        }
+      ],
+      "severity": "hard",
+      "target": {
+        "formula_tier": [
+          "B",
+          "C"
+        ]
+      }
+    },
+    {
+      "applies_to": {
+        "population": [
+          "elderly_65_plus"
+        ]
+      },
+      "id": "R_ELDERLY",
+      "message": {
+        "en": "Over 65: reduced amounts and attention to liver/kidney function; practitioner decides.",
+        "zh-Hant": "65 歲以上建議降低用量並留意肝腎功能；請由醫師決定。"
+      },
+      "reference": "約 2/3（並注意肝腎功能；教材通則，未核對）",
+      "severity": "soft",
+      "target": {
+        "formula_tier": [
+          "C"
+        ]
+      }
+    },
+    {
+      "applies_to": {
+        "condition": [
+          "serious_chronic_disease"
+        ]
+      },
+      "id": "R_SERIOUS_CHRONIC",
+      "message": {
+        "en": "No formulas for serious chronic disease.",
+        "zh-Hant": "重大疾病（腎衰竭、肝硬化、癌症治療中、器官移植等）不予推薦任何方劑。"
+      },
+      "severity": "hard",
+      "target": {
+        "formula_tier": [
+          "A",
+          "B",
+          "C"
+        ]
+      }
+    },
+    {
+      "applies_to": {
+        "condition": [
+          "on_anticoagulant"
+        ]
+      },
+      "id": "R_ANTICOAGULANT",
+      "message": {
+        "en": "On anticoagulants/antiplatelets: blood-activating or interacting herbs not recommended.",
+        "zh-Hant": "正在使用抗凝血／抗血小板藥物：含活血類或可能影響凝血藥效的藥物不予推薦。"
+      },
+      "severity": "hard",
+      "target": {
+        "herb_interaction": "anticoagulant"
+      }
+    },
+    {
+      "applies_to": {
+        "condition": [
+          "on_other_interacting_medication"
+        ],
+        "medication_class": [
+          "antidiabetic"
+        ]
+      },
+      "id": "R_HYPOGLYCEMIC",
+      "message": {
+        "en": "May potentiate antidiabetic drugs; monitor glucose.",
+        "zh-Hant": "與降血糖藥併用可能加強降糖作用，須監測血糖。"
+      },
+      "severity": "soft",
+      "target": {
+        "herb_interaction": "hypoglycemic"
+      }
+    },
+    {
+      "applies_to": {
+        "condition": [
+          "on_other_interacting_medication"
+        ],
+        "medication_class": [
+          "antihypertensive"
+        ]
+      },
+      "id": "R_BP_RAISING",
+      "message": {
+        "en": "May raise blood pressure; caution with antihypertensives.",
+        "zh-Hant": "可能升高血壓或水鈉瀦留，與降壓藥併用須留意。"
+      },
+      "severity": "soft",
+      "target": {
+        "herb_interaction": "bp-raising"
+      }
+    },
+    {
+      "applies_to": {
+        "condition": [
+          "on_other_interacting_medication"
+        ],
+        "medication_class": [
+          "diuretic",
+          "cardiac-glycoside"
+        ]
+      },
+      "id": "R_HYPOKALEMIA",
+      "message": {
+        "en": "Licorice can cause hypokalaemia; not with diuretics or cardiac glycosides.",
+        "zh-Hant": "甘草長期或大量使用可致低血鉀；與利尿劑、強心苷併用不予推薦。"
+      },
+      "severity": "hard",
+      "target": {
+        "herb_interaction": "hypokalemia"
+      }
+    },
+    {
+      "applies_to": {
+        "condition": [
+          "on_other_interacting_medication"
+        ],
+        "medication_class": [
+          "immunosuppressant"
+        ]
+      },
+      "id": "R_IMMUNOSUPPRESSANT",
+      "message": {
+        "en": "Immune-modulating herbs not recommended with immunosuppressants.",
+        "zh-Hant": "免疫調節類藥物（如黃耆、人參）與免疫抑制劑併用不予推薦。"
+      },
+      "severity": "hard",
+      "target": {
+        "herb_interaction": "immune-modulating"
+      }
+    },
+    {
+      "applies_to": {
+        "condition": [
+          "on_other_interacting_medication"
+        ],
+        "medication_class": [
+          "sedative"
+        ]
+      },
+      "id": "R_SEDATIVE",
+      "message": {
+        "en": "May add to sedatives.",
+        "zh-Hant": "安神類藥物可能與鎮靜藥疊加，駕駛或操作機械前請留意。"
+      },
+      "severity": "soft",
+      "target": {
+        "herb_interaction": "sedative-additive"
+      }
+    },
+    {
+      "applies_to": {
+        "condition": [
+          "on_other_interacting_medication"
+        ],
+        "medication_class": [
+          "MAOI",
+          "stimulant",
+          "antihypertensive"
+        ]
+      },
+      "id": "R_SYMPATHOMIMETIC",
+      "message": {
+        "en": "Ephedra is sympathomimetic; not with MAOIs, stimulants or antihypertensives.",
+        "zh-Hant": "麻黃類含擬交感成分，與 MAOI、興奮劑、降壓藥併用不予推薦。"
+      },
+      "severity": "hard",
+      "target": {
+        "herb_interaction": "sympathomimetic"
+      }
+    },
+    {
+      "applies_to": {
+        "always": true
+      },
+      "id": "R_STRONG_HERB",
+      "message": {
+        "en": "Strong herbs: learning display only; requires a licensed practitioner.",
+        "zh-Hant": "含強藥或苦寒峻烈：僅供學習顯示，須由合格中醫師處方，不作推薦。"
+      },
+      "severity": "hard",
+      "target": {
+        "formula_tier": [
+          "C"
+        ]
+      }
+    },
+    {
+      "applies_to": {
+        "always": true
+      },
+      "id": "R_ARISTOLOCHIC",
+      "message": {
+        "en": "Contains 木通: aristolochic-acid risk with the banned variety; identity must be confirmed.",
+        "zh-Hant": "含「木通」：歷史上關木通含馬兜鈴酸（腎毒性、致癌）已禁用；須確認為川木通或通草，否則不予推薦。"
+      },
+      "severity": "hard",
+      "target": {
+        "herb_interaction": "aristolochic-risk"
+      }
+    },
+    {
+      "applies_to": {
+        "condition": [
+          "allergy_match"
+        ]
+      },
+      "id": "R_ALLERGY",
+      "message": {
+        "en": "Matches a recorded allergy.",
+        "zh-Hant": "與您登錄的過敏項目相符，不予推薦。"
+      },
+      "severity": "hard",
+      "target": {
+        "herb_in_user_allergy_list": true
+      }
+    },
+    {
+      "applies_to": {
+        "constitution": [
+          "C_TEBING"
+        ]
+      },
+      "id": "R_TEBING_CONSTITUTION",
+      "message": {
+        "en": "Allergic constitution: no tonic recommendations.",
+        "zh-Hant": "過敏體質（特稟質）不予補益類推薦，並加強警示。"
+      },
+      "severity": "soft",
+      "target": {
+        "effect": "tonic"
+      }
+    },
+    {
+      "applies_to": {
+        "always": true
+      },
+      "citation": "suwen-074-2",
+      "condition": "panel.bagang.cold_heat > +0.3 and formula warming index (−Σ liuxie.寒 effect + Σ yang gain) > +0.3",
+      "id": "R_PATTERN_HEAT_VS_WARM",
+      "message": {
+        "en": "Heat patterns should not be warmed.",
+        "zh-Hant": "熱證不宜溫補（寒者熱之，熱者寒之）。"
+      },
+      "severity": "hard",
+      "target": {
+        "conflict": "heat_pattern_with_warming_formula"
+      }
+    },
+    {
+      "applies_to": {
+        "always": true
+      },
+      "citation": "suwen-074-2",
+      "condition": "panel.bagang.cold_heat < −0.3 and formula cooling index (−Σ liuxie.火 effect) > +0.3",
+      "id": "R_PATTERN_COLD_VS_COLD",
+      "message": {
+        "en": "Cold patterns should not be cooled.",
+        "zh-Hant": "寒證不宜寒涼清熱（寒者熱之，熱者寒之）。"
+      },
+      "severity": "hard",
+      "target": {
+        "conflict": "cold_pattern_with_cooling_formula"
+      }
+    },
+    {
+      "applies_to": {
+        "always": true
+      },
+      "citation": "suwen-070-3",
+      "condition": "panel.bagang.deficiency_excess > +0.3 and formula tonic index (Σ qi/blood/yin/yang gains) > +0.5",
+      "id": "R_EXCESS_VS_TONIC",
+      "message": {
+        "en": "Do not reinforce an excess.",
+        "zh-Hant": "實證不宜峻補（無盛盛，無虛虛）。"
+      },
+      "severity": "hard",
+      "target": {
+        "conflict": "excess_pattern_with_tonic_formula"
+      }
+    },
+    {
+      "applies_to": {
+        "always": true
+      },
+      "citation": "suwen-070-3",
+      "condition": "panel.bagang.deficiency_excess < −0.3 and formula attacking index (−Σ product/liuxie effects) > +0.8",
+      "id": "R_DEFICIENCY_VS_ATTACK",
+      "message": {
+        "en": "Do not attack a deficiency.",
+        "zh-Hant": "虛證不宜攻伐（無盛盛，無虛虛）。"
+      },
+      "severity": "hard",
+      "target": {
+        "conflict": "deficiency_pattern_with_attacking_formula"
+      }
+    },
+    {
+      "applies_to": {
+        "always": true
+      },
+      "citation": "suwen-003-1",
+      "id": "R_FLAVOR_EXCESS",
+      "message": {
+        "en": "A single flavour dominates; prolonged use can damage the organ it overcomes.",
+        "zh-Hant": "單一味道占比過高：久用易傷其所克之臟（味過於酸，肝氣以津，脾氣乃絕…）。"
+      },
+      "severity": "soft",
+      "target": {
+        "flavor_share_over": 0.55
+      }
+    },
+    {
+      "applies_to": {
+        "always": true
+      },
+      "citation": "bencao-bianxue-18fan-1",
+      "id": "R_SHIBAFAN",
+      "message": {
+        "en": "Violates the incompatibility lists (十八反/十九畏).",
+        "zh-Hant": "違反十八反或十九畏配伍禁忌。"
+      },
+      "severity": "hard",
+      "target": {
+        "herb_pairs": "shibafan_shijiuwei"
+      }
+    },
+    {
+      "applies_to": {
+        "state": [
+          "low_confidence",
+          "insufficient_information"
+        ]
+      },
+      "id": "R_LOW_CONFIDENCE",
+      "message": {
+        "en": "Insufficient information: lifestyle advice, follow-up questions and referral only.",
+        "zh-Hant": "資訊不足或信心偏低：僅提供生活建議、補問與就醫提示。"
+      },
+      "severity": "hard",
+      "target": {
+        "output_level_max": "L0"
+      }
+    }
+  ]
+}

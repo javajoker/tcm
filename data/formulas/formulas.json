@@ -1,0 +1,6219 @@
+{
+  "_meta": {
+    "composition_status_counts": {
+      "partially-verified": 6,
+      "verified-against-classical-text": 9,
+      "verified-against-source-book": 18
+    },
+    "count": 33,
+    "description": "Formula knowledge base: composition with 君臣佐使 roles and proportions, aggregate panel effect, computed safety tier, verification against the sources.",
+    "proportion_note": "typical_g is a textbook-typical amount used only to derive relative proportions; classical_amount is parsed from the original text where available. Neither is a dosing recommendation.",
+    "role_weight_basis": [
+      "suwen-074-10",
+      "suwen-074-11"
+    ],
+    "role_weights": {
+      "佐": 0.35,
+      "使": 0.15,
+      "君": 1.0,
+      "臣": 0.6
+    },
+    "tier_counts": {
+      "A": 15,
+      "B": 12,
+      "C": 6
+    },
+    "tier_rule": "C if a strong herb (麻黃, 附子) or bitter-cold herbs ≥ 45 % of effective weight or outside MVP; else B if it contains a blood-activating herb or an aristolochic-risk herb; else A. Medication interactions are not part of the tier (see safety/rules.json)."
+  },
+  "items": [
+    {
+      "cautions": [
+        "表虛自汗、體虛外感、血虛、失血者忌用",
+        "高血壓、心悸、甲亢者慎用",
+        "中病即止，不可過汗"
+      ],
+      "classical_amounts": [
+        {
+          "amount": 3.0,
+          "name": "麻黃",
+          "processing": "去节",
+          "unit": "两"
+        },
+        {
+          "amount": 2.0,
+          "name": "桂枝",
+          "processing": "去皮",
+          "unit": "两"
+        },
+        {
+          "amount": 1.0,
+          "name": "甘草",
+          "processing": "炙",
+          "unit": "两"
+        },
+        {
+          "amount": 70.0,
+          "name": "杏仁",
+          "processing": "汤去皮尖",
+          "unit": "个"
+        }
+      ],
+      "composition": [
+        {
+          "classical_amount": {
+            "processing": "去节",
+            "unit": "两",
+            "value": 3.0
+          },
+          "effective_weight": 0.5556,
+          "herb": "herb-mahuang",
+          "name": "麻黃",
+          "note": null,
+          "proportion": 0.3333,
+          "role": "君",
+          "role_weight": 1.0,
+          "typical_g": 9
+        },
+        {
+          "classical_amount": {
+            "processing": "去皮",
+            "unit": "两",
+            "value": 2.0
+          },
+          "effective_weight": 0.2222,
+          "herb": "herb-guizhi",
+          "name": "桂枝",
+          "note": null,
+          "proportion": 0.2222,
+          "role": "臣",
+          "role_weight": 0.6,
+          "typical_g": 6
+        },
+        {
+          "classical_amount": {
+            "processing": "汤去皮尖",
+            "unit": "个",
+            "value": 70.0
+          },
+          "effective_weight": 0.1944,
+          "herb": "herb-kuxingren",
+          "name": "杏仁",
+          "note": null,
+          "proportion": 0.3333,
+          "role": "佐",
+          "role_weight": 0.35,
+          "typical_g": 9
+        },
+        {
+          "classical_amount": {
+            "processing": "炙",
+            "unit": "两",
+            "value": 1.0
+          },
+          "effective_weight": 0.0278,
+          "herb": "herb-zhigancao",
+          "name": "炙甘草",
+          "note": null,
+          "proportion": 0.1111,
+          "role": "使",
+          "role_weight": 0.15,
+          "typical_g": 3
+        }
+      ],
+      "core_indications": [
+        "S_AVERSION_COLD",
+        "S_NO_SWEAT",
+        "S_BODY_ACHE",
+        "S_HEADACHE",
+        "P_FLOAT",
+        "P_TIGHT"
+      ],
+      "flavor_profile": {
+        "甘": 0.167,
+        "苦": 0.315,
+        "辛": 0.519
+      },
+      "id": "F_MAHUANG",
+      "interactions": [
+        "bp-raising",
+        "hypokalemia",
+        "sympathomimetic"
+      ],
+      "kb_commit": "7f2a183a29a226d7e49b407caebd09ee1c8484dc",
+      "modifications": [],
+      "mvp": true,
+      "name": {
+        "en": "Mahuang Tang (Ephedra Decoction)",
+        "zh-Hant": "麻黃湯"
+      },
+      "panel_burden": {
+        "liuxie.濕": 0.004,
+        "肺.qi": -0.117
+      },
+      "panel_effect": {
+        "bagang.exterior": -0.633,
+        "liuxie.寒": -0.444,
+        "liuxie.燥": -0.039,
+        "liuxie.風": -0.222,
+        "product.痰": -0.058,
+        "product.飲": -0.178,
+        "大腸.yin": 0.039,
+        "心.qi": 0.011,
+        "心.yang": 0.111,
+        "肺.qi": 0.006,
+        "肺.stasis": -0.375,
+        "脾.qi": 0.017,
+        "脾.yang": 0.044,
+        "膀胱.yang": 0.067
+      },
+      "patterns": [
+        "EX1"
+      ],
+      "pregnancy": "caution",
+      "principle": "辛溫發汗、宣肺平喘",
+      "rationale_citations": [
+        "suwen-074-10",
+        "suwen-074-11"
+      ],
+      "rationale_zh": "麻黃發汗解表、宣肺平喘為君；桂枝助麻黃發汗、溫通經脈為臣；杏仁降肺氣助平喘為佐；炙甘草調和諸藥為使。",
+      "school": "經方",
+      "source": {
+        "book": "傷寒論",
+        "ref": "shanghan-035"
+      },
+      "status": "draft",
+      "tier": "C",
+      "tier_reasons": [
+        "contains a strong herb: 麻黃"
+      ],
+      "verification": {
+        "classical": {
+          "anchor": "麻黄三两",
+          "matched_in_formula": [
+            "麻黃",
+            "桂枝",
+            "甘草",
+            "杏仁"
+          ],
+          "not_in_formula": [],
+          "note": null,
+          "parsed": 4,
+          "path": "reference/sources/TCM-Library/library/fangji/jingfang/mahuangtang/mahuangtang_001.md"
+        },
+        "composition_status": "verified-against-classical-text",
+        "proportion_basis": "textbook-typical (unverified)",
+        "role_status": "textbook-unreviewed"
+      }
+    },
+    {
+      "cautions": [
+        "表實無汗者忌用",
+        "溫熱病、陰虛火旺者不宜",
+        "服後忌生冷、黏滑、肉麵、五辛、酒酪（原方服法）"
+      ],
+      "classical_amounts": [
+        {
+          "amount": 3.0,
+          "name": "桂枝",
+          "processing": "去皮",
+          "unit": "两"
+        },
+        {
+          "amount": 3.0,
+          "name": "芍藥",
+          "processing": "",
+          "unit": "两"
+        },
+        {
+          "amount": 2.0,
+          "name": "甘草",
+          "processing": "炙",
+          "unit": "两"
+        },
+        {
+          "amount": 3.0,
+          "name": "生薑",
+          "processing": "切",
+          "unit": "两"
+        },
+        {
+          "amount": 12.0,
+          "name": "大棗",
+          "processing": "擘",
+          "unit": "枚"
+        }
+      ],
+      "composition": [
+        {
+          "classical_amount": {
+            "processing": "去皮",
+            "unit": "两",
+            "value": 3.0
+          },
+          "effective_weight": 0.3973,
+          "herb": "herb-guizhi",
+          "name": "桂枝",
+          "note": null,
+          "proportion": 0.2,
+          "role": "君",
+          "role_weight": 1.0,
+          "typical_g": 9
+        },
+        {
+          "classical_amount": {
+            "processing": "",
+            "unit": "两",
+            "value": 3.0
+          },
+          "effective_weight": 0.2384,
+          "herb": "herb-baishao",
+          "name": "芍藥",
+          "note": null,
+          "proportion": 0.2,
+          "role": "臣",
+          "role_weight": 0.6,
+          "typical_g": 9
+        },
+        {
+          "classical_amount": {
+            "processing": "切",
+            "unit": "两",
+            "value": 3.0
+          },
+          "effective_weight": 0.1391,
+          "herb": "herb-shengjiang",
+          "name": "生薑",
+          "note": null,
+          "proportion": 0.2,
+          "role": "佐",
+          "role_weight": 0.35,
+          "typical_g": 9
+        },
+        {
+          "classical_amount": {
+            "processing": "擘",
+            "unit": "枚",
+            "value": 12.0
+          },
+          "effective_weight": 0.1855,
+          "herb": "herb-dazao",
+          "name": "大棗",
+          "note": null,
+          "proportion": 0.2667,
+          "role": "佐",
+          "role_weight": 0.35,
+          "typical_g": 12
+        },
+        {
+          "classical_amount": {
+            "processing": "炙",
+            "unit": "两",
+            "value": 2.0
+          },
+          "effective_weight": 0.0397,
+          "herb": "herb-zhigancao",
+          "name": "炙甘草",
+          "note": null,
+          "proportion": 0.1333,
+          "role": "使",
+          "role_weight": 0.15,
+          "typical_g": 6
+        }
+      ],
+      "core_indications": [
+        "S_SPONTANEOUS_SWEAT",
+        "S_AVERSION_WIND",
+        "S_FEVER",
+        "P_FLOAT",
+        "P_MODERATE"
+      ],
+      "flavor_profile": {
+        "甘": 0.381,
+        "苦": 0.146,
+        "辛": 0.328,
+        "酸": 0.146
+      },
+      "id": "F_GUIZHI",
+      "interactions": [
+        "bp-raising",
+        "hypokalemia"
+      ],
+      "kb_commit": "7f2a183a29a226d7e49b407caebd09ee1c8484dc",
+      "modifications": [],
+      "mvp": true,
+      "name": {
+        "en": "Guizhi Tang (Cinnamon Twig Decoction)",
+        "zh-Hant": "桂枝湯"
+      },
+      "panel_burden": {
+        "liuxie.濕": 0.034,
+        "肺.qi": -0.08,
+        "脾.qi": -0.06
+      },
+      "panel_effect": {
+        "bagang.exterior": -0.28,
+        "liuxie.寒": -0.254,
+        "product.痰": -0.028,
+        "product.飲": -0.119,
+        "心.blood": 0.056,
+        "心.qi": 0.016,
+        "心.yang": 0.199,
+        "肝.blood": 0.119,
+        "肝.stasis": -0.072,
+        "肝.yang": -0.072,
+        "肝.yin": 0.095,
+        "肺.qi": 0.008,
+        "胃.yang": 0.042,
+        "脾.blood": 0.037,
+        "脾.qi": 0.098,
+        "脾.yang": 0.079,
+        "膀胱.yang": 0.119
+      },
+      "patterns": [
+        "EX2",
+        "EX4"
+      ],
+      "pregnancy": "caution",
+      "principle": "解肌發表、調和營衛",
+      "rationale_citations": [
+        "suwen-074-10",
+        "suwen-074-11"
+      ],
+      "rationale_zh": "桂枝解肌發表、溫通衛陽為君；芍藥益陰斂營為臣，桂芍相配一散一收、調和營衛；生薑助桂枝解肌、大棗助芍藥益營為佐；炙甘草調和諸藥為使。服後啜熱稀粥以助藥力。",
+      "school": "經方",
+      "source": {
+        "book": "傷寒論",
+        "ref": "shanghan-053"
+      },
+      "status": "draft",
+      "tier": "A",
+      "tier_reasons": [],
+      "verification": {
+        "classical": {
+          "anchor": "桂枝三两",
+          "matched_in_formula": [
+            "桂枝",
+            "芍藥",
+            "甘草",
+            "生薑",
+            "大棗"
+          ],
+          "not_in_formula": [],
+          "note": null,
+          "parsed": 5,
+          "path": "reference/sources/TCM-Library/library/fangji/jingfang/guizhitang/guizhitang_001.md"
+        },
+        "composition_status": "verified-against-classical-text",
+        "proportion_basis": "textbook-typical (unverified)",
+        "role_status": "textbook-unreviewed"
+      }
+    },
+    {
+      "cautions": [
+        "外感風寒、無汗惡寒者不宜",
+        "不宜久煎（芳香輕清，「過煮則味厚入中焦」）",
+        "脾胃虛寒者慎用"
+      ],
+      "classical_amounts": null,
+      "composition": [
+        {
+          "effective_weight": 0.2752,
+          "herb": "herb-jinyinhua",
+          "name": "金銀花",
+          "note": null,
+          "proportion": 0.1765,
+          "role": "君",
+          "role_weight": 1.0,
+          "typical_g": 15
+        },
+        {
+          "effective_weight": 0.2752,
+          "herb": "herb-lianqiao",
+          "name": "連翹",
+          "note": null,
+          "proportion": 0.1765,
+          "role": "君",
+          "role_weight": 1.0,
+          "typical_g": 15
+        },
+        {
+          "effective_weight": 0.0661,
+          "herb": "herb-bohe",
+          "name": "薄荷",
+          "note": null,
+          "proportion": 0.0706,
+          "role": "臣",
+          "role_weight": 0.6,
+          "typical_g": 6
+        },
+        {
+          "effective_weight": 0.0991,
+          "herb": "herb-niubangzi",
+          "name": "牛蒡子",
+          "note": null,
+          "proportion": 0.1059,
+          "role": "臣",
+          "role_weight": 0.6,
+          "typical_g": 9
+        },
+        {
+          "effective_weight": 0.055,
+          "herb": "herb-jingjiesui",
+          "name": "荊芥穗",
+          "note": null,
+          "proportion": 0.0588,
+          "role": "臣",
+          "role_weight": 0.6,
+          "typical_g": 5
+        },
+        {
+          "effective_weight": 0.055,
+          "herb": "herb-dandouchi",
+          "name": "淡豆豉",
+          "note": null,
+          "proportion": 0.0588,
+          "role": "臣",
+          "role_weight": 0.6,
+          "typical_g": 5
+        },
+        {
+          "effective_weight": 0.0385,
+          "herb": "herb-jiegeng",
+          "name": "桔梗",
+          "note": null,
+          "proportion": 0.0706,
+          "role": "佐",
+          "role_weight": 0.35,
+          "typical_g": 6
+        },
+        {
+          "effective_weight": 0.0257,
+          "herb": "herb-zhuye",
+          "name": "竹葉",
+          "note": null,
+          "proportion": 0.0471,
+          "role": "佐",
+          "role_weight": 0.35,
+          "typical_g": 4
+        },
+        {
+          "effective_weight": 0.0963,
+          "herb": "herb-lugen",
+          "name": "蘆根",
+          "note": null,
+          "proportion": 0.1765,
+          "role": "佐",
+          "role_weight": 0.35,
+          "typical_g": 15
+        },
+        {
+          "effective_weight": 0.0138,
+          "herb": "herb-gancao",
+          "name": "甘草",
+          "note": null,
+          "proportion": 0.0588,
+          "role": "使",
+          "role_weight": 0.15,
+          "typical_g": 5
+        }
+      ],
+      "core_indications": [
+        "S_FEVER",
+        "S_SORE_THROAT",
+        "S_THIRST_LIGHT",
+        "T_TIP_RED",
+        "P_FLOAT",
+        "P_RAPID"
+      ],
+      "flavor_profile": {
+        "淡": 0.021,
+        "甘": 0.337,
+        "苦": 0.384,
+        "辛": 0.258
+      },
+      "id": "F_YINQIAO",
+      "interactions": [
+        "bp-raising",
+        "hypokalemia"
+      ],
+      "kb_commit": "7f2a183a29a226d7e49b407caebd09ee1c8484dc",
+      "modifications": [],
+      "mvp": true,
+      "name": {
+        "en": "Yinqiao San (Lonicera and Forsythia Powder)",
+        "zh-Hant": "銀翹散"
+      },
+      "panel_burden": {
+        "liuxie.濕": 0.002,
+        "肺.qi": -0.018,
+        "脾.qi": -0.107,
+        "脾.yang": -0.124,
+        "腎.yang": -0.124
+      },
+      "panel_effect": {
+        "bagang.exterior": -0.132,
+        "liuxie.濕": -0.005,
+        "liuxie.火": -0.446,
+        "liuxie.風": -0.084,
+        "product.痰": -0.093,
+        "心.qi": 0.004,
+        "心.yang": -0.09,
+        "肝.stasis": -0.02,
+        "肺.qi": 0.003,
+        "肺.stasis": -0.015,
+        "肺.yang": -0.055,
+        "肺.yin": 0.019,
+        "胃.yin": 0.029,
+        "脾.qi": 0.007
+      },
+      "patterns": [
+        "EX3"
+      ],
+      "pregnancy": "caution",
+      "principle": "辛涼透表、清熱解毒",
+      "rationale_citations": [
+        "suwen-074-10",
+        "suwen-074-11"
+      ],
+      "rationale_zh": "金銀花、連翹辛涼透邪、清熱解毒為君；薄荷、牛蒡子疏風散熱、清利頭目、解毒利咽，荊芥穗、淡豆豉辛散透表為臣；竹葉清上焦熱、蘆根清熱生津，桔梗宣肺利咽為佐；甘草調和諸藥為使。",
+      "school": "時方",
+      "source": {
+        "book": "溫病條辨",
+        "ref": "上焦篇",
+        "repo_path": "reference/sources/TCM-Ancient-Books/526-温病条辨.txt"
+      },
+      "status": "draft",
+      "tier": "A",
+      "tier_reasons": [],
+      "verification": {
+        "composition_check": {
+          "book_path": "reference/sources/TCM-Ancient-Books/526-温病条辨.txt",
+          "found": 10,
+          "missing": [],
+          "occurrences": 32,
+          "total": 10
+        },
+        "composition_status": "verified-against-source-book",
+        "proportion_basis": "textbook-typical (unverified)",
+        "role_status": "textbook-unreviewed"
+      }
+    },
+    {
+      "cautions": [
+        "風寒咳嗽者不宜",
+        "脾胃虛寒者慎用"
+      ],
+      "classical_amounts": null,
+      "composition": [
+        {
+          "effective_weight": 0.3461,
+          "herb": "herb-sangye",
+          "name": "桑葉",
+          "note": null,
+          "proportion": 0.1948,
+          "role": "君",
+          "role_weight": 1.0,
+          "typical_g": 7.5
+        },
+        {
+          "effective_weight": 0.1384,
+          "herb": "herb-juhua",
+          "name": "菊花",
+          "note": null,
+          "proportion": 0.0779,
+          "role": "君",
+          "role_weight": 1.0,
+          "typical_g": 3
+        },
+        {
+          "effective_weight": 0.0692,
+          "herb": "herb-bohe",
+          "name": "薄荷",
+          "note": null,
+          "proportion": 0.0649,
+          "role": "臣",
+          "role_weight": 0.6,
+          "typical_g": 2.5
+        },
+        {
+          "effective_weight": 0.1385,
+          "herb": "herb-lianqiao",
+          "name": "連翹",
+          "note": null,
+          "proportion": 0.1299,
+          "role": "臣",
+          "role_weight": 0.6,
+          "typical_g": 5
+        },
+        {
+          "effective_weight": 0.0969,
+          "herb": "herb-kuxingren",
+          "name": "杏仁",
+          "note": null,
+          "proportion": 0.1558,
+          "role": "佐",
+          "role_weight": 0.35,
+          "typical_g": 6
+        },
+        {
+          "effective_weight": 0.0969,
+          "herb": "herb-jiegeng",
+          "name": "桔梗",
+          "note": null,
+          "proportion": 0.1558,
+          "role": "佐",
+          "role_weight": 0.35,
+          "typical_g": 6
+        },
+        {
+          "effective_weight": 0.0969,
+          "herb": "herb-lugen",
+          "name": "蘆根",
+          "note": null,
+          "proportion": 0.1558,
+          "role": "佐",
+          "role_weight": 0.35,
+          "typical_g": 6
+        },
+        {
+          "effective_weight": 0.0173,
+          "herb": "herb-gancao",
+          "name": "甘草",
+          "note": null,
+          "proportion": 0.0649,
+          "role": "使",
+          "role_weight": 0.15,
+          "typical_g": 2.5
+        }
+      ],
+      "core_indications": [
+        "S_COUGH_PHLEGM_YELLOW",
+        "S_FEVER",
+        "S_THIRST_LIGHT",
+        "S_HEADACHE",
+        "P_FLOAT"
+      ],
+      "flavor_profile": {
+        "甘": 0.379,
+        "苦": 0.516,
+        "辛": 0.105
+      },
+      "id": "F_SANGJU",
+      "interactions": [
+        "bp-raising",
+        "hypokalemia"
+      ],
+      "kb_commit": "7f2a183a29a226d7e49b407caebd09ee1c8484dc",
+      "modifications": [],
+      "mvp": true,
+      "name": {
+        "en": "Sangju Yin (Mulberry Leaf and Chrysanthemum Drink)",
+        "zh-Hant": "桑菊飲"
+      },
+      "panel_burden": {
+        "liuxie.濕": 0.003,
+        "肺.qi": -0.01,
+        "脾.qi": -0.156,
+        "脾.yang": -0.111,
+        "腎.yang": -0.111
+      },
+      "panel_effect": {
+        "bagang.exterior": -0.035,
+        "liuxie.火": -0.285,
+        "liuxie.燥": -0.019,
+        "liuxie.風": -0.221,
+        "product.痰": -0.099,
+        "大腸.yin": 0.019,
+        "心.qi": 0.005,
+        "心.yang": -0.042,
+        "肝.stasis": -0.021,
+        "肝.yang": -0.125,
+        "肺.qi": 0.003,
+        "肺.stasis": -0.087,
+        "肺.yin": 0.123,
+        "胃.yin": 0.029,
+        "脾.qi": 0.009
+      },
+      "patterns": [
+        "EX3"
+      ],
+      "pregnancy": "caution",
+      "principle": "疏風清熱、宣肺止咳",
+      "rationale_citations": [
+        "suwen-074-10",
+        "suwen-074-11"
+      ],
+      "rationale_zh": "桑葉、菊花疏散風熱、宣肺止咳為君；薄荷助疏風，杏仁、桔梗宣降肺氣為臣佐；連翹清熱、蘆根清熱生津為佐；甘草調和諸藥為使。",
+      "school": "時方",
+      "source": {
+        "book": "溫病條辨",
+        "ref": "上焦篇",
+        "repo_path": "reference/sources/TCM-Ancient-Books/526-温病条辨.txt"
+      },
+      "status": "draft",
+      "tier": "A",
+      "tier_reasons": [],
+      "verification": {
+        "composition_check": {
+          "book_path": "reference/sources/TCM-Ancient-Books/526-温病条辨.txt",
+          "found": 8,
+          "missing": [],
+          "occurrences": 8,
+          "total": 8
+        },
+        "composition_status": "verified-against-source-book",
+        "proportion_basis": "textbook-typical (unverified)",
+        "role_status": "textbook-unreviewed"
+      }
+    },
+    {
+      "cautions": [
+        "實證、熱證、陰虛火旺者不宜",
+        "人參不宜與藜蘆、五靈脂同用"
+      ],
+      "classical_amounts": null,
+      "composition": [
+        {
+          "effective_weight": 0.4878,
+          "herb": "herb-renshen",
+          "name": "人參",
+          "note": null,
+          "proportion": 0.2727,
+          "role": "君",
+          "role_weight": 1.0,
+          "typical_g": 9
+        },
+        {
+          "effective_weight": 0.2927,
+          "herb": "herb-baizhu",
+          "name": "白朮",
+          "note": null,
+          "proportion": 0.2727,
+          "role": "臣",
+          "role_weight": 0.6,
+          "typical_g": 9
+        },
+        {
+          "effective_weight": 0.1707,
+          "herb": "herb-fuling",
+          "name": "茯苓",
+          "note": null,
+          "proportion": 0.2727,
+          "role": "佐",
+          "role_weight": 0.35,
+          "typical_g": 9
+        },
+        {
+          "effective_weight": 0.0488,
+          "herb": "herb-zhigancao",
+          "name": "炙甘草",
+          "note": null,
+          "proportion": 0.1818,
+          "role": "使",
+          "role_weight": 0.15,
+          "typical_g": 6
+        }
+      ],
+      "core_indications": [
+        "S_POOR_APPETITE",
+        "S_LOOSE_STOOL",
+        "S_FATIGUE",
+        "S_LAZY_SPEAK",
+        "T_BODY_PALE"
+      ],
+      "flavor_profile": {
+        "淡": 0.1,
+        "甘": 0.586,
+        "苦": 0.314
+      },
+      "id": "F_SIJUNZI",
+      "interactions": [
+        "anticoagulant",
+        "bp-raising",
+        "hypoglycemic",
+        "hypokalemia",
+        "immune-modulating"
+      ],
+      "kb_commit": "7f2a183a29a226d7e49b407caebd09ee1c8484dc",
+      "modifications": [
+        {
+          "add": [
+            {
+              "herb": "herb-chenpi",
+              "name": "陳皮",
+              "role": "佐",
+              "typical_g": 6
+            }
+          ],
+          "id": "M_SIJUNZI_YIGONG",
+          "remove": [],
+          "result_name": "異功散",
+          "source": {
+            "book": "小兒藥證直訣",
+            "verification": "variant-name-found-in-source-book"
+          },
+          "status": "textbook-unreviewed",
+          "when_symptoms": [
+            "S_EPIGASTRIC_FULLNESS",
+            "S_POSTPRANDIAL_BLOAT"
+          ]
+        },
+        {
+          "add": [
+            {
+              "herb": "herb-chenpi",
+              "name": "陳皮",
+              "role": "佐",
+              "typical_g": 6
+            },
+            {
+              "herb": "herb-banxia",
+              "name": "半夏",
+              "role": "佐",
+              "typical_g": 9
+            }
+          ],
+          "id": "M_SIJUNZI_LIUJUNZI",
+          "remove": [],
+          "result_name": "六君子湯",
+          "source": {
+            "book": "醫方集解",
+            "verification": "variant-name-found-in-source-book"
+          },
+          "status": "textbook-unreviewed",
+          "when_symptoms": [
+            "S_PHLEGM_COPIOUS",
+            "S_NAUSEA"
+          ]
+        },
+        {
+          "add": [
+            {
+              "herb": "herb-chenpi",
+              "name": "陳皮",
+              "role": "佐",
+              "typical_g": 6
+            },
+            {
+              "herb": "herb-banxia",
+              "name": "半夏",
+              "role": "佐",
+              "typical_g": 9
+            },
+            {
+              "herb": "herb-muxiang",
+              "name": "木香",
+              "role": "佐",
+              "typical_g": 6
+            },
+            {
+              "herb": "herb-sharen",
+              "name": "砂仁",
+              "role": "佐",
+              "typical_g": 3
+            }
+          ],
+          "id": "M_SIJUNZI_XIANGSHA",
+          "remove": [],
+          "result_name": "香砂六君子湯",
+          "source": {
+            "book": "醫方集解",
+            "verification": "variant-name-not-found-in-source-book"
+          },
+          "status": "textbook-unreviewed",
+          "when_symptoms": [
+            "S_EPIGASTRIC_PAIN",
+            "S_POSTPRANDIAL_BLOAT",
+            "S_PHLEGM_COPIOUS"
+          ]
+        }
+      ],
+      "mvp": true,
+      "name": {
+        "en": "Sijunzi Tang (Four Gentlemen Decoction)",
+        "zh-Hant": "四君子湯"
+      },
+      "panel_burden": {
+        "liuxie.濕": 0.007,
+        "肺.yin": -0.044,
+        "胃.yin": -0.044
+      },
+      "panel_effect": {
+        "liuxie.濕": -0.249,
+        "product.飲": -0.068,
+        "心.qi": 0.263,
+        "肺.qi": 0.351,
+        "肺.yin": 0.098,
+        "脾.qi": 0.754,
+        "脾.yin": 0.098,
+        "腎.qi": 0.146
+      },
+      "patterns": [
+        "SP1"
+      ],
+      "pregnancy": "ok-unreviewed",
+      "principle": "益氣健脾",
+      "rationale_citations": [
+        "suwen-074-10",
+        "suwen-074-11"
+      ],
+      "rationale_zh": "人參大補元氣、健脾養胃為君；白朮健脾燥濕為臣；茯苓滲濕健脾為佐，與白朮相配則健脾祛濕之功益著；炙甘草益氣和中、調和諸藥為使。",
+      "school": "時方",
+      "source": {
+        "book": "太平惠民和劑局方",
+        "ref": "卷三",
+        "repo_path": "reference/sources/TCM-Ancient-Books/059-太平惠民和剂局方.txt"
+      },
+      "status": "draft",
+      "tier": "A",
+      "tier_reasons": [],
+      "verification": {
+        "composition_check": {
+          "book_path": "reference/sources/TCM-Ancient-Books/059-太平惠民和剂局方.txt",
+          "found": 4,
+          "missing": [],
+          "occurrences": 14,
+          "total": 4
+        },
+        "composition_status": "verified-against-source-book",
+        "proportion_basis": "textbook-typical (unverified)",
+        "role_status": "textbook-unreviewed"
+      }
+    },
+    {
+      "cautions": [
+        "濕熱內盛、陰虛火旺者不宜",
+        "不宜與藜蘆、五靈脂同用（含人參）"
+      ],
+      "classical_amounts": null,
+      "composition": [
+        {
+          "effective_weight": 0.2067,
+          "herb": "herb-renshen",
+          "name": "人參",
+          "note": null,
+          "proportion": 0.129,
+          "role": "君",
+          "role_weight": 1.0,
+          "typical_g": 10
+        },
+        {
+          "effective_weight": 0.2067,
+          "herb": "herb-baizhu",
+          "name": "白朮",
+          "note": null,
+          "proportion": 0.129,
+          "role": "君",
+          "role_weight": 1.0,
+          "typical_g": 10
+        },
+        {
+          "effective_weight": 0.2067,
+          "herb": "herb-fuling",
+          "name": "茯苓",
+          "note": null,
+          "proportion": 0.129,
+          "role": "君",
+          "role_weight": 1.0,
+          "typical_g": 10
+        },
+        {
+          "effective_weight": 0.124,
+          "herb": "herb-shangyao",
+          "name": "山藥",
+          "note": null,
+          "proportion": 0.129,
+          "role": "臣",
+          "role_weight": 0.6,
+          "typical_g": 10
+        },
+        {
+          "effective_weight": 0.062,
+          "herb": "herb-lianzi",
+          "name": "蓮子",
+          "note": null,
+          "proportion": 0.0645,
+          "role": "臣",
+          "role_weight": 0.6,
+          "typical_g": 5
+        },
+        {
+          "effective_weight": 0.0543,
+          "herb": "herb-baibiandou",
+          "name": "白扁豆",
+          "note": null,
+          "proportion": 0.0968,
+          "role": "佐",
+          "role_weight": 0.35,
+          "typical_g": 7.5
+        },
+        {
+          "effective_weight": 0.0362,
+          "herb": "herb-yiyiren",
+          "name": "薏苡仁",
+          "note": null,
+          "proportion": 0.0645,
+          "role": "佐",
+          "role_weight": 0.35,
+          "typical_g": 5
+        },
+        {
+          "effective_weight": 0.0362,
+          "herb": "herb-sharen",
+          "name": "砂仁",
+          "note": null,
+          "proportion": 0.0645,
+          "role": "佐",
+          "role_weight": 0.35,
+          "typical_g": 5
+        },
+        {
+          "effective_weight": 0.0362,
+          "herb": "herb-jiegeng",
+          "name": "桔梗",
+          "note": null,
+          "proportion": 0.0645,
+          "role": "佐",
+          "role_weight": 0.35,
+          "typical_g": 5
+        },
+        {
+          "effective_weight": 0.031,
+          "herb": "herb-gancao",
+          "name": "甘草",
+          "note": null,
+          "proportion": 0.129,
+          "role": "使",
+          "role_weight": 0.15,
+          "typical_g": 10
+        }
+      ],
+      "core_indications": [
+        "S_POOR_APPETITE",
+        "S_LOOSE_STOOL",
+        "S_FATIGUE",
+        "S_POSTPRANDIAL_BLOAT",
+        "T_TOOTHMARK_EDGE"
+      ],
+      "flavor_profile": {
+        "淡": 0.147,
+        "澀": 0.038,
+        "甘": 0.562,
+        "苦": 0.21,
+        "辛": 0.044
+      },
+      "id": "F_SHENLING",
+      "interactions": [
+        "anticoagulant",
+        "bp-raising",
+        "hypoglycemic",
+        "hypokalemia",
+        "immune-modulating"
+      ],
+      "kb_commit": "7f2a183a29a226d7e49b407caebd09ee1c8484dc",
+      "modifications": [],
+      "mvp": true,
+      "name": {
+        "en": "Shen Ling Bai Zhu San (Ginseng, Poria and White Atractylodes Powder)",
+        "zh-Hant": "參苓白朮散"
+      },
+      "panel_burden": {
+        "liuxie.濕": 0.005,
+        "肺.qi": -0.005,
+        "肺.yin": -0.031,
+        "胃.yin": -0.031
+      },
+      "panel_effect": {
+        "liuxie.暑": -0.011,
+        "liuxie.濕": -0.28,
+        "liuxie.火": -0.01,
+        "product.痰": -0.021,
+        "product.飲": -0.094,
+        "心.qi": 0.113,
+        "心.yin": 0.012,
+        "肺.qi": 0.151,
+        "肺.stasis": -0.014,
+        "肺.yin": 0.066,
+        "胃.stasis": -0.014,
+        "脾.qi": 0.514,
+        "脾.stasis": -0.014,
+        "脾.yang": 0.007,
+        "脾.yin": 0.079,
+        "腎.qi": 0.099,
+        "腎.yin": 0.037
+      },
+      "patterns": [
+        "SP1"
+      ],
+      "pregnancy": "caution",
+      "principle": "益氣健脾、滲濕止瀉",
+      "rationale_citations": [
+        "suwen-074-10",
+        "suwen-074-11"
+      ],
+      "rationale_zh": "人參、白朮、茯苓益氣健脾滲濕為君；山藥、蓮子助君藥健脾益氣、兼能止瀉為臣；白扁豆、薏苡仁健脾滲濕，砂仁醒脾和胃、行氣化滯，桔梗宣肺利氣、載藥上行為佐；甘草健脾和中、調和諸藥為使。",
+      "school": "時方",
+      "source": {
+        "book": "太平惠民和劑局方",
+        "ref": "卷三",
+        "repo_path": "reference/sources/TCM-Ancient-Books/059-太平惠民和剂局方.txt"
+      },
+      "status": "draft",
+      "tier": "A",
+      "tier_reasons": [],
+      "verification": {
+        "composition_check": {
+          "book_path": "reference/sources/TCM-Ancient-Books/059-太平惠民和剂局方.txt",
+          "found": 7,
+          "missing": [
+            "人參",
+            "茯苓",
+            "山藥"
+          ],
+          "note": "Missing herbs are usually lost characters in the GB18030 compilation (e.g. 芪, 芎 are dropped) or later additions to the original formula; confirm against a second source (Wikisource) before marking verified.",
+          "occurrences": 23,
+          "total": 10
+        },
+        "composition_status": "partially-verified",
+        "proportion_basis": "textbook-typical (unverified)",
+        "role_status": "textbook-unreviewed"
+      }
+    },
+    {
+      "cautions": [
+        "陰虛內熱、實熱證者忌用",
+        "孕婦慎用乾薑"
+      ],
+      "classical_amounts": [
+        {
+          "amount": 3.0,
+          "name": "人參",
+          "processing": "甘温",
+          "unit": "两"
+        },
+        {
+          "amount": 3.0,
+          "name": "甘草",
+          "processing": "炙，甘平",
+          "unit": "两"
+        },
+        {
+          "amount": 3.0,
+          "name": "白朮",
+          "processing": "甘温",
+          "unit": "两"
+        },
+        {
+          "amount": 3.0,
+          "name": "乾薑",
+          "processing": "辛热",
+          "unit": "两"
+        }
+      ],
+      "composition": [
+        {
+          "classical_amount": {
+            "processing": "辛热",
+            "unit": "两",
+            "value": 3.0
+          },
+          "effective_weight": 0.4762,
+          "herb": "herb-ganjiang",
+          "name": "乾薑",
+          "note": null,
+          "proportion": 0.25,
+          "role": "君",
+          "role_weight": 1.0,
+          "typical_g": 9
+        },
+        {
+          "classical_amount": {
+            "processing": "甘温",
+            "unit": "两",
+            "value": 3.0
+          },
+          "effective_weight": 0.2857,
+          "herb": "herb-renshen",
+          "name": "人參",
+          "note": null,
+          "proportion": 0.25,
+          "role": "臣",
+          "role_weight": 0.6,
+          "typical_g": 9
+        },
+        {
+          "classical_amount": {
+            "processing": "甘温",
+            "unit": "两",
+            "value": 3.0
+          },
+          "effective_weight": 0.1667,
+          "herb": "herb-baizhu",
+          "name": "白朮",
+          "note": null,
+          "proportion": 0.25,
+          "role": "佐",
+          "role_weight": 0.35,
+          "typical_g": 9
+        },
+        {
+          "classical_amount": {
+            "processing": "炙，甘平",
+            "unit": "两",
+            "value": 3.0
+          },
+          "effective_weight": 0.0714,
+          "herb": "herb-zhigancao",
+          "name": "炙甘草",
+          "note": null,
+          "proportion": 0.25,
+          "role": "使",
+          "role_weight": 0.15,
+          "typical_g": 9
+        }
+      ],
+      "core_indications": [
+        "S_ABD_PAIN_PREFER_WARM_PRESS",
+        "S_FEAR_COLD",
+        "S_LOOSE_STOOL",
+        "S_PREFER_HOT_FOOD",
+        "T_COAT_SLIPPERY"
+      ],
+      "flavor_profile": {
+        "甘": 0.4,
+        "苦": 0.236,
+        "辛": 0.364
+      },
+      "id": "F_LIZHONG",
+      "interactions": [
+        "anticoagulant",
+        "bp-raising",
+        "hypoglycemic",
+        "hypokalemia",
+        "immune-modulating"
+      ],
+      "kb_commit": "7f2a183a29a226d7e49b407caebd09ee1c8484dc",
+      "modifications": [
+        {
+          "add": [
+            {
+              "herb": "herb-fuzi",
+              "name": "附子",
+              "role": "君",
+              "typical_g": 6
+            }
+          ],
+          "id": "M_LIZHONG_FUZI",
+          "remove": [],
+          "result_name": "附子理中丸",
+          "source": {
+            "book": "太平惠民和劑局方",
+            "verification": "variant-name-found-in-source-book"
+          },
+          "status": "textbook-unreviewed",
+          "when_symptoms": [
+            "S_COLD_LIMBS",
+            "S_LOW_BACK_COLD"
+          ]
+        }
+      ],
+      "mvp": true,
+      "name": {
+        "en": "Lizhong Wan (Regulate the Middle Pill)",
+        "zh-Hant": "理中丸"
+      },
+      "panel_burden": {
+        "liuxie.濕": 0.011,
+        "肝.yin": -0.119,
+        "肺.yin": -0.025,
+        "胃.yin": -0.025,
+        "腎.yin": -0.119
+      },
+      "panel_effect": {
+        "liuxie.寒": -0.381,
+        "liuxie.濕": -0.083,
+        "product.飲": -0.143,
+        "心.qi": 0.171,
+        "肺.qi": 0.214,
+        "肺.yang": 0.143,
+        "肺.yin": 0.057,
+        "胃.yang": 0.238,
+        "脾.qi": 0.433,
+        "脾.yang": 0.381,
+        "脾.yin": 0.057,
+        "腎.qi": 0.086
+      },
+      "patterns": [
+        "SP2"
+      ],
+      "pregnancy": "caution",
+      "principle": "溫中祛寒、補氣健脾",
+      "rationale_citations": [
+        "suwen-074-10",
+        "suwen-074-11"
+      ],
+      "rationale_zh": "乾薑溫中祛寒為君；人參補氣健脾為臣；白朮燥濕健脾為佐；炙甘草益氣和中、調和諸藥為使。",
+      "school": "經方",
+      "source": {
+        "book": "傷寒論",
+        "ref": "shanghan-386"
+      },
+      "status": "draft",
+      "tier": "A",
+      "tier_reasons": [],
+      "verification": {
+        "classical": {
+          "anchor": "人参（甘温）",
+          "matched_in_formula": [
+            "人參",
+            "甘草",
+            "白朮",
+            "乾薑"
+          ],
+          "not_in_formula": [],
+          "note": null,
+          "parsed": 4,
+          "path": "reference/sources/TCM-Library/library/fangji/jingfang/lizhongwan/lizhongwan_001.md"
+        },
+        "composition_status": "verified-against-classical-text",
+        "proportion_basis": "textbook-typical (unverified)",
+        "role_status": "textbook-unreviewed"
+      }
+    },
+    {
+      "cautions": [
+        "陰虛發熱、內熱熾盛者不宜",
+        "實證、肝陽上亢者忌用"
+      ],
+      "classical_amounts": null,
+      "composition": [
+        {
+          "effective_weight": 0.4819,
+          "herb": "herb-huangqi",
+          "name": "黃耆",
+          "note": null,
+          "proportion": 0.2857,
+          "role": "君",
+          "role_weight": 1.0,
+          "typical_g": 18
+        },
+        {
+          "effective_weight": 0.0963,
+          "herb": "herb-renshen",
+          "name": "人參",
+          "note": null,
+          "proportion": 0.0952,
+          "role": "臣",
+          "role_weight": 0.6,
+          "typical_g": 6
+        },
+        {
+          "effective_weight": 0.1446,
+          "herb": "herb-baizhu",
+          "name": "白朮",
+          "note": null,
+          "proportion": 0.1429,
+          "role": "臣",
+          "role_weight": 0.6,
+          "typical_g": 9
+        },
+        {
+          "effective_weight": 0.1446,
+          "herb": "herb-zhigancao",
+          "name": "炙甘草",
+          "note": null,
+          "proportion": 0.1429,
+          "role": "臣",
+          "role_weight": 0.6,
+          "typical_g": 9
+        },
+        {
+          "effective_weight": 0.0281,
+          "herb": "herb-danggui",
+          "name": "當歸",
+          "note": null,
+          "proportion": 0.0476,
+          "role": "佐",
+          "role_weight": 0.35,
+          "typical_g": 3
+        },
+        {
+          "effective_weight": 0.0562,
+          "herb": "herb-chenpi",
+          "name": "陳皮",
+          "note": null,
+          "proportion": 0.0952,
+          "role": "佐",
+          "role_weight": 0.35,
+          "typical_g": 6
+        },
+        {
+          "effective_weight": 0.0241,
+          "herb": "herb-shengma",
+          "name": "升麻",
+          "note": null,
+          "proportion": 0.0952,
+          "role": "使",
+          "role_weight": 0.15,
+          "typical_g": 6
+        },
+        {
+          "effective_weight": 0.0241,
+          "herb": "herb-chaihu",
+          "name": "柴胡",
+          "note": null,
+          "proportion": 0.0952,
+          "role": "使",
+          "role_weight": 0.15,
+          "typical_g": 6
+        }
+      ],
+      "core_indications": [
+        "S_PROLAPSE_SENSATION",
+        "S_FATIGUE",
+        "S_SHORT_BREATH",
+        "S_LAZY_SPEAK"
+      ],
+      "flavor_profile": {
+        "甘": 0.691,
+        "苦": 0.208,
+        "辛": 0.101
+      },
+      "id": "F_BUZHONG",
+      "interactions": [
+        "anticoagulant",
+        "bp-raising",
+        "hypoglycemic",
+        "hypokalemia",
+        "immune-modulating"
+      ],
+      "kb_commit": "7f2a183a29a226d7e49b407caebd09ee1c8484dc",
+      "modifications": [],
+      "mvp": true,
+      "name": {
+        "en": "Buzhong Yiqi Tang (Tonify the Middle and Augment the Qi Decoction)",
+        "zh-Hant": "補中益氣湯"
+      },
+      "panel_burden": {
+        "liuxie.濕": 0.022,
+        "肝.blood": -0.004,
+        "肺.qi": -0.004,
+        "肺.yin": -0.03,
+        "胃.yin": -0.03,
+        "脾.qi": -0.013
+      },
+      "panel_effect": {
+        "bagang.exterior": -0.014,
+        "liuxie.濕": -0.239,
+        "liuxie.火": -0.012,
+        "product.痰": -0.022,
+        "product.瘀": -0.011,
+        "心.blood": 0.014,
+        "心.qi": 0.106,
+        "肝.blood": 0.017,
+        "肝.stasis": -0.014,
+        "肺.qi": 0.434,
+        "肺.stasis": -0.022,
+        "肺.yin": 0.019,
+        "脾.blood": 0.008,
+        "脾.qi": 0.675,
+        "脾.stasis": -0.028,
+        "脾.yin": 0.019,
+        "腎.qi": 0.029,
+        "膽.stasis": -0.007
+      },
+      "patterns": [
+        "SP3"
+      ],
+      "pregnancy": "caution",
+      "principle": "補中益氣、升陽舉陷",
+      "rationale_citations": [
+        "suwen-074-10",
+        "suwen-074-11"
+      ],
+      "rationale_zh": "黃耆補中益氣、升陽固表為君；人參、白朮、炙甘草補氣健脾為臣；當歸養血和營，陳皮理氣和胃為佐；升麻、柴胡升舉清陽為使（兼佐）。",
+      "school": "時方",
+      "source": {
+        "book": "脾胃論",
+        "ref": "卷中",
+        "repo_path": "reference/sources/TCM-Ancient-Books/614-脾胃论.txt"
+      },
+      "status": "draft",
+      "tier": "B",
+      "tier_reasons": [
+        "contains blood-activating herbs or an aristolochic-acid risk herb"
+      ],
+      "verification": {
+        "composition_check": {
+          "book_path": "reference/sources/TCM-Ancient-Books/614-脾胃论.txt",
+          "found": 7,
+          "missing": [
+            "黃耆"
+          ],
+          "note": "Missing herbs are usually lost characters in the GB18030 compilation (e.g. 芪, 芎 are dropped) or later additions to the original formula; confirm against a second source (Wikisource) before marking verified.",
+          "occurrences": 2,
+          "total": 8
+        },
+        "composition_status": "partially-verified",
+        "proportion_basis": "textbook-typical (unverified)",
+        "role_status": "textbook-unreviewed"
+      }
+    },
+    {
+      "cautions": [
+        "陰虛燥咳、吐血、消渴者忌用",
+        "半夏須炮製；孕婦慎用",
+        "不宜與烏頭類同用"
+      ],
+      "classical_amounts": null,
+      "composition": [
+        {
+          "effective_weight": 0.5391,
+          "herb": "herb-banxia",
+          "name": "半夏",
+          "note": null,
+          "proportion": 0.3448,
+          "role": "君",
+          "role_weight": 1.0,
+          "typical_g": 15
+        },
+        {
+          "effective_weight": 0.3234,
+          "herb": "herb-juhong",
+          "name": "橘紅",
+          "note": null,
+          "proportion": 0.3448,
+          "role": "臣",
+          "role_weight": 0.6,
+          "typical_g": 15
+        },
+        {
+          "effective_weight": 0.1132,
+          "herb": "herb-fuling",
+          "name": "茯苓",
+          "note": null,
+          "proportion": 0.2069,
+          "role": "佐",
+          "role_weight": 0.35,
+          "typical_g": 9
+        },
+        {
+          "effective_weight": 0.0242,
+          "herb": "herb-zhigancao",
+          "name": "炙甘草",
+          "note": null,
+          "proportion": 0.1034,
+          "role": "使",
+          "role_weight": 0.15,
+          "typical_g": 4.5
+        }
+      ],
+      "core_indications": [
+        "S_PHLEGM_COPIOUS",
+        "S_CHEST_OPPRESSION",
+        "S_NAUSEA",
+        "T_COAT_WHITE_GREASY",
+        "P_SLIPPERY"
+      ],
+      "flavor_profile": {
+        "淡": 0.079,
+        "甘": 0.096,
+        "苦": 0.225,
+        "辛": 0.6
+      },
+      "id": "F_ERCHEN",
+      "interactions": [
+        "bp-raising",
+        "hypokalemia"
+      ],
+      "kb_commit": "7f2a183a29a226d7e49b407caebd09ee1c8484dc",
+      "modifications": [],
+      "mvp": true,
+      "name": {
+        "en": "Erchen Tang (Two Matured Ingredients Decoction)",
+        "zh-Hant": "二陳湯"
+      },
+      "panel_burden": {
+        "liuxie.濕": 0.004,
+        "肺.yin": -0.129,
+        "胃.yin": -0.129
+      },
+      "panel_effect": {
+        "liuxie.濕": -0.488,
+        "product.痰": -0.539,
+        "product.飲": -0.045,
+        "心.qi": 0.01,
+        "肺.qi": 0.005,
+        "肺.stasis": -0.129,
+        "胃.stasis": -0.27,
+        "脾.qi": 0.048
+      },
+      "patterns": [
+        "SP4"
+      ],
+      "pregnancy": "caution",
+      "principle": "燥濕化痰、理氣和中",
+      "rationale_citations": [
+        "suwen-074-10",
+        "suwen-074-11"
+      ],
+      "rationale_zh": "半夏燥濕化痰、降逆和胃為君；橘紅理氣行滯、燥濕化痰為臣，二藥相配使氣順則痰降；茯苓健脾滲濕為佐；炙甘草調和諸藥為使。",
+      "school": "時方",
+      "source": {
+        "book": "太平惠民和劑局方",
+        "ref": "卷四",
+        "repo_path": "reference/sources/TCM-Ancient-Books/059-太平惠民和剂局方.txt"
+      },
+      "status": "draft",
+      "tier": "A",
+      "tier_reasons": [],
+      "verification": {
+        "composition_check": {
+          "book_path": "reference/sources/TCM-Ancient-Books/059-太平惠民和剂局方.txt",
+          "found": 4,
+          "missing": [],
+          "occurrences": 3,
+          "total": 4
+        },
+        "composition_status": "verified-against-source-book",
+        "proportion_basis": "textbook-typical (unverified)",
+        "role_status": "textbook-unreviewed"
+      }
+    },
+    {
+      "cautions": [
+        "陰虛氣滯、脾胃虛弱者不宜",
+        "孕婦慎用"
+      ],
+      "classical_amounts": null,
+      "composition": [
+        {
+          "effective_weight": 0.6212,
+          "herb": "herb-cangzhu",
+          "name": "蒼朮",
+          "note": null,
+          "proportion": 0.4054,
+          "role": "君",
+          "role_weight": 1.0,
+          "typical_g": 15
+        },
+        {
+          "effective_weight": 0.2236,
+          "herb": "herb-houpo",
+          "name": "厚朴",
+          "note": null,
+          "proportion": 0.2432,
+          "role": "臣",
+          "role_weight": 0.6,
+          "typical_g": 9
+        },
+        {
+          "effective_weight": 0.1304,
+          "herb": "herb-chenpi",
+          "name": "陳皮",
+          "note": null,
+          "proportion": 0.2432,
+          "role": "佐",
+          "role_weight": 0.35,
+          "typical_g": 9
+        },
+        {
+          "effective_weight": 0.0248,
+          "herb": "herb-zhigancao",
+          "name": "炙甘草",
+          "note": null,
+          "proportion": 0.1081,
+          "role": "使",
+          "role_weight": 0.15,
+          "typical_g": 4
+        }
+      ],
+      "core_indications": [
+        "S_EPIGASTRIC_FULLNESS",
+        "S_BODY_HEAVY",
+        "S_POOR_APPETITE",
+        "T_COAT_WHITE_GREASY"
+      ],
+      "flavor_profile": {
+        "甘": 0.013,
+        "苦": 0.494,
+        "辛": 0.494
+      },
+      "id": "F_PINGWEI",
+      "interactions": [
+        "bp-raising",
+        "hypokalemia"
+      ],
+      "kb_commit": "7f2a183a29a226d7e49b407caebd09ee1c8484dc",
+      "modifications": [],
+      "mvp": true,
+      "name": {
+        "en": "Pingwei San (Calm the Stomach Powder)",
+        "zh-Hant": "平胃散"
+      },
+      "panel_burden": {
+        "liuxie.濕": 0.004,
+        "肺.qi": -0.034,
+        "肺.yin": -0.146,
+        "胃.yin": -0.146
+      },
+      "panel_effect": {
+        "liuxie.濕": -0.661,
+        "liuxie.風": -0.124,
+        "product.痰": -0.119,
+        "心.qi": 0.01,
+        "肺.qi": 0.005,
+        "肺.stasis": -0.052,
+        "胃.stasis": -0.112,
+        "脾.qi": 0.139,
+        "脾.stasis": -0.386
+      },
+      "patterns": [
+        "SP4"
+      ],
+      "pregnancy": "caution",
+      "principle": "燥濕運脾、行氣和胃",
+      "rationale_citations": [
+        "suwen-074-10",
+        "suwen-074-11"
+      ],
+      "rationale_zh": "蒼朮燥濕運脾為君；厚朴行氣除滿、燥濕為臣；陳皮理氣化滯為佐；炙甘草調和諸藥為使。",
+      "school": "時方",
+      "source": {
+        "book": "太平惠民和劑局方",
+        "ref": "卷三",
+        "repo_path": "reference/sources/TCM-Ancient-Books/059-太平惠民和剂局方.txt"
+      },
+      "status": "draft",
+      "tier": "A",
+      "tier_reasons": [],
+      "verification": {
+        "composition_check": {
+          "book_path": "reference/sources/TCM-Ancient-Books/059-太平惠民和剂局方.txt",
+          "found": 4,
+          "missing": [],
+          "occurrences": 9,
+          "total": 4
+        },
+        "composition_status": "verified-against-source-book",
+        "proportion_basis": "textbook-typical (unverified)",
+        "role_status": "textbook-unreviewed"
+      }
+    },
+    {
+      "cautions": [
+        "陰虛火旺、痰熱者不宜",
+        "孕婦慎用桂枝"
+      ],
+      "classical_amounts": [
+        {
+          "amount": 4.0,
+          "name": "茯苓",
+          "processing": "",
+          "unit": "两"
+        },
+        {
+          "amount": 3.0,
+          "name": "桂枝",
+          "processing": "去皮",
+          "unit": "两"
+        },
+        {
+          "amount": 2.0,
+          "name": "白朮",
+          "processing": "",
+          "unit": "两"
+        },
+        {
+          "amount": 2.0,
+          "name": "甘草",
+          "processing": "炙",
+          "unit": "两"
+        }
+      ],
+      "composition": [
+        {
+          "classical_amount": {
+            "processing": "",
+            "unit": "两",
+            "value": 4.0
+          },
+          "effective_weight": 0.5882,
+          "herb": "herb-fuling",
+          "name": "茯苓",
+          "note": null,
+          "proportion": 0.3636,
+          "role": "君",
+          "role_weight": 1.0,
+          "typical_g": 12
+        },
+        {
+          "classical_amount": {
+            "processing": "去皮",
+            "unit": "两",
+            "value": 3.0
+          },
+          "effective_weight": 0.2647,
+          "herb": "herb-guizhi",
+          "name": "桂枝",
+          "note": null,
+          "proportion": 0.2727,
+          "role": "臣",
+          "role_weight": 0.6,
+          "typical_g": 9
+        },
+        {
+          "classical_amount": {
+            "processing": "",
+            "unit": "两",
+            "value": 2.0
+          },
+          "effective_weight": 0.1029,
+          "herb": "herb-baizhu",
+          "name": "白朮",
+          "note": null,
+          "proportion": 0.1818,
+          "role": "佐",
+          "role_weight": 0.35,
+          "typical_g": 6
+        },
+        {
+          "classical_amount": {
+            "processing": "炙",
+            "unit": "两",
+            "value": 2.0
+          },
+          "effective_weight": 0.0441,
+          "herb": "herb-zhigancao",
+          "name": "炙甘草",
+          "note": null,
+          "proportion": 0.1818,
+          "role": "使",
+          "role_weight": 0.15,
+          "typical_g": 6
+        }
+      ],
+      "core_indications": [
+        "S_CHEST_OPPRESSION",
+        "S_HEAD_DIZZY",
+        "S_PHLEGM_COPIOUS",
+        "T_COAT_SLIPPERY",
+        "P_SLIPPERY"
+      ],
+      "flavor_profile": {
+        "淡": 0.301,
+        "甘": 0.511,
+        "苦": 0.053,
+        "辛": 0.135
+      },
+      "id": "F_LINGGUIZHUGAN",
+      "interactions": [
+        "bp-raising",
+        "hypokalemia"
+      ],
+      "kb_commit": "7f2a183a29a226d7e49b407caebd09ee1c8484dc",
+      "modifications": [],
+      "mvp": true,
+      "name": {
+        "en": "Ling Gui Zhu Gan Tang (Poria, Cinnamon Twig, Atractylodes and Licorice Decoction)",
+        "zh-Hant": "苓桂朮甘湯"
+      },
+      "panel_burden": {
+        "liuxie.濕": 0.007,
+        "肺.qi": -0.04,
+        "肺.yin": -0.015,
+        "胃.yin": -0.015
+      },
+      "panel_effect": {
+        "bagang.exterior": -0.159,
+        "liuxie.寒": -0.132,
+        "liuxie.濕": -0.404,
+        "product.飲": -0.315,
+        "心.qi": 0.018,
+        "心.yang": 0.132,
+        "肺.qi": 0.009,
+        "脾.qi": 0.285,
+        "脾.yang": 0.053,
+        "膀胱.yang": 0.079
+      },
+      "patterns": [
+        "SP4"
+      ],
+      "pregnancy": "caution",
+      "principle": "溫陽化飲、健脾利濕",
+      "rationale_citations": [
+        "suwen-074-10",
+        "suwen-074-11"
+      ],
+      "rationale_zh": "茯苓健脾滲濕、化飲為君；桂枝溫陽化氣、平沖降逆為臣；白朮健脾燥濕為佐；炙甘草益氣和中、調和諸藥為使。《金匱》言「病痰飲者，當以溫藥和之」。",
+      "school": "經方",
+      "source": {
+        "book": "金匱要略",
+        "ref": "jingui-012-1"
+      },
+      "status": "draft",
+      "tier": "A",
+      "tier_reasons": [],
+      "verification": {
+        "classical": {
+          "anchor": "茯苓四两",
+          "matched_in_formula": [
+            "茯苓",
+            "桂枝",
+            "白朮",
+            "甘草"
+          ],
+          "not_in_formula": [],
+          "note": null,
+          "parsed": 4,
+          "path": "reference/sources/TCM-Library/library/fangji/jingfang/lingguizhugantang/lingguizhugantang_001.md"
+        },
+        "composition_status": "verified-against-classical-text",
+        "proportion_basis": "textbook-typical (unverified)",
+        "role_status": "textbook-unreviewed"
+      }
+    },
+    {
+      "cautions": [
+        "陰虛津傷、無濕熱者忌用",
+        "孕婦慎用（薏苡仁、滑石、半夏）",
+        "不宜與烏頭類同用（含半夏）"
+      ],
+      "classical_amounts": null,
+      "composition": [
+        {
+          "effective_weight": 0.2331,
+          "herb": "herb-kuxingren",
+          "name": "杏仁",
+          "note": null,
+          "proportion": 0.1667,
+          "role": "君",
+          "role_weight": 1.0,
+          "typical_g": 15
+        },
+        {
+          "effective_weight": 0.0933,
+          "herb": "herb-doukou",
+          "name": "白豆蔻",
+          "note": null,
+          "proportion": 0.0667,
+          "role": "君",
+          "role_weight": 1.0,
+          "typical_g": 6
+        },
+        {
+          "effective_weight": 0.2797,
+          "herb": "herb-yiyiren",
+          "name": "薏苡仁",
+          "note": null,
+          "proportion": 0.2,
+          "role": "君",
+          "role_weight": 1.0,
+          "typical_g": 18
+        },
+        {
+          "effective_weight": 0.1678,
+          "herb": "herb-huashi",
+          "name": "滑石",
+          "note": null,
+          "proportion": 0.2,
+          "role": "臣",
+          "role_weight": 0.6,
+          "typical_g": 18
+        },
+        {
+          "effective_weight": 0.056,
+          "herb": "herb-tongcao",
+          "name": "通草",
+          "note": null,
+          "proportion": 0.0667,
+          "role": "臣",
+          "role_weight": 0.6,
+          "typical_g": 6
+        },
+        {
+          "effective_weight": 0.056,
+          "herb": "herb-zhuye",
+          "name": "竹葉",
+          "note": null,
+          "proportion": 0.0667,
+          "role": "臣",
+          "role_weight": 0.6,
+          "typical_g": 6
+        },
+        {
+          "effective_weight": 0.0326,
+          "herb": "herb-houpo",
+          "name": "厚朴",
+          "note": null,
+          "proportion": 0.0667,
+          "role": "佐",
+          "role_weight": 0.35,
+          "typical_g": 6
+        },
+        {
+          "effective_weight": 0.0816,
+          "herb": "herb-banxia",
+          "name": "半夏",
+          "note": null,
+          "proportion": 0.1667,
+          "role": "佐",
+          "role_weight": 0.35,
+          "typical_g": 15
+        }
+      ],
+      "core_indications": [
+        "S_FEVER_UNEVEN",
+        "S_BODY_HEAVY",
+        "S_EPIGASTRIC_FULLNESS",
+        "S_STICKY_MOUTH",
+        "T_COAT_YELLOW_GREASY"
+      ],
+      "flavor_profile": {
+        "淡": 0.351,
+        "甘": 0.351,
+        "苦": 0.167,
+        "辛": 0.13
+      },
+      "id": "F_SANREN",
+      "interactions": [],
+      "kb_commit": "7f2a183a29a226d7e49b407caebd09ee1c8484dc",
+      "modifications": [],
+      "mvp": true,
+      "name": {
+        "en": "Sanren Tang (Three Kernels Decoction)",
+        "zh-Hant": "三仁湯"
+      },
+      "panel_burden": {
+        "肺.qi": -0.019,
+        "肺.yin": -0.017,
+        "胃.yin": -0.017,
+        "脾.yang": -0.056,
+        "腎.yang": -0.056
+      },
+      "panel_effect": {
+        "liuxie.暑": -0.084,
+        "liuxie.濕": -0.414,
+        "liuxie.火": -0.117,
+        "liuxie.燥": -0.047,
+        "product.痰": -0.137,
+        "product.飲": -0.095,
+        "大腸.yin": 0.047,
+        "心.yang": -0.017,
+        "肺.stasis": -0.117,
+        "胃.stasis": -0.085,
+        "胃.yang": 0.019,
+        "脾.qi": 0.056,
+        "脾.stasis": -0.057
+      },
+      "patterns": [
+        "SP5"
+      ],
+      "pregnancy": "caution",
+      "principle": "宣暢氣機、清利濕熱",
+      "rationale_citations": [
+        "suwen-074-10",
+        "suwen-074-11"
+      ],
+      "rationale_zh": "杏仁宣利上焦肺氣，白蔻仁芳香化濕、行氣寬中，薏苡仁甘淡滲濕利下，三者共為君，宣上、暢中、滲下；滑石、通草、竹葉清熱利濕為臣；厚朴、半夏行氣燥濕、散滿消痞為佐。",
+      "school": "時方",
+      "source": {
+        "book": "溫病條辨",
+        "ref": "上焦篇",
+        "repo_path": "reference/sources/TCM-Ancient-Books/526-温病条辨.txt"
+      },
+      "status": "draft",
+      "tier": "A",
+      "tier_reasons": [],
+      "verification": {
+        "composition_check": {
+          "book_path": "reference/sources/TCM-Ancient-Books/526-温病条辨.txt",
+          "found": 8,
+          "missing": [],
+          "occurrences": 4,
+          "total": 8
+        },
+        "composition_status": "verified-against-source-book",
+        "proportion_basis": "textbook-typical (unverified)",
+        "role_status": "textbook-unreviewed"
+      }
+    },
+    {
+      "cautions": [
+        "原方「木通」須用川木通或通草，絕不可用含馬兜鈴酸的關木通",
+        "寒濕證、陰虛者不宜",
+        "孕婦慎用"
+      ],
+      "classical_amounts": null,
+      "composition": [
+        {
+          "effective_weight": 0.2851,
+          "herb": "herb-huashi",
+          "name": "滑石",
+          "note": null,
+          "proportion": 0.2083,
+          "role": "君",
+          "role_weight": 1.0,
+          "typical_g": 15
+        },
+        {
+          "effective_weight": 0.2092,
+          "herb": "herb-yinchen",
+          "name": "茵陳",
+          "note": null,
+          "proportion": 0.1528,
+          "role": "君",
+          "role_weight": 1.0,
+          "typical_g": 11
+        },
+        {
+          "effective_weight": 0.1901,
+          "herb": "herb-huangqin",
+          "name": "黃芩",
+          "note": null,
+          "proportion": 0.1389,
+          "role": "君",
+          "role_weight": 1.0,
+          "typical_g": 10
+        },
+        {
+          "effective_weight": 0.0684,
+          "herb": "herb-shichangpu",
+          "name": "石菖蒲",
+          "note": null,
+          "proportion": 0.0833,
+          "role": "臣",
+          "role_weight": 0.6,
+          "typical_g": 6
+        },
+        {
+          "effective_weight": 0.057,
+          "herb": "herb-chuanbeimu",
+          "name": "川貝母",
+          "note": null,
+          "proportion": 0.0694,
+          "role": "臣",
+          "role_weight": 0.6,
+          "typical_g": 5
+        },
+        {
+          "effective_weight": 0.057,
+          "herb": "herb-mutong",
+          "name": "木通",
+          "note": null,
+          "proportion": 0.0694,
+          "role": "臣",
+          "role_weight": 0.6,
+          "typical_g": 5
+        },
+        {
+          "effective_weight": 0.0266,
+          "herb": "herb-guanghuoxiang",
+          "name": "藿香",
+          "note": null,
+          "proportion": 0.0556,
+          "role": "佐",
+          "role_weight": 0.35,
+          "typical_g": 4
+        },
+        {
+          "effective_weight": 0.0266,
+          "herb": "herb-lianqiao",
+          "name": "連翹",
+          "note": null,
+          "proportion": 0.0556,
+          "role": "佐",
+          "role_weight": 0.35,
+          "typical_g": 4
+        },
+        {
+          "effective_weight": 0.0266,
+          "herb": "herb-doukou",
+          "name": "白豆蔻",
+          "note": null,
+          "proportion": 0.0556,
+          "role": "佐",
+          "role_weight": 0.35,
+          "typical_g": 4
+        },
+        {
+          "effective_weight": 0.0266,
+          "herb": "herb-bohe",
+          "name": "薄荷",
+          "note": null,
+          "proportion": 0.0556,
+          "role": "佐",
+          "role_weight": 0.35,
+          "typical_g": 4
+        },
+        {
+          "effective_weight": 0.0266,
+          "herb": "herb-shegan",
+          "name": "射干",
+          "note": null,
+          "proportion": 0.0556,
+          "role": "佐",
+          "role_weight": 0.35,
+          "typical_g": 4
+        }
+      ],
+      "core_indications": [
+        "S_STICKY_MOUTH",
+        "S_BITTER_MOUTH",
+        "S_URINE_YELLOW_SCANTY",
+        "S_BODY_HEAVY",
+        "T_COAT_YELLOW_GREASY"
+      ],
+      "flavor_profile": {
+        "淡": 0.176,
+        "甘": 0.211,
+        "苦": 0.392,
+        "辛": 0.221
+      },
+      "id": "F_GANLU",
+      "interactions": [
+        "aristolochic-risk"
+      ],
+      "kb_commit": "7f2a183a29a226d7e49b407caebd09ee1c8484dc",
+      "modifications": [],
+      "mvp": true,
+      "name": {
+        "en": "Ganlu Xiaodu Dan (Sweet Dew Toxin-Removing Pill)",
+        "zh-Hant": "甘露消毒丹"
+      },
+      "panel_burden": {
+        "肺.qi": -0.022,
+        "脾.qi": -0.142,
+        "脾.yang": -0.14,
+        "腎.yang": -0.14
+      },
+      "panel_effect": {
+        "bagang.exterior": -0.021,
+        "liuxie.暑": -0.153,
+        "liuxie.濕": -0.451,
+        "liuxie.火": -0.384,
+        "liuxie.燥": -0.017,
+        "liuxie.風": -0.011,
+        "product.痰": -0.072,
+        "小腸.yang": -0.017,
+        "心.stasis": -0.021,
+        "心.yang": -0.025,
+        "肝.stasis": -0.008,
+        "肺.stasis": -0.008,
+        "肺.yang": -0.038,
+        "肺.yin": 0.017,
+        "胃.stasis": -0.008,
+        "胃.yang": 0.005,
+        "脾.stasis": -0.019,
+        "膽.yang": -0.038
+      },
+      "patterns": [
+        "SP5"
+      ],
+      "pregnancy": "caution",
+      "principle": "利濕化濁、清熱解毒",
+      "rationale_citations": [
+        "suwen-074-10",
+        "suwen-074-11"
+      ],
+      "rationale_zh": "滑石利水清熱、茵陳清熱利濕退黃、黃芩清熱燥濕共為君；石菖蒲、川貝母、木通化濕化痰、導熱下行為臣；藿香、白豆蔻、薄荷芳香化濁，連翹、射干清熱解毒利咽為佐。",
+      "school": "時方",
+      "source": {
+        "book": "溫熱經緯",
+        "ref": "卷五",
+        "repo_path": "reference/sources/TCM-Ancient-Books/543-温热经纬.txt"
+      },
+      "status": "draft",
+      "tier": "B",
+      "tier_reasons": [
+        "contains blood-activating herbs or an aristolochic-acid risk herb"
+      ],
+      "verification": {
+        "composition_check": {
+          "book_path": "reference/sources/TCM-Ancient-Books/543-温热经纬.txt",
+          "found": 11,
+          "missing": [],
+          "occurrences": 2,
+          "total": 11
+        },
+        "composition_status": "verified-against-source-book",
+        "proportion_basis": "textbook-typical (unverified)",
+        "role_status": "textbook-unreviewed"
+      }
+    },
+    {
+      "cautions": [
+        "脾胃虛寒、濕盛、痰濕者忌用",
+        "糖尿病者慎用冰糖"
+      ],
+      "classical_amounts": null,
+      "composition": [
+        {
+          "effective_weight": 0.3832,
+          "herb": "herb-dihuang",
+          "name": "生地黃",
+          "note": null,
+          "proportion": 0.3226,
+          "role": "君",
+          "role_weight": 1.0,
+          "typical_g": 15
+        },
+        {
+          "effective_weight": 0.3832,
+          "herb": "herb-maidong",
+          "name": "麥冬",
+          "note": null,
+          "proportion": 0.3226,
+          "role": "君",
+          "role_weight": 1.0,
+          "typical_g": 15
+        },
+        {
+          "effective_weight": 0.1379,
+          "herb": "herb-beishashen",
+          "name": "沙參",
+          "note": null,
+          "proportion": 0.1935,
+          "role": "臣",
+          "role_weight": 0.6,
+          "typical_g": 9
+        },
+        {
+          "effective_weight": 0.069,
+          "herb": "herb-yuzhu",
+          "name": "玉竹",
+          "note": null,
+          "proportion": 0.0968,
+          "role": "臣",
+          "role_weight": 0.6,
+          "typical_g": 4.5
+        },
+        {
+          "effective_weight": 0.0268,
+          "herb": "herb-bingtang",
+          "name": "冰糖",
+          "note": null,
+          "proportion": 0.0645,
+          "role": "佐",
+          "role_weight": 0.35,
+          "typical_g": 3
+        }
+      ],
+      "core_indications": [
+        "S_DRY_MOUTH_THROAT",
+        "S_HUNGER_NO_EAT",
+        "S_EPIGASTRIC_BURNING",
+        "T_CRACKS_CENTER"
+      ],
+      "flavor_profile": {
+        "甘": 0.608,
+        "苦": 0.392
+      },
+      "id": "F_YIWEI",
+      "interactions": [],
+      "kb_commit": "7f2a183a29a226d7e49b407caebd09ee1c8484dc",
+      "modifications": [],
+      "mvp": true,
+      "name": {
+        "en": "Yiwei Tang (Benefit the Stomach Decoction)",
+        "zh-Hant": "益胃湯"
+      },
+      "panel_burden": {
+        "liuxie.濕": 0.004,
+        "脾.qi": -0.435,
+        "脾.yang": -0.096,
+        "腎.yang": -0.096
+      },
+      "panel_effect": {
+        "liuxie.火": -0.219,
+        "liuxie.燥": -0.177,
+        "心.yang": -0.077,
+        "心.yin": 0.268,
+        "肝.blood": 0.077,
+        "肝.yin": 0.153,
+        "肺.yin": 0.353,
+        "胃.yin": 0.339,
+        "腎.yin": 0.23
+      },
+      "patterns": [
+        "SP6"
+      ],
+      "pregnancy": "ok-unreviewed",
+      "principle": "養陰益胃",
+      "rationale_citations": [
+        "suwen-074-10",
+        "suwen-074-11"
+      ],
+      "rationale_zh": "生地黃、麥冬甘寒養陰、清熱生津為君；沙參、玉竹養陰生津、益胃為臣；冰糖濡養肺胃、調和諸藥為佐。",
+      "school": "時方",
+      "source": {
+        "book": "溫病條辨",
+        "ref": "中焦篇",
+        "repo_path": "reference/sources/TCM-Ancient-Books/526-温病条辨.txt"
+      },
+      "status": "draft",
+      "tier": "A",
+      "tier_reasons": [],
+      "verification": {
+        "composition_check": {
+          "book_path": "reference/sources/TCM-Ancient-Books/526-温病条辨.txt",
+          "found": 4,
+          "missing": [],
+          "occurrences": 6,
+          "total": 4
+        },
+        "composition_status": "verified-against-source-book",
+        "proportion_basis": "textbook-typical (unverified)",
+        "role_status": "textbook-unreviewed"
+      }
+    },
+    {
+      "cautions": [
+        "肝陽上亢、陰虛火旺者慎用",
+        "孕婦慎用（含當歸）",
+        "服藥期間宜情緒舒暢"
+      ],
+      "classical_amounts": null,
+      "composition": [
+        {
+          "effective_weight": 0.3117,
+          "herb": "herb-chaihu",
+          "name": "柴胡",
+          "note": null,
+          "proportion": 0.1622,
+          "role": "君",
+          "role_weight": 1.0,
+          "typical_g": 9
+        },
+        {
+          "effective_weight": 0.187,
+          "herb": "herb-danggui",
+          "name": "當歸",
+          "note": null,
+          "proportion": 0.1622,
+          "role": "臣",
+          "role_weight": 0.6,
+          "typical_g": 9
+        },
+        {
+          "effective_weight": 0.187,
+          "herb": "herb-baishao",
+          "name": "芍藥",
+          "note": null,
+          "proportion": 0.1622,
+          "role": "臣",
+          "role_weight": 0.6,
+          "typical_g": 9
+        },
+        {
+          "effective_weight": 0.1091,
+          "herb": "herb-baizhu",
+          "name": "白朮",
+          "note": null,
+          "proportion": 0.1622,
+          "role": "佐",
+          "role_weight": 0.35,
+          "typical_g": 9
+        },
+        {
+          "effective_weight": 0.1091,
+          "herb": "herb-fuling",
+          "name": "茯苓",
+          "note": null,
+          "proportion": 0.1622,
+          "role": "佐",
+          "role_weight": 0.35,
+          "typical_g": 9
+        },
+        {
+          "effective_weight": 0.0234,
+          "herb": "herb-zhigancao",
+          "name": "炙甘草",
+          "note": null,
+          "proportion": 0.0811,
+          "role": "使",
+          "role_weight": 0.15,
+          "typical_g": 4.5
+        },
+        {
+          "effective_weight": 0.0364,
+          "herb": "herb-bohe",
+          "name": "薄荷",
+          "note": null,
+          "proportion": 0.0541,
+          "role": "佐",
+          "role_weight": 0.35,
+          "typical_g": 3
+        },
+        {
+          "effective_weight": 0.0364,
+          "herb": "herb-shengjiang",
+          "name": "生薑",
+          "note": "煨",
+          "proportion": 0.0541,
+          "role": "佐",
+          "role_weight": 0.35,
+          "typical_g": 3
+        }
+      ],
+      "core_indications": [
+        "S_DEPRESSED",
+        "S_SIGHING",
+        "S_HYPOCHONDRIAC_DISTENSION",
+        "S_BREAST_DISTENSION",
+        "S_MENSES_IRREGULAR",
+        "P_WIRY"
+      ],
+      "flavor_profile": {
+        "淡": 0.057,
+        "甘": 0.225,
+        "苦": 0.319,
+        "辛": 0.3,
+        "酸": 0.098
+      },
+      "id": "F_XIAOYAO",
+      "interactions": [
+        "anticoagulant",
+        "bp-raising",
+        "hypokalemia"
+      ],
+      "kb_commit": "7f2a183a29a226d7e49b407caebd09ee1c8484dc",
+      "modifications": [
+        {
+          "add": [
+            {
+              "herb": "herb-mudanpi",
+              "name": "牡丹皮",
+              "role": "佐",
+              "typical_g": 6
+            },
+            {
+              "herb": "herb-zhizi",
+              "name": "梔子",
+              "role": "佐",
+              "typical_g": 6
+            }
+          ],
+          "id": "M_XIAOYAO_DANZHI",
+          "remove": [],
+          "result_name": "丹梔逍遙散",
+          "source": {
+            "book": "醫方集解",
+            "verification": "variant-name-found-in-source-book"
+          },
+          "status": "textbook-unreviewed",
+          "when_symptoms": [
+            "S_IRRITABLE",
+            "S_BITTER_MOUTH",
+            "T_EDGE_RED"
+          ]
+        },
+        {
+          "add": [
+            {
+              "herb": "herb-shudihuang",
+              "name": "熟地黃",
+              "role": "佐",
+              "typical_g": 12
+            }
+          ],
+          "id": "M_XIAOYAO_HEI",
+          "remove": [],
+          "result_name": "黑逍遙散",
+          "source": {
+            "book": "醫宗已任編",
+            "verification": "variant-name-found-in-source-book"
+          },
+          "status": "textbook-unreviewed",
+          "when_symptoms": [
+            "S_BLURRED_VISION",
+            "S_MENSES_SCANTY_PALE"
+          ]
+        }
+      ],
+      "mvp": true,
+      "name": {
+        "en": "Xiaoyao San (Free and Easy Wanderer Powder)",
+        "zh-Hant": "逍遙散"
+      },
+      "panel_burden": {
+        "liuxie.濕": 0.004,
+        "肝.blood": -0.028,
+        "肺.qi": -0.058,
+        "肺.yin": -0.016,
+        "胃.yin": -0.016,
+        "脾.qi": -0.171
+      },
+      "panel_effect": {
+        "bagang.exterior": -0.123,
+        "liuxie.寒": -0.015,
+        "liuxie.濕": -0.12,
+        "liuxie.火": -0.07,
+        "liuxie.風": -0.015,
+        "product.痰": -0.007,
+        "product.瘀": -0.075,
+        "product.飲": -0.044,
+        "心.blood": 0.093,
+        "心.qi": 0.009,
+        "肝.blood": 0.206,
+        "肝.stasis": -0.254,
+        "肝.yang": -0.056,
+        "肝.yin": 0.075,
+        "肺.qi": 0.005,
+        "胃.yang": 0.011,
+        "脾.blood": 0.056,
+        "脾.qi": 0.134,
+        "膽.stasis": -0.094
+      },
+      "patterns": [
+        "LV1"
+      ],
+      "pregnancy": "caution",
+      "principle": "疏肝解鬱、養血健脾",
+      "rationale_citations": [
+        "suwen-074-10",
+        "suwen-074-11"
+      ],
+      "rationale_zh": "柴胡疏肝解鬱為君；當歸、白芍養血柔肝為臣，與柴胡相配補肝體而助肝用；白朮、茯苓健脾祛濕，薄荷疏散鬱遏之氣、透達肝經，煨薑溫胃和中為佐；炙甘草調和諸藥為使。",
+      "school": "時方",
+      "source": {
+        "book": "太平惠民和劑局方",
+        "ref": "卷九",
+        "repo_path": "reference/sources/TCM-Ancient-Books/059-太平惠民和剂局方.txt"
+      },
+      "status": "draft",
+      "tier": "B",
+      "tier_reasons": [
+        "contains blood-activating herbs or an aristolochic-acid risk herb"
+      ],
+      "verification": {
+        "composition_check": {
+          "book_path": "reference/sources/TCM-Ancient-Books/059-太平惠民和剂局方.txt",
+          "found": 7,
+          "missing": [
+            "柴胡"
+          ],
+          "note": "Missing herbs are usually lost characters in the GB18030 compilation (e.g. 芪, 芎 are dropped) or later additions to the original formula; confirm against a second source (Wikisource) before marking verified.",
+          "occurrences": 8,
+          "total": 8
+        },
+        "composition_status": "partially-verified",
+        "proportion_basis": "textbook-typical (unverified)",
+        "role_status": "textbook-unreviewed"
+      }
+    },
+    {
+      "cautions": [
+        "陰虛火旺、脅痛由肝血不足者不宜",
+        "孕婦慎用（川芎、枳殼）"
+      ],
+      "classical_amounts": null,
+      "composition": [
+        {
+          "effective_weight": 0.3555,
+          "herb": "herb-chaihu",
+          "name": "柴胡",
+          "note": null,
+          "proportion": 0.1905,
+          "role": "君",
+          "role_weight": 1.0,
+          "typical_g": 6
+        },
+        {
+          "effective_weight": 0.16,
+          "herb": "herb-xiangfu",
+          "name": "香附",
+          "note": null,
+          "proportion": 0.1429,
+          "role": "臣",
+          "role_weight": 0.6,
+          "typical_g": 4.5
+        },
+        {
+          "effective_weight": 0.16,
+          "herb": "herb-chuanxiong",
+          "name": "川芎",
+          "note": null,
+          "proportion": 0.1429,
+          "role": "臣",
+          "role_weight": 0.6,
+          "typical_g": 4.5
+        },
+        {
+          "effective_weight": 0.1244,
+          "herb": "herb-chenpi",
+          "name": "陳皮",
+          "note": null,
+          "proportion": 0.1905,
+          "role": "佐",
+          "role_weight": 0.35,
+          "typical_g": 6
+        },
+        {
+          "effective_weight": 0.0933,
+          "herb": "herb-zhiqiao",
+          "name": "枳殼",
+          "note": null,
+          "proportion": 0.1429,
+          "role": "佐",
+          "role_weight": 0.35,
+          "typical_g": 4.5
+        },
+        {
+          "effective_weight": 0.0933,
+          "herb": "herb-baishao",
+          "name": "芍藥",
+          "note": null,
+          "proportion": 0.1429,
+          "role": "佐",
+          "role_weight": 0.35,
+          "typical_g": 4.5
+        },
+        {
+          "effective_weight": 0.0133,
+          "herb": "herb-zhigancao",
+          "name": "炙甘草",
+          "note": null,
+          "proportion": 0.0476,
+          "role": "使",
+          "role_weight": 0.15,
+          "typical_g": 1.5
+        }
+      ],
+      "core_indications": [
+        "S_HYPOCHONDRIAC_DISTENSION",
+        "S_EPIGASTRIC_PAIN",
+        "S_BELCHING",
+        "S_EMOTION_TRIGGERED",
+        "P_WIRY"
+      ],
+      "flavor_profile": {
+        "甘": 0.049,
+        "苦": 0.389,
+        "辛": 0.465,
+        "酸": 0.097
+      },
+      "id": "F_CHAIHUSHUGAN",
+      "interactions": [
+        "anticoagulant",
+        "bp-raising",
+        "hypokalemia"
+      ],
+      "kb_commit": "7f2a183a29a226d7e49b407caebd09ee1c8484dc",
+      "modifications": [],
+      "mvp": true,
+      "name": {
+        "en": "Chaihu Shugan San (Bupleurum Liver-Soothing Powder)",
+        "zh-Hant": "柴胡疏肝散"
+      },
+      "panel_burden": {
+        "liuxie.濕": 0.002,
+        "肝.blood": -0.024,
+        "肺.qi": -0.101,
+        "肺.yin": -0.033,
+        "胃.yin": -0.033,
+        "脾.qi": -0.136
+      },
+      "panel_effect": {
+        "bagang.exterior": -0.107,
+        "liuxie.濕": -0.05,
+        "liuxie.火": -0.071,
+        "liuxie.風": -0.048,
+        "product.痰": -0.05,
+        "product.瘀": -0.08,
+        "心.qi": 0.005,
+        "肝.blood": 0.079,
+        "肝.stasis": -0.449,
+        "肝.yang": -0.028,
+        "肝.yin": 0.037,
+        "肺.qi": 0.003,
+        "肺.stasis": -0.078,
+        "胃.stasis": -0.079,
+        "脾.qi": 0.008,
+        "脾.stasis": -0.141,
+        "膽.stasis": -0.107
+      },
+      "patterns": [
+        "LV1",
+        "LV4"
+      ],
+      "pregnancy": "caution",
+      "principle": "疏肝理氣、活血止痛",
+      "rationale_citations": [
+        "suwen-074-10",
+        "suwen-074-11"
+      ],
+      "rationale_zh": "柴胡疏肝解鬱為君；香附理氣疏肝止痛，川芎活血行氣止痛為臣；陳皮、枳殼理氣行滯，芍藥、甘草養血柔肝、緩急止痛為佐使。",
+      "school": "時方",
+      "source": {
+        "book": "景岳全書",
+        "ref": "卷五十六",
+        "repo_path": "reference/sources/TCM-Ancient-Books/637-景岳全书.txt"
+      },
+      "status": "draft",
+      "tier": "B",
+      "tier_reasons": [
+        "contains blood-activating herbs or an aristolochic-acid risk herb"
+      ],
+      "verification": {
+        "composition_check": {
+          "book_path": "reference/sources/TCM-Ancient-Books/637-景岳全书.txt",
+          "found": 7,
+          "missing": [],
+          "occurrences": 3,
+          "total": 7
+        },
+        "composition_status": "verified-against-source-book",
+        "proportion_basis": "textbook-typical (unverified)",
+        "role_status": "textbook-unreviewed"
+      }
+    },
+    {
+      "cautions": [
+        "虛證鬱滯者不宜單用",
+        "孕婦慎用（川芎）"
+      ],
+      "classical_amounts": null,
+      "composition": [
+        {
+          "effective_weight": 0.3448,
+          "herb": "herb-xiangfu",
+          "name": "香附",
+          "note": null,
+          "proportion": 0.2,
+          "role": "君",
+          "role_weight": 1.0,
+          "typical_g": 9
+        },
+        {
+          "effective_weight": 0.2069,
+          "herb": "herb-chuanxiong",
+          "name": "川芎",
+          "note": null,
+          "proportion": 0.2,
+          "role": "臣",
+          "role_weight": 0.6,
+          "typical_g": 9
+        },
+        {
+          "effective_weight": 0.2069,
+          "herb": "herb-cangzhu",
+          "name": "蒼朮",
+          "note": null,
+          "proportion": 0.2,
+          "role": "臣",
+          "role_weight": 0.6,
+          "typical_g": 9
+        },
+        {
+          "effective_weight": 0.1207,
+          "herb": "herb-shenqu",
+          "name": "神曲",
+          "note": null,
+          "proportion": 0.2,
+          "role": "佐",
+          "role_weight": 0.35,
+          "typical_g": 9
+        },
+        {
+          "effective_weight": 0.1207,
+          "herb": "herb-zhizi",
+          "name": "梔子",
+          "note": null,
+          "proportion": 0.2,
+          "role": "佐",
+          "role_weight": 0.35,
+          "typical_g": 9
+        }
+      ],
+      "core_indications": [
+        "S_CHEST_OPPRESSION",
+        "S_EPIGASTRIC_FULLNESS",
+        "S_POSTPRANDIAL_BLOAT",
+        "S_DEPRESSED"
+      ],
+      "flavor_profile": {
+        "甘": 0.175,
+        "苦": 0.299,
+        "辛": 0.526
+      },
+      "id": "F_YUEJU",
+      "interactions": [
+        "anticoagulant"
+      ],
+      "kb_commit": "7f2a183a29a226d7e49b407caebd09ee1c8484dc",
+      "modifications": [],
+      "mvp": true,
+      "name": {
+        "en": "Yueju Wan (Escape Restraint Pill)",
+        "zh-Hant": "越鞠丸"
+      },
+      "panel_burden": {
+        "肝.blood": -0.031,
+        "肺.qi": -0.083,
+        "肺.yin": -0.031,
+        "胃.yin": -0.031,
+        "脾.qi": -0.03,
+        "脾.yang": -0.03,
+        "腎.yang": -0.03
+      },
+      "panel_effect": {
+        "liuxie.濕": -0.202,
+        "liuxie.火": -0.084,
+        "liuxie.風": -0.103,
+        "product.瘀": -0.103,
+        "product.食積": -0.072,
+        "心.yang": -0.036,
+        "肝.blood": 0.041,
+        "肝.stasis": -0.379,
+        "肝.yang": -0.024,
+        "胃.stasis": -0.105,
+        "脾.qi": 0.066,
+        "脾.stasis": -0.131
+      },
+      "patterns": [
+        "LV1"
+      ],
+      "pregnancy": "caution",
+      "principle": "行氣解鬱（氣血痰火濕食六鬱）",
+      "rationale_citations": [
+        "suwen-074-10",
+        "suwen-074-11"
+      ],
+      "rationale_zh": "香附行氣解氣鬱為君；川芎活血行氣以解血鬱，蒼朮燥濕運脾以解濕鬱，神曲消食和胃以解食鬱，梔子清熱瀉火以解火鬱；痰鬱乃氣滯濕聚而成，諸鬱得解而痰鬱隨之消除。",
+      "school": "時方",
+      "source": {
+        "book": "丹溪心法",
+        "ref": "卷三",
+        "repo_path": "reference/sources/TCM-Ancient-Books/570-丹溪心法.txt"
+      },
+      "status": "draft",
+      "tier": "B",
+      "tier_reasons": [
+        "contains blood-activating herbs or an aristolochic-acid risk herb"
+      ],
+      "verification": {
+        "composition_check": {
+          "book_path": "reference/sources/TCM-Ancient-Books/570-丹溪心法.txt",
+          "found": 4,
+          "missing": [
+            "川芎"
+          ],
+          "note": "Missing herbs are usually lost characters in the GB18030 compilation (e.g. 芪, 芎 are dropped) or later additions to the original formula; confirm against a second source (Wikisource) before marking verified.",
+          "occurrences": 3,
+          "total": 5
+        },
+        "composition_status": "partially-verified",
+        "proportion_basis": "textbook-typical (unverified)",
+        "role_status": "textbook-unreviewed"
+      }
+    },
+    {
+      "cautions": [
+        "苦寒峻烈易傷脾胃，不宜久服",
+        "脾胃虛寒、陰虛陽亢者忌用",
+        "木通須用川木通，不可用關木通",
+        "孕婦慎用"
+      ],
+      "classical_amounts": null,
+      "composition": [
+        {
+          "effective_weight": 0.1801,
+          "herb": "herb-longdan",
+          "name": "龍膽草",
+          "note": null,
+          "proportion": 0.0769,
+          "role": "君",
+          "role_weight": 1.0,
+          "typical_g": 6
+        },
+        {
+          "effective_weight": 0.1622,
+          "herb": "herb-huangqin",
+          "name": "黃芩",
+          "note": null,
+          "proportion": 0.1154,
+          "role": "臣",
+          "role_weight": 0.6,
+          "typical_g": 9
+        },
+        {
+          "effective_weight": 0.1622,
+          "herb": "herb-zhizi",
+          "name": "梔子",
+          "note": null,
+          "proportion": 0.1154,
+          "role": "臣",
+          "role_weight": 0.6,
+          "typical_g": 9
+        },
+        {
+          "effective_weight": 0.1261,
+          "herb": "herb-zexie",
+          "name": "澤瀉",
+          "note": null,
+          "proportion": 0.1538,
+          "role": "佐",
+          "role_weight": 0.35,
+          "typical_g": 12
+        },
+        {
+          "effective_weight": 0.0946,
+          "herb": "herb-mutong",
+          "name": "木通",
+          "note": null,
+          "proportion": 0.1154,
+          "role": "佐",
+          "role_weight": 0.35,
+          "typical_g": 9
+        },
+        {
+          "effective_weight": 0.0946,
+          "herb": "herb-cheqianzi",
+          "name": "車前子",
+          "note": null,
+          "proportion": 0.1154,
+          "role": "佐",
+          "role_weight": 0.35,
+          "typical_g": 9
+        },
+        {
+          "effective_weight": 0.0316,
+          "herb": "herb-danggui",
+          "name": "當歸",
+          "note": null,
+          "proportion": 0.0385,
+          "role": "佐",
+          "role_weight": 0.35,
+          "typical_g": 3
+        },
+        {
+          "effective_weight": 0.0946,
+          "herb": "herb-dihuang",
+          "name": "生地黃",
+          "note": null,
+          "proportion": 0.1154,
+          "role": "佐",
+          "role_weight": 0.35,
+          "typical_g": 9
+        },
+        {
+          "effective_weight": 0.027,
+          "herb": "herb-chaihu",
+          "name": "柴胡",
+          "note": null,
+          "proportion": 0.0769,
+          "role": "使",
+          "role_weight": 0.15,
+          "typical_g": 6
+        },
+        {
+          "effective_weight": 0.027,
+          "herb": "herb-gancao",
+          "name": "甘草",
+          "note": null,
+          "proportion": 0.0769,
+          "role": "使",
+          "role_weight": 0.15,
+          "typical_g": 6
+        }
+      ],
+      "core_indications": [
+        "S_HEAD_DISTENDING",
+        "S_IRRITABLE",
+        "S_BITTER_MOUTH",
+        "S_TINNITUS_HIGH_LOUD",
+        "T_EDGE_RED",
+        "P_WIRY",
+        "P_RAPID"
+      ],
+      "flavor_profile": {
+        "甘": 0.324,
+        "苦": 0.625,
+        "辛": 0.051
+      },
+      "id": "F_LONGDAN",
+      "interactions": [
+        "anticoagulant",
+        "aristolochic-risk",
+        "bp-raising",
+        "hypokalemia"
+      ],
+      "kb_commit": "7f2a183a29a226d7e49b407caebd09ee1c8484dc",
+      "modifications": [],
+      "mvp": true,
+      "name": {
+        "en": "Longdan Xiegan Tang (Gentian Liver-Draining Decoction)",
+        "zh-Hant": "龍膽瀉肝湯"
+      },
+      "panel_burden": {
+        "liuxie.濕": 0.004,
+        "肝.blood": -0.005,
+        "肺.qi": -0.004,
+        "脾.qi": -0.212,
+        "脾.yang": -0.229,
+        "腎.yang": -0.229
+      },
+      "panel_effect": {
+        "bagang.exterior": -0.008,
+        "liuxie.濕": -0.414,
+        "liuxie.火": -0.504,
+        "product.痰": -0.024,
+        "product.瘀": -0.013,
+        "product.飲": -0.063,
+        "小腸.yang": -0.028,
+        "心.blood": 0.016,
+        "心.qi": 0.008,
+        "心.yang": -0.077,
+        "心.yin": 0.028,
+        "肝.blood": 0.038,
+        "肝.stasis": -0.016,
+        "肝.yang": -0.141,
+        "肝.yin": 0.038,
+        "肺.qi": 0.005,
+        "肺.yang": -0.032,
+        "脾.blood": 0.009,
+        "脾.qi": 0.013,
+        "腎.yang": -0.025,
+        "腎.yin": 0.057,
+        "膀胱.yang": -0.019,
+        "膽.stasis": -0.008,
+        "膽.yang": -0.122
+      },
+      "patterns": [
+        "LV2"
+      ],
+      "pregnancy": "caution",
+      "principle": "清瀉肝膽實火、清利肝經濕熱",
+      "rationale_citations": [
+        "suwen-074-10",
+        "suwen-074-11"
+      ],
+      "rationale_zh": "龍膽草大苦大寒、瀉肝膽實火並利肝經濕熱為君；黃芩、梔子苦寒瀉火為臣；澤瀉、木通、車前子清利濕熱，當歸、生地養血滋陰以顧護肝陰為佐；柴胡疏肝引經，甘草調和諸藥為使。",
+      "school": "時方",
+      "source": {
+        "book": "醫方集解",
+        "ref": "瀉火之劑",
+        "repo_path": "reference/sources/TCM-Ancient-Books/087-医方集解.txt"
+      },
+      "status": "draft",
+      "tier": "C",
+      "tier_reasons": [
+        "bitter-cold herbs carry 50% of the effective weight"
+      ],
+      "verification": {
+        "composition_check": {
+          "book_path": "reference/sources/TCM-Ancient-Books/087-医方集解.txt",
+          "found": 10,
+          "missing": [],
+          "occurrences": 3,
+          "total": 10
+        },
+        "composition_status": "verified-against-source-book",
+        "proportion_basis": "textbook-typical (unverified)",
+        "role_status": "textbook-unreviewed"
+      }
+    },
+    {
+      "cautions": [
+        "脾胃虛弱、食少便溏者慎用",
+        "孕婦慎用（川芎、當歸）"
+      ],
+      "classical_amounts": null,
+      "composition": [
+        {
+          "effective_weight": 0.5128,
+          "herb": "herb-shudihuang",
+          "name": "熟地黃",
+          "note": null,
+          "proportion": 0.2857,
+          "role": "君",
+          "role_weight": 1.0,
+          "typical_g": 12
+        },
+        {
+          "effective_weight": 0.2564,
+          "herb": "herb-danggui",
+          "name": "當歸",
+          "note": null,
+          "proportion": 0.2381,
+          "role": "臣",
+          "role_weight": 0.6,
+          "typical_g": 10
+        },
+        {
+          "effective_weight": 0.1795,
+          "herb": "herb-baishao",
+          "name": "芍藥",
+          "note": null,
+          "proportion": 0.2857,
+          "role": "佐",
+          "role_weight": 0.35,
+          "typical_g": 12
+        },
+        {
+          "effective_weight": 0.0513,
+          "herb": "herb-chuanxiong",
+          "name": "川芎",
+          "note": null,
+          "proportion": 0.1905,
+          "role": "使",
+          "role_weight": 0.15,
+          "typical_g": 8
+        }
+      ],
+      "core_indications": [
+        "S_BLURRED_VISION",
+        "S_NAIL_BRITTLE",
+        "S_MENSES_SCANTY_PALE",
+        "S_HEAD_DIZZY",
+        "T_BODY_PALE"
+      ],
+      "flavor_profile": {
+        "甘": 0.536,
+        "苦": 0.125,
+        "辛": 0.214,
+        "酸": 0.125
+      },
+      "id": "F_SIWU",
+      "interactions": [
+        "anticoagulant"
+      ],
+      "kb_commit": "7f2a183a29a226d7e49b407caebd09ee1c8484dc",
+      "modifications": [
+        {
+          "add": [
+            {
+              "herb": "herb-taoren",
+              "name": "桃仁",
+              "role": "佐",
+              "typical_g": 9
+            },
+            {
+              "herb": "herb-honghua",
+              "name": "紅花",
+              "role": "佐",
+              "typical_g": 6
+            }
+          ],
+          "id": "M_SIWU_TAOHONG",
+          "remove": [],
+          "result_name": "桃紅四物湯",
+          "source": {
+            "book": "醫宗金鑑",
+            "verification": "variant-name-found-in-source-book"
+          },
+          "status": "textbook-unreviewed",
+          "when_symptoms": [
+            "S_MENSES_CLOTS_DARK",
+            "S_DYSMENORRHEA"
+          ]
+        }
+      ],
+      "mvp": true,
+      "name": {
+        "en": "Siwu Tang (Four Substances Decoction)",
+        "zh-Hant": "四物湯"
+      },
+      "panel_burden": {
+        "肝.blood": -0.046,
+        "肺.qi": -0.008,
+        "脾.qi": -0.237
+      },
+      "panel_effect": {
+        "liuxie.風": -0.015,
+        "product.瘀": -0.128,
+        "心.blood": 0.128,
+        "肝.blood": 0.613,
+        "肝.stasis": -0.079,
+        "肝.yang": -0.054,
+        "肝.yin": 0.328,
+        "脾.blood": 0.077,
+        "腎.blood": 0.205,
+        "腎.yin": 0.41
+      },
+      "patterns": [
+        "LV3"
+      ],
+      "pregnancy": "caution",
+      "principle": "補血調血",
+      "rationale_citations": [
+        "suwen-074-10",
+        "suwen-074-11"
+      ],
+      "rationale_zh": "熟地黃滋陰養血為君；當歸補血養肝、和血調經為臣；白芍養血柔肝和營為佐；川芎活血行氣、調暢氣血為使，使補而不滯。",
+      "school": "時方",
+      "source": {
+        "book": "太平惠民和劑局方",
+        "ref": "卷九",
+        "repo_path": "reference/sources/TCM-Ancient-Books/059-太平惠民和剂局方.txt"
+      },
+      "status": "draft",
+      "tier": "B",
+      "tier_reasons": [
+        "contains blood-activating herbs or an aristolochic-acid risk herb"
+      ],
+      "verification": {
+        "composition_check": {
+          "book_path": "reference/sources/TCM-Ancient-Books/059-太平惠民和剂局方.txt",
+          "found": 4,
+          "missing": [],
+          "occurrences": 19,
+          "total": 4
+        },
+        "composition_status": "verified-against-source-book",
+        "proportion_basis": "textbook-typical (unverified)",
+        "role_status": "textbook-unreviewed"
+      }
+    },
+    {
+      "cautions": [
+        "孕婦慎用（川芎）",
+        "有實邪鬱火者慎用酸棗仁",
+        "服藥期間避免咖啡、濃茶"
+      ],
+      "classical_amounts": [
+        {
+          "amount": 2.0,
+          "name": "酸棗仁",
+          "processing": "",
+          "unit": "升"
+        },
+        {
+          "amount": 1.0,
+          "name": "甘草",
+          "processing": "",
+          "unit": "两"
+        },
+        {
+          "amount": 2.0,
+          "name": "知母",
+          "processing": "",
+          "unit": "两"
+        },
+        {
+          "amount": 2.0,
+          "name": "茯苓",
+          "processing": "",
+          "unit": "两"
+        },
+        {
+          "amount": 2.0,
+          "name": "穹窮",
+          "processing": "深师有生姜二两",
+          "unit": "两"
+        }
+      ],
+      "composition": [
+        {
+          "classical_amount": {
+            "processing": "",
+            "unit": "升",
+            "value": 2.0
+          },
+          "effective_weight": 0.6451,
+          "herb": "herb-suanzaoren",
+          "name": "酸棗仁",
+          "note": null,
+          "proportion": 0.4167,
+          "role": "君",
+          "role_weight": 1.0,
+          "typical_g": 15
+        },
+        {
+          "classical_amount": {
+            "processing": "",
+            "unit": "两",
+            "value": 2.0
+          },
+          "effective_weight": 0.1549,
+          "herb": "herb-fuling",
+          "name": "茯苓",
+          "note": null,
+          "proportion": 0.1667,
+          "role": "臣",
+          "role_weight": 0.6,
+          "typical_g": 6
+        },
+        {
+          "classical_amount": {
+            "processing": "",
+            "unit": "两",
+            "value": 2.0
+          },
+          "effective_weight": 0.0903,
+          "herb": "herb-zhimu",
+          "name": "知母",
+          "note": null,
+          "proportion": 0.1667,
+          "role": "佐",
+          "role_weight": 0.35,
+          "typical_g": 6
+        },
+        {
+          "classical_amount": {
+            "processing": "深师有生姜二两",
+            "unit": "两",
+            "value": 2.0
+          },
+          "effective_weight": 0.0903,
+          "herb": "herb-chuanxiong",
+          "name": "川芎",
+          "note": null,
+          "proportion": 0.1667,
+          "role": "佐",
+          "role_weight": 0.35,
+          "typical_g": 6
+        },
+        {
+          "classical_amount": {
+            "processing": "",
+            "unit": "两",
+            "value": 1.0
+          },
+          "effective_weight": 0.0193,
+          "herb": "herb-gancao",
+          "name": "甘草",
+          "note": null,
+          "proportion": 0.0833,
+          "role": "使",
+          "role_weight": 0.15,
+          "typical_g": 3
+        }
+      ],
+      "core_indications": [
+        "S_INSOMNIA_MAINT",
+        "S_RESTLESS_NO_SLEEP",
+        "S_DREAM_MANY",
+        "S_BLURRED_VISION",
+        "P_THIN"
+      ],
+      "flavor_profile": {
+        "淡": 0.082,
+        "甘": 0.481,
+        "苦": 0.048,
+        "辛": 0.048,
+        "酸": 0.341
+      },
+      "id": "F_SUANZAOREN",
+      "interactions": [
+        "anticoagulant",
+        "bp-raising",
+        "hypokalemia",
+        "sedative-additive"
+      ],
+      "kb_commit": "7f2a183a29a226d7e49b407caebd09ee1c8484dc",
+      "modifications": [],
+      "mvp": true,
+      "name": {
+        "en": "Suanzaoren Tang (Sour Jujube Seed Decoction)",
+        "zh-Hant": "酸棗仁湯"
+      },
+      "panel_burden": {
+        "liuxie.濕": 0.003,
+        "肝.blood": -0.014,
+        "肺.qi": -0.014,
+        "脾.qi": -0.045,
+        "脾.yang": -0.023,
+        "腎.yang": -0.023
+      },
+      "panel_effect": {
+        "liuxie.濕": -0.093,
+        "liuxie.火": -0.058,
+        "liuxie.風": -0.027,
+        "product.痰": -0.004,
+        "product.瘀": -0.045,
+        "product.飲": -0.062,
+        "心.blood": 0.323,
+        "心.qi": 0.006,
+        "心.yin": 0.194,
+        "肝.blood": 0.341,
+        "肝.stasis": -0.045,
+        "肺.qi": 0.004,
+        "肺.yin": 0.036,
+        "胃.yin": 0.036,
+        "脾.qi": 0.056,
+        "腎.yin": 0.036
+      },
+      "patterns": [
+        "LV3"
+      ],
+      "pregnancy": "caution",
+      "principle": "養血安神、清熱除煩",
+      "rationale_citations": [
+        "suwen-074-10",
+        "suwen-074-11"
+      ],
+      "rationale_zh": "酸棗仁養血補肝、寧心安神為君；茯苓寧心安神為臣；知母滋陰清熱、除煩安神，川芎調血疏肝為佐；甘草和中緩急、調和諸藥為使。",
+      "school": "經方",
+      "source": {
+        "book": "金匱要略",
+        "ref": "jingui-006-1"
+      },
+      "status": "draft",
+      "tier": "B",
+      "tier_reasons": [
+        "contains blood-activating herbs or an aristolochic-acid risk herb"
+      ],
+      "verification": {
+        "classical": {
+          "anchor": "酸枣仁二升",
+          "matched_in_formula": [
+            "酸棗仁",
+            "甘草",
+            "知母",
+            "茯苓",
+            "穹窮"
+          ],
+          "not_in_formula": [],
+          "note": null,
+          "parsed": 5,
+          "path": "reference/sources/TCM-Library/raw/jingui/jingui_06.txt"
+        },
+        "composition_status": "verified-against-classical-text",
+        "proportion_basis": "textbook-typical (unverified)",
+        "role_status": "textbook-unreviewed"
+      }
+    },
+    {
+      "cautions": [
+        "陰虛火旺、痰濕內盛者不宜",
+        "孕婦慎用（當歸）",
+        "外感發熱者暫停"
+      ],
+      "classical_amounts": null,
+      "composition": [
+        {
+          "effective_weight": 0.21,
+          "herb": "herb-huangqi",
+          "name": "黃耆",
+          "note": null,
+          "proportion": 0.1429,
+          "role": "君",
+          "role_weight": 1.0,
+          "typical_g": 12
+        },
+        {
+          "effective_weight": 0.21,
+          "herb": "herb-longyanrou",
+          "name": "龍眼肉",
+          "note": null,
+          "proportion": 0.1429,
+          "role": "君",
+          "role_weight": 1.0,
+          "typical_g": 12
+        },
+        {
+          "effective_weight": 0.063,
+          "herb": "herb-renshen",
+          "name": "人參",
+          "note": null,
+          "proportion": 0.0714,
+          "role": "臣",
+          "role_weight": 0.6,
+          "typical_g": 6
+        },
+        {
+          "effective_weight": 0.0945,
+          "herb": "herb-baizhu",
+          "name": "白朮",
+          "note": null,
+          "proportion": 0.1071,
+          "role": "臣",
+          "role_weight": 0.6,
+          "typical_g": 9
+        },
+        {
+          "effective_weight": 0.0945,
+          "herb": "herb-danggui",
+          "name": "當歸",
+          "note": null,
+          "proportion": 0.1071,
+          "role": "臣",
+          "role_weight": 0.6,
+          "typical_g": 9
+        },
+        {
+          "effective_weight": 0.126,
+          "herb": "herb-suanzaoren",
+          "name": "酸棗仁",
+          "note": null,
+          "proportion": 0.1429,
+          "role": "臣",
+          "role_weight": 0.6,
+          "typical_g": 12
+        },
+        {
+          "effective_weight": 0.0945,
+          "herb": "herb-fushen",
+          "name": "茯神",
+          "note": null,
+          "proportion": 0.1071,
+          "role": "臣",
+          "role_weight": 0.6,
+          "typical_g": 9
+        },
+        {
+          "effective_weight": 0.063,
+          "herb": "herb-yuanzhi",
+          "name": "遠志",
+          "note": null,
+          "proportion": 0.0714,
+          "role": "臣",
+          "role_weight": 0.6,
+          "typical_g": 6
+        },
+        {
+          "effective_weight": 0.0367,
+          "herb": "herb-muxiang",
+          "name": "木香",
+          "note": null,
+          "proportion": 0.0714,
+          "role": "佐",
+          "role_weight": 0.35,
+          "typical_g": 6
+        },
+        {
+          "effective_weight": 0.0079,
+          "herb": "herb-zhigancao",
+          "name": "炙甘草",
+          "note": null,
+          "proportion": 0.0357,
+          "role": "使",
+          "role_weight": 0.15,
+          "typical_g": 3
+        }
+      ],
+      "core_indications": [
+        "S_PALPITATION",
+        "S_FORGETFUL",
+        "S_INSOMNIA_MAINT",
+        "S_FATIGUE",
+        "S_FACE_SALLOW",
+        "T_BODY_PALE"
+      ],
+      "flavor_profile": {
+        "淡": 0.061,
+        "甘": 0.584,
+        "苦": 0.146,
+        "辛": 0.126,
+        "酸": 0.082
+      },
+      "id": "F_GUIPI",
+      "interactions": [
+        "anticoagulant",
+        "bp-raising",
+        "hypoglycemic",
+        "hypokalemia",
+        "immune-modulating",
+        "sedative-additive"
+      ],
+      "kb_commit": "7f2a183a29a226d7e49b407caebd09ee1c8484dc",
+      "modifications": [],
+      "mvp": true,
+      "name": {
+        "en": "Guipi Tang (Restore the Spleen Decoction)",
+        "zh-Hant": "歸脾湯"
+      },
+      "panel_burden": {
+        "liuxie.濕": 0.033,
+        "肝.blood": -0.014,
+        "肺.qi": -0.015,
+        "肺.yin": -0.014,
+        "胃.yin": -0.014,
+        "脾.qi": -0.076
+      },
+      "panel_effect": {
+        "liuxie.濕": -0.148,
+        "product.痰": -0.025,
+        "product.瘀": -0.038,
+        "大腸.stasis": -0.011,
+        "心.blood": 0.236,
+        "心.qi": 0.11,
+        "心.stasis": -0.019,
+        "心.yin": 0.038,
+        "肝.blood": 0.12,
+        "肺.qi": 0.193,
+        "肺.yin": 0.013,
+        "胃.stasis": -0.022,
+        "脾.blood": 0.133,
+        "脾.qi": 0.366,
+        "脾.stasis": -0.022,
+        "脾.yin": 0.013,
+        "腎.qi": 0.019
+      },
+      "patterns": [
+        "HT1"
+      ],
+      "pregnancy": "caution",
+      "principle": "益氣補血、健脾養心",
+      "rationale_citations": [
+        "suwen-074-10",
+        "suwen-074-11"
+      ],
+      "rationale_zh": "黃耆補脾益氣、龍眼肉補益心脾、養血安神共為君；人參、白朮助黃耆補脾益氣，當歸助龍眼肉養血，酸棗仁、茯神、遠志寧心安神為臣；木香理氣醒脾、使補而不滯為佐；炙甘草調和諸藥為使。",
+      "school": "時方",
+      "source": {
+        "book": "嚴氏濟生方",
+        "ref": "卷四",
+        "repo_path": "reference/sources/TCM-Ancient-Books/077-严氏济生方.txt"
+      },
+      "status": "draft",
+      "tier": "B",
+      "tier_reasons": [
+        "contains blood-activating herbs or an aristolochic-acid risk herb"
+      ],
+      "verification": {
+        "composition_check": {
+          "book_path": "reference/sources/TCM-Ancient-Books/077-严氏济生方.txt",
+          "found": 8,
+          "missing": [
+            "黃耆",
+            "遠志"
+          ],
+          "note": "Missing herbs are usually lost characters in the GB18030 compilation (e.g. 芪, 芎 are dropped) or later additions to the original formula; confirm against a second source (Wikisource) before marking verified.",
+          "occurrences": 1,
+          "total": 10
+        },
+        "composition_status": "partially-verified",
+        "proportion_basis": "textbook-typical (unverified)",
+        "role_status": "textbook-unreviewed",
+        "source_note": "《嚴氏濟生方》原方無當歸、遠志（後世薛己《校注婦人良方》加入）；本表採通行方。"
+      }
+    },
+    {
+      "cautions": [
+        "脾胃虛寒、泄瀉者忌用",
+        "苦寒藥不宜久服",
+        "蛋類過敏者忌用雞子黃"
+      ],
+      "classical_amounts": [
+        {
+          "amount": 4.0,
+          "name": "黃連",
+          "processing": "苦寒",
+          "unit": "两"
+        },
+        {
+          "amount": 1.0,
+          "name": "黃芩",
+          "processing": "苦寒",
+          "unit": "两"
+        },
+        {
+          "amount": 2.0,
+          "name": "芍藥",
+          "processing": "酸平",
+          "unit": "两"
+        },
+        {
+          "amount": 2.0,
+          "name": "雞子黃",
+          "processing": "甘温",
+          "unit": "枚"
+        },
+        {
+          "amount": 3.0,
+          "name": "阿膠",
+          "processing": "甘温",
+          "unit": "两"
+        }
+      ],
+      "composition": [
+        {
+          "classical_amount": {
+            "processing": "苦寒",
+            "unit": "两",
+            "value": 4.0
+          },
+          "effective_weight": 0.4153,
+          "herb": "herb-huanglian",
+          "name": "黃連",
+          "note": null,
+          "proportion": 0.3429,
+          "role": "君",
+          "role_weight": 1.0,
+          "typical_g": 12
+        },
+        {
+          "classical_amount": {
+            "processing": "甘温",
+            "unit": "两",
+            "value": 3.0
+          },
+          "effective_weight": 0.3114,
+          "herb": "herb-ejiao",
+          "name": "阿膠",
+          "note": null,
+          "proportion": 0.2571,
+          "role": "君",
+          "role_weight": 1.0,
+          "typical_g": 9
+        },
+        {
+          "classical_amount": {
+            "processing": "苦寒",
+            "unit": "两",
+            "value": 1.0
+          },
+          "effective_weight": 0.1246,
+          "herb": "herb-huangqin",
+          "name": "黃芩",
+          "note": null,
+          "proportion": 0.1714,
+          "role": "臣",
+          "role_weight": 0.6,
+          "typical_g": 6
+        },
+        {
+          "classical_amount": {
+            "processing": "酸平",
+            "unit": "两",
+            "value": 2.0
+          },
+          "effective_weight": 0.1246,
+          "herb": "herb-baishao",
+          "name": "芍藥",
+          "note": null,
+          "proportion": 0.1714,
+          "role": "臣",
+          "role_weight": 0.6,
+          "typical_g": 6
+        },
+        {
+          "classical_amount": {
+            "processing": "甘温",
+            "unit": "枚",
+            "value": 2.0
+          },
+          "effective_weight": 0.0242,
+          "herb": "herb-jizihuang",
+          "name": "雞子黃",
+          "note": null,
+          "proportion": 0.0571,
+          "role": "佐",
+          "role_weight": 0.35,
+          "typical_g": 2
+        }
+      ],
+      "core_indications": [
+        "S_RESTLESS_NO_SLEEP",
+        "S_PALPITATION",
+        "S_HEAT_PALMS_SOLES",
+        "T_TIP_RED",
+        "P_RAPID"
+      ],
+      "flavor_profile": {
+        "甘": 0.298,
+        "苦": 0.591,
+        "酸": 0.111
+      },
+      "id": "F_HUANGLIANEJIAO",
+      "interactions": [],
+      "kb_commit": "7f2a183a29a226d7e49b407caebd09ee1c8484dc",
+      "modifications": [],
+      "mvp": true,
+      "name": {
+        "en": "Huanglian Ejiao Tang (Coptis and Donkey-Hide Gelatin Decoction)",
+        "zh-Hant": "黃連阿膠湯"
+      },
+      "panel_burden": {
+        "脾.qi": -0.25,
+        "脾.yang": -0.135,
+        "腎.yang": -0.135
+      },
+      "panel_effect": {
+        "liuxie.濕": -0.299,
+        "liuxie.火": -0.449,
+        "心.blood": 0.125,
+        "心.yang": -0.208,
+        "心.yin": 0.012,
+        "肝.blood": 0.28,
+        "肝.stasis": -0.037,
+        "肝.yang": -0.037,
+        "肝.yin": 0.05,
+        "肺.yang": -0.025,
+        "肺.yin": 0.156,
+        "胃.yang": -0.166,
+        "腎.yin": 0.132,
+        "膽.yang": -0.025
+      },
+      "patterns": [
+        "HT2"
+      ],
+      "pregnancy": "ok-unreviewed",
+      "principle": "滋陰降火、交通心腎",
+      "rationale_citations": [
+        "suwen-074-10",
+        "suwen-074-11"
+      ],
+      "rationale_zh": "黃連清心火、阿膠滋腎陰，水火既濟為君；黃芩助黃連清火，芍藥助阿膠滋陰為臣；雞子黃養心滋陰、安神除煩為佐。",
+      "school": "經方",
+      "source": {
+        "book": "傷寒論",
+        "ref": "shanghan-303"
+      },
+      "status": "draft",
+      "tier": "C",
+      "tier_reasons": [
+        "bitter-cold herbs carry 54% of the effective weight"
+      ],
+      "verification": {
+        "classical": {
+          "anchor": "黄连四两",
+          "matched_in_formula": [
+            "黃連",
+            "黃芩",
+            "芍藥",
+            "雞子黃",
+            "阿膠"
+          ],
+          "not_in_formula": [],
+          "note": null,
+          "parsed": 5,
+          "path": "reference/sources/TCM-Library/library/fangji/jingfang/huanglianejiaotang/huanglianejiaotang_001.md"
+        },
+        "composition_status": "verified-against-classical-text",
+        "proportion_basis": "textbook-typical (unverified)",
+        "role_status": "textbook-unreviewed"
+      }
+    },
+    {
+      "cautions": [
+        "原方朱砂為衣，已略去（含汞）",
+        "脾胃虛寒、痰濕者慎用（滋膩藥多）",
+        "不宜與藜蘆同用（含人參、玄參、丹參）"
+      ],
+      "classical_amounts": null,
+      "composition": [
+        {
+          "effective_weight": 0.3405,
+          "herb": "herb-dihuang",
+          "name": "生地黃",
+          "note": null,
+          "proportion": 0.1905,
+          "role": "君",
+          "role_weight": 1.0,
+          "typical_g": 12
+        },
+        {
+          "effective_weight": 0.1021,
+          "herb": "herb-tiandong",
+          "name": "天冬",
+          "note": null,
+          "proportion": 0.0952,
+          "role": "臣",
+          "role_weight": 0.6,
+          "typical_g": 6
+        },
+        {
+          "effective_weight": 0.1021,
+          "herb": "herb-maidong",
+          "name": "麥冬",
+          "note": null,
+          "proportion": 0.0952,
+          "role": "臣",
+          "role_weight": 0.6,
+          "typical_g": 6
+        },
+        {
+          "effective_weight": 0.1021,
+          "herb": "herb-suanzaoren",
+          "name": "酸棗仁",
+          "note": null,
+          "proportion": 0.0952,
+          "role": "臣",
+          "role_weight": 0.6,
+          "typical_g": 6
+        },
+        {
+          "effective_weight": 0.1021,
+          "herb": "herb-baiziren",
+          "name": "柏子仁",
+          "note": null,
+          "proportion": 0.0952,
+          "role": "臣",
+          "role_weight": 0.6,
+          "typical_g": 6
+        },
+        {
+          "effective_weight": 0.0596,
+          "herb": "herb-danggui",
+          "name": "當歸",
+          "note": null,
+          "proportion": 0.0952,
+          "role": "佐",
+          "role_weight": 0.35,
+          "typical_g": 6
+        },
+        {
+          "effective_weight": 0.0298,
+          "herb": "herb-xuanshen",
+          "name": "玄參",
+          "note": null,
+          "proportion": 0.0476,
+          "role": "佐",
+          "role_weight": 0.35,
+          "typical_g": 3
+        },
+        {
+          "effective_weight": 0.0298,
+          "herb": "herb-danshen",
+          "name": "丹參",
+          "note": null,
+          "proportion": 0.0476,
+          "role": "佐",
+          "role_weight": 0.35,
+          "typical_g": 3
+        },
+        {
+          "effective_weight": 0.0298,
+          "herb": "herb-fuling",
+          "name": "茯苓",
+          "note": null,
+          "proportion": 0.0476,
+          "role": "佐",
+          "role_weight": 0.35,
+          "typical_g": 3
+        },
+        {
+          "effective_weight": 0.0298,
+          "herb": "herb-renshen",
+          "name": "人參",
+          "note": null,
+          "proportion": 0.0476,
+          "role": "佐",
+          "role_weight": 0.35,
+          "typical_g": 3
+        },
+        {
+          "effective_weight": 0.0298,
+          "herb": "herb-wuweizi",
+          "name": "五味子",
+          "note": null,
+          "proportion": 0.0476,
+          "role": "佐",
+          "role_weight": 0.35,
+          "typical_g": 3
+        },
+        {
+          "effective_weight": 0.0298,
+          "herb": "herb-yuanzhi",
+          "name": "遠志",
+          "note": null,
+          "proportion": 0.0476,
+          "role": "佐",
+          "role_weight": 0.35,
+          "typical_g": 3
+        },
+        {
+          "effective_weight": 0.0128,
+          "herb": "herb-jiegeng",
+          "name": "桔梗",
+          "note": null,
+          "proportion": 0.0476,
+          "role": "使",
+          "role_weight": 0.15,
+          "typical_g": 3
+        }
+      ],
+      "core_indications": [
+        "S_RESTLESS_NO_SLEEP",
+        "S_FORGETFUL",
+        "S_HEAT_PALMS_SOLES",
+        "S_NIGHT_SWEAT",
+        "T_TIP_RED",
+        "P_THIN"
+      ],
+      "flavor_profile": {
+        "淡": 0.016,
+        "甘": 0.506,
+        "苦": 0.333,
+        "辛": 0.056,
+        "酸": 0.072,
+        "鹹": 0.016
+      },
+      "id": "F_TIANWANG",
+      "interactions": [
+        "anticoagulant",
+        "hypoglycemic",
+        "immune-modulating",
+        "sedative-additive"
+      ],
+      "kb_commit": "7f2a183a29a226d7e49b407caebd09ee1c8484dc",
+      "modifications": [],
+      "mvp": true,
+      "name": {
+        "en": "Tianwang Buxin Dan (Celestial Emperor Heart-Supplementing Elixir)",
+        "zh-Hant": "天王補心丹"
+      },
+      "panel_burden": {
+        "肝.blood": -0.013,
+        "肺.qi": -0.004,
+        "脾.qi": -0.335,
+        "脾.yang": -0.111,
+        "腎.yang": -0.111
+      },
+      "panel_effect": {
+        "liuxie.濕": -0.018,
+        "liuxie.火": -0.212,
+        "liuxie.燥": -0.061,
+        "product.痰": -0.017,
+        "product.瘀": -0.042,
+        "product.飲": -0.012,
+        "大腸.yin": 0.031,
+        "心.blood": 0.128,
+        "心.qi": 0.021,
+        "心.stasis": -0.009,
+        "心.yang": -0.02,
+        "心.yin": 0.21,
+        "肝.blood": 0.155,
+        "肝.yin": 0.136,
+        "肺.qi": 0.03,
+        "肺.stasis": -0.005,
+        "肺.yin": 0.137,
+        "胃.yin": 0.061,
+        "脾.blood": 0.018,
+        "脾.qi": 0.036,
+        "脾.yin": 0.006,
+        "腎.qi": 0.018,
+        "腎.yin": 0.27
+      },
+      "patterns": [
+        "HT2"
+      ],
+      "pregnancy": "caution",
+      "principle": "滋陰清熱、養血安神",
+      "rationale_citations": [
+        "suwen-074-10",
+        "suwen-074-11"
+      ],
+      "rationale_zh": "重用生地黃滋陰清熱為君；天冬、麥冬、酸棗仁、柏子仁滋陰養血、養心安神為臣；玄參、當歸、丹參、茯苓、人參、五味子、遠志補氣血、寧心神為佐；桔梗載藥上行為使。原方以朱砂為衣，因含汞，本專案配方不收朱砂。",
+      "school": "時方",
+      "source": {
+        "book": "醫方集解",
+        "ref": "補養之劑",
+        "repo_path": "reference/sources/TCM-Ancient-Books/087-医方集解.txt"
+      },
+      "status": "draft",
+      "tier": "B",
+      "tier_reasons": [
+        "contains blood-activating herbs or an aristolochic-acid risk herb"
+      ],
+      "verification": {
+        "composition_check": {
+          "book_path": "reference/sources/TCM-Ancient-Books/087-医方集解.txt",
+          "found": 13,
+          "missing": [],
+          "occurrences": 1,
+          "total": 13
+        },
+        "composition_status": "verified-against-source-book",
+        "proportion_basis": "textbook-typical (unverified)",
+        "role_status": "textbook-unreviewed"
+      }
+    },
+    {
+      "cautions": [
+        "陰虛燥咳者不宜",
+        "孕婦慎用（半夏、枳實）"
+      ],
+      "classical_amounts": null,
+      "composition": [
+        {
+          "effective_weight": 0.305,
+          "herb": "herb-banxia",
+          "name": "半夏",
+          "note": null,
+          "proportion": 0.1412,
+          "role": "君",
+          "role_weight": 1.0,
+          "typical_g": 6
+        },
+        {
+          "effective_weight": 0.183,
+          "herb": "herb-zhuru",
+          "name": "竹茹",
+          "note": null,
+          "proportion": 0.1412,
+          "role": "臣",
+          "role_weight": 0.6,
+          "typical_g": 6
+        },
+        {
+          "effective_weight": 0.1067,
+          "herb": "herb-zhishi",
+          "name": "枳實",
+          "note": null,
+          "proportion": 0.1412,
+          "role": "佐",
+          "role_weight": 0.35,
+          "typical_g": 6
+        },
+        {
+          "effective_weight": 0.1601,
+          "herb": "herb-chenpi",
+          "name": "陳皮",
+          "note": null,
+          "proportion": 0.2118,
+          "role": "佐",
+          "role_weight": 0.35,
+          "typical_g": 9
+        },
+        {
+          "effective_weight": 0.0801,
+          "herb": "herb-fuling",
+          "name": "茯苓",
+          "note": null,
+          "proportion": 0.1059,
+          "role": "佐",
+          "role_weight": 0.35,
+          "typical_g": 4.5
+        },
+        {
+          "effective_weight": 0.0889,
+          "herb": "herb-shengjiang",
+          "name": "生薑",
+          "note": null,
+          "proportion": 0.1176,
+          "role": "佐",
+          "role_weight": 0.35,
+          "typical_g": 5
+        },
+        {
+          "effective_weight": 0.0534,
+          "herb": "herb-dazao",
+          "name": "大棗",
+          "note": null,
+          "proportion": 0.0706,
+          "role": "佐",
+          "role_weight": 0.35,
+          "typical_g": 3
+        },
+        {
+          "effective_weight": 0.0229,
+          "herb": "herb-zhigancao",
+          "name": "炙甘草",
+          "note": null,
+          "proportion": 0.0706,
+          "role": "使",
+          "role_weight": 0.15,
+          "typical_g": 3
+        }
+      ],
+      "core_indications": [
+        "S_STARTLE",
+        "S_INSOMNIA_ONSET",
+        "S_PHLEGM_COPIOUS",
+        "S_BITTER_MOUTH",
+        "T_COAT_YELLOW_GREASY",
+        "P_SLIPPERY"
+      ],
+      "flavor_profile": {
+        "淡": 0.055,
+        "甘": 0.233,
+        "苦": 0.184,
+        "辛": 0.454,
+        "酸": 0.073
+      },
+      "id": "F_WENDAN",
+      "interactions": [
+        "bp-raising",
+        "hypokalemia"
+      ],
+      "kb_commit": "7f2a183a29a226d7e49b407caebd09ee1c8484dc",
+      "modifications": [],
+      "mvp": true,
+      "name": {
+        "en": "Wendan Tang (Gallbladder-Warming Decoction)",
+        "zh-Hant": "溫膽湯"
+      },
+      "panel_burden": {
+        "liuxie.濕": 0.011,
+        "肺.qi": -0.013,
+        "肺.yin": -0.086,
+        "胃.yin": -0.086,
+        "脾.qi": -0.027
+      },
+      "panel_effect": {
+        "bagang.exterior": -0.027,
+        "liuxie.寒": -0.036,
+        "liuxie.濕": -0.295,
+        "liuxie.火": -0.055,
+        "product.痰": -0.429,
+        "product.食積": -0.032,
+        "product.飲": -0.032,
+        "心.blood": 0.016,
+        "心.qi": 0.009,
+        "肺.qi": 0.005,
+        "肺.stasis": -0.064,
+        "胃.stasis": -0.271,
+        "胃.yang": 0.027,
+        "脾.blood": 0.011,
+        "脾.qi": 0.059,
+        "脾.stasis": -0.144
+      },
+      "patterns": [
+        "HT3"
+      ],
+      "pregnancy": "caution",
+      "principle": "理氣化痰、清膽和胃",
+      "rationale_citations": [
+        "suwen-074-10",
+        "suwen-074-11"
+      ],
+      "rationale_zh": "半夏燥濕化痰、和胃止嘔為君；竹茹清熱化痰、除煩止嘔為臣；枳實、陳皮理氣化痰，茯苓健脾滲濕，生薑、大棗和中為佐；炙甘草調和諸藥為使。",
+      "school": "時方",
+      "source": {
+        "book": "三因極一病證方論",
+        "ref": "卷九",
+        "repo_path": "reference/sources/TCM-Ancient-Books/558-三因极一病证方论.txt"
+      },
+      "status": "draft",
+      "tier": "A",
+      "tier_reasons": [],
+      "verification": {
+        "composition_check": {
+          "book_path": "reference/sources/TCM-Ancient-Books/558-三因极一病证方论.txt",
+          "found": 8,
+          "missing": [],
+          "occurrences": 3,
+          "total": 8
+        },
+        "composition_status": "verified-against-source-book",
+        "proportion_basis": "textbook-typical (unverified)",
+        "role_status": "textbook-unreviewed"
+      }
+    },
+    {
+      "cautions": [
+        "外感風邪、表實無汗者不宜",
+        "陰虛盜汗者不宜"
+      ],
+      "classical_amounts": null,
+      "composition": [
+        {
+          "effective_weight": 0.6593,
+          "herb": "herb-huangqi",
+          "name": "黃耆",
+          "note": null,
+          "proportion": 0.5,
+          "role": "君",
+          "role_weight": 1.0,
+          "typical_g": 18
+        },
+        {
+          "effective_weight": 0.2637,
+          "herb": "herb-baizhu",
+          "name": "白朮",
+          "note": null,
+          "proportion": 0.3333,
+          "role": "臣",
+          "role_weight": 0.6,
+          "typical_g": 12
+        },
+        {
+          "effective_weight": 0.0769,
+          "herb": "herb-fangfeng",
+          "name": "防風",
+          "note": null,
+          "proportion": 0.1667,
+          "role": "佐",
+          "role_weight": 0.35,
+          "typical_g": 6
+        }
+      ],
+      "core_indications": [
+        "S_SPONTANEOUS_SWEAT",
+        "S_AVERSION_WIND",
+        "S_EASY_COLD",
+        "S_SHORT_BREATH"
+      ],
+      "flavor_profile": {
+        "甘": 0.746,
+        "苦": 0.197,
+        "辛": 0.057
+      },
+      "id": "F_YUPINGFENG",
+      "interactions": [
+        "hypoglycemic",
+        "immune-modulating"
+      ],
+      "kb_commit": "7f2a183a29a226d7e49b407caebd09ee1c8484dc",
+      "modifications": [],
+      "mvp": true,
+      "name": {
+        "en": "Yupingfeng San (Jade Windscreen Powder)",
+        "zh-Hant": "玉屏風散"
+      },
+      "panel_burden": {
+        "肺.qi": -0.012,
+        "肺.yin": -0.04,
+        "胃.yin": -0.04
+      },
+      "panel_effect": {
+        "bagang.exterior": -0.031,
+        "liuxie.濕": -0.345,
+        "liuxie.風": -0.046,
+        "肺.qi": 0.462,
+        "脾.qi": 0.738
+      },
+      "patterns": [
+        "LG1"
+      ],
+      "pregnancy": "ok-unreviewed",
+      "principle": "益氣固表止汗",
+      "rationale_citations": [
+        "suwen-074-10",
+        "suwen-074-11"
+      ],
+      "rationale_zh": "黃耆益氣固表止汗為君；白朮健脾益氣、助黃耆固表為臣；防風祛風走表，與黃耆相配固表而不留邪、散風而不傷正為佐使。",
+      "school": "時方",
+      "source": {
+        "book": "丹溪心法",
+        "ref": "卷三",
+        "repo_path": "reference/sources/TCM-Ancient-Books/570-丹溪心法.txt"
+      },
+      "status": "draft",
+      "tier": "A",
+      "tier_reasons": [],
+      "verification": {
+        "composition_check": {
+          "book_path": "reference/sources/TCM-Ancient-Books/570-丹溪心法.txt",
+          "found": 2,
+          "missing": [
+            "黃耆"
+          ],
+          "note": "Missing herbs are usually lost characters in the GB18030 compilation (e.g. 芪, 芎 are dropped) or later additions to the original formula; confirm against a second source (Wikisource) before marking verified.",
+          "occurrences": 1,
+          "total": 3
+        },
+        "composition_status": "partially-verified",
+        "proportion_basis": "textbook-typical (unverified)",
+        "role_status": "textbook-unreviewed"
+      }
+    },
+    {
+      "cautions": [
+        "痰濕咳嗽者不宜",
+        "半夏須炮製",
+        "不宜與藜蘆、五靈脂同用（含人參）"
+      ],
+      "classical_amounts": [
+        {
+          "amount": 7.0,
+          "name": "麥門冬",
+          "processing": "",
+          "unit": "升"
+        },
+        {
+          "amount": 1.0,
+          "name": "半夏",
+          "processing": "",
+          "unit": "升"
+        },
+        {
+          "amount": 3.0,
+          "name": "人參",
+          "processing": "",
+          "unit": "两"
+        },
+        {
+          "amount": 2.0,
+          "name": "甘草",
+          "processing": "",
+          "unit": "两"
+        },
+        {
+          "amount": 3.0,
+          "name": "粳米",
+          "processing": "",
+          "unit": "合"
+        },
+        {
+          "amount": 12.0,
+          "name": "大棗",
+          "processing": "",
+          "unit": "枚"
+        }
+      ],
+      "composition": [
+        {
+          "classical_amount": {
+            "processing": "",
+            "unit": "升",
+            "value": 7.0
+          },
+          "effective_weight": 0.7902,
+          "herb": "herb-maidong",
+          "name": "麥冬",
+          "note": null,
+          "proportion": 0.5753,
+          "role": "君",
+          "role_weight": 1.0,
+          "typical_g": 42
+        },
+        {
+          "classical_amount": {
+            "processing": "",
+            "unit": "升",
+            "value": 1.0
+          },
+          "effective_weight": 0.0677,
+          "herb": "herb-banxia",
+          "name": "半夏",
+          "note": null,
+          "proportion": 0.0822,
+          "role": "臣",
+          "role_weight": 0.6,
+          "typical_g": 6
+        },
+        {
+          "classical_amount": {
+            "processing": "",
+            "unit": "两",
+            "value": 3.0
+          },
+          "effective_weight": 0.0593,
+          "herb": "herb-renshen",
+          "name": "人參",
+          "note": null,
+          "proportion": 0.1233,
+          "role": "佐",
+          "role_weight": 0.35,
+          "typical_g": 9
+        },
+        {
+          "classical_amount": {
+            "processing": "",
+            "unit": "合",
+            "value": 3.0
+          },
+          "effective_weight": 0.0395,
+          "herb": "herb-jingmi",
+          "name": "粳米",
+          "note": null,
+          "proportion": 0.0822,
+          "role": "佐",
+          "role_weight": 0.35,
+          "typical_g": 6
+        },
+        {
+          "classical_amount": {
+            "processing": "",
+            "unit": "枚",
+            "value": 12.0
+          },
+          "effective_weight": 0.0263,
+          "herb": "herb-dazao",
+          "name": "大棗",
+          "note": null,
+          "proportion": 0.0548,
+          "role": "佐",
+          "role_weight": 0.35,
+          "typical_g": 4
+        },
+        {
+          "classical_amount": {
+            "processing": "",
+            "unit": "两",
+            "value": 2.0
+          },
+          "effective_weight": 0.0169,
+          "herb": "herb-gancao",
+          "name": "甘草",
+          "note": null,
+          "proportion": 0.0822,
+          "role": "使",
+          "role_weight": 0.15,
+          "typical_g": 6
+        }
+      ],
+      "core_indications": [
+        "S_COUGH_DRY",
+        "S_DRY_MOUTH_THROAT",
+        "S_DRY_THROAT",
+        "T_COAT_PEELED_ALL",
+        "P_THIN"
+      ],
+      "flavor_profile": {
+        "甘": 0.654,
+        "苦": 0.298,
+        "辛": 0.048
+      },
+      "id": "F_MAIMENDONG",
+      "interactions": [
+        "anticoagulant",
+        "bp-raising",
+        "hypoglycemic",
+        "hypokalemia",
+        "immune-modulating"
+      ],
+      "kb_commit": "7f2a183a29a226d7e49b407caebd09ee1c8484dc",
+      "modifications": [],
+      "mvp": true,
+      "name": {
+        "en": "Maimendong Tang (Ophiopogon Decoction)",
+        "zh-Hant": "麥門冬湯"
+      },
+      "panel_burden": {
+        "liuxie.濕": 0.006,
+        "肺.yin": -0.01,
+        "胃.yin": -0.01,
+        "脾.qi": -0.395
+      },
+      "panel_effect": {
+        "liuxie.濕": -0.041,
+        "liuxie.火": -0.003,
+        "liuxie.燥": -0.237,
+        "product.痰": -0.051,
+        "心.blood": 0.008,
+        "心.qi": 0.035,
+        "心.yang": -0.158,
+        "心.yin": 0.316,
+        "肺.qi": 0.045,
+        "肺.yin": 0.486,
+        "胃.stasis": -0.034,
+        "胃.yin": 0.482,
+        "脾.blood": 0.005,
+        "脾.qi": 0.084,
+        "脾.yin": 0.012,
+        "腎.qi": 0.018
+      },
+      "patterns": [
+        "LG2"
+      ],
+      "pregnancy": "caution",
+      "principle": "清養肺胃、降逆下氣",
+      "rationale_citations": [
+        "suwen-074-10",
+        "suwen-074-11"
+      ],
+      "rationale_zh": "重用麥冬養陰生津、滋養肺胃、清虛火為君；半夏降逆下氣、化痰，用量甚輕且與大量麥冬相伍，不燥不傷陰為臣；人參、粳米、大棗益氣養胃、使胃得養而肺氣充為佐；甘草潤肺利咽、調和諸藥為使。",
+      "school": "經方",
+      "source": {
+        "book": "金匱要略",
+        "ref": "jingui-007-1"
+      },
+      "status": "draft",
+      "tier": "A",
+      "tier_reasons": [],
+      "verification": {
+        "classical": {
+          "anchor": "麦门冬七升",
+          "matched_in_formula": [
+            "麥門冬",
+            "半夏",
+            "人參",
+            "甘草",
+            "粳米",
+            "大棗"
+          ],
+          "not_in_formula": [],
+          "note": null,
+          "parsed": 6,
+          "path": "reference/sources/TCM-Library/raw/jingui/jingui_07.txt"
+        },
+        "composition_status": "verified-against-classical-text",
+        "proportion_basis": "textbook-typical (unverified)",
+        "role_status": "textbook-unreviewed"
+      }
+    },
+    {
+      "cautions": [
+        "外感風寒咳嗽、痰濕者不宜",
+        "不宜與烏頭類同用（含天花粉）",
+        "不宜與藜蘆同用（含沙參）"
+      ],
+      "classical_amounts": null,
+      "composition": [
+        {
+          "effective_weight": 0.3226,
+          "herb": "herb-beishashen",
+          "name": "沙參",
+          "note": null,
+          "proportion": 0.2222,
+          "role": "君",
+          "role_weight": 1.0,
+          "typical_g": 9
+        },
+        {
+          "effective_weight": 0.3226,
+          "herb": "herb-maidong",
+          "name": "麥冬",
+          "note": null,
+          "proportion": 0.2222,
+          "role": "君",
+          "role_weight": 1.0,
+          "typical_g": 9
+        },
+        {
+          "effective_weight": 0.129,
+          "herb": "herb-yuzhu",
+          "name": "玉竹",
+          "note": null,
+          "proportion": 0.1481,
+          "role": "臣",
+          "role_weight": 0.6,
+          "typical_g": 6
+        },
+        {
+          "effective_weight": 0.0968,
+          "herb": "herb-tianhuafen",
+          "name": "天花粉",
+          "note": null,
+          "proportion": 0.1111,
+          "role": "臣",
+          "role_weight": 0.6,
+          "typical_g": 4.5
+        },
+        {
+          "effective_weight": 0.0565,
+          "herb": "herb-sangye",
+          "name": "桑葉",
+          "note": null,
+          "proportion": 0.1111,
+          "role": "佐",
+          "role_weight": 0.35,
+          "typical_g": 4.5
+        },
+        {
+          "effective_weight": 0.0565,
+          "herb": "herb-baibiandou",
+          "name": "白扁豆",
+          "note": null,
+          "proportion": 0.1111,
+          "role": "佐",
+          "role_weight": 0.35,
+          "typical_g": 4.5
+        },
+        {
+          "effective_weight": 0.0161,
+          "herb": "herb-gancao",
+          "name": "甘草",
+          "note": null,
+          "proportion": 0.0741,
+          "role": "使",
+          "role_weight": 0.15,
+          "typical_g": 3
+        }
+      ],
+      "core_indications": [
+        "S_COUGH_DRY",
+        "S_DRY_MOUTH_THROAT",
+        "S_HOARSE",
+        "T_BODY_RED",
+        "P_THIN"
+      ],
+      "flavor_profile": {
+        "甘": 0.701,
+        "苦": 0.299
+      },
+      "id": "F_SHASHEN",
+      "interactions": [
+        "bp-raising",
+        "hypokalemia"
+      ],
+      "kb_commit": "7f2a183a29a226d7e49b407caebd09ee1c8484dc",
+      "modifications": [],
+      "mvp": true,
+      "name": {
+        "en": "Shashen Maidong Tang (Glehnia and Ophiopogon Decoction)",
+        "zh-Hant": "沙參麥冬湯"
+      },
+      "panel_burden": {
+        "liuxie.濕": 0.002,
+        "脾.qi": -0.313,
+        "脾.yang": -0.014,
+        "腎.yang": -0.014
+      },
+      "panel_effect": {
+        "liuxie.暑": -0.011,
+        "liuxie.濕": -0.017,
+        "liuxie.火": -0.123,
+        "liuxie.燥": -0.232,
+        "liuxie.風": -0.023,
+        "product.痰": -0.023,
+        "心.qi": 0.005,
+        "心.yang": -0.065,
+        "心.yin": 0.129,
+        "肝.yang": -0.011,
+        "肺.qi": 0.003,
+        "肺.yin": 0.507,
+        "胃.yin": 0.468,
+        "脾.qi": 0.025
+      },
+      "patterns": [
+        "LG2"
+      ],
+      "pregnancy": "caution",
+      "principle": "甘寒生津、清養肺胃",
+      "rationale_citations": [
+        "suwen-074-10",
+        "suwen-074-11"
+      ],
+      "rationale_zh": "沙參、麥冬甘寒養陰、清肺潤燥為君；玉竹、天花粉助君藥生津養陰為臣；桑葉輕宣燥熱，白扁豆健脾和中為佐；甘草調和諸藥為使。",
+      "school": "時方",
+      "source": {
+        "book": "溫病條辨",
+        "ref": "上焦篇",
+        "repo_path": "reference/sources/TCM-Ancient-Books/526-温病条辨.txt"
+      },
+      "status": "draft",
+      "tier": "A",
+      "tier_reasons": [],
+      "verification": {
+        "composition_check": {
+          "book_path": "reference/sources/TCM-Ancient-Books/526-温病条辨.txt",
+          "found": 7,
+          "missing": [],
+          "occurrences": 2,
+          "total": 7
+        },
+        "composition_status": "verified-against-source-book",
+        "proportion_basis": "textbook-typical (unverified)",
+        "role_status": "textbook-unreviewed"
+      }
+    },
+    {
+      "cautions": [
+        "脾虛便溏、食少者慎用（滋膩）",
+        "孕婦慎用牡丹皮",
+        "感冒發熱期間暫停"
+      ],
+      "classical_amounts": null,
+      "composition": [
+        {
+          "effective_weight": 0.5016,
+          "herb": "herb-shudihuang",
+          "name": "熟地黃",
+          "note": null,
+          "proportion": 0.32,
+          "role": "君",
+          "role_weight": 1.0,
+          "typical_g": 24
+        },
+        {
+          "effective_weight": 0.1505,
+          "herb": "herb-shanzhuyu",
+          "name": "山茱萸",
+          "note": null,
+          "proportion": 0.16,
+          "role": "臣",
+          "role_weight": 0.6,
+          "typical_g": 12
+        },
+        {
+          "effective_weight": 0.1505,
+          "herb": "herb-shangyao",
+          "name": "山藥",
+          "note": null,
+          "proportion": 0.16,
+          "role": "臣",
+          "role_weight": 0.6,
+          "typical_g": 12
+        },
+        {
+          "effective_weight": 0.0658,
+          "herb": "herb-zexie",
+          "name": "澤瀉",
+          "note": null,
+          "proportion": 0.12,
+          "role": "佐",
+          "role_weight": 0.35,
+          "typical_g": 9
+        },
+        {
+          "effective_weight": 0.0658,
+          "herb": "herb-mudanpi",
+          "name": "牡丹皮",
+          "note": null,
+          "proportion": 0.12,
+          "role": "佐",
+          "role_weight": 0.35,
+          "typical_g": 9
+        },
+        {
+          "effective_weight": 0.0658,
+          "herb": "herb-fuling",
+          "name": "茯苓",
+          "note": null,
+          "proportion": 0.12,
+          "role": "佐",
+          "role_weight": 0.35,
+          "typical_g": 9
+        }
+      ],
+      "core_indications": [
+        "S_LOW_BACK_SORE",
+        "S_HEAT_PALMS_SOLES",
+        "S_TINNITUS_THIN",
+        "S_NIGHT_SWEAT",
+        "T_ROOT_COAT_PEELED",
+        "P_THIN"
+      ],
+      "flavor_profile": {
+        "淡": 0.051,
+        "澀": 0.117,
+        "甘": 0.611,
+        "苦": 0.051,
+        "辛": 0.051,
+        "酸": 0.117
+      },
+      "id": "F_LIUWEI",
+      "interactions": [
+        "anticoagulant",
+        "hypoglycemic"
+      ],
+      "kb_commit": "7f2a183a29a226d7e49b407caebd09ee1c8484dc",
+      "modifications": [
+        {
+          "add": [
+            {
+              "herb": "herb-zhimu",
+              "name": "知母",
+              "role": "佐",
+              "typical_g": 6
+            },
+            {
+              "herb": "herb-huangbai",
+              "name": "黃柏",
+              "role": "佐",
+              "typical_g": 6
+            }
+          ],
+          "id": "M_LIUWEI_ZHIBAI",
+          "remove": [],
+          "result_name": "知柏地黃丸",
+          "source": {
+            "book": "醫方考",
+            "verification": "variant-name-not-found-in-source-book"
+          },
+          "status": "textbook-unreviewed",
+          "when_symptoms": [
+            "S_HEAT_PALMS_SOLES",
+            "S_NIGHT_SWEAT",
+            "S_TIDAL_FEVER"
+          ]
+        },
+        {
+          "add": [
+            {
+              "herb": "herb-gouqizi",
+              "name": "枸杞子",
+              "role": "佐",
+              "typical_g": 9
+            },
+            {
+              "herb": "herb-juhua",
+              "name": "菊花",
+              "role": "佐",
+              "typical_g": 9
+            }
+          ],
+          "id": "M_LIUWEI_QIJU",
+          "remove": [],
+          "result_name": "杞菊地黃丸",
+          "source": {
+            "book": "醫級",
+            "verification": "source-book-not-in-reference"
+          },
+          "status": "textbook-unreviewed",
+          "when_symptoms": [
+            "S_BLURRED_VISION",
+            "S_DRY_EYES"
+          ]
+        }
+      ],
+      "mvp": true,
+      "name": {
+        "en": "Liuwei Dihuang Wan (Six-Ingredient Rehmannia Pill)",
+        "zh-Hant": "六味地黃丸"
+      },
+      "panel_burden": {
+        "肝.blood": -0.01,
+        "脾.qi": -0.142,
+        "脾.yang": -0.016,
+        "腎.yang": -0.016
+      },
+      "panel_effect": {
+        "liuxie.濕": -0.086,
+        "liuxie.火": -0.046,
+        "product.瘀": -0.026,
+        "product.飲": -0.059,
+        "肝.blood": 0.351,
+        "肝.yang": -0.013,
+        "肝.yin": 0.311,
+        "肺.yin": 0.03,
+        "脾.qi": 0.08,
+        "脾.yin": 0.045,
+        "腎.blood": 0.201,
+        "腎.qi": 0.075,
+        "腎.yang": -0.013,
+        "腎.yin": 0.507
+      },
+      "patterns": [
+        "KD1"
+      ],
+      "pregnancy": "caution",
+      "principle": "滋陰補腎",
+      "rationale_citations": [
+        "suwen-074-10",
+        "suwen-074-11"
+      ],
+      "rationale_zh": "重用熟地黃滋陰補腎、填精益髓為君；山茱萸養肝澀精，山藥補脾固精為臣，三陰並補；澤瀉利濕泄濁、牡丹皮清瀉肝火、茯苓淡滲脾濕為佐，三瀉以制三補之滯。",
+      "school": "時方",
+      "source": {
+        "book": "小兒藥證直訣",
+        "ref": "卷下",
+        "repo_path": "reference/sources/TCM-Ancient-Books/133-小儿药证直诀.txt"
+      },
+      "status": "draft",
+      "tier": "B",
+      "tier_reasons": [
+        "contains blood-activating herbs or an aristolochic-acid risk herb"
+      ],
+      "verification": {
+        "composition_check": {
+          "book_path": "reference/sources/TCM-Ancient-Books/133-小儿药证直诀.txt",
+          "found": 6,
+          "missing": [],
+          "occurrences": 14,
+          "total": 6
+        },
+        "composition_status": "verified-against-source-book",
+        "proportion_basis": "textbook-typical (unverified)",
+        "role_status": "textbook-unreviewed"
+      }
+    },
+    {
+      "cautions": [
+        "含附子：有毒，孕婦禁用，須久煎並由醫師處方",
+        "陰虛火旺者忌用",
+        "不宜與半夏、瓜蔞、貝母、白蘞、白及同用"
+      ],
+      "classical_amounts": [
+        {
+          "amount": 8.0,
+          "name": "乾地黃",
+          "processing": "",
+          "unit": "两"
+        },
+        {
+          "amount": 4.0,
+          "name": "薯蕷",
+          "processing": "",
+          "unit": "两"
+        },
+        {
+          "amount": 4.0,
+          "name": "山茱萸",
+          "processing": "",
+          "unit": "两"
+        },
+        {
+          "amount": 3.0,
+          "name": "澤瀉",
+          "processing": "",
+          "unit": "两"
+        },
+        {
+          "amount": 3.0,
+          "name": "茯苓",
+          "processing": "",
+          "unit": "两"
+        },
+        {
+          "amount": 3.0,
+          "name": "牡丹皮",
+          "processing": "",
+          "unit": "两"
+        },
+        {
+          "amount": 1.0,
+          "name": "桂枝",
+          "processing": "",
+          "unit": "两"
+        }
+      ],
+      "composition": [
+        {
+          "effective_weight": 0.0677,
+          "herb": "herb-fuzi",
+          "name": "附子",
+          "note": null,
+          "proportion": 0.037,
+          "role": "君",
+          "role_weight": 1.0,
+          "typical_g": 3
+        },
+        {
+          "classical_amount": {
+            "processing": "",
+            "unit": "两",
+            "value": 1.0
+          },
+          "effective_weight": 0.0677,
+          "herb": "herb-guizhi",
+          "name": "桂枝",
+          "note": null,
+          "proportion": 0.037,
+          "role": "君",
+          "role_weight": 1.0,
+          "typical_g": 3
+        },
+        {
+          "classical_amount": {
+            "processing": "",
+            "unit": "两",
+            "value": 8.0
+          },
+          "effective_weight": 0.3255,
+          "herb": "herb-dihuang",
+          "name": "乾地黃",
+          "note": null,
+          "proportion": 0.2963,
+          "role": "臣",
+          "role_weight": 0.6,
+          "typical_g": 24
+        },
+        {
+          "classical_amount": {
+            "processing": "",
+            "unit": "两",
+            "value": 4.0
+          },
+          "effective_weight": 0.1627,
+          "herb": "herb-shanzhuyu",
+          "name": "山茱萸",
+          "note": null,
+          "proportion": 0.1481,
+          "role": "臣",
+          "role_weight": 0.6,
+          "typical_g": 12
+        },
+        {
+          "classical_amount": {
+            "processing": "",
+            "unit": "两",
+            "value": 4.0
+          },
+          "effective_weight": 0.1627,
+          "herb": "herb-shangyao",
+          "name": "山藥",
+          "note": null,
+          "proportion": 0.1481,
+          "role": "臣",
+          "role_weight": 0.6,
+          "typical_g": 12
+        },
+        {
+          "classical_amount": {
+            "processing": "",
+            "unit": "两",
+            "value": 3.0
+          },
+          "effective_weight": 0.0712,
+          "herb": "herb-zexie",
+          "name": "澤瀉",
+          "note": null,
+          "proportion": 0.1111,
+          "role": "佐",
+          "role_weight": 0.35,
+          "typical_g": 9
+        },
+        {
+          "classical_amount": {
+            "processing": "",
+            "unit": "两",
+            "value": 3.0
+          },
+          "effective_weight": 0.0712,
+          "herb": "herb-fuling",
+          "name": "茯苓",
+          "note": null,
+          "proportion": 0.1111,
+          "role": "佐",
+          "role_weight": 0.35,
+          "typical_g": 9
+        },
+        {
+          "classical_amount": {
+            "processing": "",
+            "unit": "两",
+            "value": 3.0
+          },
+          "effective_weight": 0.0712,
+          "herb": "herb-mudanpi",
+          "name": "牡丹皮",
+          "note": null,
+          "proportion": 0.1111,
+          "role": "佐",
+          "role_weight": 0.35,
+          "typical_g": 9
+        }
+      ],
+      "core_indications": [
+        "S_LOW_BACK_COLD",
+        "S_FEAR_COLD",
+        "S_FREQUENT_NOCTURIA",
+        "S_EDEMA",
+        "T_BODY_PALE_SWOLLEN",
+        "P_SINK"
+      ],
+      "flavor_profile": {
+        "淡": 0.04,
+        "澀": 0.092,
+        "甘": 0.434,
+        "苦": 0.225,
+        "辛": 0.117,
+        "酸": 0.092
+      },
+      "id": "F_SHENQI",
+      "interactions": [
+        "anticoagulant",
+        "hypoglycemic"
+      ],
+      "kb_commit": "7f2a183a29a226d7e49b407caebd09ee1c8484dc",
+      "modifications": [],
+      "mvp": true,
+      "name": {
+        "en": "Shenqi Wan (Kidney Qi Pill)",
+        "zh-Hant": "腎氣丸"
+      },
+      "panel_burden": {
+        "肝.blood": -0.011,
+        "肝.yin": -0.027,
+        "肺.qi": -0.01,
+        "脾.qi": -0.181,
+        "脾.yang": -0.099,
+        "腎.yang": -0.099,
+        "腎.yin": -0.027
+      },
+      "panel_effect": {
+        "bagang.exterior": -0.041,
+        "liuxie.寒": -0.102,
+        "liuxie.濕": -0.093,
+        "liuxie.火": -0.213,
+        "product.瘀": -0.028,
+        "product.飲": -0.084,
+        "心.yang": 0.081,
+        "心.yin": 0.098,
+        "肝.blood": 0.065,
+        "肝.yang": -0.014,
+        "肝.yin": 0.195,
+        "肺.yin": 0.033,
+        "脾.qi": 0.086,
+        "脾.yang": 0.061,
+        "脾.yin": 0.049,
+        "腎.qi": 0.081,
+        "腎.yang": 0.047,
+        "腎.yin": 0.309,
+        "膀胱.yang": 0.02
+      },
+      "patterns": [
+        "KD2"
+      ],
+      "pregnancy": "avoid",
+      "principle": "補腎助陽、陰中求陽",
+      "rationale_citations": [
+        "suwen-074-10",
+        "suwen-074-11"
+      ],
+      "rationale_zh": "附子、桂枝（後世或用肉桂）溫補腎陽、鼓舞腎氣為君，取「少火生氣」；乾地黃、山茱萸、山藥滋補腎陰、陰中求陽為臣；澤瀉、茯苓利水滲濕，牡丹皮清泄肝火為佐。",
+      "school": "經方",
+      "source": {
+        "book": "金匱要略",
+        "ref": "jingui-006-2"
+      },
+      "status": "draft",
+      "tier": "C",
+      "tier_reasons": [
+        "contains a strong herb: 附子"
+      ],
+      "verification": {
+        "classical": {
+          "anchor": "干地黄八两",
+          "matched_in_formula": [
+            "乾地黃",
+            "薯蕷",
+            "山茱萸",
+            "澤瀉",
+            "茯苓",
+            "牡丹皮",
+            "桂枝"
+          ],
+          "not_in_formula": [],
+          "note": "Parsed from 金匱要略 婦人雜病 (raw/jingui/jingui_22). TCM-Library entry shenqiwan_001's 原文 field starts with an unrelated 血痹 passage and is not used.",
+          "parsed": 7,
+          "path": "reference/sources/TCM-Library/raw/jingui/jingui_22.txt"
+        },
+        "composition_status": "verified-against-classical-text",
+        "proportion_basis": "textbook-typical (unverified)",
+        "role_status": "textbook-unreviewed"
+      }
+    },
+    {
+      "cautions": [
+        "含附子、肉桂：孕婦禁用附子，須由醫師處方",
+        "陰虛火旺、濕熱者忌用",
+        "感冒期間暫停"
+      ],
+      "classical_amounts": null,
+      "composition": [
+        {
+          "effective_weight": 0.086,
+          "herb": "herb-fuzi",
+          "name": "附子",
+          "note": null,
+          "proportion": 0.0526,
+          "role": "君",
+          "role_weight": 1.0,
+          "typical_g": 6
+        },
+        {
+          "effective_weight": 0.086,
+          "herb": "herb-rougui",
+          "name": "肉桂",
+          "note": null,
+          "proportion": 0.0526,
+          "role": "君",
+          "role_weight": 1.0,
+          "typical_g": 6
+        },
+        {
+          "effective_weight": 0.1721,
+          "herb": "herb-lujiaojiao",
+          "name": "鹿角膠",
+          "note": null,
+          "proportion": 0.1053,
+          "role": "君",
+          "role_weight": 1.0,
+          "typical_g": 12
+        },
+        {
+          "effective_weight": 0.2064,
+          "herb": "herb-shudihuang",
+          "name": "熟地黃",
+          "note": null,
+          "proportion": 0.2105,
+          "role": "臣",
+          "role_weight": 0.6,
+          "typical_g": 24
+        },
+        {
+          "effective_weight": 0.1033,
+          "herb": "herb-shangyao",
+          "name": "山藥",
+          "note": null,
+          "proportion": 0.1053,
+          "role": "臣",
+          "role_weight": 0.6,
+          "typical_g": 12
+        },
+        {
+          "effective_weight": 0.0774,
+          "herb": "herb-shanzhuyu",
+          "name": "山茱萸",
+          "note": null,
+          "proportion": 0.0789,
+          "role": "臣",
+          "role_weight": 0.6,
+          "typical_g": 9
+        },
+        {
+          "effective_weight": 0.1033,
+          "herb": "herb-gouqizi",
+          "name": "枸杞子",
+          "note": null,
+          "proportion": 0.1053,
+          "role": "臣",
+          "role_weight": 0.6,
+          "typical_g": 12
+        },
+        {
+          "effective_weight": 0.0602,
+          "herb": "herb-tusizi",
+          "name": "菟絲子",
+          "note": null,
+          "proportion": 0.1053,
+          "role": "佐",
+          "role_weight": 0.35,
+          "typical_g": 12
+        },
+        {
+          "effective_weight": 0.0602,
+          "herb": "herb-duzhong",
+          "name": "杜仲",
+          "note": null,
+          "proportion": 0.1053,
+          "role": "佐",
+          "role_weight": 0.35,
+          "typical_g": 12
+        },
+        {
+          "effective_weight": 0.0451,
+          "herb": "herb-danggui",
+          "name": "當歸",
+          "note": null,
+          "proportion": 0.0789,
+          "role": "佐",
+          "role_weight": 0.35,
+          "typical_g": 9
+        }
+      ],
+      "core_indications": [
+        "S_LOW_BACK_COLD",
+        "S_FEAR_COLD",
+        "S_FREQUENT_NOCTURIA",
+        "S_SPIRIT_WITHDRAWN",
+        "P_SINK"
+      ],
+      "flavor_profile": {
+        "澀": 0.051,
+        "甘": 0.604,
+        "辛": 0.182,
+        "酸": 0.051,
+        "鹹": 0.113
+      },
+      "id": "F_YOUGUI",
+      "interactions": [
+        "anticoagulant",
+        "hypoglycemic"
+      ],
+      "kb_commit": "7f2a183a29a226d7e49b407caebd09ee1c8484dc",
+      "modifications": [],
+      "mvp": true,
+      "name": {
+        "en": "Yougui Wan (Restore the Right [Kidney] Pill)",
+        "zh-Hant": "右歸丸"
+      },
+      "panel_burden": {
+        "肝.blood": -0.007,
+        "肝.yin": -0.069,
+        "脾.qi": -0.132,
+        "腎.yin": -0.069
+      },
+      "panel_effect": {
+        "liuxie.寒": -0.146,
+        "product.瘀": -0.018,
+        "心.blood": 0.023,
+        "心.yang": 0.06,
+        "肝.blood": 0.282,
+        "肝.qi": 0.012,
+        "肝.yin": 0.198,
+        "肺.yin": 0.021,
+        "脾.blood": 0.014,
+        "脾.qi": 0.041,
+        "脾.yang": 0.103,
+        "脾.yin": 0.031,
+        "腎.blood": 0.151,
+        "腎.qi": 0.044,
+        "腎.yang": 0.298,
+        "腎.yin": 0.297
+      },
+      "patterns": [
+        "KD2"
+      ],
+      "pregnancy": "avoid",
+      "principle": "溫補腎陽、填精益髓",
+      "rationale_citations": [
+        "suwen-074-10",
+        "suwen-074-11"
+      ],
+      "rationale_zh": "附子、肉桂溫補腎陽，鹿角膠溫腎陽、益精血共為君；熟地黃、山藥、山茱萸、枸杞子滋陰益腎、養肝補脾，陰中求陽為臣；菟絲子、杜仲補肝腎、強腰膝，當歸養血和血為佐。",
+      "school": "時方",
+      "source": {
+        "book": "景岳全書",
+        "ref": "新方八陣·補陣",
+        "repo_path": "reference/sources/TCM-Ancient-Books/637-景岳全书.txt"
+      },
+      "status": "draft",
+      "tier": "C",
+      "tier_reasons": [
+        "contains a strong herb: 附子"
+      ],
+      "verification": {
+        "composition_check": {
+          "book_path": "reference/sources/TCM-Ancient-Books/637-景岳全书.txt",
+          "found": 10,
+          "missing": [],
+          "occurrences": 44,
+          "total": 10
+        },
+        "composition_status": "verified-against-source-book",
+        "proportion_basis": "textbook-typical (unverified)",
+        "role_status": "textbook-unreviewed"
+      }
+    },
+    {
+      "cautions": [
+        "外感發熱、實證者不宜",
+        "脾胃虛弱、食少便溏者慎用（滋膩）",
+        "孕婦慎用（當歸、川芎）"
+      ],
+      "classical_amounts": null,
+      "composition": [
+        {
+          "effective_weight": 0.209,
+          "herb": "herb-renshen",
+          "name": "人參",
+          "note": null,
+          "proportion": 0.1266,
+          "role": "君",
+          "role_weight": 1.0,
+          "typical_g": 10
+        },
+        {
+          "effective_weight": 0.209,
+          "herb": "herb-shudihuang",
+          "name": "熟地黃",
+          "note": null,
+          "proportion": 0.1266,
+          "role": "君",
+          "role_weight": 1.0,
+          "typical_g": 10
+        },
+        {
+          "effective_weight": 0.1254,
+          "herb": "herb-baizhu",
+          "name": "白朮",
+          "note": null,
+          "proportion": 0.1266,
+          "role": "臣",
+          "role_weight": 0.6,
+          "typical_g": 10
+        },
+        {
+          "effective_weight": 0.1254,
+          "herb": "herb-fuling",
+          "name": "茯苓",
+          "note": null,
+          "proportion": 0.1266,
+          "role": "臣",
+          "role_weight": 0.6,
+          "typical_g": 10
+        },
+        {
+          "effective_weight": 0.1254,
+          "herb": "herb-danggui",
+          "name": "當歸",
+          "note": null,
+          "proportion": 0.1266,
+          "role": "臣",
+          "role_weight": 0.6,
+          "typical_g": 10
+        },
+        {
+          "effective_weight": 0.1254,
+          "herb": "herb-baishao",
+          "name": "芍藥",
+          "note": null,
+          "proportion": 0.1266,
+          "role": "臣",
+          "role_weight": 0.6,
+          "typical_g": 10
+        },
+        {
+          "effective_weight": 0.0366,
+          "herb": "herb-chuanxiong",
+          "name": "川芎",
+          "note": null,
+          "proportion": 0.0633,
+          "role": "佐",
+          "role_weight": 0.35,
+          "typical_g": 5
+        },
+        {
+          "effective_weight": 0.0157,
+          "herb": "herb-zhigancao",
+          "name": "炙甘草",
+          "note": null,
+          "proportion": 0.0633,
+          "role": "使",
+          "role_weight": 0.15,
+          "typical_g": 5
+        },
+        {
+          "effective_weight": 0.0094,
+          "herb": "herb-shengjiang",
+          "name": "生薑",
+          "note": null,
+          "proportion": 0.038,
+          "role": "使",
+          "role_weight": 0.15,
+          "typical_g": 3
+        },
+        {
+          "effective_weight": 0.0188,
+          "herb": "herb-dazao",
+          "name": "大棗",
+          "note": null,
+          "proportion": 0.0759,
+          "role": "使",
+          "role_weight": 0.15,
+          "typical_g": 6
+        }
+      ],
+      "core_indications": [
+        "S_FATIGUE",
+        "S_HEAD_DIZZY",
+        "S_PALPITATION",
+        "S_FACE_PALE",
+        "T_BODY_PALE",
+        "P_THIN"
+      ],
+      "flavor_profile": {
+        "淡": 0.078,
+        "甘": 0.516,
+        "苦": 0.221,
+        "辛": 0.107,
+        "酸": 0.078
+      },
+      "id": "F_BAZHEN",
+      "interactions": [
+        "anticoagulant",
+        "bp-raising",
+        "hypoglycemic",
+        "hypokalemia",
+        "immune-modulating"
+      ],
+      "kb_commit": "7f2a183a29a226d7e49b407caebd09ee1c8484dc",
+      "modifications": [],
+      "mvp": true,
+      "name": {
+        "en": "Bazhen Tang (Eight-Treasure Decoction)",
+        "zh-Hant": "八珍湯"
+      },
+      "panel_burden": {
+        "liuxie.濕": 0.005,
+        "肝.blood": -0.024,
+        "肺.qi": -0.007,
+        "肺.yin": -0.019,
+        "胃.yin": -0.019,
+        "脾.qi": -0.115
+      },
+      "panel_effect": {
+        "bagang.exterior": -0.003,
+        "liuxie.寒": -0.004,
+        "liuxie.濕": -0.138,
+        "liuxie.風": -0.011,
+        "product.痰": -0.002,
+        "product.瘀": -0.068,
+        "product.飲": -0.05,
+        "心.blood": 0.068,
+        "心.qi": 0.111,
+        "肝.blood": 0.292,
+        "肝.stasis": -0.056,
+        "肝.yang": -0.038,
+        "肝.yin": 0.155,
+        "肺.qi": 0.149,
+        "肺.yin": 0.042,
+        "胃.yang": 0.003,
+        "脾.blood": 0.041,
+        "脾.qi": 0.343,
+        "脾.yin": 0.042,
+        "腎.blood": 0.084,
+        "腎.qi": 0.063,
+        "腎.yin": 0.167
+      },
+      "patterns": [
+        "QB1"
+      ],
+      "pregnancy": "caution",
+      "principle": "益氣補血",
+      "rationale_citations": [
+        "suwen-074-10",
+        "suwen-074-11"
+      ],
+      "rationale_zh": "人參、熟地黃益氣養血共為君；白朮、茯苓健脾，當歸、白芍養血為臣；川芎活血行氣使補而不滯為佐；炙甘草、生薑、大棗和中調營為使。即四君子湯合四物湯。",
+      "school": "時方",
+      "source": {
+        "book": "正體類要",
+        "ref": "卷下",
+        "repo_path": "reference/sources/TCM-Ancient-Books/247-正体类要.txt"
+      },
+      "status": "draft",
+      "tier": "B",
+      "tier_reasons": [
+        "contains blood-activating herbs or an aristolochic-acid risk herb"
+      ],
+      "verification": {
+        "composition_check": {
+          "book_path": "reference/sources/TCM-Ancient-Books/247-正体类要.txt",
+          "found": 10,
+          "missing": [],
+          "occurrences": 9,
+          "total": 10
+        },
+        "composition_status": "verified-against-source-book",
+        "proportion_basis": "textbook-typical (unverified)",
+        "role_status": "textbook-unreviewed"
+      }
+    },
+    {
+      "cautions": [
+        "孕婦及月經過多者禁用",
+        "服用抗凝血藥或有出血傾向者禁用",
+        "無瘀血者不宜"
+      ],
+      "classical_amounts": null,
+      "composition": [
+        {
+          "effective_weight": 0.2744,
+          "herb": "herb-taoren",
+          "name": "桃仁",
+          "note": null,
+          "proportion": 0.1538,
+          "role": "君",
+          "role_weight": 1.0,
+          "typical_g": 12
+        },
+        {
+          "effective_weight": 0.2059,
+          "herb": "herb-honghua",
+          "name": "紅花",
+          "note": null,
+          "proportion": 0.1154,
+          "role": "君",
+          "role_weight": 1.0,
+          "typical_g": 9
+        },
+        {
+          "effective_weight": 0.0823,
+          "herb": "herb-chishao",
+          "name": "赤芍",
+          "note": null,
+          "proportion": 0.0769,
+          "role": "臣",
+          "role_weight": 0.6,
+          "typical_g": 6
+        },
+        {
+          "effective_weight": 0.0618,
+          "herb": "herb-chuanxiong",
+          "name": "川芎",
+          "note": null,
+          "proportion": 0.0577,
+          "role": "臣",
+          "role_weight": 0.6,
+          "typical_g": 4.5
+        },
+        {
+          "effective_weight": 0.1235,
+          "herb": "herb-niuxi",
+          "name": "牛膝",
+          "note": null,
+          "proportion": 0.1154,
+          "role": "臣",
+          "role_weight": 0.6,
+          "typical_g": 9
+        },
+        {
+          "effective_weight": 0.0721,
+          "herb": "herb-danggui",
+          "name": "當歸",
+          "note": null,
+          "proportion": 0.1154,
+          "role": "佐",
+          "role_weight": 0.35,
+          "typical_g": 9
+        },
+        {
+          "effective_weight": 0.0721,
+          "herb": "herb-dihuang",
+          "name": "生地黃",
+          "note": null,
+          "proportion": 0.1154,
+          "role": "佐",
+          "role_weight": 0.35,
+          "typical_g": 9
+        },
+        {
+          "effective_weight": 0.024,
+          "herb": "herb-chaihu",
+          "name": "柴胡",
+          "note": null,
+          "proportion": 0.0385,
+          "role": "佐",
+          "role_weight": 0.35,
+          "typical_g": 3
+        },
+        {
+          "effective_weight": 0.048,
+          "herb": "herb-zhiqiao",
+          "name": "枳殼",
+          "note": null,
+          "proportion": 0.0769,
+          "role": "佐",
+          "role_weight": 0.35,
+          "typical_g": 6
+        },
+        {
+          "effective_weight": 0.0154,
+          "herb": "herb-jiegeng",
+          "name": "桔梗",
+          "note": null,
+          "proportion": 0.0577,
+          "role": "使",
+          "role_weight": 0.15,
+          "typical_g": 4.5
+        },
+        {
+          "effective_weight": 0.0206,
+          "herb": "herb-gancao",
+          "name": "甘草",
+          "note": null,
+          "proportion": 0.0769,
+          "role": "使",
+          "role_weight": 0.15,
+          "typical_g": 6
+        }
+      ],
+      "core_indications": [
+        "S_STABBING_PAIN_FIXED",
+        "S_PAIN_NIGHT_WORSE",
+        "S_MENSES_CLOTS_DARK",
+        "T_ECCHYMOSIS",
+        "P_CHOPPY"
+      ],
+      "flavor_profile": {
+        "甘": 0.312,
+        "苦": 0.355,
+        "辛": 0.237,
+        "酸": 0.095
+      },
+      "id": "F_XUEFU",
+      "interactions": [
+        "anticoagulant",
+        "bp-raising",
+        "hypokalemia"
+      ],
+      "kb_commit": "7f2a183a29a226d7e49b407caebd09ee1c8484dc",
+      "modifications": [],
+      "mvp": true,
+      "name": {
+        "en": "Xuefu Zhuyu Tang (Drive Out Stasis in the Mansion of Blood Decoction)",
+        "zh-Hant": "血府逐瘀湯"
+      },
+      "panel_burden": {
+        "liuxie.濕": 0.003,
+        "肝.blood": -0.123,
+        "肺.qi": -0.013,
+        "肺.yin": -0.007,
+        "胃.yin": -0.007,
+        "脾.qi": -0.093,
+        "脾.yang": -0.018,
+        "腎.yang": -0.018
+      },
+      "panel_effect": {
+        "bagang.exterior": -0.007,
+        "liuxie.火": -0.07,
+        "liuxie.風": -0.019,
+        "product.痰": -0.01,
+        "product.瘀": -0.478,
+        "大腸.yin": 0.055,
+        "心.blood": 0.036,
+        "心.qi": 0.006,
+        "心.yin": 0.022,
+        "肝.blood": 0.07,
+        "肝.stasis": -0.045,
+        "肝.yang": -0.016,
+        "肝.yin": 0.054,
+        "肺.qi": 0.004,
+        "肺.stasis": -0.021,
+        "胃.stasis": -0.024,
+        "脾.blood": 0.022,
+        "脾.qi": 0.01,
+        "脾.stasis": -0.024,
+        "腎.yin": 0.068,
+        "膽.stasis": -0.007
+      },
+      "patterns": [
+        "QB2"
+      ],
+      "pregnancy": "caution",
+      "principle": "活血化瘀、行氣止痛",
+      "rationale_citations": [
+        "suwen-074-10",
+        "suwen-074-11"
+      ],
+      "rationale_zh": "桃仁、紅花活血化瘀為君；赤芍、川芎助君藥活血，牛膝祛瘀通脈、引血下行為臣；生地黃、當歸養血益陰、使祛瘀而不傷正，柴胡、枳殼疏肝理氣，桔梗開肺氣、載藥上行為佐使；甘草調和諸藥。",
+      "school": "時方",
+      "source": {
+        "book": "醫林改錯",
+        "ref": "卷上",
+        "repo_path": "reference/sources/TCM-Ancient-Books/204-医林改错.txt"
+      },
+      "status": "draft",
+      "tier": "B",
+      "tier_reasons": [
+        "contains blood-activating herbs or an aristolochic-acid risk herb"
+      ],
+      "verification": {
+        "composition_check": {
+          "book_path": "reference/sources/TCM-Ancient-Books/204-医林改错.txt",
+          "found": 11,
+          "missing": [],
+          "occurrences": 28,
+          "total": 11
+        },
+        "composition_status": "verified-against-source-book",
+        "proportion_basis": "textbook-typical (unverified)",
+        "role_status": "textbook-unreviewed"
+      }
+    },
+    {
+      "cautions": [
+        "往來寒熱屬外感症狀，應就醫評估",
+        "僅供學習顯示，不作推薦"
+      ],
+      "classical_amounts": [
+        {
+          "amount": 0.5,
+          "name": "柴胡",
+          "processing": "味苦，微寒",
+          "unit": "斤"
+        },
+        {
+          "amount": 3.0,
+          "name": "黃芩",
+          "processing": "",
+          "unit": "两"
+        },
+        {
+          "amount": 3.0,
+          "name": "人參",
+          "processing": "",
+          "unit": "两"
+        },
+        {
+          "amount": 3.0,
+          "name": "甘草",
+          "processing": "",
+          "unit": "两"
+        },
+        {
+          "amount": 0.5,
+          "name": "半夏",
+          "processing": "洗",
+          "unit": "升"
+        },
+        {
+          "amount": 3.0,
+          "name": "生薑",
+          "processing": "切",
+          "unit": "两"
+        },
+        {
+          "amount": 13.0,
+          "name": "大棗",
+          "processing": "掰",
+          "unit": "枚"
+        }
+      ],
+      "composition": [
+        {
+          "classical_amount": {
+            "processing": "味苦，微寒",
+            "unit": "斤",
+            "value": 0.5
+          },
+          "effective_weight": 0.5406,
+          "herb": "herb-chaihu",
+          "name": "柴胡",
+          "note": null,
+          "proportion": 0.2963,
+          "role": "君",
+          "role_weight": 1.0,
+          "typical_g": 24
+        },
+        {
+          "classical_amount": {
+            "processing": "",
+            "unit": "两",
+            "value": 3.0
+          },
+          "effective_weight": 0.1216,
+          "herb": "herb-huangqin",
+          "name": "黃芩",
+          "note": null,
+          "proportion": 0.1111,
+          "role": "臣",
+          "role_weight": 0.6,
+          "typical_g": 9
+        },
+        {
+          "classical_amount": {
+            "processing": "洗",
+            "unit": "升",
+            "value": 0.5
+          },
+          "effective_weight": 0.0709,
+          "herb": "herb-banxia",
+          "name": "半夏",
+          "note": null,
+          "proportion": 0.1111,
+          "role": "佐",
+          "role_weight": 0.35,
+          "typical_g": 9
+        },
+        {
+          "classical_amount": {
+            "processing": "",
+            "unit": "两",
+            "value": 3.0
+          },
+          "effective_weight": 0.0709,
+          "herb": "herb-renshen",
+          "name": "人參",
+          "note": null,
+          "proportion": 0.1111,
+          "role": "佐",
+          "role_weight": 0.35,
+          "typical_g": 9
+        },
+        {
+          "classical_amount": {
+            "processing": "",
+            "unit": "两",
+            "value": 3.0
+          },
+          "effective_weight": 0.0304,
+          "herb": "herb-zhigancao",
+          "name": "炙甘草",
+          "note": null,
+          "proportion": 0.1111,
+          "role": "使",
+          "role_weight": 0.15,
+          "typical_g": 9
+        },
+        {
+          "classical_amount": {
+            "processing": "切",
+            "unit": "两",
+            "value": 3.0
+          },
+          "effective_weight": 0.0709,
+          "herb": "herb-shengjiang",
+          "name": "生薑",
+          "note": null,
+          "proportion": 0.1111,
+          "role": "佐",
+          "role_weight": 0.35,
+          "typical_g": 9
+        },
+        {
+          "classical_amount": {
+            "processing": "掰",
+            "unit": "枚",
+            "value": 13.0
+          },
+          "effective_weight": 0.0946,
+          "herb": "herb-dazao",
+          "name": "大棗",
+          "note": null,
+          "proportion": 0.1481,
+          "role": "佐",
+          "role_weight": 0.35,
+          "typical_g": 12
+        }
+      ],
+      "core_indications": [
+        "S_ALTERNATING_CHILLS_FEVER",
+        "S_HYPOCHONDRIAC_DISTENSION",
+        "S_BITTER_MOUTH",
+        "S_NAUSEA"
+      ],
+      "flavor_profile": {
+        "甘": 0.124,
+        "苦": 0.443,
+        "辛": 0.433
+      },
+      "id": "F_XIAOCHAIHU",
+      "interactions": [
+        "anticoagulant",
+        "bp-raising",
+        "hypoglycemic",
+        "hypokalemia",
+        "immune-modulating"
+      ],
+      "kb_commit": "7f2a183a29a226d7e49b407caebd09ee1c8484dc",
+      "modifications": [],
+      "mvp": false,
+      "name": {
+        "en": "Xiao Chaihu Tang (Minor Bupleurum Decoction)",
+        "zh-Hant": "小柴胡湯"
+      },
+      "panel_burden": {
+        "liuxie.濕": 0.019,
+        "肺.qi": -0.092,
+        "肺.yin": -0.011,
+        "胃.yin": -0.011,
+        "脾.qi": -0.166,
+        "脾.yang": -0.03,
+        "腎.yang": -0.03
+      },
+      "panel_effect": {
+        "bagang.exterior": -0.183,
+        "liuxie.寒": -0.028,
+        "liuxie.濕": -0.091,
+        "liuxie.火": -0.181,
+        "product.痰": -0.064,
+        "心.blood": 0.028,
+        "心.qi": 0.048,
+        "肝.stasis": -0.324,
+        "肺.qi": 0.056,
+        "肺.yang": -0.024,
+        "肺.yin": 0.014,
+        "胃.stasis": -0.035,
+        "胃.yang": 0.021,
+        "脾.blood": 0.019,
+        "脾.qi": 0.12,
+        "脾.yin": 0.014,
+        "腎.qi": 0.021,
+        "膽.stasis": -0.162,
+        "膽.yang": -0.024
+      },
+      "patterns": [],
+      "pregnancy": "caution",
+      "principle": "和解少陽",
+      "rationale_citations": [
+        "suwen-074-10",
+        "suwen-074-11"
+      ],
+      "rationale_zh": "柴胡透泄少陽之邪、疏達經氣為君；黃芩清泄少陽之熱為臣；半夏、生薑和胃降逆，人參、炙甘草、大棗扶正祛邪為佐使。少陽往來寒熱屬應就醫的外感，不列入 MVP 自助推薦，僅供學習。",
+      "school": "經方",
+      "source": {
+        "book": "傷寒論",
+        "ref": "shanghan-096"
+      },
+      "status": "draft",
+      "tier": "C",
+      "tier_reasons": [
+        "outside the MVP: learning only"
+      ],
+      "verification": {
+        "classical": {
+          "anchor": "柴胡半斤",
+          "matched_in_formula": [
+            "柴胡",
+            "黃芩",
+            "人參",
+            "甘草",
+            "半夏",
+            "生薑",
+            "大棗"
+          ],
+          "not_in_formula": [],
+          "note": null,
+          "parsed": 7,
+          "path": "reference/sources/TCM-Library/library/fangji/jingfang/xiaochaihutang/xiaochaihutang_001.md"
+        },
+        "composition_status": "verified-against-classical-text",
+        "proportion_basis": "textbook-typical (unverified)",
+        "role_status": "textbook-unreviewed"
+      }
+    }
+  ]
+}

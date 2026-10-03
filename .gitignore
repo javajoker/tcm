@@ -20,3 +20,7 @@ coverage/
 
 # Scratch output of reference/scripts (derived data is regenerated, not committed)
 reference/derived/
+
+# Python virtualenv for KB build scripts
+.venv/
+__pycache__/

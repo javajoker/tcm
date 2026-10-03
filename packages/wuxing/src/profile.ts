@@ -402,13 +402,13 @@ export function transmission(
     const child = GENERATES[e];
     const mother = generatedBy(e);
     if (w > 0) {
-      add("制己所勝", e, controlled, -p.excessRestrains * w, "suwen-067");
-      add("侮所不勝", e, controller, -p.excessInsults * w, "suwen-067");
-      add("子盜母氣", e, mother, -p.childDrainsMother * w, "nanjing-069");
+      add("制己所勝", e, controlled, -p.excessRestrains * w, "suwen-067-1");
+      add("侮所不勝", e, controller, -p.excessInsults * w, "suwen-067-1");
+      add("子盜母氣", e, mother, -p.childDrainsMother * w, "nanjing-069-1");
     } else {
       const m = Math.abs(w);
-      add("乘侮自深", e, e, -p.deficientDeepens * m, "suwen-067");
-      add("母病及子", e, child, -p.motherToChild * m, "nanjing-069");
+      add("乘侮自深", e, e, -p.deficientDeepens * m, "suwen-067-1");
+      add("母病及子", e, child, -p.motherToChild * m, "nanjing-069-1");
     }
   }
   return { pressure, rules: rules.sort((a, b) => Math.abs(b.amount) - Math.abs(a.amount)) };

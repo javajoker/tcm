@@ -1,0 +1,153 @@
+{
+  "_meta": {
+    "description": "Self-acupressure points and diet/lifestyle guidance per pattern (draft)."
+  },
+  "acupoints": {
+    "三陰交": {
+      "code": "SP6",
+      "meridian": "脾經",
+      "pregnancy_avoid": true
+    },
+    "中脘": {
+      "code": "CV12",
+      "meridian": "任脈",
+      "pregnancy_avoid": false
+    },
+    "內關": {
+      "code": "PC6",
+      "meridian": "心包經",
+      "pregnancy_avoid": false
+    },
+    "列缺": {
+      "code": "LU7",
+      "meridian": "肺經",
+      "pregnancy_avoid": false
+    },
+    "合谷": {
+      "code": "LI4",
+      "meridian": "大腸經",
+      "pregnancy_avoid": true
+    },
+    "命門": {
+      "code": "GV4",
+      "meridian": "督脈",
+      "pregnancy_avoid": false
+    },
+    "大椎": {
+      "code": "GV14",
+      "meridian": "督脈",
+      "pregnancy_avoid": false
+    },
+    "太淵": {
+      "code": "LU9",
+      "meridian": "肺經",
+      "pregnancy_avoid": false
+    },
+    "太溪": {
+      "code": "KI3",
+      "meridian": "腎經",
+      "pregnancy_avoid": false
+    },
+    "太衝": {
+      "code": "LR3",
+      "meridian": "肝經",
+      "pregnancy_avoid": false
+    },
+    "曲池": {
+      "code": "LI11",
+      "meridian": "大腸經",
+      "pregnancy_avoid": false
+    },
+    "氣海": {
+      "code": "CV6",
+      "meridian": "任脈",
+      "pregnancy_avoid": false
+    },
+    "湧泉": {
+      "code": "KI1",
+      "meridian": "腎經",
+      "pregnancy_avoid": false
+    },
+    "百會": {
+      "code": "GV20",
+      "meridian": "督脈",
+      "pregnancy_avoid": false
+    },
+    "神門": {
+      "code": "HT7",
+      "meridian": "心經",
+      "pregnancy_avoid": false
+    },
+    "腎俞": {
+      "code": "BL23",
+      "meridian": "膀胱經",
+      "pregnancy_avoid": false
+    },
+    "膈俞": {
+      "code": "BL17",
+      "meridian": "膀胱經",
+      "pregnancy_avoid": false
+    },
+    "膻中": {
+      "code": "CV17",
+      "meridian": "任脈",
+      "pregnancy_avoid": false
+    },
+    "血海": {
+      "code": "SP10",
+      "meridian": "脾經",
+      "pregnancy_avoid": true
+    },
+    "行間": {
+      "code": "LR2",
+      "meridian": "肝經",
+      "pregnancy_avoid": false
+    },
+    "豐隆": {
+      "code": "ST40",
+      "meridian": "胃經",
+      "pregnancy_avoid": false
+    },
+    "足三里": {
+      "code": "ST36",
+      "meridian": "胃經",
+      "pregnancy_avoid": false
+    },
+    "關元": {
+      "code": "CV4",
+      "meridian": "任脈",
+      "pregnancy_avoid": true
+    },
+    "陰陵泉": {
+      "code": "SP9",
+      "meridian": "脾經",
+      "pregnancy_avoid": false
+    },
+    "風池": {
+      "code": "GB20",
+      "meridian": "膽經",
+      "pregnancy_avoid": false
+    },
+    "魚際": {
+      "code": "LU10",
+      "meridian": "肺經",
+      "pregnancy_avoid": false
+    }
+  },
+  "food_pregnancy_caution": [
+    "薏仁",
+    "山楂",
+    "黑木耳（少量）",
+    "桂圓"
+  ],
+  "general": {
+    "source": [
+      "suwen-001-1",
+      "suwen-001-2",
+      "suwen-002-1",
+      "suwen-022-1",
+      "suwen-070-2"
+    ],
+    "text": "食飲有節，起居有常，不妄作勞；恬惔虛無，真氣從之，精神內守，病安從來。四季依《四氣調神大論》調養；飲食「穀肉果菜，食養盡之，無使過之，傷其正也」。"
+  }
+}

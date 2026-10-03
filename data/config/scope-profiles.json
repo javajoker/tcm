@@ -1,0 +1,280 @@
+{
+  "_meta": {
+    "description": "Application configuration: output levels and the dev/release profiles. dev opens everything; release restricts by default. Risky populations/conditions always get a 'see a doctor' notice and the flow continues.",
+    "version": 1
+  },
+  "dimensions": {
+    "condition": [
+      "red_flag_A",
+      "red_flag_B",
+      "serious_chronic_disease",
+      "on_anticoagulant",
+      "on_other_interacting_medication",
+      "allergy_match",
+      "acute_external_symptoms"
+    ],
+    "population": [
+      "adult",
+      "elderly_65_plus",
+      "minor_under_18",
+      "pregnant",
+      "lactating"
+    ],
+    "state": [
+      "low_confidence",
+      "insufficient_information",
+      "conflicting_data"
+    ]
+  },
+  "levels": {
+    "L0": {
+      "includes": [
+        "constitution and pattern explanation",
+        "panel visualisation (五行臟腑・六邪・八綱)",
+        "gentle lifestyle and seasonal advice",
+        "when and how to see a practitioner"
+      ],
+      "name": {
+        "en": "Education only",
+        "zh-Hant": "僅供學習"
+      }
+    },
+    "L1": {
+      "includes": [
+        "L0",
+        "diet therapy (藥食同源, low-risk items)",
+        "safe self-acupressure points",
+        "tier A formulas: composition, rationale and citations (no dose)"
+      ],
+      "name": {
+        "en": "Standard",
+        "zh-Hant": "標準"
+      }
+    },
+    "L2": {
+      "includes": [
+        "L1",
+        "tier B formulas (conditional on the safety filter)",
+        "formula modification (加減) suggestions without dose",
+        "herb-level weight view"
+      ],
+      "name": {
+        "en": "Extended",
+        "zh-Hant": "進階"
+      }
+    },
+    "L3": {
+      "includes": [
+        "L2",
+        "tier C formulas as learning display (never as a recommendation)",
+        "relative proportions and reference amounts",
+        "the whole knowledge base"
+      ],
+      "name": {
+        "en": "Full",
+        "zh-Hant": "完整"
+      }
+    }
+  },
+  "notice_kinds": {
+    "blocking_ack": "A full-screen 'seek medical care' notice the user must acknowledge; afterwards the flow continues (never a dead end).",
+    "inline": "A visible banner on the affected sections.",
+    "none": "No extra notice beyond the permanent disclaimer."
+  },
+  "profiles": {
+    "dev": {
+      "condition": {
+        "acute_external_symptoms": {
+          "level": "L3",
+          "notice": "inline"
+        },
+        "allergy_match": {
+          "level": "L3",
+          "notice": "inline"
+        },
+        "on_anticoagulant": {
+          "level": "L3",
+          "notice": "inline"
+        },
+        "on_other_interacting_medication": {
+          "level": "L3",
+          "notice": "inline"
+        },
+        "red_flag_A": {
+          "level": "L3",
+          "notice": "blocking_ack"
+        },
+        "red_flag_B": {
+          "level": "L3",
+          "notice": "blocking_ack"
+        },
+        "serious_chronic_disease": {
+          "level": "L3",
+          "notice": "blocking_ack"
+        }
+      },
+      "description": "Development default: everything open for every population, condition and state. The 'see a doctor' notices are still shown and acknowledged (flow continues); the safety filter annotates instead of removing.",
+      "features": {
+        "show_acupoints": true,
+        "show_diet": true,
+        "show_dosage_reference": true,
+        "show_formula_modification": true,
+        "show_herb_weights": true,
+        "show_tier_c": true
+      },
+      "population": {
+        "adult": {
+          "level": "L3",
+          "notice": "none"
+        },
+        "elderly_65_plus": {
+          "level": "L3",
+          "notice": "inline"
+        },
+        "lactating": {
+          "level": "L3",
+          "notice": "blocking_ack"
+        },
+        "minor_under_18": {
+          "level": "L3",
+          "notice": "blocking_ack"
+        },
+        "pregnant": {
+          "level": "L3",
+          "notice": "blocking_ack"
+        }
+      },
+      "safety_enforcement": "annotate_only",
+      "state": {
+        "conflicting_data": {
+          "level": "L3",
+          "notice": "inline"
+        },
+        "insufficient_information": {
+          "level": "L3",
+          "notice": "inline"
+        },
+        "low_confidence": {
+          "level": "L3",
+          "notice": "inline"
+        }
+      },
+      "tongue_pulse": {
+        "pulse_input": true,
+        "pulse_quality_coefficient": 0.5,
+        "tongue_special_signs": true,
+        "tongue_zones": true
+      },
+      "wuxing": {
+        "bazi_annual": true,
+        "bazi_innate": true,
+        "enabled": true,
+        "season": true,
+        "season_model": "changxia",
+        "yunqi": true
+      }
+    },
+    "release": {
+      "condition": {
+        "acute_external_symptoms": {
+          "level": "L1",
+          "notice": "inline"
+        },
+        "allergy_match": {
+          "level": "L1",
+          "notice": "inline"
+        },
+        "on_anticoagulant": {
+          "level": "L1",
+          "notice": "inline"
+        },
+        "on_other_interacting_medication": {
+          "level": "L1",
+          "notice": "inline"
+        },
+        "red_flag_A": {
+          "level": "L0",
+          "notice": "blocking_ack"
+        },
+        "red_flag_B": {
+          "level": "L0",
+          "notice": "blocking_ack"
+        },
+        "serious_chronic_disease": {
+          "level": "L0",
+          "notice": "blocking_ack"
+        }
+      },
+      "description": "Default for released builds: restricted output; risky populations and conditions are told to see a doctor and then receive education-level output.",
+      "features": {
+        "show_acupoints": true,
+        "show_diet": true,
+        "show_dosage_reference": false,
+        "show_formula_modification": false,
+        "show_herb_weights": false,
+        "show_tier_c": false
+      },
+      "population": {
+        "adult": {
+          "level": "L1",
+          "notice": "none"
+        },
+        "elderly_65_plus": {
+          "level": "L1",
+          "notice": "inline"
+        },
+        "lactating": {
+          "level": "L0",
+          "notice": "blocking_ack"
+        },
+        "minor_under_18": {
+          "level": "L0",
+          "notice": "blocking_ack"
+        },
+        "pregnant": {
+          "level": "L0",
+          "notice": "blocking_ack"
+        }
+      },
+      "safety_enforcement": "suppress_hard",
+      "state": {
+        "conflicting_data": {
+          "level": "L1",
+          "notice": "inline"
+        },
+        "insufficient_information": {
+          "level": "L0",
+          "notice": "inline"
+        },
+        "low_confidence": {
+          "level": "L0",
+          "notice": "inline"
+        }
+      },
+      "tongue_pulse": {
+        "pulse_input": true,
+        "pulse_quality_coefficient": 0.5,
+        "tongue_special_signs": true,
+        "tongue_zones": true
+      },
+      "wuxing": {
+        "bazi_annual": "opt_in",
+        "bazi_innate": "opt_in",
+        "enabled": true,
+        "season": true,
+        "season_model": "changxia",
+        "yunqi": true
+      }
+    }
+  },
+  "resolution": {
+    "effective_level": "the most restrictive level among all matched dimensions, then limited by feature flags",
+    "effective_notice": "the most severe notice among all matched dimensions (blocking_ack > inline > none)",
+    "flow": "continue",
+    "profile_selection": "build-time default: release for production builds, dev for development builds; may be overridden by environment configuration",
+    "safety_enforcement_modes": {
+      "annotate_only": "never remove items; every triggered rule is shown as a warning on the item",
+      "suppress_hard": "rules marked severity=hard remove the item and show the reason; severity=soft rules annotate"
+    }
+  }
+}

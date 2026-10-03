@@ -1,0 +1,114 @@
+{
+  "_meta": {
+    "default_orifice_source": "suwen-005",
+    "description": "Five-phase correspondences parsed from 《素問·陰陽應象大論》 (suwen_005). The orifices of 心 and 腎 differ in 《金匱真言論》 and both are kept.",
+    "fu_and_season_note": "六腑 pairing and 長夏 are standard doctrine, not parsed from this passage."
+  },
+  "rows": [
+    {
+      "color": "蒼",
+      "controls": "土",
+      "element": "木",
+      "emotion": "怒",
+      "flavor": "酸",
+      "fu": "膽",
+      "generates": "火",
+      "orifice": {
+        "suwen-004-alternative": "目",
+        "suwen-005-default": "目"
+      },
+      "qi": "玄",
+      "season": "春",
+      "source": "suwen-005-6",
+      "status": "extracted-from-source",
+      "tissue": "筋",
+      "tone": "角",
+      "voice": "呼",
+      "zang": "肝"
+    },
+    {
+      "color": "赤",
+      "controls": "金",
+      "element": "火",
+      "emotion": "喜",
+      "flavor": "苦",
+      "fu": "小腸",
+      "generates": "土",
+      "orifice": {
+        "suwen-004-alternative": "耳",
+        "suwen-005-default": "舌"
+      },
+      "qi": "熱",
+      "season": "夏",
+      "source": "suwen-005-7",
+      "status": "extracted-from-source",
+      "tissue": "脈",
+      "tone": "徵",
+      "voice": "笑",
+      "zang": "心"
+    },
+    {
+      "color": "黃",
+      "controls": "水",
+      "element": "土",
+      "emotion": "思",
+      "flavor": "甘",
+      "fu": "胃",
+      "generates": "金",
+      "orifice": {
+        "suwen-004-alternative": "口",
+        "suwen-005-default": "口"
+      },
+      "qi": "溼",
+      "season": "長夏",
+      "source": "suwen-005-8",
+      "status": "extracted-from-source",
+      "tissue": "肉",
+      "tone": "宮",
+      "voice": "歌",
+      "zang": "脾"
+    },
+    {
+      "color": "白",
+      "controls": "木",
+      "element": "金",
+      "emotion": "憂",
+      "flavor": "辛",
+      "fu": "大腸",
+      "generates": "水",
+      "orifice": {
+        "suwen-004-alternative": "鼻",
+        "suwen-005-default": "鼻"
+      },
+      "qi": "燥",
+      "season": "秋",
+      "source": "suwen-005-9",
+      "status": "extracted-from-source",
+      "tissue": "皮毛",
+      "tone": "商",
+      "voice": "哭",
+      "zang": "肺"
+    },
+    {
+      "color": "黑",
+      "controls": "火",
+      "element": "水",
+      "emotion": "恐",
+      "flavor": "鹹",
+      "fu": "膀胱",
+      "generates": "木",
+      "orifice": {
+        "suwen-004-alternative": "二陰",
+        "suwen-005-default": "耳"
+      },
+      "qi": "寒",
+      "season": "冬",
+      "source": "suwen-005-10",
+      "status": "extracted-from-source",
+      "tissue": "骨",
+      "tone": "羽",
+      "voice": "呻",
+      "zang": "腎"
+    }
+  ]
+}

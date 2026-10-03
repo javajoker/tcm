@@ -1,0 +1,148 @@
+{
+  "_meta": {
+    "description": "Panel (盤面) schema. All values are deviations from the average healthy person (zero). See docs/wuxing-algorithm.md §9 and SOP §8."
+  },
+  "channels": {
+    "blood": "−3 … +3",
+    "qi": "−3 deficient … +3 excess",
+    "stasis": "0 … 3 (qi stagnation)",
+    "yang": "−3 … +3",
+    "yin": "−3 … +3"
+  },
+  "derived": {
+    "bagang.cold_heat": "clamp(−1…1) = (liuxie.火 + liuxie.暑 − liuxie.寒 − 0.5·Σ yang deficit + 0.5·Σ yin deficit) / 3",
+    "bagang.deficiency_excess": "clamp(−1…1) = (Σ positive channel excess + products + stasis − Σ negative channel deficit) / 6",
+    "bagang.exterior": "clamp(0…1) = Pct(表 location elements) / 100",
+    "bagang.yin_yang": "derived summary: cold+deficient → yin (yang deficiency); hot+excess → yang; hot+deficient → yin (yin deficiency with heat)",
+    "degree_from_pct": "degree = 3 · Pct / 100 for each pattern element",
+    "wuxing_function": "W_e = 0.7·mean(zang_e.qi, zang_e.yang) + 0.3·mean(fu_e.qi, fu_e.yang)"
+  },
+  "exterior_locations": [
+    "表"
+  ],
+  "liuxie": [
+    "風",
+    "寒",
+    "暑",
+    "濕",
+    "燥",
+    "火"
+  ],
+  "location_organs": {
+    "全身": [],
+    "半表半裡": [
+      "膽"
+    ],
+    "心": [
+      "心"
+    ],
+    "肝": [
+      "肝"
+    ],
+    "肺": [
+      "肺"
+    ],
+    "胃": [
+      "胃"
+    ],
+    "脾": [
+      "脾"
+    ],
+    "腎": [
+      "腎"
+    ],
+    "膽": [
+      "膽"
+    ],
+    "表": [
+      "肺"
+    ]
+  },
+  "nature_projection": {
+    "寒": {
+      "liuxie.寒": 1.0
+    },
+    "暑": {
+      "liuxie.暑": 1.0
+    },
+    "氣滯": {
+      "{organ}.stasis": 1.0
+    },
+    "氣虛": {
+      "{organ}.qi": -1.0
+    },
+    "濕": {
+      "liuxie.濕": 1.0
+    },
+    "火": {
+      "liuxie.火": 1.0,
+      "{organ}.yang": 0.5
+    },
+    "燥": {
+      "liuxie.燥": 1.0
+    },
+    "痰": {
+      "product.痰": 1.0
+    },
+    "瘀": {
+      "product.瘀": 1.0
+    },
+    "血虛": {
+      "{organ}.blood": -1.0
+    },
+    "陰虛": {
+      "{organ}.yin": -1.0
+    },
+    "陽虛": {
+      "liuxie.寒": 0.5,
+      "{organ}.yang": -1.0
+    },
+    "風": {
+      "liuxie.風": 1.0
+    },
+    "食積": {
+      "product.食積": 1.0
+    },
+    "飲": {
+      "product.飲": 1.0
+    }
+  },
+  "offsets": {
+    "primary": "observed − 0 (deviation from the average healthy person; drives diagnosis)",
+    "secondary": "observed − reference panel (docs/wuxing-algorithm.md §9.5; context only)"
+  },
+  "organs": {
+    "element_of": {
+      "大腸": "金",
+      "小腸": "火",
+      "心": "火",
+      "肝": "木",
+      "肺": "金",
+      "胃": "土",
+      "脾": "土",
+      "腎": "水",
+      "膀胱": "水",
+      "膽": "木"
+    },
+    "fu": [
+      "膽",
+      "小腸",
+      "胃",
+      "大腸",
+      "膀胱"
+    ],
+    "zang": [
+      "肝",
+      "心",
+      "脾",
+      "肺",
+      "腎"
+    ]
+  },
+  "products": [
+    "痰",
+    "飲",
+    "瘀",
+    "食積"
+  ]
+}

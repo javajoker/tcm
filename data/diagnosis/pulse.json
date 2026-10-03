@@ -1,0 +1,544 @@
+{
+  "_meta": {
+    "description": "28 pulses: 27 from 《瀕湖脈學》 (chapter headings carry the yin/yang class) + 疾 from 《診家正眼》. Pulse is an OPTIONAL self-reported input.",
+    "exclusive_groups": [
+      [
+        "P_FLOAT",
+        "P_SINK"
+      ],
+      [
+        "P_SLOW",
+        "P_RAPID",
+        "P_HASTY"
+      ],
+      [
+        "P_DEFICIENT",
+        "P_EXCESS"
+      ],
+      [
+        "P_LONG",
+        "P_SHORT"
+      ],
+      [
+        "P_SLIPPERY",
+        "P_CHOPPY"
+      ]
+    ],
+    "guidance": {
+      "education": "脈象需要受過訓練的手指與大量練習才能穩定分辨；自述的脈象可信度低，因此以較低的資料品質係數（0.5）進入計算，並在結果頁標示。",
+      "note": "脈象為可選輸入：只有能自行分辨時才填；不確定請留空。App 不會替您「辨脈」。",
+      "optional": true,
+      "positions_source": "binhu-maixue-sanbu",
+      "quality_coefficient": 0.5,
+      "rate_bands": {
+        "normal_range_modern": [
+          60,
+          100
+        ],
+        "rapid_gt": 90,
+        "slow_lt": 60
+      }
+    }
+  },
+  "positions": [
+    {
+      "id": "L-cun",
+      "organs": [
+        "心",
+        "膻中"
+      ],
+      "zh": "左寸"
+    },
+    {
+      "id": "L-guan",
+      "organs": [
+        "肝",
+        "膽"
+      ],
+      "zh": "左關"
+    },
+    {
+      "id": "L-chi",
+      "organs": [
+        "腎陰",
+        "小腸",
+        "膀胱"
+      ],
+      "zh": "左尺"
+    },
+    {
+      "id": "R-cun",
+      "organs": [
+        "肺",
+        "胸中"
+      ],
+      "zh": "右寸"
+    },
+    {
+      "id": "R-guan",
+      "organs": [
+        "脾",
+        "胃"
+      ],
+      "zh": "右關"
+    },
+    {
+      "id": "R-chi",
+      "organs": [
+        "命門",
+        "大腸"
+      ],
+      "zh": "右尺"
+    }
+  ],
+  "pulses": [
+    {
+      "feature": "輕取即得，重按稍減而不空",
+      "group": "depth",
+      "id": "P_FLOAT",
+      "indications": "主表；有力表實、無力表虛；浮緊風寒、浮數風熱、浮緩風濕或中風",
+      "name": {
+        "en": "floating pulse",
+        "zh-Hant": "浮脈"
+      },
+      "source": {
+        "book": "瀕湖脈學",
+        "chapter": "浮（陽）",
+        "verified_heading": true
+      },
+      "yin_yang": "陽"
+    },
+    {
+      "feature": "輕取不應，重按始得",
+      "group": "depth",
+      "id": "P_SINK",
+      "indications": "主裡；有力裡實、無力裡虛",
+      "name": {
+        "en": "deep pulse",
+        "zh-Hant": "沉脈"
+      },
+      "source": {
+        "book": "瀕湖脈學",
+        "chapter": "沉（陰）",
+        "verified_heading": true
+      },
+      "yin_yang": "陰"
+    },
+    {
+      "feature": "一息不足四至（約 <60 次/分）",
+      "group": "rate",
+      "id": "P_SLOW",
+      "indications": "主寒；有力冷積、無力虛寒",
+      "name": {
+        "en": "slow pulse",
+        "zh-Hant": "遲脈"
+      },
+      "source": {
+        "book": "瀕湖脈學",
+        "chapter": "遲（陰）",
+        "verified_heading": true
+      },
+      "yin_yang": "陰"
+    },
+    {
+      "feature": "一息五至以上（約 >90 次/分）",
+      "group": "rate",
+      "id": "P_RAPID",
+      "indications": "主熱；有力實熱、無力虛熱",
+      "name": {
+        "en": "rapid pulse",
+        "zh-Hant": "數脈"
+      },
+      "source": {
+        "book": "瀕湖脈學",
+        "chapter": "數（陽）",
+        "verified_heading": true
+      },
+      "yin_yang": "陽"
+    },
+    {
+      "feature": "往來流利，如盤走珠",
+      "group": "flow",
+      "id": "P_SLIPPERY",
+      "indications": "主痰飲、食積、實熱；亦見於孕婦",
+      "name": {
+        "en": "slippery pulse",
+        "zh-Hant": "滑脈"
+      },
+      "source": {
+        "book": "瀕湖脈學",
+        "chapter": "滑（陽中陰）",
+        "verified_heading": true
+      },
+      "yin_yang": "陽中陰"
+    },
+    {
+      "feature": "往來艱澀，如輕刀刮竹",
+      "group": "flow",
+      "id": "P_CHOPPY",
+      "indications": "主血少、精傷、血瘀、氣滯",
+      "name": {
+        "en": "choppy pulse",
+        "zh-Hant": "澀脈"
+      },
+      "source": {
+        "book": "瀕湖脈學",
+        "chapter": "澀（陰）",
+        "verified_heading": true
+      },
+      "yin_yang": "陰"
+    },
+    {
+      "feature": "舉按無力，隱隱空豁",
+      "group": "strength",
+      "id": "P_DEFICIENT",
+      "indications": "主虛，氣血兩虛",
+      "name": {
+        "en": "deficient pulse",
+        "zh-Hant": "虛脈"
+      },
+      "source": {
+        "book": "瀕湖脈學",
+        "chapter": "虛（陰）",
+        "verified_heading": true
+      },
+      "yin_yang": "陰"
+    },
+    {
+      "feature": "舉按皆有力",
+      "group": "strength",
+      "id": "P_EXCESS",
+      "indications": "主實證",
+      "name": {
+        "en": "excess pulse",
+        "zh-Hant": "實脈"
+      },
+      "source": {
+        "book": "瀕湖脈學",
+        "chapter": "實（陽）",
+        "verified_heading": true
+      },
+      "yin_yang": "陽"
+    },
+    {
+      "feature": "首尾端直，超過本位",
+      "group": "length",
+      "id": "P_LONG",
+      "indications": "主肝陽有餘、熱；平人亦可見",
+      "name": {
+        "en": "long pulse",
+        "zh-Hant": "長脈"
+      },
+      "source": {
+        "book": "瀕湖脈學",
+        "chapter": "長（陽）",
+        "verified_heading": true
+      },
+      "yin_yang": "陽"
+    },
+    {
+      "feature": "首尾俱短，不及本位",
+      "group": "length",
+      "id": "P_SHORT",
+      "indications": "主氣病：氣虛或氣鬱",
+      "name": {
+        "en": "short pulse",
+        "zh-Hant": "短脈"
+      },
+      "source": {
+        "book": "瀕湖脈學",
+        "chapter": "短（陰）",
+        "verified_heading": true
+      },
+      "yin_yang": "陰"
+    },
+    {
+      "feature": "脈來如波濤，來盛去衰",
+      "group": "strength",
+      "id": "P_SURGING",
+      "indications": "主熱盛",
+      "name": {
+        "en": "surging pulse",
+        "zh-Hant": "洪脈"
+      },
+      "source": {
+        "book": "瀕湖脈學",
+        "chapter": "洪（陽）",
+        "verified_heading": true
+      },
+      "yin_yang": "陽"
+    },
+    {
+      "feature": "極細極軟，按之欲絕，若有若無",
+      "group": "strength",
+      "id": "P_FAINT",
+      "indications": "主氣血大虛、陽氣衰微",
+      "name": {
+        "en": "faint pulse",
+        "zh-Hant": "微脈"
+      },
+      "source": {
+        "book": "瀕湖脈學",
+        "chapter": "微（陰）",
+        "verified_heading": true
+      },
+      "yin_yang": "陰"
+    },
+    {
+      "feature": "繃急彈指，如轉繩索",
+      "group": "tension",
+      "id": "P_TIGHT",
+      "indications": "主寒、痛、宿食",
+      "name": {
+        "en": "tight pulse",
+        "zh-Hant": "緊脈"
+      },
+      "source": {
+        "book": "瀕湖脈學",
+        "chapter": "緊（陽）",
+        "verified_heading": true
+      },
+      "yin_yang": "陽"
+    },
+    {
+      "feature": "一息四至，來去怠緩",
+      "group": "rate",
+      "id": "P_MODERATE",
+      "indications": "主濕、脾虛；亦為平和脈",
+      "name": {
+        "en": "moderate (relaxed) pulse",
+        "zh-Hant": "緩脈"
+      },
+      "source": {
+        "book": "瀕湖脈學",
+        "chapter": "緩（陰）",
+        "verified_heading": true
+      },
+      "yin_yang": "陰"
+    },
+    {
+      "feature": "浮大而軟，中空如按蔥管",
+      "group": "depth",
+      "id": "P_HOLLOW",
+      "indications": "主失血、傷陰",
+      "name": {
+        "en": "hollow (scallion-stalk) pulse",
+        "zh-Hant": "芤脈"
+      },
+      "source": {
+        "book": "瀕湖脈學",
+        "chapter": "芤（陽中陰）",
+        "verified_heading": true
+      },
+      "yin_yang": "陽中陰"
+    },
+    {
+      "feature": "端直以長，如按琴弦",
+      "group": "tension",
+      "id": "P_WIRY",
+      "indications": "主肝膽病、痛證、痰飲",
+      "name": {
+        "en": "wiry pulse",
+        "zh-Hant": "弦脈"
+      },
+      "source": {
+        "book": "瀕湖脈學",
+        "chapter": "弦（陽中陰）",
+        "verified_heading": true
+      },
+      "yin_yang": "陽中陰"
+    },
+    {
+      "feature": "弦而芤，外急中空如按鼓皮",
+      "group": "tension",
+      "id": "P_LEATHER",
+      "indications": "主亡血、失精、半產漏下",
+      "name": {
+        "en": "leather pulse",
+        "zh-Hant": "革脈"
+      },
+      "source": {
+        "book": "瀕湖脈學",
+        "chapter": "革（陰）",
+        "verified_heading": true
+      },
+      "yin_yang": "陰"
+    },
+    {
+      "feature": "沉而實大弦長，堅牢不移",
+      "group": "depth",
+      "id": "P_CONFINED",
+      "indications": "主陰寒內積、疝瘕",
+      "name": {
+        "en": "firm (confined) pulse",
+        "zh-Hant": "牢脈"
+      },
+      "source": {
+        "book": "瀕湖脈學",
+        "chapter": "牢（陰中陽）",
+        "verified_heading": true
+      },
+      "yin_yang": "陰中陽"
+    },
+    {
+      "feature": "浮而細軟，如帛在水中",
+      "group": "strength",
+      "id": "P_SOFT",
+      "indications": "主虛、濕",
+      "name": {
+        "en": "soggy (soft) pulse",
+        "zh-Hant": "濡脈"
+      },
+      "source": {
+        "book": "瀕湖脈學",
+        "chapter": "濡（陰）",
+        "verified_heading": true
+      },
+      "yin_yang": "陰"
+    },
+    {
+      "feature": "沉而細軟無力",
+      "group": "strength",
+      "id": "P_WEAK",
+      "indications": "主陽虛、氣血俱虛",
+      "name": {
+        "en": "weak pulse",
+        "zh-Hant": "弱脈"
+      },
+      "source": {
+        "book": "瀕湖脈學",
+        "chapter": "弱（陰）",
+        "verified_heading": true
+      },
+      "yin_yang": "陰"
+    },
+    {
+      "feature": "浮散無根，至數不齊",
+      "group": "rhythm",
+      "id": "P_SCATTERED",
+      "indications": "主元氣離散（重症）",
+      "name": {
+        "en": "scattered pulse",
+        "zh-Hant": "散脈"
+      },
+      "source": {
+        "book": "瀕湖脈學",
+        "chapter": "散（陰）",
+        "verified_heading": true
+      },
+      "yin_yang": "陰"
+    },
+    {
+      "feature": "脈細如線，但應指明顯",
+      "group": "width",
+      "id": "P_THIN",
+      "indications": "主氣血兩虛、諸虛勞損、濕",
+      "name": {
+        "en": "thin (fine) pulse",
+        "zh-Hant": "細脈"
+      },
+      "source": {
+        "book": "瀕湖脈學",
+        "chapter": "細（陰）",
+        "verified_heading": true
+      },
+      "yin_yang": "陰"
+    },
+    {
+      "feature": "重按推筋著骨始得",
+      "group": "depth",
+      "id": "P_HIDDEN",
+      "indications": "主邪閉、厥證、痛極",
+      "name": {
+        "en": "hidden pulse",
+        "zh-Hant": "伏脈"
+      },
+      "source": {
+        "book": "瀕湖脈學",
+        "chapter": "伏（陰）",
+        "verified_heading": true
+      },
+      "yin_yang": "陰"
+    },
+    {
+      "feature": "滑數有力，短如豆，厥厥動搖",
+      "group": "rhythm",
+      "id": "P_MOVING",
+      "indications": "主痛、驚",
+      "name": {
+        "en": "moving pulse",
+        "zh-Hant": "動脈"
+      },
+      "source": {
+        "book": "瀕湖脈學",
+        "chapter": "動（陽）",
+        "verified_heading": true
+      },
+      "yin_yang": "陽"
+    },
+    {
+      "feature": "數而時一止，止無定數",
+      "group": "rhythm",
+      "id": "P_RAPID_IRREGULAR",
+      "indications": "主陽盛熱結，或氣血痰食停滯",
+      "name": {
+        "en": "rapid-irregular pulse",
+        "zh-Hant": "促脈"
+      },
+      "source": {
+        "book": "瀕湖脈學",
+        "chapter": "促（陽）",
+        "verified_heading": true
+      },
+      "yin_yang": "陽"
+    },
+    {
+      "feature": "緩而時一止，止無定數",
+      "group": "rhythm",
+      "id": "P_KNOTTED",
+      "indications": "主陰盛氣結、寒痰血瘀",
+      "name": {
+        "en": "knotted (slow-irregular) pulse",
+        "zh-Hant": "結脈"
+      },
+      "source": {
+        "book": "瀕湖脈學",
+        "chapter": "結（陰）",
+        "verified_heading": true
+      },
+      "yin_yang": "陰"
+    },
+    {
+      "feature": "動而中止，良久方還，止有定數",
+      "group": "rhythm",
+      "id": "P_INTERMITTENT",
+      "indications": "主臟氣衰微",
+      "name": {
+        "en": "regularly intermittent pulse",
+        "zh-Hant": "代脈"
+      },
+      "source": {
+        "book": "瀕湖脈學",
+        "chapter": "代（陰）",
+        "verified_heading": true
+      },
+      "yin_yang": "陰"
+    },
+    {
+      "feature": "一息七八至",
+      "group": "rate",
+      "id": "P_HASTY",
+      "indications": "主陽極陰竭、熱極；外感高熱",
+      "name": {
+        "en": "hasty pulse",
+        "zh-Hant": "疾脈"
+      },
+      "source": {
+        "book": "診家正眼",
+        "chapter": "疾脈（陽）",
+        "verified_heading": true
+      },
+      "yin_yang": "陽"
+    }
+  ]
+}

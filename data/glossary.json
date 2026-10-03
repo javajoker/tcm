@@ -1,0 +1,981 @@
+{
+  "_meta": {
+    "count": 139,
+    "description": "zh-Hant ⇄ English glossary (English follows WHO ISTM where known; needs review)."
+  },
+  "items": [
+    {
+      "domain": "theory",
+      "en": "yin and yang",
+      "pinyin": "yīn yáng",
+      "status": "needs-review",
+      "zh-Hant": "陰陽"
+    },
+    {
+      "domain": "theory",
+      "en": "five phases (five elements)",
+      "pinyin": "wǔ xíng",
+      "status": "needs-review",
+      "zh-Hant": "五行"
+    },
+    {
+      "domain": "wuxing",
+      "en": "wood",
+      "pinyin": "mù",
+      "status": "needs-review",
+      "zh-Hant": "木"
+    },
+    {
+      "domain": "wuxing",
+      "en": "fire",
+      "pinyin": "huǒ",
+      "status": "needs-review",
+      "zh-Hant": "火"
+    },
+    {
+      "domain": "wuxing",
+      "en": "earth",
+      "pinyin": "tǔ",
+      "status": "needs-review",
+      "zh-Hant": "土"
+    },
+    {
+      "domain": "wuxing",
+      "en": "metal",
+      "pinyin": "jīn",
+      "status": "needs-review",
+      "zh-Hant": "金"
+    },
+    {
+      "domain": "wuxing",
+      "en": "water",
+      "pinyin": "shuǐ",
+      "status": "needs-review",
+      "zh-Hant": "水"
+    },
+    {
+      "domain": "wuxing",
+      "en": "generation (mutual promotion)",
+      "pinyin": "xiāng shēng",
+      "status": "needs-review",
+      "zh-Hant": "相生"
+    },
+    {
+      "domain": "wuxing",
+      "en": "restraint (mutual control)",
+      "pinyin": "xiāng kè",
+      "status": "needs-review",
+      "zh-Hant": "相克"
+    },
+    {
+      "domain": "wuxing",
+      "en": "over-restraint",
+      "pinyin": "xiāng chéng",
+      "status": "needs-review",
+      "zh-Hant": "相乘"
+    },
+    {
+      "domain": "wuxing",
+      "en": "counter-restraint (insult)",
+      "pinyin": "xiāng wǔ",
+      "status": "needs-review",
+      "zh-Hant": "相侮"
+    },
+    {
+      "domain": "wuxing",
+      "en": "disorder of the mother affecting the child",
+      "pinyin": "mǔ bìng jí zǐ",
+      "status": "needs-review",
+      "zh-Hant": "母病及子"
+    },
+    {
+      "domain": "wuxing",
+      "en": "child draining the mother's qi",
+      "pinyin": "zǐ dào mǔ qì",
+      "status": "needs-review",
+      "zh-Hant": "子盜母氣"
+    },
+    {
+      "domain": "zangfu",
+      "en": "liver",
+      "pinyin": "gān",
+      "status": "needs-review",
+      "zh-Hant": "肝"
+    },
+    {
+      "domain": "zangfu",
+      "en": "heart",
+      "pinyin": "xīn",
+      "status": "needs-review",
+      "zh-Hant": "心"
+    },
+    {
+      "domain": "zangfu",
+      "en": "spleen",
+      "pinyin": "pí",
+      "status": "needs-review",
+      "zh-Hant": "脾"
+    },
+    {
+      "domain": "zangfu",
+      "en": "lung",
+      "pinyin": "fèi",
+      "status": "needs-review",
+      "zh-Hant": "肺"
+    },
+    {
+      "domain": "zangfu",
+      "en": "kidney",
+      "pinyin": "shèn",
+      "status": "needs-review",
+      "zh-Hant": "腎"
+    },
+    {
+      "domain": "zangfu",
+      "en": "gallbladder",
+      "pinyin": "dǎn",
+      "status": "needs-review",
+      "zh-Hant": "膽"
+    },
+    {
+      "domain": "zangfu",
+      "en": "small intestine",
+      "pinyin": "xiǎo cháng",
+      "status": "needs-review",
+      "zh-Hant": "小腸"
+    },
+    {
+      "domain": "zangfu",
+      "en": "stomach",
+      "pinyin": "wèi",
+      "status": "needs-review",
+      "zh-Hant": "胃"
+    },
+    {
+      "domain": "zangfu",
+      "en": "large intestine",
+      "pinyin": "dà cháng",
+      "status": "needs-review",
+      "zh-Hant": "大腸"
+    },
+    {
+      "domain": "zangfu",
+      "en": "bladder",
+      "pinyin": "páng guāng",
+      "status": "needs-review",
+      "zh-Hant": "膀胱"
+    },
+    {
+      "domain": "substance",
+      "en": "qi",
+      "pinyin": "qì",
+      "status": "needs-review",
+      "zh-Hant": "氣"
+    },
+    {
+      "domain": "substance",
+      "en": "blood",
+      "pinyin": "xuè",
+      "status": "needs-review",
+      "zh-Hant": "血"
+    },
+    {
+      "domain": "substance",
+      "en": "body fluids",
+      "pinyin": "jīn yè",
+      "status": "needs-review",
+      "zh-Hant": "津液"
+    },
+    {
+      "domain": "substance",
+      "en": "essence",
+      "pinyin": "jīng",
+      "status": "needs-review",
+      "zh-Hant": "精"
+    },
+    {
+      "domain": "substance",
+      "en": "spirit (shen)",
+      "pinyin": "shén",
+      "status": "needs-review",
+      "zh-Hant": "神"
+    },
+    {
+      "domain": "diagnosis",
+      "en": "four examinations",
+      "pinyin": "sì zhěn",
+      "status": "needs-review",
+      "zh-Hant": "四診"
+    },
+    {
+      "domain": "diagnosis",
+      "en": "inspection",
+      "pinyin": "wàng zhěn",
+      "status": "needs-review",
+      "zh-Hant": "望診"
+    },
+    {
+      "domain": "diagnosis",
+      "en": "listening and smelling examination",
+      "pinyin": "wén zhěn",
+      "status": "needs-review",
+      "zh-Hant": "聞診"
+    },
+    {
+      "domain": "diagnosis",
+      "en": "inquiry",
+      "pinyin": "wèn zhěn",
+      "status": "needs-review",
+      "zh-Hant": "問診"
+    },
+    {
+      "domain": "diagnosis",
+      "en": "palpation (pulse-taking)",
+      "pinyin": "qiè zhěn",
+      "status": "needs-review",
+      "zh-Hant": "切診"
+    },
+    {
+      "domain": "diagnosis",
+      "en": "ten questions mnemonic",
+      "pinyin": "shí wèn gē",
+      "status": "needs-review",
+      "zh-Hant": "十問歌"
+    },
+    {
+      "domain": "diagnosis",
+      "en": "pattern differentiation and treatment determination",
+      "pinyin": "biàn zhèng lùn zhì",
+      "status": "needs-review",
+      "zh-Hant": "辨證論治"
+    },
+    {
+      "domain": "diagnosis",
+      "en": "pattern (syndrome)",
+      "pinyin": "zhèng",
+      "status": "needs-review",
+      "zh-Hant": "證"
+    },
+    {
+      "domain": "diagnosis",
+      "en": "pattern element",
+      "pinyin": "zhèng sù",
+      "status": "needs-review",
+      "zh-Hant": "證素"
+    },
+    {
+      "domain": "diagnosis",
+      "en": "disease location",
+      "pinyin": "bìng wèi",
+      "status": "needs-review",
+      "zh-Hant": "病位"
+    },
+    {
+      "domain": "diagnosis",
+      "en": "disease nature",
+      "pinyin": "bìng xìng",
+      "status": "needs-review",
+      "zh-Hant": "病性"
+    },
+    {
+      "domain": "diagnosis",
+      "en": "eight principles",
+      "pinyin": "bā gāng",
+      "status": "needs-review",
+      "zh-Hant": "八綱"
+    },
+    {
+      "domain": "bagang",
+      "en": "exterior",
+      "pinyin": "biǎo",
+      "status": "needs-review",
+      "zh-Hant": "表"
+    },
+    {
+      "domain": "bagang",
+      "en": "interior",
+      "pinyin": "lǐ",
+      "status": "needs-review",
+      "zh-Hant": "裡"
+    },
+    {
+      "domain": "bagang",
+      "en": "cold",
+      "pinyin": "hán",
+      "status": "needs-review",
+      "zh-Hant": "寒"
+    },
+    {
+      "domain": "bagang",
+      "en": "heat",
+      "pinyin": "rè",
+      "status": "needs-review",
+      "zh-Hant": "熱"
+    },
+    {
+      "domain": "bagang",
+      "en": "deficiency",
+      "pinyin": "xū",
+      "status": "needs-review",
+      "zh-Hant": "虛"
+    },
+    {
+      "domain": "bagang",
+      "en": "excess",
+      "pinyin": "shí",
+      "status": "needs-review",
+      "zh-Hant": "實"
+    },
+    {
+      "domain": "liuxie",
+      "en": "wind",
+      "pinyin": "fēng",
+      "status": "needs-review",
+      "zh-Hant": "風"
+    },
+    {
+      "domain": "liuxie",
+      "en": "summer-heat",
+      "pinyin": "shǔ",
+      "status": "needs-review",
+      "zh-Hant": "暑"
+    },
+    {
+      "domain": "liuxie",
+      "en": "dampness",
+      "pinyin": "shī",
+      "status": "needs-review",
+      "zh-Hant": "濕"
+    },
+    {
+      "domain": "liuxie",
+      "en": "dryness",
+      "pinyin": "zào",
+      "status": "needs-review",
+      "zh-Hant": "燥"
+    },
+    {
+      "domain": "liuxie",
+      "en": "fire (heat)",
+      "pinyin": "huǒ",
+      "status": "needs-review",
+      "zh-Hant": "火"
+    },
+    {
+      "domain": "liuxie",
+      "en": "six climatic pathogenic factors",
+      "pinyin": "liù yín",
+      "status": "needs-review",
+      "zh-Hant": "六淫"
+    },
+    {
+      "domain": "product",
+      "en": "phlegm",
+      "pinyin": "tán",
+      "status": "needs-review",
+      "zh-Hant": "痰"
+    },
+    {
+      "domain": "product",
+      "en": "fluid-retention (rheum)",
+      "pinyin": "yǐn",
+      "status": "needs-review",
+      "zh-Hant": "飲"
+    },
+    {
+      "domain": "product",
+      "en": "blood stasis",
+      "pinyin": "yū",
+      "status": "needs-review",
+      "zh-Hant": "瘀"
+    },
+    {
+      "domain": "product",
+      "en": "food stagnation",
+      "pinyin": "shí jī",
+      "status": "needs-review",
+      "zh-Hant": "食積"
+    },
+    {
+      "domain": "product",
+      "en": "qi stagnation",
+      "pinyin": "qì zhì",
+      "status": "needs-review",
+      "zh-Hant": "氣滯"
+    },
+    {
+      "domain": "nature",
+      "en": "qi deficiency",
+      "pinyin": "qì xū",
+      "status": "needs-review",
+      "zh-Hant": "氣虛"
+    },
+    {
+      "domain": "nature",
+      "en": "blood deficiency",
+      "pinyin": "xuè xū",
+      "status": "needs-review",
+      "zh-Hant": "血虛"
+    },
+    {
+      "domain": "nature",
+      "en": "yin deficiency",
+      "pinyin": "yīn xū",
+      "status": "needs-review",
+      "zh-Hant": "陰虛"
+    },
+    {
+      "domain": "nature",
+      "en": "yang deficiency",
+      "pinyin": "yáng xū",
+      "status": "needs-review",
+      "zh-Hant": "陽虛"
+    },
+    {
+      "domain": "constitution",
+      "en": "constitution",
+      "pinyin": "tǐ zhì",
+      "status": "needs-review",
+      "zh-Hant": "體質"
+    },
+    {
+      "domain": "constitution",
+      "en": "balanced constitution",
+      "pinyin": "píng hé zhì",
+      "status": "needs-review",
+      "zh-Hant": "平和質"
+    },
+    {
+      "domain": "constitution",
+      "en": "qi-deficiency constitution",
+      "pinyin": "qì xū zhì",
+      "status": "needs-review",
+      "zh-Hant": "氣虛質"
+    },
+    {
+      "domain": "constitution",
+      "en": "yang-deficiency constitution",
+      "pinyin": "yáng xū zhì",
+      "status": "needs-review",
+      "zh-Hant": "陽虛質"
+    },
+    {
+      "domain": "constitution",
+      "en": "yin-deficiency constitution",
+      "pinyin": "yīn xū zhì",
+      "status": "needs-review",
+      "zh-Hant": "陰虛質"
+    },
+    {
+      "domain": "constitution",
+      "en": "phlegm-dampness constitution",
+      "pinyin": "tán shī zhì",
+      "status": "needs-review",
+      "zh-Hant": "痰濕質"
+    },
+    {
+      "domain": "constitution",
+      "en": "damp-heat constitution",
+      "pinyin": "shī rè zhì",
+      "status": "needs-review",
+      "zh-Hant": "濕熱質"
+    },
+    {
+      "domain": "constitution",
+      "en": "blood-stasis constitution",
+      "pinyin": "xuè yū zhì",
+      "status": "needs-review",
+      "zh-Hant": "血瘀質"
+    },
+    {
+      "domain": "constitution",
+      "en": "qi-stagnation constitution",
+      "pinyin": "qì yù zhì",
+      "status": "needs-review",
+      "zh-Hant": "氣鬱質"
+    },
+    {
+      "domain": "constitution",
+      "en": "special (allergic) diathesis",
+      "pinyin": "tè bǐng zhì",
+      "status": "needs-review",
+      "zh-Hant": "特稟質"
+    },
+    {
+      "domain": "tongue",
+      "en": "tongue body",
+      "pinyin": "shé zhì",
+      "status": "needs-review",
+      "zh-Hant": "舌質"
+    },
+    {
+      "domain": "tongue",
+      "en": "tongue coating",
+      "pinyin": "shé tāi",
+      "status": "needs-review",
+      "zh-Hant": "舌苔"
+    },
+    {
+      "domain": "tongue",
+      "en": "tooth marks",
+      "pinyin": "chǐ hén",
+      "status": "needs-review",
+      "zh-Hant": "齒痕"
+    },
+    {
+      "domain": "tongue",
+      "en": "cracks",
+      "pinyin": "liè wén",
+      "status": "needs-review",
+      "zh-Hant": "裂紋"
+    },
+    {
+      "domain": "tongue",
+      "en": "prickles (red dots)",
+      "pinyin": "máng cì",
+      "status": "needs-review",
+      "zh-Hant": "芒刺"
+    },
+    {
+      "domain": "tongue",
+      "en": "ecchymosis",
+      "pinyin": "yū bān",
+      "status": "needs-review",
+      "zh-Hant": "瘀斑"
+    },
+    {
+      "domain": "tongue",
+      "en": "sublingual veins",
+      "pinyin": "shé xià luò mài",
+      "status": "needs-review",
+      "zh-Hant": "舌下絡脈"
+    },
+    {
+      "domain": "tongue",
+      "en": "tongue tip",
+      "pinyin": "shé jiān",
+      "status": "needs-review",
+      "zh-Hant": "舌尖"
+    },
+    {
+      "domain": "tongue",
+      "en": "tongue root",
+      "pinyin": "shé gēn",
+      "status": "needs-review",
+      "zh-Hant": "舌根"
+    },
+    {
+      "domain": "tongue",
+      "en": "thin white coating",
+      "pinyin": "báo bái tāi",
+      "status": "needs-review",
+      "zh-Hant": "薄白苔"
+    },
+    {
+      "domain": "tongue",
+      "en": "greasy coating",
+      "pinyin": "nì tāi",
+      "status": "needs-review",
+      "zh-Hant": "膩苔"
+    },
+    {
+      "domain": "tongue",
+      "en": "peeled coating",
+      "pinyin": "bō tāi",
+      "status": "needs-review",
+      "zh-Hant": "剝苔"
+    },
+    {
+      "domain": "pulse",
+      "en": "pulse quality",
+      "pinyin": "mài xiàng",
+      "status": "needs-review",
+      "zh-Hant": "脈象"
+    },
+    {
+      "domain": "pulse",
+      "en": "cun, guan, chi positions",
+      "pinyin": "cùn guān chǐ",
+      "status": "needs-review",
+      "zh-Hant": "寸關尺"
+    },
+    {
+      "domain": "pulse",
+      "en": "floating pulse",
+      "pinyin": "fú mài",
+      "status": "needs-review",
+      "zh-Hant": "浮脈"
+    },
+    {
+      "domain": "pulse",
+      "en": "deep pulse",
+      "pinyin": "chén mài",
+      "status": "needs-review",
+      "zh-Hant": "沉脈"
+    },
+    {
+      "domain": "pulse",
+      "en": "slow pulse",
+      "pinyin": "chí mài",
+      "status": "needs-review",
+      "zh-Hant": "遲脈"
+    },
+    {
+      "domain": "pulse",
+      "en": "rapid pulse",
+      "pinyin": "shuò mài",
+      "status": "needs-review",
+      "zh-Hant": "數脈"
+    },
+    {
+      "domain": "pulse",
+      "en": "slippery pulse",
+      "pinyin": "huá mài",
+      "status": "needs-review",
+      "zh-Hant": "滑脈"
+    },
+    {
+      "domain": "pulse",
+      "en": "choppy pulse",
+      "pinyin": "sè mài",
+      "status": "needs-review",
+      "zh-Hant": "澀脈"
+    },
+    {
+      "domain": "pulse",
+      "en": "wiry pulse",
+      "pinyin": "xián mài",
+      "status": "needs-review",
+      "zh-Hant": "弦脈"
+    },
+    {
+      "domain": "pulse",
+      "en": "thin pulse",
+      "pinyin": "xì mài",
+      "status": "needs-review",
+      "zh-Hant": "細脈"
+    },
+    {
+      "domain": "pulse",
+      "en": "surging pulse",
+      "pinyin": "hóng mài",
+      "status": "needs-review",
+      "zh-Hant": "洪脈"
+    },
+    {
+      "domain": "pulse",
+      "en": "tight pulse",
+      "pinyin": "jǐn mài",
+      "status": "needs-review",
+      "zh-Hant": "緊脈"
+    },
+    {
+      "domain": "pulse",
+      "en": "moderate pulse",
+      "pinyin": "huǎn mài",
+      "status": "needs-review",
+      "zh-Hant": "緩脈"
+    },
+    {
+      "domain": "pulse",
+      "en": "soggy pulse",
+      "pinyin": "rú mài",
+      "status": "needs-review",
+      "zh-Hant": "濡脈"
+    },
+    {
+      "domain": "pulse",
+      "en": "weak pulse",
+      "pinyin": "ruò mài",
+      "status": "needs-review",
+      "zh-Hant": "弱脈"
+    },
+    {
+      "domain": "pulse",
+      "en": "knotted pulse",
+      "pinyin": "jié mài",
+      "status": "needs-review",
+      "zh-Hant": "結脈"
+    },
+    {
+      "domain": "pulse",
+      "en": "regularly intermittent pulse",
+      "pinyin": "dài mài",
+      "status": "needs-review",
+      "zh-Hant": "代脈"
+    },
+    {
+      "domain": "pulse",
+      "en": "rapid-irregular pulse",
+      "pinyin": "cù mài",
+      "status": "needs-review",
+      "zh-Hant": "促脈"
+    },
+    {
+      "domain": "treatment",
+      "en": "treatment principle",
+      "pinyin": "zhì zé",
+      "status": "needs-review",
+      "zh-Hant": "治則"
+    },
+    {
+      "domain": "treatment",
+      "en": "treatment method",
+      "pinyin": "zhì fǎ",
+      "status": "needs-review",
+      "zh-Hant": "治法"
+    },
+    {
+      "domain": "treatment",
+      "en": "treat the root",
+      "pinyin": "zhì bìng qiú běn",
+      "status": "needs-review",
+      "zh-Hant": "治病求本"
+    },
+    {
+      "domain": "treatment",
+      "en": "priority of root and branch",
+      "pinyin": "biāo běn huǎn jí",
+      "status": "needs-review",
+      "zh-Hant": "標本緩急"
+    },
+    {
+      "domain": "treatment",
+      "en": "treatment adapted to person, time and place",
+      "pinyin": "sān yīn zhì yí",
+      "status": "needs-review",
+      "zh-Hant": "三因制宜"
+    },
+    {
+      "domain": "treatment",
+      "en": "preventive treatment",
+      "pinyin": "zhì wèi bìng",
+      "status": "needs-review",
+      "zh-Hant": "治未病"
+    },
+    {
+      "domain": "treatment",
+      "en": "eight methods",
+      "pinyin": "bā fǎ",
+      "status": "needs-review",
+      "zh-Hant": "八法"
+    },
+    {
+      "domain": "treatment",
+      "en": "diaphoresis",
+      "pinyin": "hàn fǎ",
+      "status": "needs-review",
+      "zh-Hant": "汗法"
+    },
+    {
+      "domain": "treatment",
+      "en": "harmonising",
+      "pinyin": "hé fǎ",
+      "status": "needs-review",
+      "zh-Hant": "和法"
+    },
+    {
+      "domain": "treatment",
+      "en": "warming",
+      "pinyin": "wēn fǎ",
+      "status": "needs-review",
+      "zh-Hant": "溫法"
+    },
+    {
+      "domain": "treatment",
+      "en": "clearing",
+      "pinyin": "qīng fǎ",
+      "status": "needs-review",
+      "zh-Hant": "清法"
+    },
+    {
+      "domain": "treatment",
+      "en": "dispersing",
+      "pinyin": "xiāo fǎ",
+      "status": "needs-review",
+      "zh-Hant": "消法"
+    },
+    {
+      "domain": "treatment",
+      "en": "tonifying",
+      "pinyin": "bǔ fǎ",
+      "status": "needs-review",
+      "zh-Hant": "補法"
+    },
+    {
+      "domain": "formula",
+      "en": "formula",
+      "pinyin": "fāng jì",
+      "status": "needs-review",
+      "zh-Hant": "方劑"
+    },
+    {
+      "domain": "formula",
+      "en": "sovereign, minister, assistant, envoy",
+      "pinyin": "jūn chén zuǒ shǐ",
+      "status": "needs-review",
+      "zh-Hant": "君臣佐使"
+    },
+    {
+      "domain": "formula",
+      "en": "classical formula",
+      "pinyin": "jīng fāng",
+      "status": "needs-review",
+      "zh-Hant": "經方"
+    },
+    {
+      "domain": "formula",
+      "en": "later-period formula",
+      "pinyin": "shí fāng",
+      "status": "needs-review",
+      "zh-Hant": "時方"
+    },
+    {
+      "domain": "formula",
+      "en": "modification (addition and subtraction)",
+      "pinyin": "jiā jiǎn",
+      "status": "needs-review",
+      "zh-Hant": "加減"
+    },
+    {
+      "domain": "herb",
+      "en": "four natures",
+      "pinyin": "sì qì",
+      "status": "needs-review",
+      "zh-Hant": "四氣"
+    },
+    {
+      "domain": "herb",
+      "en": "five flavours",
+      "pinyin": "wǔ wèi",
+      "status": "needs-review",
+      "zh-Hant": "五味"
+    },
+    {
+      "domain": "herb",
+      "en": "channel tropism",
+      "pinyin": "guī jīng",
+      "status": "needs-review",
+      "zh-Hant": "歸經"
+    },
+    {
+      "domain": "herb",
+      "en": "ascending, descending, floating, sinking",
+      "pinyin": "shēng jiàng fú chén",
+      "status": "needs-review",
+      "zh-Hant": "升降浮沉"
+    },
+    {
+      "domain": "herb",
+      "en": "eighteen incompatibilities",
+      "pinyin": "shí bā fǎn",
+      "status": "needs-review",
+      "zh-Hant": "十八反"
+    },
+    {
+      "domain": "herb",
+      "en": "nineteen antagonisms",
+      "pinyin": "shí jiǔ wèi",
+      "status": "needs-review",
+      "zh-Hant": "十九畏"
+    },
+    {
+      "domain": "yunqi",
+      "en": "five periods and six qi",
+      "pinyin": "yùn qì",
+      "status": "needs-review",
+      "zh-Hant": "運氣"
+    },
+    {
+      "domain": "yunqi",
+      "en": "annual phase (central period)",
+      "pinyin": "suì yùn",
+      "status": "needs-review",
+      "zh-Hant": "歲運"
+    },
+    {
+      "domain": "yunqi",
+      "en": "qi governing heaven",
+      "pinyin": "sī tiān",
+      "status": "needs-review",
+      "zh-Hant": "司天"
+    },
+    {
+      "domain": "yunqi",
+      "en": "qi at the spring (below)",
+      "pinyin": "zài quán",
+      "status": "needs-review",
+      "zh-Hant": "在泉"
+    },
+    {
+      "domain": "yunqi",
+      "en": "host qi",
+      "pinyin": "zhǔ qì",
+      "status": "needs-review",
+      "zh-Hant": "主氣"
+    },
+    {
+      "domain": "yunqi",
+      "en": "guest qi",
+      "pinyin": "kè qì",
+      "status": "needs-review",
+      "zh-Hant": "客氣"
+    },
+    {
+      "domain": "calendar",
+      "en": "solar term",
+      "pinyin": "jié qì",
+      "status": "needs-review",
+      "zh-Hant": "節氣"
+    },
+    {
+      "domain": "bazi",
+      "en": "four pillars (BaZi)",
+      "pinyin": "sì zhù",
+      "status": "needs-review",
+      "zh-Hant": "四柱"
+    },
+    {
+      "domain": "bazi",
+      "en": "eight characters (BaZi)",
+      "pinyin": "bā zì",
+      "status": "needs-review",
+      "zh-Hant": "八字"
+    },
+    {
+      "domain": "bazi",
+      "en": "decade luck cycle",
+      "pinyin": "dà yùn",
+      "status": "needs-review",
+      "zh-Hant": "大運"
+    },
+    {
+      "domain": "bazi",
+      "en": "annual cycle",
+      "pinyin": "liú nián",
+      "status": "needs-review",
+      "zh-Hant": "流年"
+    },
+    {
+      "domain": "bazi",
+      "en": "commanding hidden stem",
+      "pinyin": "sī lìng",
+      "status": "needs-review",
+      "zh-Hant": "司令"
+    },
+    {
+      "domain": "season",
+      "en": "regulating the spirit in accordance with the four seasons",
+      "pinyin": "sì qì tiáo shén",
+      "status": "needs-review",
+      "zh-Hant": "四氣調神"
+    },
+    {
+      "domain": "season",
+      "en": "late summer",
+      "pinyin": "cháng xià",
+      "status": "needs-review",
+      "zh-Hant": "長夏"
+    }
+  ]
+}

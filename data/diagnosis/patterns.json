@@ -1,0 +1,1442 @@
+{
+  "_meta": {
+    "count": 23,
+    "description": "23-pattern MVP library with weighted symptom evidence. Panel projection is per degree; degree = 3 × Pct / 100.",
+    "scoring": "Pct = Σ w·sev·q (present) − Σ v·q (against) ÷ Σ w × 100; required_any missing → ×0.5 (SOP §8.3)"
+  },
+  "items": [
+    {
+      "against": {
+        "S_SORE_THROAT": 1,
+        "S_SPONTANEOUS_SWEAT": 2,
+        "S_THIRST_COLD_DRINK": 2,
+        "T_BODY_RED": 1
+      },
+      "citations": [
+        "shanghan-003",
+        "shanghan-035"
+      ],
+      "elements": [
+        "PE_表_風",
+        "PE_表_寒"
+      ],
+      "formulas": [
+        "F_MAHUANG"
+      ],
+      "group": "external",
+      "id": "EX1",
+      "max_score": 21,
+      "name": {
+        "en": "Wind-cold fettering the exterior (taiyang cold damage)",
+        "zh-Hant": "風寒束表（太陽傷寒）"
+      },
+      "panel_projection_per_degree": {
+        "bagang.exterior": 2.0,
+        "liuxie.寒": 1.0,
+        "liuxie.風": 1.0
+      },
+      "principle": "辛溫解表、發汗",
+      "required_any": [
+        "S_AVERSION_COLD"
+      ],
+      "status": "draft",
+      "tongue_pulse_note": "苔薄白；脈浮緊",
+      "treatment": {
+        "acupoints": [
+          "風池",
+          "列缺",
+          "合谷"
+        ],
+        "foods": [
+          "生薑",
+          "蔥白",
+          "熱稀粥"
+        ],
+        "lifestyle": "保暖、休息、避風"
+      },
+      "weights": {
+        "P_FLOAT": 2,
+        "P_TIGHT": 2,
+        "S_AVERSION_COLD": 3,
+        "S_BODY_ACHE": 2,
+        "S_FEVER": 2,
+        "S_HEADACHE": 2,
+        "S_NASAL_CONGESTION": 1,
+        "S_NO_SWEAT": 3,
+        "S_NO_THIRST": 1,
+        "S_RUNNY_NOSE_CLEAR": 2,
+        "T_COAT_THIN_WHITE": 1
+      }
+    },
+    {
+      "against": {
+        "S_NO_SWEAT": 3,
+        "S_THIRST_COLD_DRINK": 2
+      },
+      "citations": [
+        "shanghan-002"
+      ],
+      "elements": [
+        "PE_表_風"
+      ],
+      "formulas": [
+        "F_GUIZHI"
+      ],
+      "group": "external",
+      "id": "EX2",
+      "max_score": 16,
+      "name": {
+        "en": "Taiyang wind strike (exterior deficiency)",
+        "zh-Hant": "太陽中風（表虛）"
+      },
+      "panel_projection_per_degree": {
+        "bagang.exterior": 1.0,
+        "liuxie.風": 1.0
+      },
+      "principle": "解肌發表、調和營衛",
+      "required_any": [
+        "S_AVERSION_WIND",
+        "S_SPONTANEOUS_SWEAT"
+      ],
+      "status": "draft",
+      "tongue_pulse_note": "苔薄白；脈浮緩",
+      "treatment": {
+        "acupoints": [
+          "風池",
+          "列缺"
+        ],
+        "foods": [
+          "生薑",
+          "熱稀粥"
+        ],
+        "lifestyle": "保暖、休息、避風；服桂枝湯類後啜熱稀粥（原方服法）"
+      },
+      "weights": {
+        "P_FLOAT": 2,
+        "P_MODERATE": 2,
+        "S_AVERSION_COLD": 1,
+        "S_AVERSION_WIND": 3,
+        "S_FEVER": 2,
+        "S_HEADACHE": 1,
+        "S_NASAL_CONGESTION": 1,
+        "S_SPONTANEOUS_SWEAT": 3,
+        "T_COAT_THIN_WHITE": 1
+      }
+    },
+    {
+      "against": {
+        "S_NO_THIRST": 2,
+        "T_COAT_WHITE_GREASY": 1
+      },
+      "citations": [
+        "shanghan-006"
+      ],
+      "elements": [
+        "PE_表_風",
+        "PE_表_火"
+      ],
+      "formulas": [
+        "F_YINQIAO",
+        "F_SANGJU"
+      ],
+      "group": "external",
+      "id": "EX3",
+      "max_score": 25,
+      "name": {
+        "en": "Wind-heat invading the exterior",
+        "zh-Hant": "風熱犯表"
+      },
+      "panel_projection_per_degree": {
+        "bagang.exterior": 2.0,
+        "liuxie.火": 1.0,
+        "liuxie.風": 1.0,
+        "肺.yang": 0.5
+      },
+      "principle": "辛涼解表",
+      "required_any": [
+        "S_FEVER",
+        "S_SORE_THROAT"
+      ],
+      "status": "draft",
+      "tongue_pulse_note": "舌邊尖紅，苔薄黃；脈浮數",
+      "treatment": {
+        "acupoints": [
+          "大椎",
+          "曲池",
+          "合谷"
+        ],
+        "foods": [
+          "薄荷",
+          "菊花",
+          "蘆根",
+          "梨"
+        ],
+        "lifestyle": "多飲水、清淡飲食"
+      },
+      "weights": {
+        "P_FLOAT": 2,
+        "P_RAPID": 2,
+        "S_AVERSION_COLD": 1,
+        "S_COUGH_PHLEGM_YELLOW": 2,
+        "S_DRY_THROAT": 1,
+        "S_FEVER": 3,
+        "S_HEADACHE": 1,
+        "S_NASAL_CONGESTION": 1,
+        "S_SORE_THROAT": 3,
+        "S_THIRST_LIGHT": 2,
+        "T_COAT_YELLOW": 1,
+        "T_EDGE_RED": 2,
+        "T_RED_DOTS_TIP": 2,
+        "T_TIP_RED": 2
+      }
+    },
+    {
+      "against": {
+        "S_NIGHT_SWEAT": 1,
+        "S_NO_SWEAT": 2,
+        "S_THIRST_COLD_DRINK": 1
+      },
+      "citations": [
+        "shanghan-053"
+      ],
+      "elements": [
+        "PE_表_氣虛"
+      ],
+      "formulas": [
+        "F_GUIZHI"
+      ],
+      "group": "external",
+      "id": "EX4",
+      "max_score": 12,
+      "name": {
+        "en": "Disharmony of nutrient and defensive qi",
+        "zh-Hant": "營衛不和"
+      },
+      "panel_projection_per_degree": {
+        "bagang.exterior": 1.0,
+        "肺.qi": -1.0
+      },
+      "principle": "調和營衛",
+      "required_any": [
+        "S_SPONTANEOUS_SWEAT"
+      ],
+      "status": "draft",
+      "tongue_pulse_note": "苔薄白；脈緩",
+      "treatment": {
+        "acupoints": [
+          "足三里",
+          "合谷"
+        ],
+        "foods": [
+          "溫熱粥",
+          "小米"
+        ],
+        "lifestyle": "避免出汗後受風"
+      },
+      "weights": {
+        "P_FLOAT": 1,
+        "P_MODERATE": 1,
+        "S_AVERSION_WIND": 3,
+        "S_EASY_COLD": 2,
+        "S_FATIGUE": 1,
+        "S_SPONTANEOUS_SWEAT": 3,
+        "T_COAT_THIN_WHITE": 1
+      }
+    },
+    {
+      "against": {
+        "S_ABD_REFUSE_PRESS": 2,
+        "S_CONSTIPATION": 2,
+        "S_THIRST_COLD_DRINK": 2,
+        "T_COAT_YELLOW_GREASY": 1
+      },
+      "citations": [
+        "lingshu-008-1"
+      ],
+      "elements": [
+        "PE_脾_氣虛"
+      ],
+      "formulas": [
+        "F_SIJUNZI",
+        "F_SHENLING"
+      ],
+      "group": "spleen-stomach",
+      "id": "SP1",
+      "max_score": 24,
+      "name": {
+        "en": "Spleen qi deficiency",
+        "zh-Hant": "脾氣虛"
+      },
+      "panel_projection_per_degree": {
+        "脾.qi": -1.0
+      },
+      "principle": "益氣健脾",
+      "required_any": [
+        "S_POOR_APPETITE",
+        "S_POSTPRANDIAL_BLOAT",
+        "S_LOOSE_STOOL"
+      ],
+      "status": "draft",
+      "tongue_pulse_note": "舌淡苔白，常胖有齒痕；脈緩弱",
+      "treatment": {
+        "acupoints": [
+          "足三里",
+          "中脘"
+        ],
+        "foods": [
+          "山藥",
+          "小米",
+          "蓮子",
+          "南瓜"
+        ],
+        "lifestyle": "三餐規律、細嚼慢嚥、飯後散步"
+      },
+      "weights": {
+        "P_DEFICIENT": 1,
+        "P_SOFT": 1,
+        "S_BLAND_MOUTH": 1,
+        "S_EDEMA": 1,
+        "S_FACE_SALLOW": 1,
+        "S_FATIGUE": 2,
+        "S_LAZY_SPEAK": 2,
+        "S_LOOSE_STOOL": 3,
+        "S_POOR_APPETITE": 3,
+        "S_POSTPRANDIAL_BLOAT": 3,
+        "T_BODY_PALE": 2,
+        "T_BODY_PALE_SWOLLEN": 1,
+        "T_COAT_THIN_WHITE": 1,
+        "T_TOOTHMARK_EDGE": 2
+      }
+    },
+    {
+      "against": {
+        "S_CONSTIPATION": 2,
+        "S_FEAR_HEAT": 2,
+        "S_THIRST_COLD_DRINK": 3,
+        "T_BODY_RED": 2
+      },
+      "citations": [
+        "shanghan-273",
+        "shanghan-386",
+        "jingui-010-2"
+      ],
+      "elements": [
+        "PE_脾_陽虛",
+        "PE_脾_寒"
+      ],
+      "formulas": [
+        "F_LIZHONG"
+      ],
+      "group": "spleen-stomach",
+      "id": "SP2",
+      "max_score": 32,
+      "name": {
+        "en": "Spleen yang deficiency (spleen-stomach cold)",
+        "zh-Hant": "脾陽虛（脾胃虛寒）"
+      },
+      "panel_projection_per_degree": {
+        "liuxie.寒": 1.5,
+        "脾.yang": -1.0
+      },
+      "principle": "溫中健脾",
+      "required_any": [
+        "S_ABD_PAIN_PREFER_WARM_PRESS",
+        "S_FEAR_COLD"
+      ],
+      "status": "draft",
+      "tongue_pulse_note": "舌淡胖苔白滑；脈沉遲",
+      "treatment": {
+        "acupoints": [
+          "中脘",
+          "關元",
+          "足三里"
+        ],
+        "foods": [
+          "生薑",
+          "溫熱粥",
+          "少量肉桂"
+        ],
+        "lifestyle": "忌生冷、腹部保暖"
+      },
+      "weights": {
+        "P_DEFICIENT": 1,
+        "P_SINK": 2,
+        "P_SLOW": 2,
+        "S_ABD_PAIN_PREFER_WARM_PRESS": 3,
+        "S_BLAND_MOUTH": 2,
+        "S_COLD_LIMBS": 2,
+        "S_EDEMA": 1,
+        "S_FEAR_COLD": 3,
+        "S_LOOSE_STOOL": 3,
+        "S_NO_THIRST": 1,
+        "S_POOR_APPETITE": 2,
+        "S_POSTPRANDIAL_BLOAT": 1,
+        "S_PREFER_HOT_FOOD": 2,
+        "S_UNDIGESTED_STOOL": 2,
+        "T_BODY_PALE_SWOLLEN": 2,
+        "T_COAT_SLIPPERY": 2,
+        "T_TOOTHMARK_EDGE": 1
+      }
+    },
+    {
+      "against": {
+        "S_ABD_REFUSE_PRESS": 1,
+        "S_THIRST_COLD_DRINK": 1
+      },
+      "citations": [],
+      "elements": [
+        "PE_脾_氣虛"
+      ],
+      "formulas": [
+        "F_BUZHONG"
+      ],
+      "group": "spleen-stomach",
+      "id": "SP3",
+      "max_score": 17,
+      "name": {
+        "en": "Sinking of middle qi",
+        "zh-Hant": "中氣下陷"
+      },
+      "panel_projection_per_degree": {
+        "脾.qi": -1.0
+      },
+      "principle": "補中益氣、升陽舉陷",
+      "required_any": [
+        "S_PROLAPSE_SENSATION"
+      ],
+      "status": "draft",
+      "tongue_pulse_note": "舌淡；脈弱",
+      "treatment": {
+        "acupoints": [
+          "百會",
+          "氣海",
+          "足三里"
+        ],
+        "foods": [
+          "山藥",
+          "黃耆燉雞（少量）"
+        ],
+        "lifestyle": "避免久站過勞"
+      },
+      "weights": {
+        "P_DEFICIENT": 1,
+        "P_SOFT": 1,
+        "S_FATIGUE": 2,
+        "S_LAZY_SPEAK": 2,
+        "S_LOOSE_STOOL": 1,
+        "S_POOR_APPETITE": 1,
+        "S_POSTPRANDIAL_BLOAT": 2,
+        "S_PROLAPSE_SENSATION": 3,
+        "S_SHORT_BREATH": 2,
+        "T_BODY_PALE": 1,
+        "T_COAT_THIN_WHITE": 1
+      }
+    },
+    {
+      "against": {
+        "S_DRY_MOUTH_THROAT": 2,
+        "S_THIRST_COLD_DRINK": 1,
+        "T_COAT_DRY": 2,
+        "T_COAT_PEELED_ALL": 3
+      },
+      "citations": [
+        "jingui-012-1"
+      ],
+      "elements": [
+        "PE_脾_濕",
+        "PE_脾_痰"
+      ],
+      "formulas": [
+        "F_ERCHEN",
+        "F_PINGWEI",
+        "F_LINGGUIZHUGAN"
+      ],
+      "group": "spleen-stomach",
+      "id": "SP4",
+      "max_score": 26,
+      "name": {
+        "en": "Phlegm-dampness obstruction",
+        "zh-Hant": "痰濕內阻"
+      },
+      "panel_projection_per_degree": {
+        "liuxie.濕": 1.0,
+        "product.痰": 1.0
+      },
+      "principle": "燥濕化痰、理氣和中",
+      "required_any": [
+        "S_BODY_HEAVY",
+        "S_PHLEGM_COPIOUS",
+        "T_COAT_WHITE_GREASY"
+      ],
+      "status": "draft",
+      "tongue_pulse_note": "舌胖苔膩；脈滑",
+      "treatment": {
+        "acupoints": [
+          "豐隆",
+          "陰陵泉"
+        ],
+        "foods": [
+          "薏仁",
+          "赤小豆",
+          "茯苓",
+          "陳皮",
+          "冬瓜"
+        ],
+        "lifestyle": "少甜膩油炸、規律運動出微汗"
+      },
+      "weights": {
+        "P_SLIPPERY": 2,
+        "S_BODY_HEAVY": 3,
+        "S_CHEST_OPPRESSION": 2,
+        "S_EPIGASTRIC_FULLNESS": 2,
+        "S_HEAD_HEAVY": 2,
+        "S_NAUSEA": 1,
+        "S_PHLEGM_COPIOUS": 3,
+        "S_POOR_APPETITE": 1,
+        "S_STICKY_MOUTH": 2,
+        "S_STICKY_STOOL": 1,
+        "S_THIRST_NO_DRINK": 1,
+        "T_BODY_PALE_SWOLLEN": 1,
+        "T_CENTER_COAT_THICK": 1,
+        "T_COAT_WHITE_GREASY": 3,
+        "T_TOOTHMARK_EDGE": 1
+      }
+    },
+    {
+      "against": {
+        "S_FEAR_COLD": 2,
+        "S_PREFER_HOT_FOOD": 1,
+        "T_COAT_PEELED_ALL": 2,
+        "T_COAT_WHITE_GREASY": 1
+      },
+      "citations": [
+        "suwen-074-5"
+      ],
+      "elements": [
+        "PE_脾_濕",
+        "PE_胃_火"
+      ],
+      "formulas": [
+        "F_SANREN",
+        "F_GANLU"
+      ],
+      "group": "spleen-stomach",
+      "id": "SP5",
+      "max_score": 27,
+      "name": {
+        "en": "Damp-heat accumulation",
+        "zh-Hant": "濕熱蘊結"
+      },
+      "panel_projection_per_degree": {
+        "liuxie.濕": 1.0,
+        "liuxie.火": 1.0,
+        "胃.yang": 0.5
+      },
+      "principle": "清熱利濕",
+      "required_any": [
+        "S_STICKY_STOOL",
+        "T_COAT_YELLOW_GREASY"
+      ],
+      "status": "draft",
+      "tongue_pulse_note": "舌紅苔黃膩；脈滑數",
+      "treatment": {
+        "acupoints": [
+          "陰陵泉",
+          "曲池"
+        ],
+        "foods": [
+          "綠豆",
+          "冬瓜",
+          "薏仁",
+          "苦瓜"
+        ],
+        "lifestyle": "忌菸酒辛辣、清淡飲食"
+      },
+      "weights": {
+        "P_RAPID": 1,
+        "P_SLIPPERY": 1,
+        "S_BITTER_MOUTH": 2,
+        "S_BODY_HEAVY": 2,
+        "S_EPIGASTRIC_FULLNESS": 2,
+        "S_FEVER_UNEVEN": 2,
+        "S_LEUKORRHEA_YELLOW": 1,
+        "S_NAUSEA": 1,
+        "S_STICKY_MOUTH": 2,
+        "S_STICKY_STOOL": 3,
+        "S_THIRST_NO_DRINK": 1,
+        "S_URINE_YELLOW_SCANTY": 2,
+        "T_BODY_RED": 1,
+        "T_CENTER_COAT_YELLOW_GREASY": 2,
+        "T_COAT_YELLOW_GREASY": 3,
+        "T_ROOT_COAT_THICK_GREASY": 1
+      }
+    },
+    {
+      "against": {
+        "S_BODY_HEAVY": 1,
+        "S_LOOSE_STOOL": 1,
+        "T_COAT_WHITE_GREASY": 2
+      },
+      "citations": [],
+      "elements": [
+        "PE_胃_陰虛"
+      ],
+      "formulas": [
+        "F_YIWEI"
+      ],
+      "group": "spleen-stomach",
+      "id": "SP6",
+      "max_score": 26,
+      "name": {
+        "en": "Stomach yin deficiency",
+        "zh-Hant": "胃陰虛"
+      },
+      "panel_projection_per_degree": {
+        "胃.yin": -1.0
+      },
+      "principle": "養陰益胃",
+      "required_any": [
+        "S_DRY_MOUTH_THROAT",
+        "S_HUNGER_NO_EAT",
+        "T_CRACKS_CENTER"
+      ],
+      "status": "draft",
+      "tongue_pulse_note": "舌紅少津；脈細數",
+      "treatment": {
+        "acupoints": [
+          "足三里",
+          "內關"
+        ],
+        "foods": [
+          "百合",
+          "銀耳",
+          "梨",
+          "麥冬茶"
+        ],
+        "lifestyle": "少辛辣、少量多餐"
+      },
+      "weights": {
+        "P_RAPID": 1,
+        "P_THIN": 1,
+        "S_CONSTIPATION": 2,
+        "S_DRY_MOUTH_THROAT": 3,
+        "S_DRY_RETCH": 1,
+        "S_EPIGASTRIC_BURNING": 3,
+        "S_HEAT_PALMS_SOLES": 1,
+        "S_HUNGER_NO_EAT": 3,
+        "S_THIRST_COLD_DRINK": 1,
+        "T_BODY_RED": 2,
+        "T_CENTER_COAT_PEELED": 2,
+        "T_COAT_DRY": 1,
+        "T_COAT_PEELED_ALL": 2,
+        "T_CRACKS_CENTER": 3
+      }
+    },
+    {
+      "against": {
+        "S_ABD_PREFER_PRESS": 1
+      },
+      "citations": [
+        "suwen-071-2",
+        "suwen-039-2"
+      ],
+      "elements": [
+        "PE_肝_氣滯"
+      ],
+      "formulas": [
+        "F_XIAOYAO",
+        "F_CHAIHUSHUGAN",
+        "F_YUEJU"
+      ],
+      "group": "liver",
+      "id": "LV1",
+      "max_score": 25,
+      "name": {
+        "en": "Liver qi stagnation",
+        "zh-Hant": "肝氣鬱結"
+      },
+      "panel_projection_per_degree": {
+        "肝.stasis": 1.0
+      },
+      "principle": "疏肝解鬱",
+      "required_any": [
+        "S_SIGHING",
+        "S_HYPOCHONDRIAC_DISTENSION",
+        "S_DEPRESSED"
+      ],
+      "status": "draft",
+      "tongue_pulse_note": "苔薄白；脈弦",
+      "treatment": {
+        "acupoints": [
+          "太衝",
+          "內關",
+          "膻中"
+        ],
+        "foods": [
+          "玫瑰花茶",
+          "佛手",
+          "陳皮"
+        ],
+        "lifestyle": "抒壓、規律運動、情緒表達"
+      },
+      "weights": {
+        "P_WIRY": 3,
+        "S_BELCHING": 1,
+        "S_BREAST_DISTENSION": 2,
+        "S_CHEST_OPPRESSION": 1,
+        "S_DEPRESSED": 3,
+        "S_HYPOCHONDRIAC_DISTENSION": 3,
+        "S_IRRITABLE": 1,
+        "S_MENSES_IRREGULAR": 1,
+        "S_PAIN_DISTENDING": 2,
+        "S_PAIN_WANDERING": 1,
+        "S_SIGHING": 3,
+        "S_THROAT_FOREIGN": 2,
+        "T_COAT_THIN_WHITE": 1,
+        "T_EDGE_RED": 1
+      }
+    },
+    {
+      "against": {
+        "S_FATIGUE": 1,
+        "S_FEAR_COLD": 2,
+        "T_BODY_PALE": 2
+      },
+      "citations": [
+        "suwen-074-6",
+        "suwen-074-7"
+      ],
+      "elements": [
+        "PE_肝_火"
+      ],
+      "formulas": [
+        "F_LONGDAN"
+      ],
+      "group": "liver",
+      "id": "LV2",
+      "max_score": 30,
+      "name": {
+        "en": "Liver fire flaming upward",
+        "zh-Hant": "肝火上炎"
+      },
+      "panel_projection_per_degree": {
+        "liuxie.火": 1.0,
+        "肝.yang": 0.5
+      },
+      "principle": "清肝瀉火",
+      "required_any": [
+        "S_IRRITABLE",
+        "S_BITTER_MOUTH",
+        "T_EDGE_RED"
+      ],
+      "status": "draft",
+      "tongue_pulse_note": "舌紅苔黃；脈弦數",
+      "treatment": {
+        "acupoints": [
+          "太衝",
+          "行間"
+        ],
+        "foods": [
+          "菊花茶",
+          "苦瓜",
+          "綠茶"
+        ],
+        "lifestyle": "減少熬夜與辛辣、練習放鬆"
+      },
+      "weights": {
+        "P_RAPID": 2,
+        "P_WIRY": 2,
+        "S_BITTER_MOUTH": 3,
+        "S_CONSTIPATION": 1,
+        "S_FACE_RED": 2,
+        "S_HEAD_DISTENDING": 3,
+        "S_HEAD_DIZZY": 1,
+        "S_IRRITABLE": 3,
+        "S_RED_EYES": 2,
+        "S_THIRST_COLD_DRINK": 1,
+        "S_TINNITUS_HIGH_LOUD": 2,
+        "S_URINE_YELLOW_SCANTY": 1,
+        "T_BODY_RED": 2,
+        "T_COAT_YELLOW": 2,
+        "T_EDGE_RED": 3
+      }
+    },
+    {
+      "against": {
+        "S_FACE_RED": 1,
+        "S_THIRST_COLD_DRINK": 1,
+        "T_BODY_RED": 1
+      },
+      "citations": [
+        "lingshu-008-2",
+        "suwen-010-2"
+      ],
+      "elements": [
+        "PE_肝_血虛"
+      ],
+      "formulas": [
+        "F_SIWU",
+        "F_SUANZAOREN"
+      ],
+      "group": "liver",
+      "id": "LV3",
+      "max_score": 21,
+      "name": {
+        "en": "Liver blood deficiency",
+        "zh-Hant": "肝血虛"
+      },
+      "panel_projection_per_degree": {
+        "肝.blood": -1.0
+      },
+      "principle": "補血養肝（虛煩失眠者養血安神）",
+      "required_any": [
+        "S_BLURRED_VISION",
+        "S_NAIL_BRITTLE",
+        "S_MENSES_SCANTY_PALE"
+      ],
+      "status": "draft",
+      "tongue_pulse_note": "舌淡；脈細",
+      "treatment": {
+        "acupoints": [
+          "三陰交",
+          "太衝"
+        ],
+        "foods": [
+          "紅棗",
+          "枸杞",
+          "黑芝麻",
+          "桑葚"
+        ],
+        "lifestyle": "睡足、少熬夜、少久視"
+      },
+      "weights": {
+        "P_THIN": 2,
+        "S_BLURRED_VISION": 3,
+        "S_DREAM_MANY": 1,
+        "S_DRY_EYES": 2,
+        "S_FACE_PALE": 1,
+        "S_HEAD_DIZZY": 2,
+        "S_INSOMNIA_MAINT": 1,
+        "S_LIMB_NUMB": 2,
+        "S_LIPS_NAILS_PALE": 1,
+        "S_MENSES_SCANTY_PALE": 2,
+        "S_NAIL_BRITTLE": 2,
+        "T_BODY_PALE": 2
+      }
+    },
+    {
+      "against": {
+        "S_FEAR_COLD": 1
+      },
+      "citations": [
+        "jingui-001-1"
+      ],
+      "elements": [
+        "PE_肝_氣滯",
+        "PE_胃_氣滯"
+      ],
+      "formulas": [
+        "F_CHAIHUSHUGAN"
+      ],
+      "group": "liver",
+      "id": "LV4",
+      "max_score": 21,
+      "name": {
+        "en": "Disharmony between liver and stomach",
+        "zh-Hant": "肝胃不和"
+      },
+      "panel_projection_per_degree": {
+        "肝.stasis": 1.0,
+        "胃.stasis": 1.0
+      },
+      "principle": "疏肝和胃",
+      "required_any": [
+        "S_EPIGASTRIC_PAIN",
+        "S_BELCHING"
+      ],
+      "status": "draft",
+      "tongue_pulse_note": "苔薄白或薄黃；脈弦",
+      "treatment": {
+        "acupoints": [
+          "內關",
+          "中脘",
+          "太衝"
+        ],
+        "foods": [
+          "陳皮",
+          "佛手"
+        ],
+        "lifestyle": "情緒平穩時進食、少量多餐"
+      },
+      "weights": {
+        "P_WIRY": 2,
+        "S_ACID_REFLUX": 2,
+        "S_BELCHING": 3,
+        "S_DEPRESSED": 1,
+        "S_EMOTION_TRIGGERED": 2,
+        "S_EPIGASTRIC_PAIN": 3,
+        "S_HYPOCHONDRIAC_DISTENSION": 2,
+        "S_PAIN_DISTENDING": 2,
+        "S_POOR_APPETITE": 1,
+        "S_SIGHING": 1,
+        "T_COAT_THIN_WHITE": 1,
+        "T_COAT_YELLOW": 1
+      }
+    },
+    {
+      "against": {
+        "S_FACE_RED": 1,
+        "S_IRRITABLE": 1,
+        "T_BODY_RED": 1
+      },
+      "citations": [],
+      "elements": [
+        "PE_心_血虛",
+        "PE_脾_氣虛"
+      ],
+      "formulas": [
+        "F_GUIPI"
+      ],
+      "group": "heart",
+      "id": "HT1",
+      "max_score": 23,
+      "name": {
+        "en": "Dual deficiency of heart and spleen",
+        "zh-Hant": "心脾兩虛"
+      },
+      "panel_projection_per_degree": {
+        "心.blood": -1.0,
+        "脾.qi": -1.0
+      },
+      "principle": "補益心脾、養血安神",
+      "required_any": [
+        "S_PALPITATION",
+        "S_FORGETFUL"
+      ],
+      "status": "draft",
+      "tongue_pulse_note": "舌淡；脈細弱",
+      "treatment": {
+        "acupoints": [
+          "神門",
+          "內關",
+          "三陰交"
+        ],
+        "foods": [
+          "龍眼肉",
+          "蓮子",
+          "紅棗",
+          "小麥"
+        ],
+        "lifestyle": "規律作息、減少思慮"
+      },
+      "weights": {
+        "P_DEFICIENT": 1,
+        "P_THIN": 2,
+        "S_DREAM_MANY": 2,
+        "S_FACE_SALLOW": 2,
+        "S_FATIGUE": 2,
+        "S_FORGETFUL": 3,
+        "S_INSOMNIA_MAINT": 2,
+        "S_LOOSE_STOOL": 2,
+        "S_PALPITATION": 3,
+        "S_POOR_APPETITE": 2,
+        "T_BODY_PALE": 2
+      }
+    },
+    {
+      "against": {
+        "S_FEAR_COLD": 2,
+        "T_BODY_PALE": 2,
+        "T_COAT_WHITE_GREASY": 1
+      },
+      "citations": [
+        "shanghan-303"
+      ],
+      "elements": [
+        "PE_心_火",
+        "PE_腎_陰虛"
+      ],
+      "formulas": [
+        "F_HUANGLIANEJIAO",
+        "F_TIANWANG"
+      ],
+      "group": "heart",
+      "id": "HT2",
+      "max_score": 29,
+      "name": {
+        "en": "Disharmony between heart and kidney (yin deficiency with effulgent fire)",
+        "zh-Hant": "心腎不交（陰虛火旺）"
+      },
+      "panel_projection_per_degree": {
+        "liuxie.火": 1.0,
+        "心.yang": 0.5,
+        "腎.yin": -1.0
+      },
+      "principle": "滋陰降火、交通心腎",
+      "required_any": [
+        "S_RESTLESS_NO_SLEEP",
+        "S_HEAT_PALMS_SOLES"
+      ],
+      "status": "draft",
+      "tongue_pulse_note": "舌紅少苔；脈細數",
+      "treatment": {
+        "acupoints": [
+          "神門",
+          "湧泉",
+          "太溪"
+        ],
+        "foods": [
+          "百合",
+          "蓮子",
+          "酸棗仁茶"
+        ],
+        "lifestyle": "睡前放鬆、避免晚間刺激"
+      },
+      "weights": {
+        "P_RAPID": 2,
+        "P_THIN": 1,
+        "S_DRY_MOUTH_THROAT": 1,
+        "S_FORGETFUL": 1,
+        "S_HEAT_PALMS_SOLES": 3,
+        "S_LOW_BACK_SORE": 2,
+        "S_NIGHT_SWEAT": 2,
+        "S_PALPITATION": 2,
+        "S_RESTLESS_NO_SLEEP": 3,
+        "S_SEMINAL_EMISSION": 1,
+        "S_TINNITUS_THIN": 2,
+        "T_BODY_RED": 2,
+        "T_COAT_PEELED_ALL": 2,
+        "T_ROOT_COAT_PEELED": 2,
+        "T_TIP_RED": 3
+      }
+    },
+    {
+      "against": {
+        "S_FEAR_COLD": 1,
+        "T_COAT_PEELED_ALL": 2
+      },
+      "citations": [
+        "lingshu-071-1",
+        "suwen-034-1"
+      ],
+      "elements": [
+        "PE_心_痰",
+        "PE_心_火"
+      ],
+      "formulas": [
+        "F_WENDAN"
+      ],
+      "group": "heart",
+      "id": "HT3",
+      "max_score": 25,
+      "name": {
+        "en": "Phlegm-heat harassing the heart",
+        "zh-Hant": "痰熱擾心"
+      },
+      "panel_projection_per_degree": {
+        "liuxie.火": 1.0,
+        "product.痰": 1.0,
+        "心.yang": 0.5
+      },
+      "principle": "清熱化痰、和胃安神",
+      "required_any": [
+        "S_STARTLE",
+        "T_COAT_YELLOW_GREASY"
+      ],
+      "status": "draft",
+      "tongue_pulse_note": "舌紅苔黃膩；脈滑數",
+      "treatment": {
+        "acupoints": [
+          "豐隆",
+          "內關"
+        ],
+        "foods": [
+          "陳皮",
+          "竹茹茶"
+        ],
+        "lifestyle": "少油膩、晚餐少吃"
+      },
+      "weights": {
+        "P_RAPID": 2,
+        "P_SLIPPERY": 2,
+        "S_BITTER_MOUTH": 2,
+        "S_CHEST_OPPRESSION": 2,
+        "S_DREAM_MANY": 2,
+        "S_INSOMNIA_ONSET": 2,
+        "S_NAUSEA": 1,
+        "S_PHLEGM_COPIOUS": 2,
+        "S_RESTLESS_NO_SLEEP": 2,
+        "S_STARTLE": 3,
+        "T_BODY_RED": 1,
+        "T_COAT_YELLOW_GREASY": 3,
+        "T_TIP_RED": 1
+      }
+    },
+    {
+      "against": {
+        "S_NIGHT_SWEAT": 1,
+        "T_BODY_RED": 2
+      },
+      "citations": [],
+      "elements": [
+        "PE_肺_氣虛"
+      ],
+      "formulas": [
+        "F_YUPINGFENG"
+      ],
+      "group": "lung",
+      "id": "LG1",
+      "max_score": 19,
+      "name": {
+        "en": "Lung qi deficiency (insecure defensive exterior)",
+        "zh-Hant": "肺氣虛（衛表不固）"
+      },
+      "panel_projection_per_degree": {
+        "肺.qi": -1.0
+      },
+      "principle": "益氣固表",
+      "required_any": [
+        "S_EASY_COLD",
+        "S_SHORT_BREATH"
+      ],
+      "status": "draft",
+      "tongue_pulse_note": "舌淡苔白；脈弱",
+      "treatment": {
+        "acupoints": [
+          "太淵",
+          "足三里"
+        ],
+        "foods": [
+          "山藥",
+          "黃耆燉雞（少量）"
+        ],
+        "lifestyle": "防風保暖、適度鍛鍊"
+      },
+      "weights": {
+        "P_DEFICIENT": 2,
+        "S_AVERSION_WIND": 2,
+        "S_COUGH_WEAK": 1,
+        "S_EASY_COLD": 3,
+        "S_FATIGUE": 1,
+        "S_LOW_VOICE": 2,
+        "S_SHORT_BREATH": 3,
+        "S_SPONTANEOUS_SWEAT": 3,
+        "T_BODY_PALE": 1,
+        "T_COAT_THIN_WHITE": 1
+      }
+    },
+    {
+      "against": {
+        "S_FEAR_COLD": 1,
+        "S_PHLEGM_COPIOUS": 2,
+        "T_COAT_WHITE_GREASY": 2
+      },
+      "citations": [
+        "jingui-007-1"
+      ],
+      "elements": [
+        "PE_肺_陰虛"
+      ],
+      "formulas": [
+        "F_MAIMENDONG",
+        "F_SHASHEN"
+      ],
+      "group": "lung",
+      "id": "LG2",
+      "max_score": 23,
+      "name": {
+        "en": "Lung yin deficiency",
+        "zh-Hant": "肺陰虛"
+      },
+      "panel_projection_per_degree": {
+        "肺.yin": -1.0
+      },
+      "principle": "養陰潤肺",
+      "required_any": [
+        "S_COUGH_DRY"
+      ],
+      "status": "draft",
+      "tongue_pulse_note": "舌紅少津；脈細數",
+      "treatment": {
+        "acupoints": [
+          "太淵",
+          "魚際"
+        ],
+        "foods": [
+          "梨",
+          "銀耳",
+          "百合",
+          "蜂蜜"
+        ],
+        "lifestyle": "空氣濕潤、少煙塵"
+      },
+      "weights": {
+        "P_RAPID": 1,
+        "P_THIN": 1,
+        "S_COUGH_DRY": 3,
+        "S_DRY_MOUTH_THROAT": 2,
+        "S_DRY_THROAT": 1,
+        "S_HEAT_PALMS_SOLES": 2,
+        "S_HOARSE": 2,
+        "S_NIGHT_SWEAT": 2,
+        "S_TIDAL_FEVER": 2,
+        "T_BODY_RED": 2,
+        "T_COAT_DRY": 1,
+        "T_COAT_PEELED_ALL": 2,
+        "T_TIP_COAT_PEELED": 2
+      }
+    },
+    {
+      "against": {
+        "S_FEAR_COLD": 2,
+        "T_BODY_PALE": 2,
+        "T_COAT_WHITE_GREASY": 1
+      },
+      "citations": [],
+      "elements": [
+        "PE_腎_陰虛"
+      ],
+      "formulas": [
+        "F_LIUWEI"
+      ],
+      "group": "kidney",
+      "id": "KD1",
+      "max_score": 26,
+      "name": {
+        "en": "Kidney yin deficiency",
+        "zh-Hant": "腎陰虛"
+      },
+      "panel_projection_per_degree": {
+        "腎.yin": -1.0
+      },
+      "principle": "滋陰補腎",
+      "required_any": [
+        "S_LOW_BACK_SORE",
+        "T_ROOT_COAT_PEELED"
+      ],
+      "status": "draft",
+      "tongue_pulse_note": "舌紅少苔；脈細數",
+      "treatment": {
+        "acupoints": [
+          "太溪",
+          "湧泉",
+          "三陰交"
+        ],
+        "foods": [
+          "黑豆",
+          "黑芝麻",
+          "枸杞",
+          "桑葚",
+          "山藥"
+        ],
+        "lifestyle": "避免熬夜、減少辛燥"
+      },
+      "weights": {
+        "P_RAPID": 1,
+        "P_THIN": 2,
+        "S_DRY_MOUTH_THROAT": 2,
+        "S_HEAD_DIZZY": 1,
+        "S_HEAT_PALMS_SOLES": 3,
+        "S_LOW_BACK_SORE": 3,
+        "S_NIGHT_SWEAT": 2,
+        "S_SEMINAL_EMISSION": 1,
+        "S_TIDAL_FEVER": 1,
+        "S_TINNITUS_THIN": 2,
+        "T_BODY_RED": 2,
+        "T_COAT_PEELED_ALL": 2,
+        "T_CRACKS_ALL": 1,
+        "T_ROOT_COAT_PEELED": 3
+      }
+    },
+    {
+      "against": {
+        "S_HEAT_PALMS_SOLES": 3,
+        "S_THIRST_COLD_DRINK": 2,
+        "T_BODY_RED": 2
+      },
+      "citations": [
+        "jingui-006-2"
+      ],
+      "elements": [
+        "PE_腎_陽虛",
+        "PE_腎_寒"
+      ],
+      "formulas": [
+        "F_SHENQI",
+        "F_YOUGUI"
+      ],
+      "group": "kidney",
+      "id": "KD2",
+      "max_score": 26,
+      "name": {
+        "en": "Kidney yang deficiency",
+        "zh-Hant": "腎陽虛"
+      },
+      "panel_projection_per_degree": {
+        "liuxie.寒": 1.5,
+        "腎.yang": -1.0
+      },
+      "principle": "溫補腎陽",
+      "required_any": [
+        "S_LOW_BACK_COLD",
+        "S_FEAR_COLD",
+        "S_FREQUENT_NOCTURIA"
+      ],
+      "status": "draft",
+      "tongue_pulse_note": "舌淡胖苔白；脈沉細（尺弱）",
+      "treatment": {
+        "acupoints": [
+          "關元",
+          "腎俞",
+          "湧泉"
+        ],
+        "foods": [
+          "核桃",
+          "韭菜",
+          "羊肉（冬）",
+          "栗子"
+        ],
+        "lifestyle": "腰腹保暖、避免久坐受寒"
+      },
+      "weights": {
+        "P_DEFICIENT": 2,
+        "P_SINK": 2,
+        "P_SLOW": 1,
+        "S_COLD_LIMBS": 2,
+        "S_EDEMA": 1,
+        "S_FATIGUE": 1,
+        "S_FEAR_COLD": 3,
+        "S_FREQUENT_NOCTURIA": 3,
+        "S_LOOSE_STOOL": 1,
+        "S_LOW_BACK_COLD": 3,
+        "S_SPIRIT_WITHDRAWN": 2,
+        "S_URINE_CLEAR_LONG": 2,
+        "T_BODY_PALE_SWOLLEN": 2,
+        "T_COAT_SLIPPERY": 1
+      }
+    },
+    {
+      "against": {
+        "S_FACE_RED": 1,
+        "S_IRRITABLE": 1,
+        "T_BODY_RED": 1
+      },
+      "citations": [],
+      "elements": [
+        "PE_脾_氣虛",
+        "PE_心_血虛"
+      ],
+      "formulas": [
+        "F_BAZHEN"
+      ],
+      "group": "qi-blood",
+      "id": "QB1",
+      "max_score": 25,
+      "name": {
+        "en": "Dual deficiency of qi and blood",
+        "zh-Hant": "氣血兩虛"
+      },
+      "panel_projection_per_degree": {
+        "心.blood": -1.0,
+        "脾.qi": -1.0
+      },
+      "principle": "益氣補血",
+      "required_any": [
+        "S_FATIGUE"
+      ],
+      "status": "draft",
+      "tongue_pulse_note": "舌淡嫩；脈細弱",
+      "treatment": {
+        "acupoints": [
+          "足三里",
+          "氣海",
+          "三陰交"
+        ],
+        "foods": [
+          "紅棗",
+          "桂圓",
+          "山藥",
+          "雞肉"
+        ],
+        "lifestyle": "規律作息、不過勞"
+      },
+      "weights": {
+        "P_DEFICIENT": 2,
+        "P_THIN": 2,
+        "S_FACE_PALE": 2,
+        "S_FACE_SALLOW": 1,
+        "S_FATIGUE": 3,
+        "S_HEAD_DIZZY": 2,
+        "S_INSOMNIA_MAINT": 1,
+        "S_LAZY_SPEAK": 1,
+        "S_LIPS_NAILS_PALE": 2,
+        "S_MENSES_SCANTY_PALE": 1,
+        "S_PALPITATION": 2,
+        "S_SHORT_BREATH": 2,
+        "T_BODY_PALE": 3,
+        "T_TENDER": 1
+      }
+    },
+    {
+      "against": {
+        "S_FACE_PALE": 1,
+        "T_BODY_PALE": 1
+      },
+      "citations": [
+        "suwen-062-2"
+      ],
+      "elements": [
+        "PE_全身_瘀"
+      ],
+      "formulas": [
+        "F_XUEFU"
+      ],
+      "group": "qi-blood",
+      "id": "QB2",
+      "max_score": 27,
+      "name": {
+        "en": "Blood stasis",
+        "zh-Hant": "血瘀"
+      },
+      "panel_projection_per_degree": {
+        "product.瘀": 1.0
+      },
+      "principle": "活血化瘀",
+      "required_any": [
+        "S_STABBING_PAIN_FIXED",
+        "T_ECCHYMOSIS",
+        "T_BODY_PURPLE",
+        "S_MENSES_CLOTS_DARK"
+      ],
+      "status": "draft",
+      "tongue_pulse_note": "舌紫暗或有瘀斑；脈澀",
+      "treatment": {
+        "acupoints": [
+          "血海",
+          "膈俞",
+          "三陰交"
+        ],
+        "foods": [
+          "黑木耳（少量）",
+          "玫瑰花",
+          "山楂"
+        ],
+        "lifestyle": "規律活動、避免久坐不動"
+      },
+      "weights": {
+        "P_CHOPPY": 3,
+        "S_ABD_REFUSE_PRESS": 1,
+        "S_DYSMENORRHEA": 2,
+        "S_FACE_DARK": 2,
+        "S_LIPS_PURPLE": 2,
+        "S_MENSES_CLOTS_DARK": 3,
+        "S_PAIN_NIGHT_WORSE": 2,
+        "S_SKIN_SQUAMOUS": 1,
+        "S_STABBING_PAIN_FIXED": 3,
+        "T_BODY_PURPLE": 3,
+        "T_ECCHYMOSIS": 3,
+        "T_SUBLINGUAL_VEINS": 2
+      }
+    }
+  ]
+}

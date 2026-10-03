@@ -1,0 +1,1495 @@
+{
+  "_meta": {
+    "by_dimension": {
+      "chest-abdomen": 14,
+      "cold-heat": 10,
+      "diet-taste": 12,
+      "ear-eye-throat": 9,
+      "emotion": 4,
+      "face-skin": 8,
+      "head-body": 13,
+      "menses": 6,
+      "pulse": 28,
+      "qi-spirit-form": 6,
+      "sleep": 6,
+      "stool-urine": 7,
+      "sweat": 3,
+      "thirst": 6,
+      "tongue": 32,
+      "voice-breath": 7
+    },
+    "count": 171,
+    "description": "Symptom / sign registry: 12 inquiry dimensions + tongue + pulse. English needs review."
+  },
+  "items": [
+    {
+      "dimension": "cold-heat",
+      "en": "aversion to cold (not relieved by clothing)",
+      "id": "S_AVERSION_COLD",
+      "kind": "symptom",
+      "zh-Hant": "惡寒（加衣被仍冷）"
+    },
+    {
+      "dimension": "cold-heat",
+      "en": "cold intolerance (relieved by warmth)",
+      "id": "S_FEAR_COLD",
+      "kind": "symptom",
+      "zh-Hant": "畏寒（得溫則減）"
+    },
+    {
+      "dimension": "cold-heat",
+      "en": "aversion to wind",
+      "id": "S_AVERSION_WIND",
+      "kind": "symptom",
+      "zh-Hant": "惡風"
+    },
+    {
+      "dimension": "cold-heat",
+      "en": "fever",
+      "id": "S_FEVER",
+      "kind": "symptom",
+      "zh-Hant": "發熱"
+    },
+    {
+      "dimension": "cold-heat",
+      "en": "unsurfaced fever",
+      "id": "S_FEVER_UNEVEN",
+      "kind": "symptom",
+      "zh-Hant": "身熱不揚"
+    },
+    {
+      "dimension": "cold-heat",
+      "en": "cold limbs",
+      "id": "S_COLD_LIMBS",
+      "kind": "symptom",
+      "zh-Hant": "手足冰冷"
+    },
+    {
+      "dimension": "cold-heat",
+      "en": "heat in the five centres (palms, soles, chest)",
+      "id": "S_HEAT_PALMS_SOLES",
+      "kind": "symptom",
+      "zh-Hant": "五心煩熱／手足心熱"
+    },
+    {
+      "dimension": "cold-heat",
+      "en": "tidal fever (afternoon)",
+      "id": "S_TIDAL_FEVER",
+      "kind": "symptom",
+      "zh-Hant": "午後潮熱"
+    },
+    {
+      "dimension": "cold-heat",
+      "en": "alternating chills and fever",
+      "id": "S_ALTERNATING_CHILLS_FEVER",
+      "kind": "symptom",
+      "zh-Hant": "往來寒熱"
+    },
+    {
+      "dimension": "cold-heat",
+      "en": "heat intolerance",
+      "id": "S_FEAR_HEAT",
+      "kind": "symptom",
+      "zh-Hant": "怕熱喜涼"
+    },
+    {
+      "dimension": "sweat",
+      "en": "spontaneous sweating",
+      "id": "S_SPONTANEOUS_SWEAT",
+      "kind": "symptom",
+      "zh-Hant": "自汗（動則汗出）"
+    },
+    {
+      "dimension": "sweat",
+      "en": "night sweating",
+      "id": "S_NIGHT_SWEAT",
+      "kind": "symptom",
+      "zh-Hant": "盜汗"
+    },
+    {
+      "dimension": "sweat",
+      "en": "absence of sweating",
+      "id": "S_NO_SWEAT",
+      "kind": "symptom",
+      "zh-Hant": "無汗"
+    },
+    {
+      "dimension": "head-body",
+      "en": "headache",
+      "id": "S_HEADACHE",
+      "kind": "symptom",
+      "zh-Hant": "頭痛"
+    },
+    {
+      "dimension": "head-body",
+      "en": "heavy-headedness (as if wrapped)",
+      "id": "S_HEAD_HEAVY",
+      "kind": "symptom",
+      "zh-Hant": "頭重如裹"
+    },
+    {
+      "dimension": "head-body",
+      "en": "dizziness",
+      "id": "S_HEAD_DIZZY",
+      "kind": "symptom",
+      "zh-Hant": "頭暈目眩"
+    },
+    {
+      "dimension": "head-body",
+      "en": "distending headache",
+      "id": "S_HEAD_DISTENDING",
+      "kind": "symptom",
+      "zh-Hant": "頭脹痛"
+    },
+    {
+      "dimension": "head-body",
+      "en": "body aches",
+      "id": "S_BODY_ACHE",
+      "kind": "symptom",
+      "zh-Hant": "身體疼痛"
+    },
+    {
+      "dimension": "head-body",
+      "en": "heavy body and drowsiness",
+      "id": "S_BODY_HEAVY",
+      "kind": "symptom",
+      "zh-Hant": "身重困倦"
+    },
+    {
+      "dimension": "head-body",
+      "en": "numbness of the limbs",
+      "id": "S_LIMB_NUMB",
+      "kind": "symptom",
+      "zh-Hant": "肢體麻木"
+    },
+    {
+      "dimension": "head-body",
+      "en": "aching and weakness of the lower back and knees",
+      "id": "S_LOW_BACK_SORE",
+      "kind": "symptom",
+      "zh-Hant": "腰膝痠軟"
+    },
+    {
+      "dimension": "head-body",
+      "en": "cold aching of the lower back and knees",
+      "id": "S_LOW_BACK_COLD",
+      "kind": "symptom",
+      "zh-Hant": "腰膝痠冷"
+    },
+    {
+      "dimension": "head-body",
+      "en": "stabbing pain at a fixed location",
+      "id": "S_STABBING_PAIN_FIXED",
+      "kind": "symptom",
+      "zh-Hant": "刺痛固定不移"
+    },
+    {
+      "dimension": "head-body",
+      "en": "pain worse at night",
+      "id": "S_PAIN_NIGHT_WORSE",
+      "kind": "symptom",
+      "zh-Hant": "疼痛夜間加重"
+    },
+    {
+      "dimension": "head-body",
+      "en": "distending pain",
+      "id": "S_PAIN_DISTENDING",
+      "kind": "symptom",
+      "zh-Hant": "脹痛"
+    },
+    {
+      "dimension": "head-body",
+      "en": "wandering pain",
+      "id": "S_PAIN_WANDERING",
+      "kind": "symptom",
+      "zh-Hant": "竄痛"
+    },
+    {
+      "dimension": "stool-urine",
+      "en": "loose stool",
+      "id": "S_LOOSE_STOOL",
+      "kind": "symptom",
+      "zh-Hant": "大便溏稀"
+    },
+    {
+      "dimension": "stool-urine",
+      "en": "dry stool / constipation",
+      "id": "S_CONSTIPATION",
+      "kind": "symptom",
+      "zh-Hant": "大便乾結"
+    },
+    {
+      "dimension": "stool-urine",
+      "en": "sticky, incomplete stool",
+      "id": "S_STICKY_STOOL",
+      "kind": "symptom",
+      "zh-Hant": "大便黏滯不爽"
+    },
+    {
+      "dimension": "stool-urine",
+      "en": "undigested food in stool",
+      "id": "S_UNDIGESTED_STOOL",
+      "kind": "symptom",
+      "zh-Hant": "完穀不化"
+    },
+    {
+      "dimension": "stool-urine",
+      "en": "frequent nocturia",
+      "id": "S_FREQUENT_NOCTURIA",
+      "kind": "symptom",
+      "zh-Hant": "夜尿頻多"
+    },
+    {
+      "dimension": "stool-urine",
+      "en": "scanty, dark-yellow urine",
+      "id": "S_URINE_YELLOW_SCANTY",
+      "kind": "symptom",
+      "zh-Hant": "小便短黃"
+    },
+    {
+      "dimension": "stool-urine",
+      "en": "clear, copious urine",
+      "id": "S_URINE_CLEAR_LONG",
+      "kind": "symptom",
+      "zh-Hant": "小便清長"
+    },
+    {
+      "dimension": "diet-taste",
+      "en": "poor appetite",
+      "id": "S_POOR_APPETITE",
+      "kind": "symptom",
+      "zh-Hant": "食少納呆"
+    },
+    {
+      "dimension": "diet-taste",
+      "en": "postprandial distension",
+      "id": "S_POSTPRANDIAL_BLOAT",
+      "kind": "symptom",
+      "zh-Hant": "食後腹脹"
+    },
+    {
+      "dimension": "diet-taste",
+      "en": "hunger without desire to eat",
+      "id": "S_HUNGER_NO_EAT",
+      "kind": "symptom",
+      "zh-Hant": "饑不欲食"
+    },
+    {
+      "dimension": "diet-taste",
+      "en": "bitter taste in the mouth",
+      "id": "S_BITTER_MOUTH",
+      "kind": "symptom",
+      "zh-Hant": "口苦"
+    },
+    {
+      "dimension": "diet-taste",
+      "en": "sticky, greasy taste in the mouth",
+      "id": "S_STICKY_MOUTH",
+      "kind": "symptom",
+      "zh-Hant": "口黏膩"
+    },
+    {
+      "dimension": "diet-taste",
+      "en": "bland taste in the mouth",
+      "id": "S_BLAND_MOUTH",
+      "kind": "symptom",
+      "zh-Hant": "口淡無味"
+    },
+    {
+      "dimension": "diet-taste",
+      "en": "acid regurgitation",
+      "id": "S_ACID_REFLUX",
+      "kind": "symptom",
+      "zh-Hant": "泛酸"
+    },
+    {
+      "dimension": "diet-taste",
+      "en": "preference for hot food",
+      "id": "S_PREFER_HOT_FOOD",
+      "kind": "symptom",
+      "zh-Hant": "喜熱食"
+    },
+    {
+      "dimension": "diet-taste",
+      "en": "preference for cold food",
+      "id": "S_PREFER_COLD_FOOD",
+      "kind": "symptom",
+      "zh-Hant": "喜冷食"
+    },
+    {
+      "dimension": "diet-taste",
+      "en": "belching",
+      "id": "S_BELCHING",
+      "kind": "symptom",
+      "zh-Hant": "噯氣"
+    },
+    {
+      "dimension": "diet-taste",
+      "en": "nausea",
+      "id": "S_NAUSEA",
+      "kind": "symptom",
+      "zh-Hant": "噁心"
+    },
+    {
+      "dimension": "diet-taste",
+      "en": "dry retching",
+      "id": "S_DRY_RETCH",
+      "kind": "symptom",
+      "zh-Hant": "乾嘔"
+    },
+    {
+      "dimension": "chest-abdomen",
+      "en": "palpitations",
+      "id": "S_PALPITATION",
+      "kind": "symptom",
+      "zh-Hant": "心悸"
+    },
+    {
+      "dimension": "chest-abdomen",
+      "en": "chest oppression",
+      "id": "S_CHEST_OPPRESSION",
+      "kind": "symptom",
+      "zh-Hant": "胸悶"
+    },
+    {
+      "dimension": "chest-abdomen",
+      "en": "hypochondriac distension",
+      "id": "S_HYPOCHONDRIAC_DISTENSION",
+      "kind": "symptom",
+      "zh-Hant": "脅肋脹痛"
+    },
+    {
+      "dimension": "chest-abdomen",
+      "en": "epigastric distending pain",
+      "id": "S_EPIGASTRIC_PAIN",
+      "kind": "symptom",
+      "zh-Hant": "胃脘脹痛"
+    },
+    {
+      "dimension": "chest-abdomen",
+      "en": "dull burning epigastric pain",
+      "id": "S_EPIGASTRIC_BURNING",
+      "kind": "symptom",
+      "zh-Hant": "胃脘隱隱灼痛"
+    },
+    {
+      "dimension": "chest-abdomen",
+      "en": "epigastric and abdominal fullness",
+      "id": "S_EPIGASTRIC_FULLNESS",
+      "kind": "symptom",
+      "zh-Hant": "脘腹痞滿"
+    },
+    {
+      "dimension": "chest-abdomen",
+      "en": "abdominal pain relieved by warmth and pressure",
+      "id": "S_ABD_PAIN_PREFER_WARM_PRESS",
+      "kind": "symptom",
+      "zh-Hant": "腹痛喜溫喜按"
+    },
+    {
+      "dimension": "chest-abdomen",
+      "en": "abdomen prefers pressure",
+      "id": "S_ABD_PREFER_PRESS",
+      "kind": "symptom",
+      "zh-Hant": "腹部喜按"
+    },
+    {
+      "dimension": "chest-abdomen",
+      "en": "abdomen refuses pressure",
+      "id": "S_ABD_REFUSE_PRESS",
+      "kind": "symptom",
+      "zh-Hant": "腹部拒按"
+    },
+    {
+      "dimension": "chest-abdomen",
+      "en": "abdominal fullness that comes and goes",
+      "id": "S_ABD_DISTENSION_INTERMITTENT",
+      "kind": "symptom",
+      "zh-Hant": "腹滿時減"
+    },
+    {
+      "dimension": "chest-abdomen",
+      "en": "bearing-down sensation",
+      "id": "S_PROLAPSE_SENSATION",
+      "kind": "symptom",
+      "zh-Hant": "脘腹墜脹／下墜感"
+    },
+    {
+      "dimension": "chest-abdomen",
+      "en": "plum-pit sensation in the throat",
+      "id": "S_THROAT_FOREIGN",
+      "kind": "symptom",
+      "zh-Hant": "咽中異物感"
+    },
+    {
+      "dimension": "chest-abdomen",
+      "en": "breast distension",
+      "id": "S_BREAST_DISTENSION",
+      "kind": "symptom",
+      "zh-Hant": "乳房脹痛"
+    },
+    {
+      "dimension": "chest-abdomen",
+      "en": "frequent sighing",
+      "id": "S_SIGHING",
+      "kind": "symptom",
+      "zh-Hant": "善太息"
+    },
+    {
+      "dimension": "ear-eye-throat",
+      "en": "tinnitus, loud (like tides)",
+      "id": "S_TINNITUS_HIGH_LOUD",
+      "kind": "symptom",
+      "zh-Hant": "耳鳴如潮"
+    },
+    {
+      "dimension": "ear-eye-throat",
+      "en": "tinnitus, thin (like cicadas)",
+      "id": "S_TINNITUS_THIN",
+      "kind": "symptom",
+      "zh-Hant": "耳鳴如蟬"
+    },
+    {
+      "dimension": "ear-eye-throat",
+      "en": "blurred vision",
+      "id": "S_BLURRED_VISION",
+      "kind": "symptom",
+      "zh-Hant": "視物模糊"
+    },
+    {
+      "dimension": "ear-eye-throat",
+      "en": "dry eyes",
+      "id": "S_DRY_EYES",
+      "kind": "symptom",
+      "zh-Hant": "目乾澀"
+    },
+    {
+      "dimension": "ear-eye-throat",
+      "en": "red eyes",
+      "id": "S_RED_EYES",
+      "kind": "symptom",
+      "zh-Hant": "目赤"
+    },
+    {
+      "dimension": "ear-eye-throat",
+      "en": "dry throat",
+      "id": "S_DRY_THROAT",
+      "kind": "symptom",
+      "zh-Hant": "咽乾"
+    },
+    {
+      "dimension": "ear-eye-throat",
+      "en": "sore throat",
+      "id": "S_SORE_THROAT",
+      "kind": "symptom",
+      "zh-Hant": "咽痛"
+    },
+    {
+      "dimension": "ear-eye-throat",
+      "en": "hoarse voice",
+      "id": "S_HOARSE",
+      "kind": "symptom",
+      "zh-Hant": "聲音嘶啞"
+    },
+    {
+      "dimension": "ear-eye-throat",
+      "en": "mouth and tongue sores",
+      "id": "S_MOUTH_ULCERS",
+      "kind": "symptom",
+      "zh-Hant": "口舌生瘡"
+    },
+    {
+      "dimension": "thirst",
+      "en": "thirst with preference for cold drinks",
+      "id": "S_THIRST_COLD_DRINK",
+      "kind": "symptom",
+      "zh-Hant": "口渴喜冷飲"
+    },
+    {
+      "dimension": "thirst",
+      "en": "thirst without desire to drink",
+      "id": "S_THIRST_NO_DRINK",
+      "kind": "symptom",
+      "zh-Hant": "渴不欲飲"
+    },
+    {
+      "dimension": "thirst",
+      "en": "slight thirst",
+      "id": "S_THIRST_LIGHT",
+      "kind": "symptom",
+      "zh-Hant": "口微渴"
+    },
+    {
+      "dimension": "thirst",
+      "en": "absence of thirst",
+      "id": "S_NO_THIRST",
+      "kind": "symptom",
+      "zh-Hant": "口不渴"
+    },
+    {
+      "dimension": "thirst",
+      "en": "dry mouth and throat",
+      "id": "S_DRY_MOUTH_THROAT",
+      "kind": "symptom",
+      "zh-Hant": "口燥咽乾"
+    },
+    {
+      "dimension": "thirst",
+      "en": "preference for hot drinks",
+      "id": "S_PREFER_HOT_DRINK",
+      "kind": "symptom",
+      "zh-Hant": "喜熱飲"
+    },
+    {
+      "dimension": "sleep",
+      "en": "difficulty falling asleep",
+      "id": "S_INSOMNIA_ONSET",
+      "kind": "symptom",
+      "zh-Hant": "難入睡"
+    },
+    {
+      "dimension": "sleep",
+      "en": "frequent waking",
+      "id": "S_INSOMNIA_MAINT",
+      "kind": "symptom",
+      "zh-Hant": "睡眠易醒"
+    },
+    {
+      "dimension": "sleep",
+      "en": "profuse dreaming",
+      "id": "S_DREAM_MANY",
+      "kind": "symptom",
+      "zh-Hant": "多夢"
+    },
+    {
+      "dimension": "sleep",
+      "en": "vexation with inability to sleep",
+      "id": "S_RESTLESS_NO_SLEEP",
+      "kind": "symptom",
+      "zh-Hant": "心煩不得眠"
+    },
+    {
+      "dimension": "sleep",
+      "en": "forgetfulness",
+      "id": "S_FORGETFUL",
+      "kind": "symptom",
+      "zh-Hant": "健忘"
+    },
+    {
+      "dimension": "sleep",
+      "en": "susceptibility to fright",
+      "id": "S_STARTLE",
+      "kind": "symptom",
+      "zh-Hant": "易驚"
+    },
+    {
+      "dimension": "emotion",
+      "en": "depressed mood",
+      "id": "S_DEPRESSED",
+      "kind": "symptom",
+      "zh-Hant": "情緒抑鬱"
+    },
+    {
+      "dimension": "emotion",
+      "en": "irritability and easy anger",
+      "id": "S_IRRITABLE",
+      "kind": "symptom",
+      "zh-Hant": "急躁易怒"
+    },
+    {
+      "dimension": "emotion",
+      "en": "symptoms triggered or worsened by emotion",
+      "id": "S_EMOTION_TRIGGERED",
+      "kind": "symptom",
+      "zh-Hant": "症狀因情緒誘發或加重"
+    },
+    {
+      "dimension": "emotion",
+      "en": "excessive pensiveness",
+      "id": "S_MENTAL_STRAIN",
+      "kind": "symptom",
+      "zh-Hant": "思慮過度"
+    },
+    {
+      "dimension": "menses",
+      "en": "scanty, pale menses",
+      "id": "S_MENSES_SCANTY_PALE",
+      "kind": "symptom",
+      "zh-Hant": "經少色淡"
+    },
+    {
+      "dimension": "menses",
+      "en": "dark menses with clots",
+      "id": "S_MENSES_CLOTS_DARK",
+      "kind": "symptom",
+      "zh-Hant": "經色暗有血塊"
+    },
+    {
+      "dimension": "menses",
+      "en": "irregular menstrual cycle",
+      "id": "S_MENSES_IRREGULAR",
+      "kind": "symptom",
+      "zh-Hant": "月經週期不調"
+    },
+    {
+      "dimension": "menses",
+      "en": "dysmenorrhea",
+      "id": "S_DYSMENORRHEA",
+      "kind": "symptom",
+      "zh-Hant": "痛經"
+    },
+    {
+      "dimension": "menses",
+      "en": "thick yellow vaginal discharge",
+      "id": "S_LEUKORRHEA_YELLOW",
+      "kind": "symptom",
+      "zh-Hant": "帶下黃稠"
+    },
+    {
+      "dimension": "menses",
+      "en": "seminal emission",
+      "id": "S_SEMINAL_EMISSION",
+      "kind": "symptom",
+      "zh-Hant": "遺精"
+    },
+    {
+      "dimension": "qi-spirit-form",
+      "en": "fatigue and lack of strength",
+      "id": "S_FATIGUE",
+      "kind": "symptom",
+      "zh-Hant": "神疲乏力"
+    },
+    {
+      "dimension": "qi-spirit-form",
+      "en": "shortness of breath",
+      "id": "S_SHORT_BREATH",
+      "kind": "symptom",
+      "zh-Hant": "氣短"
+    },
+    {
+      "dimension": "qi-spirit-form",
+      "en": "disinclination to speak",
+      "id": "S_LAZY_SPEAK",
+      "kind": "symptom",
+      "zh-Hant": "少氣懶言"
+    },
+    {
+      "dimension": "voice-breath",
+      "en": "low voice",
+      "id": "S_LOW_VOICE",
+      "kind": "symptom",
+      "zh-Hant": "聲低"
+    },
+    {
+      "dimension": "qi-spirit-form",
+      "en": "susceptibility to common cold",
+      "id": "S_EASY_COLD",
+      "kind": "symptom",
+      "zh-Hant": "容易感冒"
+    },
+    {
+      "dimension": "voice-breath",
+      "en": "dry cough with scanty phlegm",
+      "id": "S_COUGH_DRY",
+      "kind": "symptom",
+      "zh-Hant": "乾咳少痰"
+    },
+    {
+      "dimension": "voice-breath",
+      "en": "weak cough",
+      "id": "S_COUGH_WEAK",
+      "kind": "symptom",
+      "zh-Hant": "咳聲無力"
+    },
+    {
+      "dimension": "voice-breath",
+      "en": "cough with thick yellow phlegm",
+      "id": "S_COUGH_PHLEGM_YELLOW",
+      "kind": "symptom",
+      "zh-Hant": "咳痰黃稠"
+    },
+    {
+      "dimension": "voice-breath",
+      "en": "copious phlegm",
+      "id": "S_PHLEGM_COPIOUS",
+      "kind": "symptom",
+      "zh-Hant": "痰多"
+    },
+    {
+      "dimension": "voice-breath",
+      "en": "nasal congestion with clear discharge",
+      "id": "S_RUNNY_NOSE_CLEAR",
+      "kind": "symptom",
+      "zh-Hant": "鼻塞流清涕"
+    },
+    {
+      "dimension": "voice-breath",
+      "en": "nasal congestion",
+      "id": "S_NASAL_CONGESTION",
+      "kind": "symptom",
+      "zh-Hant": "鼻塞"
+    },
+    {
+      "dimension": "qi-spirit-form",
+      "en": "oedema",
+      "id": "S_EDEMA",
+      "kind": "symptom",
+      "zh-Hant": "浮腫"
+    },
+    {
+      "dimension": "qi-spirit-form",
+      "en": "listlessness",
+      "id": "S_SPIRIT_WITHDRAWN",
+      "kind": "symptom",
+      "zh-Hant": "精神萎靡"
+    },
+    {
+      "dimension": "face-skin",
+      "en": "sallow complexion",
+      "id": "S_FACE_SALLOW",
+      "kind": "symptom",
+      "zh-Hant": "面色萎黃"
+    },
+    {
+      "dimension": "face-skin",
+      "en": "pale complexion",
+      "id": "S_FACE_PALE",
+      "kind": "symptom",
+      "zh-Hant": "面色淡白"
+    },
+    {
+      "dimension": "face-skin",
+      "en": "flushed face",
+      "id": "S_FACE_RED",
+      "kind": "symptom",
+      "zh-Hant": "面紅目赤"
+    },
+    {
+      "dimension": "face-skin",
+      "en": "dusky complexion",
+      "id": "S_FACE_DARK",
+      "kind": "symptom",
+      "zh-Hant": "面色晦暗"
+    },
+    {
+      "dimension": "face-skin",
+      "en": "pale lips and nails",
+      "id": "S_LIPS_NAILS_PALE",
+      "kind": "symptom",
+      "zh-Hant": "唇甲色淡"
+    },
+    {
+      "dimension": "face-skin",
+      "en": "purple lips and nails",
+      "id": "S_LIPS_PURPLE",
+      "kind": "symptom",
+      "zh-Hant": "唇甲青紫"
+    },
+    {
+      "dimension": "face-skin",
+      "en": "brittle, lustreless nails",
+      "id": "S_NAIL_BRITTLE",
+      "kind": "symptom",
+      "zh-Hant": "爪甲不榮"
+    },
+    {
+      "dimension": "face-skin",
+      "en": "scaly, dry skin",
+      "id": "S_SKIN_SQUAMOUS",
+      "kind": "symptom",
+      "zh-Hant": "肌膚甲錯"
+    },
+    {
+      "dimension": "tongue",
+      "en": "pale tongue",
+      "id": "T_BODY_PALE",
+      "kind": "tongue",
+      "tongue": {
+        "category": "body",
+        "meaning": "舌淡：陽虛、氣血不足",
+        "zone": "all"
+      },
+      "zh-Hant": "舌淡"
+    },
+    {
+      "dimension": "tongue",
+      "en": "pale, swollen tongue",
+      "id": "T_BODY_PALE_SWOLLEN",
+      "kind": "tongue",
+      "tongue": {
+        "category": "body",
+        "meaning": "舌淡胖：陽虛、脾虛水濕內停",
+        "zone": "all"
+      },
+      "zh-Hant": "舌淡胖"
+    },
+    {
+      "dimension": "tongue",
+      "en": "red tongue",
+      "id": "T_BODY_RED",
+      "kind": "tongue",
+      "tongue": {
+        "category": "body",
+        "meaning": "舌紅：熱證；少苔者陰虛",
+        "zone": "all"
+      },
+      "zh-Hant": "舌紅"
+    },
+    {
+      "dimension": "tongue",
+      "en": "crimson tongue",
+      "id": "T_BODY_CRIMSON",
+      "kind": "tongue",
+      "tongue": {
+        "category": "body",
+        "meaning": "舌絳：熱入營血或陰虛火旺之甚",
+        "zone": "all"
+      },
+      "zh-Hant": "舌絳"
+    },
+    {
+      "dimension": "tongue",
+      "en": "purple, dusky tongue",
+      "id": "T_BODY_PURPLE",
+      "kind": "tongue",
+      "tongue": {
+        "category": "body",
+        "meaning": "舌紫暗：血瘀；寒凝亦可見",
+        "zone": "all"
+      },
+      "zh-Hant": "舌紫暗"
+    },
+    {
+      "dimension": "tongue",
+      "en": "swollen tongue",
+      "id": "T_SWOLLEN",
+      "kind": "tongue",
+      "tongue": {
+        "category": "shape",
+        "meaning": "胖大：脾虛、水濕痰飲",
+        "zone": "all"
+      },
+      "zh-Hant": "舌體胖大"
+    },
+    {
+      "dimension": "tongue",
+      "en": "thin tongue",
+      "id": "T_THIN",
+      "kind": "tongue",
+      "tongue": {
+        "category": "shape",
+        "meaning": "瘦薄：氣血陰液不足",
+        "zone": "all"
+      },
+      "zh-Hant": "舌體瘦薄"
+    },
+    {
+      "dimension": "tongue",
+      "en": "tender tongue",
+      "id": "T_TENDER",
+      "kind": "tongue",
+      "tongue": {
+        "category": "shape",
+        "meaning": "質嫩：虛證",
+        "zone": "all"
+      },
+      "zh-Hant": "舌質嫩"
+    },
+    {
+      "dimension": "tongue",
+      "en": "tooth marks on the tongue edges",
+      "id": "T_TOOTHMARK_EDGE",
+      "kind": "tongue",
+      "tongue": {
+        "category": "special",
+        "meaning": "舌邊齒痕：脾虛濕盛（舌體胖大受齒擠壓）",
+        "zone": "edge"
+      },
+      "zh-Hant": "舌邊齒痕"
+    },
+    {
+      "dimension": "tongue",
+      "en": "central crack on the tongue",
+      "id": "T_CRACKS_CENTER",
+      "kind": "tongue",
+      "tongue": {
+        "category": "special",
+        "meaning": "舌中裂紋：胃陰不足、胃熱傷津",
+        "zone": "center"
+      },
+      "zh-Hant": "舌中裂紋"
+    },
+    {
+      "dimension": "tongue",
+      "en": "multiple cracks over the tongue",
+      "id": "T_CRACKS_ALL",
+      "kind": "tongue",
+      "tongue": {
+        "category": "special",
+        "meaning": "滿舌裂紋：陰液耗損、精血虧虛",
+        "zone": "all"
+      },
+      "zh-Hant": "滿舌裂紋"
+    },
+    {
+      "dimension": "tongue",
+      "en": "red dots or prickles on the tongue tip",
+      "id": "T_RED_DOTS_TIP",
+      "kind": "tongue",
+      "tongue": {
+        "category": "special",
+        "meaning": "舌尖紅點／芒刺：心火上炎；外感風熱初起亦可見",
+        "zone": "tip"
+      },
+      "zh-Hant": "舌尖紅點／芒刺"
+    },
+    {
+      "dimension": "tongue",
+      "en": "red dots on the tongue edges",
+      "id": "T_RED_DOTS_EDGE",
+      "kind": "tongue",
+      "tongue": {
+        "category": "special",
+        "meaning": "舌邊紅點：肝膽火熱",
+        "zone": "edge"
+      },
+      "zh-Hant": "舌邊紅點"
+    },
+    {
+      "dimension": "tongue",
+      "en": "prickles in the middle of the tongue",
+      "id": "T_RED_DOTS_CENTER",
+      "kind": "tongue",
+      "tongue": {
+        "category": "special",
+        "meaning": "舌中芒刺：胃腸熱盛",
+        "zone": "center"
+      },
+      "zh-Hant": "舌中芒刺"
+    },
+    {
+      "dimension": "tongue",
+      "en": "ecchymoses or petechiae on the tongue",
+      "id": "T_ECCHYMOSIS",
+      "kind": "tongue",
+      "tongue": {
+        "category": "special",
+        "meaning": "瘀斑瘀點：血瘀",
+        "zone": "all"
+      },
+      "zh-Hant": "舌有瘀斑瘀點"
+    },
+    {
+      "dimension": "tongue",
+      "en": "engorged, dusky sublingual veins",
+      "id": "T_SUBLINGUAL_VEINS",
+      "kind": "tongue",
+      "tongue": {
+        "category": "special",
+        "meaning": "舌下絡脈怒張紫暗：血瘀",
+        "zone": "all"
+      },
+      "zh-Hant": "舌下絡脈怒張紫暗"
+    },
+    {
+      "dimension": "tongue",
+      "en": "red tongue tip",
+      "id": "T_TIP_RED",
+      "kind": "tongue",
+      "tongue": {
+        "category": "zone-body",
+        "meaning": "舌尖紅：心火",
+        "zone": "tip"
+      },
+      "zh-Hant": "舌尖紅"
+    },
+    {
+      "dimension": "tongue",
+      "en": "red tongue edges",
+      "id": "T_EDGE_RED",
+      "kind": "tongue",
+      "tongue": {
+        "category": "zone-body",
+        "meaning": "舌邊紅：肝膽有熱",
+        "zone": "edge"
+      },
+      "zh-Hant": "舌邊紅"
+    },
+    {
+      "dimension": "tongue",
+      "en": "thin white coat",
+      "id": "T_COAT_THIN_WHITE",
+      "kind": "tongue",
+      "tongue": {
+        "category": "coat",
+        "meaning": "薄白苔：正常，或表證初起",
+        "zone": "all"
+      },
+      "zh-Hant": "薄白苔"
+    },
+    {
+      "dimension": "tongue",
+      "en": "white greasy coat",
+      "id": "T_COAT_WHITE_GREASY",
+      "kind": "tongue",
+      "tongue": {
+        "category": "coat",
+        "meaning": "白膩苔：痰濕、寒濕",
+        "zone": "all"
+      },
+      "zh-Hant": "白膩苔"
+    },
+    {
+      "dimension": "tongue",
+      "en": "white slippery coat",
+      "id": "T_COAT_SLIPPERY",
+      "kind": "tongue",
+      "tongue": {
+        "category": "coat",
+        "meaning": "白滑苔：寒濕、陽虛水停",
+        "zone": "all"
+      },
+      "zh-Hant": "白滑苔"
+    },
+    {
+      "dimension": "tongue",
+      "en": "yellow coat",
+      "id": "T_COAT_YELLOW",
+      "kind": "tongue",
+      "tongue": {
+        "category": "coat",
+        "meaning": "黃苔：熱證",
+        "zone": "all"
+      },
+      "zh-Hant": "黃苔"
+    },
+    {
+      "dimension": "tongue",
+      "en": "yellow greasy coat",
+      "id": "T_COAT_YELLOW_GREASY",
+      "kind": "tongue",
+      "tongue": {
+        "category": "coat",
+        "meaning": "黃膩苔：濕熱、痰熱",
+        "zone": "all"
+      },
+      "zh-Hant": "黃膩苔"
+    },
+    {
+      "dimension": "tongue",
+      "en": "thick curdy coat",
+      "id": "T_COAT_THICK_ROT",
+      "kind": "tongue",
+      "tongue": {
+        "category": "coat",
+        "meaning": "厚腐苔：食積、痰濁",
+        "zone": "all"
+      },
+      "zh-Hant": "厚腐苔"
+    },
+    {
+      "dimension": "tongue",
+      "en": "scanty or peeled coat",
+      "id": "T_COAT_PEELED_ALL",
+      "kind": "tongue",
+      "tongue": {
+        "category": "coat",
+        "meaning": "少苔或剝苔：陰虛、胃氣陰兩傷",
+        "zone": "all"
+      },
+      "zh-Hant": "少苔或剝苔"
+    },
+    {
+      "dimension": "tongue",
+      "en": "dry coat",
+      "id": "T_COAT_DRY",
+      "kind": "tongue",
+      "tongue": {
+        "category": "coat",
+        "meaning": "苔乾：津傷",
+        "zone": "all"
+      },
+      "zh-Hant": "苔乾"
+    },
+    {
+      "dimension": "tongue",
+      "en": "peeled coat at the tongue tip",
+      "id": "T_TIP_COAT_PEELED",
+      "kind": "tongue",
+      "tongue": {
+        "category": "zone-coat",
+        "meaning": "舌尖少苔：心肺陰虛",
+        "zone": "tip"
+      },
+      "zh-Hant": "舌尖少苔"
+    },
+    {
+      "dimension": "tongue",
+      "en": "thick coat in the middle",
+      "id": "T_CENTER_COAT_THICK",
+      "kind": "tongue",
+      "tongue": {
+        "category": "zone-coat",
+        "meaning": "舌中苔厚：脾胃濕滯、食積",
+        "zone": "center"
+      },
+      "zh-Hant": "舌中部苔厚"
+    },
+    {
+      "dimension": "tongue",
+      "en": "yellow greasy coat in the middle",
+      "id": "T_CENTER_COAT_YELLOW_GREASY",
+      "kind": "tongue",
+      "tongue": {
+        "category": "zone-coat",
+        "meaning": "舌中黃膩：脾胃濕熱",
+        "zone": "center"
+      },
+      "zh-Hant": "舌中部黃膩苔"
+    },
+    {
+      "dimension": "tongue",
+      "en": "peeled coat in the middle",
+      "id": "T_CENTER_COAT_PEELED",
+      "kind": "tongue",
+      "tongue": {
+        "category": "zone-coat",
+        "meaning": "舌中少苔或剝落：胃陰不足",
+        "zone": "center"
+      },
+      "zh-Hant": "舌中部少苔或剝落"
+    },
+    {
+      "dimension": "tongue",
+      "en": "thick greasy coat at the root",
+      "id": "T_ROOT_COAT_THICK_GREASY",
+      "kind": "tongue",
+      "tongue": {
+        "category": "zone-coat",
+        "meaning": "舌根厚膩：下焦濕濁、腎與膀胱濕熱",
+        "zone": "root"
+      },
+      "zh-Hant": "舌根部厚膩苔"
+    },
+    {
+      "dimension": "tongue",
+      "en": "peeled coat at the root",
+      "id": "T_ROOT_COAT_PEELED",
+      "kind": "tongue",
+      "tongue": {
+        "category": "zone-coat",
+        "meaning": "舌根少苔或剝落：腎陰虧虛",
+        "zone": "root"
+      },
+      "zh-Hant": "舌根部少苔或剝落"
+    },
+    {
+      "dimension": "pulse",
+      "en": "floating pulse",
+      "id": "P_FLOAT",
+      "kind": "pulse",
+      "pulse": {
+        "optional": true,
+        "quality_coefficient": 0.5
+      },
+      "zh-Hant": "浮脈"
+    },
+    {
+      "dimension": "pulse",
+      "en": "deep pulse",
+      "id": "P_SINK",
+      "kind": "pulse",
+      "pulse": {
+        "optional": true,
+        "quality_coefficient": 0.5
+      },
+      "zh-Hant": "沉脈"
+    },
+    {
+      "dimension": "pulse",
+      "en": "slow pulse",
+      "id": "P_SLOW",
+      "kind": "pulse",
+      "pulse": {
+        "optional": true,
+        "quality_coefficient": 0.5
+      },
+      "zh-Hant": "遲脈"
+    },
+    {
+      "dimension": "pulse",
+      "en": "rapid pulse",
+      "id": "P_RAPID",
+      "kind": "pulse",
+      "pulse": {
+        "optional": true,
+        "quality_coefficient": 0.5
+      },
+      "zh-Hant": "數脈"
+    },
+    {
+      "dimension": "pulse",
+      "en": "slippery pulse",
+      "id": "P_SLIPPERY",
+      "kind": "pulse",
+      "pulse": {
+        "optional": true,
+        "quality_coefficient": 0.5
+      },
+      "zh-Hant": "滑脈"
+    },
+    {
+      "dimension": "pulse",
+      "en": "choppy pulse",
+      "id": "P_CHOPPY",
+      "kind": "pulse",
+      "pulse": {
+        "optional": true,
+        "quality_coefficient": 0.5
+      },
+      "zh-Hant": "澀脈"
+    },
+    {
+      "dimension": "pulse",
+      "en": "deficient pulse",
+      "id": "P_DEFICIENT",
+      "kind": "pulse",
+      "pulse": {
+        "optional": true,
+        "quality_coefficient": 0.5
+      },
+      "zh-Hant": "虛脈"
+    },
+    {
+      "dimension": "pulse",
+      "en": "excess pulse",
+      "id": "P_EXCESS",
+      "kind": "pulse",
+      "pulse": {
+        "optional": true,
+        "quality_coefficient": 0.5
+      },
+      "zh-Hant": "實脈"
+    },
+    {
+      "dimension": "pulse",
+      "en": "long pulse",
+      "id": "P_LONG",
+      "kind": "pulse",
+      "pulse": {
+        "optional": true,
+        "quality_coefficient": 0.5
+      },
+      "zh-Hant": "長脈"
+    },
+    {
+      "dimension": "pulse",
+      "en": "short pulse",
+      "id": "P_SHORT",
+      "kind": "pulse",
+      "pulse": {
+        "optional": true,
+        "quality_coefficient": 0.5
+      },
+      "zh-Hant": "短脈"
+    },
+    {
+      "dimension": "pulse",
+      "en": "surging pulse",
+      "id": "P_SURGING",
+      "kind": "pulse",
+      "pulse": {
+        "optional": true,
+        "quality_coefficient": 0.5
+      },
+      "zh-Hant": "洪脈"
+    },
+    {
+      "dimension": "pulse",
+      "en": "faint pulse",
+      "id": "P_FAINT",
+      "kind": "pulse",
+      "pulse": {
+        "optional": true,
+        "quality_coefficient": 0.5
+      },
+      "zh-Hant": "微脈"
+    },
+    {
+      "dimension": "pulse",
+      "en": "tight pulse",
+      "id": "P_TIGHT",
+      "kind": "pulse",
+      "pulse": {
+        "optional": true,
+        "quality_coefficient": 0.5
+      },
+      "zh-Hant": "緊脈"
+    },
+    {
+      "dimension": "pulse",
+      "en": "moderate (relaxed) pulse",
+      "id": "P_MODERATE",
+      "kind": "pulse",
+      "pulse": {
+        "optional": true,
+        "quality_coefficient": 0.5
+      },
+      "zh-Hant": "緩脈"
+    },
+    {
+      "dimension": "pulse",
+      "en": "hollow (scallion-stalk) pulse",
+      "id": "P_HOLLOW",
+      "kind": "pulse",
+      "pulse": {
+        "optional": true,
+        "quality_coefficient": 0.5
+      },
+      "zh-Hant": "芤脈"
+    },
+    {
+      "dimension": "pulse",
+      "en": "wiry pulse",
+      "id": "P_WIRY",
+      "kind": "pulse",
+      "pulse": {
+        "optional": true,
+        "quality_coefficient": 0.5
+      },
+      "zh-Hant": "弦脈"
+    },
+    {
+      "dimension": "pulse",
+      "en": "leather pulse",
+      "id": "P_LEATHER",
+      "kind": "pulse",
+      "pulse": {
+        "optional": true,
+        "quality_coefficient": 0.5
+      },
+      "zh-Hant": "革脈"
+    },
+    {
+      "dimension": "pulse",
+      "en": "firm (confined) pulse",
+      "id": "P_CONFINED",
+      "kind": "pulse",
+      "pulse": {
+        "optional": true,
+        "quality_coefficient": 0.5
+      },
+      "zh-Hant": "牢脈"
+    },
+    {
+      "dimension": "pulse",
+      "en": "soggy (soft) pulse",
+      "id": "P_SOFT",
+      "kind": "pulse",
+      "pulse": {
+        "optional": true,
+        "quality_coefficient": 0.5
+      },
+      "zh-Hant": "濡脈"
+    },
+    {
+      "dimension": "pulse",
+      "en": "weak pulse",
+      "id": "P_WEAK",
+      "kind": "pulse",
+      "pulse": {
+        "optional": true,
+        "quality_coefficient": 0.5
+      },
+      "zh-Hant": "弱脈"
+    },
+    {
+      "dimension": "pulse",
+      "en": "scattered pulse",
+      "id": "P_SCATTERED",
+      "kind": "pulse",
+      "pulse": {
+        "optional": true,
+        "quality_coefficient": 0.5
+      },
+      "zh-Hant": "散脈"
+    },
+    {
+      "dimension": "pulse",
+      "en": "thin (fine) pulse",
+      "id": "P_THIN",
+      "kind": "pulse",
+      "pulse": {
+        "optional": true,
+        "quality_coefficient": 0.5
+      },
+      "zh-Hant": "細脈"
+    },
+    {
+      "dimension": "pulse",
+      "en": "hidden pulse",
+      "id": "P_HIDDEN",
+      "kind": "pulse",
+      "pulse": {
+        "optional": true,
+        "quality_coefficient": 0.5
+      },
+      "zh-Hant": "伏脈"
+    },
+    {
+      "dimension": "pulse",
+      "en": "moving pulse",
+      "id": "P_MOVING",
+      "kind": "pulse",
+      "pulse": {
+        "optional": true,
+        "quality_coefficient": 0.5
+      },
+      "zh-Hant": "動脈"
+    },
+    {
+      "dimension": "pulse",
+      "en": "rapid-irregular pulse",
+      "id": "P_RAPID_IRREGULAR",
+      "kind": "pulse",
+      "pulse": {
+        "optional": true,
+        "quality_coefficient": 0.5
+      },
+      "zh-Hant": "促脈"
+    },
+    {
+      "dimension": "pulse",
+      "en": "knotted (slow-irregular) pulse",
+      "id": "P_KNOTTED",
+      "kind": "pulse",
+      "pulse": {
+        "optional": true,
+        "quality_coefficient": 0.5
+      },
+      "zh-Hant": "結脈"
+    },
+    {
+      "dimension": "pulse",
+      "en": "regularly intermittent pulse",
+      "id": "P_INTERMITTENT",
+      "kind": "pulse",
+      "pulse": {
+        "optional": true,
+        "quality_coefficient": 0.5
+      },
+      "zh-Hant": "代脈"
+    },
+    {
+      "dimension": "pulse",
+      "en": "hasty pulse",
+      "id": "P_HASTY",
+      "kind": "pulse",
+      "pulse": {
+        "optional": true,
+        "quality_coefficient": 0.5
+      },
+      "zh-Hant": "疾脈"
+    }
+  ]
+}

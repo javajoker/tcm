@@ -1,0 +1,132 @@
+{
+  "_meta": {
+    "description": "Default engine and profile parameters (exported from packages/wuxing; the TypeScript is the source of truth). All [calibrate] values await practitioner calibration."
+  },
+  "engine": {
+    "chart": {
+      "equationOfTime": true,
+      "trueSolarTime": true,
+      "ziHourRule": "lateZiNextDay"
+    },
+    "propagation": {
+      "damping": 0.5,
+      "distance": {
+        "adjacent": 0.8,
+        "crossLayerFactor": 0.7,
+        "gap1": 0.4,
+        "gap2": 0.2,
+        "sameBranchHidden": 0.6,
+        "samePillar": 1
+      },
+      "epsilon": 0.002,
+      "external": {
+        "annualToDayMasterBonus": 1.15,
+        "annualToNatal": 0.7,
+        "luckToAnnual": 1,
+        "luckToNatal": 0.8,
+        "natalToAnnual": 0.5,
+        "natalToLuck": 0.6
+      },
+      "floor": 0,
+      "inflowDamageCap": 0.4,
+      "keCost": 0.3,
+      "kernel": {
+        "ke": 0.4,
+        "sheng": 0.3
+      },
+      "maxRounds": 3,
+      "outflowCap": 0.35,
+      "polarity": {
+        "keCross": 0.7,
+        "keSame": 1,
+        "shengCross": 1,
+        "shengSame": 0.7
+      },
+      "shengEfficiency": 0.85,
+      "tongdangBeta": 0.6
+    },
+    "weights": {
+      "annual": {
+        "branch": 70,
+        "stem": 40,
+        "total": 110
+      },
+      "branchShare": 0.6,
+      "hiddenSplit": {
+        "1": [
+          1
+        ],
+        "2": [
+          0.7,
+          0.3
+        ],
+        "3": [
+          0.65,
+          0.25,
+          0.1
+        ]
+      },
+      "luck": {
+        "stemShareEnd": 0.3,
+        "stemShareStart": 0.7,
+        "total": 130
+      },
+      "monthCommand": {
+        "branchMultiplier": 2,
+        "silingBoost": 1.5,
+        "stemMultiplier": 1.2
+      },
+      "pillarBase": 100,
+      "stemShare": 0.4
+    }
+  },
+  "profile": {
+    "annualBazi": {
+      "cap": 0.75,
+      "gain": 1
+    },
+    "bands": {
+      "excess": 0.75,
+      "missingShare": 0.05,
+      "strong": 0.35,
+      "weak": -0.35
+    },
+    "baseline": 0.2,
+    "climate": {
+      "guest": 0.3,
+      "host": 0.1,
+      "siTian": 0.4,
+      "zaiQuan": 0.2
+    },
+    "enable": {
+      "annualBazi": true,
+      "innate": true,
+      "season": true,
+      "yunqi": true
+    },
+    "innate": {
+      "cap": 1,
+      "gain": 1
+    },
+    "season": {
+      "controlled": -0.125,
+      "dominant": 0.5
+    },
+    "seasonModel": "changxia",
+    "totalCap": 1.5,
+    "yunqi": {
+      "cap": 0.5,
+      "siTian": 0.3,
+      "suiYunPrimary": 0.5,
+      "suiYunSecondary": 0.25,
+      "zaiQuan": 0.2
+    }
+  },
+  "transmission": {
+    "childDrainsMother": 0.15,
+    "deficientDeepens": 0.2,
+    "excessInsults": 0.15,
+    "excessRestrains": 0.3,
+    "motherToChild": 0.25
+  }
+}

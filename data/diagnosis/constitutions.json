@@ -1,0 +1,179 @@
+{
+  "_meta": {
+    "description": "Nine constitutions (王琦). Questionnaire items are intentionally NOT included (licensing, SOP D6). `susceptibility` = risk (0–2) per pathogenic qi.",
+    "standard": "中醫體質分類與判定 (ZYYXH/T157-2009), scoring rule in SOP §6.3"
+  },
+  "items": [
+    {
+      "features": [],
+      "id": "C_PINGHE",
+      "name": {
+        "en": "Balanced",
+        "zh-Hant": "平和質"
+      },
+      "prior_nature": [],
+      "status": "draft",
+      "susceptibility": {}
+    },
+    {
+      "features": [
+        "S_FATIGUE",
+        "S_SHORT_BREATH",
+        "S_SPONTANEOUS_SWEAT",
+        "S_EASY_COLD"
+      ],
+      "id": "C_QIXU",
+      "name": {
+        "en": "Qi deficiency",
+        "zh-Hant": "氣虛質"
+      },
+      "prior_nature": [
+        "氣虛"
+      ],
+      "status": "draft",
+      "susceptibility": {
+        "寒": 1,
+        "風": 1
+      }
+    },
+    {
+      "features": [
+        "S_FEAR_COLD",
+        "S_COLD_LIMBS",
+        "S_PREFER_HOT_FOOD"
+      ],
+      "id": "C_YANGXU",
+      "name": {
+        "en": "Yang deficiency",
+        "zh-Hant": "陽虛質"
+      },
+      "prior_nature": [
+        "陽虛",
+        "寒"
+      ],
+      "status": "draft",
+      "susceptibility": {
+        "寒": 2,
+        "濕": 1
+      }
+    },
+    {
+      "features": [
+        "S_HEAT_PALMS_SOLES",
+        "S_DRY_MOUTH_THROAT",
+        "S_CONSTIPATION",
+        "S_NIGHT_SWEAT"
+      ],
+      "id": "C_YINXU",
+      "name": {
+        "en": "Yin deficiency",
+        "zh-Hant": "陰虛質"
+      },
+      "prior_nature": [
+        "陰虛"
+      ],
+      "status": "draft",
+      "susceptibility": {
+        "暑": 2,
+        "火": 1,
+        "燥": 2
+      }
+    },
+    {
+      "features": [
+        "S_BODY_HEAVY",
+        "S_STICKY_MOUTH",
+        "T_COAT_WHITE_GREASY"
+      ],
+      "id": "C_TANSHI",
+      "name": {
+        "en": "Phlegm-dampness",
+        "zh-Hant": "痰濕質"
+      },
+      "prior_nature": [
+        "痰",
+        "濕"
+      ],
+      "status": "draft",
+      "susceptibility": {
+        "濕": 2
+      }
+    },
+    {
+      "features": [
+        "S_BITTER_MOUTH",
+        "S_STICKY_STOOL",
+        "T_COAT_YELLOW_GREASY"
+      ],
+      "id": "C_SHIRE",
+      "name": {
+        "en": "Damp-heat",
+        "zh-Hant": "濕熱質"
+      },
+      "prior_nature": [
+        "濕",
+        "火"
+      ],
+      "status": "draft",
+      "susceptibility": {
+        "暑": 2,
+        "濕": 2,
+        "火": 1
+      }
+    },
+    {
+      "features": [
+        "S_FACE_DARK",
+        "S_LIPS_PURPLE",
+        "T_ECCHYMOSIS"
+      ],
+      "id": "C_XUEYU",
+      "name": {
+        "en": "Blood stasis",
+        "zh-Hant": "血瘀質"
+      },
+      "prior_nature": [
+        "瘀"
+      ],
+      "status": "draft",
+      "susceptibility": {
+        "寒": 1
+      }
+    },
+    {
+      "features": [
+        "S_DEPRESSED",
+        "S_SIGHING",
+        "S_THROAT_FOREIGN"
+      ],
+      "id": "C_QIYU",
+      "name": {
+        "en": "Qi stagnation",
+        "zh-Hant": "氣鬱質"
+      },
+      "prior_nature": [
+        "氣滯"
+      ],
+      "status": "draft",
+      "susceptibility": {
+        "風": 1
+      }
+    },
+    {
+      "caution": "過敏體質：不予補益類推薦，加強警示；風險規則見 safety/rules.json",
+      "features": [
+        "S_RUNNY_NOSE_CLEAR"
+      ],
+      "id": "C_TEBING",
+      "name": {
+        "en": "Special diathesis (allergic)",
+        "zh-Hant": "特稟質"
+      },
+      "prior_nature": [],
+      "status": "draft",
+      "susceptibility": {
+        "風": 2
+      }
+    }
+  ]
+}

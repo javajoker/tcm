@@ -1,0 +1,640 @@
+{
+  "_meta": {
+    "description": "Stem/branch tables, hidden stems, 人元司令, solar terms. Exported from packages/wuxing (single source)."
+  },
+  "branches": [
+    {
+      "element": "水",
+      "hidden": [
+        {
+          "role": "本氣",
+          "stem": "癸"
+        }
+      ],
+      "id": "子",
+      "index": 0,
+      "positional_polarity": "陽",
+      "qi_polarity": "陰",
+      "siling": [
+        {
+          "days": 10,
+          "stem": "壬"
+        },
+        {
+          "days": 20,
+          "stem": "癸"
+        }
+      ]
+    },
+    {
+      "element": "土",
+      "hidden": [
+        {
+          "role": "本氣",
+          "stem": "己"
+        },
+        {
+          "role": "中氣",
+          "stem": "癸"
+        },
+        {
+          "role": "餘氣",
+          "stem": "辛"
+        }
+      ],
+      "id": "丑",
+      "index": 1,
+      "positional_polarity": "陰",
+      "qi_polarity": "陰",
+      "siling": [
+        {
+          "days": 9,
+          "stem": "癸"
+        },
+        {
+          "days": 3,
+          "stem": "辛"
+        },
+        {
+          "days": 18,
+          "stem": "己"
+        }
+      ]
+    },
+    {
+      "element": "木",
+      "hidden": [
+        {
+          "role": "本氣",
+          "stem": "甲"
+        },
+        {
+          "role": "中氣",
+          "stem": "丙"
+        },
+        {
+          "role": "餘氣",
+          "stem": "戊"
+        }
+      ],
+      "id": "寅",
+      "index": 2,
+      "positional_polarity": "陽",
+      "qi_polarity": "陽",
+      "siling": [
+        {
+          "days": 7,
+          "stem": "戊"
+        },
+        {
+          "days": 7,
+          "stem": "丙"
+        },
+        {
+          "days": 16,
+          "stem": "甲"
+        }
+      ]
+    },
+    {
+      "element": "木",
+      "hidden": [
+        {
+          "role": "本氣",
+          "stem": "乙"
+        }
+      ],
+      "id": "卯",
+      "index": 3,
+      "positional_polarity": "陰",
+      "qi_polarity": "陰",
+      "siling": [
+        {
+          "days": 10,
+          "stem": "甲"
+        },
+        {
+          "days": 20,
+          "stem": "乙"
+        }
+      ]
+    },
+    {
+      "element": "土",
+      "hidden": [
+        {
+          "role": "本氣",
+          "stem": "戊"
+        },
+        {
+          "role": "中氣",
+          "stem": "乙"
+        },
+        {
+          "role": "餘氣",
+          "stem": "癸"
+        }
+      ],
+      "id": "辰",
+      "index": 4,
+      "positional_polarity": "陽",
+      "qi_polarity": "陽",
+      "siling": [
+        {
+          "days": 9,
+          "stem": "乙"
+        },
+        {
+          "days": 3,
+          "stem": "癸"
+        },
+        {
+          "days": 18,
+          "stem": "戊"
+        }
+      ]
+    },
+    {
+      "element": "火",
+      "hidden": [
+        {
+          "role": "本氣",
+          "stem": "丙"
+        },
+        {
+          "role": "中氣",
+          "stem": "庚"
+        },
+        {
+          "role": "餘氣",
+          "stem": "戊"
+        }
+      ],
+      "id": "巳",
+      "index": 5,
+      "positional_polarity": "陰",
+      "qi_polarity": "陽",
+      "siling": [
+        {
+          "days": 5,
+          "stem": "戊"
+        },
+        {
+          "days": 9,
+          "stem": "庚"
+        },
+        {
+          "days": 16,
+          "stem": "丙"
+        }
+      ]
+    },
+    {
+      "element": "火",
+      "hidden": [
+        {
+          "role": "本氣",
+          "stem": "丁"
+        },
+        {
+          "role": "中氣",
+          "stem": "己"
+        }
+      ],
+      "id": "午",
+      "index": 6,
+      "positional_polarity": "陽",
+      "qi_polarity": "陰",
+      "siling": [
+        {
+          "days": 10,
+          "stem": "丙"
+        },
+        {
+          "days": 9,
+          "stem": "己"
+        },
+        {
+          "days": 11,
+          "stem": "丁"
+        }
+      ]
+    },
+    {
+      "element": "土",
+      "hidden": [
+        {
+          "role": "本氣",
+          "stem": "己"
+        },
+        {
+          "role": "中氣",
+          "stem": "丁"
+        },
+        {
+          "role": "餘氣",
+          "stem": "乙"
+        }
+      ],
+      "id": "未",
+      "index": 7,
+      "positional_polarity": "陰",
+      "qi_polarity": "陰",
+      "siling": [
+        {
+          "days": 9,
+          "stem": "丁"
+        },
+        {
+          "days": 3,
+          "stem": "乙"
+        },
+        {
+          "days": 18,
+          "stem": "己"
+        }
+      ]
+    },
+    {
+      "element": "金",
+      "hidden": [
+        {
+          "role": "本氣",
+          "stem": "庚"
+        },
+        {
+          "role": "中氣",
+          "stem": "壬"
+        },
+        {
+          "role": "餘氣",
+          "stem": "戊"
+        }
+      ],
+      "id": "申",
+      "index": 8,
+      "positional_polarity": "陽",
+      "qi_polarity": "陽",
+      "siling": [
+        {
+          "days": 7,
+          "stem": "戊"
+        },
+        {
+          "days": 3,
+          "stem": "壬"
+        },
+        {
+          "days": 20,
+          "stem": "庚"
+        }
+      ]
+    },
+    {
+      "element": "金",
+      "hidden": [
+        {
+          "role": "本氣",
+          "stem": "辛"
+        }
+      ],
+      "id": "酉",
+      "index": 9,
+      "positional_polarity": "陰",
+      "qi_polarity": "陰",
+      "siling": [
+        {
+          "days": 10,
+          "stem": "庚"
+        },
+        {
+          "days": 20,
+          "stem": "辛"
+        }
+      ]
+    },
+    {
+      "element": "土",
+      "hidden": [
+        {
+          "role": "本氣",
+          "stem": "戊"
+        },
+        {
+          "role": "中氣",
+          "stem": "辛"
+        },
+        {
+          "role": "餘氣",
+          "stem": "丁"
+        }
+      ],
+      "id": "戌",
+      "index": 10,
+      "positional_polarity": "陽",
+      "qi_polarity": "陽",
+      "siling": [
+        {
+          "days": 9,
+          "stem": "辛"
+        },
+        {
+          "days": 3,
+          "stem": "丁"
+        },
+        {
+          "days": 18,
+          "stem": "戊"
+        }
+      ]
+    },
+    {
+      "element": "水",
+      "hidden": [
+        {
+          "role": "本氣",
+          "stem": "壬"
+        },
+        {
+          "role": "中氣",
+          "stem": "甲"
+        }
+      ],
+      "id": "亥",
+      "index": 11,
+      "positional_polarity": "陰",
+      "qi_polarity": "陽",
+      "siling": [
+        {
+          "days": 7,
+          "stem": "戊"
+        },
+        {
+          "days": 5,
+          "stem": "甲"
+        },
+        {
+          "days": 18,
+          "stem": "壬"
+        }
+      ]
+    }
+  ],
+  "controls": {
+    "土": "水",
+    "木": "土",
+    "水": "火",
+    "火": "金",
+    "金": "木"
+  },
+  "fu": {
+    "土": "胃",
+    "木": "膽",
+    "水": "膀胱",
+    "火": "小腸",
+    "金": "大腸"
+  },
+  "generates": {
+    "土": "金",
+    "木": "火",
+    "水": "木",
+    "火": "土",
+    "金": "水"
+  },
+  "month_branch_order": [
+    "寅",
+    "卯",
+    "辰",
+    "巳",
+    "午",
+    "未",
+    "申",
+    "酉",
+    "戌",
+    "亥",
+    "子",
+    "丑"
+  ],
+  "season_of_element": {
+    "土": "長夏",
+    "木": "春",
+    "水": "冬",
+    "火": "夏",
+    "金": "秋"
+  },
+  "solar_terms": [
+    {
+      "kind": "節",
+      "longitude": 315,
+      "name": "立春",
+      "opensMonthBranch": "寅"
+    },
+    {
+      "kind": "氣",
+      "longitude": 330,
+      "name": "雨水",
+      "opensMonthBranch": null
+    },
+    {
+      "kind": "節",
+      "longitude": 345,
+      "name": "驚蟄",
+      "opensMonthBranch": "卯"
+    },
+    {
+      "kind": "氣",
+      "longitude": 0,
+      "name": "春分",
+      "opensMonthBranch": null
+    },
+    {
+      "kind": "節",
+      "longitude": 15,
+      "name": "清明",
+      "opensMonthBranch": "辰"
+    },
+    {
+      "kind": "氣",
+      "longitude": 30,
+      "name": "穀雨",
+      "opensMonthBranch": null
+    },
+    {
+      "kind": "節",
+      "longitude": 45,
+      "name": "立夏",
+      "opensMonthBranch": "巳"
+    },
+    {
+      "kind": "氣",
+      "longitude": 60,
+      "name": "小滿",
+      "opensMonthBranch": null
+    },
+    {
+      "kind": "節",
+      "longitude": 75,
+      "name": "芒種",
+      "opensMonthBranch": "午"
+    },
+    {
+      "kind": "氣",
+      "longitude": 90,
+      "name": "夏至",
+      "opensMonthBranch": null
+    },
+    {
+      "kind": "節",
+      "longitude": 105,
+      "name": "小暑",
+      "opensMonthBranch": "未"
+    },
+    {
+      "kind": "氣",
+      "longitude": 120,
+      "name": "大暑",
+      "opensMonthBranch": null
+    },
+    {
+      "kind": "節",
+      "longitude": 135,
+      "name": "立秋",
+      "opensMonthBranch": "申"
+    },
+    {
+      "kind": "氣",
+      "longitude": 150,
+      "name": "處暑",
+      "opensMonthBranch": null
+    },
+    {
+      "kind": "節",
+      "longitude": 165,
+      "name": "白露",
+      "opensMonthBranch": "酉"
+    },
+    {
+      "kind": "氣",
+      "longitude": 180,
+      "name": "秋分",
+      "opensMonthBranch": null
+    },
+    {
+      "kind": "節",
+      "longitude": 195,
+      "name": "寒露",
+      "opensMonthBranch": "戌"
+    },
+    {
+      "kind": "氣",
+      "longitude": 210,
+      "name": "霜降",
+      "opensMonthBranch": null
+    },
+    {
+      "kind": "節",
+      "longitude": 225,
+      "name": "立冬",
+      "opensMonthBranch": "亥"
+    },
+    {
+      "kind": "氣",
+      "longitude": 240,
+      "name": "小雪",
+      "opensMonthBranch": null
+    },
+    {
+      "kind": "節",
+      "longitude": 255,
+      "name": "大雪",
+      "opensMonthBranch": "子"
+    },
+    {
+      "kind": "氣",
+      "longitude": 270,
+      "name": "冬至",
+      "opensMonthBranch": null
+    },
+    {
+      "kind": "節",
+      "longitude": 285,
+      "name": "小寒",
+      "opensMonthBranch": "丑"
+    },
+    {
+      "kind": "氣",
+      "longitude": 300,
+      "name": "大寒",
+      "opensMonthBranch": null
+    }
+  ],
+  "stems": [
+    {
+      "element": "木",
+      "id": "甲",
+      "index": 0,
+      "polarity": "陽"
+    },
+    {
+      "element": "木",
+      "id": "乙",
+      "index": 1,
+      "polarity": "陰"
+    },
+    {
+      "element": "火",
+      "id": "丙",
+      "index": 2,
+      "polarity": "陽"
+    },
+    {
+      "element": "火",
+      "id": "丁",
+      "index": 3,
+      "polarity": "陰"
+    },
+    {
+      "element": "土",
+      "id": "戊",
+      "index": 4,
+      "polarity": "陽"
+    },
+    {
+      "element": "土",
+      "id": "己",
+      "index": 5,
+      "polarity": "陰"
+    },
+    {
+      "element": "金",
+      "id": "庚",
+      "index": 6,
+      "polarity": "陽"
+    },
+    {
+      "element": "金",
+      "id": "辛",
+      "index": 7,
+      "polarity": "陰"
+    },
+    {
+      "element": "水",
+      "id": "壬",
+      "index": 8,
+      "polarity": "陽"
+    },
+    {
+      "element": "水",
+      "id": "癸",
+      "index": 9,
+      "polarity": "陰"
+    }
+  ],
+  "zang": {
+    "土": "脾",
+    "木": "肝",
+    "水": "腎",
+    "火": "心",
+    "金": "肺"
+  }
+}
