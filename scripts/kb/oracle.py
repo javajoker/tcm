@@ -73,6 +73,25 @@ def pattern_scores(patterns: list[dict], findings: dict, p: dict | None = None) 
     return {pt["id"]: pattern_pct(pt, findings, p) for pt in patterns}
 
 
+def element_pct(element: dict, findings: dict, p: dict | None = None) -> float:
+    """證素 score (SOP §9.3): the pattern formula without the required_any rule (an element is a building block, not a diagnosis)."""
+    p = p or params()
+    pos = neg = 0.0
+    for sid, w in element["weights"].items():
+        f = findings.get(sid)
+        if f and present(f["state"]):
+            pos += w * severity_factor(f, p) * quality_of(sid, f, p)
+    for sid, v in element["against"].items():
+        f = findings.get(sid)
+        if f and present(f["state"]):
+            neg += v * quality_of(sid, f, p)
+    return max(0.0, pos - neg) / sum(element["weights"].values()) * 100
+
+
+def element_scores(elements: list[dict], findings: dict, p: dict | None = None) -> dict[str, float]:
+    return {e["id"]: element_pct(e, findings, p) for e in elements}
+
+
 # ── panel ───────────────────────────────────────────────────────────────────
 
 def noisy_or_panel(patterns: list[dict], scores: dict[str, float], p: dict | None = None) -> dict[str, float]:

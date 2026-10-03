@@ -15,13 +15,16 @@ const DROP = new Set(["title", "uniqueItems", "minProperties", "maxProperties", 
 
 type Json = null | boolean | number | string | Json[] | { [k: string]: Json };
 
-function prep(node: Json): Json {
-  if (Array.isArray(node)) return node.map(prep);
+/** `isMap`: the node is a `properties` / `$defs` map, whose keys are names (a property may legitimately be called "pattern"), not keywords. */
+function prep(node: Json, isMap = false): Json {
+  if (Array.isArray(node)) return node.map((n) => prep(n));
   if (node && typeof node === "object") {
     const out: { [k: string]: Json } = {};
-    for (const [k, v] of Object.entries(node)) if (!DROP.has(k)) out[k] = prep(v);
-    if (out.minItems !== undefined && out.minItems !== out.maxItems) delete out.minItems;
-    if (out.maxItems !== undefined && out.minItems === undefined) delete out.maxItems;
+    for (const [k, v] of Object.entries(node)) if (isMap || !DROP.has(k)) out[k] = prep(v, !isMap && (k === "properties" || k === "$defs"));
+    if (!isMap) {
+      if (out.minItems !== undefined && out.minItems !== out.maxItems) delete out.minItems;
+      if (out.maxItems !== undefined && out.minItems === undefined) delete out.maxItems;
+    }
     return out;
   }
   return node;

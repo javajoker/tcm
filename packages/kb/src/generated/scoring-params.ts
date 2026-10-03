@@ -54,6 +54,14 @@ export interface ScoringParams {
       zang: number;
     };
   };
+  pattern: {
+    bands: {
+      high: number;
+      medium: number;
+      weak: number;
+    };
+    required_any_missing_factor: number;
+  };
   quality: {
     by_prefix: {
       [k: string]: "inquiry" | "measured" | "guided" | "pulse";

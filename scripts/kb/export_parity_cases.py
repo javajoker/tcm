@@ -54,7 +54,7 @@ def expected(findings: dict, ctx: dict) -> dict:
         m = oracle.match_formula(panel, f, p)
         ranked.append({"id": f["id"], "k": m["k"], "explained": m["explained"], "coreFit": oracle.core_fit(f, findings)})
     ranked.sort(key=lambda r: (-r["explained"], r["id"]))
-    out = {"scores": scores, "panel": panel, "wuxingFunction": oracle.wuxing_function(panel, p), "bagang": oracle.bagang(panel, p), "costBase": base, "formulas": ranked}
+    out = {"scores": scores, "elements": oracle.element_scores(ctx["elements"], findings, p), "panel": panel, "wuxingFunction": oracle.wuxing_function(panel, p), "bagang": oracle.bagang(panel, p), "costBase": base, "formulas": ranked}
     top = ranked[0]
     if base > 0 and top["explained"] > 0:
         formula = next(f for f in ctx["formulas"] if f["id"] == top["id"])
@@ -69,7 +69,8 @@ def build() -> dict:
     formulas = [f for f in oracle.load("formulas/formulas.json")["items"] if f.get("mvp", True)]
     herbs = {h["id"]: h for h in oracle.load("herbs/herbs.json")["items"]}
     symptom_ids = sorted(s["id"] for s in oracle.load("diagnosis/symptoms.json")["items"])
-    ctx = {"params": params, "patterns": patterns, "formulas": formulas, "herbs": herbs, "pool": oracle.modification_pool(herbs)}
+    elements = oracle.load("diagnosis/pattern-elements.json")["items"]
+    ctx = {"params": params, "patterns": patterns, "elements": elements, "formulas": formulas, "herbs": herbs, "pool": oracle.modification_pool(herbs)}
 
     cases = [{"id": "worked-example", "findings": worked_example()}]
     cases += [{"id": f"typical-{p['id']}", "findings": typical_patient(p)} for p in patterns]
@@ -84,7 +85,7 @@ def build() -> dict:
         c["expect"] = expected(c["findings"], ctx)
 
     digest = hashlib.sha256()
-    for rel in ("diagnosis/scoring-params.json", "diagnosis/patterns.json", "formulas/formulas.json", "herbs/herbs.json", "diagnosis/symptoms.json"):
+    for rel in ("diagnosis/scoring-params.json", "diagnosis/patterns.json", "diagnosis/pattern-elements.json", "formulas/formulas.json", "herbs/herbs.json", "diagnosis/symptoms.json"):
         digest.update((DATA / rel).read_bytes())
     return {"_meta": {"description": "Parity cases for @tcm/engine computed by scripts/kb/oracle.py at full precision. Regenerate with scripts.kb.export_parity_cases.",
                       "seed": SEED, "random_cases": RANDOM_CASES, "count": len(cases), "inputs_sha256": digest.hexdigest()}, "cases": cases}
