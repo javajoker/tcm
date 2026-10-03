@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import {
-  buildChart, buildBase, innateProfile, buildReferencePanel, forecastReferencePanels, seasonAt, transmission, bandOf,
+  buildChart, buildBase, innateProfile, buildReferencePanel, forecastReferencePanels, seasonAt, transmission, bandOf, analyzeOffset,
   DEFAULT_PROFILE_PARAMS, ELEMENTS, toJulianDay, type BirthInput, type ProfileParams,
 } from "../src/index.ts";
 
@@ -108,4 +108,19 @@ test("transmission: excess 木 pressures 土 (制己所勝) and drains 水 (子�
   assert.ok(deficient.pressure["木"] < 0);
   assert.ok(deficient.pressure["火"] < 0);
   assert.deepEqual(Object.values(transmission({ 木: 0, 火: 0, 土: 0, 金: 0, 水: 0 }).pressure), [0, 0, 0, 0, 0]);
+});
+
+test("offset analysis: the population offset is never reduced by a prior; the personal offset and alignment are context only", () => {
+  const reference = { total: { 木: -1.2, 火: 1.0, 土: 0.1, 金: 0.8, 水: -0.4 } };
+  const observed = { 木: -1, 火: -0.5, 土: 0.5, 金: 0, 水: -1 };
+  const a = analyzeOffset(observed, reference);
+  // Primary offset equals the observation exactly, whatever the reference says.
+  for (const e of ELEMENTS) assert.equal(a.offsetPopulation[e], observed[e]);
+  assert.ok(Math.abs(a.offsetPersonal["木"] - 0.2) < 1e-12);      // −1 − (−1.2): "as expected" for this person …
+  assert.equal(a.offsetPopulation["木"], -1);                       // … yet still −1 against the average person
+  assert.equal(a.alignment["木"], "aligned");                       // weak 木 and a weak-木 tendency
+  assert.equal(a.alignment["火"], "opposed");                       // observed low, tendency high
+  assert.equal(a.alignment["土"], "neutral");                       // reference 0.1 is below the threshold
+  assert.equal(a.alignment["金"], "neutral");                       // nothing observed
+  assert.equal(a.alignment["水"], "aligned");
 });

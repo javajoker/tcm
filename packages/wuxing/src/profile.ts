@@ -14,7 +14,9 @@
  * clinical validation, the yunqi block is classical doctrine with disputed predictive power; both are
  * bounded, switchable, and reported separately so a user (or reviewer) can see each contribution.
  *
- * The diagnostic engine later computes   offset = observed panel − reference panel   (SOP §8).
+ * The diagnostic engine later computes two offsets (analyzeOffset, SOP §8): observed − 0, the primary
+ * deviation from the average healthy person, and observed − reference, the deviation from this person's
+ * own expected state. Only the first drives diagnosis, so a prior can never explain symptoms away.
  */
 
 import { CONTROLS, GENERATES, controlledBy, generatedBy } from "./ganzhi.ts";
@@ -283,6 +285,44 @@ export function buildReferencePanel(
     components: { innate, annualBazi, yunqi: yunqiBlock, season: seasonBlock },
     total, zangfu, climate: climateVector(yq, params), trace, notes,
   };
+}
+
+// ── offset analysis ──────────────────────────────────────────────────────────
+
+export type Alignment = "aligned" | "opposed" | "neutral";
+
+export interface OffsetAnalysis {
+  /** Observed panel on the element axis (degrees), from symptoms and signs only. */
+  readonly observed: Readonly<ElementVector>;
+  /**
+   * PRIMARY: observed − 0, i.e. the deviation from the average healthy person. This is what drives
+   * pattern differentiation and treatment direction. It is never reduced by a prior: a constitution
+   * or a birth chart that "predicts" weak 木 must not be able to explain real 肝 symptoms away.
+   */
+  readonly offsetPopulation: Readonly<ElementVector>;
+  /** SECONDARY: observed − reference, i.e. how far the person is from THEIR OWN expected state now. */
+  readonly offsetPersonal: Readonly<ElementVector>;
+  /**
+   * Whether the observed deviation points the same way as the reference tendency:
+   *   aligned — same sign and |reference| ≥ threshold → likely constitutional/seasonal, favour gentle long-term regulation
+   *   opposed — opposite sign                       → against the tendency, worth a second look
+   *   neutral — reference is negligible here
+   */
+  readonly alignment: Readonly<Record<Element, Alignment>>;
+}
+
+export function analyzeOffset(
+  observed: Readonly<ElementVector>, reference: Pick<ReferencePanel, "total">, threshold = 0.25,
+): OffsetAnalysis {
+  const offsetPopulation = cloneVec(observed);
+  const offsetPersonal = zeroVector();
+  const alignment = {} as Record<Element, Alignment>;
+  for (const e of ELEMENTS) {
+    offsetPersonal[e] = observed[e] - reference.total[e];
+    const r = reference.total[e];
+    alignment[e] = Math.abs(r) < threshold || Math.abs(observed[e]) < 1e-9 ? "neutral" : Math.sign(r) === Math.sign(observed[e]) ? "aligned" : "opposed";
+  }
+  return { observed: cloneVec(observed), offsetPopulation, offsetPersonal, alignment };
 }
 
 /** Reference panels at "now" and at the start of each of the next `count` seasons (changxia boundaries). */
