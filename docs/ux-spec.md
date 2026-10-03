@@ -384,7 +384,7 @@ Warm paper background, deep ink text, one jade-teal accent. Quiet, generous spac
 | `--info-bg` / `--info-text` | `#E6F2F8` / `#1B4D6B` | `#14313F` / `#A6D4EA` | 7.9 : 1 / 8.6 : 1 |
 
 **Sequential scale for ordered quantities (magnitude)** — one hue, nine steps, `--scale-0 … --scale-8`:
-`#F1F7F7 #E3F0F1 #C5E0E2 #A1CED2 #7DB8BD #4B97A0 #1D6B74 #15595F #0F4E56` (dark theme reverses lightness so that "more" is always "stronger against the background").
+`#F1F7F7 #E3F0F1 #C5E0E2 #A1CED2 #7DB8BD #58A0A8 #1D6B74 #15595F #0F4E56` (dark theme reverses lightness so that "more" is always "stronger against the background").
 Cell/label text colour is chosen per step (`--scale-N-text` ink or white) so every label meets 4.5 : 1; this is a unit-tested token table.
 
 **Rules**

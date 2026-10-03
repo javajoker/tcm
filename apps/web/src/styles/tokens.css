@@ -19,9 +19,9 @@
 
   /* sequential scale for ordered quantities (magnitude): one hue, nine steps */
   --scale-0: #f1f7f7; --scale-1: #e3f0f1; --scale-2: #c5e0e2; --scale-3: #a1ced2; --scale-4: #7db8bd;
-  --scale-5: #4b97a0; --scale-6: #1d6b74; --scale-7: #15595f; --scale-8: #0f4e56;
+  --scale-5: #58a0a8; --scale-6: #1d6b74; --scale-7: #15595f; --scale-8: #0f4e56;
   --scale-0-text: var(--ink); --scale-1-text: var(--ink); --scale-2-text: var(--ink); --scale-3-text: var(--ink); --scale-4-text: var(--ink);
-  --scale-5-text: #ffffff; --scale-6-text: #ffffff; --scale-7-text: #ffffff; --scale-8-text: #ffffff;
+  --scale-5-text: var(--ink); --scale-6-text: #ffffff; --scale-7-text: #ffffff; --scale-8-text: #ffffff;
 
   /* five-phase identity colours: IDENTITY ONLY, never magnitude or sign (docs/ux-spec.md §6.2 rule 2) */
   --wx-wood: #4f7d5b; --wx-fire: #b5523e; --wx-earth: #a8842f; --wx-metal: #7b8794; --wx-water: #3f5f86;

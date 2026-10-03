@@ -26,16 +26,16 @@
 | **K** Knowledge base | 8 | 20 |
 | **E** Engine and packages | 19 | 21 |
 | **I** Internationalisation | 2 | 6 |
-| **U** Web application | 1 | 26 |
+| **U** Web application | 2 | 26 |
 | **Q** Quality assurance | 0 | 10 |
 | **R** Release and operations | 0 | 7 |
 | **V** Review (non-code) | 0 | 7 |
 | **PF** Performance (P2) | 0 | 3 |
-| **All** | **54** | **124** |
+| **All** | **55** | **124** |
 
 | Priority | Done | Total |
 |---|---:|---:|
-| P0 | 38 | 74 |
+| P0 | 39 | 74 |
 | P1 | 14 | 42 |
 | P2 | 2 | 8 |
 
@@ -158,7 +158,7 @@ Suggested waves: **1** foundation (E-01, K-01, K-02, I-01, U-01, R-01) → **2**
 | ✔ | ID | Task | Pri | Size | Deps | Done when |
 |---|---|---|---|---|---|---|
 | [x] | U-01 | App scaffold: Vite + React + TS, wouter, Zustand, CSS Modules, `__APP_PROFILE__`, CSP, `index.html` | P0 | M | E-01 | Dev server runs; `release` and `dev` builds produce different profile constants |
-| [ ] | U-02 | Design tokens (light/dark, scale), typography, base components (Button, Card, Chip, Tile, Dialog, Sheet, Tooltip, `Term`), contrast unit test, component catalogue route | P0 | L | U-01 | Token table passes 4.5 : 1 / 3 : 1 tests; catalogue lists states |
+| [x] | U-02 | Design tokens (light/dark, scale), typography, base components (Button, Card, Chip, Tile, Dialog, Sheet, Tooltip; `Term` moves to U-05 with the KB provider), contrast unit test, component catalogue route | P0 | L | U-01 | Token table passes 4.5 : 1 / 3 : 1 tests; catalogue lists states — `apps/web/src/ui/*`, dev-only `/dev/catalogue`, axe-clean |
 | [ ] | U-03 | i18n integration, language toggle, `/:lang` routing, `<html lang>`, route-preserving switch | P0 | M | I-01, U-01 | E11 passes |
 | [ ] | U-04 | Storage layer (`storage.ts`), draft autosave, prefs, erase-all, migration scaffold, "Not saved" chip | P0 | L | U-01 | E12, E14, E20 pass; privacy rules satisfied |
 | [ ] | U-05 | KB and engine lazy loading, loading/error/offline states (S19), error boundary | P0 | M | E-03, U-01 | E15 passes; no partial medical output on error |
@@ -204,7 +204,7 @@ Suggested waves: **1** foundation (E-01, K-01, K-02, I-01, U-01, R-01) → **2**
 | ✔ | ID | Task | Pri | Size | Deps | Done when |
 |---|---|---|---|---|---|---|
 | [ ] | R-01 | CI workflow, fast checks (typecheck, unit, property, parity, KB determinism and validation, i18n, lint) | P0 | M | E-01, K-02 | Required on `main` |
-| [ ] | R-02 | CI build workflow (bundle-data per profile, web builds, budgets) | P0 | M | E-03, U-01 | Both profiles built per push |
+| [ ] | R-02 | CI build workflow (bundle-data per profile, web builds, budgets) | P0 | M | E-03, U-01 | Both profiles built per push; release output contains no dev-only chunk (the `Catalogue` chunk) — see `App.tsx` |
 | [ ] | R-03 | `scripts/check-release.ts` (assertions of [release process §4.1](docs/release-process.md)) | P0 | M | E-03, U-01 | Fails on each seeded violation |
 | [ ] | R-04 | Deploy workflow, headers file (CSP, caching), SPA fallback, smoke tests | P1 | M | DEC-03, R-02 | Staging deploys from tags |
 | [ ] | R-05 | Dependency hygiene: Renovate/Dependabot, `pnpm audit`, licence allowlist, SBOM | P1 | S | E-01 | Reports attached to artifacts |
