@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import {
   buildChart, dayAndHourPillarOf, yearPillarOf, lichunOf, fromJulianDay, toJulianDay, julianDayNumber,
   sexagenaryIndexOf, mod, stepStem, stepBranch, ziHourStemOf, luckDirectionOf, DEFAULT_PARAMS,
-  type BirthInput, type Pillar,
+  validateBirthInput, MAX_BIRTH_YEAR, type BirthInput, type Pillar,
 } from "../src/index.ts";
 
 const P = (p: Pillar | null): string | null => (p === null ? null : p.stem + p.branch);
@@ -106,4 +106,29 @@ test("month branch follows the 節 and the 12 months cycle 寅→丑 across a ye
     branches.add(buildChart({ year: 2026, month: m, day: 20, hour: 12, minute: 0, sex: "male", timeZone: "Asia/Shanghai", longitude: 120 }).month.branch);
   }
   assert.equal(branches.size, 12);
+});
+
+// ── input validation (found while building @tcm/engine: JS Date rolls invalid dates over silently) ──
+
+test("validateBirthInput accepts a valid birth and reports every problem of an invalid one", () => {
+  const ok = { year: 1990, month: 5, day: 12, hour: 14, minute: 30, sex: "male", timeZone: "Asia/Shanghai", longitude: 121.47 } as const;
+  assert.deepEqual(validateBirthInput(ok), []);
+  assert.deepEqual(validateBirthInput({ ...ok, year: 2000, month: 2, day: 29 }), [], "2000 is a leap year");
+  const bad = validateBirthInput({ ...ok, year: 1900, month: 2, day: 29, hour: 25, minute: 60, longitude: 500, sex: "x" as never });
+  assert.ok(bad.some((m) => /day must be an integer from 1 to 28/.test(m)), "1900 is not a leap year");
+  assert.ok(bad.some((m) => /hour/.test(m)) && bad.some((m) => /minute/.test(m)) && bad.some((m) => /longitude/.test(m)) && bad.some((m) => /sex/.test(m)));
+  assert.ok(validateBirthInput({ ...ok, month: 13 }).some((m) => /month/.test(m)));
+  assert.ok(validateBirthInput({ ...ok, month: 4, day: 31 }).some((m) => /1 to 30/.test(m)));
+  assert.ok(validateBirthInput({ ...ok, year: 1500 }).some((m) => /year/.test(m)));
+  assert.ok(validateBirthInput({ ...ok, year: MAX_BIRTH_YEAR + 1 }).some((m) => /year/.test(m)));
+  assert.ok(validateBirthInput({ ...ok, hour: 1.5 }).some((m) => /hour/.test(m)));
+  assert.ok(validateBirthInput({ ...ok, longitude: Number.NaN }).some((m) => /longitude/.test(m)));
+});
+
+test("buildChart refuses an invalid birth instead of silently building a wrong chart", () => {
+  const ok = { year: 1990, month: 5, day: 12, hour: 14, minute: 30, sex: "male", timeZone: "Asia/Shanghai", longitude: 121.47 } as const;
+  assert.throws(() => buildChart({ ...ok, month: 13 }), /Invalid birth input: month/);
+  assert.throws(() => buildChart({ ...ok, month: 2, day: 30 }), RangeError);
+  assert.throws(() => buildChart({ ...ok, longitude: 500 }), /longitude/);
+  assert.throws(() => buildChart({ ...ok, timeZone: "Mars/Base" }), /time zone/i);
 });

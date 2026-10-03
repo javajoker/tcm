@@ -184,7 +184,35 @@ export interface ChartOptions {
   readonly luckPillarCount?: number;
 }
 
+const isInt = (n: unknown): n is number => typeof n === "number" && Number.isInteger(n);
+const daysInMonth = (y: number, m: number): number => (m === 2 ? (y % 4 === 0 && (y % 100 !== 0 || y % 400 === 0) ? 29 : 28) : [4, 6, 9, 11].includes(m) ? 30 : 31);
+
+/** Latest birth year accepted: the astronomical series and ΔT extrapolation are not meaningful beyond it. */
+export const MAX_BIRTH_YEAR = 2200;
+
+/**
+ * Every problem with a birth input, as human-readable messages (empty = valid). The date and time are checked as a Gregorian civil date
+ * (JavaScript's Date would silently roll month 13 or 30 February over into another day, which would give a wrong chart without any warning).
+ * The time zone is validated by the platform when the chart is built.
+ */
+export function validateBirthInput(input: BirthInput): string[] {
+  const problems: string[] = [];
+  if (!isInt(input.year) || input.year < 1583 || input.year > MAX_BIRTH_YEAR) problems.push(`year must be an integer from 1583 to ${MAX_BIRTH_YEAR}`);
+  if (!isInt(input.month) || input.month < 1 || input.month > 12) problems.push("month must be an integer from 1 to 12");
+  else if (isInt(input.year) && (!isInt(input.day) || input.day < 1 || input.day > daysInMonth(input.year, input.month))) problems.push(`day must be an integer from 1 to ${daysInMonth(input.year, input.month)} for this month`);
+  else if (!isInt(input.day)) problems.push("day must be an integer");
+  if (!isInt(input.hour) || input.hour < 0 || input.hour > 23) problems.push("hour must be an integer from 0 to 23");
+  if (!isInt(input.minute) || input.minute < 0 || input.minute > 59) problems.push("minute must be an integer from 0 to 59");
+  if (input.second !== undefined && (!isInt(input.second) || input.second < 0 || input.second > 59)) problems.push("second must be an integer from 0 to 59");
+  if (typeof input.longitude !== "number" || !Number.isFinite(input.longitude) || input.longitude < -180 || input.longitude > 180) problems.push("longitude must be a number from −180 to 180 (east positive)");
+  if (input.sex !== "male" && input.sex !== "female") problems.push('sex must be "male" or "female"');
+  if (typeof input.timeZone !== "string" || input.timeZone.length === 0) problems.push("timeZone must be an IANA zone name");
+  return problems;
+}
+
 export function buildChart(input: BirthInput, options: ChartOptions = {}): NatalChart {
+  const problems = validateBirthInput(input);
+  if (problems.length > 0) throw new RangeError(`Invalid birth input: ${problems.join("; ")}`);
   const params = options.params ?? DEFAULT_PARAMS;
   const warnings: string[] = [];
 
