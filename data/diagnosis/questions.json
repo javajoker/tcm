@@ -1,0 +1,2422 @@
+{
+  "_meta": {
+    "core_count": 23,
+    "count": 28,
+    "coverage": {
+      "covered": 111,
+      "inquiry_symptoms": 111,
+      "uncovered": []
+    },
+    "description": "Question bank for the adaptive inquiry (SOP §4.2, §4.8): plain-language prompts, options mapped to symptom ids, prerequisites, modules. Answering a question records selected symptoms as present and the others of that question as absent; skipping records unsure.",
+    "dimensions_core": [
+      "cold-heat",
+      "sweat",
+      "head-body",
+      "stool-urine",
+      "diet-taste",
+      "chest-abdomen",
+      "ear-eye-throat",
+      "thirst",
+      "sleep",
+      "emotion",
+      "menses",
+      "face-skin",
+      "voice-breath",
+      "qi-spirit-form",
+      "course"
+    ],
+    "schema": 1,
+    "status": "draft"
+  },
+  "items": [
+    {
+      "core": true,
+      "dimension": "cold-heat",
+      "exclusive_groups": [
+        [
+          "S_AVERSION_COLD",
+          "S_FEAR_COLD"
+        ]
+      ],
+      "graded": [
+        "S_AVERSION_COLD",
+        "S_FEAR_COLD",
+        "S_AVERSION_WIND",
+        "S_COLD_LIMBS"
+      ],
+      "hint": {
+        "en": "Feeling cold despite warm clothing often goes with a recent chill; cold that eases with warmth often goes with a constitutionally cold, weak pattern.",
+        "zh-Hant": "「即使穿暖還是冷」多見於剛受涼；「怕冷但保暖會好」多見於體質偏虛寒。"
+      },
+      "id": "Q_COLD",
+      "modules": [
+        "cold-heat-sweat",
+        "fatigue",
+        "early-external",
+        "womens-cycle"
+      ],
+      "options": [
+        {
+          "id": "aversion_cold",
+          "label": {
+            "en": "I still feel cold even when dressed warmly or under blankets",
+            "zh-Hant": "即使穿得暖、蓋了被子，還是覺得冷"
+          },
+          "none": false,
+          "symptoms": [
+            "S_AVERSION_COLD"
+          ]
+        },
+        {
+          "id": "fear_cold",
+          "label": {
+            "en": "I feel the cold, but warmth or hot food makes it better",
+            "zh-Hant": "怕冷，但保暖或吃熱的東西就會好一點"
+          },
+          "none": false,
+          "symptoms": [
+            "S_FEAR_COLD"
+          ]
+        },
+        {
+          "id": "aversion_wind",
+          "label": {
+            "en": "I dislike wind or drafts",
+            "zh-Hant": "怕風，吹到風就不舒服"
+          },
+          "none": false,
+          "symptoms": [
+            "S_AVERSION_WIND"
+          ]
+        },
+        {
+          "id": "cold_limbs",
+          "label": {
+            "en": "My hands and feet are often icy cold",
+            "zh-Hant": "手腳常常冰冷"
+          },
+          "none": false,
+          "symptoms": [
+            "S_COLD_LIMBS"
+          ]
+        },
+        {
+          "id": "none",
+          "label": {
+            "en": "None of these",
+            "zh-Hant": "以上都沒有"
+          },
+          "none": true,
+          "symptoms": []
+        }
+      ],
+      "order": 10,
+      "prompt": {
+        "en": "Do you feel the cold more than usual lately? Select all that apply.",
+        "zh-Hant": "最近您是否特別怕冷？符合的請全選。"
+      },
+      "select": "many",
+      "source": "inquiry",
+      "status": "draft"
+    },
+    {
+      "core": true,
+      "dimension": "cold-heat",
+      "exclusive_groups": [],
+      "graded": [
+        "S_FEVER",
+        "S_FEVER_UNEVEN",
+        "S_TIDAL_FEVER",
+        "S_HEAT_PALMS_SOLES",
+        "S_FEAR_HEAT",
+        "S_ALTERNATING_CHILLS_FEVER"
+      ],
+      "id": "Q_HEAT",
+      "modules": [
+        "cold-heat-sweat",
+        "sleep",
+        "early-external"
+      ],
+      "options": [
+        {
+          "id": "fever",
+          "label": {
+            "en": "I have a fever (a high temperature or feeling feverish)",
+            "zh-Hant": "有發熱（量體溫偏高，或自覺在發燒）"
+          },
+          "none": false,
+          "symptoms": [
+            "S_FEVER"
+          ]
+        },
+        {
+          "id": "fever_uneven",
+          "label": {
+            "en": "I feel hot and clammy inside, though my skin does not feel very hot",
+            "zh-Hant": "摸起來不太燙，但裡面悶熱、黏膩不爽快"
+          },
+          "none": false,
+          "symptoms": [
+            "S_FEVER_UNEVEN"
+          ]
+        },
+        {
+          "id": "tidal_fever",
+          "label": {
+            "en": "I tend to feel feverish in the afternoon or evening",
+            "zh-Hant": "下午或傍晚特別容易發熱"
+          },
+          "none": false,
+          "symptoms": [
+            "S_TIDAL_FEVER"
+          ]
+        },
+        {
+          "id": "heat_palms_soles",
+          "label": {
+            "en": "My palms, soles and chest often feel hot",
+            "zh-Hant": "手心、腳心和胸口常常發熱"
+          },
+          "none": false,
+          "symptoms": [
+            "S_HEAT_PALMS_SOLES"
+          ]
+        },
+        {
+          "id": "fear_heat",
+          "label": {
+            "en": "I dislike heat and prefer cool surroundings",
+            "zh-Hant": "怕熱，喜歡涼的環境"
+          },
+          "none": false,
+          "symptoms": [
+            "S_FEAR_HEAT"
+          ]
+        },
+        {
+          "id": "alternating_chills_fever",
+          "label": {
+            "en": "I alternate between chills and fever",
+            "zh-Hant": "一陣冷、一陣熱，輪流出現"
+          },
+          "none": false,
+          "symptoms": [
+            "S_ALTERNATING_CHILLS_FEVER"
+          ]
+        },
+        {
+          "id": "none",
+          "label": {
+            "en": "None of these",
+            "zh-Hant": "以上都沒有"
+          },
+          "none": true,
+          "symptoms": []
+        }
+      ],
+      "order": 11,
+      "prompt": {
+        "en": "Have you had any fever or feelings of heat lately? Select all that apply.",
+        "zh-Hant": "最近有沒有發熱或覺得悶熱的感覺？符合的請全選。"
+      },
+      "select": "many",
+      "source": "inquiry",
+      "status": "draft"
+    },
+    {
+      "core": true,
+      "dimension": "sweat",
+      "exclusive_groups": [],
+      "graded": [
+        "S_SPONTANEOUS_SWEAT",
+        "S_NIGHT_SWEAT"
+      ],
+      "id": "Q_SWEAT",
+      "modules": [
+        "cold-heat-sweat",
+        "sleep",
+        "fatigue",
+        "early-external"
+      ],
+      "options": [
+        {
+          "id": "spontaneous_sweat",
+          "label": {
+            "en": "I sweat easily with little effort, or even sitting still in the daytime",
+            "zh-Hant": "稍微活動，或白天坐著不動也容易出汗"
+          },
+          "none": false,
+          "symptoms": [
+            "S_SPONTANEOUS_SWEAT"
+          ]
+        },
+        {
+          "id": "night_sweat",
+          "label": {
+            "en": "I sweat while asleep and it stops when I wake",
+            "zh-Hant": "睡著後出汗，醒來就停了"
+          },
+          "none": false,
+          "symptoms": [
+            "S_NIGHT_SWEAT"
+          ]
+        },
+        {
+          "id": "no_sweat",
+          "label": {
+            "en": "I do not sweat when I would expect to (after exercise, in heat, or with fever and chills)",
+            "zh-Hant": "該出汗的時候（運動後、悶熱時或發燒怕冷時）卻沒有汗"
+          },
+          "none": false,
+          "symptoms": [
+            "S_NO_SWEAT"
+          ]
+        },
+        {
+          "id": "none",
+          "label": {
+            "en": "My sweating seems normal",
+            "zh-Hant": "出汗大致正常"
+          },
+          "none": true,
+          "symptoms": []
+        }
+      ],
+      "order": 20,
+      "prompt": {
+        "en": "How is your sweating? Select all that apply.",
+        "zh-Hant": "您平常出汗的情況如何？符合的請全選。"
+      },
+      "select": "many",
+      "source": "inquiry",
+      "status": "draft"
+    },
+    {
+      "core": true,
+      "dimension": "head-body",
+      "exclusive_groups": [],
+      "graded": [
+        "S_HEADACHE",
+        "S_HEAD_HEAVY",
+        "S_HEAD_DIZZY",
+        "S_HEAD_DISTENDING"
+      ],
+      "id": "Q_HEAD",
+      "modules": [
+        "head-body-pain",
+        "early-external"
+      ],
+      "options": [
+        {
+          "id": "headache",
+          "label": {
+            "en": "Headache",
+            "zh-Hant": "頭痛"
+          },
+          "none": false,
+          "symptoms": [
+            "S_HEADACHE"
+          ]
+        },
+        {
+          "id": "head_heavy",
+          "label": {
+            "en": "My head feels heavy, as if wrapped",
+            "zh-Hant": "頭很重，像被東西包住"
+          },
+          "none": false,
+          "symptoms": [
+            "S_HEAD_HEAVY"
+          ]
+        },
+        {
+          "id": "head_dizzy",
+          "label": {
+            "en": "Dizziness, blackouts of vision or a spinning feeling",
+            "zh-Hant": "頭暈、眼前發黑或天旋地轉"
+          },
+          "none": false,
+          "symptoms": [
+            "S_HEAD_DIZZY"
+          ]
+        },
+        {
+          "id": "head_distending",
+          "label": {
+            "en": "A distending headache, as if my head would burst",
+            "zh-Hant": "頭脹痛，脹得像要裂開"
+          },
+          "none": false,
+          "symptoms": [
+            "S_HEAD_DISTENDING"
+          ]
+        },
+        {
+          "id": "none",
+          "label": {
+            "en": "None of these",
+            "zh-Hant": "以上都沒有"
+          },
+          "none": true,
+          "symptoms": []
+        }
+      ],
+      "order": 30,
+      "prompt": {
+        "en": "Do you have any of these head symptoms? Select all that apply.",
+        "zh-Hant": "頭部有沒有以下不舒服？符合的請全選。"
+      },
+      "select": "many",
+      "source": "inquiry",
+      "status": "draft"
+    },
+    {
+      "core": true,
+      "dimension": "head-body",
+      "exclusive_groups": [],
+      "graded": [
+        "S_BODY_ACHE",
+        "S_BODY_HEAVY",
+        "S_LIMB_NUMB",
+        "S_LOW_BACK_SORE",
+        "S_LOW_BACK_COLD"
+      ],
+      "id": "Q_BODY",
+      "modules": [
+        "head-body-pain",
+        "fatigue",
+        "early-external"
+      ],
+      "options": [
+        {
+          "id": "body_ache",
+          "label": {
+            "en": "Aching all over",
+            "zh-Hant": "全身痠痛"
+          },
+          "none": false,
+          "symptoms": [
+            "S_BODY_ACHE"
+          ]
+        },
+        {
+          "id": "body_heavy",
+          "label": {
+            "en": "A heavy body and drowsiness",
+            "zh-Hant": "身體沉重、睏倦想睡"
+          },
+          "none": false,
+          "symptoms": [
+            "S_BODY_HEAVY"
+          ]
+        },
+        {
+          "id": "limb_numb",
+          "label": {
+            "en": "Numbness in the hands or feet",
+            "zh-Hant": "手腳麻木"
+          },
+          "none": false,
+          "symptoms": [
+            "S_LIMB_NUMB"
+          ]
+        },
+        {
+          "id": "low_back_sore",
+          "label": {
+            "en": "An aching, weak lower back and knees",
+            "zh-Hant": "腰和膝蓋痠軟無力"
+          },
+          "none": false,
+          "symptoms": [
+            "S_LOW_BACK_SORE"
+          ]
+        },
+        {
+          "id": "low_back_cold",
+          "label": {
+            "en": "An aching, cold lower back and knees",
+            "zh-Hant": "腰和膝蓋痠痛又發冷"
+          },
+          "none": false,
+          "symptoms": [
+            "S_LOW_BACK_COLD"
+          ]
+        },
+        {
+          "id": "none",
+          "label": {
+            "en": "None of these",
+            "zh-Hant": "以上都沒有"
+          },
+          "none": true,
+          "symptoms": []
+        }
+      ],
+      "order": 31,
+      "prompt": {
+        "en": "And your body and limbs? Select all that apply.",
+        "zh-Hant": "身體和四肢呢？符合的請全選。"
+      },
+      "select": "many",
+      "source": "inquiry",
+      "status": "draft"
+    },
+    {
+      "core": false,
+      "dimension": "head-body",
+      "exclusive_groups": [],
+      "follows": [
+        "S_HEADACHE",
+        "S_BODY_ACHE",
+        "S_HEAD_DISTENDING",
+        "S_EPIGASTRIC_PAIN",
+        "S_ABD_PAIN_PREFER_WARM_PRESS",
+        "S_HYPOCHONDRIAC_DISTENSION",
+        "S_DYSMENORRHEA",
+        "S_BREAST_DISTENSION"
+      ],
+      "graded": [],
+      "id": "Q_PAIN_QUALITY",
+      "modules": [
+        "head-body-pain",
+        "womens-cycle"
+      ],
+      "options": [
+        {
+          "id": "stabbing_pain_fixed",
+          "label": {
+            "en": "Stabbing pain in a fixed spot",
+            "zh-Hant": "刺痛，位置固定不動"
+          },
+          "none": false,
+          "symptoms": [
+            "S_STABBING_PAIN_FIXED"
+          ]
+        },
+        {
+          "id": "pain_night_worse",
+          "label": {
+            "en": "Pain that is worse at night",
+            "zh-Hant": "夜裡痛得更厲害"
+          },
+          "none": false,
+          "symptoms": [
+            "S_PAIN_NIGHT_WORSE"
+          ]
+        },
+        {
+          "id": "pain_distending",
+          "label": {
+            "en": "Distending pain",
+            "zh-Hant": "脹痛"
+          },
+          "none": false,
+          "symptoms": [
+            "S_PAIN_DISTENDING"
+          ]
+        },
+        {
+          "id": "pain_wandering",
+          "label": {
+            "en": "Wandering pain that moves around",
+            "zh-Hant": "竄痛，位置會到處跑"
+          },
+          "none": false,
+          "symptoms": [
+            "S_PAIN_WANDERING"
+          ]
+        },
+        {
+          "id": "none",
+          "label": {
+            "en": "None of these",
+            "zh-Hant": "以上都沒有"
+          },
+          "none": true,
+          "symptoms": []
+        }
+      ],
+      "order": 32,
+      "prompt": {
+        "en": "How would you describe the pain? Select all that apply.",
+        "zh-Hant": "關於疼痛的性質，符合的有哪些？"
+      },
+      "select": "many",
+      "source": "inquiry",
+      "status": "draft"
+    },
+    {
+      "core": true,
+      "dimension": "stool-urine",
+      "exclusive_groups": [
+        [
+          "S_LOOSE_STOOL",
+          "S_CONSTIPATION"
+        ]
+      ],
+      "graded": [
+        "S_LOOSE_STOOL",
+        "S_CONSTIPATION",
+        "S_STICKY_STOOL"
+      ],
+      "id": "Q_STOOL",
+      "modules": [
+        "digestion",
+        "fatigue"
+      ],
+      "options": [
+        {
+          "id": "loose_stool",
+          "label": {
+            "en": "Loose, unformed stools",
+            "zh-Hant": "偏稀、不成形"
+          },
+          "none": false,
+          "symptoms": [
+            "S_LOOSE_STOOL"
+          ]
+        },
+        {
+          "id": "constipation",
+          "label": {
+            "en": "Dry, hard stools that are difficult to pass",
+            "zh-Hant": "偏乾硬，排便困難"
+          },
+          "none": false,
+          "symptoms": [
+            "S_CONSTIPATION"
+          ]
+        },
+        {
+          "id": "sticky_stool",
+          "label": {
+            "en": "Sticky stools and a feeling of incomplete emptying",
+            "zh-Hant": "黏黏的，解不乾淨"
+          },
+          "none": false,
+          "symptoms": [
+            "S_STICKY_STOOL"
+          ]
+        },
+        {
+          "id": "undigested_stool",
+          "label": {
+            "en": "Food comes out almost undigested",
+            "zh-Hant": "吃進去的東西幾乎沒消化就排出來"
+          },
+          "none": false,
+          "symptoms": [
+            "S_UNDIGESTED_STOOL"
+          ]
+        },
+        {
+          "id": "none",
+          "label": {
+            "en": "About normal",
+            "zh-Hant": "大致正常"
+          },
+          "none": true,
+          "symptoms": []
+        }
+      ],
+      "order": 40,
+      "prompt": {
+        "en": "How have your bowel movements been? Select all that apply.",
+        "zh-Hant": "最近大便的情況如何？符合的請全選。"
+      },
+      "select": "many",
+      "source": "inquiry",
+      "status": "draft"
+    },
+    {
+      "core": true,
+      "dimension": "stool-urine",
+      "exclusive_groups": [
+        [
+          "S_URINE_YELLOW_SCANTY",
+          "S_URINE_CLEAR_LONG"
+        ]
+      ],
+      "graded": [
+        "S_FREQUENT_NOCTURIA"
+      ],
+      "id": "Q_URINE",
+      "modules": [
+        "cold-heat-sweat"
+      ],
+      "options": [
+        {
+          "id": "frequent_nocturia",
+          "label": {
+            "en": "I get up several times at night to urinate",
+            "zh-Hant": "夜裡要起來上好幾次廁所"
+          },
+          "none": false,
+          "symptoms": [
+            "S_FREQUENT_NOCTURIA"
+          ]
+        },
+        {
+          "id": "urine_yellow_scanty",
+          "label": {
+            "en": "Small amounts of dark yellow urine",
+            "zh-Hant": "量少，顏色深黃"
+          },
+          "none": false,
+          "symptoms": [
+            "S_URINE_YELLOW_SCANTY"
+          ]
+        },
+        {
+          "id": "urine_clear_long",
+          "label": {
+            "en": "Large amounts of pale, clear urine",
+            "zh-Hant": "量多，顏色清淡"
+          },
+          "none": false,
+          "symptoms": [
+            "S_URINE_CLEAR_LONG"
+          ]
+        },
+        {
+          "id": "none",
+          "label": {
+            "en": "About normal",
+            "zh-Hant": "大致正常"
+          },
+          "none": true,
+          "symptoms": []
+        }
+      ],
+      "order": 41,
+      "prompt": {
+        "en": "And your urination? Select all that apply.",
+        "zh-Hant": "小便的情況呢？符合的請全選。"
+      },
+      "select": "many",
+      "source": "inquiry",
+      "status": "draft"
+    },
+    {
+      "core": true,
+      "dimension": "diet-taste",
+      "exclusive_groups": [],
+      "graded": [
+        "S_POOR_APPETITE",
+        "S_POSTPRANDIAL_BLOAT",
+        "S_HUNGER_NO_EAT"
+      ],
+      "id": "Q_APPETITE",
+      "modules": [
+        "digestion",
+        "fatigue"
+      ],
+      "options": [
+        {
+          "id": "poor_appetite",
+          "label": {
+            "en": "Poor appetite; I do not feel like eating",
+            "zh-Hant": "食慾差，不太想吃"
+          },
+          "none": false,
+          "symptoms": [
+            "S_POOR_APPETITE"
+          ]
+        },
+        {
+          "id": "postprandial_bloat",
+          "label": {
+            "en": "My abdomen feels bloated after eating",
+            "zh-Hant": "吃完後肚子脹"
+          },
+          "none": false,
+          "symptoms": [
+            "S_POSTPRANDIAL_BLOAT"
+          ]
+        },
+        {
+          "id": "hunger_no_eat",
+          "label": {
+            "en": "I feel hungry but do not want to eat or cannot eat",
+            "zh-Hant": "會餓，但又不想吃或吃不下"
+          },
+          "none": false,
+          "symptoms": [
+            "S_HUNGER_NO_EAT"
+          ]
+        },
+        {
+          "id": "none",
+          "label": {
+            "en": "About normal",
+            "zh-Hant": "大致正常"
+          },
+          "none": true,
+          "symptoms": []
+        }
+      ],
+      "order": 50,
+      "prompt": {
+        "en": "How are your appetite and how you feel after eating? Select all that apply.",
+        "zh-Hant": "食慾和飯後的感覺如何？符合的請全選。"
+      },
+      "select": "many",
+      "source": "inquiry",
+      "status": "draft"
+    },
+    {
+      "core": true,
+      "dimension": "diet-taste",
+      "exclusive_groups": [],
+      "graded": [
+        "S_ACID_REFLUX"
+      ],
+      "id": "Q_TASTE",
+      "modules": [
+        "digestion"
+      ],
+      "options": [
+        {
+          "id": "bitter_mouth",
+          "label": {
+            "en": "A bitter taste in the mouth",
+            "zh-Hant": "嘴巴苦"
+          },
+          "none": false,
+          "symptoms": [
+            "S_BITTER_MOUTH"
+          ]
+        },
+        {
+          "id": "sticky_mouth",
+          "label": {
+            "en": "A sticky, greasy feeling in the mouth",
+            "zh-Hant": "嘴裡黏膩、不清爽"
+          },
+          "none": false,
+          "symptoms": [
+            "S_STICKY_MOUTH"
+          ]
+        },
+        {
+          "id": "bland_mouth",
+          "label": {
+            "en": "A bland mouth; food tastes of little",
+            "zh-Hant": "嘴裡淡淡的，沒有味道"
+          },
+          "none": false,
+          "symptoms": [
+            "S_BLAND_MOUTH"
+          ]
+        },
+        {
+          "id": "acid_reflux",
+          "label": {
+            "en": "Sour fluid or acid coming up",
+            "zh-Hant": "泛酸水，胃酸往上冒"
+          },
+          "none": false,
+          "symptoms": [
+            "S_ACID_REFLUX"
+          ]
+        },
+        {
+          "id": "none",
+          "label": {
+            "en": "None of these",
+            "zh-Hant": "以上都沒有"
+          },
+          "none": true,
+          "symptoms": []
+        }
+      ],
+      "order": 51,
+      "prompt": {
+        "en": "What about tastes in your mouth, or your stomach? Select all that apply.",
+        "zh-Hant": "嘴巴裡的味道或胃的感覺呢？符合的請全選。"
+      },
+      "select": "many",
+      "source": "inquiry",
+      "status": "draft"
+    },
+    {
+      "core": true,
+      "dimension": "diet-taste",
+      "exclusive_groups": [],
+      "graded": [],
+      "id": "Q_FOOD_TEMP",
+      "modules": [
+        "digestion",
+        "cold-heat-sweat"
+      ],
+      "options": [
+        {
+          "id": "prefer_hot_food",
+          "label": {
+            "en": "I prefer hot food; cold food upsets me",
+            "zh-Hant": "喜歡熱食，吃冷的會不舒服"
+          },
+          "none": false,
+          "symptoms": [
+            "S_PREFER_HOT_FOOD"
+          ]
+        },
+        {
+          "id": "prefer_cold_food",
+          "label": {
+            "en": "I prefer cold or cool food",
+            "zh-Hant": "喜歡冷食或涼的"
+          },
+          "none": false,
+          "symptoms": [
+            "S_PREFER_COLD_FOOD"
+          ]
+        },
+        {
+          "id": "none",
+          "label": {
+            "en": "No particular preference",
+            "zh-Hant": "沒有特別偏好"
+          },
+          "none": true,
+          "symptoms": []
+        }
+      ],
+      "order": 52,
+      "prompt": {
+        "en": "Do you prefer hot or cold food?",
+        "zh-Hant": "您比較喜歡吃熱的還是冷的食物？"
+      },
+      "select": "one",
+      "source": "inquiry",
+      "status": "draft"
+    },
+    {
+      "core": false,
+      "dimension": "diet-taste",
+      "exclusive_groups": [],
+      "follows": [
+        "S_POOR_APPETITE",
+        "S_POSTPRANDIAL_BLOAT",
+        "S_EPIGASTRIC_PAIN",
+        "S_EPIGASTRIC_BURNING",
+        "S_EPIGASTRIC_FULLNESS",
+        "S_ACID_REFLUX",
+        "S_HUNGER_NO_EAT",
+        "S_HYPOCHONDRIAC_DISTENSION",
+        "S_SIGHING",
+        "S_EMOTION_TRIGGERED",
+        "S_STICKY_MOUTH",
+        "S_BITTER_MOUTH",
+        "S_PHLEGM_COPIOUS",
+        "S_RESTLESS_NO_SLEEP"
+      ],
+      "graded": [
+        "S_NAUSEA"
+      ],
+      "hint": {
+        "en": "Persistent vomiting or being unable to keep food or drink down needs prompt medical care.",
+        "zh-Hant": "持續嘔吐、無法進食或喝水，請盡快就醫。"
+      },
+      "id": "Q_NAUSEA",
+      "modules": [
+        "digestion"
+      ],
+      "options": [
+        {
+          "id": "belching",
+          "label": {
+            "en": "Belching",
+            "zh-Hant": "噯氣（打嗝）"
+          },
+          "none": false,
+          "symptoms": [
+            "S_BELCHING"
+          ]
+        },
+        {
+          "id": "nausea",
+          "label": {
+            "en": "Nausea",
+            "zh-Hant": "噁心想吐"
+          },
+          "none": false,
+          "symptoms": [
+            "S_NAUSEA"
+          ]
+        },
+        {
+          "id": "dry_retch",
+          "label": {
+            "en": "Dry retching",
+            "zh-Hant": "乾嘔（想吐但吐不出來）"
+          },
+          "none": false,
+          "symptoms": [
+            "S_DRY_RETCH"
+          ]
+        },
+        {
+          "id": "none",
+          "label": {
+            "en": "None of these",
+            "zh-Hant": "以上都沒有"
+          },
+          "none": true,
+          "symptoms": []
+        }
+      ],
+      "order": 53,
+      "prompt": {
+        "en": "Do you have any of these around meals or in general?",
+        "zh-Hant": "吃東西前後或平常，有沒有以下情況？"
+      },
+      "select": "many",
+      "source": "inquiry",
+      "status": "draft"
+    },
+    {
+      "core": true,
+      "dimension": "chest-abdomen",
+      "exclusive_groups": [],
+      "graded": [
+        "S_PALPITATION",
+        "S_CHEST_OPPRESSION",
+        "S_HYPOCHONDRIAC_DISTENSION"
+      ],
+      "hint": {
+        "en": "Palpitations with chest pain, cold sweat or difficulty breathing need urgent medical care.",
+        "zh-Hant": "心悸若伴隨胸痛、冒冷汗或呼吸困難，請立即就醫。"
+      },
+      "id": "Q_CHEST",
+      "modules": [
+        "sleep",
+        "mood-stress"
+      ],
+      "options": [
+        {
+          "id": "palpitation",
+          "label": {
+            "en": "Palpitations (a racing or pounding heartbeat)",
+            "zh-Hant": "心悸（感覺心跳很快或心在亂跳）"
+          },
+          "none": false,
+          "symptoms": [
+            "S_PALPITATION"
+          ]
+        },
+        {
+          "id": "chest_oppression",
+          "label": {
+            "en": "Chest tightness, as if something is pressing",
+            "zh-Hant": "胸悶，像有東西壓著"
+          },
+          "none": false,
+          "symptoms": [
+            "S_CHEST_OPPRESSION"
+          ]
+        },
+        {
+          "id": "hypochondriac_distension",
+          "label": {
+            "en": "Distending pain at the sides of the ribs",
+            "zh-Hant": "兩側肋骨附近脹痛"
+          },
+          "none": false,
+          "symptoms": [
+            "S_HYPOCHONDRIAC_DISTENSION"
+          ]
+        },
+        {
+          "id": "sighing",
+          "label": {
+            "en": "I often sigh",
+            "zh-Hant": "常常嘆氣"
+          },
+          "none": false,
+          "symptoms": [
+            "S_SIGHING"
+          ]
+        },
+        {
+          "id": "throat_foreign",
+          "label": {
+            "en": "A feeling of something stuck in the throat that I can neither swallow nor cough up",
+            "zh-Hant": "喉嚨像有東西卡住，吞不下也吐不出"
+          },
+          "none": false,
+          "symptoms": [
+            "S_THROAT_FOREIGN"
+          ]
+        },
+        {
+          "id": "none",
+          "label": {
+            "en": "None of these",
+            "zh-Hant": "以上都沒有"
+          },
+          "none": true,
+          "symptoms": []
+        }
+      ],
+      "order": 60,
+      "prompt": {
+        "en": "Any discomfort in the chest or along the ribs? Select all that apply.",
+        "zh-Hant": "胸口和兩側肋骨附近有沒有不舒服？符合的請全選。"
+      },
+      "select": "many",
+      "source": "inquiry",
+      "status": "draft"
+    },
+    {
+      "core": true,
+      "dimension": "chest-abdomen",
+      "exclusive_groups": [],
+      "graded": [
+        "S_EPIGASTRIC_PAIN",
+        "S_EPIGASTRIC_BURNING",
+        "S_EPIGASTRIC_FULLNESS",
+        "S_ABD_PAIN_PREFER_WARM_PRESS",
+        "S_PROLAPSE_SENSATION"
+      ],
+      "hint": {
+        "en": "Severe abdominal pain needs medical care; do not self-manage.",
+        "zh-Hant": "劇烈腹痛請就醫，不要自行處理。"
+      },
+      "id": "Q_ABDOMEN",
+      "modules": [
+        "digestion",
+        "mood-stress"
+      ],
+      "options": [
+        {
+          "id": "epigastric_pain",
+          "label": {
+            "en": "Distending pain in the upper abdomen",
+            "zh-Hant": "胃脘部（上腹）脹痛"
+          },
+          "none": false,
+          "symptoms": [
+            "S_EPIGASTRIC_PAIN"
+          ]
+        },
+        {
+          "id": "epigastric_burning",
+          "label": {
+            "en": "A dull, burning ache in the stomach",
+            "zh-Hant": "胃隱隱作痛，有灼熱感"
+          },
+          "none": false,
+          "symptoms": [
+            "S_EPIGASTRIC_BURNING"
+          ]
+        },
+        {
+          "id": "epigastric_fullness",
+          "label": {
+            "en": "Fullness and stuffiness in the upper or whole abdomen",
+            "zh-Hant": "上腹或整個肚子悶脹、痞滿"
+          },
+          "none": false,
+          "symptoms": [
+            "S_EPIGASTRIC_FULLNESS"
+          ]
+        },
+        {
+          "id": "abd_pain_prefer_warm_press",
+          "label": {
+            "en": "Abdominal pain that likes warmth or pressure",
+            "zh-Hant": "肚子痛，喜歡熱敷或按壓"
+          },
+          "none": false,
+          "symptoms": [
+            "S_ABD_PAIN_PREFER_WARM_PRESS"
+          ]
+        },
+        {
+          "id": "abd_distension_intermittent",
+          "label": {
+            "en": "Abdominal fullness that comes and goes",
+            "zh-Hant": "肚子脹，時好時壞"
+          },
+          "none": false,
+          "symptoms": [
+            "S_ABD_DISTENSION_INTERMITTENT"
+          ]
+        },
+        {
+          "id": "prolapse_sensation",
+          "label": {
+            "en": "A bearing-down feeling in the abdomen",
+            "zh-Hant": "肚子或下腹有往下墜的感覺"
+          },
+          "none": false,
+          "symptoms": [
+            "S_PROLAPSE_SENSATION"
+          ]
+        },
+        {
+          "id": "none",
+          "label": {
+            "en": "None of these",
+            "zh-Hant": "以上都沒有"
+          },
+          "none": true,
+          "symptoms": []
+        }
+      ],
+      "order": 61,
+      "prompt": {
+        "en": "How do your stomach and abdomen feel? Select all that apply.",
+        "zh-Hant": "胃部和肚子的感覺呢？符合的請全選。"
+      },
+      "select": "many",
+      "source": "inquiry",
+      "status": "draft"
+    },
+    {
+      "core": false,
+      "dimension": "chest-abdomen",
+      "exclusive_groups": [],
+      "follows": [
+        "S_EPIGASTRIC_PAIN",
+        "S_EPIGASTRIC_BURNING",
+        "S_EPIGASTRIC_FULLNESS",
+        "S_ABD_PAIN_PREFER_WARM_PRESS",
+        "S_ABD_DISTENSION_INTERMITTENT",
+        "S_POSTPRANDIAL_BLOAT",
+        "S_PROLAPSE_SENSATION",
+        "S_HYPOCHONDRIAC_DISTENSION",
+        "S_DYSMENORRHEA",
+        "S_STABBING_PAIN_FIXED",
+        "S_PAIN_NIGHT_WORSE"
+      ],
+      "graded": [],
+      "id": "Q_ABD_PRESS",
+      "modules": [
+        "digestion"
+      ],
+      "options": [
+        {
+          "id": "abd_prefer_press",
+          "label": {
+            "en": "Pressing feels better",
+            "zh-Hant": "按著比較舒服"
+          },
+          "none": false,
+          "symptoms": [
+            "S_ABD_PREFER_PRESS"
+          ]
+        },
+        {
+          "id": "abd_refuse_press",
+          "label": {
+            "en": "Pressing makes it worse; I do not want it touched",
+            "zh-Hant": "按下去更痛，不想被碰"
+          },
+          "none": false,
+          "symptoms": [
+            "S_ABD_REFUSE_PRESS"
+          ]
+        },
+        {
+          "id": "none",
+          "label": {
+            "en": "About the same",
+            "zh-Hant": "差不多，沒有特別的感覺"
+          },
+          "none": true,
+          "symptoms": []
+        }
+      ],
+      "order": 62,
+      "prompt": {
+        "en": "How does it feel when you press on your abdomen?",
+        "zh-Hant": "用手按壓肚子時，感覺如何？"
+      },
+      "select": "one",
+      "source": "inquiry",
+      "status": "draft"
+    },
+    {
+      "core": true,
+      "dimension": "ear-eye-throat",
+      "exclusive_groups": [
+        [
+          "S_TINNITUS_HIGH_LOUD",
+          "S_TINNITUS_THIN"
+        ]
+      ],
+      "graded": [
+        "S_BLURRED_VISION",
+        "S_DRY_EYES"
+      ],
+      "hint": {
+        "en": "A sudden change in vision needs prompt medical care.",
+        "zh-Hant": "視力突然改變請盡快就醫。"
+      },
+      "id": "Q_EAR_EYE",
+      "modules": [
+        "head-body-pain"
+      ],
+      "options": [
+        {
+          "id": "tinnitus_high_loud",
+          "label": {
+            "en": "Loud ringing in the ears, like surf",
+            "zh-Hant": "耳鳴，聲音大、像潮水"
+          },
+          "none": false,
+          "symptoms": [
+            "S_TINNITUS_HIGH_LOUD"
+          ]
+        },
+        {
+          "id": "tinnitus_thin",
+          "label": {
+            "en": "Thin, high ringing in the ears, like cicadas",
+            "zh-Hant": "耳鳴，聲音細、像蟬鳴"
+          },
+          "none": false,
+          "symptoms": [
+            "S_TINNITUS_THIN"
+          ]
+        },
+        {
+          "id": "blurred_vision",
+          "label": {
+            "en": "Blurred vision",
+            "zh-Hant": "視物模糊"
+          },
+          "none": false,
+          "symptoms": [
+            "S_BLURRED_VISION"
+          ]
+        },
+        {
+          "id": "dry_eyes",
+          "label": {
+            "en": "Dry, gritty eyes",
+            "zh-Hant": "眼睛乾澀"
+          },
+          "none": false,
+          "symptoms": [
+            "S_DRY_EYES"
+          ]
+        },
+        {
+          "id": "red_eyes",
+          "label": {
+            "en": "Red eyes",
+            "zh-Hant": "眼睛紅"
+          },
+          "none": false,
+          "symptoms": [
+            "S_RED_EYES"
+          ]
+        },
+        {
+          "id": "none",
+          "label": {
+            "en": "None of these",
+            "zh-Hant": "以上都沒有"
+          },
+          "none": true,
+          "symptoms": []
+        }
+      ],
+      "order": 70,
+      "prompt": {
+        "en": "Any problems with your ears or eyes? Select all that apply.",
+        "zh-Hant": "耳朵和眼睛有沒有不舒服？符合的請全選。"
+      },
+      "select": "many",
+      "source": "inquiry",
+      "status": "draft"
+    },
+    {
+      "core": true,
+      "dimension": "ear-eye-throat",
+      "exclusive_groups": [],
+      "graded": [
+        "S_DRY_THROAT",
+        "S_SORE_THROAT"
+      ],
+      "id": "Q_THROAT",
+      "modules": [
+        "early-external"
+      ],
+      "options": [
+        {
+          "id": "dry_throat",
+          "label": {
+            "en": "A dry throat",
+            "zh-Hant": "喉嚨乾"
+          },
+          "none": false,
+          "symptoms": [
+            "S_DRY_THROAT"
+          ]
+        },
+        {
+          "id": "sore_throat",
+          "label": {
+            "en": "A sore throat",
+            "zh-Hant": "喉嚨痛"
+          },
+          "none": false,
+          "symptoms": [
+            "S_SORE_THROAT"
+          ]
+        },
+        {
+          "id": "hoarse",
+          "label": {
+            "en": "A hoarse voice",
+            "zh-Hant": "聲音沙啞"
+          },
+          "none": false,
+          "symptoms": [
+            "S_HOARSE"
+          ]
+        },
+        {
+          "id": "mouth_ulcers",
+          "label": {
+            "en": "Sores in the mouth or on the tongue",
+            "zh-Hant": "口腔或舌頭長瘡"
+          },
+          "none": false,
+          "symptoms": [
+            "S_MOUTH_ULCERS"
+          ]
+        },
+        {
+          "id": "none",
+          "label": {
+            "en": "None of these",
+            "zh-Hant": "以上都沒有"
+          },
+          "none": true,
+          "symptoms": []
+        }
+      ],
+      "order": 71,
+      "prompt": {
+        "en": "And your throat and mouth? Select all that apply.",
+        "zh-Hant": "喉嚨和口腔呢？符合的請全選。"
+      },
+      "select": "many",
+      "source": "inquiry",
+      "status": "draft"
+    },
+    {
+      "core": true,
+      "dimension": "thirst",
+      "exclusive_groups": [
+        [
+          "S_THIRST_COLD_DRINK",
+          "S_THIRST_NO_DRINK",
+          "S_THIRST_LIGHT",
+          "S_NO_THIRST"
+        ]
+      ],
+      "graded": [],
+      "id": "Q_THIRST",
+      "modules": [
+        "cold-heat-sweat",
+        "digestion",
+        "early-external"
+      ],
+      "options": [
+        {
+          "id": "thirst_cold_drink",
+          "label": {
+            "en": "I am thirsty and want cold drinks",
+            "zh-Hant": "口渴，想喝冷飲"
+          },
+          "none": false,
+          "symptoms": [
+            "S_THIRST_COLD_DRINK"
+          ]
+        },
+        {
+          "id": "thirst_no_drink",
+          "label": {
+            "en": "I feel thirsty but do not want to drink",
+            "zh-Hant": "口渴，但不太想喝水"
+          },
+          "none": false,
+          "symptoms": [
+            "S_THIRST_NO_DRINK"
+          ]
+        },
+        {
+          "id": "thirst_light",
+          "label": {
+            "en": "Only slightly thirsty",
+            "zh-Hant": "只有一點點渴"
+          },
+          "none": false,
+          "symptoms": [
+            "S_THIRST_LIGHT"
+          ]
+        },
+        {
+          "id": "no_thirst",
+          "label": {
+            "en": "Not thirsty at all",
+            "zh-Hant": "完全不覺得渴"
+          },
+          "none": false,
+          "symptoms": [
+            "S_NO_THIRST"
+          ]
+        },
+        {
+          "id": "dry_mouth_throat",
+          "label": {
+            "en": "A dry mouth and throat",
+            "zh-Hant": "口乾舌燥、喉嚨乾"
+          },
+          "none": false,
+          "symptoms": [
+            "S_DRY_MOUTH_THROAT"
+          ]
+        },
+        {
+          "id": "prefer_hot_drink",
+          "label": {
+            "en": "I prefer hot drinks",
+            "zh-Hant": "偏愛喝熱的飲料"
+          },
+          "none": false,
+          "symptoms": [
+            "S_PREFER_HOT_DRINK"
+          ]
+        },
+        {
+          "id": "none",
+          "label": {
+            "en": "Nothing in particular",
+            "zh-Hant": "沒有特別的狀況"
+          },
+          "none": true,
+          "symptoms": []
+        }
+      ],
+      "order": 80,
+      "prompt": {
+        "en": "How is your thirst? Select all that apply.",
+        "zh-Hant": "口渴的情形如何？符合的請全選。"
+      },
+      "select": "many",
+      "source": "inquiry",
+      "status": "draft"
+    },
+    {
+      "core": true,
+      "dimension": "sleep",
+      "exclusive_groups": [],
+      "graded": [
+        "S_INSOMNIA_ONSET",
+        "S_INSOMNIA_MAINT",
+        "S_DREAM_MANY",
+        "S_RESTLESS_NO_SLEEP"
+      ],
+      "id": "Q_SLEEP",
+      "modules": [
+        "sleep",
+        "mood-stress"
+      ],
+      "options": [
+        {
+          "id": "insomnia_onset",
+          "label": {
+            "en": "I find it hard to fall asleep",
+            "zh-Hant": "很難入睡"
+          },
+          "none": false,
+          "symptoms": [
+            "S_INSOMNIA_ONSET"
+          ]
+        },
+        {
+          "id": "insomnia_maint",
+          "label": {
+            "en": "I wake up easily or often",
+            "zh-Hant": "睡著後容易醒"
+          },
+          "none": false,
+          "symptoms": [
+            "S_INSOMNIA_MAINT"
+          ]
+        },
+        {
+          "id": "dream_many",
+          "label": {
+            "en": "Many or vivid dreams",
+            "zh-Hant": "多夢"
+          },
+          "none": false,
+          "symptoms": [
+            "S_DREAM_MANY"
+          ]
+        },
+        {
+          "id": "restless_no_sleep",
+          "label": {
+            "en": "Vexation that keeps me from sleeping",
+            "zh-Hant": "心裡煩躁，煩到睡不著"
+          },
+          "none": false,
+          "symptoms": [
+            "S_RESTLESS_NO_SLEEP"
+          ]
+        },
+        {
+          "id": "none",
+          "label": {
+            "en": "I sleep fairly well",
+            "zh-Hant": "睡得還好"
+          },
+          "none": true,
+          "symptoms": []
+        }
+      ],
+      "order": 90,
+      "prompt": {
+        "en": "How has your sleep been? Select all that apply.",
+        "zh-Hant": "最近睡眠怎麼樣？符合的請全選。"
+      },
+      "select": "many",
+      "source": "inquiry",
+      "status": "draft"
+    },
+    {
+      "core": false,
+      "dimension": "sleep",
+      "exclusive_groups": [],
+      "follows": [
+        "S_INSOMNIA_ONSET",
+        "S_INSOMNIA_MAINT",
+        "S_DREAM_MANY",
+        "S_RESTLESS_NO_SLEEP",
+        "S_PALPITATION",
+        "S_FATIGUE",
+        "S_MENTAL_STRAIN"
+      ],
+      "graded": [
+        "S_FORGETFUL"
+      ],
+      "id": "Q_MIND",
+      "modules": [
+        "sleep",
+        "mood-stress"
+      ],
+      "options": [
+        {
+          "id": "forgetful",
+          "label": {
+            "en": "Forgetfulness",
+            "zh-Hant": "健忘，容易忘東忘西"
+          },
+          "none": false,
+          "symptoms": [
+            "S_FORGETFUL"
+          ]
+        },
+        {
+          "id": "startle",
+          "label": {
+            "en": "Easily startled or frightened",
+            "zh-Hant": "容易受驚、心慌"
+          },
+          "none": false,
+          "symptoms": [
+            "S_STARTLE"
+          ]
+        },
+        {
+          "id": "none",
+          "label": {
+            "en": "None of these",
+            "zh-Hant": "以上都沒有"
+          },
+          "none": true,
+          "symptoms": []
+        }
+      ],
+      "order": 91,
+      "prompt": {
+        "en": "Do you notice any of these?",
+        "zh-Hant": "心神方面，有沒有以下情況？"
+      },
+      "select": "many",
+      "source": "inquiry",
+      "status": "draft"
+    },
+    {
+      "core": true,
+      "dimension": "emotion",
+      "exclusive_groups": [],
+      "graded": [
+        "S_DEPRESSED",
+        "S_IRRITABLE",
+        "S_MENTAL_STRAIN"
+      ],
+      "hint": {
+        "en": "If you have thoughts of harming yourself or others, seek help immediately.",
+        "zh-Hant": "若出現傷害自己或他人的念頭，請立即尋求協助。"
+      },
+      "id": "Q_EMOTION",
+      "modules": [
+        "mood-stress",
+        "sleep",
+        "womens-cycle"
+      ],
+      "options": [
+        {
+          "id": "depressed",
+          "label": {
+            "en": "Low mood; feeling down",
+            "zh-Hant": "情緒低落，悶悶不樂"
+          },
+          "none": false,
+          "symptoms": [
+            "S_DEPRESSED"
+          ]
+        },
+        {
+          "id": "irritable",
+          "label": {
+            "en": "Irritable and quick to anger",
+            "zh-Hant": "急躁，容易生氣"
+          },
+          "none": false,
+          "symptoms": [
+            "S_IRRITABLE"
+          ]
+        },
+        {
+          "id": "emotion_triggered",
+          "label": {
+            "en": "My physical symptoms start or worsen with emotion",
+            "zh-Hant": "身體的不舒服常因為情緒而發作或加重"
+          },
+          "none": false,
+          "symptoms": [
+            "S_EMOTION_TRIGGERED"
+          ]
+        },
+        {
+          "id": "mental_strain",
+          "label": {
+            "en": "I think too much and worry excessively",
+            "zh-Hant": "想太多，思慮過度"
+          },
+          "none": false,
+          "symptoms": [
+            "S_MENTAL_STRAIN"
+          ]
+        },
+        {
+          "id": "none",
+          "label": {
+            "en": "None of these",
+            "zh-Hant": "以上都沒有"
+          },
+          "none": true,
+          "symptoms": []
+        }
+      ],
+      "order": 100,
+      "prompt": {
+        "en": "How has your mood been? Select all that apply.",
+        "zh-Hant": "最近的情緒狀態如何？符合的請全選。"
+      },
+      "select": "many",
+      "source": "inquiry",
+      "status": "draft"
+    },
+    {
+      "core": true,
+      "dimension": "qi-spirit-form",
+      "exclusive_groups": [],
+      "graded": [
+        "S_FATIGUE",
+        "S_SHORT_BREATH",
+        "S_LAZY_SPEAK",
+        "S_SPIRIT_WITHDRAWN"
+      ],
+      "id": "Q_ENERGY",
+      "modules": [
+        "fatigue",
+        "womens-cycle"
+      ],
+      "options": [
+        {
+          "id": "fatigue",
+          "label": {
+            "en": "Tired, lacking strength",
+            "zh-Hant": "疲倦，沒力氣"
+          },
+          "none": false,
+          "symptoms": [
+            "S_FATIGUE"
+          ]
+        },
+        {
+          "id": "short_breath",
+          "label": {
+            "en": "Short of breath on slight effort",
+            "zh-Hant": "稍微動一下就喘、氣短"
+          },
+          "none": false,
+          "symptoms": [
+            "S_SHORT_BREATH"
+          ]
+        },
+        {
+          "id": "lazy_speak",
+          "label": {
+            "en": "I do not feel like talking; speaking is an effort",
+            "zh-Hant": "不想說話，說話沒力氣"
+          },
+          "none": false,
+          "symptoms": [
+            "S_LAZY_SPEAK"
+          ]
+        },
+        {
+          "id": "easy_cold",
+          "label": {
+            "en": "I catch colds easily",
+            "zh-Hant": "容易感冒"
+          },
+          "none": false,
+          "symptoms": [
+            "S_EASY_COLD"
+          ]
+        },
+        {
+          "id": "edema",
+          "label": {
+            "en": "I swell up easily",
+            "zh-Hant": "容易水腫"
+          },
+          "none": false,
+          "symptoms": [
+            "S_EDEMA"
+          ]
+        },
+        {
+          "id": "spirit_withdrawn",
+          "label": {
+            "en": "Listless, with no drive",
+            "zh-Hant": "精神萎靡，提不起勁"
+          },
+          "none": false,
+          "symptoms": [
+            "S_SPIRIT_WITHDRAWN"
+          ]
+        },
+        {
+          "id": "none",
+          "label": {
+            "en": "None of these",
+            "zh-Hant": "以上都沒有"
+          },
+          "none": true,
+          "symptoms": []
+        }
+      ],
+      "order": 105,
+      "prompt": {
+        "en": "Which of these describe your energy and stamina? Select all that apply.",
+        "zh-Hant": "精神和體力方面，符合的有哪些？"
+      },
+      "select": "many",
+      "source": "inquiry",
+      "status": "draft"
+    },
+    {
+      "core": true,
+      "dimension": "menses",
+      "exclusive_groups": [],
+      "graded": [
+        "S_DYSMENORRHEA",
+        "S_BREAST_DISTENSION"
+      ],
+      "id": "Q_MENSES",
+      "modules": [
+        "womens-cycle",
+        "mood-stress"
+      ],
+      "options": [
+        {
+          "id": "menses_scanty_pale",
+          "label": {
+            "en": "Scanty, pale periods",
+            "zh-Hant": "經量少、顏色淡"
+          },
+          "none": false,
+          "symptoms": [
+            "S_MENSES_SCANTY_PALE"
+          ]
+        },
+        {
+          "id": "menses_clots_dark",
+          "label": {
+            "en": "Dark menstrual blood with clots",
+            "zh-Hant": "經血顏色暗，有血塊"
+          },
+          "none": false,
+          "symptoms": [
+            "S_MENSES_CLOTS_DARK"
+          ]
+        },
+        {
+          "id": "menses_irregular",
+          "label": {
+            "en": "An irregular cycle",
+            "zh-Hant": "週期不規律"
+          },
+          "none": false,
+          "symptoms": [
+            "S_MENSES_IRREGULAR"
+          ]
+        },
+        {
+          "id": "dysmenorrhea",
+          "label": {
+            "en": "Period pain",
+            "zh-Hant": "經痛"
+          },
+          "none": false,
+          "symptoms": [
+            "S_DYSMENORRHEA"
+          ]
+        },
+        {
+          "id": "leukorrhea_yellow",
+          "label": {
+            "en": "Thick yellow discharge",
+            "zh-Hant": "白帶黃稠"
+          },
+          "none": false,
+          "symptoms": [
+            "S_LEUKORRHEA_YELLOW"
+          ]
+        },
+        {
+          "id": "breast_distension",
+          "label": {
+            "en": "Breast distension before periods",
+            "zh-Hant": "經前乳房脹痛"
+          },
+          "none": false,
+          "symptoms": [
+            "S_BREAST_DISTENSION"
+          ]
+        },
+        {
+          "id": "none",
+          "label": {
+            "en": "None of these",
+            "zh-Hant": "以上都沒有"
+          },
+          "none": true,
+          "symptoms": []
+        }
+      ],
+      "order": 110,
+      "prompt": {
+        "en": "How are your periods and vaginal discharge? Select all that apply.",
+        "zh-Hant": "月經和白帶的情況如何？符合的請全選。"
+      },
+      "requires": {
+        "pregnancy": "not_pregnant",
+        "sex": "female"
+      },
+      "select": "many",
+      "source": "inquiry",
+      "status": "draft"
+    },
+    {
+      "core": false,
+      "dimension": "menses",
+      "exclusive_groups": [],
+      "graded": [],
+      "id": "Q_MALE",
+      "modules": [],
+      "options": [
+        {
+          "id": "seminal_emission",
+          "label": {
+            "en": "Seminal emission without intercourse",
+            "zh-Hant": "遺精（非性行為時精液自行排出）"
+          },
+          "none": false,
+          "symptoms": [
+            "S_SEMINAL_EMISSION"
+          ]
+        },
+        {
+          "id": "none",
+          "label": {
+            "en": "None of these",
+            "zh-Hant": "以上都沒有"
+          },
+          "none": true,
+          "symptoms": []
+        }
+      ],
+      "order": 111,
+      "prompt": {
+        "en": "Do you have any of the following?",
+        "zh-Hant": "有沒有以下男性方面的情況？"
+      },
+      "requires": {
+        "sex": "male"
+      },
+      "select": "many",
+      "source": "inquiry",
+      "status": "draft"
+    },
+    {
+      "core": true,
+      "dimension": "voice-breath",
+      "exclusive_groups": [
+        [
+          "S_RUNNY_NOSE_CLEAR",
+          "S_NASAL_CONGESTION"
+        ]
+      ],
+      "graded": [
+        "S_COUGH_DRY",
+        "S_COUGH_WEAK",
+        "S_COUGH_PHLEGM_YELLOW",
+        "S_PHLEGM_COPIOUS",
+        "S_NASAL_CONGESTION"
+      ],
+      "id": "Q_VOICE_BREATH",
+      "modules": [
+        "early-external"
+      ],
+      "options": [
+        {
+          "id": "cough_dry",
+          "label": {
+            "en": "A dry cough with little phlegm",
+            "zh-Hant": "乾咳，沒什麼痰"
+          },
+          "none": false,
+          "symptoms": [
+            "S_COUGH_DRY"
+          ]
+        },
+        {
+          "id": "cough_weak",
+          "label": {
+            "en": "A weak cough",
+            "zh-Hant": "咳嗽沒有力氣"
+          },
+          "none": false,
+          "symptoms": [
+            "S_COUGH_WEAK"
+          ]
+        },
+        {
+          "id": "cough_phlegm_yellow",
+          "label": {
+            "en": "Coughing up thick yellow phlegm",
+            "zh-Hant": "咳出黃色、黏稠的痰"
+          },
+          "none": false,
+          "symptoms": [
+            "S_COUGH_PHLEGM_YELLOW"
+          ]
+        },
+        {
+          "id": "phlegm_copious",
+          "label": {
+            "en": "Copious phlegm",
+            "zh-Hant": "痰很多"
+          },
+          "none": false,
+          "symptoms": [
+            "S_PHLEGM_COPIOUS"
+          ]
+        },
+        {
+          "id": "runny_nose_clear",
+          "label": {
+            "en": "A blocked nose with clear discharge",
+            "zh-Hant": "鼻塞，流清鼻涕"
+          },
+          "none": false,
+          "symptoms": [
+            "S_RUNNY_NOSE_CLEAR"
+          ]
+        },
+        {
+          "id": "nasal_congestion",
+          "label": {
+            "en": "A blocked nose without much discharge",
+            "zh-Hant": "鼻塞（沒有明顯鼻涕）"
+          },
+          "none": false,
+          "symptoms": [
+            "S_NASAL_CONGESTION"
+          ]
+        },
+        {
+          "id": "low_voice",
+          "label": {
+            "en": "A low speaking voice",
+            "zh-Hant": "說話聲音低"
+          },
+          "none": false,
+          "symptoms": [
+            "S_LOW_VOICE"
+          ]
+        },
+        {
+          "id": "none",
+          "label": {
+            "en": "None of these",
+            "zh-Hant": "以上都沒有"
+          },
+          "none": true,
+          "symptoms": []
+        }
+      ],
+      "order": 120,
+      "prompt": {
+        "en": "What about cough, phlegm, nose and voice? Select all that apply.",
+        "zh-Hant": "咳嗽、痰、鼻子和說話的聲音呢？符合的請全選。"
+      },
+      "select": "many",
+      "source": "inquiry",
+      "status": "draft"
+    },
+    {
+      "core": true,
+      "dimension": "course",
+      "exclusive_groups": [],
+      "graded": [],
+      "hint": {
+        "en": "Recent and long-standing problems point in different directions in TCM pattern differentiation.",
+        "zh-Hant": "新起的不適與長期的不適，在中醫裡的辨證方向不同。"
+      },
+      "id": "Q_COURSE",
+      "modules": [
+        "early-external"
+      ],
+      "options": [
+        {
+          "context": {
+            "course": "acute"
+          },
+          "id": "acute",
+          "label": {
+            "en": "They started recently, within the past two weeks",
+            "zh-Hant": "剛開始，兩週以內"
+          },
+          "none": false,
+          "symptoms": []
+        },
+        {
+          "context": {
+            "course": "subacute"
+          },
+          "id": "subacute",
+          "label": {
+            "en": "Between two weeks and three months",
+            "zh-Hant": "兩週到三個月"
+          },
+          "none": false,
+          "symptoms": []
+        },
+        {
+          "context": {
+            "course": "chronic"
+          },
+          "id": "chronic",
+          "label": {
+            "en": "More than three months",
+            "zh-Hant": "超過三個月"
+          },
+          "none": false,
+          "symptoms": []
+        }
+      ],
+      "order": 130,
+      "prompt": {
+        "en": "About how long have these problems lasted?",
+        "zh-Hant": "這些不舒服大約持續多久了？"
+      },
+      "select": "one",
+      "source": "inquiry",
+      "status": "draft"
+    },
+    {
+      "core": true,
+      "dimension": "face-skin",
+      "exclusive_groups": [],
+      "graded": [],
+      "hint": {
+        "en": "Look in natural light. Self-judgement is limited in accuracy, so this counts for less in the calculation.",
+        "zh-Hant": "請在自然光下觀察；自行判斷的準確度有限，因此在計算中的權重較低。"
+      },
+      "id": "Q_FACE",
+      "modules": [
+        "fatigue"
+      ],
+      "options": [
+        {
+          "id": "face_sallow",
+          "label": {
+            "en": "Sallow: yellowish and lustreless",
+            "zh-Hant": "萎黃：偏黃、沒有光澤"
+          },
+          "none": false,
+          "symptoms": [
+            "S_FACE_SALLOW"
+          ]
+        },
+        {
+          "id": "face_pale",
+          "label": {
+            "en": "Pale: whitish, lacking colour",
+            "zh-Hant": "淡白：偏白、沒有血色"
+          },
+          "none": false,
+          "symptoms": [
+            "S_FACE_PALE"
+          ]
+        },
+        {
+          "id": "face_red",
+          "label": {
+            "en": "Flushed: the whole face or both cheeks are red",
+            "zh-Hant": "紅：整張臉或兩頰發紅"
+          },
+          "none": false,
+          "symptoms": [
+            "S_FACE_RED"
+          ]
+        },
+        {
+          "id": "face_dark",
+          "label": {
+            "en": "Dusky: dark and dull",
+            "zh-Hant": "晦暗：發暗、發黑、沒有光彩"
+          },
+          "none": false,
+          "symptoms": [
+            "S_FACE_DARK"
+          ]
+        },
+        {
+          "id": "none",
+          "label": {
+            "en": "Looks normal",
+            "zh-Hant": "看起來正常"
+          },
+          "none": true,
+          "symptoms": []
+        }
+      ],
+      "order": 150,
+      "prompt": {
+        "en": "Look in a mirror: which best describes your complexion?",
+        "zh-Hant": "請對著鏡子看看，您的氣色比較接近哪一種？"
+      },
+      "select": "one",
+      "source": "guided",
+      "status": "draft"
+    },
+    {
+      "core": true,
+      "dimension": "face-skin",
+      "exclusive_groups": [
+        [
+          "S_LIPS_NAILS_PALE",
+          "S_LIPS_PURPLE"
+        ]
+      ],
+      "graded": [],
+      "id": "Q_LIPS_NAILS",
+      "modules": [
+        "fatigue"
+      ],
+      "options": [
+        {
+          "id": "lips_nails_pale",
+          "label": {
+            "en": "Pale lips and nails",
+            "zh-Hant": "嘴唇和指甲顏色淡"
+          },
+          "none": false,
+          "symptoms": [
+            "S_LIPS_NAILS_PALE"
+          ]
+        },
+        {
+          "id": "lips_purple",
+          "label": {
+            "en": "Bluish-purple lips and nails",
+            "zh-Hant": "嘴唇和指甲偏青紫"
+          },
+          "none": false,
+          "symptoms": [
+            "S_LIPS_PURPLE"
+          ]
+        },
+        {
+          "id": "nail_brittle",
+          "label": {
+            "en": "Brittle, lustreless nails",
+            "zh-Hant": "指甲容易斷、沒有光澤"
+          },
+          "none": false,
+          "symptoms": [
+            "S_NAIL_BRITTLE"
+          ]
+        },
+        {
+          "id": "skin_squamous",
+          "label": {
+            "en": "Dry, rough, scaly skin",
+            "zh-Hant": "皮膚乾燥、粗糙脫屑"
+          },
+          "none": false,
+          "symptoms": [
+            "S_SKIN_SQUAMOUS"
+          ]
+        },
+        {
+          "id": "none",
+          "label": {
+            "en": "None of these",
+            "zh-Hant": "以上都沒有"
+          },
+          "none": true,
+          "symptoms": []
+        }
+      ],
+      "order": 151,
+      "prompt": {
+        "en": "What about your lips, nails and skin? Select all that apply.",
+        "zh-Hant": "嘴唇、指甲和皮膚的樣子呢？符合的請全選。"
+      },
+      "select": "many",
+      "source": "guided",
+      "status": "draft"
+    }
+  ],
+  "modules": [
+    {
+      "description": {
+        "en": "Trouble falling asleep, waking often, vivid dreams",
+        "zh-Hant": "難入睡、易醒、多夢"
+      },
+      "id": "sleep",
+      "name": {
+        "en": "Sleep",
+        "zh-Hant": "睡眠"
+      },
+      "requires": null
+    },
+    {
+      "description": {
+        "en": "Low energy, tiring easily",
+        "zh-Hant": "沒力氣、容易累、精神不振"
+      },
+      "id": "fatigue",
+      "name": {
+        "en": "Fatigue",
+        "zh-Hant": "疲倦乏力"
+      },
+      "requires": null
+    },
+    {
+      "description": {
+        "en": "Bloating, appetite, stomach discomfort, bowel habits",
+        "zh-Hant": "脹氣、胃口、胃痛、大便"
+      },
+      "id": "digestion",
+      "name": {
+        "en": "Digestion",
+        "zh-Hant": "消化"
+      },
+      "requires": null
+    },
+    {
+      "description": {
+        "en": "Feeling cold or hot, cold hands and feet, sweating",
+        "zh-Hant": "怕冷、怕熱、手腳冰冷、盜汗自汗"
+      },
+      "id": "cold-heat-sweat",
+      "name": {
+        "en": "Cold, heat and sweating",
+        "zh-Hant": "寒熱汗出"
+      },
+      "requires": null
+    },
+    {
+      "description": {
+        "en": "Headache, dizziness, aches, numbness",
+        "zh-Hant": "頭痛、頭暈、痠痛、麻木"
+      },
+      "id": "head-body-pain",
+      "name": {
+        "en": "Head and body pain",
+        "zh-Hant": "頭身疼痛"
+      },
+      "requires": null
+    },
+    {
+      "description": {
+        "en": "Low mood, irritability, worry, overthinking",
+        "zh-Hant": "低落、煩躁、焦慮、思慮多"
+      },
+      "id": "mood-stress",
+      "name": {
+        "en": "Mood and stress",
+        "zh-Hant": "情緒壓力"
+      },
+      "requires": null
+    },
+    {
+      "description": {
+        "en": "Menstrual cycle, flow, period pain, discharge",
+        "zh-Hant": "月經週期、經量、痛經、白帶"
+      },
+      "id": "womens-cycle",
+      "name": {
+        "en": "Women's cycle",
+        "zh-Hant": "婦女經帶"
+      },
+      "requires": {
+        "pregnancy": "not_pregnant",
+        "sex": "female"
+      }
+    },
+    {
+      "description": {
+        "en": "A recent cold- or flu-like illness (mild only)",
+        "zh-Hant": "剛開始的感冒樣不適（輕症）"
+      },
+      "id": "early-external",
+      "name": {
+        "en": "Early external illness",
+        "zh-Hant": "外感初起"
+      },
+      "requires": null
+    }
+  ]
+}

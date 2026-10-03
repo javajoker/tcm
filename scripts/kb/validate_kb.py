@@ -306,6 +306,68 @@ def validate(load: Loader = load, check_sources: bool = True) -> list[str]:
             if o not in ORGANS:
                 err(f"panel-schema location {loc}: unknown organ {o}")
 
+    # ── 7b. question bank ──────────────────────────────────────────────────
+    bank = load("diagnosis/questions.json")
+    q_items, q_modules = bank["items"], {m["id"] for m in bank["modules"]}
+    if duplicates(m["id"] for m in bank["modules"]) or len(q_modules) != 8:
+        err("questions: the eight complaint modules must be unique")
+    for d in duplicates(q["id"] for q in q_items):
+        err(f"duplicate question id {d}")
+    inquiry_syms = {s["id"] for s in symptoms if s["kind"] == "symptom"}
+    covered: set[str] = set()
+    for q in q_items:
+        opt_syms = [s for o in q["options"] for s in o["symptoms"]]
+        for d in duplicates(opt_syms):
+            err(f"question {q['id']}: symptom {d} appears in two options")
+        for d in duplicates(o["id"] for o in q["options"]):
+            err(f"question {q['id']}: duplicate option id {d}")
+        for s in opt_syms + q["graded"] + [x for g in q["exclusive_groups"] for x in g] + q.get("follows", []):
+            if s not in sym_ids:
+                err(f"question {q['id']}: unknown symptom {s}")
+            elif sym_by_id[s]["kind"] != "symptom":
+                err(f"question {q['id']}: {s} is a tongue or pulse feature; the inquiry covers symptoms only")
+        covered |= set(opt_syms)
+        if not set(q["graded"]) <= set(opt_syms):
+            err(f"question {q['id']}: graded symptoms must be options of the question")
+        for g in q["exclusive_groups"]:
+            if not set(g) <= set(opt_syms):
+                err(f"question {q['id']}: exclusive group {g} is not made of its own options")
+        nones = [o for o in q["options"] if o["none"]]
+        if q["select"] == "many" and len(nones) != 1:
+            err(f"question {q['id']}: a multi-select question needs exactly one 'none of these' option")
+        if any(o["none"] and (o["symptoms"] or o.get("context")) for o in q["options"]):
+            err(f"question {q['id']}: the 'none' option must not map to symptoms or context")
+        if any(o.get("context") for o in q["options"]) != (q["dimension"] == "course"):
+            err(f"question {q['id']}: context options belong to (and only to) the course dimension")
+        if q["dimension"] != "course":
+            for o in q["options"]:
+                if not o["none"] and not o["symptoms"]:
+                    err(f"question {q['id']}: option {o['id']} maps to nothing")
+                for s in o["symptoms"]:
+                    if s in sym_by_id and sym_by_id[s]["dimension"] != q["dimension"] and q["id"] not in ("Q_MENSES", "Q_PAIN_QUALITY", "Q_MIND"):
+                        err(f"question {q['id']}: symptom {s} belongs to dimension {sym_by_id[s]['dimension']}")
+        if q["source"] == "guided" and q["dimension"] != "face-skin":
+            err(f"question {q['id']}: only face-skin questions are guided observations")
+        for m in q["modules"]:
+            if m not in q_modules:
+                err(f"question {q['id']}: unknown module {m}")
+    for s in sorted(inquiry_syms - covered):
+        err(f"symptom {s} is not reachable from any question")
+    if bank["_meta"]["coverage"]["uncovered"] != sorted(inquiry_syms - covered) or bank["_meta"]["count"] != len(q_items):
+        err("questions: _meta (count/coverage) is stale")
+    core = [q for q in q_items if q["core"]]
+    if not 20 <= len(core) <= 30:
+        err(f"questions: {len(core)} core questions; the SOP calls for about 25 (20–30)")
+    for dim in ("cold-heat", "sweat", "head-body", "stool-urine", "diet-taste", "chest-abdomen", "ear-eye-throat", "thirst", "sleep", "emotion", "menses", "course"):
+        if not any(q["dimension"] == dim for q in core):
+            err(f"questions: no core question for the SOP dimension {dim}")
+    for m in sorted(q_modules):
+        if sum(1 for q in q_items if m in q["modules"]) < 4:
+            err(f"questions: module {m} has fewer than four questions")
+    for q in q_items:
+        if not q["core"] and "follows" not in q and "requires" not in q:
+            err(f"question {q['id']}: a non-core question needs `follows` or `requires`")
+
     # ── 8. policy and safety ───────────────────────────────────────────────
     dims, levels = scope["dimensions"], scope["levels"]
     for pname, prof in scope["profiles"].items():

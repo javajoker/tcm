@@ -285,7 +285,7 @@ The first-pass `data/` does not yet contain everything the engine and UI need. T
 |---|---|---|
 | `data/schema/*.schema.json` | JSON Schema contract (T8) | Validated by Python and used to generate TS types |
 | `data/diagnosis/scoring-params.json` ✔ (task K-01) | Engine parameters (T10): severity factors `{light 0.6, moderate 0.8, severe 1.0}`, quality coefficients `{inquiry 1.0, measured 0.9, guided 0.7, pulse 0.5}`, noisy-OR floor 20, merge threshold 40, tie margin 5, confidence thresholds, 方證 ≥ 60 %, `k` max 3, 加減 limits (add ≤ 2, remove ≤ 1, share 12 %), dimension weights, alignment threshold 0.25 | Today these are constants in `selftest_patterns.py` / `example_pipeline.py` |
-| `data/diagnosis/questions.json` | **Question bank** for the adaptive inquiry: id, dimension (12), module(s), plain-language prompt (zh-Hant, en), answer options → symptom ids + severity, `core` flag, prerequisite (e.g. female-only, non-pregnant), exclusivity group | Today only the symptom registry exists; the SOP defines ≈ 25 core questions and 8 modules (§4.8) but they are not yet data |
+| `data/diagnosis/questions.json` ✔ (task K-05) | **Question bank** for the adaptive inquiry: id, dimension (12), module(s), plain-language prompt (zh-Hant, en), answer options → symptom ids + severity, `core` flag, prerequisite (e.g. female-only, non-pregnant), exclusivity group | Today only the symptom registry exists; the SOP defines ≈ 25 core questions and 8 modules (§4.8) but they are not yet data |
 | `data/diagnosis/exclusions.json` | Mutually exclusive symptom groups (浮/沉, 遲/數/疾, 便乾/便溏 …) and synonym-split rules (惡寒 ≠ 畏寒) | For SOP §5.3 consistency checks |
 | `data/diagnosis/constitution-items.json` | Own-written 9-type questionnaire items and scoring map (SOP D6) | Needs review; licence-safe |
 | `data/geo/cities.json` | Birth-place picker: name (zh-Hant/en), latitude, longitude, IANA time zone | Source decision pending (e.g. GeoNames, CC-BY); always paired with manual longitude/time-zone entry |
@@ -356,6 +356,7 @@ export interface AssessInput {
   readonly redFlags: ReadonlySet<RedFlagId>;
   readonly findings: Readonly<Record<SymptomId, Finding>>;   // steps 2–3 (inquiry, tongue, face, voice, pulse)
   readonly constitutionAnswers?: Readonly<Record<ItemId, 1 | 2 | 3 | 4 | 5>>;
+  readonly context?: { readonly course?: "acute" | "subacute" | "chronic" };   // from the course question (SOP §9.1 routing)
   readonly options: {
     readonly now: number;                  // UTC ms — injected (T14)
     readonly birthModule: boolean;         // user opt-in (release) / default on (dev)

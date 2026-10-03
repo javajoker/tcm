@@ -74,6 +74,27 @@ One namespace for symptoms (`S_*`, 111), tongue features (`T_*`, 32) and pulses 
 zone-body | coat | zone-coat`; `zone`: `all | tip | center | edge | root`); pulse items add `pulse: { optional: true, quality_coefficient: 0.5 }`.
 The data-quality class is derived from the prefix: `T_` → *guided* (q = 0.7), `P_` → *pulse* (q = 0.5), otherwise *inquiry* (q = 1.0); see [SOP §4.7](diagnosis-sop.zh-TW.md).
 
+### 3.2b `diagnosis/questions.json` — the question bank (28 questions, 8 modules)
+
+The adaptive inquiry's content (SOP §4.2, §4.8). `modules[]` = the eight complaint modules (`sleep`, `fatigue`, `digestion`, `cold-heat-sweat`, `head-body-pain`, `mood-stress`, `womens-cycle` — requires female and not pregnant —, `early-external`).
+
+| Field | Meaning |
+|---|---|
+| `id` `Q_*`, `dimension` | One of the twelve SOP dimensions (+ `qi-spirit-form`, `voice-breath`, `face-skin`); `course` for the onset-duration question |
+| `core`, `order` | 23 core questions (asked to everyone they apply to, in `order`); the five others are follow-ups |
+| `requires` | Demographic prerequisite: `{ sex: female \| male, pregnancy: not_pregnant }` |
+| `follows` | Follow-up trigger: asked only when at least one of these symptoms is already `present` (non-core questions need `follows` or `requires`) |
+| `select` | `one` or `many`; a `many` question has exactly one "none of these" option (`none: true`) |
+| `prompt`, `hint` | Plain-language question and optional explanation (bilingual); the app shows the TCM term from the symptom registry as a secondary line |
+| `options[]` | `{ id, label, symptoms[], none?, context? }` — `symptoms` are the symptom ids the option records; the course question's options carry `context: { course: acute \| subacute \| chronic }` instead |
+| `graded[]` | Symptoms for which the app asks mild / moderate / strong after a "yes" (the others are ungraded, severity factor 1.0) |
+| `exclusive_groups[]` | Options that cannot both be chosen (the UI explains why) |
+| `source` | `inquiry` (default) or `guided` (face observation, q = 0.7) |
+| `modules[]` | Modules in which the question is asked early (the engine still orders by information gain) |
+
+**Answer semantics (binding for the engine and the UI).** *Answering* a question (at least one option, or "none of these") records the symptoms of the selected options as `present` (with severity for graded ones) and the symptoms of the **unselected** options of that question as `absent`. *Skipping* ("not sure") records every symptom of the question as `unsure`. `absent` and `unsure` add nothing to a pattern score (the denominator Σw is fixed); they differ in coverage and in what is asked next. Context options set `AssessInput.context` (today only `course`, used to route the external/internal channel, SOP §9.1).
+`_meta.coverage` records how many of the 111 inquiry symptoms are reachable (all); `validate_kb` and `tests/test_question_bank.py` keep that true and check that every pattern's typical patient can be fully described through the bank (follow-up triggers included).
+
 ### 3.3 `diagnosis/patterns.json` — 23 patterns
 
 | Field | Type | Meaning |
@@ -285,7 +306,6 @@ Nothing is `reviewed` yet; the release gate in the [release process](release-pro
 
 | File | Purpose | Notes |
 |---|---|---|
-| `diagnosis/questions.json` | Adaptive question bank: id, dimension, module(s), `core`, prerequisites (sex, not pregnant …), prompt (plain zh-Hant, en), term line, answer options → `{symptomId, severity?}`, exclusivity group | SOP §4.2 and §4.8 define ≈ 25 core questions and 8 modules |
 | `diagnosis/exclusions.json` | Mutually exclusive symptom groups and synonym splits (惡寒 ≠ 畏寒, 渴喜冷 ≠ 渴不欲飲, 喜按 ≠ 拒按) | SOP §5.2–§5.3 |
 | `diagnosis/constitution-items.json` | Own-written 9-type items, 1–5 scale, scoring map | SOP D6; needs review |
 | `geo/cities.json` | `{ id, name{zh-Hant,en}, lat, lon, tz }` | Decided: GeoNames `cities15000`, CC BY 4.0, reduced subset with attribution (tech spec TQ2) |

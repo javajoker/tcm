@@ -85,6 +85,18 @@
         "L3"
       ]
     },
+    "moduleId": {
+      "enum": [
+        "sleep",
+        "fatigue",
+        "digestion",
+        "cold-heat-sweat",
+        "head-body-pain",
+        "mood-stress",
+        "womens-cycle",
+        "early-external"
+      ]
+    },
     "notice": {
       "enum": [
         "none",
@@ -107,6 +119,10 @@
     },
     "patternId": {
       "pattern": "^(EX|SP|LV|HT|LG|KD|QB)[0-9]$",
+      "type": "string"
+    },
+    "questionId": {
+      "pattern": "^Q_[A-Z_]+$",
       "type": "string"
     },
     "redFlagId": {

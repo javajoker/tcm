@@ -23,7 +23,7 @@
 |---|---:|---:|
 | **A** Documentation | 18 | 18 |
 | **DEC** Decisions | 6 | 6 |
-| **K** Knowledge base | 5 | 20 |
+| **K** Knowledge base | 6 | 20 |
 | **E** Engine and packages | 2 | 21 |
 | **I** Internationalisation | 0 | 6 |
 | **U** Web application | 0 | 26 |
@@ -31,11 +31,11 @@
 | **R** Release and operations | 0 | 7 |
 | **V** Review (non-code) | 0 | 7 |
 | **PF** Performance (P2) | 0 | 3 |
-| **All** | **31** | **124** |
+| **All** | **32** | **124** |
 
 | Priority | Done | Total |
 |---|---:|---:|
-| P0 | 17 | 74 |
+| P0 | 18 | 74 |
 | P1 | 12 | 42 |
 | P2 | 2 | 8 |
 
@@ -100,7 +100,7 @@ Suggested waves: **1** foundation (E-01, K-01, K-02, I-01, U-01, R-01) → **2**
 | [x] | K-02 | JSON Schemas for every `data/**` file (`data/schema/*.schema.json`), `_meta.schema` version, validation in `validate_kb.py` | P0 | L | — | `build_kb` fails on any schema violation; schema documented in [KB schema](docs/kb-schema.md) |
 | [x] | K-03 | Additional integrity checks ([KB schema §8.2](docs/kb-schema.md)): symptom ids used everywhere exist, exclusive groups real, tongue zones real, `kb_commit` matches submodule pin, tier recomputation, herb-model unit tests | P0 | M | K-02 | Checks implemented with failing-case tests |
 | [x] | K-04 | Orthography normalisation 溼 → 濕 in every non-quotation field (herbs functions, correspondences…) and a CI check | P1 | S | — | `grep` of non-quotation fields shows no `溼`; deterministic rebuild |
-| [ ] | K-05 | **Question bank** `diagnosis/questions.json`: ≈ 25 core questions across the 12 dimensions + 8 module follow-ups; plain-language zh-Hant/en prompts, term line, options → symptom ids/severity, prerequisites, core flag; builder + curated table | P0 | XL | K-02 | Every non-tongue/pulse symptom reachable from ≥ 1 question; validation green; coverage report; clinical reviewer pack ready |
+| [x] | K-05 | **Question bank** `diagnosis/questions.json`: ≈ 25 core questions across the 12 dimensions + 8 module follow-ups; plain-language zh-Hant/en prompts, term line, options → symptom ids/severity, prerequisites, core flag; builder + curated table | P0 | XL | K-02 | Every non-tongue/pulse symptom reachable from ≥ 1 question; validation green; coverage report; clinical reviewer pack ready |
 | [ ] | K-06 | `diagnosis/exclusions.json`: mutually exclusive groups and synonym splits (SOP §5) | P0 | S | K-02 | Used by validation and by the engine's conflict check |
 | [ ] | K-07 | Discriminating questions for EX2/EX4, LG1/EX4, HT2/KD1 (≥ 3 each), adding symptoms/weights as needed | P1 | M | K-05 | Self-test margins improve or stay; new questions in the bank |
 | [ ] | K-08 | Constitution questionnaire: own-written 9-type items, 1–5 scale, scoring map, builder (SOP D6) | P1 | L | DEC-01 | `constitution-items.json` + scoring documented; reviewer pack |

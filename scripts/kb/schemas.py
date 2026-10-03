@@ -88,6 +88,8 @@ DEFS = {
     "constitutionId": pattern(r"^C_[A-Z]+$"),
     "redFlagId": pattern(r"^RF_[ABC]_[A-Z_]+$"),
     "ruleId": pattern(r"^R_[A-Z_]+$"),
+    "questionId": pattern(r"^Q_[A-Z_]+$"),
+    "moduleId": enum("sleep", "fatigue", "digestion", "cold-heat-sweat", "head-body-pain", "mood-stress", "womens-cycle", "early-external"),
     "evil": enum("風", "寒", "暑", "濕", "燥", "火"),
     "element": enum("木", "火", "土", "金", "水"),
     "panelDim": pattern(rf"^(({ORGANS})\.(qi|blood|yin|yang|stasis)|liuxie\.(風|寒|暑|濕|燥|火)|product\.(痰|飲|瘀|食積)|bagang\.exterior)$"),
@@ -121,6 +123,22 @@ def symptoms() -> dict:
         "tongue": obj({"category": enum("body", "shape", "special", "zone-body", "coat", "zone-coat"), "meaning": STR, "zone": enum("all", "edge", "center", "tip", "root")}),
     }, ["dimension", "en", "id", "kind", "zh-Hant"])
     return envelope(item, meta({"by_dimension": dictionary(INT), "count": INT}, ["by_dimension", "count"]))
+
+
+def questions() -> dict:
+    requires = obj({"sex": enum("female", "male"), "pregnancy": enum("not_pregnant")}, [])
+    option = obj({"context": obj({"course": enum("acute", "subacute", "chronic")}), "id": pattern(r"^[a-z0-9_-]+$"), "label": ref("bilingualNamed"), "none": BOOL,
+                  "symptoms": arr(ref("symptomId"), unique=True)}, ["id", "label", "none", "symptoms"])
+    item = obj({
+        "core": BOOL, "dimension": enum(*DIMENSIONS, "course"), "exclusive_groups": arr(arr(ref("symptomId"), 2, True)), "follows": arr(ref("symptomId"), 1, True),
+        "graded": arr(ref("symptomId"), unique=True), "hint": ref("bilingualNamed"), "id": ref("questionId"), "modules": arr(ref("moduleId"), unique=True), "options": arr(option, 2),
+        "order": INT, "prompt": ref("bilingualNamed"), "requires": requires, "select": enum("one", "many"), "source": enum("inquiry", "guided"), "status": ref("reviewStatus"),
+    }, ["core", "dimension", "exclusive_groups", "graded", "id", "modules", "options", "order", "prompt", "select", "source", "status"])
+    module = obj({"description": ref("bilingualNamed"), "id": ref("moduleId"), "name": ref("bilingualNamed"), "requires": {"oneOf": [{"type": "null"}, requires]}})
+    cover = obj({"covered": INT, "inquiry_symptoms": INT, "uncovered": arr(ref("symptomId"))})
+    return {"type": "object", "properties": {
+        "_meta": meta({"core_count": INT, "count": INT, "coverage": cover, "dimensions_core": arr(STR), "status": ref("reviewStatus")}, ["core_count", "count", "coverage", "dimensions_core", "status"]),
+        "items": arr(item, 1), "modules": arr(module, 8)}, "required": ["_meta", "items", "modules"], "additionalProperties": False}
 
 
 def patterns() -> dict:
@@ -344,6 +362,7 @@ SCHEMAS = {
     "herbs/herb-index.json": ("herb-index", herb_index, "Herb name index"),
     "formulas/formulas.json": ("formulas", formulas, "Formulas"),
     "diagnosis/symptoms.json": ("symptoms", symptoms, "Symptom registry"),
+    "diagnosis/questions.json": ("questions", questions, "Question bank"),
     "diagnosis/patterns.json": ("patterns", patterns, "Patterns"),
     "diagnosis/pattern-elements.json": ("pattern-elements", pattern_elements, "Pattern elements (證素)"),
     "diagnosis/constitutions.json": ("constitutions", constitutions, "Constitutions"),

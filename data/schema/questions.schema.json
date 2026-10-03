@@ -1,0 +1,444 @@
+{
+  "$defs": {
+    "bilingual": {
+      "additionalProperties": false,
+      "properties": {
+        "en": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "zh-Hant": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "en",
+        "zh-Hant"
+      ],
+      "type": "object"
+    },
+    "bilingualNamed": {
+      "additionalProperties": false,
+      "properties": {
+        "en": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "zh-Hant": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "en",
+        "zh-Hant"
+      ],
+      "type": "object"
+    },
+    "citationId": {
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+      "type": "string"
+    },
+    "constitutionId": {
+      "pattern": "^C_[A-Z]+$",
+      "type": "string"
+    },
+    "element": {
+      "enum": [
+        "木",
+        "火",
+        "土",
+        "金",
+        "水"
+      ]
+    },
+    "elementId": {
+      "pattern": "^PE_.+$",
+      "type": "string"
+    },
+    "evil": {
+      "enum": [
+        "風",
+        "寒",
+        "暑",
+        "濕",
+        "燥",
+        "火"
+      ]
+    },
+    "formulaId": {
+      "pattern": "^F_[A-Z0-9_]+$",
+      "type": "string"
+    },
+    "herbId": {
+      "pattern": "^herb-[a-z0-9_]+$",
+      "type": "string"
+    },
+    "level": {
+      "enum": [
+        "L0",
+        "L1",
+        "L2",
+        "L3"
+      ]
+    },
+    "moduleId": {
+      "enum": [
+        "sleep",
+        "fatigue",
+        "digestion",
+        "cold-heat-sweat",
+        "head-body-pain",
+        "mood-stress",
+        "womens-cycle",
+        "early-external"
+      ]
+    },
+    "notice": {
+      "enum": [
+        "none",
+        "inline",
+        "blocking_ack"
+      ]
+    },
+    "panelDim": {
+      "pattern": "^((肝|心|脾|肺|腎|膽|小腸|胃|大腸|膀胱)\\.(qi|blood|yin|yang|stasis)|liuxie\\.(風|寒|暑|濕|燥|火)|product\\.(痰|飲|瘀|食積)|bagang\\.exterior)$",
+      "type": "string"
+    },
+    "panelMap": {
+      "additionalProperties": {
+        "type": "number"
+      },
+      "propertyNames": {
+        "$ref": "#/$defs/panelDim"
+      },
+      "type": "object"
+    },
+    "patternId": {
+      "pattern": "^(EX|SP|LV|HT|LG|KD|QB)[0-9]$",
+      "type": "string"
+    },
+    "questionId": {
+      "pattern": "^Q_[A-Z_]+$",
+      "type": "string"
+    },
+    "redFlagId": {
+      "pattern": "^RF_[ABC]_[A-Z_]+$",
+      "type": "string"
+    },
+    "reviewStatus": {
+      "enum": [
+        "derived",
+        "curated-draft",
+        "draft",
+        "reviewed"
+      ]
+    },
+    "ruleId": {
+      "pattern": "^R_[A-Z_]+$",
+      "type": "string"
+    },
+    "symptomId": {
+      "pattern": "^[STP]_[A-Z0-9_]+$",
+      "type": "string"
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "_meta": {
+      "additionalProperties": true,
+      "properties": {
+        "core_count": {
+          "type": "integer"
+        },
+        "count": {
+          "type": "integer"
+        },
+        "coverage": {
+          "additionalProperties": false,
+          "properties": {
+            "covered": {
+              "type": "integer"
+            },
+            "inquiry_symptoms": {
+              "type": "integer"
+            },
+            "uncovered": {
+              "items": {
+                "$ref": "#/$defs/symptomId"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "covered",
+            "inquiry_symptoms",
+            "uncovered"
+          ],
+          "type": "object"
+        },
+        "description": {
+          "type": "string"
+        },
+        "dimensions_core": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "schema": {
+          "type": "integer"
+        },
+        "status": {
+          "$ref": "#/$defs/reviewStatus"
+        }
+      },
+      "required": [
+        "core_count",
+        "count",
+        "coverage",
+        "description",
+        "dimensions_core",
+        "schema",
+        "status"
+      ],
+      "type": "object"
+    },
+    "items": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "core": {
+            "type": "boolean"
+          },
+          "dimension": {
+            "enum": [
+              "cold-heat",
+              "sweat",
+              "head-body",
+              "stool-urine",
+              "diet-taste",
+              "chest-abdomen",
+              "ear-eye-throat",
+              "thirst",
+              "sleep",
+              "emotion",
+              "menses",
+              "face-skin",
+              "voice-breath",
+              "qi-spirit-form",
+              "tongue",
+              "pulse",
+              "course"
+            ]
+          },
+          "exclusive_groups": {
+            "items": {
+              "items": {
+                "$ref": "#/$defs/symptomId"
+              },
+              "minItems": 2,
+              "type": "array",
+              "uniqueItems": true
+            },
+            "type": "array"
+          },
+          "follows": {
+            "items": {
+              "$ref": "#/$defs/symptomId"
+            },
+            "minItems": 1,
+            "type": "array",
+            "uniqueItems": true
+          },
+          "graded": {
+            "items": {
+              "$ref": "#/$defs/symptomId"
+            },
+            "type": "array",
+            "uniqueItems": true
+          },
+          "hint": {
+            "$ref": "#/$defs/bilingualNamed"
+          },
+          "id": {
+            "$ref": "#/$defs/questionId"
+          },
+          "modules": {
+            "items": {
+              "$ref": "#/$defs/moduleId"
+            },
+            "type": "array",
+            "uniqueItems": true
+          },
+          "options": {
+            "items": {
+              "additionalProperties": false,
+              "properties": {
+                "context": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "course": {
+                      "enum": [
+                        "acute",
+                        "subacute",
+                        "chronic"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "course"
+                  ],
+                  "type": "object"
+                },
+                "id": {
+                  "pattern": "^[a-z0-9_-]+$",
+                  "type": "string"
+                },
+                "label": {
+                  "$ref": "#/$defs/bilingualNamed"
+                },
+                "none": {
+                  "type": "boolean"
+                },
+                "symptoms": {
+                  "items": {
+                    "$ref": "#/$defs/symptomId"
+                  },
+                  "type": "array",
+                  "uniqueItems": true
+                }
+              },
+              "required": [
+                "id",
+                "label",
+                "none",
+                "symptoms"
+              ],
+              "type": "object"
+            },
+            "minItems": 2,
+            "type": "array"
+          },
+          "order": {
+            "type": "integer"
+          },
+          "prompt": {
+            "$ref": "#/$defs/bilingualNamed"
+          },
+          "requires": {
+            "additionalProperties": false,
+            "properties": {
+              "pregnancy": {
+                "enum": [
+                  "not_pregnant"
+                ]
+              },
+              "sex": {
+                "enum": [
+                  "female",
+                  "male"
+                ]
+              }
+            },
+            "required": [],
+            "type": "object"
+          },
+          "select": {
+            "enum": [
+              "one",
+              "many"
+            ]
+          },
+          "source": {
+            "enum": [
+              "inquiry",
+              "guided"
+            ]
+          },
+          "status": {
+            "$ref": "#/$defs/reviewStatus"
+          }
+        },
+        "required": [
+          "core",
+          "dimension",
+          "exclusive_groups",
+          "graded",
+          "id",
+          "modules",
+          "options",
+          "order",
+          "prompt",
+          "select",
+          "source",
+          "status"
+        ],
+        "type": "object"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "modules": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "description": {
+            "$ref": "#/$defs/bilingualNamed"
+          },
+          "id": {
+            "$ref": "#/$defs/moduleId"
+          },
+          "name": {
+            "$ref": "#/$defs/bilingualNamed"
+          },
+          "requires": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "additionalProperties": false,
+                "properties": {
+                  "pregnancy": {
+                    "enum": [
+                      "not_pregnant"
+                    ]
+                  },
+                  "sex": {
+                    "enum": [
+                      "female",
+                      "male"
+                    ]
+                  }
+                },
+                "required": [],
+                "type": "object"
+              }
+            ]
+          }
+        },
+        "required": [
+          "description",
+          "id",
+          "name",
+          "requires"
+        ],
+        "type": "object"
+      },
+      "minItems": 8,
+      "type": "array"
+    }
+  },
+  "required": [
+    "_meta",
+    "items",
+    "modules"
+  ],
+  "title": "Question bank",
+  "type": "object"
+}

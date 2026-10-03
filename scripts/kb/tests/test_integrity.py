@@ -112,6 +112,38 @@ class Corruptions(unittest.TestCase):
     def test_unverified_citation(self):
         self.assertReported({"citations.json": lambda d: d["items"][0].update(verified=False)}, "verified")
 
+    def test_question_with_unknown_symptom(self):
+        self.assertReported({"diagnosis/questions.json": lambda d: d["items"][0]["options"][0]["symptoms"].append("S_NOPE")}, "unknown symptom S_NOPE")
+
+    def test_uncovered_symptom(self):
+        def m(d):
+            sym = d["items"][0]["options"][0]["symptoms"].pop()
+            d["_meta"]["coverage"]["uncovered"] = [sym]
+        self.assertReported({"diagnosis/questions.json": m}, "not reachable from any question")
+
+    def test_question_structure_rules(self):
+        self.assertReported({"diagnosis/questions.json": lambda d: d["items"][0]["graded"].append("S_FATIGUE")}, "graded symptoms must be options")
+        self.assertReported({"diagnosis/questions.json": lambda d: d["items"][0]["exclusive_groups"].append(["S_FATIGUE", "S_EDEMA"])}, "exclusive group")
+        self.assertReported({"diagnosis/questions.json": lambda d: next(o for o in d["items"][0]["options"] if o["none"]).update(none=False, symptoms=["S_EDEMA"])},
+                            "exactly one 'none of these'")
+        self.assertReported({"diagnosis/questions.json": lambda d: d["items"][0].update(source="guided")}, "only face-skin")
+        self.assertReported({"diagnosis/questions.json": lambda d: d["items"][0]["modules"].append("no-such-module")}, "schema violation")
+
+    def test_core_dimension_coverage(self):
+        def m(d):
+            for q in d["items"]:
+                if q["dimension"] == "sweat":
+                    q["core"] = False
+                    q["follows"] = ["S_FEVER"]
+            d["_meta"]["core_count"] -= 1
+        self.assertReported({"diagnosis/questions.json": m}, "no core question for the SOP dimension sweat")
+
+    def test_non_core_question_needs_a_condition(self):
+        def m(d):
+            q = next(x for x in d["items"] if not x["core"] and "follows" in x)
+            del q["follows"]
+        self.assertReported({"diagnosis/questions.json": m}, "needs `follows` or `requires`")
+
     def test_orthography_variant_outside_quotations(self):
         self.assertReported({"herbs/herbs.json": lambda d: d["items"][0]["functions"].append("清利溼熱")}, "溼 found outside quotations")
 
