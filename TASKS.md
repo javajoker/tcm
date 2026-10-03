@@ -21,7 +21,7 @@
 <!-- SUMMARY -->
 | Workstream | Done | Total |
 |---|---:|---:|
-| **A** Documentation | 15 | 17 |
+| **A** Documentation | 16 | 17 |
 | **DEC** Decisions | 0 | 6 |
 | **K** Knowledge base | 1 | 20 |
 | **E** Engine and packages | 1 | 21 |
@@ -31,11 +31,11 @@
 | **R** Release and operations | 0 | 7 |
 | **V** Review (non-code) | 0 | 7 |
 | **PF** Performance (P2) | 0 | 3 |
-| **All** | **17** | **123** |
+| **All** | **18** | **123** |
 
 | Priority | Done | Total |
 |---|---:|---:|
-| P0 | 10 | 74 |
+| P0 | 11 | 74 |
 | P1 | 7 | 41 |
 | P2 | 0 | 8 |
 
@@ -76,7 +76,7 @@ Suggested waves: **1** foundation (E-01, K-01, K-02, I-01, U-01, R-01) → **2**
 | [x] | A-13 | Release process | P1 | S | A-05, A-12 | `docs/release-process.md`; `4c82fda` |
 | [x] | A-14 | Contributing guide and documentation index | P1 | S | A-05…A-13 | `CONTRIBUTING.md`, `docs/README.md`; `ac1c354` |
 | [x] | A-15 | This task list | P0 | M | A-05…A-14 | `TASKS.md` |
-| [ ] | A-16 | Implementation checklist | P0 | S | A-15 | `CHECKLIST.md` |
+| [x] | A-16 | Implementation checklist | P0 | S | A-15 | `CHECKLIST.md` |
 | [ ] | A-17 | Update README and PRD roadmap/links to the new documents; bump PRD to v0.4 | P1 | S | A-16 | Links resolve; PRD §13 statuses current; changelog rows added |
 
 ## DEC. Decisions (block other work)
