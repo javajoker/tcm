@@ -171,11 +171,13 @@ Issue templates: **Bug**, **Content problem** (item id, KB version, source), **S
 
 ## 13. Open questions
 
-| # | Question | Default |
+**Decided 2026-10-04** (MVP; to be revisited after the MVP is finished):
+
+| # | Question | Decision (MVP) |
 |---|---|---|
-| RQ1 | Hosting provider and whether previews can be access-restricted | Choose a host that supports both; otherwise previews are local-only |
-| RQ2 | Where the public repository lives and whether it is public at beta | Decide with Q7 (licensing) |
-| RQ3 | Signing of tags and artifacts | Signed tags; artifact checksums |
+| RQ1 | Hosting provider and whether previews can be access-restricted | **Cloudflare Pages** (see [tech spec TQ1](tech-spec.md#13-open-technical-questions)). PR previews are `dev`-profile builds and must sit behind access control (Cloudflare Access or equivalent); if that is not configured, previews are disabled and reviewers use local builds |
+| RQ2 | Where the public repository lives and whether it is public at beta | The repository stays **private until the closed beta (M4)**; the code licence stays Apache-2.0; making it public at 1.0 requires the licence ledger and `NOTICE` (task K-18) to be complete |
+| RQ3 | Signing of tags and artifacts | Signed tags; SHA-256 checksums of the artifact |
 | RQ4 | Who may approve S1 hotfixes | Content owner + one reviewer |
 
 ---

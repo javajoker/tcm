@@ -619,9 +619,11 @@ Colour: one sequential hue per quantity family, never red/green as good/bad; sig
 
 ## 13. Open technical questions
 
-| # | Question | Default used in this spec |
+**Decided 2026-10-04:** every default below is confirmed for the MVP and will be revisited after the MVP is finished. TQ1 and TQ2 were the two that needed a concrete choice.
+
+| # | Question | Decision (MVP) |
 |---|---|---|
-| TQ1 | Hosting target (GitHub Pages / Cloudflare Pages / Netlify) and whether it can set headers | Static host with header support; `<meta>` CSP fallback |
+| TQ1 | Hosting target (GitHub Pages / Cloudflare Pages / Netlify) and whether it can set headers | **Cloudflare Pages**: static hosting, a `_headers` file for CSP and caching, SPA fallback, per-PR preview URLs. GitHub Pages is the fallback (then CSP via `<meta>`, no `frame-ancestors`). No host-side analytics (e.g. Cloudflare Web Analytics stays off) |
 | TQ2 | City dataset for the birth-place picker (licence, size) | GeoNames-derived subset, CC-BY attribution; manual longitude/time zone always available |
 | TQ3 | When to freeze `scoring-params.json` for release and who signs it off | After the first practitioner calibration round (PRD Q8) |
 | TQ4 | Whether the Python oracle remains authoritative after golden cases exist | No — goldens win; oracle stays as a second implementation |

@@ -125,9 +125,11 @@ The public text (zh-Hant first, then English) will cover: what the app is; **wha
 
 ## 9. Open questions
 
-| # | Question | Default |
+**Decided 2026-10-04** (MVP; to be revisited after the MVP is finished):
+
+| # | Question | Decision (MVP) |
 |---|---|---|
-| PQ1 | Hosting provider and its log/retention behaviour | Static host with log control; document in the statement |
+| PQ1 | Hosting provider and its log/retention behaviour | Cloudflare Pages ([tech spec TQ1](tech-spec.md#13-open-technical-questions)); host analytics stay off; the public statement says the host processes request metadata (IP address, user agent, URL) under its own policy and that answers never reach it |
 | PQ2 | Whether a PIN/passcode lock for the local history is wanted | Post-MVP; "Erase" is the MVP control |
 | PQ3 | Encrypting IndexedDB content at rest with a user passphrase | Post-MVP (protects against shared-profile access, adds recovery burden) |
 | PQ4 | Whether opt-in aggregate counters (no answers) are ever added | Not in MVP |
