@@ -80,7 +80,7 @@ apps/web/src/i18n/
   keys.generated.ts          # union type of keys (generated from zh-Hant)
 ```
 
-`zh-Hant` is the **source** catalog (authoring language); `en` mirrors it. Both are flat JSON per namespace: `{ "intake.age.label": "年齡", … }`.
+`zh-Hant` is the **source** catalog (authoring language); `en` mirrors it. Both are flat JSON per namespace: `{ "intake.age.label": "年齡", … }`. `apps/web/src/i18n/catalogs.ts` merges the namespaces; the key union is `keyof` the zh-Hant catalog (no generated file is needed). The ESLint rule `i18n/no-literal-strings` (`tools/eslint/`, tested with `pnpm test:tools`) fails on letters in JSX text and in text-bearing attributes (`aria-label`, `title`, `alt`, `placeholder`, `label`, `summary`); `src/i18n/**`, `src/dev/**` (developer-facing) and tests are exempt.
 
 ### 3.2 Keys
 

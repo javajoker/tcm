@@ -4,6 +4,7 @@
 import tseslint from "typescript-eslint";
 import reactHooks from "eslint-plugin-react-hooks";
 import jsxA11y from "eslint-plugin-jsx-a11y";
+import i18n from "./tools/eslint/no-literal-strings.js";
 
 const PURE_GLOBALS = ["window", "document", "localStorage", "sessionStorage", "indexedDB", "fetch", "navigator", "XMLHttpRequest", "Worker"];
 const FRAMEWORK_IMPORTS = ["react", "react/*", "react-dom", "react-dom/*", "wouter", "zustand", "zustand/*", "node:*"];
@@ -64,9 +65,16 @@ export default tseslint.config(
     plugins: { ...jsxA11y.flatConfigs.recommended.plugins, "react-hooks": reactHooks },
     rules: { ...jsxA11y.flatConfigs.recommended.rules, ...reactHooks.configs.recommended.rules, "react-hooks/exhaustive-deps": "error" },
   },
+  // User-visible text comes from the catalogs (docs/i18n-guide.md §3.4); the dev inspector and the catalogs themselves are exempt.
+  {
+    files: ["apps/web/src/**/*.tsx"],
+    ignores: ["apps/web/src/i18n/**", "apps/web/src/dev/**", "**/*.test.tsx"],
+    plugins: { i18n },
+    rules: { "i18n/no-literal-strings": "error" },
+  },
   // Tests and scripts may use Node and the console.
   {
-    files: ["**/test/**/*.ts", "**/node/**/*.ts", "scripts/**/*.ts", "**/*.config.*"],
+    files: ["**/test/**/*.ts", "**/test/**/*.tsx", "**/node/**/*.ts", "scripts/**/*.ts", "tools/**/*.js", "**/*.config.*"],
     rules: { "no-console": "off", "no-restricted-properties": "off", "no-restricted-globals": "off", "no-restricted-imports": "off" },
   },
 );
