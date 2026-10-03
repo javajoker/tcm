@@ -442,7 +442,7 @@ type TraceItem =
 
 ### 7.4 Parity with the Python oracle (C4)
 
-- `scripts/kb/export_parity_cases.py` runs `selftest_patterns` / `example_pipeline` logic (refactored into importable functions) over: the SOP worked example, the 23 "typical patient" cases, ≥ 200 seeded random findings sets, and edge cases (all-absent, all-unsure, conflicting exclusions). It writes `{input, expected}` with **full-precision** numbers to `packages/engine/test/fixtures/parity.json`.
+- `scripts/kb/export_parity_cases.py` ✔ (task K-15) runs the oracle (`scripts/kb/oracle.py`, the importable form of the `selftest_patterns` / `example_pipeline` logic) over: the SOP worked example, the 23 "typical patient" cases, ≥ 200 seeded random findings sets, and edge cases (all-absent, all-unsure, conflicting exclusions). It writes `{input, expected}` with **full-precision** numbers to `packages/engine/test/fixtures/parity.json`.
 - `packages/engine/test/parity.test.ts` asserts: pattern `Pct` within **1e-9**, panel values within **1e-9**, formula ranking identical, `k*` and explained fraction within **1e-9**, greedy 加減 steps identical.
 - The fixture is **regenerated and committed** whenever `scoring-params.json` or the KB changes; a CI job rebuilds it and fails on diff, so the oracle and the engine cannot silently diverge.
 - After practitioner golden cases exist (test plan §4) they take precedence as the expectation of record; the Python oracle then remains as a second implementation, not the authority.

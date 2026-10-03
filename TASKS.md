@@ -23,7 +23,7 @@
 |---|---:|---:|
 | **A** Documentation | 18 | 18 |
 | **DEC** Decisions | 6 | 6 |
-| **K** Knowledge base | 7 | 20 |
+| **K** Knowledge base | 8 | 20 |
 | **E** Engine and packages | 2 | 21 |
 | **I** Internationalisation | 0 | 6 |
 | **U** Web application | 0 | 26 |
@@ -31,11 +31,11 @@
 | **R** Release and operations | 0 | 7 |
 | **V** Review (non-code) | 0 | 7 |
 | **PF** Performance (P2) | 0 | 3 |
-| **All** | **33** | **124** |
+| **All** | **34** | **124** |
 
 | Priority | Done | Total |
 |---|---:|---:|
-| P0 | 19 | 74 |
+| P0 | 20 | 74 |
 | P1 | 12 | 42 |
 | P2 | 2 | 8 |
 
@@ -110,7 +110,7 @@ Suggested waves: **1** foundation (E-01, K-01, K-02, I-01, U-01, R-01) → **2**
 | [ ] | K-12 | Glossary upgrade: `source`/`alt`/`note`, WHO ISTM alignment, terms for all UI copy | P1 | M | A-08 | Glossary lint rules (i18n guide §8.2) pass |
 | [ ] | K-13 | English prose pass (machine draft with glossary enforcement, `en_status`) for patterns, formulas, treatment, rules, notices | P1 | L | K-12 | No `null` `en` in fields shown at L0–L1; status recorded |
 | [ ] | K-14 | Second-source check for the 6 partially verified formulas (Wikisource) and Simplified→Traditional spot-check of citations | P1 | M | — | `verification` updated; partial rows reduced or explained |
-| [ ] | K-15 | `export_parity_cases.py`: refactor the oracle into importable functions; seeded generator; writes `packages/engine/test/fixtures/parity.json` | P0 | M | K-01 | ≥ 200 + 23 + worked example cases; deterministic |
+| [x] | K-15 | `export_parity_cases.py`: refactor the oracle into importable functions; seeded generator; writes `packages/engine/test/fixtures/parity.json` | P0 | M | K-01 | ≥ 200 + 23 + worked example cases; deterministic |
 | [ ] | K-16 | Review-records compile step: `review/records/*.yaml` → `data/review/records.json` with content hashes; build applies `reviewed` and resets on content change | P1 | M | K-02 | Unit tests for reset-on-change; documented in content review |
 | [ ] | K-17 | Review pack generator `scripts/review/pack.py` (per area, with engine behaviour annotated) | P1 | L | K-15, K-16 | Packs for red flags, safety rules, patterns, formulas generated |
 | [ ] | K-18 | Data licence statement and `NOTICE` (attributions for MIT sources, quotation-only sources, CC-BY data) | P1 | S | DEC-02 | Statement in `data/README.md`, `NOTICE` present, Sources screen text drafted |
