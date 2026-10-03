@@ -10,3 +10,4 @@ export { reconcile, kappaOf, mixedKinds, patternElements, type Verdict, type Con
 export { orient, checkConsistency, type Orientation, type ConsistencyFlag, type Channel, type ExteriorKind, type Lean, type DeficiencyLean } from "./orient.ts";
 export { evaluateSafety, formulaNature, incompatiblePairs, allergyMatches, type SafetyInput, type SafetyReport, type SafetyItem, type SafetySubject, type SuppressedItem, type FiredRule, type Candidate, type FormulaNature } from "./safety.ts";
 export { explain, citationsOf, type TraceItem, type ExplainInput, type PriorBlock } from "./explain.ts";
+export { nextQuestions, isAsked, type InquiryState, type NextQuestions, type QuestionSuggestion, type QuestionReason, type StopReason } from "./questionnaire.ts";

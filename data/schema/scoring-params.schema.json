@@ -443,17 +443,33 @@
         "candidate_pct_floor": {
           "type": "number"
         },
+        "core_bonus": {
+          "type": "number"
+        },
         "core_coverage_stop": {
           "type": "number"
         },
+        "gain_candidates": {
+          "type": "integer"
+        },
         "max_questions": {
           "type": "integer"
+        },
+        "min_answers_for_gain": {
+          "type": "integer"
+        },
+        "module_boost": {
+          "type": "number"
         }
       },
       "required": [
         "candidate_pct_floor",
+        "core_bonus",
         "core_coverage_stop",
-        "max_questions"
+        "gain_candidates",
+        "max_questions",
+        "min_answers_for_gain",
+        "module_boost"
       ],
       "type": "object"
     },

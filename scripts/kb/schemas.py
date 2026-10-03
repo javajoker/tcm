@@ -238,7 +238,7 @@ def scoring_params() -> dict:
     return {"type": "object", "properties": {
         "_meta": meta({"sources": dictionary(STR), "status": ref("reviewStatus")}, ["sources", "status"]), "severity": sev, "quality": quality, "pattern": pattern_, "panel": panel,
         "reconcile": reconcile, "formula": formula, "tier": obj({"c_bitter_cold_share": NUM, "b_activating_share": NUM, "strong_herbs": arr(ref("herbId"), 1), "bitter_cold_tag": STR, "activating_tag": STR, "aristolochic_flag": STR}), "safety": obj({"flavor_excess_share": NUM, "conflict": obj({"axis": NUM, "warming_min": NUM, "cooling_min": NUM, "tonic_min": NUM, "attacking_min": NUM})}),
-        "questionnaire": obj({"core_coverage_stop": NUM, "max_questions": INT, "candidate_pct_floor": NUM})},
+        "questionnaire": obj({"core_coverage_stop": NUM, "max_questions": INT, "candidate_pct_floor": NUM, "core_bonus": NUM, "module_boost": NUM, "min_answers_for_gain": INT, "gain_candidates": INT})},
         "required": ["_meta", "formula", "pattern", "panel", "quality", "questionnaire", "reconcile", "safety", "severity", "tier"], "additionalProperties": False}
 
 

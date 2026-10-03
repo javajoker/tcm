@@ -171,7 +171,7 @@ export function indexKnowledgeBase(raw: RawKbChunks): KnowledgeBase;   // pure; 
 - The loader verifies `manifest.json` (version, file hashes, schema version) and refuses to run on a **schema-version mismatch** (the app and the KB were built together; a mismatch can only mean a stale cache).
 - **Review status** (`draft` / `curated-draft` / `derived` / `reviewed`) is a field on every record and is exposed to the UI (see [content review](content-review.md)).
 
-### 4.3 `@tcm/engine` (in progress: `policy.ts` ✔ E-04, `normalize.ts` ✔ E-05, `patterns.ts` ✔ E-09, `reference.ts` ✔ E-06, `panel.ts` ✔ E-10, `formulas.ts` ✔ E-12, `modify.ts` ✔ E-13, `reconcile.ts` ✔ E-11, `orient.ts` ✔ E-08, `safety.ts` ✔ E-14, `explain.ts` ✔ E-15)
+### 4.3 `@tcm/engine` (in progress: `policy.ts` ✔ E-04, `normalize.ts` ✔ E-05, `patterns.ts` ✔ E-09, `reference.ts` ✔ E-06, `panel.ts` ✔ E-10, `formulas.ts` ✔ E-12, `modify.ts` ✔ E-13, `reconcile.ts` ✔ E-11, `orient.ts` ✔ E-08, `safety.ts` ✔ E-14, `explain.ts` ✔ E-15, `questionnaire.ts` ✔ E-16)
 
 The diagnosis pipeline. One module per SOP step; each is a pure function with its own unit tests. Contract in §7.
 

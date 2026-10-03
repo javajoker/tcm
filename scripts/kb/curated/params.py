@@ -78,5 +78,8 @@ PARAMS = {
     "safety": {"flavor_excess_share": 0.55, "conflict": {"axis": 0.3, "warming_min": 0.3, "cooling_min": 0.3, "tonic_min": 0.5, "attacking_min": 0.8}},
 
     # SOP §4.8: adaptive questionnaire.
-    "questionnaire": {"core_coverage_stop": 0.8, "max_questions": 50, "candidate_pct_floor": 20.0},
+    # score = normalised information gain (0…1) + core_bonus (core question while coverage < core_coverage_stop) + module_boost (question of a chosen module);
+    # before `min_answers_for_gain` questions are answered there is nothing to discriminate, so the order is: chosen modules first, then the core order.
+    "questionnaire": {"core_coverage_stop": 0.8, "max_questions": 50, "candidate_pct_floor": 20.0, "core_bonus": 0.3, "module_boost": 0.25, "min_answers_for_gain": 3,
+                      "gain_candidates": 3},
 }

@@ -77,8 +77,12 @@ export interface ScoringParams {
   };
   questionnaire: {
     candidate_pct_floor: number;
+    core_bonus: number;
     core_coverage_stop: number;
+    gain_candidates: number;
     max_questions: number;
+    min_answers_for_gain: number;
+    module_boost: number;
   };
   reconcile: {
     confidence: {

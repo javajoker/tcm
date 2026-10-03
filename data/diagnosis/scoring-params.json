@@ -77,8 +77,12 @@
   },
   "questionnaire": {
     "candidate_pct_floor": 20.0,
+    "core_bonus": 0.3,
     "core_coverage_stop": 0.8,
-    "max_questions": 50
+    "gain_candidates": 3,
+    "max_questions": 50,
+    "min_answers_for_gain": 3,
+    "module_boost": 0.25
   },
   "reconcile": {
     "confidence": {
