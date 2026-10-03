@@ -144,6 +144,14 @@ class Corruptions(unittest.TestCase):
             del q["follows"]
         self.assertReported({"diagnosis/questions.json": m}, "needs `follows` or `requires`")
 
+    def test_exclusion_references(self):
+        self.assertReported({"diagnosis/exclusions.json": lambda d: d["groups"][0]["symptoms"].append("S_NOPE")}, "unknown symptom S_NOPE")
+        self.assertReported({"diagnosis/exclusions.json": lambda d: d["groups"].append(dict(d["groups"][0]))}, "duplicate exclusion id")
+        self.assertReported({"diagnosis/exclusions.json": lambda d: d["groups"].pop(0)}, "not covered by diagnosis/exclusions.json")
+
+    def test_pulse_groups_must_match_the_pulse_file(self):
+        self.assertReported({"diagnosis/exclusions.json": lambda d: d["groups"].remove(next(g for g in d["groups"] if g["id"] == "X_PULSE_DEPTH"))}, "pulse groups differ")
+
     def test_orthography_variant_outside_quotations(self):
         self.assertReported({"herbs/herbs.json": lambda d: d["items"][0]["functions"].append("清利溼熱")}, "溼 found outside quotations")
 

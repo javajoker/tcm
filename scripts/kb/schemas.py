@@ -141,6 +141,13 @@ def questions() -> dict:
         "items": arr(item, 1), "modules": arr(module, 8)}, "required": ["_meta", "items", "modules"], "additionalProperties": False}
 
 
+def exclusions() -> dict:
+    group = obj({"id": pattern(r"^[XC]_[A-Z_]+$"), "kind": enum("exclusive", "conflict"), "reason": ref("bilingualNamed"), "symptoms": arr(ref("symptomId"), 2, True)})
+    split = obj({"id": pattern(r"^SPLIT_[A-Z_]+$"), "summary": ref("bilingualNamed"), "symptoms": arr(ref("symptomId"), 2, True)})
+    return {"type": "object", "properties": {"_meta": meta({"count": INT, "status": ref("reviewStatus")}, ["count", "status"]), "groups": arr(group, 1), "splits": arr(split)},
+            "required": ["_meta", "groups", "splits"], "additionalProperties": False}
+
+
 def patterns() -> dict:
     item = obj({
         "against": dictionary(NUM, ref("symptomId")), "citations": arr(ref("citationId")), "elements": arr(ref("elementId")), "formulas": arr(ref("formulaId")),
@@ -363,6 +370,7 @@ SCHEMAS = {
     "formulas/formulas.json": ("formulas", formulas, "Formulas"),
     "diagnosis/symptoms.json": ("symptoms", symptoms, "Symptom registry"),
     "diagnosis/questions.json": ("questions", questions, "Question bank"),
+    "diagnosis/exclusions.json": ("exclusions", exclusions, "Exclusive groups, conflicts and splits"),
     "diagnosis/patterns.json": ("patterns", patterns, "Patterns"),
     "diagnosis/pattern-elements.json": ("pattern-elements", pattern_elements, "Pattern elements (證素)"),
     "diagnosis/constitutions.json": ("constitutions", constitutions, "Constitutions"),

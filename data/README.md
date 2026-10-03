@@ -24,6 +24,7 @@ Needs Node ≥ 22.18 for the one TypeScript export step (`scripts/kb/export_wuxi
 | `formulas/formulas.json` | 33 | Formulas: composition with 君臣佐使 roles and proportions, aggregate panel effect and burden, flavour profile, computed tier A/B/C, pregnancy and interaction flags, modifications (加減), verification record | curated + verified against the classics |
 | `diagnosis/symptoms.json` | 171 | 12-dimension symptom registry + 32 tongue features + 28 pulses (zh-Hant / English) | curated |
 | `diagnosis/questions.json` | 28 questions, 8 modules | **Question bank** for the adaptive inquiry: plain-language prompts (zh-Hant, en), options → symptom ids, severity grading, exclusivity, prerequisites, follow-up triggers; all 111 inquiry symptoms reachable | curated draft (`scripts/kb/curated/questions.py`) |
+| `diagnosis/exclusions.json` | 23 groups, 10 splits | Mutually exclusive symptom groups (incl. pulse), soft conflicts, and look-alike symptom splits with their distinguishing hints | curated draft |
 | `diagnosis/patterns.json` | 23 | MVP patterns with weighted evidence, required symptoms, panel projection, formulas, diet/acupoints/lifestyle, citations | curated |
 | `diagnosis/pattern-elements.json` | 24 | 證素 decomposition (location × nature) with symptom weights derived from the patterns | derived from patterns |
 | `diagnosis/tongue.json` | 6 zones, 32 features | Tongue zones (classical + textbook), zone-specific features, special signs (tooth marks, cracks, red dots, ecchymosis…) | curated; zone statement verified in 《傷寒指掌》 |

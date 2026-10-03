@@ -95,6 +95,11 @@ The adaptive inquiry's content (SOP §4.2, §4.8). `modules[]` = the eight compl
 **Answer semantics (binding for the engine and the UI).** *Answering* a question (at least one option, or "none of these") records the symptoms of the selected options as `present` (with severity for graded ones) and the symptoms of the **unselected** options of that question as `absent`. *Skipping* ("not sure") records every symptom of the question as `unsure`. `absent` and `unsure` add nothing to a pattern score (the denominator Σw is fixed); they differ in coverage and in what is asked next. Context options set `AssessInput.context` (today only `course`, used to route the external/internal channel, SOP §9.1).
 `_meta.coverage` records how many of the 111 inquiry symptoms are reachable (all); `validate_kb` and `tests/test_question_bank.py` keep that true and check that every pattern's typical patient can be fully described through the bank (follow-up triggers included).
 
+### 3.2c `diagnosis/exclusions.json` — exclusive groups, conflicts, look-alike splits
+
+`groups[]`: `{ id (X_* / C_*), kind, symptoms[≥2], reason }`. **`exclusive`** (19 groups: cold kind, stool consistency, urine, food temperature, thirst, tinnitus, nose, complexion, lips/nails, abdominal pressing, tongue body colour/shape/coating/cracks, the five pulse groups) — the symptoms cannot all be true; the UI prevents choosing two and the engine reports a conflict if two still arrive, never silently picking one (SOP §5.3). **`conflict`** (4 groups, e.g. cold limbs with hot palms) — unusual together but possible: reported so the app can ask a follow-up; scoring unchanged. The pulse groups are generated from the same source as `pulse.json` and checked equal; every question's `exclusive_groups` must be covered by a group here.
+`splits[]`: `{ id (SPLIT_*), symptoms[], summary }` — look-alike symptoms that must never be merged (惡寒 ≠ 畏寒, 渴喜冷 ≠ 渴不欲飲, 喜按 ≠ 拒按, tongue red tip ≠ edge ≠ whole, …) with the one-line difference the UI shows as a hint (SOP §5.2).
+
 ### 3.3 `diagnosis/patterns.json` — 23 patterns
 
 | Field | Type | Meaning |
@@ -306,7 +311,6 @@ Nothing is `reviewed` yet; the release gate in the [release process](release-pro
 
 | File | Purpose | Notes |
 |---|---|---|
-| `diagnosis/exclusions.json` | Mutually exclusive symptom groups and synonym splits (惡寒 ≠ 畏寒, 渴喜冷 ≠ 渴不欲飲, 喜按 ≠ 拒按) | SOP §5.2–§5.3 |
 | `diagnosis/constitution-items.json` | Own-written 9-type items, 1–5 scale, scoring map | SOP D6; needs review |
 | `geo/cities.json` | `{ id, name{zh-Hant,en}, lat, lon, tz }` | Decided: GeoNames `cities15000`, CC BY 4.0, reduced subset with attribution (tech spec TQ2) |
 | `treatment/guidance.json` (extend) | Acupoint location text, illustration ids, diet entries with rationale and citations | |

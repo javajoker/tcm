@@ -368,6 +368,30 @@ def validate(load: Loader = load, check_sources: bool = True) -> list[str]:
         if not q["core"] and "follows" not in q and "requires" not in q:
             err(f"question {q['id']}: a non-core question needs `follows` or `requires`")
 
+    # ── 7c. exclusions ─────────────────────────────────────────────────────
+    excl = load("diagnosis/exclusions.json")
+    for d in duplicates(g["id"] for g in excl["groups"] + excl["splits"]):
+        err(f"duplicate exclusion id {d}")
+    group_sets = [set(g["symptoms"]) for g in excl["groups"]]
+    for g in excl["groups"]:
+        for s in g["symptoms"]:
+            if s not in sym_ids:
+                err(f"exclusion {g['id']}: unknown symptom {s}")
+        kinds = {sym_by_id[s]["kind"] for s in g["symptoms"] if s in sym_by_id}
+        if len(kinds) > 1:
+            err(f"exclusion {g['id']}: mixes symptom kinds {sorted(kinds)}")
+    for sp in excl["splits"]:
+        for s in sp["symptoms"]:
+            if s not in sym_ids:
+                err(f"split {sp['id']}: unknown symptom {s}")
+    pulse_groups = sorted(sorted(g["symptoms"]) for g in excl["groups"] if g["symptoms"][0].startswith("P_"))
+    if pulse_groups != sorted(sorted(x) for x in pulse["_meta"]["exclusive_groups"]):
+        err("exclusions.json pulse groups differ from pulse.json exclusive_groups")
+    for q in q_items:
+        for qg in q["exclusive_groups"]:
+            if not any(set(qg) <= gs for gs in group_sets):
+                err(f"question {q['id']}: exclusive group {qg} is not covered by diagnosis/exclusions.json")
+
     # ── 8. policy and safety ───────────────────────────────────────────────
     dims, levels = scope["dimensions"], scope["levels"]
     for pname, prof in scope["profiles"].items():
