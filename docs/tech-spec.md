@@ -624,7 +624,7 @@ Colour: one sequential hue per quantity family, never red/green as good/bad; sig
 | # | Question | Decision (MVP) |
 |---|---|---|
 | TQ1 | Hosting target (GitHub Pages / Cloudflare Pages / Netlify) and whether it can set headers | **Cloudflare Pages**: static hosting, a `_headers` file for CSP and caching, SPA fallback, per-PR preview URLs. GitHub Pages is the fallback (then CSP via `<meta>`, no `frame-ancestors`). No host-side analytics (e.g. Cloudflare Web Analytics stays off) |
-| TQ2 | City dataset for the birth-place picker (licence, size) | GeoNames-derived subset, CC-BY attribution; manual longitude/time zone always available |
+| TQ2 | City dataset for the birth-place picker (licence, size) | **GeoNames `cities15000`** (cities with population > 15 000; licence **CC BY 4.0**, attribution required on the Sources screen and in `NOTICE`), reduced to ≈ 150–300 cities: all Taiwan, Hong Kong and Macau cities, major mainland, Singapore, Malaysia, Japan, Korea, North-American, UK/EU and Australian cities, each with latitude, longitude and IANA time zone, plus Chinese names where GeoNames provides them. Manual longitude/time zone entry is always available. The built file ships only the reduced subset (≤ 25 KB gzip) |
 | TQ3 | When to freeze `scoring-params.json` for release and who signs it off | After the first practitioner calibration round (PRD Q8) |
 | TQ4 | Whether the Python oracle remains authoritative after golden cases exist | No — goldens win; oracle stays as a second implementation |
 | TQ5 | Move the engine to a Web Worker | Not needed (T6); revisit if `assess` exceeds the budget |

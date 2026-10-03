@@ -279,7 +279,7 @@ Nothing is `reviewed` yet; the release gate in the [release process](release-pro
 | `diagnosis/questions.json` | Adaptive question bank: id, dimension, module(s), `core`, prerequisites (sex, not pregnant …), prompt (plain zh-Hant, en), term line, answer options → `{symptomId, severity?}`, exclusivity group | SOP §4.2 and §4.8 define ≈ 25 core questions and 8 modules |
 | `diagnosis/exclusions.json` | Mutually exclusive symptom groups and synonym splits (惡寒 ≠ 畏寒, 渴喜冷 ≠ 渴不欲飲, 喜按 ≠ 拒按) | SOP §5.2–§5.3 |
 | `diagnosis/constitution-items.json` | Own-written 9-type items, 1–5 scale, scoring map | SOP D6; needs review |
-| `geo/cities.json` | `{ id, name{zh-Hant,en}, lat, lon, tz }` | Source and licence decision (tech spec TQ2) |
+| `geo/cities.json` | `{ id, name{zh-Hant,en}, lat, lon, tz }` | Decided: GeoNames `cities15000`, CC BY 4.0, reduced subset with attribution (tech spec TQ2) |
 | `treatment/guidance.json` (extend) | Acupoint location text, illustration ids, diet entries with rationale and citations | |
 | English prose fields | English rendering of `rationale_zh`, `principle`, `treatment`, `cautions`, `messages` | Machine draft + review |
 | `review/records.json` | Review records (who, when, scope, KB version, outcome) per file/record range | [Content review](content-review.md) |
