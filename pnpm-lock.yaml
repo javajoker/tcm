@@ -33,6 +33,8 @@ importers:
         specifier: workspace:*
         version: link:../wuxing
 
+  packages/i18n: {}
+
   packages/kb: {}
 
   packages/wuxing: {}

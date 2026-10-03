@@ -195,7 +195,7 @@ src/
   index.ts
 ```
 
-### 4.4 `@tcm/i18n`
+### 4.4 `@tcm/i18n` ✔ (task I-01)
 
 ```ts
 type Messages = Record<string, string>;
