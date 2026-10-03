@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 0.1 (draft) |
+| **Version** | 0.2 (draft) |
 | **Status** | Draft — no UI implemented yet |
 | **Last updated** | 2026-10-04 |
 | **Derives from** | [PRD v0.3](PRD.md) (FR-1…FR-20, NFRs) · [Diagnosis SOP v0.2](diagnosis-sop.zh-TW.md) (what is asked and shown) · [Tech spec](tech-spec.md) (routes, state, components' data) |
@@ -179,7 +179,7 @@ Screening is a short list of yes/no questions grouped A (emergency) / B (within 
 
 - Answer states map to the engine: **Yes** (+ severity) / **No** (negative evidence) / **Not sure or skip** (neutral; lowers coverage). Skip is available on every question, labelled neutrally ("Not sure / skip").
 - Multi-choice questions (e.g. pain quality: 脹 / 刺 / 冷 / 灼 / 重 / 隱 / 絞) use checkable tiles with short descriptions; mutually exclusive choices are enforced in the UI with a one-line explanation.
-- Next/Back keep state; answering auto-advances only for single-choice questions without a severity step (and can be turned off in Settings for screen-reader users).
+- Next/Back keep state; answering auto-advances only for single-choice questions without a severity step; this is the Settings option "Move on automatically after I answer" (default on; screen-reader and keyboard users are told about it in the first question's hint).
 - Contradictions (SOP §5.3) show an inline follow-up on the next screen ("Earlier you said X; is Y also true?") — never a silent pick.
 - The **end condition** is shown honestly: "We have enough for a first result. [See result] or [Answer a few more to sharpen it]".
 - **Desktop:** the right rail summarises what has been recorded (collapsed list per dimension) with edit links; it never shows pattern names while the inquiry is running (avoid anchoring the user).
@@ -306,7 +306,7 @@ Cards: date, leading pattern, confidence, level (dev: profile), "computed with a
 
 ### 4.14 S17 Settings and privacy
 
-Language · theme (system/light/dark) · text size (4 presets) · "Erase everything on this device" (one explicit dialog stating exactly what will be deleted) · "Remember birth data" default · a plain-language **what is stored** table · version stamps (app, knowledge base, engine, parameters) · links to Sources and the project licence.
+Language · theme (system/light/dark) · text size (4 presets) · "Move on automatically after I answer" · "Erase everything on this device" (one explicit dialog stating exactly what will be deleted) · "Remember birth data" default · a plain-language **what is stored** table · version stamps (app, knowledge base, engine, parameters) · links to Sources and the project licence.
 
 ### 4.15 S18 Sources
 
@@ -530,7 +530,7 @@ Testing method and scenarios are in the [test plan](test-plan.md).
 | UQ3 | Tap-tempo pulse measurement in addition to the 30 s timer | Post-MVP |
 | UQ4 | Tongue illustration style: line art vs. soft fills; need for a second, photo-based reference set | Line art; photos only if a free licence is found |
 | UQ5 | Whether history compare is MVP (P1) or later | P1 |
-| UQ6 | Voice/screen-reader auto-advance default | Off for single choice when a screen reader is detected |
+| UQ6 | Voice/screen-reader auto-advance default | A setting, **"Move on automatically after I answer"** (default **on**, only for single-choice questions without a severity step). No screen-reader detection (it is not reliably detectable); the first question's hint mentions the setting |
 | UQ7 | Acupoint diagrams: licence-safe source or original drawings | Original simple diagrams; WHO codes as text |
 
 ---
@@ -540,3 +540,4 @@ Testing method and scenarios are in the [test plan](test-plan.md).
 | Version | Date | Change |
 |---|---|---|
 | 0.1 | 2026-10-04 | Initial UI/UX specification |
+| 0.2 | 2026-10-04 | Open design questions UQ1–UQ7 resolved with MVP defaults (working name, bands only, line-art illustrations, history compare in MVP); auto-advance is a Settings option instead of screen-reader detection |
