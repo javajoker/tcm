@@ -13,7 +13,7 @@ medical diagnosis.
 
 | Doc | Language | Status |
 |---|---|---|
-| [docs/PRD.md](docs/PRD.md) — Product requirements | English | Draft v0.1 |
+| [docs/PRD.md](docs/PRD.md) — Product requirements | English | Draft v0.2 |
 | [docs/diagnosis-sop.zh-TW.md](docs/diagnosis-sop.zh-TW.md) — 辨證論治作業流程 (diagnosis SOP) | 繁體中文 | Draft v0.1 |
 | Tech spec, UI/UX spec, other docs, task list, checklist | English | Not started |
 

@@ -3,7 +3,7 @@
 | | |
 |---|---|
 | **Working title** | TCM Self-Assessment App (name TBD) |
-| **Version** | 0.1 (draft) |
+| **Version** | 0.2 (draft) |
 | **Status** | Draft — under review; diagnosis SOP still being refined |
 | **Last updated** | 2026-10-03 |
 | **Related docs** | [Diagnosis SOP (繁體中文)](diagnosis-sop.zh-TW.md) · [Reference sources](../reference/README.md) |
@@ -83,9 +83,10 @@ paired with safety guidance and a pointer to a licensed practitioner (see §10).
 ### 4.1 MVP (v1.0)
 
 - Adults (≥ 18), non-pregnant, non-acute, self-limited functional / chronic complaints.
-- Complaint modules (initial set, confirm in SOP): sleep, fatigue, digestion (bloating / appetite / stool),
-  cold-heat sensitivity & sweating, head/pain, mood/stress, women's cycle (non-pregnant).
-- Constitution assessment (9 types) + pattern differentiation across the pattern set in SOP §6.
+- Eight complaint modules (SOP §4.7): sleep, fatigue, digestion (bloating / appetite / stool),
+  cold-heat sensitivity & sweating, head/body pain, mood/stress, women's cycle (non-pregnant),
+  and mild early-stage external contraction (cold/flu onset).
+- Constitution assessment (9 types) + pattern differentiation across the 23-pattern draft set in SOP §8.5.
 - Result report with reasoning trace, recommendations and citations.
 - zh-Hant and English; responsive; local history; print-friendly export.
 
@@ -152,7 +153,8 @@ Collect (all optional except those marked ★; wording in the SOP §3):
 - Out-of-scope users (< 18, pregnant, acute fever with warning signs) get a scoped result (lifestyle-only or "please consult a practitioner").
 
 ### FR-5 Structured inquiry (問診) — P0
-- Questionnaire derived from the 十問歌 framework (寒熱, 汗, 頭身, 便, 飲食, 胸腹, 耳目, 渴飲, 睡眠, 情志, 經帶) — see SOP §4.
+- Questionnaire derived from the 十問歌 framework extended to 12 dimensions (寒熱, 汗, 頭身, 二便, 飲食口味, 胸腹, 耳目口咽, 口渴飲水, 睡眠, 情志, 經帶, 病程與誘因) — see SOP §4.2.
+- About 25 core questions asked of everyone, then module-specific follow-ups; next question chosen by discriminating power (SOP §4.7).
 - **Adaptive:** the next question depends on earlier answers and on the chosen complaint module; irrelevant questions are skipped.
 - Plain-language wording with the TCM term available as secondary info; examples for ambiguous questions.
 - Every question maps to one or more symptom codes in the knowledge base (traceable to a classical source for the underlying sign).
@@ -173,7 +175,7 @@ Collect (all optional except those marked ★; wording in the SOP §3):
 
 ### FR-8 Diagnosis engine — P0
 - Input: normalised symptom/sign set + profile + constitution. Output: ranked patterns (證型) with score, confidence band, and per-pattern evidence.
-- **Deterministic, explainable:** same input → same output; scoring is a published weighted-symptom model (SOP §5), not a black box.
+- **Deterministic, explainable:** same input → same output; scoring is a published weighted-symptom model over 證素 (SOP §8.3), not a black box. Weights, thresholds and quality coefficients are placeholders until calibrated by a practitioner (SOP App. D, D3).
 - Handles conflicting data (e.g. 寒熱錯雜, 虛實夾雜) by returning compound/co-existing patterns, not forcing one answer.
 - Returns an explicit **"insufficient information"** state when no pattern passes the minimum threshold; suggests which questions would discriminate best.
 - Differential: shows the top alternatives and "what would make this a different pattern".
@@ -195,7 +197,8 @@ For each top pattern, provide with reasons:
 - **Diet/food therapy**, **acupressure points** (safe self-massage points only), and **lifestyle/seasonal** advice.
 - Every recommendation carries: rationale, source citation, contraindications, and a "who should not use this" line.
 - **Safety filter:** a formula/food/point is suppressed or downgraded when the profile conflicts (pregnancy, interacting medication, allergy, known-toxic herb, constitution mismatch). The suppression is shown with the reason, never silent.
-- Formulas containing toxic/strong herbs (e.g. 附子, 麻黃, 細辛) are display-only with a mandatory "practitioner required" notice.
+- **Formula tiers**, computed from a formula's herbs (SOP §10.5), not hand-assigned: **A** shown with cautions; **B** shown only if extra safety conditions pass (no pregnancy, no anticoagulants, no bleeding tendency …), otherwise demoted to C; **C** "learning only" — composition and source text shown, not recommended, with a mandatory "licensed practitioner required" notice. Formulas containing toxic/strong herbs (e.g. 附子, 麻黃, 細辛) are always C.
+- A formula is recommended only if the user matches ≥ 60 % of its indication core symptoms (**formula–pattern match**, SOP §10.5); otherwise only lifestyle advice is given.
 - Dosage handling is an open question (Q4); default for MVP: show classical composition, **no personal dose**.
 
 ### FR-11 Citation and knowledge viewer — P0
@@ -284,8 +287,24 @@ A qualified TCM practitioner (to be identified — Q8) reviews: pattern evidence
 
 Full detail: [Diagnosis SOP](diagnosis-sop.zh-TW.md). In summary the app implements this pipeline:
 
-| Step | Name | What happens |
+| Step | Name (SOP section) | What happens |
 |---|---|---|
+| 0 | Safety screening (§2) | Red-flag and scope checks; stop or restrict |
+| 1 | Profile & 三因 context (§3) | Age, sex, region, season, lifestyle, medications — priors and safety inputs |
+| 2 | 四診 collection (§4) | 問診 (12 dimensions) as the core; guided 望 / 聞; proxy 切 (pulse rate, abdominal self-check) |
+| 3 | Normalisation (§5) | Answers → standard symptom/sign codes; data-quality class per datum; conflict checks |
+| 4 | 體質 assessment (§6) | 9-constitution scoring; baseline tendency, used as tie-breaker and for advice style |
+| 5 | 八綱 orientation (§7) | 表裏 · 寒熱 · 虛實 · 陰陽 |
+| 6 | 辨證 (§8) | 證素 (location × nature) weighted scoring → pattern from the 23-pattern draft library; 六經 for mild external presentations |
+| 7 | Reconcile & confidence (§9) | Combine, resolve conflicts, rank patterns, differential, confidence level or "insufficient information" |
+| 8 | 論治 (§10) | 治則 → 治法 → formula / diet / acupoint / lifestyle candidates |
+| 9 | Safety filter (§11) | Contraindications, interactions, toxic-herb rules; suppressed items are shown with reasons |
+| 10 | Explanation (§12) | Reasoning trace with citations; confidence and "what would change this" |
+
+Design consequences for the product: the questionnaire must be adaptive (step 2), the engine must expose
+per-evidence contributions (steps 6–7, FR-8/9), and recommendations must be generated from KB records, not free text (step 8, FR-10).
+
+---|---|---|
 | 0 | Safety screening | Red-flag and scope checks; stop or restrict |
 | 1 | 四診 information collection | 問診 (十問) as core; guided 望 / 聞; proxy 切 |
 | 2 | Normalisation | Answers → standard symptom/sign codes; confidence per datum |
@@ -369,7 +388,7 @@ Proposed defaults are used in this draft until confirmed.
 | # | Question | Default assumed |
 |---|---|---|
 | Q1 | Target region and regulatory framing (Taiwan / HK / mainland / global)? Affects wording, herb availability and which pharmacopoeia is the reference | Taiwan-first wording; international English |
-| Q2 | Which complaint modules and which patterns are in the MVP? | Set in SOP §6; ~20 patterns across 7 complaint modules |
+| Q2 | Which complaint modules and which patterns are in the MVP? | SOP §4.7 and §8.5: 23 draft patterns across 8 complaint modules |
 | Q3 | LLM involvement? (none / plain-language rewording only / diagnosis) | **None** in diagnostic core; optional rewording post-MVP, never for pattern choice |
 | Q4 | Show dosage for formulas? | No personal dosing; composition + classical context only |
 | Q5 | Include tongue-photo analysis or pulse devices? | Not in MVP; manual inputs only |
@@ -403,4 +422,5 @@ Proposed defaults are used in this draft until confirmed.
 
 | Version | Date | Change |
 |---|---|---|
-| 0.1 | 2026-10-03 | Initial draft from project brief; aligned with diagnosis SOP v0.1 |
+| 0.1 | 2026-10-03 | Initial draft from project brief |
+| 0.2 | 2026-10-03 | Aligned with diagnosis SOP v0.1: 8 complaint modules, 23-pattern draft library, 12-dimension inquiry, formula tiers A/B/C, step numbering and SOP section references |
