@@ -200,7 +200,7 @@ def scoring_params() -> dict:
                    "modification": obj({"max_add": INT, "max_remove": INT, "add_share": NUM, "min_gain": NUM})})
     return {"type": "object", "properties": {
         "_meta": meta({"sources": dictionary(STR), "status": ref("reviewStatus")}, ["sources", "status"]), "severity": sev, "quality": quality, "pattern": pattern_, "panel": panel,
-        "reconcile": reconcile, "formula": formula, "tier": obj({"c_bitter_cold_share": NUM, "b_activating_share": NUM}), "safety": obj({"flavor_excess_share": NUM}),
+        "reconcile": reconcile, "formula": formula, "tier": obj({"c_bitter_cold_share": NUM, "b_activating_share": NUM, "strong_herbs": arr(ref("herbId"), 1), "bitter_cold_tag": STR, "activating_tag": STR, "aristolochic_flag": STR}), "safety": obj({"flavor_excess_share": NUM}),
         "questionnaire": obj({"core_coverage_stop": NUM, "max_questions": INT, "candidate_pct_floor": NUM})},
         "required": ["_meta", "formula", "pattern", "panel", "quality", "questionnaire", "reconcile", "safety", "severity", "tier"], "additionalProperties": False}
 

@@ -54,10 +54,20 @@
       "meridian": "肝經",
       "pregnancy_avoid": false
     },
+    "崑崙": {
+      "code": "BL60",
+      "meridian": "膀胱經",
+      "pregnancy_avoid": true
+    },
     "曲池": {
       "code": "LI11",
       "meridian": "大腸經",
       "pregnancy_avoid": false
+    },
+    "次髎": {
+      "code": "BL32",
+      "meridian": "膀胱經",
+      "pregnancy_avoid": true
     },
     "氣海": {
       "code": "CV6",
@@ -74,10 +84,20 @@
       "meridian": "督脈",
       "pregnancy_avoid": false
     },
+    "石門": {
+      "code": "CV5",
+      "meridian": "任脈",
+      "pregnancy_avoid": true
+    },
     "神門": {
       "code": "HT7",
       "meridian": "心經",
       "pregnancy_avoid": false
+    },
+    "肩井": {
+      "code": "GB21",
+      "meridian": "膽經",
+      "pregnancy_avoid": true
     },
     "腎俞": {
       "code": "BL23",
@@ -93,6 +113,11 @@
       "code": "CV17",
       "meridian": "任脈",
       "pregnancy_avoid": false
+    },
+    "至陰": {
+      "code": "BL67",
+      "meridian": "膀胱經",
+      "pregnancy_avoid": true
     },
     "血海": {
       "code": "SP10",

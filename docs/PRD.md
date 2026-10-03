@@ -220,7 +220,7 @@ Sections in order: safety/scope banner and acknowledged notices · summary (cons
 - Visual design: single-hue scales for ordered quantities; no red/green good-bad colouring; the reference outline is shown dashed, the main plot is relative to the healthy norm.
 
 ### FR-20 Herb and formula knowledge — P0 (new)
-- Herb records carry 四氣 (signed warmth), 五味 → 五行, 歸經 → organs, functions, **panel effects** (benefit) and **burden weights** (harm), tags, pregnancy / interaction / toxicity flags, and sources. 704 herbs: 94 hand-curated for the MVP formulas, 610 machine-derived (labelled `derived`).
+- Herb records carry 四氣 (signed warmth), 五味 → 五行, 歸經 → organs, functions, **panel effects** (benefit) and **burden weights** (harm), tags, pregnancy / interaction / toxicity flags, and sources. 703 herbs: 94 hand-curated for the MVP formulas, 609 machine-derived (labelled `derived`).
 - Formula records carry herb roles and proportions (`effective weight = proportion × role weight`), the aggregate panel effect/burden, the flavour profile, the computed tier, and a verification record: **9** formulas verified against the classical text (amounts parsed), **18** against the source book, **6** partially (lost characters in the compilation, or herbs added later).
 - Data model and conventions in `data/README.md`.
 
@@ -254,11 +254,11 @@ The KB is **derived from real sources**, never authored from memory or generated
 | Area | Files | Records |
 |---|---|---|
 | Citations | `citations.json` | 127 verified quotations |
-| Herbs | `herbs/herbs.json`, `herb-index.json` | 704 (94 curated, 610 derived) |
+| Herbs | `herbs/herbs.json`, `herb-index.json` | 703 (94 curated, 609 derived) |
 | Formulas | `formulas/formulas.json` | 33 with roles, proportions, tiers, modifications, verification |
 | Diagnosis | `symptoms`, `patterns`, `pattern-elements`, `tongue`, `pulse`, `constitutions`, `red-flags`, `panel-schema` | 171 symptoms (incl. 32 tongue, 28 pulse), 23 patterns, 24 pattern elements, 9 constitutions, 28 red flags |
 | Five phases | `wuxing/correspondences`, `ganzhi`, `yunqi`, `susceptibility`, `engine-params` | parsed from 《素問》; exported from `packages/wuxing` |
-| Policy | `config/scope-profiles.json`, `safety/rules.json`, `treatment/guidance.json`, `glossary.json` | 2 profiles, 25 safety rules, 26 acupoints, 139 terms |
+| Policy | `config/scope-profiles.json`, `safety/rules.json`, `treatment/guidance.json`, `glossary.json` | 2 profiles, 25 safety rules, 31 acupoints, 139 terms |
 
 ### 8.3 Sources and licences
 `TCM-Library` (MIT), `TCM-Ancient-Books` (no licence: reference only, short quotations only), `tcm-mkg` (MIT, not yet used), Pharmacopoeia facts as structured data, and the project's own `packages/wuxing`. Non-commercial-only sources (ctext.org) are excluded from the shipped bundle (Q10). The author's earlier BaZi engine is a private repository and is **not** a dependency; the needed algorithm was re-implemented and verified against it numerically.
@@ -344,7 +344,7 @@ Design consequences: the questionnaire is adaptive; the engine exposes per-evide
 | Milestone | Content | Status |
 |---|---|---|
 | **M0 — Docs** | PRD ✔ · Diagnosis SOP ✔ (v0.2) · algorithm spec ✔ · **tech spec ✔ · UI/UX spec ✔ · KB schema ✔ · i18n guide ✔ · content review ✔ · safety policy ✔ · privacy ✔ · test plan ✔ · release process ✔ · contributing ✔ · task list ✔ · checklist ✔** | done — decisions recorded in §14.2–§14.3 |
-| **M1 — Knowledge base** | Reference ingestion, Traditional conversion, **built and validated first data set ✔** (127 quotes, 704 herbs, 33 formulas, 23 patterns, policy) | first pass done; review pending |
+| **M1 — Knowledge base** | Reference ingestion, Traditional conversion, **built and validated first data set ✔** (127 quotes, 703 herbs, 33 formulas, 23 patterns, policy) | first pass done; review pending |
 | **M2 — MVP app** | Responsive UI, bilingual, intake → engine → panel/report (dev builds; no public release) | not started (`packages/wuxing` ✔); see [`TASKS.md`](../TASKS.md) |
 | **M3 — Review & hardening** | Practitioner review ([process](content-review.md)), golden-case calibration, a11y/perf passes | blocked on Q8 |
 | **M4 — Beta** | Limited release, feedback loop, weight calibration | — |

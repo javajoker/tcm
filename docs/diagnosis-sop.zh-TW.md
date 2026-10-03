@@ -614,7 +614,7 @@ c = 已答核心題 / 核心題總數；  m = Pct₁ − Pct₂；  κ = Σ(w·q
 
 ### 12.2 方劑知識庫（君臣佐使與利弊權重）
 
-資料：[`data/formulas/formulas.json`](../data/formulas/formulas.json)（33 方）與 [`data/herbs/herbs.json`](../data/herbs/herbs.json)（704 味）。
+資料：[`data/formulas/formulas.json`](../data/formulas/formulas.json)（33 方）與 [`data/herbs/herbs.json`](../data/herbs/herbs.json)（703 味）。
 
 - **君臣佐使**：「主病之謂君，佐君之謂臣，應臣之謂使」（《素問·至真要大論》✔）。每味藥有角色與比例；**有效權重＝比例 × 角色權重**（君 1.0／臣 0.6／佐 0.35／使 0.15），再歸一。
 - **藥物的陰陽五行與臟腑利弊權重**：
@@ -683,7 +683,7 @@ c = 已答核心題 / 核心題總數；  m = Pct₁ − Pct₂；  κ = Σ(w·q
 
 ### 12.7 食療、穴位、生活（MVP 草案；皆待審核）
 
-資料：[`data/diagnosis/patterns.json`](../data/diagnosis/patterns.json) 的 `treatment` 與 [`data/treatment/guidance.json`](../data/treatment/guidance.json)（26 個穴位，含孕婦禁按標記：合谷、三陰交、血海、關元）。通則（《素問·上古天真論》✔）：「食飲有節，起居有常，不妄作勞」；「恬惔虛無，真氣從之，精神內守，病安從來」。四季調養依《素問·四氣調神大論》✔。
+資料：[`data/diagnosis/patterns.json`](../data/diagnosis/patterns.json) 的 `treatment` 與 [`data/treatment/guidance.json`](../data/treatment/guidance.json)（31 個穴位，含孕婦禁按標記：合谷、三陰交、血海、關元、至陰、崑崙、肩井、次髎、石門）。通則（《素問·上古天真論》✔）：「食飲有節，起居有常，不妄作勞」；「恬惔虛無，真氣從之，精神內守，病安從來」。四季調養依《素問·四氣調神大論》✔。
 
 | 證型 | 食材（宜） | 自我按壓穴位 | 生活要點 |
 |---|---|---|---|

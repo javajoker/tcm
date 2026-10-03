@@ -1,23 +1,32 @@
-"""Integrity validation of data/*.json: references, vocabularies, numeric sanity. Exit code 1 on any error."""
+"""Validation of data/*.json: JSON Schema contract, cross-references, vocabularies and numeric sanity.
+
+`validate(load)` returns the list of problems (empty = valid) so tests can feed it mutated data; `main()` prints and returns the exit code.
+Checks fall into: 1 schema · 2 parameters · 3 identity and uniqueness · 4 cross-references · 5 formulas (composition, tier recomputation) ·
+6 patterns and elements · 7 examination data · 8 policy and safety · 9 provenance.
+"""
 from __future__ import annotations
 
 import json
 import sys
-from pathlib import Path
+from collections import Counter
+from typing import Callable
 
 from jsonschema import Draft202012Validator
 
-from .common import DATA
-from .schemas import SCHEMAS, SCHEMA_VERSION
+from .common import DATA, ROOT, submodule_commits
 from .curated import panel as panel_cfg
+from .schemas import SCHEMAS, SCHEMA_VERSION
 
 ORGANS = set(panel_cfg.ZANG) | set(panel_cfg.FU)
 CHANNELS = {"qi", "blood", "yin", "yang", "stasis"}
 LIUXIE = set(panel_cfg.LIUXIE)
 PRODUCTS = set(panel_cfg.PRODUCTS)
+PREG_ORDER = {"ok": 0, "ok-unreviewed": 1, "caution": 2, "avoid": 3}
+
+Loader = Callable[[str], dict]
 
 
-def load(rel: str):
+def load(rel: str) -> dict:
     return json.loads((DATA / rel).read_text(encoding="utf-8"))
 
 
@@ -32,11 +41,20 @@ def valid_target(t: str) -> bool:
     return t.split(".")[0] in ORGANS and t.split(".")[1] in CHANNELS if "." in t else False
 
 
-def main() -> int:
+def valid_template_target(t: str) -> bool:
+    """panel-schema nature_projection targets may use the `{organ}` placeholder."""
+    return valid_target(t.replace("{organ}", "肝"))
+
+
+def duplicates(values) -> list:
+    return [v for v, n in Counter(values).items() if n > 1]
+
+
+def validate(load: Loader = load, check_sources: bool = True) -> list[str]:
     errors: list[str] = []
     err = errors.append
 
-    # 1. JSON Schema contract: every file validates against data/schema/*.schema.json and carries the current schema version
+    # ── 1. JSON Schema contract ────────────────────────────────────────────
     for rel, (stem, _b, _t) in SCHEMAS.items():
         schema = json.loads((DATA / "schema" / f"{stem}.schema.json").read_text(encoding="utf-8"))
         data = load(rel)
@@ -47,18 +65,23 @@ def main() -> int:
             err(f"{rel}: schema violation at /{'/'.join(str(p) for p in e.absolute_path)}: {e.message[:160]}")
         if len(problems) > 6:
             err(f"{rel}: … and {len(problems) - 6} more schema violations")
+    if errors:       # later checks assume the shapes are right
+        return errors
 
     cit = load("citations.json")
     cit_ids = {c["id"] for c in cit["items"]}
     if cit["_meta"]["unverified"]:
         err(f"unverified citations: {cit['_meta']['unverified']}")
+    if any(not c["verified"] for c in cit["items"]):
+        err("citations: every item must have verified = true")
 
+    # ── 2. parameters ──────────────────────────────────────────────────────
     params = load("diagnosis/scoring-params.json")
     sev, qual = params["severity"], params["quality"]
     if not (0 < sev["light"] <= sev["moderate"] <= sev["severe"] <= 1 and sev["ungraded"] == sev["severe"]):
         err("scoring-params: severity factors must satisfy 0 < light ≤ moderate ≤ severe ≤ 1 and ungraded = severe")
-    if set(qual["by_source"]) != {"inquiry", "measured", "guided", "pulse"} or not all(0 < v <= 1 for v in qual["by_source"].values()):
-        err("scoring-params: quality needs inquiry/measured/guided/pulse coefficients in (0, 1]")
+    if not all(0 < v <= 1 for v in qual["by_source"].values()):
+        err("scoring-params: quality coefficients must be in (0, 1]")
     if not set(qual["by_prefix"].values()) <= set(qual["by_source"]) or qual["default_source"] not in qual["by_source"]:
         err("scoring-params: quality prefix or default source is not a known source")
     bands = params["pattern"]["bands"]
@@ -69,46 +92,80 @@ def main() -> int:
             and conf["high"]["coverage"] >= conf["medium"]["coverage"]):
         err("scoring-params: confidence thresholds must be non-increasing from high to low")
     roles = params["formula"]["role_weights"]
-    if not (set(roles) == {"君", "臣", "佐", "使"} and roles["君"] > roles["臣"] > roles["佐"] > roles["使"] > 0):
+    if not (roles["君"] > roles["臣"] > roles["佐"] > roles["使"] > 0):
         err("scoring-params: role weights must satisfy 君 > 臣 > 佐 > 使 > 0")
     if params["panel"]["noisy_or_floor"] < 0 or params["panel"]["degree_max"] <= 0:
         err("scoring-params: invalid panel floor or degree_max")
-    if params["quality"]["by_source"]["pulse"] != load("diagnosis/pulse.json")["_meta"]["guidance"]["quality_coefficient"]:
+    pulse = load("diagnosis/pulse.json")
+    if qual["by_source"]["pulse"] != pulse["_meta"]["guidance"]["quality_coefficient"]:
         err("pulse.json quality coefficient differs from scoring-params")
+    scope = load("config/scope-profiles.json")
+    for pname, prof in scope["profiles"].items():
+        if prof["tongue_pulse"]["pulse_quality_coefficient"] != qual["by_source"]["pulse"]:
+            err(f"profile {pname}: pulse_quality_coefficient differs from scoring-params")
 
+    # ── 3. identity and uniqueness ─────────────────────────────────────────
     herbs = load("herbs/herbs.json")["items"]
+    formulas = load("formulas/formulas.json")["items"]
+    symptoms = load("diagnosis/symptoms.json")["items"]
+    patterns = load("diagnosis/patterns.json")["items"]
+    elements = load("diagnosis/pattern-elements.json")["items"]
+    constitutions = load("diagnosis/constitutions.json")["items"]
+    red_flags = load("diagnosis/red-flags.json")["items"]
+    rules = load("safety/rules.json")
+    glossary = load("glossary.json")["items"]
+    for label, items in (("citation", cit["items"]), ("herb", herbs), ("formula", formulas), ("symptom", symptoms), ("pattern", patterns), ("element", elements),
+                         ("constitution", constitutions), ("red flag", red_flags), ("safety rule", rules["rules"])):
+        for d in duplicates(i["id"] for i in items):
+            err(f"duplicate {label} id {d}")
+    for d in duplicates((g["zh-Hant"], g["domain"]) for g in glossary):
+        err(f"duplicate glossary term {d}")
+    for d in duplicates(h["name"]["zh-Hant"] for h in herbs):
+        err(f"duplicate herb name {d}")
     herb_ids = {h["id"] for h in herbs}
+    formula_ids = {f["id"] for f in formulas}
+    sym_ids = {s["id"] for s in symptoms}
+    pattern_ids = {p["id"] for p in patterns}
+    element_ids = {e["id"] for e in elements}
+    constitution_ids = {c["id"] for c in constitutions}
+
+    # ── 4. herbs ───────────────────────────────────────────────────────────
     index = load("herbs/herb-index.json")["index"]
     for name, hid in index.items():
         if hid not in herb_ids:
             err(f"herb-index {name} → missing {hid}")
     for h in herbs:
+        if index.get(h["name"]["zh-Hant"]) != h["id"]:
+            err(f"herb {h['id']}: its name {h['name']['zh-Hant']} is not in the herb index")
+        for a in h.get("aliases", []):
+            if index.get(a) != h["id"]:
+                err(f"herb {h['id']}: alias {a} is not in the herb index")
         for k in list(h["effects"]) + list(h["harms"]):
             if not valid_target(k):
                 err(f"herb {h['id']}: invalid panel target {k}")
         for o in h["organs"]:
             if o not in ORGANS and o not in ("心包", "三焦"):
                 err(f"herb {h['id']}: unknown organ {o!r}")
-        if h["pregnancy"] not in ("avoid", "caution", "ok", "ok-unreviewed"):
-            err(f"herb {h['id']}: bad pregnancy {h['pregnancy']}")
+    herbs_by_id = {h["id"]: h for h in herbs}
+    interaction_vocab = {i for h in herbs for i in h["interactions"]}
 
-    formulas = load("formulas/formulas.json")["items"]
-    formula_ids = {f["id"] for f in formulas}
-    symptoms = load("diagnosis/symptoms.json")["items"]
-    sym_ids = {s["id"] for s in symptoms}
-    patterns = load("diagnosis/patterns.json")["items"]
-    pattern_ids = {p["id"] for p in patterns}
-
+    # ── 5. formulas ────────────────────────────────────────────────────────
+    strong = set(params["tier"]["strong_herbs"])
+    for sh in strong:
+        if sh not in herb_ids:
+            err(f"scoring-params: strong herb {sh} does not exist")
     for f in formulas:
         if abs(sum(c["proportion"] for c in f["composition"]) - 1) > 1e-3:
             err(f"{f['id']}: proportions do not sum to 1")
         if abs(sum(c["effective_weight"] for c in f["composition"]) - 1) > 1e-3:
             err(f"{f['id']}: effective weights do not sum to 1")
+        for d in duplicates(c["herb"] for c in f["composition"]):
+            err(f"{f['id']}: herb {d} appears twice")
         for c in f["composition"]:
             if c["herb"] not in herb_ids:
                 err(f"{f['id']}: missing herb {c['herb']}")
-            if c["role"] not in "君臣佐使":
-                err(f"{f['id']}: bad role {c['role']}")
+            if abs(c["role_weight"] - roles[c["role"]]) > 1e-9:
+                err(f"{f['id']}: role weight of {c['herb']} differs from scoring-params")
         if not any(c["role"] == "君" for c in f["composition"]):
             err(f"{f['id']}: no sovereign herb")
         for s in f["core_indications"]:
@@ -132,9 +189,26 @@ def main() -> int:
         for rc in f["rationale_citations"]:
             if rc not in cit_ids:
                 err(f"{f['id']}: unknown citation {rc}")
-        if f["tier"] not in "ABC":
-            err(f"{f['id']}: bad tier")
+        # tier recomputation from the herbs (independent of build_formulas): the engine does the same (tech spec §7.3 rule 5)
+        comp = [(c["effective_weight"], herbs_by_id.get(c["herb"])) for c in f["composition"]]
+        if all(h is not None for _, h in comp):
+            bitter = sum(w for w, h in comp if params["tier"]["bitter_cold_tag"] in h["tags"])
+            activating = sum(w for w, h in comp if params["tier"]["activating_tag"] in h["tags"])
+            flagged = any(params["tier"]["aristolochic_flag"] in h["interactions"] for _, h in comp)
+            if any(c["herb"] in strong for c in f["composition"]) or bitter >= params["tier"]["c_bitter_cold_share"] or f["mvp"] is False:
+                expected = "C"
+            elif activating >= params["tier"]["b_activating_share"] or flagged:
+                expected = "B"
+            else:
+                expected = "A"
+            if f["tier"] != expected:
+                err(f"{f['id']}: stored tier {f['tier']} but the herbs give {expected}")
+            worst = max((h["pregnancy"] for _, h in comp), key=lambda p: PREG_ORDER[p])
+            if f["pregnancy"] != worst:
+                err(f"{f['id']}: stored pregnancy {f['pregnancy']} but the herbs give {worst}")
 
+    # ── 6. patterns and elements ───────────────────────────────────────────
+    acu = load("treatment/guidance.json")["acupoints"]
     for p in patterns:
         for fid in p["formulas"]:
             if fid not in formula_ids:
@@ -147,21 +221,72 @@ def main() -> int:
         for k in p["panel_projection_per_degree"]:
             if not valid_target(k):
                 err(f"pattern {p['id']}: invalid projection target {k}")
-        if not p["required_any"]:
-            err(f"pattern {p['id']}: no required_any")
-
-    acu = load("treatment/guidance.json")["acupoints"]
-    for p in patterns:
+        for s in list(p["weights"]) + list(p["against"]) + p["required_any"]:
+            if s not in sym_ids:
+                err(f"pattern {p['id']}: unknown symptom {s}")
+        for s in p["required_any"]:
+            if s not in p["weights"]:
+                err(f"pattern {p['id']}: required_any symptom {s} has no weight")
+        if set(p["weights"]) & set(p["against"]):
+            err(f"pattern {p['id']}: a symptom is both evidence for and against")
+        if p["max_score"] != sum(p["weights"].values()):
+            err(f"pattern {p['id']}: max_score {p['max_score']} ≠ Σ weights {sum(p['weights'].values())}")
+        for e in p["elements"]:
+            if e not in element_ids:
+                err(f"pattern {p['id']}: unknown element {e}")
+            elif p["id"] not in next(x for x in elements if x["id"] == e)["patterns"]:
+                err(f"pattern {p['id']} lists element {e} which does not list it back")
         for a in p["treatment"]["acupoints"]:
             if a not in acu:
                 err(f"pattern {p['id']}: unknown acupoint {a}")
+    for e in elements:
+        for pid in e["patterns"]:
+            if pid not in pattern_ids:
+                err(f"element {e['id']}: unknown pattern {pid}")
+        for s in list(e["weights"]) + list(e["against"]):
+            if s not in sym_ids:
+                err(f"element {e['id']}: unknown symptom {s}")
+        for k in e["projection_per_degree"]:
+            if not valid_target(k):
+                err(f"element {e['id']}: invalid projection target {k}")
+    for c in constitutions:
+        for s in c["features"]:
+            if s not in sym_ids:
+                err(f"constitution {c['id']}: unknown symptom {s}")
 
-    rules = load("safety/rules.json")
-    for r in rules["rules"]:
-        if "citation" in r and r["citation"] not in cit_ids:
-            err(f"rule {r['id']}: unknown citation {r['citation']}")
+    # ── 7. examination data ────────────────────────────────────────────────
+    tongue = load("diagnosis/tongue.json")
+    zone_ids = {z["id"] for z in tongue["zones"]}
+    sym_by_id = {s["id"]: s for s in symptoms}
+    tongue_syms = {s["id"] for s in symptoms if s["kind"] == "tongue"}
+    if {f["id"] for f in tongue["features"]} != tongue_syms:
+        err("tongue.json features and the tongue symptoms of symptoms.json differ")
+    for f in tongue["features"]:
+        if f["zone"] != "all" and f["zone"] not in zone_ids:
+            err(f"tongue feature {f['id']}: unknown zone {f['zone']}")
+        s = sym_by_id.get(f["id"])
+        if s and s.get("tongue", {}).get("zone") != f["zone"]:
+            err(f"tongue feature {f['id']}: zone differs between tongue.json and symptoms.json")
+    pulse_syms = {s["id"] for s in symptoms if s["kind"] == "pulse"}
+    if {p["id"] for p in pulse["pulses"]} != pulse_syms:
+        err("pulse.json pulses and the pulse symptoms of symptoms.json differ")
+    for group in pulse["_meta"]["exclusive_groups"]:
+        for pid in group:
+            if pid not in pulse_syms:
+                err(f"pulse exclusive group: unknown pulse {pid}")
+    if tongue["_meta"]["zone_citation"] not in cit_ids:
+        err("tongue.json: unknown zone citation")
+    panel = load("diagnosis/panel-schema.json")
+    for nature, targets in panel["nature_projection"].items():
+        for t in targets:
+            if not valid_template_target(t):
+                err(f"panel-schema nature {nature}: invalid target {t}")
+    for loc, organs in panel["location_organs"].items():
+        for o in organs:
+            if o not in ORGANS:
+                err(f"panel-schema location {loc}: unknown organ {o}")
 
-    scope = load("config/scope-profiles.json")
+    # ── 8. policy and safety ───────────────────────────────────────────────
     dims, levels = scope["dimensions"], scope["levels"]
     for pname, prof in scope["profiles"].items():
         for dim, keys in dims.items():
@@ -176,11 +301,57 @@ def main() -> int:
         for k in keys:
             if dev[dim][k]["level"] != "L3":
                 err(f"dev profile must open everything: {dim}.{k} is {dev[dim][k]['level']}")
-            if dev[dim][k]["notice"] != rel[dim][k]["notice"] and rel[dim][k]["notice"] == "blocking_ack" and dev[dim][k]["notice"] != "blocking_ack":
+            if rel[dim][k]["notice"] == "blocking_ack" and dev[dim][k]["notice"] != "blocking_ack":
                 err(f"dev profile must keep the blocking notice for {dim}.{k}")
     if scope["resolution"]["flow"] != "continue":
         err("flow must be 'continue'")
+    if rel["safety_enforcement"] != "suppress_hard" or dev["safety_enforcement"] != "annotate_only":
+        err("release must use suppress_hard and dev annotate_only")
+    for flag, value in dev["features"].items():
+        if value is not True:
+            err(f"dev profile must enable feature {flag}")
 
+    for r in rules["rules"]:
+        if "citation" in r and r["citation"] not in cit_ids:
+            err(f"rule {r['id']}: unknown citation {r['citation']}")
+        a, t = r["applies_to"], r["target"]
+        for dim, field in (("population", "population"), ("condition", "condition"), ("state", "state")):
+            for k in a.get(field, []):
+                if k not in dims[dim]:
+                    err(f"rule {r['id']}: unknown {dim} {k}")
+        for c in a.get("constitution", []):
+            if c not in constitution_ids:
+                err(f"rule {r['id']}: unknown constitution {c}")
+        if "formula_tier" in t and not set(t["formula_tier"]) <= {"A", "B", "C"}:
+            err(f"rule {r['id']}: bad formula tier {t['formula_tier']}")
+        if "herb_pregnancy" in t and t["herb_pregnancy"] not in ("avoid", "caution"):
+            err(f"rule {r['id']}: bad herb_pregnancy {t['herb_pregnancy']}")
+        if "herb_interaction" in t and t["herb_interaction"] not in interaction_vocab:
+            err(f"rule {r['id']}: herb_interaction {t['herb_interaction']} matches no herb")
+        if "acupoints" in t:
+            for pt in t["acupoints"]:
+                if pt not in acu:
+                    err(f"rule {r['id']}: unknown acupoint {pt}")
+        if "flavor_share_over" in t and t["flavor_share_over"] != params["safety"]["flavor_excess_share"]:
+            err(f"rule {r['id']}: flavor_share_over differs from scoring-params")
+    for pt in rules["pregnancy_acupoints"]:
+        if pt not in acu:
+            err(f"pregnancy acupoint {pt} is not in the acupoint registry")
+        elif not acu[pt]["pregnancy_avoid"]:
+            err(f"acupoint {pt} is listed as a pregnancy acupoint but not flagged pregnancy_avoid")
+    for name, pt in acu.items():
+        if pt["pregnancy_avoid"] and name not in rules["pregnancy_acupoints"]:
+            err(f"acupoint {name} is flagged pregnancy_avoid but missing from safety/rules.json pregnancy_acupoints")
+    for c in load("treatment/guidance.json")["general"]["source"]:
+        if c not in cit_ids:
+            err(f"treatment guidance: unknown citation {c}")
+    susc = load("wuxing/susceptibility.json")
+    for c in susc["citations"]:
+        if c not in cit_ids:
+            err(f"susceptibility: unknown citation {c}")
+    for c in susc["risk"]:
+        if c not in constitution_ids:
+            err(f"susceptibility: unknown constitution {c}")
     yunqi = load("wuxing/yunqi.json")
     if len(yunqi["min_bing_excerpts"]) != 10:
         err("yunqi: expected 10 民病 excerpts")
@@ -188,11 +359,30 @@ def main() -> int:
         if v["citation"] not in cit_ids:
             err(f"yunqi {k}: unknown citation")
 
-    herb_status = {}
-    for h in herbs:
-        herb_status[h["status"]] = herb_status.get(h["status"], 0) + 1
-    print(f"validate: {len(herbs)} herbs {herb_status}, {len(formulas)} formulas, {len(patterns)} patterns, {len(symptoms)} symptoms, "
-          f"{len(cit_ids)} citations, {len(rules['rules'])} safety rules")
+    # ── 9. provenance ──────────────────────────────────────────────────────
+    if check_sources:
+        pins = submodule_commits()
+        lib = pins.get("TCM-Library")
+        if lib:
+            for f in formulas:
+                if f["kb_commit"] != lib:
+                    err(f"{f['id']}: kb_commit {f['kb_commit'][:8]} ≠ pinned TCM-Library {lib[:8]}")
+            for h in herbs:
+                if h["source"]["repo"] == "TCM-Library" and h["source"]["commit"] != lib:
+                    err(f"herb {h['id']}: source commit ≠ pinned TCM-Library")
+        for c in cit["items"]:
+            if not (ROOT / c["source_path"]).exists():
+                err(f"citation {c['id']}: source file {c['source_path']} not found (submodules checked out?)")
+    return errors
+
+
+def main() -> int:
+    errors = validate()
+    herbs = load("herbs/herbs.json")["items"]
+    herb_status = Counter(h["status"] for h in herbs)
+    print(f"validate: {len(herbs)} herbs {dict(herb_status)}, {len(load('formulas/formulas.json')['items'])} formulas, "
+          f"{len(load('diagnosis/patterns.json')['items'])} patterns, {len(load('diagnosis/symptoms.json')['items'])} symptoms, "
+          f"{len(load('citations.json')['items'])} citations, {len(load('safety/rules.json')['rules'])} safety rules")
     if errors:
         print(f"VALIDATION FAILED ({len(errors)}):")
         for e in errors:

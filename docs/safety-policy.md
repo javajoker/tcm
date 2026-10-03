@@ -168,7 +168,7 @@ After formulas are matched (SOP step 10) and before explanation (step 12), `safe
 | Balance | `R_FLAVOR_EXCESS` | A single flavour > 55 % of effective weight |
 | State | `R_LOW_CONFIDENCE` | L0 under low confidence or insufficient information |
 
-Known limits to state to reviewers: the 十九畏 list is textbook (unverified); interaction flags on 610 derived herbs are rule-derived; classes are coarse; the filter cannot judge doses; free-text medications are not checked.
+Known limits to state to reviewers: the 十九畏 list is textbook (unverified); interaction flags on 609 derived herbs are rule-derived; classes are coarse; the filter cannot judge doses; free-text medications are not checked.
 
 ### 6.3 Properties that must always hold (property-tested)
 

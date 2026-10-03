@@ -255,9 +255,9 @@ Measured on the current `data/` (minified JSON, gzip):
 | `formulas` | 33 formulas | on first result | ≈ 19 KB | 30 KB |
 | `herbs-core` | the 94 curated herbs, reduced to the fields needed (id, names, effects, harms, flags, role display) | when the profile can reach L2 and a result is shown | ≈ 14 KB | 25 KB |
 | `citations` | 127 quotations | first time a citation chip opens or the result renders | ≈ 7 KB | 15 KB |
-| `herbs-ext` | the 610 derived herbs | only the P2 knowledge browser (dev) | ≈ 60 KB | lazy only |
+| `herbs-ext` | the 609 derived herbs | only the P2 knowledge browser (dev) | ≈ 60 KB | lazy only |
 
-Total KB currently **≈ 143 KB gzip** for everything including all 704 herbs. With pruning (§5.3) a **release** session fetches roughly **55–65 KB gzip**
+Total KB currently **≈ 143 KB gzip** for everything including all 703 herbs. With pruning (§5.3) a **release** session fetches roughly **55–65 KB gzip**
 (core, tier-A formulas without amounts, citations; no herb records), a **dev** session about 100 KB (plus `herbs-ext` on demand). The 975 KB `herbs.json` is never shipped whole. Per-chunk budgets are asserted by `bundle-data.ts` (fails the build on overrun).
 
 ### 5.3 Profile pruning

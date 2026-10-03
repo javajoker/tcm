@@ -19,7 +19,7 @@ Needs Node ≥ 22.18 for the one TypeScript export step (`scripts/kb/export_wuxi
 | File | Records | What it holds | Built from |
 |---|---:|---|---|
 | `citations.json` | 127 | Quotation registry (id, book, chapter, zh-Hant and source-script text, source path). **Every quote is machine-checked against the source text** (`verified: true`). Ids: `suwen-005-1`, `shanghan-035` … | TCM-Library raw text, TCM-Ancient-Books |
-| `herbs/herbs.json` | 704 | Herb model: 四氣 (signed warmth), 五味→五行, 歸經 organs, functions, **panel effects**, **burden weights (利弊)**, tags, pregnancy / interaction / toxicity flags | TCM-Library (Pharmacopoeia 2025 + textbook entries) → derived rules; 94 curated herbs override |
+| `herbs/herbs.json` | 703 | Herb model: 四氣 (signed warmth), 五味→五行, 歸經 organs, functions, **panel effects**, **burden weights (利弊)**, tags, pregnancy / interaction / toxicity flags | TCM-Library (Pharmacopoeia 2025 + textbook entries) → derived rules; 94 curated herbs override |
 | `herbs/herb-index.json` | 714 | zh-Hant name / alias → herb id | same |
 | `formulas/formulas.json` | 33 | Formulas: composition with 君臣佐使 roles and proportions, aggregate panel effect and burden, flavour profile, computed tier A/B/C, pregnancy and interaction flags, modifications (加減), verification record | curated + verified against the classics |
 | `diagnosis/symptoms.json` | 171 | 12-dimension symptom registry + 32 tongue features + 28 pulses (zh-Hant / English) | curated |
@@ -38,7 +38,7 @@ Needs Node ≥ 22.18 for the one TypeScript export step (`scripts/kb/export_wuxi
 | `wuxing/engine-params.json` | — | Default engine / profile / transmission parameters | exported from `packages/wuxing` |
 | `config/scope-profiles.json` | 2 profiles | **Application configuration**: output levels L0–L3, `dev` (everything open) and `release` (restricted) profiles, notice policy | curated |
 | `safety/rules.json` | 25 rules | Safety filter rules per population / condition / state / medication class, 十八反・十九畏, pregnancy acupoints, reference amounts | curated |
-| `treatment/guidance.json` | 26 points | Acupoint registry (WHO code, meridian, pregnancy flag) and general lifestyle text | curated |
+| `treatment/guidance.json` | 31 points | Acupoint registry (WHO code, meridian, pregnancy flag) and general lifestyle text | curated |
 | `schema/*.schema.json` | 22 | **JSON Schemas** (draft 2020-12) for every data file; the contract validated in the build and the source of the TypeScript types | `scripts/kb/schemas.py` |
 | `glossary.json` | 139 | zh-Hant ⇄ English ⇄ pinyin (needs review) | curated |
 
@@ -85,11 +85,12 @@ Every herb carries `source.path` and the submodule commit; every formula carries
 - Five-phase correspondences and the 民病 excerpts are parsed from the original, not transcribed.
 - Pattern self-test: each of the 23 patterns ranks first for its own typical patient. Smallest margins (need discriminating questions):
   EX2 vs EX4 (both 桂枝湯 patterns; 3 points), HT2 vs KD1 (11), LG1 vs EX4 (5).
-- Pharmacopoeia facts are used as structured data (`derived` herbs: 610) and **have not been reviewed**.
+- Pharmacopoeia facts are used as structured data (`derived` herbs: 609) and **have not been reviewed**.
 
 ### Data-quality findings in the sources (kept visible)
 
 - `TCM-Library` entry `shenqiwan_001`: its 原文 begins with an unrelated 血痹 passage; the 腎氣丸 composition is parsed from 《金匱要略》 (raw `jingui_22`) instead.
+- 穿山甲 appears twice in TCM-Library (the Pharmacopoeia 2025 entry and the textbook's non-Pharmacopoeia list); the build keeps the Pharmacopoeia entry and notes the dropped one in `data_quality` (found by the duplicate-name check, task K-03).
 - A few Pharmacopoeia rows list a temperature word inside 五味 (`wuwei`); these are ignored and recorded in `herbs[].data_quality`.
 - `TCM-Ancient-Books` is GB18030 Simplified Chinese with occasional dropped characters (e.g. 芪 in “黃芪”), which is why composition checks can report partial matches.
 

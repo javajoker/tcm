@@ -111,7 +111,14 @@
     "ungraded": 1.0
   },
   "tier": {
+    "activating_tag": "活血",
+    "aristolochic_flag": "aristolochic-risk",
     "b_activating_share": 0.1,
-    "c_bitter_cold_share": 0.45
+    "bitter_cold_tag": "苦寒",
+    "c_bitter_cold_share": 0.45,
+    "strong_herbs": [
+      "herb-mahuang",
+      "herb-fuzi"
+    ]
   }
 }

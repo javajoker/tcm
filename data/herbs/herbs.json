@@ -32,13 +32,13 @@
       "harms": "burden weights, same units; negative lowers the named channel (e.g. 脾.yang −0.25)",
       "temperature": "signed warmth: 大寒 −3, 寒 −2, 微寒 −1, 涼 −1, 平 0, 微溫 +0.5, 溫 +1, 熱 +2, 大熱 +3"
     },
-    "count": 704,
+    "count": 703,
     "description": "Herb knowledge base: structured source properties plus the derived yin-yang / five-phase / organ model.",
     "licence_note": "Pharmacopoeia-derived facts (properties, functions, cautions) are used as structured data; whole source text is not redistributed.",
     "schema": 1,
     "status_counts": {
       "curated-draft": 94,
-      "derived": 610
+      "derived": 609
     }
   },
   "items": [
@@ -4780,7 +4780,9 @@
         "仙方活命飲",
         "湧泉散"
       ],
-      "data_quality": [],
+      "data_quality": [
+        "duplicate source entry chuanshanjia_001 (《中藥學》（清華社）· 藥典外品種) dropped in favour of this one"
+      ],
       "dose_g_reference": [
         3.0,
         9.0
@@ -5143,58 +5145,6 @@
       "status": "derived",
       "tags": [],
       "temperature": 0.0,
-      "toxic": false
-    },
-    {
-      "category": "活血化瘀藥",
-      "caution": "穿山甲為國家一級保護野生動物，2020 年版《中國藥典》已將其除名，禁止貿易與臨床使用**；臨床以豬蹄甲、王不留行等替代",
-      "classical_formulas": [
-        "仙方活命飲"
-      ],
-      "data_quality": [],
-      "dose_g_reference": null,
-      "effects": {
-        "product.瘀": -0.5
-      },
-      "flavors": [
-        {
-          "element": "水",
-          "flavor": "鹹",
-          "weight": 1.0
-        }
-      ],
-      "functions": [
-        "活血消癥",
-        "通經下乳",
-        "消腫排膿"
-      ],
-      "harms": {},
-      "id": "herb-chuanshanjia",
-      "interactions": [],
-      "latin": "Manis pentadactyla",
-      "name": {
-        "en": null,
-        "zh-Hant": "穿山甲"
-      },
-      "organs": [
-        "肝",
-        "胃"
-      ],
-      "pregnancy": "caution",
-      "siqi": [
-        "微寒"
-      ],
-      "slug": "chuanshanjia",
-      "source": {
-        "book": "《中藥學》（清華社）· 藥典外品種",
-        "commit": "7f2a183a29a226d7e49b407caebd09ee1c8484dc",
-        "entry_id": "chuanshanjia_001",
-        "path": "reference/sources/TCM-Library/library/zhongyao/huoxuehuayu/chuanshanjia/chuanshanjia_001.md",
-        "repo": "TCM-Library"
-      },
-      "status": "derived",
-      "tags": [],
-      "temperature": -1.0,
       "toxic": false
     },
     {

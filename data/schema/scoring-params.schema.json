@@ -568,16 +568,36 @@
     "tier": {
       "additionalProperties": false,
       "properties": {
+        "activating_tag": {
+          "type": "string"
+        },
+        "aristolochic_flag": {
+          "type": "string"
+        },
         "b_activating_share": {
           "type": "number"
         },
+        "bitter_cold_tag": {
+          "type": "string"
+        },
         "c_bitter_cold_share": {
           "type": "number"
+        },
+        "strong_herbs": {
+          "items": {
+            "$ref": "#/$defs/herbId"
+          },
+          "minItems": 1,
+          "type": "array"
         }
       },
       "required": [
+        "activating_tag",
+        "aristolochic_flag",
         "b_activating_share",
-        "c_bitter_cold_share"
+        "bitter_cold_tag",
+        "c_bitter_cold_share",
+        "strong_herbs"
       ],
       "type": "object"
     }

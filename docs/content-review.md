@@ -51,7 +51,7 @@ One person may hold several roles if qualified; the physician and the TCM clinic
 | **Tongue and pulse** | `tongue.json`, `pulse.json` | Zone assignments (classical vs textbook), feature meanings, quality coefficients, the educational note | TCM clinical |
 | **Constitutions** | `constitutions.json`, `constitution-items.json` (planned), `susceptibility.json` | Feature lists, susceptibility values, items and scoring | TCM clinical |
 | **Panel model** | `panel-schema.json`, nature projection, `scoring-params.json` (planned) | Projection per nature, dimension weights, thresholds, noisy-OR floor, confidence cut-offs | TCM clinical (with developer present) |
-| **Herbs** | `herbs/herbs.json` | `effects`, `harms`, `tags`, `pregnancy`, `toxic`, `interactions`, `dose_g_reference` — for the 94 curated herbs in full; the 610 derived herbs by **sampling** (§4.3) and by rule review | Pharmacy + TCM clinical |
+| **Herbs** | `herbs/herbs.json` | `effects`, `harms`, `tags`, `pregnancy`, `toxic`, `interactions`, `dose_g_reference` — for the 94 curated herbs in full; the 609 derived herbs by **sampling** (§4.3) and by rule review | Pharmacy + TCM clinical |
 | **Formulas** | `formulas/formulas.json` | Composition, roles, proportions, `core_indications`, pattern links, classical modifications, computed tier outcome (does the tier match practice?) | TCM clinical + pharmacy |
 | **Treatment guidance** | `treatment/guidance.json`, pattern `treatment` | Foods, acupoints (location text, cautions), lifestyle advice, pregnancy cautions | TCM clinical + pharmacy |
 | **Five-phase priors** | `wuxing/*`, `engine-params.json`, wording of birth/yunqi/season copy | Reasonableness of caps and wording; that the content is framed as tendency reference | TCM clinical + regulatory |
@@ -78,7 +78,7 @@ For each area the content owner generates a **review pack** (`scripts/review/pac
 
 ### 4.3 Sampling the derived herbs
 
-The 610 derived herbs are produced by transparent rules (`herb_model.py`). They are reviewed by **(a) reviewing the rules** (organ, flavour, tag and burden rules) and **(b) a stratified sample**: ≥ 10 herbs per category (補虛, 清熱, 解表, 化痰, 活血, 利水 …), always including every herb flagged `toxic`, `avoid`, or `caution` in pregnancy. If more than 5 % of the sample needs a change, the rule is revised and the sample redrawn; individual corrections become `EFFECT_OVERRIDES` (curated).
+The 609 derived herbs are produced by transparent rules (`herb_model.py`). They are reviewed by **(a) reviewing the rules** (organ, flavour, tag and burden rules) and **(b) a stratified sample**: ≥ 10 herbs per category (補虛, 清熱, 解表, 化痰, 活血, 利水 …), always including every herb flagged `toxic`, `avoid`, or `caution` in pregnancy. If more than 5 % of the sample needs a change, the rule is revised and the sample redrawn; individual corrections become `EFFECT_OVERRIDES` (curated).
 
 ### 4.4 Calibration sessions (patterns, weights, thresholds)
 

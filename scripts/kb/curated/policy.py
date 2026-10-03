@@ -94,7 +94,7 @@ MINOR_DOSE_FRACTIONS = [
 ELDERLY_DOSE_FRACTION = "約 2/3（並注意肝腎功能；教材通則，未核對）"
 
 # Acupoints that are contraindicated in pregnancy (standard acupuncture teaching; unverified here)
-PREGNANCY_ACUPOINTS = ["合谷", "三陰交", "血海", "至陰", "崑崙", "肩井", "次髎", "石門"]
+PREGNANCY_ACUPOINTS = ["合谷", "三陰交", "血海", "關元", "至陰", "崑崙", "肩井", "次髎", "石門"]
 
 # 十八反 / 十九畏 (cited verse: 《本草便讀》 藻戟遂芫俱戰草，諸參辛芍叛藜蘆)
 SHIBAFAN = [

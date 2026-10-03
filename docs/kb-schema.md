@@ -135,7 +135,7 @@ The panel model: `organs.{zang, fu, element_of}`, `channels` (ranges), `liuxie` 
 
 ## 4. Herbs and formulas
 
-### 4.1 `herbs/herbs.json` — 704 herbs
+### 4.1 `herbs/herbs.json` — 703 herbs
 
 | Field | Type | Meaning |
 |---|---|---|
@@ -151,7 +151,7 @@ The panel model: `organs.{zang, fu, element_of}`, `channels` (ranges), `liuxie` 
 | `pregnancy` | `ok | ok-unreviewed | caution | avoid` | |
 | `toxic`, `interactions[]`, `caution`, `dose_g_reference` | bool, class ids, string, `[min,max]` g | Safety facts (Pharmacopoeia) |
 | `classical_formulas[]` | formula names | Where the herb appears in the classical corpus |
-| `status` | `curated-draft` (94) \| `derived` (610) | Derived = produced by transparent rules in `herb_model.py` |
+| `status` | `curated-draft` (94) \| `derived` (609) | Derived = produced by transparent rules in `herb_model.py` |
 | `source`, `data_quality[]` | provenance | `source.entry_id`, `path`, `commit`; known data problems |
 
 `herbs/herb-index.json` maps a zh-Hant name or alias → herb id (714 entries).
@@ -215,11 +215,11 @@ Every profile must define **every** dimension key (checked). `dev` must have lev
 | `citation?`, `condition?`, `reference?`, `note?` | Optional theory basis, extra predicate, textbook reference value |
 
 Also: `dose_references` (age fractions for minors, elderly note — never shown as advice), `incompatibilities` (十八反 and 十九畏 pair lists; the 十九畏 list is textbook, unverified),
-`pregnancy_acupoints[8]`. `_meta.clinical_review_required` lists what a practitioner must review.
+`pregnancy_acupoints[9]`. `_meta.clinical_review_required` lists what a practitioner must review.
 
 ### 6.3 `treatment/guidance.json`
 
-`acupoints{ zhName: { code (WHO), meridian, pregnancy_avoid } }` (26) · `general{ text, source[] }` · `food_pregnancy_caution[]`. Location text and illustrations are not yet included (§9).
+`acupoints{ zhName: { code (WHO), meridian, pregnancy_avoid } }` (31) · `general{ text, source[] }` · `food_pregnancy_caution[]`. Location text and illustrations are not yet included (§9).
 
 ### 6.4 `glossary.json` — 139 terms
 
@@ -248,19 +248,25 @@ Ids are **append-only**. A rename needs a new id plus an alias map so old saved 
 
 ## 8. Integrity rules and review status
 
-### 8.1 What `validate_kb.py` enforces today
+### 8.1 What `validate_kb.py` enforces
 
-Citations: every cited id exists; none unverified. Herbs: index entries resolve; every panel key is valid; every organ exists; `pregnancy` in the allowed set.
-Formulas: proportions and effective weights sum to 1; every herb exists; every role valid; at least one 君; every core indication is a known symptom; every linked pattern exists **and links back**;
-modification symptoms/herbs exist; rationale citations exist; `tier` in A/B/C. Patterns: every formula exists and links back; citations exist; projection targets valid; `required_any` non-empty;
-acupoints exist. Rules: citations exist. Profiles: every dimension key defined and valid; `dev` opens everything and keeps blocking notices; `flow` = `continue`.
-Yunqi: ten 民病 excerpts present with citations. After validation `selftest_patterns.py` checks that each of the 23 patterns ranks first for its own typical patient.
+`validate()` returns the problem list (the build fails on any); `scripts/kb/tests/test_integrity.py` feeds it corrupted copies of the data and asserts every kind of problem is reported.
 
-### 8.2 Additional checks required (tasks)
+1. **Schema** — every file validates against its JSON Schema and carries `_meta.schema` = the current version.
+2. **Parameters** — severity factors ordered; quality coefficients in (0, 1]; pattern bands high > medium > weak; confidence thresholds non-increasing; role weights 君 > 臣 > 佐 > 使; the pulse coefficient equals the one in `pulse.json` and in both profiles.
+3. **Identity** — unique ids in every collection; unique herb names and glossary terms; every herb name and alias is in the herb index.
+4. **Herbs** — every panel key valid; every organ known; index entries resolve.
+5. **Formulas** — proportions and effective weights sum to 1; no herb twice; role weights equal the parameter file; at least one 君; core indications, patterns (with back-links), modification symptoms/herbs and rationale citations exist; **stored tier and pregnancy level equal the values recomputed from the herbs**.
+6. **Patterns and elements** — every symptom id used in `weights`/`against`/`required_any` exists; `required_any ⊆ weights`; no symptom both for and against; `max_score = Σ weights`; formula and element links resolve and link back; citations and acupoints exist; projection targets valid; constitution features exist.
+7. **Examination data** — tongue features equal the tongue symptoms and their zones exist and agree; pulses equal the pulse symptoms; exclusive groups name real pulses; panel nature projections valid.
+8. **Policy and safety** — every profile defines every dimension key with valid levels and notices; `dev` is L3 everywhere, keeps every blocking notice, enables every feature and uses `annotate_only` (release: `suppress_hard`); `flow` = `continue`; rule `applies_to` values exist in the profile dimensions; rule targets use real vocabularies (tiers, pregnancy flags, interaction classes that occur in the herbs, known acupoints, the flavour-excess share equals the parameter); pregnancy acupoints are in the registry **and** flagged, and every flagged point is in the rule list; every citation id used anywhere exists; ten 民病 excerpts.
+9. **Provenance** — formula and herb `kb_commit`/`source.commit` equal the pinned TCM-Library commit; every citation's source file exists.
 
-JSON Schema validation of every file · symptom ids used in `weights`/`against`/`core_indications`/`features`/`required_any` all exist · exclusive pulse groups reference real pulses ·
-every `T_*` zone is a zone in `tongue.json` · `kb_commit` equals the pinned submodule commit · tier recomputed from composition equals stored tier (also asserted in the engine) ·
-unit tests for `herb_model` rules · a **forbidden-wording lint** on all user-visible zh-Hant/en strings ([i18n guide](i18n-guide.md)).
+After validation `selftest_patterns.py` checks that each of the 23 patterns ranks in the top 3 for its own typical patient.
+
+### 8.2 Still to add
+
+A **forbidden-wording lint** on all user-visible zh-Hant/en strings ([i18n guide](i18n-guide.md), task I-03); a check that no `溼` remains outside quotations (K-04); bilingual completeness report (K-13); question-bank coverage (K-05).
 
 ### 8.3 Review status
 

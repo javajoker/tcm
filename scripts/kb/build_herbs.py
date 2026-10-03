@@ -65,6 +65,25 @@ def parse_entries() -> list[dict]:
     return out
 
 
+def dedupe_by_name(herbs: list[dict]) -> list[dict]:
+    """One record per canonical name. Where the source lists the same herb twice (e.g. 穿山甲 in the Pharmacopoeia and again among the
+    non-Pharmacopoeia textbook herbs) keep the curated one, else the Pharmacopoeia entry, and note the dropped source on the survivor."""
+    def rank(h: dict) -> tuple:
+        return (h["status"] != "curated-draft", "藥典外" in h["source"]["book"], h["source"]["entry_id"])
+
+    groups: dict[str, list[dict]] = {}
+    for h in herbs:
+        groups.setdefault(h["name"]["zh-Hant"], []).append(h)
+    out = []
+    for name, group in groups.items():
+        group.sort(key=rank)
+        keep, dropped = group[0], group[1:]
+        for d in dropped:
+            keep["data_quality"].append(f"duplicate source entry {d['source']['entry_id']} ({d['source']['book']}) dropped in favour of this one")
+        out.append(keep)
+    return out
+
+
 def build() -> tuple[list[dict], dict[str, str]]:
     commits = submodule_commits()
     herbs: list[dict] = []
@@ -119,6 +138,8 @@ def build() -> tuple[list[dict], dict[str, str]]:
         if herb["name"]["zh-Hant"] == "黃耆":
             herb["aliases"] = ["黃芪"]
         herbs.append(herb)
+
+    herbs = dedupe_by_name(herbs)
 
     for x in EXTRA:
         herb = {

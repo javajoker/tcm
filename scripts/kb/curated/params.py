@@ -61,7 +61,10 @@ PARAMS = {
     },
 
     # SOP §12.3: tiers are COMPUTED from the herbs, never assigned.
-    "tier": {"c_bitter_cold_share": 0.45, "b_activating_share": 0.10},
+    # C: a strong herb, or bitter-cold herbs ≥ c_bitter_cold_share of the effective weight, or a formula outside the MVP (`mvp: false`).
+    # B: blood-activating herbs ≥ b_activating_share, or an herb carrying the aristolochic-acid flag. Else A.
+    "tier": {"c_bitter_cold_share": 0.45, "b_activating_share": 0.10, "strong_herbs": ["herb-mahuang", "herb-fuzi"],
+             "bitter_cold_tag": "苦寒", "activating_tag": "活血", "aristolochic_flag": "aristolochic-risk"},
 
     # SOP §13.2: R_FLAVOR_EXCESS
     "safety": {"flavor_excess_share": 0.55},

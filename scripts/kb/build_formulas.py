@@ -23,7 +23,7 @@ from .curated.herbs import NAME_TO_LIB
 
 ROLE_WEIGHT = PARAMS["formula"]["role_weights"]
 ROLE_CITATIONS = ["suwen-074-10", "suwen-074-11"]
-STRONG_HERB_SLUGS = {"mahuang", "fuzi"}
+STRONG_HERB_SLUGS = {h.removeprefix("herb-") for h in PARAMS["tier"]["strong_herbs"]}
 BITTER_COLD_SHARE_LIMIT = PARAMS["tier"]["c_bitter_cold_share"]
 ACTIVATING_SHARE_LIMIT = PARAMS["tier"]["b_activating_share"]
 PREG_ORDER = {"ok": 0, "ok-unreviewed": 1, "caution": 2, "avoid": 3}
@@ -197,15 +197,15 @@ def build(herbs_by_id: dict[str, dict], index: dict[str, str]) -> list[dict]:
         total_flavor = sum(flavor_share.values()) or 1.0
 
         slugs = {herbs_by_id[c["herb"]]["slug"] for c in comp}
-        bitter_cold_share = sum(c["effective_weight"] for c in comp if "苦寒" in herbs_by_id[c["herb"]]["tags"])
+        bitter_cold_share = sum(c["effective_weight"] for c in comp if PARAMS["tier"]["bitter_cold_tag"] in herbs_by_id[c["herb"]]["tags"])
         interactions = sorted({i for c in comp for i in herbs_by_id[c["herb"]]["interactions"]})
         preg = max((herbs_by_id[c["herb"]]["pregnancy"] for c in comp), key=lambda p: PREG_ORDER.get(p, 1))
         # Medication interactions are handled per patient by safety rules; the tier only encodes the formula's own risk.
-        activating_share = sum(c["effective_weight"] for c in comp if "活血" in herbs_by_id[c["herb"]]["tags"])
+        activating_share = sum(c["effective_weight"] for c in comp if PARAMS["tier"]["activating_tag"] in herbs_by_id[c["herb"]]["tags"])
         has_activating = activating_share >= ACTIVATING_SHARE_LIMIT
         if slugs & STRONG_HERB_SLUGS or bitter_cold_share >= BITTER_COLD_SHARE_LIMIT or f.get("mvp") is False:
             tier = "C"
-        elif has_activating or "aristolochic-risk" in interactions:
+        elif has_activating or PARAMS["tier"]["aristolochic_flag"] in interactions:
             tier = "B"
         else:
             tier = "A"

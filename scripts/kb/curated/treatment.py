@@ -12,6 +12,8 @@ ACUPOINTS = {
     "魚際": ("LU10", "肺經", False), "太溪": ("KI3", "腎經", False), "湧泉": ("KI1", "腎經", False), "腎俞": ("BL23", "膀胱經", False),
     "命門": ("GV4", "督脈", False), "血海": ("SP10", "脾經", True), "膈俞": ("BL17", "膀胱經", False), "風池": ("GB20", "膽經", False),
     "列缺": ("LU7", "肺經", False), "大椎": ("GV14", "督脈", False),
+    # points contraindicated in pregnancy that no pattern recommends (listed so the safety filter and the UI can name them)
+    "至陰": ("BL67", "膀胱經", True), "崑崙": ("BL60", "膀胱經", True), "肩井": ("GB21", "膽經", True), "次髎": ("BL32", "膀胱經", True), "石門": ("CV5", "任脈", True),
 }
 
 # pattern id → (foods, acupoints, lifestyle)
