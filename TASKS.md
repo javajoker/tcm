@@ -24,18 +24,18 @@
 | **A** Documentation | 18 | 18 |
 | **DEC** Decisions | 6 | 6 |
 | **K** Knowledge base | 8 | 20 |
-| **E** Engine and packages | 5 | 21 |
+| **E** Engine and packages | 6 | 21 |
 | **I** Internationalisation | 0 | 6 |
 | **U** Web application | 0 | 26 |
 | **Q** Quality assurance | 0 | 10 |
 | **R** Release and operations | 0 | 7 |
 | **V** Review (non-code) | 0 | 7 |
 | **PF** Performance (P2) | 0 | 3 |
-| **All** | **37** | **124** |
+| **All** | **38** | **124** |
 
 | Priority | Done | Total |
 |---|---:|---:|
-| P0 | 23 | 74 |
+| P0 | 24 | 74 |
 | P1 | 12 | 42 |
 | P2 | 2 | 8 |
 
@@ -124,7 +124,7 @@ Suggested waves: **1** foundation (E-01, K-01, K-02, I-01, U-01, R-01) → **2**
 | [x] | E-01 | Workspace scaffold: pnpm workspace, root scripts, `tsconfig.base.json`, ESLint (typescript-eslint, layering rules, `no-literal-strings` later), Prettier; adopt `@tcm/wuxing` into the workspace | P0 | M | — | `pnpm install && pnpm typecheck && pnpm test` green at the root |
 | [x] | E-02 | `@tcm/kb`: types generated from schemas (freshness check), `indexKnowledgeBase`, `loadKnowledgeBase`, manifest/version verification | P0 | L | E-01, K-02 | Loads the real `data/` in Node; mismatch refused; tests |
 | [x] | E-03 | `scripts/bundle-data.ts`: validate, profile pruning ([tech spec §5.3](docs/tech-spec.md)), chunking, hashing, manifest, per-chunk budgets | P0 | L | E-02 | Release bundle has no amounts/tier C/dev profile (tests); budgets enforced |
-| [ ] | E-04 | `@tcm/engine` types + `policy.ts` (resolution, merge, two-phase, suppressed record) with table-driven and property tests | P0 | L | E-02 | Full matrix of both profiles; properties P3, P4 |
+| [x] | E-04 | `@tcm/engine` types + `policy.ts` (resolution, merge, two-phase, suppressed record) with table-driven and property tests | P0 | L | E-02 | Full matrix of both profiles; properties P3, P4 |
 | [ ] | E-05 | `normalize.ts` (findings, quality classes, exclusions, coverage, κ) | P0 | M | E-02, K-06 | Unit tests; property P2, P9 |
 | [ ] | E-06 | `reference.ts` adapter over `@tcm/wuxing` (blocks, caps, trace, notes, season model) | P0 | M | E-01 | SOP §6.4 worked example reproduced; property P1 (reference part) |
 | [ ] | E-07 | `constitution.ts` (scores, primary/secondary, susceptibility × season) | P1 | M | K-08 | Unit tests |

@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 0.2 (draft) |
+| **Version** | 0.3 (draft) |
 | **Status** | Draft — **all clinical content and wording require physician, pharmacy and legal review before any public release** ([content review](content-review.md)) |
 | **Last updated** | 2026-10-04 |
 | **Audience** | Developers, content reviewers, whoever answers user reports |
@@ -107,6 +107,7 @@ Buttons: **我已了解，繼續** / *I understand — continue* (primary, one d
 | **N-ALLERGY-UNKNOWN** | free-text allergen we cannot match | 我們無法確認「{text}」是否出現在建議的成分中，請自行核對成分。 | We cannot confirm whether "{text}" appears in the suggested ingredients; please check the ingredients yourself. |
 | **N-ACUTE** | acute external-type presentation | 您目前的症狀像是剛起的外感。若發燒超過 3 天、體溫 ≥ 39 °C 或症狀加重，請就醫。 | Your symptoms look like a recent external illness. If fever lasts more than 3 days, reaches 39 °C or worsens, please see a doctor. |
 | **N-LOWCONF** | low confidence / insufficient information | 目前的資訊還不足以給出可靠的傾向，因此只提供生活建議與補問。 | There is not enough information yet for a reliable leaning, so only lifestyle suggestions and follow-up questions are shown. |
+| **N-CONFLICT** | contradictory answers (state `conflicting_data`) | 您的部分回答互相矛盾，結果的把握度因此降低；請在「您輸入的資料」中確認這些項目。 | Some of your answers contradict each other, so the result is less certain; please check them under "Your data". |
 | **N-SUPPRESSED** | any suppressed item | 部分內容因您的情況而未顯示。 | Some content is not shown because of your situation. |
 | **N-SELFOBS** | tongue / pulse used | 舌象與脈象屬自我觀察，在計算中的權重較低。 | Tongue and pulse are self-observed and count for less in the calculation. |
 | **N-PULSE-EDU** | pulse chosen | 脈象需要受過訓練的手指與大量練習才能穩定分辨。您填寫的脈象以較低權重參與計算，結果頁會標示；請勿僅憑自測脈象下結論，也不要因為摸不到而擔心。 | Feeling the pulse reliably takes trained fingers and a lot of practice. What you enter counts for less in the calculation and is marked in the result; please do not draw conclusions from a self-assessed pulse alone, and do not worry if you cannot feel it. |
@@ -238,3 +239,4 @@ Vignette suites in the [test plan §3.3](test-plan.md): every red-flag item, eve
 |---|---|---|
 | 0.1 | 2026-10-04 | Initial policy, notice catalogue (draft wording), filter semantics, incident process |
 | 0.2 | 2026-10-04 | Open-question defaults confirmed for the MVP (SQ1–SQ7) |
+| 0.3 | 2026-10-04 | Notice N-CONFLICT added (contradictory answers); notices of one id are merged (e.g. anticoagulant + other medication → one N-MED) |
