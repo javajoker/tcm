@@ -521,9 +521,11 @@ Testing method and scenarios are in the [test plan](test-plan.md).
 
 ## 15. Open design questions
 
-| # | Question | Default used |
+**Decided 2026-10-04:** every default below is confirmed for the MVP and will be revisited after the MVP is finished.
+
+| # | Question | Decision (MVP) |
 |---|---|---|
-| UQ1 | App name and logo | "TCM Self-Check" placeholder; neutral wordmark |
+| UQ1 | App name and logo | Working name **TCM Self-Check** / **中醫自我評估**; a neutral text wordmark (no logo artwork) until a final name is chosen after the MVP. The name lives in one i18n key (`common.app.name`) so it can change without touching components |
 | UQ2 | Show Pct anywhere outside details? | No (bands only) |
 | UQ3 | Tap-tempo pulse measurement in addition to the 30 s timer | Post-MVP |
 | UQ4 | Tongue illustration style: line art vs. soft fills; need for a second, photo-based reference set | Line art; photos only if a free licence is found |
