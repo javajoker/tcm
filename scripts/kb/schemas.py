@@ -219,7 +219,8 @@ def scoring_params() -> dict:
                  "wuxing_function": obj({"zang": NUM, "fu": NUM}),
                  "bagang": obj({"heat_divisor": NUM, "yang_deficit_weight": NUM, "yin_deficit_weight": NUM, "excess_divisor": NUM, "exterior_divisor": NUM,
                                 "yin_yang_axis_threshold": NUM})})
-    reconcile = obj({"merge_threshold": NUM, "max_patterns": INT, "mixed_threshold": NUM, "tie_margin": NUM,
+    reconcile = obj({"merge_threshold": NUM, "max_patterns": INT, "mixed_threshold": NUM, "tie_margin": NUM, "differential_symptoms": INT,
+                     "nature_groups": obj({"cold": arr(STR), "heat": arr(STR), "deficiency": arr(STR), "excess": arr(STR)}),
                      "confidence": obj({"high": obj({"pct1": NUM, "margin": NUM, "coverage": NUM, "kappa": NUM}), "medium": obj({"pct1": NUM, "margin": NUM, "coverage": NUM}),
                                         "low": obj({"pct1": NUM})})})
     formula = obj({"symptom_fit_min": NUM, "k_max": NUM, "strength_bands": obj({"light_below": NUM, "strong_above": NUM}),

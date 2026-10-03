@@ -527,6 +527,9 @@
           ],
           "type": "object"
         },
+        "differential_symptoms": {
+          "type": "integer"
+        },
         "max_patterns": {
           "type": "integer"
         },
@@ -536,15 +539,53 @@
         "mixed_threshold": {
           "type": "number"
         },
+        "nature_groups": {
+          "additionalProperties": false,
+          "properties": {
+            "cold": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "deficiency": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "excess": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "heat": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "cold",
+            "deficiency",
+            "excess",
+            "heat"
+          ],
+          "type": "object"
+        },
         "tie_margin": {
           "type": "number"
         }
       },
       "required": [
         "confidence",
+        "differential_symptoms",
         "max_patterns",
         "merge_threshold",
         "mixed_threshold",
+        "nature_groups",
         "tie_margin"
       ],
       "type": "object"

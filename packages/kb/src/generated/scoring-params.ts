@@ -97,9 +97,16 @@ export interface ScoringParams {
         pct1: number;
       };
     };
+    differential_symptoms: number;
     max_patterns: number;
     merge_threshold: number;
     mixed_threshold: number;
+    nature_groups: {
+      cold: string[];
+      deficiency: string[];
+      excess: string[];
+      heat: string[];
+    };
     tie_margin: number;
   };
   safety: {

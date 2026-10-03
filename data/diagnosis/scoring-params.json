@@ -97,9 +97,33 @@
         "pct1": 40.0
       }
     },
+    "differential_symptoms": 5,
     "max_patterns": 3,
     "merge_threshold": 40.0,
     "mixed_threshold": 40.0,
+    "nature_groups": {
+      "cold": [
+        "寒",
+        "陽虛"
+      ],
+      "deficiency": [
+        "氣虛",
+        "血虛",
+        "陰虛",
+        "陽虛"
+      ],
+      "excess": [
+        "氣滯",
+        "痰",
+        "瘀",
+        "濕",
+        "火",
+        "風"
+      ],
+      "heat": [
+        "火"
+      ]
+    },
     "tie_margin": 5.0
   },
   "safety": {

@@ -46,6 +46,9 @@ PARAMS = {
         "max_patterns": 3,
         "mixed_threshold": 40.0,          # two opposed element groups both ≥ this → 錯雜 (confidence one level lower)
         "tie_margin": 5.0,                # top-two gap below this → prefer the one `aligned` with the reference
+        # 證素 natures of the opposed groups behind the 錯雜 rule (SOP §11.1 #2): two opposed groups both ≥ mixed_threshold → mixed
+        "nature_groups": {"cold": ["寒", "陽虛"], "heat": ["火"], "deficiency": ["氣虛", "血虛", "陰虛", "陽虛"], "excess": ["氣滯", "痰", "瘀", "濕", "火", "風"]},
+        "differential_symptoms": 5,       # symptoms listed per direction of the differential
         "confidence": {
             "high": {"pct1": 60.0, "margin": 15.0, "coverage": 0.8, "kappa": 0.85},
             "medium": {"pct1": 40.0, "margin": 8.0, "coverage": 0.6},
