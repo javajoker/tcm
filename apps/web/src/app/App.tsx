@@ -12,6 +12,7 @@ import { PrefsEffects } from "./PrefsEffects.tsx";
 import { RouteFocus } from "./RouteFocus.tsx";
 import { Profile } from "../screens/profile/Profile.tsx";
 import { Inquiry } from "../screens/inquiry/Inquiry.tsx";
+import { FormulaDetail } from "../screens/result/FormulaDetail.tsx";
 import { Result } from "../screens/result/Result.tsx";
 import { Review } from "../screens/review/Review.tsx";
 import { Screening } from "../screens/screening/Screening.tsx";
@@ -35,6 +36,7 @@ function Screens(): ReactNode {
           <Route path="/screen"><Screening /></Route>
           <Route path="/inquiry"><Inquiry /></Route>
           <Route path="/review"><Review /></Route>
+          <Route path="/result/:id/formula/:fid">{(params) => <FormulaDetail id={params.id} fid={params.fid} />}</Route>
           <Route path="/result/:id">{(params) => <Result id={params.id} />}</Route>
           {Catalogue !== null ? <Route path="/_dev/components"><Suspense fallback={null}><Catalogue /></Suspense></Route> : null}
           <Route><NotFound /></Route>
