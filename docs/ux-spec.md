@@ -483,7 +483,7 @@ Detailed terminology and glossary rules are in the [i18n guide](i18n-guide.md); 
 | Elderly, medications that interact, allergy match, acute external symptoms | **Inline banner** on the affected sections |
 | Output limited by level | A line "Some content is not shown for your situation — why?" → `SuppressedList` with reasons (rule ids in dev) |
 | Tier C (dev) | Separate "For study only" group; muted, labelled; never in the recommendation order |
-| Low confidence / insufficient information | Replace formula advice with "what we still need" and the top questions; show gentle lifestyle content (L0) |
+| Low confidence / insufficient information | Replace formula advice with "what we still need" and the top questions; show gentle lifestyle content (L0). When every core question is answered and no tongue or pulse was entered, say that instead and offer *Add tongue and pulse* (for four patterns — 風熱, 胃陰虛, 心腎不交, 腎陰虛 — the questions alone stay near the 40 % line and the observations decide) |
 | Dev profile | Persistent badge "DEV · everything shown"; every suppressed item is shown **annotated** instead of removed |
 | Practitioner pointer | Every result ends with "When to see a practitioner" and a prepared summary |
 

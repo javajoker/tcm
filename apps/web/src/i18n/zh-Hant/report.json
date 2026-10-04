@@ -316,6 +316,8 @@
   "report.summary.externalFirst": "您的症狀是新近發生的，所以先列外感類的證型。",
   "report.summary.insufficient.body": "下列問題還沒有回答；補充後，結果會更可靠。",
   "report.summary.insufficient.cta": "補充回答",
+  "report.summary.insufficient.observe.body": "問題都答完了，但只憑這些還不足以判斷。觀察舌象、摸脈可以補上問題問不到的部分；這兩項都是選填。",
+  "report.summary.insufficient.observe.cta": "補充舌象與脈象",
   "report.summary.insufficient.title": "目前的資訊還不足以得出傾向",
   "report.summary.leaning": "最符合",
   "report.summary.mixed.cold-heat": "您的回答同時帶有寒與熱的傾向，所以把握度調低了一級。",

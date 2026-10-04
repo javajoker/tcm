@@ -145,6 +145,19 @@ describe("Result report (S13)", () => {
     expect(screen.queryByText("Most consistent with")).toBeNull();
   });
 
+  it("when every question is answered but the picture is still thin, it points to the tongue and the pulse instead of more questions", async () => {
+    const r = save(dev, interview(devKb, "SP6"), "r4555555555555555");        // 胃陰虛: the questions alone stay below the line (36 %), the tongue and pulse lift it
+    expect(r.result.verdict.status).toBe("insufficient");
+    expect(r.result.quality.unansweredCore).toEqual([]);
+    const { store } = await open(r, dev);
+    const summary = within(await screen.findByRole("region", { name: "There is not enough information yet for a leaning" }));
+    expect(summary.getByText(/All the questions are answered, but they alone are not enough/)).toBeInTheDocument();
+    expect(summary.queryByRole("button", { name: "Answer more questions" })).toBeNull();
+    await userEvent.click(summary.getByRole("button", { name: "Add tongue and pulse" }));
+    expect(window.location.pathname).toBe("/en/observe");
+    expect(Object.keys(store.getState().draft?.findings ?? {}).length).toBeGreaterThan(20);        // the answers come back with it
+  });
+
   it("'Edit and re-run' rebuilds a draft from the saved inputs and opens the review", async () => {
     const { store } = await open(saved, dev);
     await userEvent.click(await screen.findByRole("button", { name: "Edit and re-run" }));

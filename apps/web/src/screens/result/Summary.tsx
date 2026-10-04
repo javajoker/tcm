@@ -10,7 +10,7 @@ import { BilingualName, Prose } from "./shared.tsx";
 const METER = { high: 1, medium: 0.66, low: 0.33, insufficient: 0 } as const;
 
 /** ② Summary: the leading pattern in plain words with its TCM name, up to two alternatives, and the confidence (text and meter). */
-export function Summary({ saved, onAnswerMore }: { saved: SavedAssessment; onAnswerMore: () => void }): ReactNode {
+export function Summary({ saved, onAnswerMore, onAddObservation }: { saved: SavedAssessment; onAnswerMore: () => void; onAddObservation: () => void }): ReactNode {
   const { t } = useI18n();
   const { kb } = useLoaded();
   const a = saved.result;
@@ -18,6 +18,17 @@ export function Summary({ saved, onAnswerMore }: { saved: SavedAssessment; onAns
 
   if (v.status === "insufficient") {
     const questions = a.quality.unansweredCore.map((id) => kb.questionById.get(id)).filter((q) => q !== undefined);
+    // every core question is answered: what is missing is the optional looking and feeling (tongue, pulse), which for some patterns decides whether there is enough to go on
+    const observed = Object.keys(saved.input.findings).some((id) => id.startsWith("T_") || id.startsWith("P_"));
+    if (questions.length === 0 && !observed) {
+      return (
+        <Card title={t.t("report.summary.insufficient.title")} id="sec-summary">
+          <ConstitutionTendency saved={saved} />
+          <p>{t.t("report.summary.insufficient.observe.body")}</p>
+          <Button variant="primary" onClick={onAddObservation}>{t.t("report.summary.insufficient.observe.cta")}</Button>
+        </Card>
+      );
+    }
     return (
       <Card title={t.t("report.summary.insufficient.title")} id="sec-summary">
         <ConstitutionTendency saved={saved} />

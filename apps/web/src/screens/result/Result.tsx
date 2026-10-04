@@ -48,6 +48,7 @@ function Report({ saved }: { saved: SavedAssessment }): ReactNode {
   const sections = SECTIONS.filter(([k]) => established || !["panel", "why", "transmission", "change"].includes(k));
   usePrintExpand();
   const answerMore = (): void => { adoptDraft(draftFromSaved(kb, saved, randomId(), Date.now())); navigate("/inquiry"); };
+  const addObservation = (): void => { adoptDraft(draftFromSaved(kb, saved, randomId(), Date.now())); navigate("/observe"); };
   return (
     <FeedbackProvider saved={saved}>
       <div className={styles.head}>
@@ -60,7 +61,7 @@ function Report({ saved }: { saved: SavedAssessment }): ReactNode {
       </nav>
       <div className={styles.sections}>
         <Banner saved={saved} />
-        <Summary saved={saved} onAnswerMore={answerMore} />
+        <Summary saved={saved} onAnswerMore={answerMore} onAddObservation={addObservation} />
         {established ? <Panel saved={saved} /> : null}
         {established ? <Why saved={saved} /> : null}
         {established ? <Transmission saved={saved} /> : null}

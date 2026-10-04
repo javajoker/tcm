@@ -317,6 +317,8 @@
   "report.summary.externalFirst": "Your symptoms are recent, so patterns of an outside (external) illness are listed first.",
   "report.summary.insufficient.body": "These questions are still unanswered; answering them makes the result more reliable.",
   "report.summary.insufficient.cta": "Answer more questions",
+  "report.summary.insufficient.observe.body": "All the questions are answered, but they alone are not enough for this picture. Looking at your tongue and feeling your pulse can add what the questions cannot; both are optional.",
+  "report.summary.insufficient.observe.cta": "Add tongue and pulse",
   "report.summary.insufficient.title": "There is not enough information yet for a leaning",
   "report.summary.leaning": "Most consistent with",
   "report.summary.mixed.cold-heat": "Your answers show both cold and heat tendencies, so the confidence was lowered by one level.",
