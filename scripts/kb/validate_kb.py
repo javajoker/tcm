@@ -141,6 +141,20 @@ def validate(load: Loader = load, check_sources: bool = True) -> list[str]:
             err(f"duplicate {label} id {d}")
     for d in duplicates((g["zh-Hant"], g["domain"]) for g in glossary):
         err(f"duplicate glossary term {d}")
+    # constitution questionnaire (K-08): every constitution has its items, ids are unique, the scale is 1–5
+    ci = load("diagnosis/constitution-items.json")
+    ci_ids = [i["id"] for t in ci["types"] for i in t["items"]]
+    for d in duplicates(ci_ids):
+        err(f"duplicate constitution item id {d}")
+    if sorted(t["constitution"] for t in ci["types"]) != sorted(c["id"] for c in constitutions):
+        err("constitution-items.json must have exactly one entry per constitution of constitutions.json")
+    if [s["value"] for s in ci["scale"]] != [1, 2, 3, 4, 5]:
+        err("constitution scale must be 1..5")
+    if ci["_meta"]["count"] != len(ci_ids):
+        err("constitution-items.json _meta.count differs from the number of items")
+    for t in ci["types"]:
+        if sum(1 for i in t["items"] if not i["reverse"]) < 2:
+            err(f"constitution {t['constitution']} needs at least two non-reversed items")
     # emergency numbers: a wrong or missing one is a safety incident (safety policy §9)
     region_ids = [r["id"] for r in emergency["regions"]]
     for d in duplicates(region_ids):

@@ -1,0 +1,429 @@
+{
+  "_meta": {
+    "count": 37,
+    "description": "Own-written constitution questionnaire (SOP D6): nine types, 1–5 frequency scale. Scoring rule of the national standard (ZYYXH/T157-2009), wording is ours. Draft awaiting practitioner review.",
+    "schema": 1,
+    "scoring": "converted = (raw - n) / (4 n) * 100 over the answered items of a type; reverse items score 6 - answer",
+    "status": "draft"
+  },
+  "prompt": {
+    "en": "Thinking of the past year, how often does each of these happen?",
+    "zh-Hant": "回想最近一年，下面的情形出現得有多頻繁？"
+  },
+  "scale": [
+    {
+      "label": {
+        "en": "Never",
+        "zh-Hant": "從不"
+      },
+      "value": 1
+    },
+    {
+      "label": {
+        "en": "Rarely",
+        "zh-Hant": "很少"
+      },
+      "value": 2
+    },
+    {
+      "label": {
+        "en": "Sometimes",
+        "zh-Hant": "有時"
+      },
+      "value": 3
+    },
+    {
+      "label": {
+        "en": "Often",
+        "zh-Hant": "經常"
+      },
+      "value": 4
+    },
+    {
+      "label": {
+        "en": "Always",
+        "zh-Hant": "總是"
+      },
+      "value": 5
+    }
+  ],
+  "types": [
+    {
+      "constitution": "C_PINGHE",
+      "description": {
+        "en": "Generally balanced: good energy, sleep and digestion, and a good ability to adapt to the environment and the seasons.",
+        "zh-Hant": "整體平衡、精力與睡眠、消化都不錯，適應環境與季節變化的能力好。"
+      },
+      "items": [
+        {
+          "id": "CI_PINGHE_1",
+          "reverse": false,
+          "text": {
+            "en": "I have plenty of energy and rarely feel tired",
+            "zh-Hant": "精力充沛，不容易覺得疲倦"
+          }
+        },
+        {
+          "id": "CI_PINGHE_2",
+          "reverse": false,
+          "text": {
+            "en": "I sleep well and wake up refreshed",
+            "zh-Hant": "睡得好，醒來精神不錯"
+          }
+        },
+        {
+          "id": "CI_PINGHE_3",
+          "reverse": false,
+          "text": {
+            "en": "My appetite is normal and I rarely feel bloated after eating",
+            "zh-Hant": "胃口正常，吃了不容易脹或不舒服"
+          }
+        },
+        {
+          "id": "CI_PINGHE_4",
+          "reverse": true,
+          "text": {
+            "en": "I often feel unwell somewhere in my body",
+            "zh-Hant": "身體常有這裡那裡不舒服的感覺"
+          }
+        },
+        {
+          "id": "CI_PINGHE_5",
+          "reverse": false,
+          "text": {
+            "en": "I adapt quickly when the weather or surroundings change",
+            "zh-Hant": "天氣或環境改變時，我很快就能適應"
+          }
+        }
+      ]
+    },
+    {
+      "constitution": "C_QIXU",
+      "description": {
+        "en": "Tires easily, short of breath, low tolerance for exertion, a quiet voice, and more prone to colds and sweating without effort.",
+        "zh-Hant": "容易疲倦、氣短、不耐勞累，說話聲音偏低，較容易感冒或出虛汗。"
+      },
+      "items": [
+        {
+          "id": "CI_QIXU_1",
+          "reverse": false,
+          "text": {
+            "en": "I get short of breath or palpitations with slight exertion",
+            "zh-Hant": "稍微活動就覺得喘或心悸"
+          }
+        },
+        {
+          "id": "CI_QIXU_2",
+          "reverse": false,
+          "text": {
+            "en": "I feel low in energy all day and do not feel like talking",
+            "zh-Hant": "整天沒什麼精神，不太想說話"
+          }
+        },
+        {
+          "id": "CI_QIXU_3",
+          "reverse": false,
+          "text": {
+            "en": "I catch colds more easily than other people",
+            "zh-Hant": "比別人容易感冒"
+          }
+        },
+        {
+          "id": "CI_QIXU_4",
+          "reverse": false,
+          "text": {
+            "en": "I sweat without being hot, and more so after activity",
+            "zh-Hant": "沒有特別熱也會出汗，活動後更明顯"
+          }
+        }
+      ]
+    },
+    {
+      "constitution": "C_YANGXU",
+      "description": {
+        "en": "Feels the cold, has cold hands and feet, prefers warm food and drink, and is upset or loose-stooled after cold food.",
+        "zh-Hant": "怕冷、手腳冰涼，喜歡熱的飲食，吃涼的容易不舒服或腹瀉。"
+      },
+      "items": [
+        {
+          "id": "CI_YANGXU_1",
+          "reverse": false,
+          "text": {
+            "en": "My hands and feet are colder than other people's",
+            "zh-Hant": "我的手腳比別人冰冷"
+          }
+        },
+        {
+          "id": "CI_YANGXU_2",
+          "reverse": false,
+          "text": {
+            "en": "Cold food or drink easily upsets me",
+            "zh-Hant": "吃或喝冰冷的東西容易不舒服"
+          }
+        },
+        {
+          "id": "CI_YANGXU_3",
+          "reverse": false,
+          "text": {
+            "en": "I feel the cold badly in winter and stay cold even in many layers",
+            "zh-Hant": "冬天特別怕冷，穿很多還是不暖"
+          }
+        },
+        {
+          "id": "CI_YANGXU_4",
+          "reverse": false,
+          "text": {
+            "en": "I tend to have loose stools, especially after cold food",
+            "zh-Hant": "容易腹瀉或大便偏稀，尤其吃了涼的之後"
+          }
+        }
+      ]
+    },
+    {
+      "constitution": "C_YINXU",
+      "description": {
+        "en": "Dry and warm: hot palms and soles, dry mouth and throat, dry skin or eyes, light sleep and dry stools.",
+        "zh-Hant": "偏燥偏熱：手心腳心發熱、口乾咽燥、皮膚或眼睛乾澀，睡眠較淺，大便偏乾。"
+      },
+      "items": [
+        {
+          "id": "CI_YINXU_1",
+          "reverse": false,
+          "text": {
+            "en": "My palms or soles often feel hot",
+            "zh-Hant": "手心或腳心常覺得發熱"
+          }
+        },
+        {
+          "id": "CI_YINXU_2",
+          "reverse": false,
+          "text": {
+            "en": "My mouth and throat are dry and I like to drink water",
+            "zh-Hant": "嘴巴和喉嚨乾，喜歡喝水"
+          }
+        },
+        {
+          "id": "CI_YINXU_3",
+          "reverse": false,
+          "text": {
+            "en": "My skin or eyes tend to be dry",
+            "zh-Hant": "皮膚或眼睛偏乾澀"
+          }
+        },
+        {
+          "id": "CI_YINXU_4",
+          "reverse": false,
+          "text": {
+            "en": "I tend to be constipated or have dry, hard stools",
+            "zh-Hant": "容易便秘，或大便偏乾硬"
+          }
+        }
+      ]
+    },
+    {
+      "constitution": "C_TANSHI",
+      "description": {
+        "en": "Heavy and sticky: a soft, full abdomen, oily skin, plenty of phlegm and a thicker tongue coating.",
+        "zh-Hant": "身體偏沉重、黏膩，腹部鬆軟肥滿，容易出油，痰多，舌苔偏厚。"
+      },
+      "items": [
+        {
+          "id": "CI_TANSHI_1",
+          "reverse": false,
+          "text": {
+            "en": "My body feels heavy and not clear",
+            "zh-Hant": "覺得身體沉重、不清爽"
+          }
+        },
+        {
+          "id": "CI_TANSHI_2",
+          "reverse": false,
+          "text": {
+            "en": "My abdomen is full and soft",
+            "zh-Hant": "腹部肥滿鬆軟"
+          }
+        },
+        {
+          "id": "CI_TANSHI_3",
+          "reverse": false,
+          "text": {
+            "en": "My face or scalp gets oily easily",
+            "zh-Hant": "臉或頭皮容易出油"
+          }
+        },
+        {
+          "id": "CI_TANSHI_4",
+          "reverse": false,
+          "text": {
+            "en": "I have a lot of phlegm and often feel it in my throat",
+            "zh-Hant": "痰多，常覺得喉嚨有痰"
+          }
+        }
+      ]
+    },
+    {
+      "constitution": "C_SHIRE",
+      "description": {
+        "en": "Damp and hot: an oily face prone to spots, a bitter taste or bad breath, sticky stools, darker urine and a feeling of stuffy heat.",
+        "zh-Hant": "偏濕又偏熱：臉部油膩易長痘，口苦或口臭，大便黏滯不爽，小便偏黃，身體悶熱。"
+      },
+      "items": [
+        {
+          "id": "CI_SHIRE_1",
+          "reverse": false,
+          "text": {
+            "en": "My face is oily or breaks out in spots easily",
+            "zh-Hant": "臉上容易油膩或長痘痘"
+          }
+        },
+        {
+          "id": "CI_SHIRE_2",
+          "reverse": false,
+          "text": {
+            "en": "I have a bitter taste or bad breath",
+            "zh-Hant": "口苦，或嘴裡有異味"
+          }
+        },
+        {
+          "id": "CI_SHIRE_3",
+          "reverse": false,
+          "text": {
+            "en": "My stools are sticky and incomplete, or my urine is dark",
+            "zh-Hant": "大便黏滯不爽，或小便偏黃"
+          }
+        },
+        {
+          "id": "CI_SHIRE_4",
+          "reverse": false,
+          "text": {
+            "en": "My body often feels stuffy and hot",
+            "zh-Hant": "身體常有悶熱感"
+          }
+        }
+      ]
+    },
+    {
+      "constitution": "C_XUEYU",
+      "description": {
+        "en": "Blood moves less freely: a duller complexion, easy bruising or spots, fixed stabbing pains and darker lips.",
+        "zh-Hant": "血行偏不暢：膚色偏暗、容易有瘀青或色斑，固定位置的刺痛，嘴唇偏暗。"
+      },
+      "items": [
+        {
+          "id": "CI_XUEYU_1",
+          "reverse": false,
+          "text": {
+            "en": "I bruise easily",
+            "zh-Hant": "皮膚容易出現瘀青"
+          }
+        },
+        {
+          "id": "CI_XUEYU_2",
+          "reverse": false,
+          "text": {
+            "en": "My complexion is dull, or I have dark spots on my face",
+            "zh-Hant": "臉色偏暗，或臉上有色斑"
+          }
+        },
+        {
+          "id": "CI_XUEYU_3",
+          "reverse": false,
+          "text": {
+            "en": "I have stabbing pain in a fixed place",
+            "zh-Hant": "身上有固定位置的刺痛"
+          }
+        },
+        {
+          "id": "CI_XUEYU_4",
+          "reverse": false,
+          "text": {
+            "en": "My lips are a darker colour",
+            "zh-Hant": "嘴唇顏色偏暗"
+          }
+        }
+      ]
+    },
+    {
+      "constitution": "C_QIYU",
+      "description": {
+        "en": "Mood tends to be low or tense, with frequent sighing, a tight chest or flanks, and sleep easily disturbed by worry.",
+        "zh-Hant": "情緒偏悶、容易緊張或憂慮，常嘆氣，胸脅脹悶，睡眠容易受情緒影響。"
+      },
+      "items": [
+        {
+          "id": "CI_QIYU_1",
+          "reverse": false,
+          "text": {
+            "en": "I often feel down or low in mood",
+            "zh-Hant": "常覺得悶悶不樂、情緒低落"
+          }
+        },
+        {
+          "id": "CI_QIYU_2",
+          "reverse": false,
+          "text": {
+            "en": "I get tense, anxious or sensitive easily",
+            "zh-Hant": "容易緊張、焦慮或多愁善感"
+          }
+        },
+        {
+          "id": "CI_QIYU_3",
+          "reverse": false,
+          "text": {
+            "en": "I sigh often, with a tight chest or flanks",
+            "zh-Hant": "常嘆氣，胸口或兩脅脹悶"
+          }
+        },
+        {
+          "id": "CI_QIYU_4",
+          "reverse": false,
+          "text": {
+            "en": "My sleep is unsettled when something is on my mind",
+            "zh-Hant": "遇到事情就睡不安穩"
+          }
+        }
+      ]
+    },
+    {
+      "constitution": "C_TEBING",
+      "description": {
+        "en": "Allergy-prone (pollen, dust mites, foods, medicines), flaring with the seasons, with a sensitive nose and skin.",
+        "zh-Hant": "容易過敏（花粉、塵蟎、食物、藥物），換季時容易發作，鼻、皮膚較敏感。"
+      },
+      "items": [
+        {
+          "id": "CI_TEBING_1",
+          "reverse": false,
+          "text": {
+            "en": "I am allergic to pollen, dust mites, foods or medicines",
+            "zh-Hant": "容易對花粉、塵蟎、食物或藥物過敏"
+          }
+        },
+        {
+          "id": "CI_TEBING_2",
+          "reverse": false,
+          "text": {
+            "en": "I often sneeze, have a runny or blocked nose without a cold",
+            "zh-Hant": "沒有感冒也常打噴嚏、流鼻水或鼻塞"
+          }
+        },
+        {
+          "id": "CI_TEBING_3",
+          "reverse": false,
+          "text": {
+            "en": "My skin gets rashes easily, or shows red marks after scratching",
+            "zh-Hant": "皮膚容易起疹子，或抓過後出現紅痕"
+          }
+        },
+        {
+          "id": "CI_TEBING_4",
+          "reverse": false,
+          "text": {
+            "en": "Symptoms flare with a change of season or contact with certain things",
+            "zh-Hant": "換季或接觸某些東西時容易發作"
+          }
+        }
+      ]
+    }
+  ]
+}

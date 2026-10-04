@@ -370,6 +370,16 @@ def treatment_guidance() -> dict:
         "required": ["_meta", "acupoints", "food_pregnancy_caution", "general"], "additionalProperties": False}
 
 
+def constitution_items() -> dict:
+    item = obj({"id": pattern(r"^CI_[A-Z]+_[0-9]+$"), "reverse": BOOL, "text": ref("bilingualNamed")})
+    type_ = obj({"constitution": ref("constitutionId"), "description": ref("bilingualNamed"), "items": arr(item, 3)})
+    scale = obj({"label": ref("bilingualNamed"), "value": INT})
+    return {"type": "object", "properties": {
+        "_meta": meta({"count": INT, "scoring": STR, "status": ref("reviewStatus")}, ["count", "scoring", "status"]),
+        "prompt": ref("bilingualNamed"), "scale": tup(scale, 5), "types": arr(type_, 9)},
+        "required": ["_meta", "prompt", "scale", "types"], "additionalProperties": False}
+
+
 def emergency() -> dict:
     number = obj({"label": ref("bilingualNamed"), "number": pattern(r"^[0-9]{2,4}$")})
     region = obj({"crisis": arr(number), "emergency": arr(number), "id": pattern(r"^[A-Z]{2,5}$"), "name": ref("bilingualNamed"), "status": ref("reviewStatus")})
@@ -398,6 +408,7 @@ SCHEMAS = {
     "diagnosis/patterns.json": ("patterns", patterns, "Patterns"),
     "diagnosis/pattern-elements.json": ("pattern-elements", pattern_elements, "Pattern elements (證素)"),
     "diagnosis/constitutions.json": ("constitutions", constitutions, "Constitutions"),
+    "diagnosis/constitution-items.json": ("constitution-items", constitution_items, "Constitution questionnaire"),
     "diagnosis/red-flags.json": ("red-flags", red_flags, "Red flags"),
     "diagnosis/tongue.json": ("tongue", tongue, "Tongue zones and features"),
     "diagnosis/pulse.json": ("pulse", pulse, "Pulses and positions"),

@@ -1,6 +1,7 @@
 // Domain types of the knowledge base. The shapes of the data files are GENERATED from data/schema (see ./generated); this module gives the
 // records readable names and defines the runtime view of the KB (tech spec §4.2).
 import type { Citations } from "./generated/citations.ts";
+import type { ConstitutionItems } from "./generated/constitution-items.ts";
 import type { Constitutions } from "./generated/constitutions.ts";
 import type { Correspondences } from "./generated/correspondences.ts";
 import type { Emergency } from "./generated/emergency.ts";
@@ -50,7 +51,7 @@ export type SafetyRule = SafetyRules["rules"][number];
 export type ScopeProfile = ScopeProfiles["profiles"]["release"];
 export type Bilingual = Herb["name"];
 
-export type { Citations, Constitutions, Correspondences, Emergency, Exclusions, Formulas, Glossary, Herbs, Orientation, PanelSchema, PatternElements, Patterns, Pulse, Questions, RedFlags, SafetyRules };
+export type { Citations, ConstitutionItems, Constitutions, Correspondences, Emergency, Exclusions, Formulas, Glossary, Herbs, Orientation, PanelSchema, PatternElements, Patterns, Pulse, Questions, RedFlags, SafetyRules };
 export type { ScopeProfiles, ScoringParams, Susceptibility, Symptoms, Tongue, TreatmentGuidance, Yunqi };
 
 // ── chunks (what the bundler writes and the loader reads; tech spec §5) ─────
@@ -83,6 +84,7 @@ export interface CoreChunk {
   readonly wuxing: { readonly correspondences: Correspondences; readonly susceptibility: Susceptibility; readonly yunqi: Yunqi };
   readonly glossary: Glossary;
   readonly emergency: Emergency;
+  readonly constitutionItems: ConstitutionItems;
 }
 /** Display names of every herb the retained formulas use: always present, so a bundle without herb records can still name the herbs. */
 export interface HerbName { readonly name: Bilingual; readonly latin: string | null }
@@ -146,6 +148,8 @@ export interface KnowledgeBase {
   readonly glossary: readonly GlossaryTerm[];
   /** Emergency and crisis numbers by region (the safety policy §5); every build carries them. */
   readonly emergency: Emergency;
+  /** The own-written constitution questionnaire (K-08): items, scale and a description of each type. */
+  readonly constitutionItems: ConstitutionItems;
 
   citation(id: string): Citation | undefined;
   /** zh-Hant term → glossary entry (first match). */
