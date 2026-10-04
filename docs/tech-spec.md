@@ -251,10 +251,11 @@ Measured on the current `data/` (minified JSON, gzip):
 
 | Chunk | Contents | Load time | Size (gz) now | Budget |
 |---|---|---|---:|---:|
-| `core` | config (resolved profile), symptoms, questions, patterns, elements, constitutions, red flags, tongue, pulse, panel schema, scoring params, safety, treatment, wuxing tables, glossary | at app start (after first paint) | ≈ 38 KB (before the new files of §5.4) | 60 KB |
+| `core` | config (resolved profile), symptoms, questions, patterns, elements, constitutions, red flags, tongue, pulse, panel schema, scoring params, safety, treatment (engine part), wuxing tables, glossary | at app start (after first paint) | ≈ 38 KB (before the new files of §5.4) | 60 KB |
 | `formulas` | 33 formulas | on first result | ≈ 19 KB | 30 KB |
 | `herbs-core` | the 94 curated herbs, reduced to the fields needed (id, names, effects, harms, flags, role display) | when the profile can reach L2 and a result is shown | ≈ 14 KB | 25 KB |
-| `citations` | 127 quotations | first time a citation chip opens or the result renders | ≈ 7 KB | 15 KB |
+| `citations` | 127 quotations | first time a citation chip opens or the result renders | ≈ 5 KB | 15 KB |
+| `guidance` | the texts of the treatment guidance (K-11): where each acupressure point is and its cautions, the diet entries with nature, flavour, rationale and citations, the per-pattern lifestyle lines, in both languages. The engine's part of the guidance (codes, meridians, pregnancy flags, the pregnancy-caution list, the general regimen) stays in `core`; the indexer merges the two into `kb.treatment` | with the result | ≈ 10 KB | 20 KB |
 | `herbs-ext` | the 609 derived herbs | only the P2 knowledge browser (dev) | ≈ 60 KB | lazy only |
 
 Total KB currently **≈ 143 KB gzip** for everything including all 703 herbs. With pruning (§5.3) a **release** session fetches roughly **55–65 KB gzip**
@@ -290,7 +291,7 @@ The first-pass `data/` does not yet contain everything the engine and UI need. T
 | `data/diagnosis/exclusions.json` ✔ (task K-06) | Mutually exclusive symptom groups (浮/沉, 遲/數/疾, 便乾/便溏 …) and synonym-split rules (惡寒 ≠ 畏寒) | For SOP §5.3 consistency checks |
 | `data/diagnosis/constitution-items.json` | Own-written 9-type questionnaire items and scoring map (SOP D6) | Needs review; licence-safe |
 | `data/geo/cities.json` | Birth-place picker: name (zh-Hant/en), latitude, longitude, IANA time zone | Source decision pending (e.g. GeoNames, CC-BY); always paired with manual longitude/time-zone entry |
-| `data/treatment/guidance.json` (extend) | Acupoint location text and illustration refs; diet entries with rationale | Locations/illustrations are a UI task |
+| `data/treatment/guidance.json` ✔ (K-11) | Acupoint location text and cautions, diet entries with rationale and citations, bilingual per-pattern lifestyle; illustrations are still a UI task (U-25) | Shipped in the `guidance` chunk (§5.2) |
 | English prose in patterns, formulas, treatment | English rendering of rationale, principles, cautions | Machine draft + review; fallback is zh-Hant |
 
 ---

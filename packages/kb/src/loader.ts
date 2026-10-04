@@ -1,6 +1,6 @@
 import { KbError } from "./errors.ts";
 import { indexKnowledgeBase, SUPPORTED_SCHEMA_VERSION } from "./indexer.ts";
-import type { ChunkRef, CitationsChunk, CoreChunk, FormulasChunk, HerbsChunk, KnowledgeBase, Manifest, RawKbChunks } from "./types.ts";
+import type { ChunkRef, CitationsChunk, CoreChunk, FormulasChunk, GuidanceChunk, HerbsChunk, KnowledgeBase, Manifest, RawKbChunks } from "./types.ts";
 
 export interface LoadOptions {
   /** URL (absolute or root-relative) of the directory that holds `manifest.json` and the chunk files, e.g. "/kb". */
@@ -20,7 +20,7 @@ const join = (base: string, file: string): string => `${base.replace(/\/+$/, "")
 
 function assertManifest(m: unknown): asserts m is Manifest {
   const ok = typeof m === "object" && m !== null && typeof (m as Manifest).version === "string" && typeof (m as Manifest).schema === "number" &&
-    typeof (m as Manifest).chunks === "object" && (m as Manifest).chunks !== null && !!(m as Manifest).chunks.core && !!(m as Manifest).chunks.formulas && !!(m as Manifest).chunks.citations;
+    typeof (m as Manifest).chunks === "object" && (m as Manifest).chunks !== null && !!(m as Manifest).chunks.core && !!(m as Manifest).chunks.formulas && !!(m as Manifest).chunks.citations && !!(m as Manifest).chunks.guidance;
   if (!ok) throw new KbError("manifest-invalid", "manifest.json is missing required fields");
 }
 
@@ -54,12 +54,13 @@ export async function loadKnowledgeBase(opts: LoadOptions): Promise<KnowledgeBas
   }
 
   const { chunks } = manifest;
-  const [core, formulas, herbs, citations] = await Promise.all([
+  const [core, formulas, herbs, citations, guidance] = await Promise.all([
     chunk<CoreChunk>("core", chunks.core),
     chunk<FormulasChunk>("formulas", chunks.formulas),
     chunks.herbs ? chunk<HerbsChunk>("herbs", chunks.herbs) : Promise.resolve(null),
     chunk<CitationsChunk>("citations", chunks.citations),
+    chunk<GuidanceChunk>("guidance", chunks.guidance),
   ]);
-  const raw: RawKbChunks = { version: manifest.version, schemaVersion: manifest.schema, core, formulas, herbs, citations };
+  const raw: RawKbChunks = { version: manifest.version, schemaVersion: manifest.schema, core, formulas, herbs, citations, guidance };
   return indexKnowledgeBase(raw);
 }

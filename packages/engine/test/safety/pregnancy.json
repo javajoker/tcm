@@ -440,6 +440,39 @@
       }
     },
     {
+      "id": "PREG-FOOD-少量肉桂",
+      "title": "少量肉桂 in pregnancy: caution (soft) in dev; not offered in release (L0)",
+      "ref": "data/safety/rules.json R_PREG_FOOD_CAUTION",
+      "kind": "candidates",
+      "input": {
+        "subject": {
+          "pregnant": true
+        },
+        "candidates": [
+          {
+            "kind": "food",
+            "name": "少量肉桂"
+          }
+        ]
+      },
+      "expect": {
+        "release": {
+          "level": "L0",
+          "noFoods": true
+        },
+        "dev": {
+          "show": [
+            "少量肉桂"
+          ],
+          "annotated": {
+            "少量肉桂": [
+              "R_PREG_FOOD_CAUTION"
+            ]
+          }
+        }
+      }
+    },
+    {
       "id": "PREG-FOOD-薏仁",
       "title": "薏仁 in pregnancy: caution (soft) in dev; not offered in release (L0)",
       "ref": "data/safety/rules.json R_PREG_FOOD_CAUTION",

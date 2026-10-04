@@ -157,11 +157,15 @@
         },
         "schema": {
           "type": "integer"
+        },
+        "status": {
+          "$ref": "#/$defs/reviewStatus"
         }
       },
       "required": [
         "description",
-        "schema"
+        "schema",
+        "status"
       ],
       "type": "object"
     },
@@ -169,24 +173,62 @@
       "additionalProperties": {
         "additionalProperties": false,
         "properties": {
+          "basis": {
+            "type": "string"
+          },
+          "cautions": {
+            "items": {
+              "$ref": "#/$defs/bilingualNamed"
+            },
+            "type": "array"
+          },
           "code": {
             "type": "string"
+          },
+          "location": {
+            "$ref": "#/$defs/bilingualNamed"
           },
           "meridian": {
             "type": "string"
           },
           "pregnancy_avoid": {
             "type": "boolean"
+          },
+          "status": {
+            "$ref": "#/$defs/reviewStatus"
           }
         },
         "required": [
+          "basis",
+          "cautions",
           "code",
+          "location",
           "meridian",
-          "pregnancy_avoid"
+          "pregnancy_avoid",
+          "status"
         ],
         "type": "object"
       },
       "minProperties": 1,
+      "type": "object"
+    },
+    "acupressure": {
+      "additionalProperties": false,
+      "properties": {
+        "cautions": {
+          "items": {
+            "$ref": "#/$defs/bilingualNamed"
+          },
+          "type": "array"
+        },
+        "how": {
+          "$ref": "#/$defs/bilingualNamed"
+        }
+      },
+      "required": [
+        "cautions",
+        "how"
+      ],
       "type": "object"
     },
     "food_pregnancy_caution": {
@@ -194,6 +236,82 @@
         "type": "string"
       },
       "type": "array"
+    },
+    "foods": {
+      "additionalProperties": {
+        "additionalProperties": false,
+        "properties": {
+          "basis": {
+            "enum": [
+              "pharmacopoeia",
+              "textbook"
+            ]
+          },
+          "cautions": {
+            "items": {
+              "$ref": "#/$defs/bilingualNamed"
+            },
+            "type": "array"
+          },
+          "citations": {
+            "items": {
+              "$ref": "#/$defs/citationId"
+            },
+            "minItems": 1,
+            "type": "array"
+          },
+          "flavors": {
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1,
+            "type": "array"
+          },
+          "functions": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "herb": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/$defs/herbId"
+              }
+            ]
+          },
+          "nature": {
+            "type": "string"
+          },
+          "pregnancy_caution": {
+            "type": "boolean"
+          },
+          "rationale": {
+            "$ref": "#/$defs/bilingualNamed"
+          },
+          "status": {
+            "$ref": "#/$defs/reviewStatus"
+          }
+        },
+        "required": [
+          "basis",
+          "cautions",
+          "citations",
+          "flavors",
+          "functions",
+          "herb",
+          "nature",
+          "pregnancy_caution",
+          "rationale",
+          "status"
+        ],
+        "type": "object"
+      },
+      "minProperties": 1,
+      "type": "object"
     },
     "general": {
       "additionalProperties": false,
@@ -213,13 +331,23 @@
         "text"
       ],
       "type": "object"
+    },
+    "lifestyle": {
+      "additionalProperties": {
+        "$ref": "#/$defs/bilingualNamed"
+      },
+      "minProperties": 1,
+      "type": "object"
     }
   },
   "required": [
     "_meta",
     "acupoints",
+    "acupressure",
     "food_pregnancy_caution",
-    "general"
+    "foods",
+    "general",
+    "lifestyle"
   ],
   "title": "Treatment guidance",
   "type": "object"

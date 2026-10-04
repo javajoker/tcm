@@ -4,7 +4,7 @@
 // bundle that cannot use them.
 import type {
   Citations, ConstitutionItems, Constitutions, Correspondences, Emergency, Exclusions, Formula, Formulas, Glossary, Herb, Herbs, Level, Orientation, PanelSchema, PatternElements, Patterns, ProfileName, Pulse, Questions,
-  RawKbChunks, RedFlags, SafetyRules, ScopeConfig, ScopeProfile, ScopeProfiles, ScoringParams, Susceptibility, Symptoms, Tongue, TreatmentGuidance, Yunqi, FormulasChunk, HerbName,
+  RawKbChunks, RedFlags, SafetyRules, ScopeConfig, ScopeProfile, ScopeProfiles, ScoringParams, Susceptibility, Symptoms, Tongue, TreatmentGuidance, Yunqi, FormulasChunk, GuidanceChunk, HerbName, TreatmentCore,
 } from "./types.ts";
 
 /** The parsed contents of data/ (one field per data file). */
@@ -185,6 +185,15 @@ export function buildChunks(files: DataFiles, opts: BuildOptions): BuildResult {
     // the resolution rules are code; the documentation strings (which name the dev-only enforcement mode) are not shipped
     resolution: { effective_level: files.scope.resolution.effective_level, effective_notice: files.scope.resolution.effective_notice, flow: files.scope.resolution.flow },
   };
+  // the treatment guidance is split: the engine's part stays in core, the explanatory texts travel in their own chunk
+  const treatment: TreatmentCore = {
+    _meta: files.treatment._meta, general: files.treatment.general, food_pregnancy_caution: files.treatment.food_pregnancy_caution,
+    acupoints: Object.fromEntries(Object.entries(files.treatment.acupoints).map(([n, a]) => [n, { code: a.code, meridian: a.meridian, pregnancy_avoid: a.pregnancy_avoid, status: a.status }])),
+  };
+  const guidance: GuidanceChunk = {
+    acupoints: Object.fromEntries(Object.entries(files.treatment.acupoints).map(([n, a]) => [n, { location: a.location, cautions: a.cautions, basis: a.basis }])),
+    acupressure: files.treatment.acupressure, foods: files.treatment.foods, lifestyle: files.treatment.lifestyle,
+  };
   const safety: SafetyRules = reach.dosage ? files.safety : (({ dose_references: _d, ...s }) => s)(files.safety);
   const patterns: Patterns = { ...files.patterns, items: files.patterns.items.map((p) => ({ ...p, formulas: p.formulas.filter((id) => keptIds.has(id)) })) };
   const formulas: FormulasChunk = { items: kept, herbNames };
@@ -194,10 +203,11 @@ export function buildChunks(files: DataFiles, opts: BuildOptions): BuildResult {
     schemaVersion: files.params._meta.schema,
     core: {
       config, symptoms: files.symptoms, questions: files.questions, exclusions: files.exclusions, orientation: files.orientation, patterns, elements: files.elements, constitutions: files.constitutions,
-      redFlags: files.redFlags, tongue: files.tongue, pulse: files.pulse, panelSchema: files.panelSchema, params: files.params, safety, treatment: files.treatment,
+      redFlags: files.redFlags, tongue: files.tongue, pulse: files.pulse, panelSchema: files.panelSchema, params: files.params, safety, treatment,
       wuxing: { correspondences: files.correspondences, susceptibility: files.susceptibility, yunqi: files.yunqi }, glossary: files.glossary, emergency: files.emergency, constitutionItems: files.constitutionItems,
     },
     formulas,
+    guidance,
     herbs: herbs ? { items: herbs } : null,
     // the source-script quotation and the repository path are verification aids: dev only
     citations: dev ? files.citations : { ...files.citations, items: files.citations.items.map(({ source_path: _p, quote_source_zh_hans: _q, ...c }) => c) },

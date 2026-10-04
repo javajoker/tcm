@@ -1,171 +1,1749 @@
 {
   "_meta": {
-    "description": "Self-acupressure points and diet/lifestyle guidance per pattern (draft).",
-    "schema": 1
+    "description": "Self-acupressure points, diet entries and lifestyle guidance (draft; awaits TCM clinical and pharmacy review). Point locations and diet texts are bilingual; a food that is also a herb takes its nature, flavours and functions from the herb record.",
+    "schema": 1,
+    "status": "draft"
   },
   "acupoints": {
     "三陰交": {
+      "basis": "WHO Standard Acupuncture Point Locations (2008), in the project's own words",
+      "cautions": [
+        {
+          "en": "Do not press this point if you are pregnant or may be pregnant.",
+          "zh-Hant": "懷孕或可能懷孕時不要按壓此穴。"
+        }
+      ],
       "code": "SP6",
+      "location": {
+        "en": "On the inner side of the lower leg, about four finger-widths above the inner ankle bone, just behind the edge of the shin bone.",
+        "zh-Hant": "小腿內側，內踝尖上約四橫指（3 寸），脛骨內側緣後方。"
+      },
       "meridian": "脾經",
-      "pregnancy_avoid": true
+      "pregnancy_avoid": true,
+      "status": "draft"
     },
     "中脘": {
+      "basis": "WHO Standard Acupuncture Point Locations (2008), in the project's own words",
+      "cautions": [
+        {
+          "en": "Do not press hard within half an hour after a meal, or where the abdomen is sore or has a surgical wound.",
+          "zh-Hant": "飯後半小時內及腹部有手術傷口或疼痛時不要重按。"
+        }
+      ],
       "code": "CV12",
+      "location": {
+        "en": "On the midline of the upper abdomen, halfway between the lower end of the breastbone and the navel (about four finger-widths above the navel).",
+        "zh-Hant": "上腹部正中線上，胸骨下端與肚臍連線的中點（約肚臍上四橫指）。"
+      },
       "meridian": "任脈",
-      "pregnancy_avoid": false
+      "pregnancy_avoid": false,
+      "status": "draft"
     },
     "內關": {
+      "basis": "WHO Standard Acupuncture Point Locations (2008), in the project's own words",
+      "cautions": [
+        {
+          "en": "Do not press if the wrist or forearm is injured.",
+          "zh-Hant": "手腕或前臂有傷時不要按。"
+        }
+      ],
       "code": "PC6",
+      "location": {
+        "en": "On the inner forearm, about two finger-widths above the wrist crease, between the two tendons in the middle.",
+        "zh-Hant": "前臂內側，手腕橫紋上約兩橫指（2 寸），兩條肌腱（掌長肌腱與橈側腕屈肌腱）之間。"
+      },
       "meridian": "心包經",
-      "pregnancy_avoid": false
+      "pregnancy_avoid": false,
+      "status": "draft"
     },
     "列缺": {
+      "basis": "WHO Standard Acupuncture Point Locations (2008), in the project's own words",
+      "cautions": [],
       "code": "LU7",
+      "location": {
+        "en": "On the thumb side of the forearm, about two finger-widths above the wrist crease, in the groove at the edge of the bone.",
+        "zh-Hant": "前臂外側（拇指側），手腕橫紋上約兩橫指（1.5 寸），橈骨（前臂拇指側的骨頭）邊緣的凹溝中。"
+      },
       "meridian": "肺經",
-      "pregnancy_avoid": false
+      "pregnancy_avoid": false,
+      "status": "draft"
     },
     "合谷": {
+      "basis": "WHO Standard Acupuncture Point Locations (2008), in the project's own words",
+      "cautions": [
+        {
+          "en": "Press with light to moderate force, never hard.",
+          "zh-Hant": "按壓力道宜輕到中等，不可重壓。"
+        },
+        {
+          "en": "Do not press this point if you are pregnant or may be pregnant.",
+          "zh-Hant": "懷孕或可能懷孕時不要按壓此穴。"
+        }
+      ],
       "code": "LI4",
+      "location": {
+        "en": "On the back of the hand, between the thumb and index finger bones, at the middle of the index finger's long bone on the thumb side; the highest point of the muscle when the thumb is pressed against the index finger.",
+        "zh-Hant": "手背，第一、二掌骨之間，約在第二掌骨（食指延伸到手背的骨頭）靠拇指側的中點；拇指與食指併攏時，肌肉隆起的最高點。"
+      },
       "meridian": "大腸經",
-      "pregnancy_avoid": true
+      "pregnancy_avoid": true,
+      "status": "draft"
     },
     "命門": {
+      "basis": "WHO Standard Acupuncture Point Locations (2008), in the project's own words",
+      "cautions": [],
       "code": "GV4",
+      "location": {
+        "en": "On the midline of the lower back, at the level of the navel, in the hollow below the spine bump there.",
+        "zh-Hant": "腰部正中線上，與肚臍同高（第二腰椎棘突下方）的凹陷中。"
+      },
       "meridian": "督脈",
-      "pregnancy_avoid": false
+      "pregnancy_avoid": false,
+      "status": "draft"
     },
     "大椎": {
+      "basis": "WHO Standard Acupuncture Point Locations (2008), in the project's own words",
+      "cautions": [
+        {
+          "en": "Rub lightly only; do not press hard with a fever or a sore neck.",
+          "zh-Hant": "輕揉即可；有發燒或頸部不適時不要重壓。"
+        }
+      ],
       "code": "GV14",
+      "location": {
+        "en": "On the midline at the base of the neck, in the hollow just below the most prominent bone bump when the head is bent forward.",
+        "zh-Hant": "後頸部正中線上，最突出的頸椎（第七頸椎）棘突下方的凹陷中，低頭時最明顯的骨突下緣。"
+      },
       "meridian": "督脈",
-      "pregnancy_avoid": false
+      "pregnancy_avoid": false,
+      "status": "draft"
     },
     "太淵": {
+      "basis": "WHO Standard Acupuncture Point Locations (2008), in the project's own words",
+      "cautions": [],
       "code": "LU9",
+      "location": {
+        "en": "On the inner wrist crease on the thumb side, where the pulse can be felt.",
+        "zh-Hant": "手腕掌側橫紋上，靠拇指側，可摸到脈搏跳動處。"
+      },
       "meridian": "肺經",
-      "pregnancy_avoid": false
+      "pregnancy_avoid": false,
+      "status": "draft"
     },
     "太溪": {
+      "basis": "WHO Standard Acupuncture Point Locations (2008), in the project's own words",
+      "cautions": [],
       "code": "KI3",
+      "location": {
+        "en": "On the inner ankle, in the hollow halfway between the inner ankle bone and the Achilles tendon.",
+        "zh-Hant": "腳踝內側，內踝尖與腳後跟的大筋（跟腱）之間的凹陷中。"
+      },
       "meridian": "腎經",
-      "pregnancy_avoid": false
+      "pregnancy_avoid": false,
+      "status": "draft"
     },
     "太衝": {
+      "basis": "WHO Standard Acupuncture Point Locations (2008), in the project's own words",
+      "cautions": [],
       "code": "LR3",
+      "location": {
+        "en": "On top of the foot, in the hollow between the long bones of the big toe and the second toe, about two finger-widths up from the web between them.",
+        "zh-Hant": "腳背，第一、二蹠骨（大腳趾與第二趾延伸到腳背的骨頭）之間，由趾縫往腳踝方向推到骨頭交會前的凹陷處，約兩橫指。"
+      },
       "meridian": "肝經",
-      "pregnancy_avoid": false
+      "pregnancy_avoid": false,
+      "status": "draft"
     },
     "崑崙": {
+      "basis": "WHO Standard Acupuncture Point Locations (2008), in the project's own words",
+      "cautions": [
+        {
+          "en": "Do not press this point if you are pregnant or may be pregnant.",
+          "zh-Hant": "懷孕或可能懷孕時不要按壓此穴。"
+        }
+      ],
       "code": "BL60",
+      "location": {
+        "en": "On the outer ankle, in the hollow halfway between the outer ankle bone and the Achilles tendon.",
+        "zh-Hant": "腳踝外側，外踝尖與腳後跟的大筋（跟腱）之間的凹陷中。"
+      },
       "meridian": "膀胱經",
-      "pregnancy_avoid": true
+      "pregnancy_avoid": true,
+      "status": "draft"
     },
     "曲池": {
+      "basis": "WHO Standard Acupuncture Point Locations (2008), in the project's own words",
+      "cautions": [],
       "code": "LI11",
+      "location": {
+        "en": "On the outer elbow, with the elbow bent at a right angle, halfway between the outer end of the elbow crease and the bony bump on the outside of the elbow.",
+        "zh-Hant": "手肘外側，屈肘 90 度時，肘橫紋外側端與肱骨外側突起（外上髁）連線的中點。"
+      },
       "meridian": "大腸經",
-      "pregnancy_avoid": false
+      "pregnancy_avoid": false,
+      "status": "draft"
     },
     "次髎": {
+      "basis": "WHO Standard Acupuncture Point Locations (2008), in the project's own words",
+      "cautions": [
+        {
+          "en": "Do not press this point if you are pregnant or may be pregnant.",
+          "zh-Hant": "懷孕或可能懷孕時不要按壓此穴。"
+        }
+      ],
       "code": "BL32",
+      "location": {
+        "en": "On the sacrum (the flat triangular bone at the base of the spine), one on each side, in the second small hollow from the top; it is hard to find by yourself, so ask a practitioner to show you.",
+        "zh-Hant": "骶骨（脊椎下端的三角形平骨）上，左右各一，位於第二個骶後孔的凹陷中；位置不易自找，宜請專業人員示範。"
+      },
       "meridian": "膀胱經",
-      "pregnancy_avoid": true
+      "pregnancy_avoid": true,
+      "status": "draft"
     },
     "氣海": {
+      "basis": "WHO Standard Acupuncture Point Locations (2008), in the project's own words",
+      "cautions": [
+        {
+          "en": "Press gently on the lower abdomen.",
+          "zh-Hant": "下腹部按壓宜輕。"
+        }
+      ],
       "code": "CV6",
+      "location": {
+        "en": "On the midline of the lower abdomen, about two finger-widths below the navel.",
+        "zh-Hant": "下腹部正中線上，肚臍下約兩橫指（1.5 寸）。"
+      },
       "meridian": "任脈",
-      "pregnancy_avoid": false
+      "pregnancy_avoid": false,
+      "status": "draft"
     },
     "湧泉": {
+      "basis": "WHO Standard Acupuncture Point Locations (2008), in the project's own words",
+      "cautions": [
+        {
+          "en": "Do not press hard if the sole is wounded or has reduced feeling (for example in diabetes).",
+          "zh-Hant": "腳底有傷口、感覺遲鈍（例如糖尿病）時不要用力按。"
+        }
+      ],
       "code": "KI1",
+      "location": {
+        "en": "On the sole, in the hollow that forms when the toes curl, about a third of the way from the toes to the heel.",
+        "zh-Hant": "腳底，捲起腳趾時足心最凹陷處，約在腳掌前三分之一與後三分之二交界。"
+      },
       "meridian": "腎經",
-      "pregnancy_avoid": false
+      "pregnancy_avoid": false,
+      "status": "draft"
     },
     "百會": {
+      "basis": "WHO Standard Acupuncture Point Locations (2008), in the project's own words",
+      "cautions": [
+        {
+          "en": "Do not press if the scalp is wounded or inflamed.",
+          "zh-Hant": "頭皮有傷口或發炎時不要按。"
+        }
+      ],
       "code": "GV20",
+      "location": {
+        "en": "On top of the head, on the midline, where a line joining the tips of the two ears crosses it.",
+        "zh-Hant": "頭頂正中線上，兩耳尖連線與頭頂正中線的交會處。"
+      },
       "meridian": "督脈",
-      "pregnancy_avoid": false
+      "pregnancy_avoid": false,
+      "status": "draft"
     },
     "石門": {
+      "basis": "WHO Standard Acupuncture Point Locations (2008), in the project's own words",
+      "cautions": [
+        {
+          "en": "Do not press this point if you are pregnant or may be pregnant.",
+          "zh-Hant": "懷孕或可能懷孕時不要按壓此穴。"
+        }
+      ],
       "code": "CV5",
+      "location": {
+        "en": "On the midline of the lower abdomen, about three finger-widths below the navel.",
+        "zh-Hant": "下腹部正中線上，肚臍下約三橫指（2 寸）。"
+      },
       "meridian": "任脈",
-      "pregnancy_avoid": true
+      "pregnancy_avoid": true,
+      "status": "draft"
     },
     "神門": {
+      "basis": "WHO Standard Acupuncture Point Locations (2008), in the project's own words",
+      "cautions": [],
       "code": "HT7",
+      "location": {
+        "en": "On the inner wrist crease on the little-finger side, in the hollow beside the tendon.",
+        "zh-Hant": "手腕掌側橫紋上，靠小指側，肌腱（尺側腕屈肌腱）外緣的凹陷中。"
+      },
       "meridian": "心經",
-      "pregnancy_avoid": false
+      "pregnancy_avoid": false,
+      "status": "draft"
     },
     "肩井": {
+      "basis": "WHO Standard Acupuncture Point Locations (2008), in the project's own words",
+      "cautions": [
+        {
+          "en": "Do not press this point if you are pregnant or may be pregnant.",
+          "zh-Hant": "懷孕或可能懷孕時不要按壓此穴。"
+        }
+      ],
       "code": "GB21",
+      "location": {
+        "en": "On top of the shoulder, halfway between the bone bump at the base of the neck and the tip of the shoulder.",
+        "zh-Hant": "肩膀上方，頸後最突出的骨突（大椎）與肩膀外緣（肩峰）連線的中點。"
+      },
       "meridian": "膽經",
-      "pregnancy_avoid": true
+      "pregnancy_avoid": true,
+      "status": "draft"
     },
     "腎俞": {
+      "basis": "WHO Standard Acupuncture Point Locations (2008), in the project's own words",
+      "cautions": [],
       "code": "BL23",
+      "location": {
+        "en": "On the lower back at the level of the navel, about two finger-widths to each side of the spine.",
+        "zh-Hant": "腰部，與肚臍同高的脊椎棘突（第二腰椎）下方，脊椎左右各旁開約兩橫指。"
+      },
       "meridian": "膀胱經",
-      "pregnancy_avoid": false
+      "pregnancy_avoid": false,
+      "status": "draft"
     },
     "膈俞": {
+      "basis": "WHO Standard Acupuncture Point Locations (2008), in the project's own words",
+      "cautions": [],
       "code": "BL17",
+      "location": {
+        "en": "On the upper back at the level of the lower tip of the shoulder blade, about two finger-widths to each side of the spine.",
+        "zh-Hant": "背部，與肩胛骨下角同高的脊椎棘突（第七胸椎）下方，脊椎左右各旁開約兩橫指。"
+      },
       "meridian": "膀胱經",
-      "pregnancy_avoid": false
+      "pregnancy_avoid": false,
+      "status": "draft"
     },
     "膻中": {
+      "basis": "WHO Standard Acupuncture Point Locations (2008), in the project's own words",
+      "cautions": [
+        {
+          "en": "Press the breastbone only gently; if you have chest pain or tightness, do not press it yourself — follow the advice to see a doctor.",
+          "zh-Hant": "胸骨處以輕柔按揉為主；若有胸痛、胸悶，不要自行按壓，請依畫面提示就醫。"
+        }
+      ],
       "code": "CV17",
+      "location": {
+        "en": "On the midline of the chest, halfway between the nipples.",
+        "zh-Hant": "胸部正中線上，兩乳頭連線的中點（平第四肋間）。"
+      },
       "meridian": "任脈",
-      "pregnancy_avoid": false
+      "pregnancy_avoid": false,
+      "status": "draft"
     },
     "至陰": {
+      "basis": "WHO Standard Acupuncture Point Locations (2008), in the project's own words",
+      "cautions": [
+        {
+          "en": "Do not press this point if you are pregnant or may be pregnant.",
+          "zh-Hant": "懷孕或可能懷孕時不要按壓此穴。"
+        }
+      ],
       "code": "BL67",
+      "location": {
+        "en": "On the outer side of the little toe, right beside the outer corner of the toenail.",
+        "zh-Hant": "腳小趾外側，趾甲外側角旁約 0.1 寸（一小段指甲寬）。"
+      },
       "meridian": "膀胱經",
-      "pregnancy_avoid": true
+      "pregnancy_avoid": true,
+      "status": "draft"
     },
     "血海": {
+      "basis": "WHO Standard Acupuncture Point Locations (2008), in the project's own words",
+      "cautions": [
+        {
+          "en": "Do not press this point if you are pregnant or may be pregnant.",
+          "zh-Hant": "懷孕或可能懷孕時不要按壓此穴。"
+        }
+      ],
       "code": "SP10",
+      "location": {
+        "en": "On the inner thigh, with the knee bent, about two finger-widths above the inner upper corner of the kneecap, on the muscle bulge.",
+        "zh-Hant": "大腿內側，屈膝時，髕骨（膝蓋骨）內側上緣往上約兩橫指的肌肉隆起處。"
+      },
       "meridian": "脾經",
-      "pregnancy_avoid": true
+      "pregnancy_avoid": true,
+      "status": "draft"
     },
     "行間": {
+      "basis": "WHO Standard Acupuncture Point Locations (2008), in the project's own words",
+      "cautions": [],
       "code": "LR2",
+      "location": {
+        "en": "On top of the foot, in the web between the big toe and the second toe, just behind the edge of the web.",
+        "zh-Hant": "腳背，大腳趾與第二趾之間的趾蹼邊緣後方，皮膚顏色交界處。"
+      },
       "meridian": "肝經",
-      "pregnancy_avoid": false
+      "pregnancy_avoid": false,
+      "status": "draft"
     },
     "豐隆": {
+      "basis": "WHO Standard Acupuncture Point Locations (2008), in the project's own words",
+      "cautions": [],
       "code": "ST40",
+      "location": {
+        "en": "On the outer side of the lower leg, halfway between the outer ankle bone and the outer end of the crease behind the knee, about two finger-widths outside the shin bone.",
+        "zh-Hant": "小腿外側，外踝尖與膝蓋後方橫紋外側端連線的中點，脛骨外緣再向外約兩橫指處。"
+      },
       "meridian": "胃經",
-      "pregnancy_avoid": false
+      "pregnancy_avoid": false,
+      "status": "draft"
     },
     "足三里": {
+      "basis": "WHO Standard Acupuncture Point Locations (2008), in the project's own words",
+      "cautions": [],
       "code": "ST36",
+      "location": {
+        "en": "On the outer side of the lower leg, about four finger-widths below the outer hollow under the kneecap and one finger-width outside the shin bone.",
+        "zh-Hant": "小腿外側，膝蓋外側凹陷（外膝眼）往下約四橫指（3 寸），脛骨（小腿前面的骨頭）外緣再向外約一橫指處。"
+      },
       "meridian": "胃經",
-      "pregnancy_avoid": false
+      "pregnancy_avoid": false,
+      "status": "draft"
     },
     "關元": {
+      "basis": "WHO Standard Acupuncture Point Locations (2008), in the project's own words",
+      "cautions": [
+        {
+          "en": "Press gently on the lower abdomen, and not during heavy menstrual bleeding.",
+          "zh-Hant": "下腹部按壓宜輕；月經量多時不要按。"
+        },
+        {
+          "en": "Do not press this point if you are pregnant or may be pregnant.",
+          "zh-Hant": "懷孕或可能懷孕時不要按壓此穴。"
+        }
+      ],
       "code": "CV4",
+      "location": {
+        "en": "On the midline of the lower abdomen, about four finger-widths below the navel.",
+        "zh-Hant": "下腹部正中線上，肚臍下約四橫指（3 寸）。"
+      },
       "meridian": "任脈",
-      "pregnancy_avoid": true
+      "pregnancy_avoid": true,
+      "status": "draft"
     },
     "陰陵泉": {
+      "basis": "WHO Standard Acupuncture Point Locations (2008), in the project's own words",
+      "cautions": [],
       "code": "SP9",
+      "location": {
+        "en": "On the inner side of the lower leg, in the hollow just below the bony bulge at the top of the inner edge of the shin bone, below the knee.",
+        "zh-Hant": "小腿內側，脛骨內側緣向上推至膝下，骨頭轉彎突起處下方的凹陷中。"
+      },
       "meridian": "脾經",
-      "pregnancy_avoid": false
+      "pregnancy_avoid": false,
+      "status": "draft"
     },
     "風池": {
+      "basis": "WHO Standard Acupuncture Point Locations (2008), in the project's own words",
+      "cautions": [
+        {
+          "en": "Press the neck gently; never pound or force it.",
+          "zh-Hant": "頸部按壓宜輕柔，不可用力捶打或扳動頸部。"
+        }
+      ],
       "code": "GB20",
+      "location": {
+        "en": "At the back of the neck below the base of the skull, in the hollow on the outer side of the two large cords in the middle of the neck.",
+        "zh-Hant": "後頸部，枕骨（後腦勺下緣）之下，頸後兩條大筋外側的凹陷中。"
+      },
       "meridian": "膽經",
-      "pregnancy_avoid": false
+      "pregnancy_avoid": false,
+      "status": "draft"
     },
     "魚際": {
+      "basis": "WHO Standard Acupuncture Point Locations (2008), in the project's own words",
+      "cautions": [],
       "code": "LU10",
+      "location": {
+        "en": "On the thumb side of the palm, at the middle of the thumb's long bone, on the border between the palm and the back of the hand.",
+        "zh-Hant": "手掌拇指根部隆起（大魚際）的外緣，第一掌骨中點，掌面與手背交界處。"
+      },
       "meridian": "肺經",
-      "pregnancy_avoid": false
+      "pregnancy_avoid": false,
+      "status": "draft"
+    }
+  },
+  "acupressure": {
+    "cautions": [
+      {
+        "en": "Do not press on skin that is broken, inflamed, bruised or swollen.",
+        "zh-Hant": "皮膚破損、發炎、瘀青或腫脹處不要按壓。"
+      },
+      {
+        "en": "Stop at once if pain gets worse or you feel dizzy, sick, cold-sweaty or numb.",
+        "zh-Hant": "按壓時若出現疼痛加劇、頭暈、噁心、冒冷汗或麻木，請立即停止。"
+      },
+      {
+        "en": "Acupressure does not replace seeing a doctor; if the discomfort continues or gets worse, please see one.",
+        "zh-Hant": "穴位按壓不能取代就醫；不適持續或加重時請就診。"
+      }
+    ],
+    "how": {
+      "en": "Press and knead with the thumb or a fingertip using light to moderate pressure, about 1 to 3 minutes per point, until you feel a dull ache but not pain; once or twice a day. Most points are paired, so you can press both sides.",
+      "zh-Hant": "用拇指或指腹以輕到中等的力道按揉，每個穴位約 1 至 3 分鐘，以有痠脹感但不疼痛為度；每天 1 至 2 次。穴位位置以左右兩側對稱為主，可雙側都按。"
     }
   },
   "food_pregnancy_caution": [
+    "少量肉桂",
     "薏仁",
     "山楂",
     "黑木耳（少量）",
     "桂圓"
   ],
+  "foods": {
+    "佛手": {
+      "basis": "pharmacopoeia",
+      "cautions": [
+        {
+          "en": "Use little with yin deficiency and internal heat.",
+          "zh-Hant": "陰虛內熱者少用。"
+        }
+      ],
+      "citations": [
+        "suwen-023-1"
+      ],
+      "flavors": [
+        "辛",
+        "苦"
+      ],
+      "functions": [
+        "疏肝理氣",
+        "和胃止痛",
+        "燥濕化痰"
+      ],
+      "herb": "herb-foshou",
+      "nature": "溫",
+      "pregnancy_caution": false,
+      "rationale": {
+        "en": "Pungent, bitter and warm; traditionally used to soothe the liver and regulate qi, to harmonise the stomach and ease pain, and to dry dampness and resolve phlegm.",
+        "zh-Hant": "味辛、苦、性溫；傳統功效：疏肝理氣、和胃止痛、燥濕化痰。"
+      },
+      "status": "draft"
+    },
+    "冬瓜": {
+      "basis": "textbook",
+      "cautions": [
+        {
+          "en": "Use little if the spleen and stomach are weak and cold, or with loose stools.",
+          "zh-Hant": "脾胃虛寒、腹瀉者少用。"
+        }
+      ],
+      "citations": [
+        "suwen-022-1"
+      ],
+      "flavors": [
+        "甘",
+        "淡"
+      ],
+      "functions": [],
+      "herb": null,
+      "nature": "微寒",
+      "pregnancy_caution": false,
+      "rationale": {
+        "en": "Sweet, bland and slightly cold; traditionally used to promote urination and reduce swelling and to clear summer heat; usually made into soup.",
+        "zh-Hant": "味甘淡、性微寒，傳統上用於利水消腫、清熱解暑；常煮湯食用。"
+      },
+      "status": "draft"
+    },
+    "南瓜": {
+      "basis": "textbook",
+      "cautions": [],
+      "citations": [
+        "suwen-022-1"
+      ],
+      "flavors": [
+        "甘"
+      ],
+      "functions": [],
+      "herb": null,
+      "nature": "溫",
+      "pregnancy_caution": false,
+      "rationale": {
+        "en": "Sweet and warm; traditionally used to tonify the middle and qi and support the spleen and stomach; usually steamed or boiled.",
+        "zh-Hant": "味甘、性溫，傳統上用於補中益氣、健脾養胃；常蒸煮食用。"
+      },
+      "status": "draft"
+    },
+    "小米": {
+      "basis": "textbook",
+      "cautions": [],
+      "citations": [
+        "suwen-022-1"
+      ],
+      "flavors": [
+        "甘",
+        "鹹"
+      ],
+      "functions": [],
+      "herb": null,
+      "nature": "涼",
+      "pregnancy_caution": false,
+      "rationale": {
+        "en": "Sweet, salty and cool; traditionally used to nourish the stomach and harmonise the middle; a common porridge grain when the digestion is weak.",
+        "zh-Hant": "味甘鹹、性涼，傳統上用於養胃、和中；常作病後或脾胃虛弱時的粥食。"
+      },
+      "status": "draft"
+    },
+    "小麥": {
+      "basis": "pharmacopoeia",
+      "cautions": [],
+      "citations": [
+        "suwen-022-1"
+      ],
+      "flavors": [
+        "甘"
+      ],
+      "functions": [
+        "養心除煩",
+        "益腎"
+      ],
+      "herb": "herb-xiaomai",
+      "nature": "涼",
+      "pregnancy_caution": false,
+      "rationale": {
+        "en": "Sweet and cool; traditionally used to nourish the heart and ease restlessness, and to support the kidney.",
+        "zh-Hant": "味甘、性涼；傳統功效：養心除煩、益腎。"
+      },
+      "status": "draft"
+    },
+    "少量肉桂": {
+      "basis": "pharmacopoeia",
+      "cautions": [
+        {
+          "en": "Not suited to marked internal heat or yin deficiency with fire; use with caution in pregnancy.",
+          "zh-Hant": "內熱明顯或陰虛火旺者不宜；孕婦慎用。"
+        }
+      ],
+      "citations": [
+        "suwen-023-1"
+      ],
+      "flavors": [
+        "辛",
+        "甘"
+      ],
+      "functions": [
+        "補火助陽",
+        "引火歸元",
+        "散寒止痛",
+        "溫通經脈"
+      ],
+      "herb": "herb-rougui",
+      "nature": "大熱",
+      "pregnancy_caution": true,
+      "rationale": {
+        "en": "A small amount of cinnamon bark: pungent, sweet and very hot; traditionally used to warm the yang and disperse cold, and to free the channels.",
+        "zh-Hant": "味辛、甘、性大熱；傳統功效：補火助陽、引火歸元、散寒止痛、溫通經脈。"
+      },
+      "status": "draft"
+    },
+    "山楂": {
+      "basis": "pharmacopoeia",
+      "cautions": [
+        {
+          "en": "Use with caution in pregnancy; use little with excess stomach acid or a stomach ulcer.",
+          "zh-Hant": "孕婦慎用；胃酸過多、胃潰瘍者少用。"
+        }
+      ],
+      "citations": [
+        "suwen-022-1"
+      ],
+      "flavors": [
+        "酸",
+        "甘"
+      ],
+      "functions": [
+        "消食健胃",
+        "行氣散瘀",
+        "化濁降脂"
+      ],
+      "herb": "herb-shanzha",
+      "nature": "微溫",
+      "pregnancy_caution": true,
+      "rationale": {
+        "en": "Sour, sweet and slightly warm; traditionally used to aid digestion of meat and fat, and to move qi and disperse stasis.",
+        "zh-Hant": "味酸、甘、性微溫；傳統功效：消食健胃、行氣散瘀、化濁降脂。"
+      },
+      "status": "draft"
+    },
+    "山藥": {
+      "basis": "pharmacopoeia",
+      "cautions": [],
+      "citations": [
+        "suwen-022-1"
+      ],
+      "flavors": [
+        "甘"
+      ],
+      "functions": [
+        "補脾養胃",
+        "生津益肺",
+        "補腎澀精"
+      ],
+      "herb": "herb-shangyao",
+      "nature": "平",
+      "pregnancy_caution": false,
+      "rationale": {
+        "en": "Sweet and neutral; traditionally used to support the spleen and stomach, nourish body fluids and the lung, and support the kidney.",
+        "zh-Hant": "味甘、性平；傳統功效：補脾養胃、生津益肺、補腎澀精。"
+      },
+      "status": "draft"
+    },
+    "枸杞": {
+      "basis": "pharmacopoeia",
+      "cautions": [
+        {
+          "en": "Use little with a weak spleen, dampness or loose stools.",
+          "zh-Hant": "脾虛濕盛、腹瀉者少用。"
+        }
+      ],
+      "citations": [
+        "suwen-022-1"
+      ],
+      "flavors": [
+        "甘"
+      ],
+      "functions": [
+        "滋補肝腎",
+        "益精明目"
+      ],
+      "herb": "herb-gouqizi",
+      "nature": "平",
+      "pregnancy_caution": false,
+      "rationale": {
+        "en": "Wolfberry: sweet and neutral; traditionally used to nourish the liver and kidney and to benefit the essence and the eyes.",
+        "zh-Hant": "味甘、性平；傳統功效：滋補肝腎、益精明目。"
+      },
+      "status": "draft"
+    },
+    "栗子": {
+      "basis": "textbook",
+      "cautions": [
+        {
+          "en": "Use little with poor digestion or a bloated belly.",
+          "zh-Hant": "消化不良、腹脹者少用。"
+        }
+      ],
+      "citations": [
+        "suwen-022-1"
+      ],
+      "flavors": [
+        "甘"
+      ],
+      "functions": [],
+      "herb": null,
+      "nature": "溫",
+      "pregnancy_caution": false,
+      "rationale": {
+        "en": "Sweet and warm; traditionally used to nourish the stomach, support the spleen and strengthen the kidney and sinews; hard to digest, so eat a little.",
+        "zh-Hant": "味甘、性溫，傳統上用於養胃健脾、補腎強筋；不易消化，宜少量。"
+      },
+      "status": "draft"
+    },
+    "核桃": {
+      "basis": "pharmacopoeia",
+      "cautions": [
+        {
+          "en": "Use little with loose stools or phlegm-heat.",
+          "zh-Hant": "大便溏瀉、痰熱者少用。"
+        }
+      ],
+      "citations": [
+        "suwen-022-1"
+      ],
+      "flavors": [
+        "甘"
+      ],
+      "functions": [
+        "補腎",
+        "溫肺",
+        "潤腸"
+      ],
+      "herb": "herb-hetaoren",
+      "nature": "溫",
+      "pregnancy_caution": false,
+      "rationale": {
+        "en": "Walnut kernel: sweet and warm; traditionally used to support the kidney and warm the lung, and to moisten the bowels.",
+        "zh-Hant": "味甘、性溫；傳統功效：補腎、溫肺、潤腸。"
+      },
+      "status": "draft"
+    },
+    "桂圓": {
+      "basis": "pharmacopoeia",
+      "cautions": [
+        {
+          "en": "Use little with phlegm-fire or damp stagnation; ask first in pregnancy.",
+          "zh-Hant": "內有痰火、濕滯者少用；孕婦宜先諮詢。"
+        }
+      ],
+      "citations": [
+        "suwen-022-1"
+      ],
+      "flavors": [
+        "甘"
+      ],
+      "functions": [
+        "補益心脾",
+        "養血安神"
+      ],
+      "herb": "herb-longyanrou",
+      "nature": "溫",
+      "pregnancy_caution": true,
+      "rationale": {
+        "en": "Longan flesh: sweet and warm; traditionally used to tonify the heart and spleen, nourish blood and calm the spirit.",
+        "zh-Hant": "味甘、性溫；傳統功效：補益心脾、養血安神。"
+      },
+      "status": "draft"
+    },
+    "桑葚": {
+      "basis": "pharmacopoeia",
+      "cautions": [
+        {
+          "en": "Use little if the spleen and stomach are weak and cold, or with loose stools.",
+          "zh-Hant": "脾胃虛寒、腹瀉者少用。"
+        }
+      ],
+      "citations": [
+        "suwen-022-1"
+      ],
+      "flavors": [
+        "甘",
+        "酸"
+      ],
+      "functions": [
+        "滋陰補血",
+        "生津潤燥"
+      ],
+      "herb": "herb-sangshen",
+      "nature": "寒",
+      "pregnancy_caution": false,
+      "rationale": {
+        "en": "Mulberry: sweet, sour and cold; traditionally used to nourish yin and blood, and to generate fluids and moisten dryness.",
+        "zh-Hant": "味甘、酸、性寒；傳統功效：滋陰補血、生津潤燥。"
+      },
+      "status": "draft"
+    },
+    "梨": {
+      "basis": "textbook",
+      "cautions": [
+        {
+          "en": "If the spleen and stomach are weak and cold, or with loose stools, cook it and eat only a little.",
+          "zh-Hant": "脾胃虛寒、腹瀉者宜煮熟並少量。"
+        }
+      ],
+      "citations": [
+        "suwen-022-1"
+      ],
+      "flavors": [
+        "甘",
+        "酸"
+      ],
+      "functions": [],
+      "herb": null,
+      "nature": "涼",
+      "pregnancy_caution": false,
+      "rationale": {
+        "en": "Sweet, slightly sour and cool; traditionally used to clear heat, generate fluids, moisten dryness and resolve phlegm; eaten raw or stewed.",
+        "zh-Hant": "味甘微酸、性涼，傳統上用於清熱生津、潤燥化痰；可生食或燉煮。"
+      },
+      "status": "draft"
+    },
+    "溫熱粥": {
+      "basis": "textbook",
+      "cautions": [],
+      "citations": [
+        "suwen-022-1"
+      ],
+      "flavors": [
+        "甘"
+      ],
+      "functions": [],
+      "herb": null,
+      "nature": "溫",
+      "pregnancy_caution": false,
+      "rationale": {
+        "en": "Warm porridge; traditionally used to nourish the stomach qi and warm the middle; soft and easy to digest.",
+        "zh-Hant": "溫熱的粥，傳統上用於養胃氣、暖中；質地軟、易消化。"
+      },
+      "status": "draft"
+    },
+    "熱稀粥": {
+      "basis": "textbook",
+      "cautions": [],
+      "citations": [
+        "suwen-022-1"
+      ],
+      "flavors": [
+        "甘"
+      ],
+      "functions": [],
+      "herb": null,
+      "nature": "溫",
+      "pregnancy_caution": false,
+      "rationale": {
+        "en": "Thin hot rice porridge; traditionally used to nourish the stomach qi and support a formula's action — the classical instructions for Guizhi Tang say to sip hot thin porridge after it.",
+        "zh-Hant": "熱的稀粥，傳統上用於養胃氣、助藥力；《傷寒論》桂枝湯方後即有「啜熱稀粥」的服法。"
+      },
+      "status": "draft"
+    },
+    "玫瑰花": {
+      "basis": "pharmacopoeia",
+      "cautions": [
+        {
+          "en": "Use little with yin deficiency and fire.",
+          "zh-Hant": "陰虛火旺者少用。"
+        }
+      ],
+      "citations": [
+        "suwen-023-1"
+      ],
+      "flavors": [
+        "甘",
+        "苦"
+      ],
+      "functions": [
+        "行氣解鬱",
+        "和血",
+        "止痛"
+      ],
+      "herb": "herb-meiguihua",
+      "nature": "溫",
+      "pregnancy_caution": false,
+      "rationale": {
+        "en": "Sweet, bitter and warm; traditionally used to move qi and relieve constraint, to harmonise the blood and ease pain.",
+        "zh-Hant": "味甘、苦、性溫；傳統功效：行氣解鬱、和血、止痛。"
+      },
+      "status": "draft"
+    },
+    "玫瑰花茶": {
+      "basis": "pharmacopoeia",
+      "cautions": [
+        {
+          "en": "Use little with yin deficiency and fire.",
+          "zh-Hant": "陰虛火旺者少用。"
+        }
+      ],
+      "citations": [
+        "suwen-023-1"
+      ],
+      "flavors": [
+        "甘",
+        "苦"
+      ],
+      "functions": [
+        "行氣解鬱",
+        "和血",
+        "止痛"
+      ],
+      "herb": "herb-meiguihua",
+      "nature": "溫",
+      "pregnancy_caution": false,
+      "rationale": {
+        "en": "Rose tea: sweet, bitter and warm; traditionally used to move qi and relieve constraint, to harmonise the blood and ease pain.",
+        "zh-Hant": "味甘、苦、性溫；傳統功效：行氣解鬱、和血、止痛。"
+      },
+      "status": "draft"
+    },
+    "生薑": {
+      "basis": "pharmacopoeia",
+      "cautions": [
+        {
+          "en": "Use little if there is marked internal heat, a dry or sore throat, or yin deficiency.",
+          "zh-Hant": "內熱明顯、口乾咽痛或陰虛者少用。"
+        }
+      ],
+      "citations": [
+        "suwen-023-1"
+      ],
+      "flavors": [
+        "辛"
+      ],
+      "functions": [
+        "解表散寒",
+        "溫中止嘔",
+        "化痰止咳"
+      ],
+      "herb": "herb-shengjiang",
+      "nature": "溫",
+      "pregnancy_caution": false,
+      "rationale": {
+        "en": "Pungent and warm; traditionally used to release the exterior and disperse cold, warm the middle and ease nausea, and resolve phlegm.",
+        "zh-Hant": "味辛、性溫；傳統功效：解表散寒、溫中止嘔、化痰止咳。"
+      },
+      "status": "draft"
+    },
+    "百合": {
+      "basis": "pharmacopoeia",
+      "cautions": [
+        {
+          "en": "Use little if the spleen and stomach are weak and cold, or with loose stools.",
+          "zh-Hant": "脾胃虛寒、腹瀉者少用。"
+        }
+      ],
+      "citations": [
+        "suwen-022-1"
+      ],
+      "flavors": [
+        "甘"
+      ],
+      "functions": [
+        "養陰潤肺",
+        "清心安神"
+      ],
+      "herb": "herb-baihe",
+      "nature": "微寒",
+      "pregnancy_caution": false,
+      "rationale": {
+        "en": "Sweet and slightly cold; traditionally used to nourish yin and moisten the lung, and to clear the heart and calm the spirit.",
+        "zh-Hant": "味甘、性微寒；傳統功效：養陰潤肺、清心安神。"
+      },
+      "status": "draft"
+    },
+    "竹茹茶": {
+      "basis": "pharmacopoeia",
+      "cautions": [
+        {
+          "en": "Use little if the spleen and stomach are weak and cold, or with loose stools.",
+          "zh-Hant": "脾胃虛寒、腹瀉者少用。"
+        }
+      ],
+      "citations": [
+        "suwen-023-1"
+      ],
+      "flavors": [
+        "甘"
+      ],
+      "functions": [
+        "清熱化痰",
+        "除煩止嘔"
+      ],
+      "herb": "herb-zhuru",
+      "nature": "微寒",
+      "pregnancy_caution": false,
+      "rationale": {
+        "en": "Bamboo-shaving tea: sweet and slightly cold; traditionally used to clear heat and resolve phlegm, ease restlessness and nausea.",
+        "zh-Hant": "味甘、性微寒；傳統功效：清熱化痰、除煩止嘔。"
+      },
+      "status": "draft"
+    },
+    "紅棗": {
+      "basis": "pharmacopoeia",
+      "cautions": [
+        {
+          "en": "Use little with damp fullness or phlegm-heat; people watching their blood sugar should mind the amount.",
+          "zh-Hant": "濕盛脹滿、痰熱者少用；血糖偏高者留意用量。"
+        }
+      ],
+      "citations": [
+        "suwen-022-1"
+      ],
+      "flavors": [
+        "甘"
+      ],
+      "functions": [
+        "補中益氣",
+        "養血安神"
+      ],
+      "herb": "herb-dazao",
+      "nature": "溫",
+      "pregnancy_caution": false,
+      "rationale": {
+        "en": "Sweet and warm; traditionally used to tonify the middle and qi, and to nourish blood and calm the spirit.",
+        "zh-Hant": "味甘、性溫；傳統功效：補中益氣、養血安神。"
+      },
+      "status": "draft"
+    },
+    "綠茶": {
+      "basis": "textbook",
+      "cautions": [
+        {
+          "en": "Use little with insomnia, palpitations or excess stomach acid; ask a doctor or pharmacist if you take medicines.",
+          "zh-Hant": "失眠、心悸、胃酸過多者少用；與藥物併用請先詢問。"
+        }
+      ],
+      "citations": [
+        "suwen-022-1"
+      ],
+      "flavors": [
+        "苦",
+        "甘"
+      ],
+      "functions": [],
+      "herb": null,
+      "nature": "涼",
+      "pregnancy_caution": false,
+      "rationale": {
+        "en": "Bitter, sweet and cool; traditionally used to clear heat, refresh the mind and promote urination; it contains caffeine, so do not overdo it or drink it before bed.",
+        "zh-Hant": "味苦甘、性涼，傳統上用於清熱、提神、利尿；含咖啡因，不宜過量或睡前飲用。"
+      },
+      "status": "draft"
+    },
+    "綠豆": {
+      "basis": "pharmacopoeia",
+      "cautions": [
+        {
+          "en": "Not suited in quantity to a weak, cold spleen and stomach, or with loose stools.",
+          "zh-Hant": "脾胃虛寒、腹瀉者不宜多食。"
+        }
+      ],
+      "citations": [
+        "suwen-022-1"
+      ],
+      "flavors": [
+        "甘"
+      ],
+      "functions": [
+        "清熱解毒",
+        "消暑",
+        "利水"
+      ],
+      "herb": "herb-lvdou",
+      "nature": "寒",
+      "pregnancy_caution": false,
+      "rationale": {
+        "en": "Sweet and cold; traditionally used to clear heat and toxin, relieve summer heat and promote urination.",
+        "zh-Hant": "味甘、性寒；傳統功效：清熱解毒、消暑、利水。"
+      },
+      "status": "draft"
+    },
+    "羊肉（冬）": {
+      "basis": "textbook",
+      "cautions": [
+        {
+          "en": "Not suited to marked internal heat, dry mouth with constipation, or high blood fats.",
+          "zh-Hant": "內熱明顯、口乾便秘、高血脂者少用。"
+        }
+      ],
+      "citations": [
+        "suwen-022-1"
+      ],
+      "flavors": [
+        "甘"
+      ],
+      "functions": [],
+      "herb": null,
+      "nature": "溫",
+      "pregnancy_caution": false,
+      "rationale": {
+        "en": "Sweet and warm (leaning hot); traditionally eaten in winter to warm the middle and the lower body and to tonify qi and deficiency; not suited to marked internal heat.",
+        "zh-Hant": "味甘、性溫（偏熱），傳統上於冬季用於溫中暖下、益氣補虛；內熱明顯者不宜。"
+      },
+      "status": "draft"
+    },
+    "苦瓜": {
+      "basis": "textbook",
+      "cautions": [
+        {
+          "en": "Use little if the spleen and stomach are weak and cold, or with loose stools.",
+          "zh-Hant": "脾胃虛寒、腹瀉者少用。"
+        }
+      ],
+      "citations": [
+        "suwen-022-1"
+      ],
+      "flavors": [
+        "苦"
+      ],
+      "functions": [],
+      "herb": null,
+      "nature": "寒",
+      "pregnancy_caution": false,
+      "rationale": {
+        "en": "Bitter and cold; traditionally used to clear heat and relieve summer heat and to brighten the eyes; stir-fried or made into soup.",
+        "zh-Hant": "味苦、性寒，傳統上用於清熱解暑、明目；常炒食或煮湯。"
+      },
+      "status": "draft"
+    },
+    "茯苓": {
+      "basis": "pharmacopoeia",
+      "cautions": [],
+      "citations": [
+        "suwen-023-1"
+      ],
+      "flavors": [
+        "甘",
+        "淡"
+      ],
+      "functions": [
+        "利水滲濕",
+        "健脾",
+        "寧心"
+      ],
+      "herb": "herb-fuling",
+      "nature": "平",
+      "pregnancy_caution": false,
+      "rationale": {
+        "en": "Sweet, bland and neutral; traditionally used to drain dampness, support the spleen and calm the heart.",
+        "zh-Hant": "味甘、淡、性平；傳統功效：利水滲濕、健脾、寧心。"
+      },
+      "status": "draft"
+    },
+    "菊花": {
+      "basis": "pharmacopoeia",
+      "cautions": [
+        {
+          "en": "Use little if the spleen and stomach are weak and cold, or with loose stools.",
+          "zh-Hant": "脾胃虛寒、腹瀉者少用。"
+        }
+      ],
+      "citations": [
+        "suwen-023-1"
+      ],
+      "flavors": [
+        "甘",
+        "苦"
+      ],
+      "functions": [
+        "疏散風熱",
+        "平抑肝陽",
+        "清肝明目",
+        "清熱解毒"
+      ],
+      "herb": "herb-juhua",
+      "nature": "微寒",
+      "pregnancy_caution": false,
+      "rationale": {
+        "en": "Sweet, bitter and slightly cold; traditionally used to disperse wind-heat, calm the liver and clear the eyes.",
+        "zh-Hant": "味甘、苦、性微寒；傳統功效：疏散風熱、平抑肝陽、清肝明目、清熱解毒。"
+      },
+      "status": "draft"
+    },
+    "菊花茶": {
+      "basis": "pharmacopoeia",
+      "cautions": [
+        {
+          "en": "Use little if the spleen and stomach are weak and cold, or with loose stools.",
+          "zh-Hant": "脾胃虛寒、腹瀉者少用。"
+        }
+      ],
+      "citations": [
+        "suwen-023-1"
+      ],
+      "flavors": [
+        "甘",
+        "苦"
+      ],
+      "functions": [
+        "疏散風熱",
+        "平抑肝陽",
+        "清肝明目",
+        "清熱解毒"
+      ],
+      "herb": "herb-juhua",
+      "nature": "微寒",
+      "pregnancy_caution": false,
+      "rationale": {
+        "en": "Chrysanthemum tea: sweet, bitter and slightly cold; traditionally used to disperse wind-heat, calm the liver and clear the eyes.",
+        "zh-Hant": "味甘、苦、性微寒；傳統功效：疏散風熱、平抑肝陽、清肝明目、清熱解毒。"
+      },
+      "status": "draft"
+    },
+    "蓮子": {
+      "basis": "pharmacopoeia",
+      "cautions": [
+        {
+          "en": "Not suited to people with hard, dry stools.",
+          "zh-Hant": "大便乾結者不宜多食。"
+        }
+      ],
+      "citations": [
+        "suwen-022-1"
+      ],
+      "flavors": [
+        "甘",
+        "澀"
+      ],
+      "functions": [
+        "補脾止瀉",
+        "止帶",
+        "益腎澀精",
+        "養心安神"
+      ],
+      "herb": "herb-lianzi",
+      "nature": "平",
+      "pregnancy_caution": false,
+      "rationale": {
+        "en": "Sweet, astringent and neutral; traditionally used to support the spleen, steady loose stools, support the kidney and calm the heart.",
+        "zh-Hant": "味甘、澀、性平；傳統功效：補脾止瀉、止帶、益腎澀精、養心安神。"
+      },
+      "status": "draft"
+    },
+    "蔥白": {
+      "basis": "pharmacopoeia",
+      "cautions": [
+        {
+          "en": "Not suited to people who already sweat a lot.",
+          "zh-Hant": "多汗、表虛者不宜。"
+        }
+      ],
+      "citations": [
+        "suwen-023-1"
+      ],
+      "flavors": [
+        "辛"
+      ],
+      "functions": [
+        "發汗解表",
+        "散寒通陽"
+      ],
+      "herb": "herb-congbai",
+      "nature": "溫",
+      "pregnancy_caution": false,
+      "rationale": {
+        "en": "Pungent and warm; traditionally used to induce sweating and release the exterior, and to disperse cold and free the yang.",
+        "zh-Hant": "味辛、性溫；傳統功效：發汗解表、散寒通陽。"
+      },
+      "status": "draft"
+    },
+    "薄荷": {
+      "basis": "pharmacopoeia",
+      "cautions": [
+        {
+          "en": "Use little if you are weak and sweat easily.",
+          "zh-Hant": "體虛多汗者少用。"
+        }
+      ],
+      "citations": [
+        "suwen-023-1"
+      ],
+      "flavors": [
+        "辛"
+      ],
+      "functions": [
+        "疏散風熱",
+        "清利頭目",
+        "利咽",
+        "透疹",
+        "疏肝行氣"
+      ],
+      "herb": "herb-bohe",
+      "nature": "涼",
+      "pregnancy_caution": false,
+      "rationale": {
+        "en": "Pungent and cool; traditionally used to disperse wind-heat, clear the head and eyes and soothe the throat.",
+        "zh-Hant": "味辛、性涼；傳統功效：疏散風熱、清利頭目、利咽、透疹、疏肝行氣。"
+      },
+      "status": "draft"
+    },
+    "薏仁": {
+      "basis": "pharmacopoeia",
+      "cautions": [
+        {
+          "en": "Use with caution in pregnancy; use little if fluids are low or you are constipated.",
+          "zh-Hant": "孕婦慎用；津液不足、便秘者少用。"
+        }
+      ],
+      "citations": [
+        "suwen-022-1"
+      ],
+      "flavors": [
+        "甘",
+        "淡"
+      ],
+      "functions": [
+        "利水滲濕",
+        "健脾止瀉",
+        "除痺",
+        "排膿",
+        "解毒散結"
+      ],
+      "herb": "herb-yiyiren",
+      "nature": "涼",
+      "pregnancy_caution": true,
+      "rationale": {
+        "en": "Sweet, bland and cool; traditionally used to drain dampness and support the spleen, to steady loose stools and to ease stiffness of the joints.",
+        "zh-Hant": "味甘、淡、性涼；傳統功效：利水滲濕、健脾止瀉、除痺、排膿、解毒散結。"
+      },
+      "status": "draft"
+    },
+    "蘆根": {
+      "basis": "pharmacopoeia",
+      "cautions": [
+        {
+          "en": "Not suited to a weak, cold spleen and stomach.",
+          "zh-Hant": "脾胃虛寒者不宜。"
+        }
+      ],
+      "citations": [
+        "suwen-023-1"
+      ],
+      "flavors": [
+        "甘"
+      ],
+      "functions": [
+        "清熱瀉火",
+        "生津止渴",
+        "除煩",
+        "止嘔",
+        "利尿"
+      ],
+      "herb": "herb-lugen",
+      "nature": "寒",
+      "pregnancy_caution": false,
+      "rationale": {
+        "en": "Sweet and cold; traditionally used to clear heat, generate fluids, ease restlessness and nausea.",
+        "zh-Hant": "味甘、性寒；傳統功效：清熱瀉火、生津止渴、除煩、止嘔、利尿。"
+      },
+      "status": "draft"
+    },
+    "蜂蜜": {
+      "basis": "pharmacopoeia",
+      "cautions": [
+        {
+          "en": "People watching their blood sugar should mind the amount; never give honey to a baby under one year.",
+          "zh-Hant": "糖尿病或血糖偏高者留意用量；一歲以下嬰兒不可食用。"
+        }
+      ],
+      "citations": [
+        "suwen-023-1"
+      ],
+      "flavors": [
+        "甘"
+      ],
+      "functions": [
+        "補中",
+        "潤燥",
+        "止痛",
+        "解毒"
+      ],
+      "herb": "herb-fengmi",
+      "nature": "平",
+      "pregnancy_caution": false,
+      "rationale": {
+        "en": "Sweet and neutral; traditionally used to tonify the middle, moisten dryness and ease pain.",
+        "zh-Hant": "味甘、性平；傳統功效：補中、潤燥、止痛、解毒。"
+      },
+      "status": "draft"
+    },
+    "赤小豆": {
+      "basis": "pharmacopoeia",
+      "cautions": [
+        {
+          "en": "Use little if fluids are low or you pass a lot of urine.",
+          "zh-Hant": "津液不足、尿多者少用。"
+        }
+      ],
+      "citations": [
+        "suwen-022-1"
+      ],
+      "flavors": [
+        "甘",
+        "酸"
+      ],
+      "functions": [
+        "利水消腫",
+        "解毒排膿"
+      ],
+      "herb": "herb-chixiaodou",
+      "nature": "平",
+      "pregnancy_caution": false,
+      "rationale": {
+        "en": "Sweet, sour and neutral; traditionally used to promote urination and reduce swelling, and to clear toxin.",
+        "zh-Hant": "味甘、酸、性平；傳統功效：利水消腫、解毒排膿。"
+      },
+      "status": "draft"
+    },
+    "酸棗仁茶": {
+      "basis": "pharmacopoeia",
+      "cautions": [
+        {
+          "en": "If you take sedatives or sleeping medicines, ask a doctor or pharmacist first.",
+          "zh-Hant": "與鎮靜安眠藥併用請先詢問醫師或藥師。"
+        }
+      ],
+      "citations": [
+        "suwen-022-1"
+      ],
+      "flavors": [
+        "甘",
+        "酸"
+      ],
+      "functions": [
+        "養心補肝",
+        "寧心安神",
+        "斂汗",
+        "生津"
+      ],
+      "herb": "herb-suanzaoren",
+      "nature": "平",
+      "pregnancy_caution": false,
+      "rationale": {
+        "en": "Jujube-seed tea: sweet, sour and neutral; traditionally used to nourish the heart and liver, calm the spirit and restrain sweating.",
+        "zh-Hant": "味甘、酸、性平；傳統功效：養心補肝、寧心安神、斂汗、生津。"
+      },
+      "status": "draft"
+    },
+    "銀耳": {
+      "basis": "textbook",
+      "cautions": [],
+      "citations": [
+        "suwen-022-1"
+      ],
+      "flavors": [
+        "甘",
+        "淡"
+      ],
+      "functions": [],
+      "herb": null,
+      "nature": "平",
+      "pregnancy_caution": false,
+      "rationale": {
+        "en": "Sweet, bland and neutral; traditionally used to nourish yin and moisten the lung and to nourish the stomach and generate fluids; usually simmered.",
+        "zh-Hant": "味甘淡、性平，傳統上用於滋陰潤肺、養胃生津；常燉煮食用。"
+      },
+      "status": "draft"
+    },
+    "陳皮": {
+      "basis": "pharmacopoeia",
+      "cautions": [
+        {
+          "en": "Use little with a red, dry tongue or marked internal heat.",
+          "zh-Hant": "舌紅少津、內熱明顯者少用。"
+        }
+      ],
+      "citations": [
+        "suwen-023-1"
+      ],
+      "flavors": [
+        "苦",
+        "辛"
+      ],
+      "functions": [
+        "理氣健脾",
+        "燥濕化痰"
+      ],
+      "herb": "herb-chenpi",
+      "nature": "溫",
+      "pregnancy_caution": false,
+      "rationale": {
+        "en": "Bitter, pungent and warm; traditionally used to regulate qi and support the spleen, to dry dampness and resolve phlegm.",
+        "zh-Hant": "味苦、辛、性溫；傳統功效：理氣健脾、燥濕化痰。"
+      },
+      "status": "draft"
+    },
+    "雞肉": {
+      "basis": "textbook",
+      "cautions": [
+        {
+          "en": "Use little during a cold with fever or with marked internal heat.",
+          "zh-Hant": "感冒發熱、內熱明顯時少用。"
+        }
+      ],
+      "citations": [
+        "suwen-022-1"
+      ],
+      "flavors": [
+        "甘"
+      ],
+      "functions": [],
+      "herb": null,
+      "nature": "溫",
+      "pregnancy_caution": false,
+      "rationale": {
+        "en": "Sweet and warm; traditionally used to warm the middle, tonify qi and fill the essence; not suited during a cold with fever or with marked internal heat.",
+        "zh-Hant": "味甘、性溫，傳統上用於溫中益氣、補精填髓；感冒發熱或內熱明顯時不宜。"
+      },
+      "status": "draft"
+    },
+    "韭菜": {
+      "basis": "textbook",
+      "cautions": [
+        {
+          "en": "Use little with yin deficiency and internal heat, or with sores.",
+          "zh-Hant": "陰虛內熱、瘡瘍者少用。"
+        }
+      ],
+      "citations": [
+        "suwen-022-1"
+      ],
+      "flavors": [
+        "辛"
+      ],
+      "functions": [],
+      "herb": null,
+      "nature": "溫",
+      "pregnancy_caution": false,
+      "rationale": {
+        "en": "Pungent and warm; traditionally used to warm the middle and move qi and to support the kidney yang; use little with marked internal heat.",
+        "zh-Hant": "味辛、性溫，傳統上用於溫中行氣、助腎陽；內熱明顯者少用。"
+      },
+      "status": "draft"
+    },
+    "麥冬茶": {
+      "basis": "pharmacopoeia",
+      "cautions": [
+        {
+          "en": "Not suited to a weak, cold spleen and stomach, or with loose stools.",
+          "zh-Hant": "脾胃虛寒、腹瀉者不宜。"
+        }
+      ],
+      "citations": [
+        "suwen-023-1"
+      ],
+      "flavors": [
+        "甘",
+        "苦"
+      ],
+      "functions": [
+        "養陰生津",
+        "潤肺清心"
+      ],
+      "herb": "herb-maidong",
+      "nature": "微寒",
+      "pregnancy_caution": false,
+      "rationale": {
+        "en": "Ophiopogon tea: sweet, bitter and slightly cold; traditionally used to nourish yin and generate fluids, moisten the lung and clear the heart.",
+        "zh-Hant": "味甘、苦、性微寒；傳統功效：養陰生津、潤肺清心。"
+      },
+      "status": "draft"
+    },
+    "黃耆燉雞（少量）": {
+      "basis": "pharmacopoeia",
+      "cautions": [
+        {
+          "en": "Not suited during a fever, with a bloated belly or marked internal heat; if you take medicines, ask a doctor or pharmacist first.",
+          "zh-Hant": "感冒發熱、腹脹或內熱明顯時不宜；與藥物併用請先詢問醫師或藥師。"
+        }
+      ],
+      "citations": [
+        "suwen-022-1"
+      ],
+      "flavors": [
+        "甘"
+      ],
+      "functions": [
+        "補氣昇陽",
+        "固表止汗",
+        "利水消腫",
+        "生津養血",
+        "行滯通痺",
+        "託毒排膿",
+        "斂瘡生肌"
+      ],
+      "herb": "herb-huangqi",
+      "nature": "微溫",
+      "pregnancy_caution": false,
+      "rationale": {
+        "en": "A little astragalus stewed with chicken; astragalus is sweet and slightly warm and traditionally used to tonify qi and raise the yang, to firm the exterior and stop sweating.",
+        "zh-Hant": "味甘、性微溫；傳統功效：補氣昇陽、固表止汗、利水消腫、生津養血、行滯通痺、託毒排膿、斂瘡生肌。"
+      },
+      "status": "draft"
+    },
+    "黑木耳（少量）": {
+      "basis": "textbook",
+      "cautions": [
+        {
+          "en": "Use with caution in pregnancy, and not in quantity.",
+          "zh-Hant": "孕婦慎用，且不宜多食。"
+        }
+      ],
+      "citations": [
+        "suwen-022-1"
+      ],
+      "flavors": [
+        "甘"
+      ],
+      "functions": [],
+      "herb": null,
+      "nature": "平",
+      "pregnancy_caution": true,
+      "rationale": {
+        "en": "Sweet and neutral; traditionally used to tonify qi and blood and moisten the lung; eat a small amount, well cooked.",
+        "zh-Hant": "味甘、性平，傳統上用於益氣養血、潤肺；少量並煮熟食用。"
+      },
+      "status": "draft"
+    },
+    "黑芝麻": {
+      "basis": "pharmacopoeia",
+      "cautions": [
+        {
+          "en": "Use little with loose stools.",
+          "zh-Hant": "大便溏瀉者少用。"
+        }
+      ],
+      "citations": [
+        "suwen-022-1"
+      ],
+      "flavors": [
+        "甘"
+      ],
+      "functions": [
+        "補肝腎",
+        "益精血",
+        "潤腸燥"
+      ],
+      "herb": "herb-heizhima",
+      "nature": "平",
+      "pregnancy_caution": false,
+      "rationale": {
+        "en": "Sweet and neutral; traditionally used to nourish the liver and kidney, to benefit essence and blood and to moisten the bowels.",
+        "zh-Hant": "味甘、性平；傳統功效：補肝腎、益精血、潤腸燥。"
+      },
+      "status": "draft"
+    },
+    "黑豆": {
+      "basis": "pharmacopoeia",
+      "cautions": [
+        {
+          "en": "Not suited in quantity to a weak digestion or a bloated belly.",
+          "zh-Hant": "脾胃虛弱、腹脹者不宜多食。"
+        }
+      ],
+      "citations": [
+        "suwen-022-1"
+      ],
+      "flavors": [
+        "甘"
+      ],
+      "functions": [
+        "益精明目",
+        "養血祛風",
+        "利水解毒"
+      ],
+      "herb": "herb-heidou",
+      "nature": "平",
+      "pregnancy_caution": false,
+      "rationale": {
+        "en": "Sweet and neutral; traditionally used to benefit essence and the eyes, to nourish blood and expel wind, and to promote urination.",
+        "zh-Hant": "味甘、性平；傳統功效：益精明目、養血祛風、利水解毒。"
+      },
+      "status": "draft"
+    },
+    "龍眼肉": {
+      "basis": "pharmacopoeia",
+      "cautions": [
+        {
+          "en": "Use little with phlegm-fire or damp stagnation; ask first in pregnancy.",
+          "zh-Hant": "內有痰火、濕滯者少用；孕婦宜先諮詢。"
+        }
+      ],
+      "citations": [
+        "suwen-022-1"
+      ],
+      "flavors": [
+        "甘"
+      ],
+      "functions": [
+        "補益心脾",
+        "養血安神"
+      ],
+      "herb": "herb-longyanrou",
+      "nature": "溫",
+      "pregnancy_caution": false,
+      "rationale": {
+        "en": "Sweet and warm; traditionally used to tonify the heart and spleen, nourish blood and calm the spirit.",
+        "zh-Hant": "味甘、性溫；傳統功效：補益心脾、養血安神。"
+      },
+      "status": "draft"
+    }
+  },
   "general": {
     "source": [
       "suwen-001-1",
@@ -175,5 +1753,99 @@
       "suwen-070-2"
     ],
     "text": "食飲有節，起居有常，不妄作勞；恬惔虛無，真氣從之，精神內守，病安從來。四季依《四氣調神大論》調養；飲食「穀肉果菜，食養盡之，無使過之，傷其正也」。"
+  },
+  "lifestyle": {
+    "EX1": {
+      "en": "Keep warm, rest, and avoid wind.",
+      "zh-Hant": "保暖、休息、避風"
+    },
+    "EX2": {
+      "en": "Keep warm, rest and avoid wind; after Guizhi Tang-type formulas the original instructions have you sip hot thin porridge.",
+      "zh-Hant": "保暖、休息、避風；服桂枝湯類後啜熱稀粥（原方服法）"
+    },
+    "EX3": {
+      "en": "Drink plenty of water and eat light food.",
+      "zh-Hant": "多飲水、清淡飲食"
+    },
+    "EX4": {
+      "en": "Avoid catching the wind after sweating.",
+      "zh-Hant": "避免出汗後受風"
+    },
+    "HT1": {
+      "en": "Keep a regular daily rhythm and reduce brooding.",
+      "zh-Hant": "規律作息、減少思慮"
+    },
+    "HT2": {
+      "en": "Wind down before bed and avoid stimulation in the evening.",
+      "zh-Hant": "睡前放鬆、避免晚間刺激"
+    },
+    "HT3": {
+      "en": "Eat less greasy food and have a light evening meal.",
+      "zh-Hant": "少油膩、晚餐少吃"
+    },
+    "KD1": {
+      "en": "Avoid late nights and cut down on spicy, drying food.",
+      "zh-Hant": "避免熬夜、減少辛燥"
+    },
+    "KD2": {
+      "en": "Keep the waist and abdomen warm and avoid sitting for long in the cold.",
+      "zh-Hant": "腰腹保暖、避免久坐受寒"
+    },
+    "LG1": {
+      "en": "Keep warm and out of the wind, and exercise moderately.",
+      "zh-Hant": "防風保暖、適度鍛鍊"
+    },
+    "LG2": {
+      "en": "Keep the air moist and avoid smoke and dust.",
+      "zh-Hant": "空氣濕潤、少煙塵"
+    },
+    "LV1": {
+      "en": "Ease stress, exercise regularly, and find ways to express feelings.",
+      "zh-Hant": "抒壓、規律運動、情緒表達"
+    },
+    "LV2": {
+      "en": "Cut down on late nights and spicy food, and practise relaxing.",
+      "zh-Hant": "減少熬夜與辛辣、練習放鬆"
+    },
+    "LV3": {
+      "en": "Sleep enough, avoid late nights, and rest the eyes from long screen time.",
+      "zh-Hant": "睡足、少熬夜、少久視"
+    },
+    "LV4": {
+      "en": "Eat when you are calm, and eat small meals more often.",
+      "zh-Hant": "情緒平穩時進食、少量多餐"
+    },
+    "QB1": {
+      "en": "Keep a regular daily rhythm and avoid overwork.",
+      "zh-Hant": "規律作息、不過勞"
+    },
+    "QB2": {
+      "en": "Stay active regularly and avoid sitting still for long.",
+      "zh-Hant": "規律活動、避免久坐不動"
+    },
+    "SP1": {
+      "en": "Eat at regular times, chew slowly, and take a walk after meals.",
+      "zh-Hant": "三餐規律、細嚼慢嚥、飯後散步"
+    },
+    "SP2": {
+      "en": "Avoid raw and cold foods and keep the abdomen warm.",
+      "zh-Hant": "忌生冷、腹部保暖"
+    },
+    "SP3": {
+      "en": "Avoid long standing and overwork.",
+      "zh-Hant": "避免久站過勞"
+    },
+    "SP4": {
+      "en": "Eat less sweet, greasy and fried food, and exercise regularly to a light sweat.",
+      "zh-Hant": "少甜膩油炸、規律運動出微汗"
+    },
+    "SP5": {
+      "en": "Avoid tobacco, alcohol and spicy food; eat light food.",
+      "zh-Hant": "忌菸酒辛辣、清淡飲食"
+    },
+    "SP6": {
+      "en": "Eat less spicy food, and eat small meals more often.",
+      "zh-Hant": "少辛辣、少量多餐"
+    }
   }
 }

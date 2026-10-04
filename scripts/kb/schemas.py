@@ -362,12 +362,19 @@ def safety_rules() -> dict:
 
 
 def treatment_guidance() -> dict:
+    cautions = arr(ref("bilingualNamed"))
+    acupoint = obj({"basis": STR, "code": STR, "cautions": cautions, "location": ref("bilingualNamed"), "meridian": STR, "pregnancy_avoid": BOOL, "status": ref("reviewStatus")})
+    food = obj({"basis": enum("pharmacopoeia", "textbook"), "cautions": cautions, "citations": arr(ref("citationId"), 1), "flavors": arr(STR, 1), "functions": arr(STR), "herb": {"oneOf": [{"type": "null"}, ref("herbId")]},
+                "nature": STR, "pregnancy_caution": BOOL, "rationale": ref("bilingualNamed"), "status": ref("reviewStatus")})
     return {"type": "object", "properties": {
-        "_meta": meta(),
-        "acupoints": dictionary(obj({"code": STR, "meridian": STR, "pregnancy_avoid": BOOL}), min_props=1),
+        "_meta": meta({"status": ref("reviewStatus")}, ["status"]),
+        "acupoints": dictionary(acupoint, min_props=1),
+        "acupressure": obj({"cautions": cautions, "how": ref("bilingualNamed")}),
+        "foods": dictionary(food, min_props=1),
+        "lifestyle": dictionary(ref("bilingualNamed"), min_props=1),
         "food_pregnancy_caution": arr(STR),
         "general": obj({"source": arr(ref("citationId")), "text": STR})},
-        "required": ["_meta", "acupoints", "food_pregnancy_caution", "general"], "additionalProperties": False}
+        "required": ["_meta", "acupoints", "acupressure", "food_pregnancy_caution", "foods", "general", "lifestyle"], "additionalProperties": False}
 
 
 def constitution_items() -> dict:

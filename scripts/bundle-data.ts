@@ -12,7 +12,7 @@ import { readDataFiles } from "../packages/kb/node/fromDisk.ts";
 import type { ChunkRef, Manifest, ProfileName } from "../packages/kb/src/types.ts";
 
 /** Gzip budgets per chunk in bytes (tech spec §5.2). */
-export const BUDGET_GZ = { core: 60 * 1024, formulas: 30 * 1024, herbs: 25 * 1024, citations: 15 * 1024 } as const;
+export const BUDGET_GZ = { core: 60 * 1024, formulas: 30 * 1024, herbs: 25 * 1024, citations: 15 * 1024, guidance: 20 * 1024 } as const;
 
 const sha256 = (s: string): string => createHash("sha256").update(s).digest("hex");
 
@@ -42,6 +42,7 @@ export function writeBundle(opts: WriteBundleOptions): WriteBundleResult {
     core: JSON.stringify(chunks.core),
     formulas: JSON.stringify(chunks.formulas),
     citations: JSON.stringify(chunks.citations),
+    guidance: JSON.stringify(chunks.guidance),
     ...(chunks.herbs ? { herbs: JSON.stringify(chunks.herbs) } : {}),
   };
 
@@ -65,7 +66,7 @@ export function writeBundle(opts: WriteBundleOptions): WriteBundleResult {
   const version = sha256([profile, chunks.schemaVersion, ...Object.values(refs).map((r) => r.sha256)].join("|")).slice(0, 12);
   const manifest: Manifest = {
     schema: chunks.schemaVersion, version, profile,
-    chunks: { core: refs.core!, formulas: refs.formulas!, citations: refs.citations!, ...(refs.herbs ? { herbs: refs.herbs } : {}) },
+    chunks: { core: refs.core!, formulas: refs.formulas!, citations: refs.citations!, guidance: refs.guidance!, ...(refs.herbs ? { herbs: refs.herbs } : {}) },
   };
   writeFileSync(join(out, "manifest.json"), JSON.stringify(manifest, null, 2) + "\n");
   return { manifest, reach, formulas: chunks.formulas.items.length, herbRecords: chunks.herbs ? chunks.herbs.items.length : 0, report, overBudget };

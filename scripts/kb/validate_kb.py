@@ -510,6 +510,38 @@ def validate(load: Loader = load, check_sources: bool = True) -> list[str]:
     for c in load("treatment/guidance.json")["general"]["source"]:
         if c not in cit_ids:
             err(f"treatment guidance: unknown citation {c}")
+    # the diet entries and per-pattern lifestyle of the guidance file (K-11): everything a pattern refers to has bilingual text and a pregnancy flag
+    guide = load("treatment/guidance.json")
+    herb_by_id = {h["id"]: h for h in load("herbs/herbs.json")["items"]}
+    for p in patterns:
+        for f in p["treatment"]["foods"]:
+            if f not in guide["foods"]:
+                err(f"pattern {p['id']}: the food {f} has no diet entry in treatment/guidance.json")
+        lf = guide["lifestyle"].get(p["id"])
+        if lf is None:
+            err(f"pattern {p['id']}: no bilingual lifestyle entry")
+        elif lf["zh-Hant"] != p["treatment"]["lifestyle"]:
+            err(f"pattern {p['id']}: the lifestyle text of treatment/guidance.json differs from the pattern's")
+    for name, food in guide["foods"].items():
+        if food["pregnancy_caution"] != (name in guide["food_pregnancy_caution"]):
+            err(f"food {name}: pregnancy_caution does not match food_pregnancy_caution")
+        for c in food["citations"]:
+            if c not in cit_ids:
+                err(f"food {name}: unknown citation {c}")
+        if food["herb"] is not None:
+            herb = herb_by_id.get(food["herb"])
+            if herb is None:
+                err(f"food {name}: unknown herb {food['herb']}")
+            else:
+                if food["basis"] != "pharmacopoeia" or food["functions"] != herb["functions"]:
+                    err(f"food {name}: a herb-backed entry must take its functions from the herb record")
+                if herb["pregnancy"] in ("caution", "avoid") and not food["pregnancy_caution"]:
+                    err(f"food {name}: its herb {food['herb']} is flagged {herb['pregnancy']} in pregnancy but the food is not")
+        elif food["basis"] != "textbook":
+            err(f"food {name}: an entry without a herb record must say basis textbook")
+    for name in guide["food_pregnancy_caution"]:
+        if name not in guide["foods"]:
+            err(f"food_pregnancy_caution lists {name}, which has no diet entry")
     susc = load("wuxing/susceptibility.json")
     for c in susc["citations"]:
         if c not in cit_ids:

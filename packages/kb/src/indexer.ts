@@ -1,5 +1,5 @@
 import { KbError } from "./errors.ts";
-import type { GlossaryTerm, KnowledgeBase, RawKbChunks } from "./types.ts";
+import type { GlossaryTerm, KnowledgeBase, RawKbChunks, TreatmentGuidance } from "./types.ts";
 
 /** The schema version this build of the app understands (data/schema, `_meta.schema`). A KB with another version is refused. */
 export const SUPPORTED_SCHEMA_VERSION = 1;
@@ -49,6 +49,16 @@ export function indexKnowledgeBase(raw: RawKbChunks): KnowledgeBase {
     }
   }
 
+  // the treatment guidance: the engine's part (core) and the texts (guidance chunk) merged into one view; every point has both halves
+  const treatment: TreatmentGuidance = {
+    ...core.treatment, acupressure: raw.guidance.acupressure, foods: raw.guidance.foods, lifestyle: raw.guidance.lifestyle,
+    acupoints: Object.fromEntries(Object.entries(core.treatment.acupoints).map(([name, a]) => {
+      const text = raw.guidance.acupoints[name];
+      if (!text) throw new KbError("index-invalid", `acupoint ${name} has no guidance text`);
+      return [name, { ...a, ...text }];
+    })),
+  };
+
   const terms = new Map<string, GlossaryTerm>();
   for (const t of core.glossary.items) if (!terms.has(t["zh-Hant"])) terms.set(t["zh-Hant"], t);
 
@@ -76,7 +86,7 @@ export function indexKnowledgeBase(raw: RawKbChunks): KnowledgeBase {
     formulas,
     herbs,
     safety: core.safety,
-    treatment: core.treatment,
+    treatment,
     wuxing: core.wuxing,
     glossary: core.glossary.items,
     emergency: core.emergency,

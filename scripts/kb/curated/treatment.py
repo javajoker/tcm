@@ -1,7 +1,7 @@
 """Diet, self-acupressure and lifestyle guidance per pattern (curated draft from SOP §10.4; all rows await review).
 
-Acupoints are listed by name with the WHO standard code; no locations are given here (a later UI task adds
-reviewed illustrations). `pregnancy_avoid` marks points contraindicated in pregnancy (standard teaching).
+Acupoints are listed by name with the WHO standard code; locations and cautions are in `treatment_text.py` (K-11). `pregnancy_avoid` marks points contraindicated in pregnancy
+(standard teaching).
 """
 
 ACUPOINTS = {
@@ -42,7 +42,7 @@ GUIDANCE = {
     "QB1": (["紅棗", "桂圓", "山藥", "雞肉"], ["足三里", "氣海", "三陰交"], "規律作息、不過勞"),
     "QB2": (["黑木耳（少量）", "玫瑰花", "山楂"], ["血海", "膈俞", "三陰交"], "規律活動、避免久坐不動"),
 }
-FOOD_PREGNANCY_CAUTION = ["薏仁", "山楂", "黑木耳（少量）", "桂圓"]
+FOOD_PREGNANCY_CAUTION = ["少量肉桂", "薏仁", "山楂", "黑木耳（少量）", "桂圓"]       # 少量肉桂 added with K-11: the Pharmacopoeia entry of 肉桂 says 孕婦慎用
 GENERAL = {
     "source": ["suwen-001-1", "suwen-001-2", "suwen-002-1", "suwen-022-1", "suwen-070-2"],
     "text": "食飲有節，起居有常，不妄作勞；恬惔虛無，真氣從之，精神內守，病安從來。四季依《四氣調神大論》調養；飲食「穀肉果菜，食養盡之，無使過之，傷其正也」。",

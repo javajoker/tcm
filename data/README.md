@@ -42,7 +42,7 @@ Needs Node ≥ 22.18 for the one TypeScript export step (`scripts/kb/export_wuxi
 | `wuxing/engine-params.json` | — | Default engine / profile / transmission parameters | exported from `packages/wuxing` |
 | `config/scope-profiles.json` | 2 profiles | **Application configuration**: output levels L0–L3, `dev` (everything open) and `release` (restricted) profiles, notice policy | curated |
 | `safety/rules.json` | 26 rules | Safety filter rules per population / condition / state / medication class, 十八反・十九畏, pregnancy acupoints, reference amounts | curated |
-| `treatment/guidance.json` | 31 points | Acupoint registry (WHO code, meridian, pregnancy flag) and general lifestyle text | curated |
+| `treatment/guidance.json` | 31 points, 47 foods, 23 lifestyle lines | Acupoint registry (WHO code, meridian, pregnancy flag) with a location text and cautions in both languages; diet entries (nature, flavour, rationale, cautions, pregnancy flag, citations — herb-backed ones take their properties from `herbs.json`); bilingual per-pattern lifestyle; general regimen text. All draft | curated + herb records |
 | `schema/*.schema.json` | 22 | **JSON Schemas** (draft 2020-12) for every data file; the contract validated in the build and the source of the TypeScript types | `scripts/kb/schemas.py` |
 | `diagnosis/constitution-items.json` | 37 items | own-written constitution questionnaire (K-08; draft) | curated |
 | `safety/emergency.json` | 12 regions | regional emergency / crisis numbers (safety policy §5; unverified) | curated |

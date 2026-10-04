@@ -80,11 +80,25 @@ export interface CoreChunk {
   readonly panelSchema: PanelSchema;
   readonly params: ScoringParams;
   readonly safety: SafetyRules;
-  readonly treatment: TreatmentGuidance;
+  readonly treatment: TreatmentCore;
   readonly wuxing: { readonly correspondences: Correspondences; readonly susceptibility: Susceptibility; readonly yunqi: Yunqi };
   readonly glossary: Glossary;
   readonly emergency: Emergency;
   readonly constitutionItems: ConstitutionItems;
+}
+/** What the engine needs of the treatment guidance: the core chunk carries it without the texts (the points' locations and cautions, the diet entries, the lifestyle lines are in the guidance chunk). */
+export interface TreatmentCore {
+  readonly _meta: TreatmentGuidance["_meta"];
+  readonly acupoints: Readonly<Record<string, Pick<TreatmentGuidance["acupoints"][string], "code" | "meridian" | "pregnancy_avoid" | "status">>>;
+  readonly food_pregnancy_caution: TreatmentGuidance["food_pregnancy_caution"];
+  readonly general: TreatmentGuidance["general"];
+}
+/** The explanatory texts of the treatment guidance, loaded with the rest and merged into `kb.treatment` by the indexer. */
+export interface GuidanceChunk {
+  readonly acupoints: Readonly<Record<string, Pick<TreatmentGuidance["acupoints"][string], "location" | "cautions" | "basis">>>;
+  readonly acupressure: TreatmentGuidance["acupressure"];
+  readonly foods: TreatmentGuidance["foods"];
+  readonly lifestyle: TreatmentGuidance["lifestyle"];
 }
 /** Display names of every herb the retained formulas use: always present, so a bundle without herb records can still name the herbs. */
 export interface HerbName { readonly name: Bilingual; readonly latin: string | null }
@@ -100,6 +114,7 @@ export interface RawKbChunks {
   readonly formulas: FormulasChunk;
   readonly herbs: HerbsChunk | null;
   readonly citations: CitationsChunk;
+  readonly guidance: GuidanceChunk;
 }
 
 // ── manifest ────────────────────────────────────────────────────────────────
@@ -108,7 +123,7 @@ export interface Manifest {
   readonly schema: number;
   readonly version: string;
   readonly profile: ProfileName;
-  readonly chunks: { readonly core: ChunkRef; readonly formulas: ChunkRef; readonly herbs?: ChunkRef; readonly citations: ChunkRef };
+  readonly chunks: { readonly core: ChunkRef; readonly formulas: ChunkRef; readonly herbs?: ChunkRef; readonly citations: ChunkRef; readonly guidance: ChunkRef };
 }
 
 // ── runtime view ────────────────────────────────────────────────────────────

@@ -8,7 +8,7 @@ import subprocess
 from collections import defaultdict
 
 from .common import DATA, LIB, ROOT, dump, i18n, read_lib, submodule_commits, tw
-from .curated import exam, panel, patterns as pat, symptoms, treatment
+from .curated import exam, panel, patterns as pat, symptoms, treatment, treatment_text
 from .curated.formulas import FORMULAS
 
 NATURE_ZH = {"風": "風", "寒": "寒", "火": "火熱", "暑": "暑", "濕": "濕", "燥": "燥", "痰": "痰", "飲": "飲", "瘀": "血瘀", "食積": "食積",
@@ -150,8 +150,39 @@ def build_susceptibility() -> dict:
 
 
 def build_guidance() -> dict:
-    return {"_meta": {"description": "Self-acupressure points and diet/lifestyle guidance per pattern (draft)."},
-            "acupoints": {n: {"code": c, "meridian": m, "pregnancy_avoid": preg} for n, (c, m, preg) in sorted(treatment.ACUPOINTS.items())},
+    herbs = {h["id"]: h for h in json.loads((DATA / "herbs" / "herbs.json").read_text(encoding="utf-8"))["items"]}
+    tt = treatment_text
+
+    def pair(zh_en: tuple[str, str]) -> dict:
+        return {"zh-Hant": zh_en[0], "en": zh_en[1]}
+
+    acupoints = {}
+    for name, (code, meridian, preg) in sorted(treatment.ACUPOINTS.items()):
+        zh_loc, en_loc, extra = tt.ACUPOINT_TEXT[name]
+        cautions = [pair(c) for c in extra] + ([pair(tt.PREGNANCY_NOTE)] if preg else [])
+        acupoints[name] = {"code": code, "meridian": meridian, "pregnancy_avoid": preg, "location": {"zh-Hant": zh_loc, "en": en_loc}, "cautions": cautions, "status": "draft",
+                           "basis": "WHO Standard Acupuncture Point Locations (2008), in the project's own words"}
+
+    foods = {}
+    names = sorted({f for fs, _a, _l in treatment.GUIDANCE.values() for f in fs})
+    for name in names:
+        herb_id, nature, flavors, zh_text, en_text, cautions, basis, cites = tt.FOOD_TEXT[name]
+        functions: list[str] = []
+        if herb_id is not None:             # nature, flavours and functions come from the herb record (2025 Pharmacopoeia via TCM-Library), not from this table
+            h = herbs[herb_id]
+            nature = "".join(h["siqi"]) if len(h["siqi"]) == 1 else "/".join(h["siqi"])
+            flavors = [f["flavor"] for f in h["flavors"]]
+            functions = list(h["functions"])
+            zh_text = f"味{'、'.join(flavors)}、性{nature}；傳統功效：{'、'.join(functions)}。"
+            basis = "pharmacopoeia"
+        foods[name] = {"herb": herb_id, "nature": nature, "flavors": flavors, "functions": functions, "rationale": {"zh-Hant": zh_text, "en": en_text}, "cautions": [pair(c) for c in cautions],
+                       "pregnancy_caution": name in treatment.FOOD_PREGNANCY_CAUTION, "basis": basis, "citations": cites, "status": "draft"}
+
+    lifestyle = {pid: {"zh-Hant": zh, "en": tt.LIFESTYLE_EN[pid]} for pid, (_f, _a, zh) in sorted(treatment.GUIDANCE.items())}
+    return {"_meta": {"description": "Self-acupressure points, diet entries and lifestyle guidance (draft; awaits TCM clinical and pharmacy review). Point locations and diet texts are bilingual; a food that is also a herb takes its nature, "
+                                     "flavours and functions from the herb record.", "status": "draft"},
+            "acupoints": acupoints, "acupressure": {"how": pair(tt.ACUPRESSURE["how"]), "cautions": [pair(c) for c in tt.ACUPRESSURE["cautions"]]},
+            "foods": foods, "lifestyle": lifestyle,
             "food_pregnancy_caution": treatment.FOOD_PREGNANCY_CAUTION, "general": treatment.GENERAL}
 
 

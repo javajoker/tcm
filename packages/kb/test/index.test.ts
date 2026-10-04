@@ -64,12 +64,12 @@ const sha = (s: string): string => createHash("sha256").update(s).digest("hex");
 
 function serve(overrides: { manifest?: Partial<Manifest>; corrupt?: string; missing?: string } = {}) {
   const bodies: Record<string, string> = {
-    "core.json": JSON.stringify(raw.core), "formulas.json": JSON.stringify(raw.formulas), "herbs.json": JSON.stringify(raw.herbs), "citations.json": JSON.stringify(raw.citations),
+    "core.json": JSON.stringify(raw.core), "formulas.json": JSON.stringify(raw.formulas), "herbs.json": JSON.stringify(raw.herbs), "citations.json": JSON.stringify(raw.citations), "guidance.json": JSON.stringify(raw.guidance),
   };
   const ref = (file: string) => ({ file, sha256: sha(bodies[file]!), bytes: bodies[file]!.length });
   const manifest: Manifest = {
     schema: 1, version: "v-test", profile: "dev",
-    chunks: { core: ref("core.json"), formulas: ref("formulas.json"), herbs: ref("herbs.json"), citations: ref("citations.json") }, ...overrides.manifest,
+    chunks: { core: ref("core.json"), formulas: ref("formulas.json"), herbs: ref("herbs.json"), citations: ref("citations.json"), guidance: ref("guidance.json") }, ...overrides.manifest,
   };
   const requested: string[] = [];
   const fakeFetch = (async (url: string) => {
@@ -88,7 +88,7 @@ test("the loader fetches the manifest and every chunk, verifies hashes and index
   const loaded = await loadKnowledgeBase({ baseUrl: "/kb/", fetch: fakeFetch });
   assert.equal(loaded.version, "v-test");
   assert.equal(loaded.patterns.length, 23);
-  assert.deepEqual([...requested].sort(), ["citations.json", "core.json", "formulas.json", "herbs.json", "manifest.json"]);
+  assert.deepEqual([...requested].sort(), ["citations.json", "core.json", "formulas.json", "guidance.json", "herbs.json", "manifest.json"]);
 });
 
 test("the loader refuses a schema-version mismatch before fetching any chunk", async () => {

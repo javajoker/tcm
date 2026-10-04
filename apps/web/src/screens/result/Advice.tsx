@@ -5,11 +5,11 @@ import { useI18n } from "../../i18n/I18nProvider.tsx";
 import type { MessageKey } from "../../i18n/catalogs.ts";
 import { CitationChip } from "../../app/citations.tsx";
 import { useLoaded } from "../../app/knowledge.tsx";
-import { Term } from "../../app/Term.tsx";
 import type { SavedAssessment } from "../../storage/types.ts";
 import { Card, Chip } from "../../ui/index.ts";
 import { FeedbackMarks } from "./feedback.tsx";
 import { formulaKey } from "./feedbackModel.ts";
+import { FoodItem, Lifestyle, PointItem, PressingNotes } from "./Guidance.tsx";
 import { BilingualName, ZhText } from "./shared.tsx";
 
 const ROLE_SLUG = { 君: "sovereign", 臣: "minister", 佐: "assistant", 使: "envoy" } as const;
@@ -89,20 +89,21 @@ export function Advice({ saved }: { saved: SavedAssessment }): ReactNode {
       {r.foods.length > 0 ? (
         <section aria-labelledby="adv-diet">
           <h3 id="adv-diet">{t.t("report.advice.diet")}</h3>
-          <ul>{r.foods.map((f) => <li key={f.name}><Term zh={f.name} />{f.annotations.map((n) => <span key={n.ruleId} className="muted"> — {t.localized(n.message).text}</span>)}</li>)}</ul>
+          <ul>{r.foods.map((f) => <FoodItem key={f.name} food={f} />)}</ul>
         </section>
       ) : null}
 
       {r.acupoints.length > 0 ? (
         <section aria-labelledby="adv-points">
           <h3 id="adv-points">{t.t("report.advice.points")}</h3>
-          <ul>{r.acupoints.map((p) => <li key={p.name}><Term zh={p.name} /> <span className="muted">{t.t("report.points.meridian", { code: p.code, meridian: p.meridian })}</span>{p.annotations.map((n) => <span key={n.ruleId} className="muted"> — {t.localized(n.message).text}</span>)}</li>)}</ul>
+          <ul>{r.acupoints.map((p) => <PointItem key={p.name} point={p} />)}</ul>
+          <PressingNotes />
         </section>
       ) : null}
 
       <section aria-labelledby="adv-life">
         <h3 id="adv-life">{t.t("report.advice.lifestyle")}</h3>
-        {r.lifestyle.length > 0 ? <ul>{r.lifestyle.map((l) => <li key={l.patternId}><strong>{patternName(l.patternId)}</strong>: <ZhText>{l.text}</ZhText></li>)}</ul> : null}
+        {r.lifestyle.length > 0 ? <ul>{r.lifestyle.map((l) => <li key={l.patternId}><strong>{patternName(l.patternId)}</strong>: <Lifestyle patternId={l.patternId} fallback={<ZhText>{l.text}</ZhText>} /></li>)}</ul> : null}
         <p><strong>{t.t("report.advice.general")}</strong>: <ZhText>{r.general.text}</ZhText></p>
         <p>{r.general.citations.map((c) => <CitationChip key={c} id={c} usedFor={t.t("report.advice.general")} />)}</p>
       </section>

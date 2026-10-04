@@ -251,7 +251,7 @@ Also: `dose_references` (age fractions for minors, elderly note — never shown 
 
 ### 6.3 `treatment/guidance.json`
 
-`acupoints{ zhName: { code (WHO), meridian, pregnancy_avoid } }` (31) · `general{ text, source[] }` · `food_pregnancy_caution[]`. Location text and illustrations are not yet included (§9).
+`acupoints{ zhName: { code (WHO), meridian, pregnancy_avoid, location{zh-Hant,en}, cautions[{zh-Hant,en}], status, basis } }` (31) · `acupressure{ how, cautions[] }` (the notes that apply to every point) · `foods{ name: { herb (id | null), nature, flavors[], functions[], rationale{zh-Hant,en}, cautions[], pregnancy_caution, basis (pharmacopoeia | textbook), citations[], status } }` (47, every food a pattern lists) · `lifestyle{ patternId: { zh-Hant, en } }` (23) · `general{ text, source[] }` · `food_pregnancy_caution[]` (the list the safety rule reads). A food that is also a herb takes `nature`, `flavors` and `functions` from the herb record (`basis: pharmacopoeia`); the others state them from the general textbook teaching (`basis: textbook`). Point locations follow the WHO standard descriptions in the project's own words. Everything is `draft`; `validate_kb` checks that everything a pattern refers to has bilingual text, that the pregnancy flags match the safety rule, the herb-backed entries and the citations. Illustrations are not yet included (U-25).
 
 ### 6.4 `glossary.json` — 139 terms
 
@@ -319,7 +319,7 @@ Nothing is `reviewed` yet; the release gate in the [release process](release-pro
 |---|---|---|
 | `diagnosis/constitution-items.json` | Own-written 9-type items, 1–5 scale, scoring map | SOP D6; needs review |
 | `geo/cities.json` | `{ id, name{zh-Hant,en}, lat, lon, tz }` | Decided: GeoNames `cities15000`, CC BY 4.0, reduced subset with attribution (tech spec TQ2) |
-| `treatment/guidance.json` (extend) | Acupoint location text, illustration ids, diet entries with rationale and citations | |
+| `treatment/guidance.json` (extend) ✔ | Acupoint location text and cautions, diet entries with rationale and citations, bilingual lifestyle — done (K-11); illustration ids to follow (U-25) | |
 | English prose fields | English rendering of `rationale_zh`, `principle`, `treatment`, `cautions`, `messages` | Machine draft + review |
 | `review/records.json` ✔ | Review records compiled from `review/records/*.yaml` (K-16): the records, the units they cover (`reviewed`, with content hashes), those whose content changed since (`stale`) and per-file coverage with the roles each file needs | [Content review §5](content-review.md) |
 

@@ -60,6 +60,12 @@ describe("the suite covers what the policy names", () => {
     assert.deepEqual(Object.keys(elsewhere).filter((id) => named.has(id) && id !== "R_LOW_CONFIDENCE"), [], "remove the entry: a vignette covers it now");
   });
 
+  test("every food with a pregnancy caution has a vignette of its own", () => {
+    const ids = new Set(all.map((v) => v.id));
+    assert.deepEqual(release.treatment.food_pregnancy_caution.filter((f) => !ids.has(`PREG-FOOD-${f}`)), []);
+    assert.deepEqual(release.treatment.food_pregnancy_caution.length, 5);
+  });
+
   test("the checker is not vacuous: wrong expectations are reported", () => {
     const v = all.find((x) => x.id === "POP-ADULT")!;
     const view = runVignette(release, v);
