@@ -1,0 +1,575 @@
+{
+  "_comment": "Each pregnancy-restricted acupoint (data/safety/rules.json) and each food with a pregnancy caution (data/treatment/guidance.json), given straight to the safety filter for a pregnant woman.",
+  "vignettes": [
+    {
+      "id": "PREG-POINT-合谷",
+      "title": "合谷 in pregnancy: never offered in release (L0); dev keeps it with the pregnancy warning",
+      "ref": "data/safety/rules.json R_PREG_ACUPOINTS",
+      "kind": "candidates",
+      "input": {
+        "subject": {
+          "pregnant": true
+        },
+        "candidates": [
+          {
+            "kind": "acupoint",
+            "name": "合谷"
+          }
+        ]
+      },
+      "expect": {
+        "release": {
+          "level": "L0",
+          "noAcupoints": true,
+          "suppressed": [
+            {
+              "kind": "acupoint",
+              "id": "合谷",
+              "reason": "level"
+            }
+          ]
+        },
+        "dev": {
+          "level": "L3",
+          "show": [
+            "合谷"
+          ],
+          "annotated": {
+            "合谷": [
+              "R_PREG_ACUPOINTS"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "PREG-POINT-三陰交",
+      "title": "三陰交 in pregnancy: never offered in release (L0); dev keeps it with the pregnancy warning",
+      "ref": "data/safety/rules.json R_PREG_ACUPOINTS",
+      "kind": "candidates",
+      "input": {
+        "subject": {
+          "pregnant": true
+        },
+        "candidates": [
+          {
+            "kind": "acupoint",
+            "name": "三陰交"
+          }
+        ]
+      },
+      "expect": {
+        "release": {
+          "level": "L0",
+          "noAcupoints": true,
+          "suppressed": [
+            {
+              "kind": "acupoint",
+              "id": "三陰交",
+              "reason": "level"
+            }
+          ]
+        },
+        "dev": {
+          "level": "L3",
+          "show": [
+            "三陰交"
+          ],
+          "annotated": {
+            "三陰交": [
+              "R_PREG_ACUPOINTS"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "PREG-POINT-血海",
+      "title": "血海 in pregnancy: never offered in release (L0); dev keeps it with the pregnancy warning",
+      "ref": "data/safety/rules.json R_PREG_ACUPOINTS",
+      "kind": "candidates",
+      "input": {
+        "subject": {
+          "pregnant": true
+        },
+        "candidates": [
+          {
+            "kind": "acupoint",
+            "name": "血海"
+          }
+        ]
+      },
+      "expect": {
+        "release": {
+          "level": "L0",
+          "noAcupoints": true,
+          "suppressed": [
+            {
+              "kind": "acupoint",
+              "id": "血海",
+              "reason": "level"
+            }
+          ]
+        },
+        "dev": {
+          "level": "L3",
+          "show": [
+            "血海"
+          ],
+          "annotated": {
+            "血海": [
+              "R_PREG_ACUPOINTS"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "PREG-POINT-關元",
+      "title": "關元 in pregnancy: never offered in release (L0); dev keeps it with the pregnancy warning",
+      "ref": "data/safety/rules.json R_PREG_ACUPOINTS",
+      "kind": "candidates",
+      "input": {
+        "subject": {
+          "pregnant": true
+        },
+        "candidates": [
+          {
+            "kind": "acupoint",
+            "name": "關元"
+          }
+        ]
+      },
+      "expect": {
+        "release": {
+          "level": "L0",
+          "noAcupoints": true,
+          "suppressed": [
+            {
+              "kind": "acupoint",
+              "id": "關元",
+              "reason": "level"
+            }
+          ]
+        },
+        "dev": {
+          "level": "L3",
+          "show": [
+            "關元"
+          ],
+          "annotated": {
+            "關元": [
+              "R_PREG_ACUPOINTS"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "PREG-POINT-至陰",
+      "title": "至陰 in pregnancy: never offered in release (L0); dev keeps it with the pregnancy warning",
+      "ref": "data/safety/rules.json R_PREG_ACUPOINTS",
+      "kind": "candidates",
+      "input": {
+        "subject": {
+          "pregnant": true
+        },
+        "candidates": [
+          {
+            "kind": "acupoint",
+            "name": "至陰"
+          }
+        ]
+      },
+      "expect": {
+        "release": {
+          "level": "L0",
+          "noAcupoints": true,
+          "suppressed": [
+            {
+              "kind": "acupoint",
+              "id": "至陰",
+              "reason": "level"
+            }
+          ]
+        },
+        "dev": {
+          "level": "L3",
+          "show": [
+            "至陰"
+          ],
+          "annotated": {
+            "至陰": [
+              "R_PREG_ACUPOINTS"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "PREG-POINT-崑崙",
+      "title": "崑崙 in pregnancy: never offered in release (L0); dev keeps it with the pregnancy warning",
+      "ref": "data/safety/rules.json R_PREG_ACUPOINTS",
+      "kind": "candidates",
+      "input": {
+        "subject": {
+          "pregnant": true
+        },
+        "candidates": [
+          {
+            "kind": "acupoint",
+            "name": "崑崙"
+          }
+        ]
+      },
+      "expect": {
+        "release": {
+          "level": "L0",
+          "noAcupoints": true,
+          "suppressed": [
+            {
+              "kind": "acupoint",
+              "id": "崑崙",
+              "reason": "level"
+            }
+          ]
+        },
+        "dev": {
+          "level": "L3",
+          "show": [
+            "崑崙"
+          ],
+          "annotated": {
+            "崑崙": [
+              "R_PREG_ACUPOINTS"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "PREG-POINT-肩井",
+      "title": "肩井 in pregnancy: never offered in release (L0); dev keeps it with the pregnancy warning",
+      "ref": "data/safety/rules.json R_PREG_ACUPOINTS",
+      "kind": "candidates",
+      "input": {
+        "subject": {
+          "pregnant": true
+        },
+        "candidates": [
+          {
+            "kind": "acupoint",
+            "name": "肩井"
+          }
+        ]
+      },
+      "expect": {
+        "release": {
+          "level": "L0",
+          "noAcupoints": true,
+          "suppressed": [
+            {
+              "kind": "acupoint",
+              "id": "肩井",
+              "reason": "level"
+            }
+          ]
+        },
+        "dev": {
+          "level": "L3",
+          "show": [
+            "肩井"
+          ],
+          "annotated": {
+            "肩井": [
+              "R_PREG_ACUPOINTS"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "PREG-POINT-次髎",
+      "title": "次髎 in pregnancy: never offered in release (L0); dev keeps it with the pregnancy warning",
+      "ref": "data/safety/rules.json R_PREG_ACUPOINTS",
+      "kind": "candidates",
+      "input": {
+        "subject": {
+          "pregnant": true
+        },
+        "candidates": [
+          {
+            "kind": "acupoint",
+            "name": "次髎"
+          }
+        ]
+      },
+      "expect": {
+        "release": {
+          "level": "L0",
+          "noAcupoints": true,
+          "suppressed": [
+            {
+              "kind": "acupoint",
+              "id": "次髎",
+              "reason": "level"
+            }
+          ]
+        },
+        "dev": {
+          "level": "L3",
+          "show": [
+            "次髎"
+          ],
+          "annotated": {
+            "次髎": [
+              "R_PREG_ACUPOINTS"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "PREG-POINT-石門",
+      "title": "石門 in pregnancy: never offered in release (L0); dev keeps it with the pregnancy warning",
+      "ref": "data/safety/rules.json R_PREG_ACUPOINTS",
+      "kind": "candidates",
+      "input": {
+        "subject": {
+          "pregnant": true
+        },
+        "candidates": [
+          {
+            "kind": "acupoint",
+            "name": "石門"
+          }
+        ]
+      },
+      "expect": {
+        "release": {
+          "level": "L0",
+          "noAcupoints": true,
+          "suppressed": [
+            {
+              "kind": "acupoint",
+              "id": "石門",
+              "reason": "level"
+            }
+          ]
+        },
+        "dev": {
+          "level": "L3",
+          "show": [
+            "石門"
+          ],
+          "annotated": {
+            "石門": [
+              "R_PREG_ACUPOINTS"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "PREG-POINT-CONTROL",
+      "title": "足三里 is not a pregnancy-restricted point: no warning in dev",
+      "ref": "data/safety/rules.json R_PREG_ACUPOINTS",
+      "kind": "candidates",
+      "input": {
+        "subject": {
+          "pregnant": true
+        },
+        "candidates": [
+          {
+            "kind": "acupoint",
+            "name": "足三里"
+          }
+        ]
+      },
+      "expect": {
+        "dev": {
+          "show": [
+            "足三里"
+          ],
+          "notAnnotated": {
+            "足三里": [
+              "R_PREG_ACUPOINTS"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "PREG-POINT-NOT-PREGNANT",
+      "title": "合谷 for a person who is not pregnant: no warning",
+      "ref": "data/safety/rules.json R_PREG_ACUPOINTS",
+      "kind": "candidates",
+      "input": {
+        "subject": {
+          "pregnant": false
+        },
+        "candidates": [
+          {
+            "kind": "acupoint",
+            "name": "合谷"
+          }
+        ]
+      },
+      "expect": {
+        "release": {
+          "level": "L1",
+          "show": [
+            "合谷"
+          ],
+          "notAnnotated": {
+            "合谷": [
+              "R_PREG_ACUPOINTS"
+            ]
+          }
+        },
+        "dev": {
+          "show": [
+            "合谷"
+          ],
+          "notAnnotated": {
+            "合谷": [
+              "R_PREG_ACUPOINTS"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "PREG-FOOD-薏仁",
+      "title": "薏仁 in pregnancy: caution (soft) in dev; not offered in release (L0)",
+      "ref": "data/safety/rules.json R_PREG_FOOD_CAUTION",
+      "kind": "candidates",
+      "input": {
+        "subject": {
+          "pregnant": true
+        },
+        "candidates": [
+          {
+            "kind": "food",
+            "name": "薏仁"
+          }
+        ]
+      },
+      "expect": {
+        "release": {
+          "level": "L0",
+          "noFoods": true
+        },
+        "dev": {
+          "show": [
+            "薏仁"
+          ],
+          "annotated": {
+            "薏仁": [
+              "R_PREG_FOOD_CAUTION"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "PREG-FOOD-山楂",
+      "title": "山楂 in pregnancy: caution (soft) in dev; not offered in release (L0)",
+      "ref": "data/safety/rules.json R_PREG_FOOD_CAUTION",
+      "kind": "candidates",
+      "input": {
+        "subject": {
+          "pregnant": true
+        },
+        "candidates": [
+          {
+            "kind": "food",
+            "name": "山楂"
+          }
+        ]
+      },
+      "expect": {
+        "release": {
+          "level": "L0",
+          "noFoods": true
+        },
+        "dev": {
+          "show": [
+            "山楂"
+          ],
+          "annotated": {
+            "山楂": [
+              "R_PREG_FOOD_CAUTION"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "PREG-FOOD-黑木耳（少量）",
+      "title": "黑木耳（少量） in pregnancy: caution (soft) in dev; not offered in release (L0)",
+      "ref": "data/safety/rules.json R_PREG_FOOD_CAUTION",
+      "kind": "candidates",
+      "input": {
+        "subject": {
+          "pregnant": true
+        },
+        "candidates": [
+          {
+            "kind": "food",
+            "name": "黑木耳（少量）"
+          }
+        ]
+      },
+      "expect": {
+        "release": {
+          "level": "L0",
+          "noFoods": true
+        },
+        "dev": {
+          "show": [
+            "黑木耳（少量）"
+          ],
+          "annotated": {
+            "黑木耳（少量）": [
+              "R_PREG_FOOD_CAUTION"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "PREG-FOOD-桂圓",
+      "title": "桂圓 in pregnancy: caution (soft) in dev; not offered in release (L0)",
+      "ref": "data/safety/rules.json R_PREG_FOOD_CAUTION",
+      "kind": "candidates",
+      "input": {
+        "subject": {
+          "pregnant": true
+        },
+        "candidates": [
+          {
+            "kind": "food",
+            "name": "桂圓"
+          }
+        ]
+      },
+      "expect": {
+        "release": {
+          "level": "L0",
+          "noFoods": true
+        },
+        "dev": {
+          "show": [
+            "桂圓"
+          ],
+          "annotated": {
+            "桂圓": [
+              "R_PREG_FOOD_CAUTION"
+            ]
+          }
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,216 @@
+{
+  "_comment": "Hazard rules reached through a real inquiry: tier B/C by level, the strong-herb and aristolochic rules, flavour excess, and the population rules that only annotate in dev. (十八反/十九畏 pairs and the pattern-direction conflicts need synthetic candidates and are covered in test/safety.test.ts.)",
+  "vignettes": [
+    {
+      "id": "HAZ-TIER-C",
+      "title": "a tier-C formula (麻黃湯, a strong herb) is not even in the release data; dev shows it as study-only with the strong-herb warning",
+      "ref": "safety policy §6, N-TIERC",
+      "input": {
+        "interview": "EX1"
+      },
+      "expect": {
+        "release": {
+          "level": "L1",
+          "noFormulas": true,
+          "hide": [
+            "F_MAHUANG"
+          ]
+        },
+        "dev": {
+          "level": "L3",
+          "show": [
+            "F_MAHUANG"
+          ],
+          "annotated": {
+            "F_MAHUANG": [
+              "R_STRONG_HERB"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "HAZ-TIER-C-ELDERLY",
+      "title": "a tier-C formula for an elderly person: the soft elderly rule adds its note",
+      "ref": "data/safety/rules.json R_ELDERLY",
+      "input": {
+        "interview": "EX1",
+        "subject": {
+          "ageYears": 70
+        }
+      },
+      "expect": {
+        "release": {
+          "noFormulas": true
+        },
+        "dev": {
+          "annotated": {
+            "F_MAHUANG": [
+              "R_STRONG_HERB",
+              "R_ELDERLY"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "HAZ-TIER-B",
+      "title": "a tier-B formula is not for release L1; dev shows it",
+      "ref": "safety policy §2.1 (levels)",
+      "input": {
+        "interview": "LV4"
+      },
+      "expect": {
+        "release": {
+          "level": "L1",
+          "noFormulas": true,
+          "hide": [
+            "F_CHAIHUSHUGAN"
+          ],
+          "onlyTiers": [
+            "A"
+          ]
+        },
+        "dev": {
+          "level": "L3",
+          "show": [
+            "F_CHAIHUSHUGAN"
+          ]
+        }
+      }
+    },
+    {
+      "id": "HAZ-ARISTOLOCHIC",
+      "title": "a formula with an aristolochic-acid risk herb (甘露, tier B): never in release; annotated hard in dev",
+      "ref": "data/safety/rules.json R_ARISTOLOCHIC",
+      "input": {
+        "interview": "SP5"
+      },
+      "expect": {
+        "release": {
+          "level": "L1",
+          "hide": [
+            "F_GANLU"
+          ],
+          "onlyTiers": [
+            "A"
+          ]
+        },
+        "dev": {
+          "show": [
+            "F_GANLU"
+          ],
+          "annotated": {
+            "F_GANLU": [
+              "R_ARISTOLOCHIC"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "HAZ-FLAVOR-EXCESS",
+      "title": "a sweet-heavy composition is annotated (soft) in both profiles",
+      "ref": "data/safety/rules.json R_FLAVOR_EXCESS",
+      "input": {
+        "interview": "SP1"
+      },
+      "expect": {
+        "both": {
+          "annotated": {
+            "F_SHENLING": [
+              "R_FLAVOR_EXCESS"
+            ],
+            "F_SIJUNZI": [
+              "R_FLAVOR_EXCESS"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "HAZ-PREGNANCY-AVOID-HERB",
+      "title": "a formula with a herb to avoid in pregnancy (右歸丸, tier C): dev annotates it for a pregnant woman",
+      "ref": "data/safety/rules.json R_PREG_HERB_AVOID",
+      "input": {
+        "interview": "KD2",
+        "subject": {
+          "sex": "female",
+          "pregnancy": "yes"
+        }
+      },
+      "expect": {
+        "release": {
+          "level": "L0",
+          "noFormulas": true,
+          "noFoods": true,
+          "noAcupoints": true
+        },
+        "dev": {
+          "level": "L3",
+          "annotated": {
+            "F_YOUGUI": [
+              "R_PREG_HERB_AVOID"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "HAZ-LACTATING-TIER-B",
+      "title": "tier B for a breastfeeding woman: dev annotates the rule",
+      "ref": "data/safety/rules.json R_LACTATING_HERB",
+      "input": {
+        "interview": "LV3",
+        "subject": {
+          "sex": "female",
+          "pregnancy": "no",
+          "lactating": true
+        }
+      },
+      "expect": {
+        "release": {
+          "level": "L0",
+          "noFormulas": true,
+          "noFoods": true,
+          "noAcupoints": true
+        },
+        "dev": {
+          "level": "L3",
+          "annotated": {
+            "F_SIWU": [
+              "R_LACTATING_HERB"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "HAZ-MINOR-TIER-B",
+      "title": "tier B for a minor: dev annotates the rule",
+      "ref": "data/safety/rules.json R_MINOR_FORMULA",
+      "input": {
+        "interview": "LV4",
+        "subject": {
+          "ageYears": 16
+        }
+      },
+      "expect": {
+        "release": {
+          "level": "L0",
+          "noFormulas": true,
+          "noFoods": true,
+          "noAcupoints": true
+        },
+        "dev": {
+          "level": "L3",
+          "annotated": {
+            "F_CHAIHUSHUGAN": [
+              "R_MINOR_FORMULA"
+            ]
+          }
+        }
+      }
+    }
+  ]
+}

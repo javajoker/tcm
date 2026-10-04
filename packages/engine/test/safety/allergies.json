@@ -1,0 +1,184 @@
+{
+  "_comment": "Allergies against herbs and foods (matched by name, ignoring case and blanks); an unmatched free-text entry is reported as unconfirmed.",
+  "vignettes": [
+    {
+      "id": "ALG-HERB",
+      "title": "a herb allergy removes the formulas that contain it in release (listed with the rule) and annotates them in dev",
+      "ref": "safety policy §2.2",
+      "input": {
+        "interview": "SP1",
+        "subject": {
+          "allergies": [
+            "人參"
+          ]
+        }
+      },
+      "expect": {
+        "release": {
+          "level": "L1",
+          "notices": [
+            "N-ALLERGY"
+          ],
+          "noFormulas": true,
+          "suppressed": [
+            {
+              "kind": "formula",
+              "id": "F_SHENLING",
+              "reason": "rule",
+              "ruleId": "R_ALLERGY"
+            },
+            {
+              "kind": "formula",
+              "id": "F_SIJUNZI",
+              "reason": "rule",
+              "ruleId": "R_ALLERGY"
+            }
+          ]
+        },
+        "dev": {
+          "level": "L3",
+          "notices": [
+            "N-ALLERGY"
+          ],
+          "annotated": {
+            "F_SHENLING": [
+              "R_ALLERGY"
+            ],
+            "F_SIJUNZI": [
+              "R_ALLERGY"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "ALG-FOOD",
+      "title": "a food allergy removes that food from the diet suggestions",
+      "ref": "safety policy §2.2",
+      "input": {
+        "interview": "SP1",
+        "subject": {
+          "allergies": [
+            "山藥"
+          ]
+        }
+      },
+      "expect": {
+        "release": {
+          "level": "L1",
+          "notices": [
+            "N-ALLERGY"
+          ],
+          "hide": [
+            "山藥"
+          ],
+          "suppressed": [
+            {
+              "kind": "food",
+              "id": "山藥",
+              "reason": "rule",
+              "ruleId": "R_ALLERGY"
+            }
+          ]
+        },
+        "dev": {
+          "level": "L3",
+          "notices": [
+            "N-ALLERGY"
+          ],
+          "annotated": {
+            "山藥": [
+              "R_ALLERGY"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "ALG-UNKNOWN",
+      "title": "free text the knowledge base cannot match is reported as unconfirmed, never as safe",
+      "ref": "safety policy §2.2 (N-ALLERGY-UNKNOWN)",
+      "input": {
+        "interview": "SP1",
+        "subject": {
+          "allergies": [
+            "xyzzy-nut"
+          ]
+        }
+      },
+      "expect": {
+        "both": {
+          "notices": [],
+          "unmatchedAllergies": [
+            "xyzzy-nut"
+          ],
+          "show": [
+            "F_SHENLING",
+            "F_SIJUNZI"
+          ]
+        }
+      }
+    },
+    {
+      "id": "ALG-MIXED",
+      "title": "one entry matches, one does not: the match acts, the other is reported",
+      "ref": "safety policy §2.2",
+      "input": {
+        "interview": "SP1",
+        "subject": {
+          "allergies": [
+            "人參",
+            "xyzzy-nut"
+          ]
+        }
+      },
+      "expect": {
+        "both": {
+          "notices": [
+            "N-ALLERGY"
+          ],
+          "unmatchedAllergies": [
+            "xyzzy-nut"
+          ]
+        },
+        "release": {
+          "noFormulas": true
+        }
+      }
+    },
+    {
+      "id": "ALG-NONE",
+      "title": "no allergies: no notice, nothing unconfirmed",
+      "ref": "safety policy §2.2",
+      "input": {
+        "interview": "SP1"
+      },
+      "expect": {
+        "both": {
+          "notices": [],
+          "unmatchedAllergies": []
+        }
+      }
+    },
+    {
+      "id": "ALG-CASE-AND-SPACE",
+      "title": "matching ignores case and surrounding blanks",
+      "ref": "engine allergyMatches",
+      "input": {
+        "interview": "SP1",
+        "subject": {
+          "allergies": [
+            "  人參 "
+          ]
+        }
+      },
+      "expect": {
+        "both": {
+          "notices": [
+            "N-ALLERGY"
+          ]
+        }
+      }
+    }
+  ]
+}

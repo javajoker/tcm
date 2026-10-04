@@ -34,6 +34,8 @@ jobs:
       - run: pnpm check:i18n
       - run: pnpm check:icons
       - run: pnpm test
+      - name: Safety vignette suite (blocks the release)
+        run: pnpm test:safety
       - run: pnpm test:tools
 
   kb:

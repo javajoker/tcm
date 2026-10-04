@@ -1,0 +1,1032 @@
+{
+  "_comment": "Every one of the 28 red-flag items on its own in both profiles (A: emergency notice N-A; B: N-B within 24 h; C: the scope notice of the population or condition it stands for), and how several merge. Expectations from docs/safety-policy.md §2–§4.",
+  "vignettes": [
+    {
+      "id": "RF-A_CHEST_PAIN",
+      "title": "Chest pain or pressure with cold sweat",
+      "ref": "safety policy §3 (A)",
+      "input": {
+        "interview": "SP1",
+        "redFlags": [
+          "RF_A_CHEST_PAIN"
+        ]
+      },
+      "expect": {
+        "both": {
+          "notice": "blocking_ack",
+          "notices": [
+            "N-A"
+          ],
+          "emergencyResources": true,
+          "reasons": {
+            "N-A": [
+              "RF_A_CHEST_PAIN"
+            ]
+          }
+        },
+        "release": {
+          "level": "L0",
+          "noFormulas": true,
+          "noFoods": true,
+          "noAcupoints": true
+        },
+        "dev": {
+          "level": "L3"
+        }
+      }
+    },
+    {
+      "id": "RF-A_DYSPNEA",
+      "title": "Severe difficulty breathing",
+      "ref": "safety policy §3 (A)",
+      "input": {
+        "interview": "SP1",
+        "redFlags": [
+          "RF_A_DYSPNEA"
+        ]
+      },
+      "expect": {
+        "both": {
+          "notice": "blocking_ack",
+          "notices": [
+            "N-A"
+          ],
+          "emergencyResources": true,
+          "reasons": {
+            "N-A": [
+              "RF_A_DYSPNEA"
+            ]
+          }
+        },
+        "release": {
+          "level": "L0",
+          "noFormulas": true,
+          "noFoods": true,
+          "noAcupoints": true
+        },
+        "dev": {
+          "level": "L3"
+        }
+      }
+    },
+    {
+      "id": "RF-A_CONSCIOUSNESS",
+      "title": "Altered consciousness or fainting",
+      "ref": "safety policy §3 (A)",
+      "input": {
+        "interview": "SP1",
+        "redFlags": [
+          "RF_A_CONSCIOUSNESS"
+        ]
+      },
+      "expect": {
+        "both": {
+          "notice": "blocking_ack",
+          "notices": [
+            "N-A"
+          ],
+          "emergencyResources": true,
+          "reasons": {
+            "N-A": [
+              "RF_A_CONSCIOUSNESS"
+            ]
+          }
+        },
+        "release": {
+          "level": "L0",
+          "noFormulas": true,
+          "noFoods": true,
+          "noAcupoints": true
+        },
+        "dev": {
+          "level": "L3"
+        }
+      }
+    },
+    {
+      "id": "RF-A_STROKE",
+      "title": "Sudden one-sided weakness, facial droop or slurred speech",
+      "ref": "safety policy §3 (A)",
+      "input": {
+        "interview": "SP1",
+        "redFlags": [
+          "RF_A_STROKE"
+        ]
+      },
+      "expect": {
+        "both": {
+          "notice": "blocking_ack",
+          "notices": [
+            "N-A"
+          ],
+          "emergencyResources": true,
+          "reasons": {
+            "N-A": [
+              "RF_A_STROKE"
+            ]
+          }
+        },
+        "release": {
+          "level": "L0",
+          "noFormulas": true,
+          "noFoods": true,
+          "noAcupoints": true
+        },
+        "dev": {
+          "level": "L3"
+        }
+      }
+    },
+    {
+      "id": "RF-A_BLEEDING",
+      "title": "Heavy bleeding, vomiting blood, black or bloody stools",
+      "ref": "safety policy §3 (A)",
+      "input": {
+        "interview": "SP1",
+        "redFlags": [
+          "RF_A_BLEEDING"
+        ]
+      },
+      "expect": {
+        "both": {
+          "notice": "blocking_ack",
+          "notices": [
+            "N-A"
+          ],
+          "emergencyResources": true,
+          "reasons": {
+            "N-A": [
+              "RF_A_BLEEDING"
+            ]
+          }
+        },
+        "release": {
+          "level": "L0",
+          "noFormulas": true,
+          "noFoods": true,
+          "noAcupoints": true
+        },
+        "dev": {
+          "level": "L3"
+        }
+      }
+    },
+    {
+      "id": "RF-A_THUNDERCLAP",
+      "title": "Sudden worst-ever headache",
+      "ref": "safety policy §3 (A)",
+      "input": {
+        "interview": "SP1",
+        "redFlags": [
+          "RF_A_THUNDERCLAP"
+        ]
+      },
+      "expect": {
+        "both": {
+          "notice": "blocking_ack",
+          "notices": [
+            "N-A"
+          ],
+          "emergencyResources": true,
+          "reasons": {
+            "N-A": [
+              "RF_A_THUNDERCLAP"
+            ]
+          }
+        },
+        "release": {
+          "level": "L0",
+          "noFormulas": true,
+          "noFoods": true,
+          "noAcupoints": true
+        },
+        "dev": {
+          "level": "L3"
+        }
+      }
+    },
+    {
+      "id": "RF-A_SEIZURE",
+      "title": "Seizure",
+      "ref": "safety policy §3 (A)",
+      "input": {
+        "interview": "SP1",
+        "redFlags": [
+          "RF_A_SEIZURE"
+        ]
+      },
+      "expect": {
+        "both": {
+          "notice": "blocking_ack",
+          "notices": [
+            "N-A"
+          ],
+          "emergencyResources": true,
+          "reasons": {
+            "N-A": [
+              "RF_A_SEIZURE"
+            ]
+          }
+        },
+        "release": {
+          "level": "L0",
+          "noFormulas": true,
+          "noFoods": true,
+          "noAcupoints": true
+        },
+        "dev": {
+          "level": "L3"
+        }
+      }
+    },
+    {
+      "id": "RF-A_ANAPHYLAXIS",
+      "title": "Severe allergic reaction",
+      "ref": "safety policy §3 (A)",
+      "input": {
+        "interview": "SP1",
+        "redFlags": [
+          "RF_A_ANAPHYLAXIS"
+        ]
+      },
+      "expect": {
+        "both": {
+          "notice": "blocking_ack",
+          "notices": [
+            "N-A"
+          ],
+          "emergencyResources": true,
+          "reasons": {
+            "N-A": [
+              "RF_A_ANAPHYLAXIS"
+            ]
+          }
+        },
+        "release": {
+          "level": "L0",
+          "noFormulas": true,
+          "noFoods": true,
+          "noAcupoints": true
+        },
+        "dev": {
+          "level": "L3"
+        }
+      }
+    },
+    {
+      "id": "RF-A_SELF_HARM",
+      "title": "Thoughts of harming self or others",
+      "ref": "safety policy §3 (A)",
+      "input": {
+        "interview": "SP1",
+        "redFlags": [
+          "RF_A_SELF_HARM"
+        ]
+      },
+      "expect": {
+        "both": {
+          "notice": "blocking_ack",
+          "notices": [
+            "N-A"
+          ],
+          "emergencyResources": true,
+          "reasons": {
+            "N-A": [
+              "RF_A_SELF_HARM"
+            ]
+          }
+        },
+        "release": {
+          "level": "L0",
+          "noFormulas": true,
+          "noFoods": true,
+          "noAcupoints": true
+        },
+        "dev": {
+          "level": "L3"
+        }
+      }
+    },
+    {
+      "id": "RF-B_HIGH_FEVER",
+      "title": "Fever ≥ 39 °C or lasting more than 3 days",
+      "ref": "safety policy §3 (B)",
+      "input": {
+        "interview": "SP1",
+        "redFlags": [
+          "RF_B_HIGH_FEVER"
+        ]
+      },
+      "expect": {
+        "both": {
+          "notice": "blocking_ack",
+          "notices": [
+            "N-B"
+          ],
+          "emergencyResources": true,
+          "reasons": {
+            "N-B": [
+              "RF_B_HIGH_FEVER"
+            ]
+          }
+        },
+        "release": {
+          "level": "L0",
+          "noFormulas": true,
+          "noFoods": true,
+          "noAcupoints": true
+        },
+        "dev": {
+          "level": "L3"
+        }
+      }
+    },
+    {
+      "id": "RF-B_VOMITING",
+      "title": "Persistent vomiting or dehydration",
+      "ref": "safety policy §3 (B)",
+      "input": {
+        "interview": "SP1",
+        "redFlags": [
+          "RF_B_VOMITING"
+        ]
+      },
+      "expect": {
+        "both": {
+          "notice": "blocking_ack",
+          "notices": [
+            "N-B"
+          ],
+          "emergencyResources": true,
+          "reasons": {
+            "N-B": [
+              "RF_B_VOMITING"
+            ]
+          }
+        },
+        "release": {
+          "level": "L0",
+          "noFormulas": true,
+          "noFoods": true,
+          "noAcupoints": true
+        },
+        "dev": {
+          "level": "L3"
+        }
+      }
+    },
+    {
+      "id": "RF-B_SEVERE_ABD_PAIN",
+      "title": "Severe abdominal pain",
+      "ref": "safety policy §3 (B)",
+      "input": {
+        "interview": "SP1",
+        "redFlags": [
+          "RF_B_SEVERE_ABD_PAIN"
+        ]
+      },
+      "expect": {
+        "both": {
+          "notice": "blocking_ack",
+          "notices": [
+            "N-B"
+          ],
+          "emergencyResources": true,
+          "reasons": {
+            "N-B": [
+              "RF_B_SEVERE_ABD_PAIN"
+            ]
+          }
+        },
+        "release": {
+          "level": "L0",
+          "noFormulas": true,
+          "noFoods": true,
+          "noAcupoints": true
+        },
+        "dev": {
+          "level": "L3"
+        }
+      }
+    },
+    {
+      "id": "RF-B_WEIGHT_LOSS",
+      "title": "Unexplained rapid weight loss",
+      "ref": "safety policy §3 (B)",
+      "input": {
+        "interview": "SP1",
+        "redFlags": [
+          "RF_B_WEIGHT_LOSS"
+        ]
+      },
+      "expect": {
+        "both": {
+          "notice": "blocking_ack",
+          "notices": [
+            "N-B"
+          ],
+          "emergencyResources": true,
+          "reasons": {
+            "N-B": [
+              "RF_B_WEIGHT_LOSS"
+            ]
+          }
+        },
+        "release": {
+          "level": "L0",
+          "noFormulas": true,
+          "noFoods": true,
+          "noAcupoints": true
+        },
+        "dev": {
+          "level": "L3"
+        }
+      }
+    },
+    {
+      "id": "RF-B_HEMATURIA",
+      "title": "Blood in urine",
+      "ref": "safety policy §3 (B)",
+      "input": {
+        "interview": "SP1",
+        "redFlags": [
+          "RF_B_HEMATURIA"
+        ]
+      },
+      "expect": {
+        "both": {
+          "notice": "blocking_ack",
+          "notices": [
+            "N-B"
+          ],
+          "emergencyResources": true,
+          "reasons": {
+            "N-B": [
+              "RF_B_HEMATURIA"
+            ]
+          }
+        },
+        "release": {
+          "level": "L0",
+          "noFormulas": true,
+          "noFoods": true,
+          "noAcupoints": true
+        },
+        "dev": {
+          "level": "L3"
+        }
+      }
+    },
+    {
+      "id": "RF-B_NEW_MASS",
+      "title": "New lump",
+      "ref": "safety policy §3 (B)",
+      "input": {
+        "interview": "SP1",
+        "redFlags": [
+          "RF_B_NEW_MASS"
+        ]
+      },
+      "expect": {
+        "both": {
+          "notice": "blocking_ack",
+          "notices": [
+            "N-B"
+          ],
+          "emergencyResources": true,
+          "reasons": {
+            "N-B": [
+              "RF_B_NEW_MASS"
+            ]
+          }
+        },
+        "release": {
+          "level": "L0",
+          "noFormulas": true,
+          "noFoods": true,
+          "noAcupoints": true
+        },
+        "dev": {
+          "level": "L3"
+        }
+      }
+    },
+    {
+      "id": "RF-B_JAUNDICE",
+      "title": "Jaundice",
+      "ref": "safety policy §3 (B)",
+      "input": {
+        "interview": "SP1",
+        "redFlags": [
+          "RF_B_JAUNDICE"
+        ]
+      },
+      "expect": {
+        "both": {
+          "notice": "blocking_ack",
+          "notices": [
+            "N-B"
+          ],
+          "emergencyResources": true,
+          "reasons": {
+            "N-B": [
+              "RF_B_JAUNDICE"
+            ]
+          }
+        },
+        "release": {
+          "level": "L0",
+          "noFormulas": true,
+          "noFoods": true,
+          "noAcupoints": true
+        },
+        "dev": {
+          "level": "L3"
+        }
+      }
+    },
+    {
+      "id": "RF-B_HEMOPTYSIS",
+      "title": "Coughing blood",
+      "ref": "safety policy §3 (B)",
+      "input": {
+        "interview": "SP1",
+        "redFlags": [
+          "RF_B_HEMOPTYSIS"
+        ]
+      },
+      "expect": {
+        "both": {
+          "notice": "blocking_ack",
+          "notices": [
+            "N-B"
+          ],
+          "emergencyResources": true,
+          "reasons": {
+            "N-B": [
+              "RF_B_HEMOPTYSIS"
+            ]
+          }
+        },
+        "release": {
+          "level": "L0",
+          "noFormulas": true,
+          "noFoods": true,
+          "noAcupoints": true
+        },
+        "dev": {
+          "level": "L3"
+        }
+      }
+    },
+    {
+      "id": "RF-B_VISION",
+      "title": "Sudden change in vision",
+      "ref": "safety policy §3 (B)",
+      "input": {
+        "interview": "SP1",
+        "redFlags": [
+          "RF_B_VISION"
+        ]
+      },
+      "expect": {
+        "both": {
+          "notice": "blocking_ack",
+          "notices": [
+            "N-B"
+          ],
+          "emergencyResources": true,
+          "reasons": {
+            "N-B": [
+              "RF_B_VISION"
+            ]
+          }
+        },
+        "release": {
+          "level": "L0",
+          "noFormulas": true,
+          "noFoods": true,
+          "noAcupoints": true
+        },
+        "dev": {
+          "level": "L3"
+        }
+      }
+    },
+    {
+      "id": "RF-B_IRREGULAR_PULSE",
+      "title": "New palpitations with an irregular pulse",
+      "ref": "safety policy §3 (B)",
+      "input": {
+        "interview": "SP1",
+        "redFlags": [
+          "RF_B_IRREGULAR_PULSE"
+        ]
+      },
+      "expect": {
+        "both": {
+          "notice": "blocking_ack",
+          "notices": [
+            "N-B"
+          ],
+          "emergencyResources": true,
+          "reasons": {
+            "N-B": [
+              "RF_B_IRREGULAR_PULSE"
+            ]
+          }
+        },
+        "release": {
+          "level": "L0",
+          "noFormulas": true,
+          "noFoods": true,
+          "noAcupoints": true
+        },
+        "dev": {
+          "level": "L3"
+        }
+      }
+    },
+    {
+      "id": "RF-C_MINOR",
+      "title": "Under 18",
+      "ref": "safety policy §3 (C)",
+      "input": {
+        "interview": "SP1",
+        "redFlags": [
+          "RF_C_MINOR"
+        ]
+      },
+      "expect": {
+        "both": {
+          "notice": "blocking_ack",
+          "notices": [
+            "N-MINOR"
+          ],
+          "emergencyResources": false
+        },
+        "release": {
+          "level": "L0",
+          "noFormulas": true,
+          "noFoods": true,
+          "noAcupoints": true
+        },
+        "dev": {
+          "level": "L3"
+        }
+      }
+    },
+    {
+      "id": "RF-C_PREGNANT",
+      "title": "Pregnant",
+      "ref": "safety policy §3 (C)",
+      "input": {
+        "interview": "SP1",
+        "redFlags": [
+          "RF_C_PREGNANT"
+        ]
+      },
+      "expect": {
+        "both": {
+          "notice": "blocking_ack",
+          "notices": [
+            "N-PREG"
+          ],
+          "emergencyResources": false
+        },
+        "release": {
+          "level": "L0",
+          "noFormulas": true,
+          "noFoods": true,
+          "noAcupoints": true
+        },
+        "dev": {
+          "level": "L3"
+        }
+      }
+    },
+    {
+      "id": "RF-C_LACTATING",
+      "title": "Breastfeeding",
+      "ref": "safety policy §3 (C)",
+      "input": {
+        "interview": "SP1",
+        "redFlags": [
+          "RF_C_LACTATING"
+        ]
+      },
+      "expect": {
+        "both": {
+          "notice": "blocking_ack",
+          "notices": [
+            "N-LACT"
+          ],
+          "emergencyResources": false
+        },
+        "release": {
+          "level": "L0",
+          "noFormulas": true,
+          "noFoods": true,
+          "noAcupoints": true
+        },
+        "dev": {
+          "level": "L3"
+        }
+      }
+    },
+    {
+      "id": "RF-C_CANCER_TREATMENT",
+      "title": "Under cancer treatment",
+      "ref": "safety policy §3 (C)",
+      "input": {
+        "interview": "SP1",
+        "redFlags": [
+          "RF_C_CANCER_TREATMENT"
+        ]
+      },
+      "expect": {
+        "both": {
+          "notice": "blocking_ack",
+          "notices": [
+            "N-SERIOUS"
+          ],
+          "emergencyResources": false,
+          "reasons": {
+            "N-SERIOUS": [
+              "RF_C_CANCER_TREATMENT"
+            ]
+          }
+        },
+        "release": {
+          "level": "L0",
+          "noFormulas": true,
+          "noFoods": true,
+          "noAcupoints": true
+        },
+        "dev": {
+          "level": "L3"
+        }
+      }
+    },
+    {
+      "id": "RF-C_KIDNEY",
+      "title": "Dialysis or kidney failure",
+      "ref": "safety policy §3 (C)",
+      "input": {
+        "interview": "SP1",
+        "redFlags": [
+          "RF_C_KIDNEY"
+        ]
+      },
+      "expect": {
+        "both": {
+          "notice": "blocking_ack",
+          "notices": [
+            "N-SERIOUS"
+          ],
+          "emergencyResources": false,
+          "reasons": {
+            "N-SERIOUS": [
+              "RF_C_KIDNEY"
+            ]
+          }
+        },
+        "release": {
+          "level": "L0",
+          "noFormulas": true,
+          "noFoods": true,
+          "noAcupoints": true
+        },
+        "dev": {
+          "level": "L3"
+        }
+      }
+    },
+    {
+      "id": "RF-C_LIVER",
+      "title": "Cirrhosis or severe liver disease",
+      "ref": "safety policy §3 (C)",
+      "input": {
+        "interview": "SP1",
+        "redFlags": [
+          "RF_C_LIVER"
+        ]
+      },
+      "expect": {
+        "both": {
+          "notice": "blocking_ack",
+          "notices": [
+            "N-SERIOUS"
+          ],
+          "emergencyResources": false,
+          "reasons": {
+            "N-SERIOUS": [
+              "RF_C_LIVER"
+            ]
+          }
+        },
+        "release": {
+          "level": "L0",
+          "noFormulas": true,
+          "noFoods": true,
+          "noAcupoints": true
+        },
+        "dev": {
+          "level": "L3"
+        }
+      }
+    },
+    {
+      "id": "RF-C_TRANSPLANT",
+      "title": "Organ transplant recipient",
+      "ref": "safety policy §3 (C)",
+      "input": {
+        "interview": "SP1",
+        "redFlags": [
+          "RF_C_TRANSPLANT"
+        ]
+      },
+      "expect": {
+        "both": {
+          "notice": "blocking_ack",
+          "notices": [
+            "N-SERIOUS"
+          ],
+          "emergencyResources": false,
+          "reasons": {
+            "N-SERIOUS": [
+              "RF_C_TRANSPLANT"
+            ]
+          }
+        },
+        "release": {
+          "level": "L0",
+          "noFormulas": true,
+          "noFoods": true,
+          "noAcupoints": true
+        },
+        "dev": {
+          "level": "L3"
+        }
+      }
+    },
+    {
+      "id": "RF-C_PSYCHIATRIC",
+      "title": "Severe psychiatric illness",
+      "ref": "safety policy §3 (C)",
+      "input": {
+        "interview": "SP1",
+        "redFlags": [
+          "RF_C_PSYCHIATRIC"
+        ]
+      },
+      "expect": {
+        "both": {
+          "notice": "blocking_ack",
+          "notices": [
+            "N-SERIOUS"
+          ],
+          "emergencyResources": false,
+          "reasons": {
+            "N-SERIOUS": [
+              "RF_C_PSYCHIATRIC"
+            ]
+          }
+        },
+        "release": {
+          "level": "L0",
+          "noFormulas": true,
+          "noFoods": true,
+          "noAcupoints": true
+        },
+        "dev": {
+          "level": "L3"
+        }
+      }
+    },
+    {
+      "id": "RF-C_CARDIOPULMONARY",
+      "title": "Diagnosed severe heart or lung disease",
+      "ref": "safety policy §3 (C)",
+      "input": {
+        "interview": "SP1",
+        "redFlags": [
+          "RF_C_CARDIOPULMONARY"
+        ]
+      },
+      "expect": {
+        "both": {
+          "notice": "blocking_ack",
+          "notices": [
+            "N-SERIOUS"
+          ],
+          "emergencyResources": false,
+          "reasons": {
+            "N-SERIOUS": [
+              "RF_C_CARDIOPULMONARY"
+            ]
+          }
+        },
+        "release": {
+          "level": "L0",
+          "noFormulas": true,
+          "noFoods": true,
+          "noAcupoints": true
+        },
+        "dev": {
+          "level": "L3"
+        }
+      }
+    },
+    {
+      "id": "RF-MERGE-ALL",
+      "title": "A, B and two C items together: most severe first, nothing lost",
+      "ref": "safety policy §4.1",
+      "input": {
+        "interview": "SP1",
+        "redFlags": [
+          "RF_C_MINOR",
+          "RF_B_HIGH_FEVER",
+          "RF_C_KIDNEY",
+          "RF_A_STROKE"
+        ]
+      },
+      "expect": {
+        "both": {
+          "notice": "blocking_ack",
+          "notices": [
+            "N-A",
+            "N-B",
+            "N-MINOR",
+            "N-SERIOUS"
+          ],
+          "emergencyResources": true,
+          "reasons": {
+            "N-A": [
+              "RF_A_STROKE"
+            ],
+            "N-B": [
+              "RF_B_HIGH_FEVER"
+            ]
+          }
+        },
+        "release": {
+          "level": "L0",
+          "noFormulas": true,
+          "noFoods": true,
+          "noAcupoints": true
+        },
+        "dev": {
+          "level": "L3"
+        }
+      }
+    },
+    {
+      "id": "RF-TWO-A",
+      "title": "two A items are one emergency notice naming both",
+      "ref": "safety policy §4.1",
+      "input": {
+        "interview": "SP1",
+        "redFlags": [
+          "RF_A_SEIZURE",
+          "RF_A_BLEEDING"
+        ]
+      },
+      "expect": {
+        "both": {
+          "notices": [
+            "N-A"
+          ],
+          "reasons": {
+            "N-A": [
+              "RF_A_SEIZURE",
+              "RF_A_BLEEDING"
+            ]
+          },
+          "emergencyResources": true
+        }
+      }
+    },
+    {
+      "id": "RF-NONE",
+      "title": "no red flag: no blocking notice, no emergency resources",
+      "ref": "safety policy §2.1",
+      "input": {
+        "interview": "SP1"
+      },
+      "expect": {
+        "both": {
+          "notice": "none",
+          "notices": [],
+          "emergencyResources": false
+        },
+        "release": {
+          "level": "L1"
+        },
+        "dev": {
+          "level": "L3"
+        }
+      }
+    }
+  ]
+}

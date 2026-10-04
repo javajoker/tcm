@@ -22,6 +22,7 @@
     "dev": "pnpm --filter @tcm/web dev",
     "build": "pnpm --filter @tcm/web build",
     "build:dev": "pnpm --filter @tcm/web build:dev",
+    "test:safety": "node --test packages/engine/test/vignettes.test.ts",
     "test:tools": "node --test \"tools/eslint/*.test.js\"",
     "check:release": "node scripts/check-release.ts",
     "test:release": "node --test scripts/check-release.test.ts",

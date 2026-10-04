@@ -1,0 +1,641 @@
+{
+  "_comment": "Every medication class of safety policy §2.2 against the formulas that can trigger it (rule targets from data/safety/rules.json, herb tags from data/herbs): hard rules remove in release and annotate in dev, soft rules annotate in both.",
+  "vignettes": [
+    {
+      "id": "MED-ANTICOAGULANT",
+      "title": "anticoagulant: hard (anticoagulant herbs)",
+      "ref": "safety policy §2.2, data/safety/rules.json",
+      "input": {
+        "interview": "SP1",
+        "subject": {
+          "medications": [
+            "anticoagulant"
+          ]
+        }
+      },
+      "expect": {
+        "release": {
+          "level": "L1",
+          "notices": [
+            "N-MED"
+          ],
+          "reasons": {
+            "N-MED": [
+              "anticoagulant"
+            ]
+          },
+          "notice": "inline",
+          "noFormulas": true,
+          "suppressed": [
+            {
+              "kind": "formula",
+              "id": "F_SHENLING",
+              "reason": "rule",
+              "ruleId": "R_ANTICOAGULANT"
+            },
+            {
+              "kind": "formula",
+              "id": "F_SIJUNZI",
+              "reason": "rule",
+              "ruleId": "R_ANTICOAGULANT"
+            }
+          ]
+        },
+        "dev": {
+          "notices": [
+            "N-MED"
+          ],
+          "reasons": {
+            "N-MED": [
+              "anticoagulant"
+            ]
+          },
+          "notice": "inline",
+          "annotated": {
+            "F_SHENLING": [
+              "R_ANTICOAGULANT"
+            ],
+            "F_SIJUNZI": [
+              "R_ANTICOAGULANT"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "MED-ANTIDIABETIC",
+      "title": "antidiabetic: soft (hypoglycaemic herbs)",
+      "ref": "safety policy §2.2, data/safety/rules.json",
+      "input": {
+        "interview": "SP1",
+        "subject": {
+          "medications": [
+            "antidiabetic"
+          ]
+        }
+      },
+      "expect": {
+        "release": {
+          "level": "L1",
+          "notices": [
+            "N-MED"
+          ],
+          "reasons": {
+            "N-MED": [
+              "antidiabetic"
+            ]
+          },
+          "notice": "inline",
+          "show": [
+            "F_SHENLING",
+            "F_SIJUNZI"
+          ],
+          "annotated": {
+            "F_SHENLING": [
+              "R_HYPOGLYCEMIC"
+            ],
+            "F_SIJUNZI": [
+              "R_HYPOGLYCEMIC"
+            ]
+          }
+        },
+        "dev": {
+          "notices": [
+            "N-MED"
+          ],
+          "reasons": {
+            "N-MED": [
+              "antidiabetic"
+            ]
+          },
+          "notice": "inline",
+          "annotated": {
+            "F_SHENLING": [
+              "R_HYPOGLYCEMIC"
+            ],
+            "F_SIJUNZI": [
+              "R_HYPOGLYCEMIC"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "MED-ANTIHYPERTENSIVE",
+      "title": "antihypertensive: soft for blood-pressure-raising herbs",
+      "ref": "safety policy §2.2, data/safety/rules.json",
+      "input": {
+        "interview": "SP1",
+        "subject": {
+          "medications": [
+            "antihypertensive"
+          ]
+        }
+      },
+      "expect": {
+        "release": {
+          "level": "L1",
+          "notices": [
+            "N-MED"
+          ],
+          "reasons": {
+            "N-MED": [
+              "antihypertensive"
+            ]
+          },
+          "notice": "inline",
+          "show": [
+            "F_SHENLING",
+            "F_SIJUNZI"
+          ],
+          "annotated": {
+            "F_SHENLING": [
+              "R_BP_RAISING"
+            ],
+            "F_SIJUNZI": [
+              "R_BP_RAISING"
+            ]
+          }
+        },
+        "dev": {
+          "notices": [
+            "N-MED"
+          ],
+          "reasons": {
+            "N-MED": [
+              "antihypertensive"
+            ]
+          },
+          "notice": "inline",
+          "annotated": {
+            "F_SHENLING": [
+              "R_BP_RAISING"
+            ],
+            "F_SIJUNZI": [
+              "R_BP_RAISING"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "MED-DIURETIC",
+      "title": "diuretic: hard (licorice and potassium)",
+      "ref": "safety policy §2.2, data/safety/rules.json",
+      "input": {
+        "interview": "SP1",
+        "subject": {
+          "medications": [
+            "diuretic"
+          ]
+        }
+      },
+      "expect": {
+        "release": {
+          "level": "L1",
+          "notices": [
+            "N-MED"
+          ],
+          "reasons": {
+            "N-MED": [
+              "diuretic"
+            ]
+          },
+          "notice": "inline",
+          "noFormulas": true,
+          "suppressed": [
+            {
+              "kind": "formula",
+              "id": "F_SHENLING",
+              "reason": "rule",
+              "ruleId": "R_HYPOKALEMIA"
+            },
+            {
+              "kind": "formula",
+              "id": "F_SIJUNZI",
+              "reason": "rule",
+              "ruleId": "R_HYPOKALEMIA"
+            }
+          ]
+        },
+        "dev": {
+          "notices": [
+            "N-MED"
+          ],
+          "reasons": {
+            "N-MED": [
+              "diuretic"
+            ]
+          },
+          "notice": "inline",
+          "annotated": {
+            "F_SHENLING": [
+              "R_HYPOKALEMIA"
+            ],
+            "F_SIJUNZI": [
+              "R_HYPOKALEMIA"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "MED-CARDIAC-GLYCOSIDE",
+      "title": "cardiac glycoside: hard (licorice and potassium)",
+      "ref": "safety policy §2.2, data/safety/rules.json",
+      "input": {
+        "interview": "SP1",
+        "subject": {
+          "medications": [
+            "cardiac-glycoside"
+          ]
+        }
+      },
+      "expect": {
+        "release": {
+          "level": "L1",
+          "notices": [
+            "N-MED"
+          ],
+          "reasons": {
+            "N-MED": [
+              "cardiac-glycoside"
+            ]
+          },
+          "notice": "inline",
+          "noFormulas": true,
+          "suppressed": [
+            {
+              "kind": "formula",
+              "id": "F_SHENLING",
+              "reason": "rule",
+              "ruleId": "R_HYPOKALEMIA"
+            },
+            {
+              "kind": "formula",
+              "id": "F_SIJUNZI",
+              "reason": "rule",
+              "ruleId": "R_HYPOKALEMIA"
+            }
+          ]
+        },
+        "dev": {
+          "notices": [
+            "N-MED"
+          ],
+          "reasons": {
+            "N-MED": [
+              "cardiac-glycoside"
+            ]
+          },
+          "notice": "inline",
+          "annotated": {
+            "F_SHENLING": [
+              "R_HYPOKALEMIA"
+            ],
+            "F_SIJUNZI": [
+              "R_HYPOKALEMIA"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "MED-IMMUNOSUPPRESSANT",
+      "title": "immunosuppressant: hard (immune-modulating herbs)",
+      "ref": "safety policy §2.2, data/safety/rules.json",
+      "input": {
+        "interview": "SP1",
+        "subject": {
+          "medications": [
+            "immunosuppressant"
+          ]
+        }
+      },
+      "expect": {
+        "release": {
+          "level": "L1",
+          "notices": [
+            "N-MED"
+          ],
+          "reasons": {
+            "N-MED": [
+              "immunosuppressant"
+            ]
+          },
+          "notice": "inline",
+          "noFormulas": true,
+          "suppressed": [
+            {
+              "kind": "formula",
+              "id": "F_SHENLING",
+              "reason": "rule",
+              "ruleId": "R_IMMUNOSUPPRESSANT"
+            },
+            {
+              "kind": "formula",
+              "id": "F_SIJUNZI",
+              "reason": "rule",
+              "ruleId": "R_IMMUNOSUPPRESSANT"
+            }
+          ]
+        },
+        "dev": {
+          "notices": [
+            "N-MED"
+          ],
+          "reasons": {
+            "N-MED": [
+              "immunosuppressant"
+            ]
+          },
+          "notice": "inline",
+          "annotated": {
+            "F_SHENLING": [
+              "R_IMMUNOSUPPRESSANT"
+            ],
+            "F_SIJUNZI": [
+              "R_IMMUNOSUPPRESSANT"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "MED-SEDATIVE",
+      "title": "sedative: soft (additive sedation) — the 歸脾湯 patient",
+      "ref": "safety policy §2.2, data/safety/rules.json",
+      "input": {
+        "interview": "HT1",
+        "subject": {
+          "medications": [
+            "sedative"
+          ]
+        }
+      },
+      "expect": {
+        "release": {
+          "level": "L1",
+          "notices": [
+            "N-MED"
+          ],
+          "reasons": {
+            "N-MED": [
+              "sedative"
+            ]
+          },
+          "notice": "inline",
+          "show": [
+            "F_GUIPI"
+          ],
+          "annotated": {
+            "F_GUIPI": [
+              "R_SEDATIVE"
+            ]
+          }
+        },
+        "dev": {
+          "notices": [
+            "N-MED"
+          ],
+          "reasons": {
+            "N-MED": [
+              "sedative"
+            ]
+          },
+          "notice": "inline",
+          "annotated": {
+            "F_GUIPI": [
+              "R_SEDATIVE"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "MED-MAOI",
+      "title": "MAOI: hard for ephedra; the formula is tier C, so release does not show it at all",
+      "ref": "safety policy §2.2, data/safety/rules.json",
+      "input": {
+        "interview": "EX1",
+        "subject": {
+          "medications": [
+            "MAOI"
+          ]
+        }
+      },
+      "expect": {
+        "release": {
+          "level": "L1",
+          "notices": [
+            "N-MED"
+          ],
+          "reasons": {
+            "N-MED": [
+              "MAOI"
+            ]
+          },
+          "notice": "inline",
+          "noFormulas": true
+        },
+        "dev": {
+          "notices": [
+            "N-MED"
+          ],
+          "reasons": {
+            "N-MED": [
+              "MAOI"
+            ]
+          },
+          "notice": "inline",
+          "annotated": {
+            "F_MAHUANG": [
+              "R_SYMPATHOMIMETIC",
+              "R_STRONG_HERB"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "MED-STIMULANT",
+      "title": "stimulant: hard for ephedra",
+      "ref": "safety policy §2.2, data/safety/rules.json",
+      "input": {
+        "interview": "EX1",
+        "subject": {
+          "medications": [
+            "stimulant"
+          ]
+        }
+      },
+      "expect": {
+        "release": {
+          "level": "L1",
+          "notices": [
+            "N-MED"
+          ],
+          "reasons": {
+            "N-MED": [
+              "stimulant"
+            ]
+          },
+          "notice": "inline",
+          "noFormulas": true
+        },
+        "dev": {
+          "notices": [
+            "N-MED"
+          ],
+          "reasons": {
+            "N-MED": [
+              "stimulant"
+            ]
+          },
+          "notice": "inline",
+          "annotated": {
+            "F_MAHUANG": [
+              "R_SYMPATHOMIMETIC"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "MED-ANTIHYPERTENSIVE-EPHEDRA",
+      "title": "antihypertensive with the ephedra formula: hard",
+      "ref": "safety policy §2.2, data/safety/rules.json",
+      "input": {
+        "interview": "EX1",
+        "subject": {
+          "medications": [
+            "antihypertensive"
+          ]
+        }
+      },
+      "expect": {
+        "release": {
+          "level": "L1",
+          "notices": [
+            "N-MED"
+          ],
+          "reasons": {
+            "N-MED": [
+              "antihypertensive"
+            ]
+          },
+          "notice": "inline",
+          "noFormulas": true
+        },
+        "dev": {
+          "notices": [
+            "N-MED"
+          ],
+          "reasons": {
+            "N-MED": [
+              "antihypertensive"
+            ]
+          },
+          "notice": "inline",
+          "annotated": {
+            "F_MAHUANG": [
+              "R_SYMPATHOMIMETIC"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "MED-OTHER",
+      "title": "any other medicine: never silently safe — the notice says only listed classes are checked",
+      "ref": "safety policy §2.2, data/safety/rules.json",
+      "input": {
+        "interview": "SP1",
+        "subject": {
+          "medications": [
+            "other"
+          ]
+        }
+      },
+      "expect": {
+        "release": {
+          "level": "L1",
+          "notices": [
+            "N-MED"
+          ],
+          "reasons": {
+            "N-MED": [
+              "other"
+            ]
+          },
+          "notice": "inline",
+          "show": [
+            "F_SHENLING",
+            "F_SIJUNZI"
+          ]
+        },
+        "dev": {
+          "notices": [
+            "N-MED"
+          ],
+          "reasons": {
+            "N-MED": [
+              "other"
+            ]
+          },
+          "notice": "inline"
+        }
+      }
+    },
+    {
+      "id": "MED-NONE",
+      "title": "no medicine: no notice",
+      "ref": "safety policy §2.2",
+      "input": {
+        "interview": "SP1"
+      },
+      "expect": {
+        "both": {
+          "notices": []
+        }
+      }
+    },
+    {
+      "id": "MED-NO-FALSE-HIT-SEDATIVE-SP1",
+      "title": "a class that touches none of the formulas leaves them unannotated",
+      "ref": "safety policy §2.2, data/safety/rules.json",
+      "input": {
+        "interview": "SP1",
+        "subject": {
+          "medications": [
+            "sedative"
+          ]
+        }
+      },
+      "expect": {
+        "release": {
+          "level": "L1",
+          "show": [
+            "F_SHENLING",
+            "F_SIJUNZI"
+          ],
+          "notAnnotated": {
+            "F_SHENLING": [
+              "R_SEDATIVE"
+            ],
+            "F_SIJUNZI": [
+              "R_SEDATIVE"
+            ]
+          }
+        },
+        "dev": {
+          "notAnnotated": {
+            "F_SHENLING": [
+              "R_SEDATIVE"
+            ]
+          }
+        }
+      }
+    }
+  ]
+}

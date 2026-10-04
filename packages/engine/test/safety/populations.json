@@ -1,0 +1,402 @@
+{
+  "_comment": "The populations of safety policy §2.1 in both profiles, and the age boundaries (17/18, 64/65). The person is the typical patient of 脾氣虛 with a full inquiry, so release can reach L1 where the policy allows it.",
+  "vignettes": [
+    {
+      "id": "POP-ADULT",
+      "title": "an adult of 35: L1 in release (tier A only), L3 in dev, no notice",
+      "ref": "safety policy §2.1",
+      "input": {
+        "interview": "SP1",
+        "subject": {
+          "ageYears": 35
+        }
+      },
+      "expect": {
+        "release": {
+          "level": "L1",
+          "notice": "none",
+          "notices": [],
+          "onlyTiers": [
+            "A"
+          ],
+          "show": [
+            "F_SHENLING",
+            "F_SIJUNZI"
+          ]
+        },
+        "dev": {
+          "level": "L3",
+          "notice": "none",
+          "notices": []
+        }
+      }
+    },
+    {
+      "id": "POP-AGE-18",
+      "title": "18 is an adult",
+      "ref": "safety policy §2.1",
+      "input": {
+        "interview": "SP1",
+        "subject": {
+          "ageYears": 18
+        }
+      },
+      "expect": {
+        "release": {
+          "level": "L1",
+          "notices": []
+        },
+        "dev": {
+          "level": "L3",
+          "notices": []
+        }
+      }
+    },
+    {
+      "id": "POP-AGE-64",
+      "title": "64 is still an adult",
+      "ref": "safety policy §2.1",
+      "input": {
+        "interview": "SP1",
+        "subject": {
+          "ageYears": 64
+        }
+      },
+      "expect": {
+        "release": {
+          "level": "L1",
+          "notices": []
+        },
+        "dev": {
+          "level": "L3",
+          "notices": []
+        }
+      }
+    },
+    {
+      "id": "POP-AGE-65",
+      "title": "65 is elderly: an inline notice, the same level as an adult",
+      "ref": "safety policy §2.1",
+      "input": {
+        "interview": "SP1",
+        "subject": {
+          "ageYears": 65
+        }
+      },
+      "expect": {
+        "release": {
+          "level": "L1",
+          "notice": "inline",
+          "notices": [
+            "N-ELDERLY"
+          ],
+          "onlyTiers": [
+            "A"
+          ],
+          "show": [
+            "F_SHENLING",
+            "F_SIJUNZI"
+          ]
+        },
+        "dev": {
+          "level": "L3",
+          "notice": "inline",
+          "notices": [
+            "N-ELDERLY"
+          ]
+        }
+      }
+    },
+    {
+      "id": "POP-ELDERLY-80",
+      "title": "80 years",
+      "ref": "safety policy §2.1",
+      "input": {
+        "interview": "SP1",
+        "subject": {
+          "ageYears": 80
+        }
+      },
+      "expect": {
+        "release": {
+          "level": "L1",
+          "notices": [
+            "N-ELDERLY"
+          ]
+        },
+        "dev": {
+          "level": "L3",
+          "notices": [
+            "N-ELDERLY"
+          ]
+        }
+      }
+    },
+    {
+      "id": "POP-AGE-17",
+      "title": "17 is a minor: blocking notice, L0 in release",
+      "ref": "safety policy §2.1",
+      "input": {
+        "interview": "SP1",
+        "subject": {
+          "ageYears": 17
+        }
+      },
+      "expect": {
+        "release": {
+          "level": "L0",
+          "notice": "blocking_ack",
+          "notices": [
+            "N-MINOR"
+          ],
+          "emergencyResources": false,
+          "noFormulas": true,
+          "noFoods": true,
+          "noAcupoints": true,
+          "suppressed": [
+            {
+              "kind": "formula",
+              "id": "F_SHENLING",
+              "reason": "level"
+            }
+          ]
+        },
+        "dev": {
+          "level": "L3",
+          "notices": [
+            "N-MINOR"
+          ],
+          "notice": "blocking_ack"
+        }
+      }
+    },
+    {
+      "id": "POP-CHILD-6",
+      "title": "a child of 6",
+      "ref": "safety policy §2.1",
+      "input": {
+        "interview": "SP1",
+        "subject": {
+          "ageYears": 6
+        }
+      },
+      "expect": {
+        "release": {
+          "level": "L0",
+          "notices": [
+            "N-MINOR"
+          ],
+          "noFormulas": true,
+          "noFoods": true,
+          "noAcupoints": true
+        },
+        "dev": {
+          "level": "L3",
+          "notices": [
+            "N-MINOR"
+          ]
+        }
+      }
+    },
+    {
+      "id": "POP-PREGNANT",
+      "title": "pregnant: blocking notice, L0 in release, hard rules only annotate in dev",
+      "ref": "safety policy §2.1",
+      "input": {
+        "interview": "SP1",
+        "subject": {
+          "sex": "female",
+          "pregnancy": "yes"
+        }
+      },
+      "expect": {
+        "release": {
+          "level": "L0",
+          "notice": "blocking_ack",
+          "notices": [
+            "N-PREG"
+          ],
+          "emergencyResources": false,
+          "noFormulas": true,
+          "noFoods": true,
+          "noAcupoints": true,
+          "suppressed": [
+            {
+              "kind": "formula",
+              "id": "F_SHENLING",
+              "reason": "level"
+            }
+          ]
+        },
+        "dev": {
+          "level": "L3",
+          "notices": [
+            "N-PREG"
+          ],
+          "notice": "blocking_ack",
+          "annotated": {
+            "F_SHENLING": [
+              "R_PREG_HERB_CAUTION"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "POP-POSSIBLY-PREGNANT",
+      "title": "possibly pregnant is treated as pregnant",
+      "ref": "safety policy §2.1",
+      "input": {
+        "interview": "SP1",
+        "subject": {
+          "sex": "female",
+          "pregnancy": "possible"
+        }
+      },
+      "expect": {
+        "release": {
+          "level": "L0",
+          "notice": "blocking_ack",
+          "notices": [
+            "N-PREG"
+          ],
+          "emergencyResources": false,
+          "noFormulas": true,
+          "noFoods": true,
+          "noAcupoints": true
+        },
+        "dev": {
+          "level": "L3",
+          "notices": [
+            "N-PREG"
+          ],
+          "annotated": {
+            "F_SHENLING": [
+              "R_PREG_HERB_CAUTION"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "POP-NOT-PREGNANT",
+      "title": "a woman who is not pregnant gets no pregnancy notice",
+      "ref": "safety policy §2.1",
+      "input": {
+        "interview": "SP1",
+        "subject": {
+          "sex": "female",
+          "pregnancy": "no"
+        }
+      },
+      "expect": {
+        "release": {
+          "level": "L1",
+          "notices": []
+        },
+        "dev": {
+          "level": "L3",
+          "notices": []
+        }
+      }
+    },
+    {
+      "id": "POP-LACTATING",
+      "title": "breastfeeding: blocking notice, L0 in release",
+      "ref": "safety policy §2.1",
+      "input": {
+        "interview": "SP1",
+        "subject": {
+          "sex": "female",
+          "pregnancy": "no",
+          "lactating": true
+        }
+      },
+      "expect": {
+        "release": {
+          "level": "L0",
+          "notice": "blocking_ack",
+          "notices": [
+            "N-LACT"
+          ],
+          "emergencyResources": false,
+          "noFormulas": true,
+          "noFoods": true,
+          "noAcupoints": true
+        },
+        "dev": {
+          "level": "L3",
+          "notices": [
+            "N-LACT"
+          ],
+          "notice": "blocking_ack"
+        }
+      }
+    },
+    {
+      "id": "POP-MINOR-PREGNANT",
+      "title": "a pregnant minor: both blocking notices",
+      "ref": "safety policy §2.1",
+      "input": {
+        "interview": "SP1",
+        "subject": {
+          "ageYears": 16,
+          "sex": "female",
+          "pregnancy": "yes"
+        }
+      },
+      "expect": {
+        "release": {
+          "level": "L0",
+          "notices": [
+            "N-MINOR",
+            "N-PREG"
+          ],
+          "notice": "blocking_ack",
+          "noFormulas": true,
+          "noFoods": true,
+          "noAcupoints": true
+        },
+        "dev": {
+          "level": "L3",
+          "notices": [
+            "N-MINOR",
+            "N-PREG"
+          ]
+        }
+      }
+    },
+    {
+      "id": "POP-ELDERLY-SERIOUS",
+      "title": "elderly with a serious illness: the blocking notice leads, the inline one follows",
+      "ref": "safety policy §2.1",
+      "input": {
+        "interview": "SP1",
+        "subject": {
+          "ageYears": 72,
+          "seriousChronicDisease": true
+        }
+      },
+      "expect": {
+        "release": {
+          "level": "L0",
+          "notices": [
+            "N-SERIOUS",
+            "N-ELDERLY"
+          ],
+          "notice": "blocking_ack",
+          "noFormulas": true,
+          "noFoods": true,
+          "noAcupoints": true
+        },
+        "dev": {
+          "level": "L3",
+          "notices": [
+            "N-SERIOUS",
+            "N-ELDERLY"
+          ]
+        }
+      }
+    }
+  ]
+}

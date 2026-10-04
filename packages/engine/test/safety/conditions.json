@@ -1,0 +1,429 @@
+{
+  "_comment": "The conditions of safety policy §2.1 (red flags are in red-flags.json) and the combinations named in test plan §3.3. Formulas of 脾氣虛 (四君子湯, 參苓白朮散) are the probe: both contain herbs tagged for the anticoagulant, hypoglycaemic, blood-pressure, potassium and immune interactions in data/herbs.",
+  "vignettes": [
+    {
+      "id": "COND-SERIOUS",
+      "title": "a serious chronic disease: blocking notice, L0 in release; in dev the formulas are annotated, not removed",
+      "ref": "safety policy §2.1",
+      "input": {
+        "interview": "SP1",
+        "subject": {
+          "seriousChronicDisease": true
+        }
+      },
+      "expect": {
+        "release": {
+          "level": "L0",
+          "notice": "blocking_ack",
+          "notices": [
+            "N-SERIOUS"
+          ],
+          "emergencyResources": false,
+          "noFormulas": true,
+          "noFoods": true,
+          "noAcupoints": true
+        },
+        "dev": {
+          "level": "L3",
+          "notices": [
+            "N-SERIOUS"
+          ],
+          "annotated": {
+            "F_SHENLING": [
+              "R_SERIOUS_CHRONIC"
+            ],
+            "F_SIJUNZI": [
+              "R_SERIOUS_CHRONIC"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "COND-ANTICOAGULANT",
+      "title": "on an anticoagulant: inline notice naming the class; the formulas whose herbs interact are removed in release and only annotated in dev",
+      "ref": "safety policy §2.1",
+      "input": {
+        "interview": "SP1",
+        "subject": {
+          "medications": [
+            "anticoagulant"
+          ]
+        }
+      },
+      "expect": {
+        "release": {
+          "level": "L1",
+          "notice": "inline",
+          "notices": [
+            "N-MED"
+          ],
+          "reasons": {
+            "N-MED": [
+              "anticoagulant"
+            ]
+          },
+          "noFormulas": true,
+          "hide": [
+            "F_SHENLING",
+            "F_SIJUNZI"
+          ],
+          "suppressed": [
+            {
+              "kind": "formula",
+              "id": "F_SHENLING",
+              "reason": "rule",
+              "ruleId": "R_ANTICOAGULANT"
+            },
+            {
+              "kind": "formula",
+              "id": "F_SIJUNZI",
+              "reason": "rule",
+              "ruleId": "R_ANTICOAGULANT"
+            }
+          ]
+        },
+        "dev": {
+          "level": "L3",
+          "notices": [
+            "N-MED"
+          ],
+          "show": [
+            "F_SHENLING",
+            "F_SIJUNZI"
+          ],
+          "annotated": {
+            "F_SHENLING": [
+              "R_ANTICOAGULANT"
+            ],
+            "F_SIJUNZI": [
+              "R_ANTICOAGULANT"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "COND-OTHER-MEDICATION",
+      "title": "an antidiabetic: inline notice; the soft interaction rule annotates and keeps the formulas",
+      "ref": "safety policy §2.1",
+      "input": {
+        "interview": "SP1",
+        "subject": {
+          "medications": [
+            "antidiabetic"
+          ]
+        }
+      },
+      "expect": {
+        "release": {
+          "level": "L1",
+          "notice": "inline",
+          "notices": [
+            "N-MED"
+          ],
+          "reasons": {
+            "N-MED": [
+              "antidiabetic"
+            ]
+          },
+          "show": [
+            "F_SHENLING",
+            "F_SIJUNZI"
+          ],
+          "annotated": {
+            "F_SHENLING": [
+              "R_HYPOGLYCEMIC"
+            ],
+            "F_SIJUNZI": [
+              "R_HYPOGLYCEMIC"
+            ]
+          }
+        },
+        "dev": {
+          "level": "L3",
+          "notices": [
+            "N-MED"
+          ],
+          "show": [
+            "F_SHENLING",
+            "F_SIJUNZI"
+          ],
+          "annotated": {
+            "F_SHENLING": [
+              "R_HYPOGLYCEMIC"
+            ],
+            "F_SIJUNZI": [
+              "R_HYPOGLYCEMIC"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "COND-ALLERGY-MATCH",
+      "title": "an allergy to a herb in the formulas: inline notice; release removes the formulas that contain it, dev annotates",
+      "ref": "safety policy §2.1",
+      "input": {
+        "interview": "SP1",
+        "subject": {
+          "allergies": [
+            "人參"
+          ]
+        }
+      },
+      "expect": {
+        "release": {
+          "level": "L1",
+          "notice": "inline",
+          "notices": [
+            "N-ALLERGY"
+          ],
+          "noFormulas": true,
+          "suppressed": [
+            {
+              "kind": "formula",
+              "id": "F_SHENLING",
+              "reason": "rule",
+              "ruleId": "R_ALLERGY"
+            },
+            {
+              "kind": "formula",
+              "id": "F_SIJUNZI",
+              "reason": "rule",
+              "ruleId": "R_ALLERGY"
+            }
+          ]
+        },
+        "dev": {
+          "level": "L3",
+          "notices": [
+            "N-ALLERGY"
+          ],
+          "show": [
+            "F_SHENLING",
+            "F_SIJUNZI"
+          ],
+          "annotated": {
+            "F_SHENLING": [
+              "R_ALLERGY"
+            ],
+            "F_SIJUNZI": [
+              "R_ALLERGY"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "COND-ACUTE-EXTERNAL",
+      "title": "an acute external-type presentation (a new chill with fever): inline notice N-ACUTE",
+      "ref": "safety policy §2.1 (acute_external_symptoms)",
+      "input": {
+        "interview": "EX1",
+        "context": {
+          "course": "acute"
+        }
+      },
+      "expect": {
+        "both": {
+          "notices": [
+            "N-ACUTE"
+          ],
+          "notice": "inline"
+        },
+        "release": {
+          "level": "L1"
+        },
+        "dev": {
+          "level": "L3"
+        }
+      }
+    },
+    {
+      "id": "COND-CHRONIC-NOT-ACUTE",
+      "title": "the same symptoms over a long course are not an acute external illness",
+      "ref": "safety policy §2.1",
+      "input": {
+        "interview": "EX1",
+        "context": {
+          "course": "chronic"
+        }
+      },
+      "expect": {
+        "both": {
+          "notices": []
+        }
+      }
+    },
+    {
+      "id": "COMBO-PREGNANT-ANTICOAGULANT",
+      "title": "pregnant and on an anticoagulant: blocking first, then the inline notice naming the class",
+      "ref": "safety policy §2.1, test plan §3.3",
+      "input": {
+        "interview": "SP1",
+        "subject": {
+          "sex": "female",
+          "pregnancy": "yes",
+          "medications": [
+            "anticoagulant"
+          ]
+        }
+      },
+      "expect": {
+        "both": {
+          "notices": [
+            "N-PREG",
+            "N-MED"
+          ],
+          "reasons": {
+            "N-MED": [
+              "anticoagulant"
+            ]
+          },
+          "notice": "blocking_ack"
+        },
+        "release": {
+          "level": "L0",
+          "noFormulas": true,
+          "noFoods": true,
+          "noAcupoints": true
+        },
+        "dev": {
+          "level": "L3",
+          "annotated": {
+            "F_SHENLING": [
+              "R_PREG_HERB_CAUTION",
+              "R_ANTICOAGULANT"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "COMBO-MINOR-REDFLAG-B",
+      "title": "a minor with a B red flag: the 24-hour notice leads, the scope notice follows",
+      "ref": "safety policy §2.1",
+      "input": {
+        "interview": "SP1",
+        "subject": {
+          "ageYears": 15
+        },
+        "redFlags": [
+          "RF_B_VOMITING"
+        ]
+      },
+      "expect": {
+        "both": {
+          "notices": [
+            "N-B",
+            "N-MINOR"
+          ],
+          "reasons": {
+            "N-B": [
+              "RF_B_VOMITING"
+            ]
+          },
+          "emergencyResources": true,
+          "notice": "blocking_ack"
+        },
+        "release": {
+          "level": "L0",
+          "noFormulas": true,
+          "noFoods": true,
+          "noAcupoints": true
+        },
+        "dev": {
+          "level": "L3"
+        }
+      }
+    },
+    {
+      "id": "COMBO-ELDERLY-ANTIHYPERTENSIVE-MAOI-STIMULANT",
+      "title": "elderly and taking an antihypertensive, a MAOI and a stimulant: one notice per cause, the classes named; soft rules annotate",
+      "ref": "safety policy §2.1",
+      "input": {
+        "interview": "SP1",
+        "subject": {
+          "ageYears": 72,
+          "medications": [
+            "antihypertensive",
+            "MAOI",
+            "stimulant"
+          ]
+        }
+      },
+      "expect": {
+        "both": {
+          "notices": [
+            "N-ELDERLY",
+            "N-MED"
+          ],
+          "reasons": {
+            "N-MED": [
+              "antihypertensive",
+              "MAOI",
+              "stimulant"
+            ]
+          },
+          "notice": "inline"
+        },
+        "release": {
+          "level": "L1",
+          "show": [
+            "F_SHENLING",
+            "F_SIJUNZI"
+          ],
+          "annotated": {
+            "F_SHENLING": [
+              "R_BP_RAISING"
+            ],
+            "F_SIJUNZI": [
+              "R_BP_RAISING"
+            ]
+          }
+        },
+        "dev": {
+          "level": "L3",
+          "annotated": {
+            "F_SHENLING": [
+              "R_BP_RAISING"
+            ],
+            "F_SIJUNZI": [
+              "R_BP_RAISING"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "COMBO-SERIOUS-REDFLAG-A",
+      "title": "a serious illness and an emergency item: the emergency notice leads",
+      "ref": "safety policy §2.1",
+      "input": {
+        "interview": "SP1",
+        "subject": {
+          "seriousChronicDisease": true
+        },
+        "redFlags": [
+          "RF_A_DYSPNEA"
+        ]
+      },
+      "expect": {
+        "both": {
+          "notices": [
+            "N-A",
+            "N-SERIOUS"
+          ],
+          "emergencyResources": true
+        },
+        "release": {
+          "level": "L0",
+          "noFormulas": true,
+          "noFoods": true,
+          "noAcupoints": true
+        }
+      }
+    }
+  ]
+}

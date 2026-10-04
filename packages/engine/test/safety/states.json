@@ -1,0 +1,128 @@
+{
+  "_comment": "The states the engine finds after scoring: insufficient information, low confidence and conflicting data (safety policy §2.1).",
+  "vignettes": [
+    {
+      "id": "STATE-INSUFFICIENT",
+      "title": "no findings: insufficient information — L0 in release, only the inline notice, no formulas, foods or points",
+      "ref": "safety policy §2.1 (state)",
+      "input": {
+        "findings": {}
+      },
+      "expect": {
+        "both": {
+          "status": "insufficient",
+          "notices": [
+            "N-LOWCONF"
+          ],
+          "notice": "inline",
+          "noFormulas": true,
+          "noFoods": true,
+          "noAcupoints": true
+        },
+        "release": {
+          "level": "L0"
+        },
+        "dev": {
+          "level": "L3"
+        }
+      }
+    },
+    {
+      "id": "STATE-LOW-CONFIDENCE",
+      "title": "low confidence (the 桂枝湯 patient's inquiry stays below medium): L0 in release",
+      "ref": "safety policy §2.1 (state)",
+      "input": {
+        "interview": "EX2"
+      },
+      "expect": {
+        "both": {
+          "notices": [
+            "N-LOWCONF"
+          ]
+        },
+        "release": {
+          "level": "L0",
+          "noFormulas": true,
+          "noFoods": true,
+          "noAcupoints": true
+        },
+        "dev": {
+          "level": "L3"
+        }
+      }
+    },
+    {
+      "id": "STATE-CONFLICTING",
+      "title": "contradictory answers (two kinds of cold at once): N-CONFLICT, the level is not lowered by the state",
+      "ref": "safety policy §2.1 (state)",
+      "input": {
+        "interview": "HT1",
+        "findings": {
+          "S_AVERSION_COLD": {
+            "state": "present",
+            "severity": "moderate"
+          },
+          "S_FEAR_COLD": {
+            "state": "present",
+            "severity": "moderate"
+          }
+        }
+      },
+      "expect": {
+        "both": {
+          "notices": [
+            "N-CONFLICT"
+          ],
+          "notice": "inline"
+        },
+        "release": {
+          "level": "L1"
+        },
+        "dev": {
+          "level": "L3"
+        }
+      }
+    },
+    {
+      "id": "STATE-OK",
+      "title": "enough information: established, no state notice",
+      "ref": "safety policy §2.1",
+      "input": {
+        "interview": "SP1"
+      },
+      "expect": {
+        "both": {
+          "status": "established",
+          "notices": []
+        }
+      }
+    },
+    {
+      "id": "STATE-LOW-CONFIDENCE-AND-PREGNANT",
+      "title": "low confidence in a pregnant woman: the blocking notice leads, the state follows",
+      "ref": "safety policy §2.1",
+      "input": {
+        "interview": "EX2",
+        "subject": {
+          "sex": "female",
+          "pregnancy": "yes"
+        }
+      },
+      "expect": {
+        "both": {
+          "notices": [
+            "N-PREG",
+            "N-LOWCONF"
+          ],
+          "notice": "blocking_ack"
+        },
+        "release": {
+          "level": "L0",
+          "noFormulas": true,
+          "noFoods": true,
+          "noAcupoints": true
+        }
+      }
+    }
+  ]
+}
