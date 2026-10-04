@@ -37,6 +37,8 @@ jobs:
       - run: pnpm test
       - name: Safety vignette suite (blocks the release)
         run: pnpm test:safety
+      - name: Engine benchmark (assess p95 ≤ 50 ms; no more than 20 % slower than the baseline)
+        run: pnpm bench:check
       - run: pnpm test:tools
 
   deps:

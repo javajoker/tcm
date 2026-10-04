@@ -192,6 +192,8 @@ Viewports 320, 375, 600, 900, 1200, 1920; landscape phone; touch targets ≥ 44 
 | `size-limit` | Initial JS ≤ 200 KB gzip; engine chunk and KB chunks within their budgets |
 | Lighthouse CI (mobile, throttled) | Performance ≥ 90, Accessibility ≥ 95, LCP ≤ 2.5 s, INP ≤ 200 ms on landing and result routes |
 | Engine bench | `assess` ≤ 50 ms p95 (reference mid-range device profile, CPU throttled); regression > 20 % fails |
+
+> **Implementation (E-19).** `pnpm bench` / `pnpm bench:check` (`packages/engine/bench/`): `assess` for the typical patient of every pattern in both profiles (600 timed runs, each figure the median of three rounds after a warm-up) and `nextQuestions`; p50, p95, max. A fixed reference workload measures the machine, and the baseline (`bench/baseline.json`) stores each p95 as a **ratio to it**, so the 20 % regression guard travels between machines; the absolute 50 ms budget is checked on the raw time. CI runs `bench:check` on every push. Today `assess` is ≈ 2 ms median and ≈ 6 ms p95 on a laptop, about a tenth of the budget, which is why the engine stays on the main thread (tech spec TQ5). Re-baseline with `node packages/engine/bench/assess.bench.ts --write-baseline` only after an intended change, in the same commit.
 | Memory | No growth after 50 consecutive assessments in one session |
 
 ### 5.6 Security
