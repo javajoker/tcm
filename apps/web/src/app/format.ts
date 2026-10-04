@@ -11,3 +11,8 @@ export function relativeTime(lang: Lang, then: number, now: number): string {
   if (abs < 86_400) return rtf.format(Math.round(seconds / 3600), "hour");
   return rtf.format(Math.round(seconds / 86_400), "day");
 }
+
+/** A date and time in the viewer's own time zone (history cards, the report footer): "4 Oct 2026, 12:30". */
+export function formatLocal(lang: Lang, ms: number): string {
+  return new Intl.DateTimeFormat(LOCALE[lang], { dateStyle: "medium", timeStyle: "short" }).format(ms);
+}

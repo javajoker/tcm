@@ -11,6 +11,7 @@ import { NotFound } from "./NotFound.tsx";
 import { PrefsEffects } from "./PrefsEffects.tsx";
 import { RouteFocus } from "./RouteFocus.tsx";
 import { Profile } from "../screens/profile/Profile.tsx";
+import { History } from "../screens/history/History.tsx";
 import { Inquiry } from "../screens/inquiry/Inquiry.tsx";
 import { FormulaDetail } from "../screens/result/FormulaDetail.tsx";
 import { Result } from "../screens/result/Result.tsx";
@@ -38,6 +39,7 @@ function Screens(): ReactNode {
           <Route path="/screen"><Screening /></Route>
           <Route path="/inquiry"><Inquiry /></Route>
           <Route path="/review"><Review /></Route>
+          <Route path="/history"><History /></Route>
           <Route path="/settings"><Settings /></Route>
           <Route path="/sources"><Sources /></Route>
           <Route path="/result/:id/formula/:fid">{(params) => <FormulaDetail id={params.id} fid={params.fid} />}</Route>

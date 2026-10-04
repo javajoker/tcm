@@ -21,6 +21,7 @@ export function AppShell({ children }: { children: ReactNode }): ReactNode {
           {IS_DEV_PROFILE ? <span className={styles.badge} data-testid="profile-badge">{DEV_BADGE}</span> : null}
           <NotSavedChip />
           <nav aria-label={t.t("common.nav.menu")} className={styles.menu}>
+            <Link href="/history">{t.t("common.nav.history")}</Link>
             <Link href="/sources">{t.t("common.nav.sources")}</Link>
             <Link href="/settings">{t.t("common.nav.settings")}</Link>
           </nav>

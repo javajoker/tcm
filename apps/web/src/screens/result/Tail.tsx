@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { useLocation } from "wouter";
 import { useI18n } from "../../i18n/I18nProvider.tsx";
 import { draftFromSaved } from "../../app/assessment.ts";
+import { formatLocal } from "../../app/format.ts";
 import { useLoaded } from "../../app/knowledge.tsx";
 import { useApp } from "../../app/store.tsx";
 import { randomId } from "../../storage/ids.ts";
@@ -46,7 +47,7 @@ export function ReportFooter({ saved }: { saved: SavedAssessment }): ReactNode {
   return (
     <footer style={{ marginTop: "var(--space-5)" }}>
       <p>{t.rich("safety.disclaimer.full").map((part, i) => (part.type === "tag" && part.tag === "b" ? <strong key={i}>{part.text}</strong> : <span key={i}>{part.text}</span>))}</p>
-      <p className="muted">{t.t("report.footer.computed", { date: t.date(m.computedAt, { dateStyle: "medium", timeStyle: "short" }), kb: m.kbVersion.slice(0, 8), engine: m.engineVersion, params: m.paramsFingerprint })}</p>
+      <p className="muted">{t.t("report.footer.computed", { date: formatLocal(t.lang, m.computedAt), kb: m.kbVersion.slice(0, 8), engine: m.engineVersion, params: m.paramsFingerprint })}</p>
     </footer>
   );
 }

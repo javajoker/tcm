@@ -26,6 +26,9 @@ export interface AppState {
   /** Store a finished result; the draft is deleted once it is saved (tech spec §8.3). */
   saveAssessment(saved: SavedAssessment): Promise<void>;
   loadAssessment(id: string): Promise<SavedAssessment | null>;
+  listAssessments(): Promise<SavedAssessment[]>;
+  putAssessment(saved: SavedAssessment): Promise<void>;
+  deleteAssessment(id: string): Promise<void>;
   /** Change the draft; `updatedAt` is stamped and the change is saved after a short debounce. */
   updateDraft(change: (d: Draft) => Draft): void;
   discardDraft(): Promise<void>;
@@ -78,6 +81,9 @@ export function createAppStore({ persistence, now = () => Date.now(), newId = ra
       await persistence.clearDraft();
     },
     loadAssessment: (id) => persistence.getAssessment(id),
+    listAssessments: () => persistence.listAssessments(),
+    putAssessment: (saved) => persistence.putAssessment(saved),
+    deleteAssessment: (id) => persistence.deleteAssessment(id),
     updateDraft(change) {
       const current = get().draft;
       if (current === null) return;
