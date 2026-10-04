@@ -1,0 +1,84 @@
+# Continuous integration (docs/release-process.md §4, docs/test-plan.md §6). Fast checks, the knowledge-base build (determinism + validation), and both builds
+# with the release assertions. Required on `main`. Actions are pinned to major versions here; pinning to commit SHAs is part of task R-05.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_call:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  fast:
+    name: Fast checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile --ignore-scripts
+      - run: pnpm lint
+      - run: pnpm typecheck
+      - run: pnpm check:kb-types
+      - run: pnpm check:notices
+      - run: pnpm test
+      - run: pnpm test:tools
+
+  kb:
+    name: Knowledge base (build is deterministic, data is valid)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: scripts/requirements.txt
+      - run: python3 -m venv .venv && .venv/bin/pip install -r scripts/requirements.txt
+      - run: .venv/bin/python -m scripts.kb.build_kb
+      - name: The committed data equals the data the build regenerates
+        run: git diff --exit-code -- data
+      - run: .venv/bin/python -m unittest discover -s scripts/kb/tests -t .
+
+  build:
+    name: Build both profiles and check the release output
+    needs: [fast]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile --ignore-scripts
+      - name: Release build (profile release)
+        run: pnpm build
+        env:
+          APP_BUILD_ID: ${{ github.sha }}
+      - name: Release assertions on the built output
+        # the content is still a draft: the closed-beta exception (draft label on) is the recorded state until the review records exist
+        run: node scripts/check-release.ts --dist apps/web/dist --draft-label
+      - name: The release checker rejects every seeded violation
+        run: node --test scripts/check-release.test.ts
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist-release
+          path: apps/web/dist
+          retention-days: 14
+      - name: Dev build (profile dev, previews only)
+        run: pnpm build:dev
+        env:
+          APP_BUILD_ID: ${{ github.sha }}

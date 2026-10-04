@@ -28,14 +28,14 @@
 | **I** Internationalisation | 2 | 5 |
 | **U** Web application | 3 | 12 |
 | **Q** Quality assurance | 0 | 10 |
-| **R** Release and operations | 0 | 7 |
+| **R** Release and operations | 0 | 4 |
 | **V** Review (non-code) | 0 | 7 |
 | **PF** Performance (P2) | 0 | 3 |
-| **All** | **56** | **108** |
+| **All** | **56** | **105** |
 
 | Priority | Done | Total |
 |---|---:|---:|
-| P0 | 40 | 60 |
+| P0 | 40 | 57 |
 | P1 | 14 | 40 |
 | P2 | 2 | 8 |
 
@@ -203,9 +203,9 @@ Suggested waves: **1** foundation (E-01, K-01, K-02, I-01, U-01, R-01) → **2**
 
 | ✔ | ID | Task | Pri | Size | Deps | Done when |
 |---|---|---|---|---|---|---|
-| [ ] | R-01 | CI workflow, fast checks (typecheck, unit, property, parity, KB determinism and validation, i18n, lint) | P0 | M | E-01, K-02 | Required on `main` |
-| [ ] | R-02 | CI build workflow (bundle-data per profile, web builds, budgets) | P0 | M | E-03, U-01 | Both profiles built per push; release output contains no dev-only chunk (the `Catalogue` chunk) — see `App.tsx` |
-| [ ] | R-03 | `scripts/check-release.ts` (assertions of [release process §4.1](docs/release-process.md)) | P0 | M | E-03, U-01 | Fails on each seeded violation |
+| [x] | R-01 | CI workflow, fast checks (typecheck, unit, property, parity, KB determinism and validation, i18n, lint) | P0 | M | E-01, K-02 | Required on `main` | — `.github/workflows/ci.yml` (fast checks job; KB job rebuilds `data/` and fails on any diff); not yet run on a runner — first push will tell
+| [x] | R-02 | CI build workflow (bundle-data per profile, web builds, budgets) | P0 | M | E-03, U-01 | Both profiles built per push; release output contains no dev-only chunk (the `Catalogue` chunk) — see `App.tsx` | — `build` job: release then dev build, artifacts; actions pinned to major versions (SHA pinning is R-05)
+| [x] | R-03 | `scripts/check-release.ts` (assertions of [release process §4.1](docs/release-process.md)) | P0 | M | E-03, U-01 | Fails on each seeded violation | — `scripts/check-release.ts` + 11 seeded-violation tests; run on the first real release build it caught three checker bugs and none in the app; passes with the draft label until the review records exist
 | [ ] | R-04 | Deploy workflow, headers file (CSP, caching), SPA fallback, smoke tests | P1 | M | DEC-03, R-02 | Staging deploys from tags |
 | [ ] | R-05 | Dependency hygiene: Renovate/Dependabot, `pnpm audit`, licence allowlist, SBOM | P1 | S | E-01 | Reports attached to artifacts |
 | [ ] | R-06 | Repo hygiene: `SECURITY.md`, issue/PR templates, `CODEOWNERS`, `CHANGELOG.md` | P1 | S | — | Templates match [CONTRIBUTING](CONTRIBUTING.md) |
