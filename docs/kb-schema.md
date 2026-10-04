@@ -321,7 +321,7 @@ Nothing is `reviewed` yet; the release gate in the [release process](release-pro
 | `geo/cities.json` | `{ id, name{zh-Hant,en}, lat, lon, tz }` | Decided: GeoNames `cities15000`, CC BY 4.0, reduced subset with attribution (tech spec TQ2) |
 | `treatment/guidance.json` (extend) | Acupoint location text, illustration ids, diet entries with rationale and citations | |
 | English prose fields | English rendering of `rationale_zh`, `principle`, `treatment`, `cautions`, `messages` | Machine draft + review |
-| `review/records.json` | Review records (who, when, scope, KB version, outcome) per file/record range | [Content review](content-review.md) |
+| `review/records.json` ✔ | Review records compiled from `review/records/*.yaml` (K-16): the records, the units they cover (`reviewed`, with content hashes), those whose content changed since (`stale`) and per-file coverage with the roles each file needs | [Content review §5](content-review.md) |
 
 ---
 

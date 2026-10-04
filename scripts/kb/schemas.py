@@ -394,6 +394,22 @@ def glossary() -> dict:
     return envelope(item, meta({"count": INT}, ["count"]))
 
 
+def review_records() -> dict:
+    role = enum("tcm-clinical", "pharmacy", "physician", "linguistic", "legal")
+    hash16 = pattern(r"^[0-9a-f]{16}$")
+    scope = obj({"file": STR, "units": dictionary(hash16, None, 1)})
+    record = obj({"area": STR, "changes": arr(STR), "date": pattern(r"^\d{4}-\d{2}-\d{2}$"), "dissent": arr(STR), "id": pattern(r"^REV-\d{4}-\d{4}$"), "kb_version": STR,
+                  "notes": STR, "outcome": enum("accepted", "accepted-with-changes", "rejected", "deferred"), "reviewer": obj({"credential": STR, "name": STR, "role": role}),
+                  "scope": arr(scope, 1)})
+    reviewed = obj({"file": STR, "hash": hash16, "records": arr(pattern(r"^REV-\d{4}-\d{4}$"), 1), "unit": STR})
+    stale = obj({"current_hash": hash16, "file": STR, "record": pattern(r"^REV-\d{4}-\d{4}$"), "reviewed_hash": hash16, "unit": STR})
+    coverage = obj({"required_roles": arr(arr(role, 1), 1), "reviewed": INT, "units": INT, "whole_file_reviewed": BOOL})
+    return {"type": "object", "properties": {
+        "_meta": meta({"count": INT, "problems": INT, "status": ref("reviewStatus")}, ["count", "problems", "status"]),
+        "coverage": dictionary(coverage), "records": arr(record), "reviewed": arr(reviewed), "stale": arr(stale)},
+        "required": ["_meta", "coverage", "records", "reviewed", "stale"], "additionalProperties": False}
+
+
 # file (relative to data/) → (schema file stem, builder, title)
 SCHEMAS = {
     "citations.json": ("citations", citations, "Quotation registry"),
@@ -423,6 +439,7 @@ SCHEMAS = {
     "safety/rules.json": ("safety-rules", safety_rules, "Safety rules"),
     "safety/emergency.json": ("emergency", emergency, "Emergency and crisis numbers"),
     "treatment/guidance.json": ("treatment-guidance", treatment_guidance, "Treatment guidance"),
+    "review/records.json": ("review-records", review_records, "Review records and what they cover"),
 }
 
 

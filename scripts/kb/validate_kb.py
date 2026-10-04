@@ -88,6 +88,17 @@ def validate(load: Loader = load, check_sources: bool = True) -> list[str]:
         if hits:
             err(f"{rel}: 溼 found outside quotations (use 濕): {sorted(set(hits))[:4]}")
 
+    # ── review: `reviewed` is set by the build from valid records only, never by hand (content review §5)
+    from . import review as rv
+    records = load("review/records.json")
+    if records["_meta"]["problems"]:
+        err(f"review records: {records['_meta']['problems']} problem(s); run `python -m scripts.kb.build_review` to see them")
+    supported = {(r["file"], r["unit"]) for r in records["reviewed"]}
+    for rel, uids in sorted(rv.reviewed_by_status({r: load(r) for r in SCHEMAS if r != "review/records.json"}).items()):
+        for uid in sorted(uids):
+            if (rel, uid) not in supported:
+                err(f"{rel}: {uid} is marked reviewed but no valid, current review record supports it (statuses are set by the build from review/records/*.yaml)")
+
     cit = load("citations.json")
     cit_ids = {c["id"] for c in cit["items"]}
     if cit["_meta"]["unverified"]:

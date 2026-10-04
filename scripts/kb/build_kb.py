@@ -2,13 +2,13 @@
 
     .venv/bin/python -m scripts.kb.build_kb
 
-Order matters: params → citations → herbs → formulas → wuxing correspondences → diagnosis → policy → emergency → questions → exclusions → orientation → schemas → validation → pattern self-test.
+Order matters: params → citations → herbs → formulas → wuxing correspondences → diagnosis → policy → emergency → questions → exclusions → orientation → review records → schemas → validation → pattern self-test.
 """
 from __future__ import annotations
 
 import sys
 
-from . import build_citations, build_constitution_items, build_diagnosis, build_emergency, build_exclusions, build_formulas, build_herbs, build_orientation, build_params, build_policy, build_questions, build_schemas, build_wuxing, selftest_patterns, validate_kb
+from . import build_citations, build_constitution_items, build_diagnosis, build_emergency, build_exclusions, build_formulas, build_herbs, build_orientation, build_params, build_policy, build_questions, build_review, build_schemas, build_wuxing, selftest_patterns, validate_kb
 
 
 def main() -> int:
@@ -24,6 +24,8 @@ def main() -> int:
     build_questions.main()
     build_exclusions.main()
     build_orientation.main()
+    if build_review.main():
+        return 1
     build_schemas.main()
     status = validate_kb.main()
     return status or selftest_patterns.main()

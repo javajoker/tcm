@@ -1,0 +1,305 @@
+{
+  "_meta": {
+    "count": 0,
+    "description": "Review records compiled from review/records/*.yaml (docs/content-review.md §5). `reviewed` lists the units whose valid, current records satisfy the roles their file needs; `stale` lists accepted units whose content changed after the review (they count for nothing until reviewed again). Written by the build; never edit.",
+    "problems": 0,
+    "schema": 1,
+    "status": "draft"
+  },
+  "coverage": {
+    "citations.json": {
+      "required_roles": [
+        [
+          "tcm-clinical"
+        ]
+      ],
+      "reviewed": 0,
+      "units": 127,
+      "whole_file_reviewed": false
+    },
+    "config/scope-profiles.json": {
+      "required_roles": [
+        [
+          "physician"
+        ],
+        [
+          "pharmacy",
+          "tcm-clinical"
+        ]
+      ],
+      "reviewed": 0,
+      "units": 0,
+      "whole_file_reviewed": false
+    },
+    "diagnosis/constitution-items.json": {
+      "required_roles": [
+        [
+          "tcm-clinical"
+        ]
+      ],
+      "reviewed": 0,
+      "units": 9,
+      "whole_file_reviewed": false
+    },
+    "diagnosis/constitutions.json": {
+      "required_roles": [
+        [
+          "tcm-clinical"
+        ]
+      ],
+      "reviewed": 0,
+      "units": 9,
+      "whole_file_reviewed": false
+    },
+    "diagnosis/exclusions.json": {
+      "required_roles": [
+        [
+          "tcm-clinical"
+        ]
+      ],
+      "reviewed": 0,
+      "units": 33,
+      "whole_file_reviewed": false
+    },
+    "diagnosis/orientation.json": {
+      "required_roles": [
+        [
+          "tcm-clinical"
+        ]
+      ],
+      "reviewed": 0,
+      "units": 0,
+      "whole_file_reviewed": false
+    },
+    "diagnosis/panel-schema.json": {
+      "required_roles": [
+        [
+          "tcm-clinical"
+        ]
+      ],
+      "reviewed": 0,
+      "units": 0,
+      "whole_file_reviewed": false
+    },
+    "diagnosis/pattern-elements.json": {
+      "required_roles": [
+        [
+          "tcm-clinical"
+        ]
+      ],
+      "reviewed": 0,
+      "units": 24,
+      "whole_file_reviewed": false
+    },
+    "diagnosis/patterns.json": {
+      "required_roles": [
+        [
+          "tcm-clinical"
+        ]
+      ],
+      "reviewed": 0,
+      "units": 23,
+      "whole_file_reviewed": false
+    },
+    "diagnosis/pulse.json": {
+      "required_roles": [
+        [
+          "tcm-clinical"
+        ]
+      ],
+      "reviewed": 0,
+      "units": 34,
+      "whole_file_reviewed": false
+    },
+    "diagnosis/questions.json": {
+      "required_roles": [
+        [
+          "tcm-clinical"
+        ]
+      ],
+      "reviewed": 0,
+      "units": 36,
+      "whole_file_reviewed": false
+    },
+    "diagnosis/red-flags.json": {
+      "required_roles": [
+        [
+          "physician"
+        ],
+        [
+          "pharmacy",
+          "tcm-clinical"
+        ]
+      ],
+      "reviewed": 0,
+      "units": 28,
+      "whole_file_reviewed": false
+    },
+    "diagnosis/scoring-params.json": {
+      "required_roles": [
+        [
+          "tcm-clinical"
+        ]
+      ],
+      "reviewed": 0,
+      "units": 0,
+      "whole_file_reviewed": false
+    },
+    "diagnosis/symptoms.json": {
+      "required_roles": [
+        [
+          "tcm-clinical"
+        ]
+      ],
+      "reviewed": 0,
+      "units": 171,
+      "whole_file_reviewed": false
+    },
+    "diagnosis/tongue.json": {
+      "required_roles": [
+        [
+          "tcm-clinical"
+        ]
+      ],
+      "reviewed": 0,
+      "units": 38,
+      "whole_file_reviewed": false
+    },
+    "formulas/formulas.json": {
+      "required_roles": [
+        [
+          "tcm-clinical"
+        ],
+        [
+          "pharmacy"
+        ]
+      ],
+      "reviewed": 0,
+      "units": 33,
+      "whole_file_reviewed": false
+    },
+    "glossary.json": {
+      "required_roles": [
+        [
+          "linguistic"
+        ]
+      ],
+      "reviewed": 0,
+      "units": 139,
+      "whole_file_reviewed": false
+    },
+    "herbs/herb-index.json": {
+      "required_roles": [
+        [
+          "tcm-clinical"
+        ]
+      ],
+      "reviewed": 0,
+      "units": 0,
+      "whole_file_reviewed": false
+    },
+    "herbs/herbs.json": {
+      "required_roles": [
+        [
+          "tcm-clinical"
+        ],
+        [
+          "pharmacy"
+        ]
+      ],
+      "reviewed": 0,
+      "units": 703,
+      "whole_file_reviewed": false
+    },
+    "safety/emergency.json": {
+      "required_roles": [
+        [
+          "physician"
+        ]
+      ],
+      "reviewed": 0,
+      "units": 12,
+      "whole_file_reviewed": false
+    },
+    "safety/rules.json": {
+      "required_roles": [
+        [
+          "physician"
+        ],
+        [
+          "pharmacy",
+          "tcm-clinical"
+        ]
+      ],
+      "reviewed": 0,
+      "units": 26,
+      "whole_file_reviewed": false
+    },
+    "treatment/guidance.json": {
+      "required_roles": [
+        [
+          "tcm-clinical"
+        ],
+        [
+          "pharmacy"
+        ]
+      ],
+      "reviewed": 0,
+      "units": 0,
+      "whole_file_reviewed": false
+    },
+    "wuxing/correspondences.json": {
+      "required_roles": [
+        [
+          "tcm-clinical"
+        ]
+      ],
+      "reviewed": 0,
+      "units": 0,
+      "whole_file_reviewed": false
+    },
+    "wuxing/engine-params.json": {
+      "required_roles": [
+        [
+          "tcm-clinical"
+        ]
+      ],
+      "reviewed": 0,
+      "units": 0,
+      "whole_file_reviewed": false
+    },
+    "wuxing/ganzhi.json": {
+      "required_roles": [
+        [
+          "tcm-clinical"
+        ]
+      ],
+      "reviewed": 0,
+      "units": 0,
+      "whole_file_reviewed": false
+    },
+    "wuxing/susceptibility.json": {
+      "required_roles": [
+        [
+          "tcm-clinical"
+        ]
+      ],
+      "reviewed": 0,
+      "units": 0,
+      "whole_file_reviewed": false
+    },
+    "wuxing/yunqi.json": {
+      "required_roles": [
+        [
+          "tcm-clinical"
+        ]
+      ],
+      "reviewed": 0,
+      "units": 0,
+      "whole_file_reviewed": false
+    }
+  },
+  "records": [],
+  "reviewed": [],
+  "stale": []
+}

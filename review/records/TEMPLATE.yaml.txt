@@ -1,0 +1,19 @@
+# Copy to review/records/REV-<year>-<nnnn>.yaml and fill in. One record = one reviewer in one role.
+id: REV-2026-0001
+area: patterns                       # a free label for the review pack: patterns, formulas, red-flags, safety-rules, …
+reviewer:
+  role: tcm-clinical                 # tcm-clinical | pharmacy | physician | linguistic | legal
+  name: "(recorded with consent, or \"(withheld)\")"
+  credential: "licence number / issuing body"
+date: 2026-11-02
+kb_version: "<knowledge-base version that was reviewed>"
+outcome: accepted-with-changes       # accepted | accepted-with-changes | rejected | deferred
+scope:
+  - file: diagnosis/patterns.json
+    units:                           # unit id -> content hash of the FINAL content the reviewer accepted ("*" = the whole file)
+      SP1: 0123456789abcdef
+      SP2: fedcba9876543210
+changes:
+  - "SP1: S_LOOSE_STOOL weight 3 -> 2"
+dissent: []
+notes: "Expert judgement; textbook 中醫診斷學 (edition …)"

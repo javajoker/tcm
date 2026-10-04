@@ -34,6 +34,7 @@ Needs Node ≥ 22.18 for the one TypeScript export step (`scripts/kb/export_wuxi
 | `diagnosis/red-flags.json` | 28 | Red-flag lists A / B / C | curated (needs physician review) |
 | `diagnosis/scoring-params.json` | — | **Engine parameters** shared by the Python oracle and the TypeScript engine: severity and quality factors, pattern bands, panel and reconciliation thresholds, formula and 加減 limits, tier thresholds, questionnaire limits | `scripts/kb/curated/params.py` (draft, SOP D3) |
 | `diagnosis/panel-schema.json` | — | The panel (五行臟腑・六邪・八綱) schema and the 證素 → panel projection | curated |
+| `review/records.json` | — | Review records compiled from `review/records/*.yaml`: who reviewed what (with content hashes), which units count as `reviewed`, which went stale after a change, and per-file coverage with the roles each file needs. **No record exists yet: nothing is reviewed.** | `scripts/kb/build_review.py` (K-16) |
 | `wuxing/correspondences.json` | 5 | Five-phase correspondences **parsed from 《素問·陰陽應象大論》** (both orifice schools kept) | TCM-Library raw text |
 | `wuxing/ganzhi.json` | — | Stems, branches, hidden stems, 人元司令, solar terms | exported from `packages/wuxing` |
 | `wuxing/yunqi.json` | — | 五運六氣 tables + 10 民病 excerpts parsed from 《素問·氣交變大論》 | `packages/wuxing` + raw text |
@@ -113,7 +114,7 @@ Every herb carries `source.path` and the submodule commit; every formula carries
 | `draft` | hand-curated table, not reviewed |
 | `verified` (citations only) | the quote was found in the source text |
 
-Nothing is `reviewed` or `approved` yet. Items that **must** be reviewed before any release: pattern weights and thresholds, formula–pattern mapping and roles,
+Nothing is `reviewed` or `approved` yet (`reviewed` is set only by the build from valid review records — [content review §5](../docs/content-review.md)). Items that **must** be reviewed before any release: pattern weights and thresholds, formula–pattern mapping and roles,
 herb effect / burden weights, pregnancy / interaction / toxicity flags, red-flag lists, dose references and the conflict-rule thresholds
 (`safety/rules.json → _meta.clinical_review_required`).
 

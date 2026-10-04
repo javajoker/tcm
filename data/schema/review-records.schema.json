@@ -1,0 +1,407 @@
+{
+  "$defs": {
+    "bilingual": {
+      "additionalProperties": false,
+      "properties": {
+        "en": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "zh-Hant": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "en",
+        "zh-Hant"
+      ],
+      "type": "object"
+    },
+    "bilingualNamed": {
+      "additionalProperties": false,
+      "properties": {
+        "en": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "zh-Hant": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "en",
+        "zh-Hant"
+      ],
+      "type": "object"
+    },
+    "citationId": {
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+      "type": "string"
+    },
+    "constitutionId": {
+      "pattern": "^C_[A-Z]+$",
+      "type": "string"
+    },
+    "element": {
+      "enum": [
+        "木",
+        "火",
+        "土",
+        "金",
+        "水"
+      ]
+    },
+    "elementId": {
+      "pattern": "^PE_.+$",
+      "type": "string"
+    },
+    "evil": {
+      "enum": [
+        "風",
+        "寒",
+        "暑",
+        "濕",
+        "燥",
+        "火"
+      ]
+    },
+    "formulaId": {
+      "pattern": "^F_[A-Z0-9_]+$",
+      "type": "string"
+    },
+    "herbId": {
+      "pattern": "^herb-[a-z0-9_]+$",
+      "type": "string"
+    },
+    "level": {
+      "enum": [
+        "L0",
+        "L1",
+        "L2",
+        "L3"
+      ]
+    },
+    "moduleId": {
+      "enum": [
+        "sleep",
+        "fatigue",
+        "digestion",
+        "cold-heat-sweat",
+        "head-body-pain",
+        "mood-stress",
+        "womens-cycle",
+        "early-external"
+      ]
+    },
+    "notice": {
+      "enum": [
+        "none",
+        "inline",
+        "blocking_ack"
+      ]
+    },
+    "panelDim": {
+      "pattern": "^((肝|心|脾|肺|腎|膽|小腸|胃|大腸|膀胱)\\.(qi|blood|yin|yang|stasis)|liuxie\\.(風|寒|暑|濕|燥|火)|product\\.(痰|飲|瘀|食積)|bagang\\.exterior)$",
+      "type": "string"
+    },
+    "panelMap": {
+      "additionalProperties": {
+        "type": "number"
+      },
+      "propertyNames": {
+        "$ref": "#/$defs/panelDim"
+      },
+      "type": "object"
+    },
+    "patternId": {
+      "pattern": "^(EX|SP|LV|HT|LG|KD|QB)[0-9]$",
+      "type": "string"
+    },
+    "questionId": {
+      "pattern": "^Q_[A-Z_]+$",
+      "type": "string"
+    },
+    "redFlagId": {
+      "pattern": "^RF_[ABC]_[A-Z_]+$",
+      "type": "string"
+    },
+    "reviewStatus": {
+      "enum": [
+        "derived",
+        "curated-draft",
+        "draft",
+        "reviewed"
+      ]
+    },
+    "ruleId": {
+      "pattern": "^R_[A-Z_]+$",
+      "type": "string"
+    },
+    "symptomId": {
+      "pattern": "^[STP]_[A-Z0-9_]+$",
+      "type": "string"
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "_meta": {
+      "additionalProperties": true,
+      "properties": {
+        "count": {
+          "type": "integer"
+        },
+        "description": {
+          "type": "string"
+        },
+        "problems": {
+          "type": "integer"
+        },
+        "schema": {
+          "type": "integer"
+        },
+        "status": {
+          "$ref": "#/$defs/reviewStatus"
+        }
+      },
+      "required": [
+        "count",
+        "description",
+        "problems",
+        "schema",
+        "status"
+      ],
+      "type": "object"
+    },
+    "coverage": {
+      "additionalProperties": {
+        "additionalProperties": false,
+        "properties": {
+          "required_roles": {
+            "items": {
+              "items": {
+                "enum": [
+                  "tcm-clinical",
+                  "pharmacy",
+                  "physician",
+                  "linguistic",
+                  "legal"
+                ]
+              },
+              "minItems": 1,
+              "type": "array"
+            },
+            "minItems": 1,
+            "type": "array"
+          },
+          "reviewed": {
+            "type": "integer"
+          },
+          "units": {
+            "type": "integer"
+          },
+          "whole_file_reviewed": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "required_roles",
+          "reviewed",
+          "units",
+          "whole_file_reviewed"
+        ],
+        "type": "object"
+      },
+      "type": "object"
+    },
+    "records": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "area": {
+            "type": "string"
+          },
+          "changes": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "date": {
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+            "type": "string"
+          },
+          "dissent": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "id": {
+            "pattern": "^REV-\\d{4}-\\d{4}$",
+            "type": "string"
+          },
+          "kb_version": {
+            "type": "string"
+          },
+          "notes": {
+            "type": "string"
+          },
+          "outcome": {
+            "enum": [
+              "accepted",
+              "accepted-with-changes",
+              "rejected",
+              "deferred"
+            ]
+          },
+          "reviewer": {
+            "additionalProperties": false,
+            "properties": {
+              "credential": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "role": {
+                "enum": [
+                  "tcm-clinical",
+                  "pharmacy",
+                  "physician",
+                  "linguistic",
+                  "legal"
+                ]
+              }
+            },
+            "required": [
+              "credential",
+              "name",
+              "role"
+            ],
+            "type": "object"
+          },
+          "scope": {
+            "items": {
+              "additionalProperties": false,
+              "properties": {
+                "file": {
+                  "type": "string"
+                },
+                "units": {
+                  "additionalProperties": {
+                    "pattern": "^[0-9a-f]{16}$",
+                    "type": "string"
+                  },
+                  "minProperties": 1,
+                  "type": "object"
+                }
+              },
+              "required": [
+                "file",
+                "units"
+              ],
+              "type": "object"
+            },
+            "minItems": 1,
+            "type": "array"
+          }
+        },
+        "required": [
+          "area",
+          "changes",
+          "date",
+          "dissent",
+          "id",
+          "kb_version",
+          "notes",
+          "outcome",
+          "reviewer",
+          "scope"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "reviewed": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "file": {
+            "type": "string"
+          },
+          "hash": {
+            "pattern": "^[0-9a-f]{16}$",
+            "type": "string"
+          },
+          "records": {
+            "items": {
+              "pattern": "^REV-\\d{4}-\\d{4}$",
+              "type": "string"
+            },
+            "minItems": 1,
+            "type": "array"
+          },
+          "unit": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "file",
+          "hash",
+          "records",
+          "unit"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "stale": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "current_hash": {
+            "pattern": "^[0-9a-f]{16}$",
+            "type": "string"
+          },
+          "file": {
+            "type": "string"
+          },
+          "record": {
+            "pattern": "^REV-\\d{4}-\\d{4}$",
+            "type": "string"
+          },
+          "reviewed_hash": {
+            "pattern": "^[0-9a-f]{16}$",
+            "type": "string"
+          },
+          "unit": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "current_hash",
+          "file",
+          "record",
+          "reviewed_hash",
+          "unit"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    }
+  },
+  "required": [
+    "_meta",
+    "coverage",
+    "records",
+    "reviewed",
+    "stale"
+  ],
+  "title": "Review records and what they cover",
+  "type": "object"
+}
