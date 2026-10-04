@@ -14,6 +14,7 @@ export function assessInputOf(d: Draft, now: number): AssessInput | null {
   return {
     subject: d.birth === undefined ? subject : { ...subject, birth: d.birth },
     redFlags: new Set(d.redFlags), findings: d.findings, context: d.context,
+    ...(Object.keys(d.constitutionAnswers).length > 0 ? { constitutionAnswers: d.constitutionAnswers } : {}),
     options: { now, birthModule: d.birth !== undefined },
   };
 }
@@ -23,7 +24,7 @@ export function toSaved(d: Draft, result: Assessment, ctx: { id: string; lang: L
   return {
     id: ctx.id, createdAt: result.meta.computedAt, appVersion: APP_BUILD, kbVersion: result.meta.kbVersion, engineVersion: result.meta.engineVersion,
     paramsFingerprint: result.meta.paramsFingerprint, profile: result.meta.profile, lang: ctx.lang, seasonModel: result.meta.seasonModel,
-    input: { subject: d.subject, profile: d.profile, screening: d.screening, redFlags: d.redFlags, findings: d.findings, context: d.context, ...(d.rememberBirth && d.birth !== undefined ? { birth: d.birth } : {}) },
+    input: { subject: d.subject, profile: d.profile, screening: d.screening, redFlags: d.redFlags, findings: d.findings, context: d.context, ...(Object.keys(d.constitutionAnswers).length > 0 ? { constitutionAnswers: d.constitutionAnswers } : {}), ...(d.rememberBirth && d.birth !== undefined ? { birth: d.birth } : {}) },
     result,
   };
 }
@@ -36,6 +37,7 @@ export function draftFromSaved(kb: KnowledgeBase, saved: SavedAssessment, id: st
     ...newDraft(id, now, "/review"),
     subject: i.subject, profile: i.profile, screening: i.screening, redFlags: [...i.redFlags], findings: i.findings, context: i.context,
     inquiry: { modules: [], history, resolved: [] },
+    constitutionAnswers: { ...(i.constitutionAnswers ?? {}) },
     acknowledgements: [...new Set(Object.keys(i.screening.acknowledgedAt).map((k) => k.split("|")[0]!))],
     ...(i.birth ? { birth: i.birth, rememberBirth: true } : {}),
   };

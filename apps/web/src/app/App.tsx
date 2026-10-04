@@ -12,6 +12,7 @@ import { PrefsEffects } from "./PrefsEffects.tsx";
 import { RouteFocus } from "./RouteFocus.tsx";
 import { Profile } from "../screens/profile/Profile.tsx";
 import { History } from "../screens/history/History.tsx";
+import { Constitution } from "../screens/constitution/Constitution.tsx";
 import { Inquiry } from "../screens/inquiry/Inquiry.tsx";
 import { Observe } from "../screens/observe/Observe.tsx";
 import { Pulse } from "../screens/observe/Pulse.tsx";
@@ -43,6 +44,7 @@ function Screens(): ReactNode {
           <Route path="/screen"><Screening /></Route>
           <Route path="/inquiry"><Inquiry /></Route>
           <Route path="/observe"><Observe /></Route>
+          <Route path="/constitution"><Constitution /></Route>
           <Route path="/observe/tongue"><Tongue /></Route>
           <Route path="/observe/pulse"><Pulse /></Route>
           <Route path="/review"><Review /></Route>

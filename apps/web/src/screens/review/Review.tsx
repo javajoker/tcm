@@ -12,6 +12,7 @@ import { randomId } from "../../storage/ids.ts";
 import type { Draft } from "../../storage/types.ts";
 import { Button, Card, LinkButton, Notice, Skeleton } from "../../ui/index.ts";
 import { missingItems, medicationClasses, seriousIn } from "../profile/model.ts";
+import { answeredCount } from "../constitution/model.ts";
 import { pendingNotices, unanswered } from "../screening/model.ts";
 import { pendingConflicts, pickNext } from "../inquiry/model.ts";
 import { absentCount, reviewGroups, selfObservedCount, unsureQuestions } from "./model.ts";
@@ -116,6 +117,10 @@ function Body({ draft, onFinishing, onUnfinish }: { draft: Draft; onFinishing: (
             </section>
           ))}
           {noCount > 0 ? <p className="muted">{t.plural("intake.review.groups.noCount", noCount)}</p> : null}
+        </Card>
+        <Card title={t.t("intake.review.constitution.title")} headingLevel={2} id="review-constitution">
+          <p>{answeredCount(draft) > 0 ? t.plural("intake.review.constitution.answered", answeredCount(draft)) : t.t("intake.review.constitution.skipped")}</p>
+          <LinkButton href="/constitution">{t.t("intake.review.edit")}</LinkButton>
         </Card>
         {unsure.length > 0 ? (
           <Card title={t.t("intake.review.unsure.title")} id="review-unsure">

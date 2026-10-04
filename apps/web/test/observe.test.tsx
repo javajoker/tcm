@@ -122,8 +122,8 @@ const draftOf = (s: { getState: () => { draft: Draft | null } }): Draft => s.get
 describe("Observation hub", () => {
   it("offers tongue and pulse as optional, and lets the person go on without either", async () => {
     const { store } = await open("/observe");
-    expect(await screen.findByRole("heading", { level: 1, name: "Observation and pulse (optional)" })).toBeInTheDocument();
-    expect(screen.getByText(/count for less in the calculation; skip them if you are not sure/)).toBeInTheDocument();
+    expect(await screen.findByRole("heading", { level: 1, name: "Optional: observation, pulse and constitution" })).toBeInTheDocument();
+    expect(screen.getByText(/count for less in the calculation; the constitution questionnaire/)).toBeInTheDocument();
     expect(within(screen.getByRole("region", { name: "Tongue" })).getByText("Not done yet")).toBeInTheDocument();
     expect(within(screen.getByRole("region", { name: "Pulse" })).getByRole("link", { name: "Start" })).toHaveAttribute("href", "/en/observe/pulse");
     await userEvent.click(screen.getByRole("button", { name: "Skip, go to the review" }));

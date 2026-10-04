@@ -1,1 +1,21 @@
-{}
+{
+  "constitution.answered": {
+    "other": "已回答 {n} / {total} 題"
+  },
+  "constitution.clear": "清除我的回答",
+  "constitution.done": "完成",
+  "constitution.edit": "修改",
+  "constitution.hub": "體質問卷",
+  "constitution.intro": "這份問卷了解您長期的體質傾向，而不是現在的症狀。結果只是「傾向」，不是給您貼的標籤。可以略過，但結果會比較不個人化。",
+  "constitution.next": "下一頁",
+  "constitution.page": "第 {n} 頁，共 {total} 頁",
+  "constitution.prev": "上一頁",
+  "constitution.skip": "略過整份問卷",
+  "constitution.skipHelp": "略過後，結果會比較不個人化；其他部分不受影響。",
+  "constitution.start": "開始",
+  "constitution.status.none": "尚未填寫",
+  "constitution.status.some": {
+    "other": "已回答 {n} 題"
+  },
+  "constitution.title": "體質問卷（選填）"
+}

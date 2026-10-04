@@ -7,6 +7,7 @@ import { useDraft } from "../../app/useDraft.ts";
 import { usePageTitle } from "../../app/usePageTitle.ts";
 import type { Draft } from "../../storage/types.ts";
 import { Button, Card, LinkButton, Skeleton } from "../../ui/index.ts";
+import { answeredCount } from "../constitution/model.ts";
 import { pulseIds, tongueIds } from "./model.ts";
 
 function Hub({ draft }: { draft: Draft }): ReactNode {
@@ -29,10 +30,14 @@ function Hub({ draft }: { draft: Draft }): ReactNode {
       <div style={{ display: "grid", gap: "var(--space-4)" }}>
         {card("tongue", tongueIds(draft), "/observe/tongue")}
         {flags.pulse_input ? card("pulse", pulseIds(draft), "/observe/pulse") : null}
+        <Card title={t.t("constitution.hub")} headingLevel={2} id="observe-constitution">
+          <p>{answeredCount(draft) > 0 ? t.plural("constitution.status.some", answeredCount(draft)) : t.t("constitution.status.none")}</p>
+          <LinkButton href="/constitution" variant={answeredCount(draft) > 0 ? "secondary" : "primary"}>{answeredCount(draft) > 0 ? t.t("constitution.edit") : t.t("constitution.start")}</LinkButton>
+        </Card>
       </div>
       <div style={{ display: "flex", flexWrap: "wrap", gap: "var(--space-3)", marginTop: "var(--space-5)" }}>
         <LinkButton href="/inquiry">{t.t("common.action.back")}</LinkButton>
-        <Button variant="primary" onClick={() => navigate("/review")}>{tongueIds(draft).length + pulseIds(draft).length > 0 ? t.t("observe.hub.continue") : t.t("observe.hub.skip")}</Button>
+        <Button variant="primary" onClick={() => navigate("/review")}>{tongueIds(draft).length + pulseIds(draft).length + answeredCount(draft) > 0 ? t.t("observe.hub.continue") : t.t("observe.hub.skip")}</Button>
       </div>
     </>
   );

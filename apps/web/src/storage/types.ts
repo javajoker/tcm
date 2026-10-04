@@ -98,7 +98,7 @@ export interface SavedAssessment {
   readonly lang: Lang;
   readonly seasonModel: string;
   /** The inputs; `birth` only when the user chose to remember it. */
-  readonly input: { readonly subject: Draft["subject"]; readonly profile: ProfileAnswers; readonly screening: Screening; readonly redFlags: readonly string[]; readonly findings: Draft["findings"]; readonly context: AssessContext; readonly birth?: BirthInput };
+  readonly input: { readonly subject: Draft["subject"]; readonly profile: ProfileAnswers; readonly screening: Screening; readonly redFlags: readonly string[]; readonly findings: Draft["findings"]; readonly context: AssessContext; readonly constitutionAnswers?: Readonly<Record<string, number>>; readonly birth?: BirthInput };
   readonly result: Assessment;
   readonly userNote?: string;
   readonly feedback?: Readonly<Record<string, "match" | "partial" | "no">>;

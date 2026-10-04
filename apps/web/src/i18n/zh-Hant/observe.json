@@ -12,7 +12,7 @@
     "other": "已記錄 {n} 項"
   },
   "observe.hub.tongue": "舌象",
-  "observe.intro": "舌象與脈象屬自我觀察，在計算中的權重較低；沒有把握可以略過，不會影響其他部分。",
+  "observe.intro": "舌象與脈象屬自我觀察，在計算中的權重較低；體質問卷了解您長期的傾向。都可以略過，不會影響其他部分。",
   "observe.next": "下一步",
   "observe.notSure": "不確定",
   "observe.prev": "上一步",
@@ -52,7 +52,7 @@
   "observe.pulse.title": "脈象",
   "observe.skipStep": "略過這一步",
   "observe.step": "第 {n} 步，共 {total} 步",
-  "observe.title": "望診與切診（選填）",
+  "observe.title": "選填：望診、切診與體質",
   "observe.tongue.body.hint": "選最接近的一項。",
   "observe.tongue.body.normal": "淡紅（正常）",
   "observe.tongue.body.title": "舌色",

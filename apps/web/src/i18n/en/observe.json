@@ -13,7 +13,7 @@
     "other": "{n} items recorded"
   },
   "observe.hub.tongue": "Tongue",
-  "observe.intro": "Tongue and pulse are self-observed and count for less in the calculation; skip them if you are not sure — nothing else depends on them.",
+  "observe.intro": "Tongue and pulse are self-observed and count for less in the calculation; the constitution questionnaire looks at your long-standing tendencies. Skip any of them if you like — nothing else depends on them.",
   "observe.next": "Next step",
   "observe.notSure": "Not sure",
   "observe.prev": "Previous step",
@@ -53,7 +53,7 @@
   "observe.pulse.title": "Pulse",
   "observe.skipStep": "Skip this step",
   "observe.step": "Step {n} of {total}",
-  "observe.title": "Observation and pulse (optional)",
+  "observe.title": "Optional: observation, pulse and constitution",
   "observe.tongue.body.hint": "Choose the closest one.",
   "observe.tongue.body.normal": "Pale red (normal)",
   "observe.tongue.body.title": "Body colour",

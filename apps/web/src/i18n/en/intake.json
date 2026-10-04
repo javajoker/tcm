@@ -173,6 +173,12 @@
   "intake.review.about.sex": "Sex at birth",
   "intake.review.about.title": "About you",
   "intake.review.back": "Back to the questions",
+  "intake.review.constitution.answered": {
+    "one": "{n} question answered",
+    "other": "{n} questions answered"
+  },
+  "intake.review.constitution.skipped": "Skipped",
+  "intake.review.constitution.title": "Constitution questionnaire",
   "intake.review.coverage.low": "You have answered few questions, so the result will be less certain.",
   "intake.review.edit": "Edit",
   "intake.review.editItem": "Edit “{item}”",

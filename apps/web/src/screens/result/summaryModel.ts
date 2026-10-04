@@ -70,9 +70,15 @@ export function buildSummary(saved: SavedAssessment, kb: KnowledgeBase, t: T): S
       [k("report.panel.axis.coldHeat"), k(`report.axis.coldHeat.${level5(p.bagang.coldHeat, 1)}`), signed(p.bagang.coldHeat, (n) => t.number(n, { maximumFractionDigits: 1, minimumFractionDigits: 1 }))],
       [k("report.panel.axis.deficiencyExcess"), k(`report.axis.deficiencyExcess.${level5(p.bagang.deficiencyExcess, 1)}`), signed(p.bagang.deficiencyExcess, (n) => t.number(n, { maximumFractionDigits: 1, minimumFractionDigits: 1 }))]] } });
   const v = a.verdict;
-  out.push({ id: "hypotheses", title: k("report.pract.hypotheses"), items: v.status === "established"
+  const hypotheses = v.status === "established"
     ? [...v.patterns.map((pp) => k("report.pract.pattern", { name: t.localized(kb.patternById.get(pp.id)?.name ?? { "zh-Hant": pp.id, en: null }).text, band: k(`report.band.${pp.band}`) })), k("report.pract.confidence", { level: k(`report.confidence.${v.confidence}`) })]
-    : [k("report.pract.hypotheses.none")] });
+    : [k("report.pract.hypotheses.none")];
+  const cons = a.constitution?.result;
+  if (cons?.primary) {
+    const nm = (id: string): string => t.localized(kb.constitutions.find((c) => c.id === id)?.name ?? { "zh-Hant": id, en: null }).text;
+    hypotheses.push(k("report.pract.constitution", { names: [cons.primary, cons.secondary].filter((x): x is string => x !== null).map(nm).join(listSep) }));
+  }
+  out.push({ id: "hypotheses", title: k("report.pract.hypotheses"), items: hypotheses });
   const change = a.trace.filter((x): x is Extract<TraceItem, { kind: "whatWouldChange" }> => x.kind === "whatWouldChange");
   const pname = (id: string): string => t.localized(kb.patternById.get(id)?.name ?? { "zh-Hant": id, en: null }).text;
   const sname = (id: string): string => { const x = kb.symptoms.get(id); return x ? (t.lang === "en" ? x.en : x["zh-Hant"]) : id; };

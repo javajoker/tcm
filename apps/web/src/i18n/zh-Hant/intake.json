@@ -172,6 +172,11 @@
   "intake.review.about.sex": "出生時的性別",
   "intake.review.about.title": "關於您",
   "intake.review.back": "回到問診",
+  "intake.review.constitution.answered": {
+    "other": "已回答 {n} 題"
+  },
+  "intake.review.constitution.skipped": "已略過",
+  "intake.review.constitution.title": "體質問卷",
   "intake.review.coverage.low": "您回答的問題還不多，結果的把握度會比較低。",
   "intake.review.edit": "修改",
   "intake.review.editItem": "修改「{item}」",

@@ -1,1 +1,23 @@
-{}
+{
+  "constitution.answered": {
+    "one": "{n} of {total} question answered",
+    "other": "{n} of {total} questions answered"
+  },
+  "constitution.clear": "Clear my answers",
+  "constitution.done": "Done",
+  "constitution.edit": "Edit",
+  "constitution.hub": "Constitution questionnaire",
+  "constitution.intro": "This questionnaire looks at your long-standing tendencies, not at today's symptoms. The result is a tendency, not a label. You can skip it, but the result will be less personal.",
+  "constitution.next": "Next page",
+  "constitution.page": "Page {n} of {total}",
+  "constitution.prev": "Previous page",
+  "constitution.skip": "Skip the whole questionnaire",
+  "constitution.skipHelp": "If you skip it, the result will be less personal; nothing else is affected.",
+  "constitution.start": "Start",
+  "constitution.status.none": "Not done yet",
+  "constitution.status.some": {
+    "one": "{n} question answered",
+    "other": "{n} questions answered"
+  },
+  "constitution.title": "Constitution questionnaire (optional)"
+}

@@ -4,6 +4,7 @@ import type { MessageKey } from "../../i18n/catalogs.ts";
 import { useLoaded } from "../../app/knowledge.tsx";
 import type { SavedAssessment } from "../../storage/types.ts";
 import { Button, Card, Chip, Progress } from "../../ui/index.ts";
+import { ConstitutionTendency } from "./ConstitutionTendency.tsx";
 import { BilingualName, ZhText } from "./shared.tsx";
 
 const METER = { high: 1, medium: 0.66, low: 0.33, insufficient: 0 } as const;
@@ -19,6 +20,7 @@ export function Summary({ saved, onAnswerMore }: { saved: SavedAssessment; onAns
     const questions = a.quality.unansweredCore.map((id) => kb.questionById.get(id)).filter((q) => q !== undefined);
     return (
       <Card title={t.t("report.summary.insufficient.title")} id="sec-summary">
+        <ConstitutionTendency saved={saved} />
         <p>{t.t("report.summary.insufficient.body")}</p>
         {questions.length > 0 ? <ul>{questions.slice(0, 5).map((q) => <li key={q.id}>{t.localized(q.prompt).text}</li>)}</ul> : null}
         <Button variant="primary" onClick={onAnswerMore}>{t.t("report.summary.insufficient.cta")}</Button>
@@ -32,6 +34,7 @@ export function Summary({ saved, onAnswerMore }: { saved: SavedAssessment; onAns
   const leadRec = lead ? rec(lead.id) : undefined;
   return (
     <Card title={t.t("report.summary.title")} id="sec-summary">
+      <ConstitutionTendency saved={saved} />
       {lead && leadRec ? (
         <>
           <p className="muted" style={{ margin: 0 }}>{t.t("report.summary.leaning")}</p>

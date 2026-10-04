@@ -16,3 +16,5 @@ export const LIUXIE_SLUG = { 風: "wind", 寒: "cold", 暑: "summerheat", 濕: "
 export const PRODUCT_SLUG = { 痰: "phlegm", 飲: "fluid", 瘀: "stasis", 食積: "food" } as const;
 export const RULE_SLUG = { 制己所勝: "restrain", 侮所不勝: "insult", 子盜母氣: "drain", 乘侮自深: "deepen", 母病及子: "fail" } as const;
 export const CHANNELS = ["qi", "blood", "yin", "yang", "stasis"] as const;
+
+export const SEASON_SLUG = { 春: "spring", 夏: "summer", 長夏: "latesummer", 秋: "autumn", 冬: "winter" } as const;
