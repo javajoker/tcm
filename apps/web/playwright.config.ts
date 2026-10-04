@@ -42,7 +42,7 @@ const cross = process.env.E2E_CROSS === "1" ? [
   { name: "cross-webkit-desktop", use: { ...devices["Desktop Safari"], viewport: { width: 1280, height: 800 }, lang: "en" as Lang, locale: "en-US", timezoneId: "Asia/Taipei" } },
   { name: "cross-webkit-iphone", use: { ...devices["iPhone 13"], lang: "zh-Hant" as Lang, locale: "zh-TW", timezoneId: "Asia/Taipei" } },
   { name: "cross-firefox-desktop", use: { ...devices["Desktop Firefox"], viewport: { width: 1280, height: 800 }, lang: "en" as Lang, locale: "en-US", timezoneId: "Asia/Taipei" } },
-].map((p) => ({ ...p, grep: /E1:|E2:|E9:|E10:/, testMatch: /^(?!.*\/(dev\.|visual\.)).*\.spec\.ts$/, use: { ...p.use, baseURL: RELEASE } })) : [];
+].map((p) => ({ ...p, ...(process.env.E2E_CROSS_ALL === "1" ? {} : { grep: /E1:|E2:|E9:|E10:/ }), testMatch: /^(?!.*\/(dev\.|visual\.)).*\.spec\.ts$/, use: { ...p.use, baseURL: RELEASE } })) : [];
 
 export default defineConfig<Options>({
   testDir: "./e2e",
