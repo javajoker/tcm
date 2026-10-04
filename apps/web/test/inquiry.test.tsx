@@ -280,7 +280,7 @@ describe("the end of the inquiry", () => {
   it("continues to the next step", async () => {
     await open(finished("enough"));
     await userEvent.click(await screen.findByRole("button", { name: "Finish the questions and continue" }));
-    expect(window.location.pathname).toBe("/en/observe");
+    expect(window.location.pathname).toBe("/en/review");
   });
 
   it("when everything is answered there is nothing more to offer", async () => {

@@ -9,7 +9,8 @@ import { useApp } from "./store.tsx";
  * (a bookmark, a reload) either continues the stored draft, or — having acknowledged the current disclaimer — gets a fresh one, or is sent to the
  * Landing page to acknowledge. Also records `route` as the draft's position so Resume returns here.
  */
-export function useDraft(route: string): Draft | null {
+export function useDraft(route: string, opts: { autoStart?: boolean } = {}): Draft | null {
+  const autoStart = opts.autoStart ?? true;
   const draft = useApp((s) => s.draft);
   const loaded = useApp((s) => s.draftLoaded);
   const acknowledged = useApp((s) => s.prefs.disclaimerAck?.version === DISCLAIMER_VERSION);
@@ -20,10 +21,11 @@ export function useDraft(route: string): Draft | null {
   useEffect(() => {
     if (!loaded) return;
     if (draft === null) {
+      if (!autoStart) return;                // a finished assessment deleted its draft on purpose
       if (acknowledged) startDraft(); else navigate("/", { replace: true });
       return;
     }
     if (position !== route) updateDraft((d) => ({ ...d, position: { route } }));
-  }, [loaded, draft, acknowledged, position, route, startDraft, updateDraft, navigate]);
+  }, [loaded, draft, acknowledged, autoStart, position, route, startDraft, updateDraft, navigate]);
   return loaded ? draft : null;
 }

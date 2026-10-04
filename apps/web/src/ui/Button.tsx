@@ -1,4 +1,4 @@
-import type { ButtonHTMLAttributes, ReactNode } from "react";
+import type { AnchorHTMLAttributes, ButtonHTMLAttributes, ReactNode } from "react";
 import { Link } from "wouter";
 import styles from "./ui.module.css";
 
@@ -12,6 +12,6 @@ export function Button({ variant = "secondary", block = false, type = "button", 
   return <button type={type} className={[cls(variant, block), className].filter(Boolean).join(" ")} {...rest} />;
 }
 
-export function LinkButton({ href, variant = "secondary", block = false, children }: { href: string; variant?: Variant; block?: boolean; children: ReactNode }): ReactNode {
-  return <Link href={href} className={cls(variant, block)}>{children}</Link>;
+export function LinkButton({ href, variant = "secondary", block = false, children, ...rest }: { href: string; variant?: Variant; block?: boolean; children: ReactNode } & Omit<AnchorHTMLAttributes<HTMLAnchorElement>, "href" | "className" | "children">): ReactNode {
+  return <Link href={href} className={cls(variant, block)} {...rest}>{children}</Link>;
 }

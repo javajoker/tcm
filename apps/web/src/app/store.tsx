@@ -7,7 +7,7 @@ import { createAutosaver, type Autosaver } from "../storage/autosave.ts";
 import { newDraft } from "../storage/draft.ts";
 import { randomId } from "../storage/ids.ts";
 import type { Persistence } from "../storage/persistence.ts";
-import type { Draft, Prefs, StorageStatus } from "../storage/types.ts";
+import type { Draft, Prefs, SavedAssessment, StorageStatus } from "../storage/types.ts";
 
 export interface AppState {
   readonly prefs: Prefs;
@@ -21,6 +21,10 @@ export interface AppState {
   /** The user explicitly chose a language (toggle or the English offer): remember it. */
   chooseLang(lang: Lang): void;
   startDraft(): Draft;
+  /** Replace the draft by this one (e.g. "edit and re-run" from a saved result). */
+  adoptDraft(draft: Draft): void;
+  /** Store a finished result; the draft is deleted once it is saved (tech spec §8.3). */
+  saveAssessment(saved: SavedAssessment): Promise<void>;
   /** Change the draft; `updatedAt` is stamped and the change is saved after a short debounce. */
   updateDraft(change: (d: Draft) => Draft): void;
   discardDraft(): Promise<void>;
@@ -61,6 +65,16 @@ export function createAppStore({ persistence, now = () => Date.now(), newId = ra
       set({ draft });
       saver.schedule(draft);
       return draft;
+    },
+    adoptDraft(draft) {
+      set({ draft });
+      saver.schedule(draft);
+    },
+    async saveAssessment(saved) {
+      await persistence.putAssessment(saved);
+      saver.cancel();
+      set({ draft: null });
+      await persistence.clearDraft();
     },
     updateDraft(change) {
       const current = get().draft;

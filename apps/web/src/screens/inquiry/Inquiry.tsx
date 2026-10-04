@@ -1,5 +1,5 @@
 import { useEffect, useState, type ReactNode } from "react";
-import { useLocation } from "wouter";
+import { useLocation, useSearch } from "wouter";
 import { useI18n } from "../../i18n/I18nProvider.tsx";
 import { NeedsKnowledge, useLoaded } from "../../app/knowledge.tsx";
 import { useApp } from "../../app/store.tsx";
@@ -24,7 +24,13 @@ function Body({ draft }: { draft: Draft }): ReactNode {
   const [, navigate] = useLocation();
   const updateDraft = useApp((s) => s.updateDraft);
   const autoAdvance = useApp((s) => s.prefs.autoAdvance);
-  const [view, setView] = useState<View>({ kind: "auto" });
+  const params = new URLSearchParams(useSearch());
+  const back_ = params.get("back");
+  const returnTo = back_ === "/review" ? back_ : null;                   // only the review may send people here to edit
+  const [view, setView] = useState<View>(() => {
+    const at = draft.inquiry.history.indexOf(params.get("edit") ?? "");
+    return returnTo !== null && at >= 0 ? { kind: "edit", index: at } : { kind: "auto" };
+  });
   const [more, setMore] = useState(false);
   const [acted, setActed] = useState(false);          // the person has moved at least once: from now on focus follows the question
 
@@ -38,10 +44,11 @@ function Body({ draft }: { draft: Draft }): ReactNode {
     const q = kb.questionById.get(id)!;
     setActed(true);
     updateDraft((d) => applyAnswer(d, q, answer));
+    if (returnTo !== null) { navigate(returnTo); return; }               // an edit started from the review goes straight back to it
     setView((v) => (v.kind === "edit" && v.index + 1 < history.length ? { kind: "edit", index: v.index + 1 } : { kind: "auto" }));
   };
-  const back = (): void => { setActed(true); setView((v) => (v.kind === "edit" ? (v.index > 0 ? { kind: "edit", index: v.index - 1 } : { kind: "chooser" }) : history.length > 0 ? { kind: "edit", index: history.length - 1 } : { kind: "chooser" })); };
-  const finish = (): void => navigate("/observe");
+  const back = (): void => { if (returnTo !== null) { navigate(returnTo); return; } setActed(true); setView((v) => (v.kind === "edit" ? (v.index > 0 ? { kind: "edit", index: v.index - 1 } : { kind: "chooser" }) : history.length > 0 ? { kind: "edit", index: history.length - 1 } : { kind: "chooser" })); };
+  const finish = (): void => navigate("/review");          // the observation and constitution stages (U-11…U-14) will slot in before the review
 
   let main: ReactNode;
   if (draft.inquiry.modules === null || view.kind === "chooser") {
