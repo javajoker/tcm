@@ -24,7 +24,10 @@ export function Dialog({ open, onClose, labelledBy, dismissable = true, variant 
   useEffect(() => {
     const d = ref.current;
     if (!d) return;
-    if (open && !d.open) d.showModal();
+    if (open && !d.open) {
+      d.showModal();
+      d.querySelector<HTMLElement>("[data-autofocus]")?.focus();      // e.g. a notice's heading: the screen reader starts at the title, not at a button
+    }
     if (!open && d.open) d.close();
   }, [open]);
   useEffect(() => {

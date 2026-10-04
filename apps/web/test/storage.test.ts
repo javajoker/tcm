@@ -10,7 +10,7 @@ import { blockedEnvironment, fakeEnvironment } from "./helpers.tsx";
 
 const birth = { year: 1990, month: 5, day: 12, hour: 14, minute: 30, sex: "male", timeZone: "Asia/Shanghai", longitude: 121.47 } as const;
 const draftWithBirth = (remember: boolean) => ({ ...newDraft("d1", 5), birth, rememberBirth: remember, subject: { ageYears: 40 }, redFlags: ["RF1"], findings: { C01: { state: "present" as const, severity: "light" as const } } });
-const saved = (id: string, createdAt: number): SavedAssessment => ({ id, createdAt, appVersion: "0", kbVersion: "k", engineVersion: "e", paramsFingerprint: "f", profile: "release", lang: "en", seasonModel: "solar", input: { subject: {}, profile: { medicationText: [] }, redFlags: [], findings: {}, context: {} }, result: {} as never });
+const saved = (id: string, createdAt: number): SavedAssessment => ({ id, createdAt, appVersion: "0", kbVersion: "k", engineVersion: "e", paramsFingerprint: "f", profile: "release", lang: "en", seasonModel: "solar", input: { subject: {}, profile: { medicationText: [] }, screening: { answers: {}, corrected: [], acknowledgedAt: {} }, redFlags: [], findings: {}, context: {} }, result: {} as never });
 
 describe("kv", () => {
   it("stores durably when localStorage works", () => {

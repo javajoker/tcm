@@ -17,6 +17,7 @@ export function parsePrefs(raw: string | null): Prefs {
     textScale: (TEXT_SCALES as readonly unknown[]).includes(x["textScale"]) ? (x["textScale"] as Prefs["textScale"]) : DEFAULT_PREFS.textScale,
     ...(isRecord(ack) && typeof ack["version"] === "string" && typeof ack["at"] === "number" ? { disclaimerAck: { version: ack["version"], at: ack["at"] } } : {}),
     langOfferDismissed: x["langOfferDismissed"] === true,
+    ...(typeof x["region"] === "string" && /^[A-Z]{2,5}$/.test(x["region"]) ? { region: x["region"] } : {}),
   };
 }
 

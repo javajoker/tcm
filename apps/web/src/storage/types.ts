@@ -14,6 +14,8 @@ export interface Prefs {
   readonly textScale: 0.9 | 1 | 1.15 | 1.3;
   readonly disclaimerAck?: { readonly version: string; readonly at: number };
   readonly langOfferDismissed: boolean;
+  /** Region of the emergency numbers (an id of `emergency.json`); absent → the data's default. */
+  readonly region?: string;
 }
 
 export const TEXT_SCALES = [0.9, 1, 1.15, 1.3] as const;
@@ -31,6 +33,18 @@ export interface ProfileAnswers {
   readonly conditions?: "none" | "some";
 }
 
+export type RedFlagAnswer = "yes" | "no" | "unsure";
+
+/** The red-flag screening (S04/S05): per-item answers for levels A and B, corrections, and when each blocking notice was acknowledged. */
+export interface Screening {
+  /** Answers by red-flag id (levels A and B; level-C items come from the profile). "unsure" counts as yes (safety policy §2.2). */
+  readonly answers: Readonly<Record<string, RedFlagAnswer>>;
+  /** A/B items that were yes or unsure and then changed to "no" through the explicit "I made a mistake" action (recorded). */
+  readonly corrected: readonly string[];
+  /** Acknowledged blocking notices: `<notice id>|<sorted reasons>` → time. A change of the reasons needs a new acknowledgement. */
+  readonly acknowledgedAt: Readonly<Record<string, number>>;
+}
+
 /** IndexedDB `drafts/current`: the in-progress assessment, persisted after every answer. JSON-serialisable (no Set/Map/undefined holes). */
 export interface Draft {
   readonly id: string;
@@ -38,6 +52,7 @@ export interface Draft {
   readonly updatedAt: number;
   readonly subject: Partial<Omit<Subject, "birth">>;
   readonly profile: ProfileAnswers;
+  readonly screening: Screening;
   /** Red-flag items answered yes or unsure. */
   readonly redFlags: readonly string[];
   readonly findings: Readonly<Record<string, Finding>>;
@@ -63,7 +78,7 @@ export interface SavedAssessment {
   readonly lang: Lang;
   readonly seasonModel: string;
   /** The inputs; `birth` only when the user chose to remember it. */
-  readonly input: { readonly subject: Draft["subject"]; readonly profile: ProfileAnswers; readonly redFlags: readonly string[]; readonly findings: Draft["findings"]; readonly context: AssessContext; readonly birth?: BirthInput };
+  readonly input: { readonly subject: Draft["subject"]; readonly profile: ProfileAnswers; readonly screening: Screening; readonly redFlags: readonly string[]; readonly findings: Draft["findings"]; readonly context: AssessContext; readonly birth?: BirthInput };
   readonly result: Assessment;
   readonly userNote?: string;
   readonly feedback?: Readonly<Record<string, "match" | "partial" | "no">>;
