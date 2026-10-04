@@ -13,7 +13,7 @@ after(() => { for (const c of copies) rmSync(c, { recursive: true, force: true }
 function copy(): string {
   const dir = mkdtempSync(join(tmpdir(), "tcm-hygiene-"));
   copies.push(dir);
-  for (const f of ["NOTICE", "data/README.md", "SECURITY.md", "CHANGELOG.md", "CONTRIBUTING.md", "LICENSE", ".github/CODEOWNERS", ".github/pull_request_template.md", ".github/ISSUE_TEMPLATE/config.yml", ".github/ISSUE_TEMPLATE/bug_report.md", ".github/ISSUE_TEMPLATE/safety_report.md"]) {
+  for (const f of [".github/dependabot.yml", ".github/workflows/ci.yml", ".github/workflows/nightly.yml", "scripts/licenses.json", "NOTICE", "data/README.md", "SECURITY.md", "CHANGELOG.md", "CONTRIBUTING.md", "LICENSE", ".github/CODEOWNERS", ".github/pull_request_template.md", ".github/ISSUE_TEMPLATE/config.yml", ".github/ISSUE_TEMPLATE/bug_report.md", ".github/ISSUE_TEMPLATE/safety_report.md"]) {
     mkdirSync(dirname(join(dir, f)), { recursive: true });
     cpSync(join(root, f), join(dir, f));
   }
@@ -60,6 +60,18 @@ test("SECURITY.md and the issue form name the same private channel and forbid a 
   const p = checkHygiene(d).join("\n");
   assert.match(p, /does not give the private vulnerability-reporting address/);
   assert.match(p, /does not say not to open a public issue/);
+});
+
+test("every action is pinned to a full commit SHA with a version comment, and Dependabot covers npm and github-actions", () => {
+  const d = copy();
+  edit(d, ".github/workflows/ci.yml", (s) => s.replace(/(uses: actions\/checkout@)[0-9a-f]{40} # v4\.4\.0/, "$1v4").replace(/(uses: actions\/setup-node@[0-9a-f]{40}) # v4\.4\.0/, "$1"));
+  edit(d, ".github/dependabot.yml", (s) => s.replace(/package-ecosystem: github-actions/, "package-ecosystem: docker"));
+  const p = checkHygiene(d).join("\n");
+  assert.match(p, /ci\.yml: actions\/checkout@v4 is not pinned to a full commit SHA/);
+  assert.match(p, /ci\.yml: actions\/setup-node@[0-9a-f]{40} has no version comment/);
+  assert.match(p, /dependabot\.yml does not cover github-actions/);
+  edit(d, ".github/dependabot.yml", (s) => s.replace(/package-ecosystem: npm/, "package-ecosystem: cargo"));
+  assert.match(checkHygiene(d).join("\n"), /does not cover npm/);
 });
 
 test("NOTICE must name the sources and their licences; the data README must point to it", () => {

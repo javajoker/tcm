@@ -1,0 +1,22 @@
+# Dependency updates (task R-05). Weekly, grouped so that a week's updates arrive as few pull requests; each one still has to pass CI (including the licence check and
+# the release assertions). Major versions of the build tools are reviewed by hand. Security updates are raised immediately by GitHub regardless of this schedule.
+version: 2
+updates:
+  - package-ecosystem: npm            # pnpm workspace (pnpm-lock.yaml is understood)
+    directory: /
+    schedule: { interval: weekly, day: monday }
+    open-pull-requests-limit: 5
+    groups:
+      dev-tools: { dependency-type: development, update-types: [minor, patch] }
+      runtime: { dependency-type: production, update-types: [minor, patch] }
+    labels: [dependencies]
+  - package-ecosystem: pip            # the knowledge-base build (scripts/requirements.txt)
+    directory: /scripts
+    schedule: { interval: weekly, day: monday }
+    open-pull-requests-limit: 3
+    labels: [dependencies]
+  - package-ecosystem: github-actions # SHA pins and their version comments
+    directory: /
+    schedule: { interval: weekly, day: monday }
+    open-pull-requests-limit: 3
+    labels: [dependencies, ci]

@@ -1,11 +1,11 @@
 // Repository hygiene (task R-06): the community files exist and agree with CONTRIBUTING — the PR template carries the same checklist, the issue templates keep health data out,
 // SECURITY.md and the issue-form link point at the same private channel, CODEOWNERS lists paths that exist, the changelog has its Unreleased section.
 //   node scripts/check-hygiene.ts [--root <dir>]     exit 0 = clean, 1 = problems (listed)
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
-const REQUIRED = ["NOTICE", "data/README.md", "SECURITY.md", "CHANGELOG.md", "CONTRIBUTING.md", "LICENSE", ".github/CODEOWNERS", ".github/pull_request_template.md", ".github/ISSUE_TEMPLATE/config.yml", ".github/ISSUE_TEMPLATE/bug_report.md", ".github/ISSUE_TEMPLATE/safety_report.md"];
+const REQUIRED = [".github/dependabot.yml", "scripts/licenses.json", "NOTICE", "data/README.md", "SECURITY.md", "CHANGELOG.md", "CONTRIBUTING.md", "LICENSE", ".github/CODEOWNERS", ".github/pull_request_template.md", ".github/ISSUE_TEMPLATE/config.yml", ".github/ISSUE_TEMPLATE/bug_report.md", ".github/ISSUE_TEMPLATE/safety_report.md"];
 const read = (root: string, p: string): string => readFileSync(join(root, p), "utf8");
 const checklistOf = (text: string): string[] => [...text.matchAll(/^- \[ \] (.+)$/gm)].map((m) => m[1]!.trim());
 
@@ -54,7 +54,19 @@ export function checkHygiene(rootDir: string): string[] {
   for (const needed of ["TCM-Library", "MIT", "Permission is hereby granted", "Apache License", "public domain", "Pharmacopoeia"]) if (!notice.includes(needed)) out.push(`NOTICE does not mention "${needed}"`);
   if (!/NOTICE/.test(read(root, "data/README.md"))) out.push("data/README.md does not refer to NOTICE (the licence statement)");
 
-  // 6. the changelog
+  // 6. every action in every workflow is pinned to a full commit SHA with its version in a comment, and Dependabot is told to keep the pins current
+  for (const f of readdirSync(join(root, ".github/workflows")).filter((x) => /\.ya?ml$/.test(x))) {
+    for (const m of read(root, `.github/workflows/${f}`).matchAll(/^\s*-?\s*uses:\s*(\S+)(.*)$/gm)) {
+      const [, ref, rest] = m;
+      if (ref!.startsWith("./")) continue;
+      if (!/@[0-9a-f]{40}$/.test(ref!)) out.push(`${f}: ${ref} is not pinned to a full commit SHA`);
+      else if (!/#\s*v?\d+(\.\d+)*/.test(rest!)) out.push(`${f}: ${ref} has no version comment`);
+    }
+  }
+  if (!/package-ecosystem:\s*github-actions/.test(read(root, ".github/dependabot.yml"))) out.push("dependabot.yml does not cover github-actions");
+  if (!/package-ecosystem:\s*npm/.test(read(root, ".github/dependabot.yml"))) out.push("dependabot.yml does not cover npm");
+
+  // 7. the changelog
   if (!/^## Unreleased$/m.test(read(root, "CHANGELOG.md"))) out.push("CHANGELOG.md has no \"## Unreleased\" section");
   return out;
 }

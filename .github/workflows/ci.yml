@@ -1,5 +1,5 @@
 # Continuous integration (docs/release-process.md §4, docs/test-plan.md §6). Fast checks, the knowledge-base build (determinism + validation), and both builds
-# with the release assertions. Required on `main`. Actions are pinned to major versions here; pinning to commit SHAs is part of task R-05.
+# with the release assertions. Required on `main`. Actions are pinned to full commit SHAs (with the version in a comment); Dependabot keeps them current.
 name: CI
 
 on:
@@ -20,9 +20,9 @@ jobs:
     name: Fast checks
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - uses: pnpm/action-setup@b906affcce14559ad1aafd4ab0e942779e9f58b1 # v4.3.0
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: 24
           cache: pnpm
@@ -39,14 +39,42 @@ jobs:
         run: pnpm test:safety
       - run: pnpm test:tools
 
+  deps:
+    name: Dependencies (licences, advisories, SBOM)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - uses: pnpm/action-setup@b906affcce14559ad1aafd4ab0e942779e9f58b1 # v4.3.0
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile --ignore-scripts
+      - name: Licence allow-list (shipped dependencies must be permissive; scripts/licenses.json)
+        run: pnpm check:licenses
+      - name: Known vulnerabilities in what ships (high and critical block)
+        run: pnpm --filter @tcm/web audit --prod --audit-level high
+      - name: Known vulnerabilities in build-time tools (reported, not blocking)
+        run: pnpm audit --audit-level high || echo "::warning::build-time dependencies have advisories; see the log"
+      - name: Licence report and SBOM
+        run: |
+          mkdir -p reports
+          node scripts/licenses.ts report reports/licenses.md
+          node scripts/licenses.ts sbom reports/sbom.cdx.json
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: dependency-reports
+          path: reports
+          retention-days: 90
+
   kb:
     name: Knowledge base (build is deterministic, data is valid)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
         with:
           submodules: recursive
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
         with:
           python-version: "3.12"
           cache: pip
@@ -62,9 +90,9 @@ jobs:
     needs: [fast]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - uses: pnpm/action-setup@b906affcce14559ad1aafd4ab0e942779e9f58b1 # v4.3.0
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: 24
           cache: pnpm
@@ -79,7 +107,7 @@ jobs:
         run: node scripts/check-release.ts --dist apps/web/dist --draft-label
       - name: The release and i18n checkers reject every seeded violation
         run: pnpm test:scripts
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: dist-release
           path: apps/web/dist

@@ -31,8 +31,10 @@
     "test:release": "node --test scripts/check-release.test.ts",
     "check:i18n": "node scripts/check-i18n.ts",
     "check:icons": "python3 scripts/make_icons.py --check",
+    "check:licenses": "node scripts/licenses.ts check",
+    "sbom": "node scripts/licenses.ts sbom sbom.cdx.json",
     "check:hygiene": "node scripts/check-hygiene.ts",
-    "test:scripts": "node --test scripts/check-release.test.ts scripts/check-i18n.test.ts scripts/check-hygiene.test.ts"
+    "test:scripts": "node --test scripts/check-release.test.ts scripts/check-i18n.test.ts scripts/check-hygiene.test.ts scripts/licenses.test.ts"
   },
   "devDependencies": {
     "@types/node": "^22.10.0",

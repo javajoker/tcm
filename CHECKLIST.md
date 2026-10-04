@@ -146,7 +146,7 @@ Each row is accepted when **all** its checks hold and the verifying test or revi
 - [ ] `check-release.ts` passes on the release output; profile embedded = `release`
 - [ ] Bundle budgets met; Lighthouse (mobile) Performance ≥ 90, Accessibility ≥ 95
 - [ ] No open S1/S2 defects
-- [ ] SBOM and dependency licence report attached; `pnpm audit` has no unaddressed high/critical issues
+- [ ] SBOM and dependency licence report attached (`dependency-reports` artifact of the CI `deps` job); `pnpm audit` has no unaddressed high/critical issues; every action pinned to a SHA
 
 ### 5.2 Safety
 - [ ] Safety vignette suite green; properties P3, P4, P7, P8, P10 green
