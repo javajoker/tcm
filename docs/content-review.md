@@ -85,8 +85,8 @@ The 609 derived herbs are produced by transparent rules (`herb_model.py`). They 
 Held with the clinical reviewer using the **dev profile's inspector** ([tech spec §8.6](tech-spec.md)):
 
 1. Present vignettes (the "typical patient" for each pattern and the confusable pairs).
-2. The reviewer adjusts presented findings; the inspector shows pattern scores and contributions; disagreements about ranking become **golden cases** (input + expected top patterns + expected suppressed items).
-3. Weight changes are made in the curated tables (never in `data/`), the KB is rebuilt, the self-test and golden cases re-run.
+2. The reviewer adjusts presented findings; the inspector shows pattern scores and contributions; disagreements about ranking become **golden cases** (input + expected top patterns + expected suppressed items): the inspector's **Case** tab exports the skeleton, the reviewer corrects `expect`, and the case is saved as `packages/engine/test/golden/G-xxxx.json` with the reviewer's record id in `authoredBy` and a `split` of `tuning` or `held-out` (alternating, decided when the case is written — see [test plan §3.5](test-plan.md)).
+3. Weight changes are made in the curated tables (never in `data/`), the KB is rebuilt, the self-test and the golden cases re-run (`pnpm golden`; the held-out half is only ever read as numbers while tuning).
 4. Each session ends with a recorded list of changes and the new **scoring-params fingerprint**.
 
 Target: ≥ 100 golden cases, ≥ 80 % top-3 concordance on the held-out half ([PRD §11](PRD.md)).

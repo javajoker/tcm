@@ -1,0 +1,5 @@
+{
+  "_comment": "Until milestone M3 the golden suite reports and only structural problems fail the build (docs/test-plan.md §3.5). At M3 set `blocking` to true: policy and suppressed expectations must then be 100 % and the held-out concordance targets met.",
+  "blocking": false,
+  "targets": { "patternTop3": 0.8, "formulaTop3": 0.7, "policy": 1, "minCases": 100 }
+}

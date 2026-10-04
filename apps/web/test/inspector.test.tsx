@@ -1,6 +1,7 @@
 import { act, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import * as engine from "@tcm/engine";
+import { validateCase, type GoldenCase } from "@tcm/engine/golden";
 import { indexKnowledgeBase } from "@tcm/kb";
 import { rawChunksFromDisk } from "@tcm/kb/node";
 import { axe } from "vitest-axe";
@@ -119,15 +120,16 @@ describe.runIf(IS_DEV_PROFILE)("developer inspector (S20)", () => {
     expect([...Array(env.localStorage.length).keys()].map((i) => env.localStorage.getItem(env.localStorage.key(i)!)).join("\n")).not.toContain("0.001");
   });
 
-  it("the Case tab exports a golden-case skeleton as JSON", async () => {
+  it("the Case tab exports a golden-case skeleton (test/golden format) that validates once it is given an id and a signature", async () => {
     await open(true);
     await userEvent.click(await screen.findByRole("tab", { name: "Case" }));
     const pre = screen.getByRole("tabpanel").querySelector("pre")!;
-    const c = JSON.parse(pre.textContent!) as { name: string; input: { findings: Record<string, unknown>; redFlags: string[] }; expect: { patterns: { id: string }[]; level: string } };
-    expect(c.name).toBe("golden-case-skeleton");
+    const c = JSON.parse(pre.textContent!) as GoldenCase;
+    expect(c.id).toBe("G-XXXX");
     expect(Object.keys(c.input.findings)).toContain("S_FEAR_COLD");
-    expect(c.expect.patterns.length).toBeGreaterThan(0);
-    expect(c.expect.level).toBeTruthy();
+    expect(c.input.subject).not.toHaveProperty("birth");
+    expect(c.expect.policy?.dev?.level).toBeTruthy();
+    expect(validateCase(kb, { ...c, id: "G-0001", title: "x", authoredBy: "synthetic" })).toEqual([]);
   });
 
   it("has no accessibility violations on any tab", async () => {

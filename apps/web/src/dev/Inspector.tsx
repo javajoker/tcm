@@ -4,6 +4,7 @@
 import { useMemo, useState, type ReactNode } from "react";
 import * as engine from "@tcm/engine";
 import type { Assessment } from "@tcm/engine";
+import { goldenSkeleton } from "@tcm/engine/golden";
 import type { KnowledgeBase } from "@tcm/kb";
 import { ELEMENTS } from "@tcm/wuxing";
 import { assessInputOf } from "../app/assessment.ts";
@@ -108,17 +109,15 @@ function ParamsTab({ kb, text, setText, error, apply, reset }: { kb: KnowledgeBa
   );
 }
 
-function CaseTab({ input, a }: { input: engine.AssessInput; a: Assessment }): ReactNode {
-  const skeleton = {
-    name: "golden-case-skeleton",
-    input: { subject: input.subject, redFlags: [...input.redFlags], findings: input.findings, context: input.context ?? {}, constitutionAnswers: input.constitutionAnswers ?? null },
-    expect: { patterns: a.patterns.slice(0, 3).map((p) => ({ id: p.id, pct: Math.round(p.pct * 10) / 10 })), verdict: { status: a.verdict.status, confidence: a.verdict.confidence }, level: a.policy.level, formulas: a.recommendations.formulas.map((f) => f.id) },
-  };
+function CaseTab({ input, a, profile }: { input: engine.AssessInput; a: Assessment; profile: "release" | "dev" }): ReactNode {
+  // the format of test/golden/G-xxxx.json (docs/test-plan.md §3.5); birth data is left out on purpose — golden cases are synthetic people, and the diagnosis does not depend on it
+  const { birth: _birth, ...subject } = input.subject;
+  const skeleton = goldenSkeleton({ subject, redFlags: [...input.redFlags], findings: input.findings, ...(input.context ? { context: input.context } : {}), ...(input.constitutionAnswers ? { constitutionAnswers: input.constitutionAnswers } : {}) }, a, profile);
   const text = JSON.stringify(skeleton, null, 2);
   const [copied, setCopied] = useState(false);
   return (
     <>
-      <p>The current input and what the engine made of it, as the skeleton of a golden case. It contains health data: keep it out of public places.</p>
+      <p>The current input and what the engine made of it, as the skeleton of a golden case (<code>test/golden/G-xxxx.json</code>). Give it an id, a title, your review record and a split, and change <code>expect</code> to what you agree. It contains health data: use it only for a synthetic person, and keep it out of public places.</p>
       <p><Button onClick={() => { void navigator.clipboard.writeText(text).then(() => setCopied(true)); }}>Copy</Button> {copied ? <span role="status">Copied.</span> : null}</p>
       <pre style={{ overflow: "auto", maxHeight: "24rem", background: "var(--surface)", border: "1px solid var(--border)", padding: "var(--space-3)" }}>{text}</pre>
     </>
@@ -154,7 +153,7 @@ function Inspector(): ReactNode {
         { id: "params", label: "Params", panel: <ParamsTab kb={kb} text={paramsText} setText={setParamsText} error={error}
           apply={() => { try { setEdited(paramsText === JSON.stringify(loadedKb.params, null, 2) ? null : JSON.parse(paramsText) as KnowledgeBase["params"]); setError(null); } catch (e) { setError(`Not valid JSON: ${(e as Error).message}`); } }}
           reset={() => { setEdited(null); setParamsText(JSON.stringify(loadedKb.params, null, 2)); setError(null); }} /> },
-        { id: "case", label: "Case", panel: <CaseTab input={input} a={a} /> },
+        { id: "case", label: "Case", panel: <CaseTab input={input} a={a} profile={kb.profile} /> },
       ]} />
     </>
   );

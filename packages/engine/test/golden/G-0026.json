@@ -1,0 +1,139 @@
+{
+  "id": "G-0026",
+  "title": "anticoagulant user: the formulas with interacting herbs are removed in release",
+  "authoredBy": "synthetic",
+  "split": "tuning",
+  "input": {
+    "subject": {
+      "ageYears": 35,
+      "sex": "male",
+      "pregnancy": "not-applicable",
+      "lactating": false,
+      "medications": [
+        "anticoagulant"
+      ],
+      "allergies": [],
+      "seriousChronicDisease": false
+    },
+    "redFlags": [],
+    "findings": {
+      "S_AVERSION_COLD": {"state":"absent"},
+      "S_FEAR_COLD": {"state":"absent"},
+      "S_AVERSION_WIND": {"state":"absent"},
+      "S_COLD_LIMBS": {"state":"absent"},
+      "S_FEVER": {"state":"absent"},
+      "S_FEVER_UNEVEN": {"state":"absent"},
+      "S_TIDAL_FEVER": {"state":"absent"},
+      "S_HEAT_PALMS_SOLES": {"state":"absent"},
+      "S_FEAR_HEAT": {"state":"absent"},
+      "S_ALTERNATING_CHILLS_FEVER": {"state":"absent"},
+      "S_SPONTANEOUS_SWEAT": {"state":"absent"},
+      "S_NIGHT_SWEAT": {"state":"absent"},
+      "S_NO_SWEAT": {"state":"absent"},
+      "S_THIRST_COLD_DRINK": {"state":"absent"},
+      "S_THIRST_NO_DRINK": {"state":"absent"},
+      "S_THIRST_LIGHT": {"state":"absent"},
+      "S_NO_THIRST": {"state":"absent"},
+      "S_DRY_MOUTH_THROAT": {"state":"absent"},
+      "S_PREFER_HOT_DRINK": {"state":"absent"},
+      "S_DRY_THROAT": {"state":"absent"},
+      "S_SORE_THROAT": {"state":"absent"},
+      "S_HOARSE": {"state":"absent"},
+      "S_MOUTH_ULCERS": {"state":"absent"},
+      "S_COUGH_DRY": {"state":"absent"},
+      "S_COUGH_WEAK": {"state":"absent"},
+      "S_COUGH_PHLEGM_YELLOW": {"state":"absent"},
+      "S_PHLEGM_COPIOUS": {"state":"absent"},
+      "S_RUNNY_NOSE_CLEAR": {"state":"absent"},
+      "S_NASAL_CONGESTION": {"state":"absent"},
+      "S_LOW_VOICE": {"state":"absent"},
+      "S_BODY_ACHE": {"state":"absent"},
+      "S_BODY_HEAVY": {"state":"absent"},
+      "S_LIMB_NUMB": {"state":"absent"},
+      "S_LOW_BACK_SORE": {"state":"absent"},
+      "S_LOW_BACK_COLD": {"state":"absent"},
+      "S_HEADACHE": {"state":"absent"},
+      "S_HEAD_HEAVY": {"state":"absent"},
+      "S_HEAD_DIZZY": {"state":"absent"},
+      "S_HEAD_DISTENDING": {"state":"absent"},
+      "S_LOOSE_STOOL": {"state":"present","severity":"moderate"},
+      "S_CONSTIPATION": {"state":"absent"},
+      "S_STICKY_STOOL": {"state":"absent"},
+      "S_UNDIGESTED_STOOL": {"state":"absent"},
+      "S_FATIGUE": {"state":"present","severity":"moderate"},
+      "S_SHORT_BREATH": {"state":"absent"},
+      "S_LAZY_SPEAK": {"state":"present","severity":"moderate"},
+      "S_EASY_COLD": {"state":"absent"},
+      "S_EDEMA": {"state":"absent"},
+      "S_SPIRIT_WITHDRAWN": {"state":"absent"},
+      "S_POOR_APPETITE": {"state":"present","severity":"moderate"},
+      "S_POSTPRANDIAL_BLOAT": {"state":"present","severity":"moderate"},
+      "S_HUNGER_NO_EAT": {"state":"absent"},
+      "S_FACE_SALLOW": {"state":"absent"},
+      "S_FACE_PALE": {"state":"absent"},
+      "S_FACE_RED": {"state":"absent"},
+      "S_FACE_DARK": {"state":"absent"},
+      "S_EPIGASTRIC_PAIN": {"state":"absent"},
+      "S_EPIGASTRIC_BURNING": {"state":"absent"},
+      "S_EPIGASTRIC_FULLNESS": {"state":"absent"},
+      "S_ABD_PAIN_PREFER_WARM_PRESS": {"state":"absent"},
+      "S_ABD_DISTENSION_INTERMITTENT": {"state":"absent"},
+      "S_PROLAPSE_SENSATION": {"state":"absent"},
+      "S_PALPITATION": {"state":"absent"},
+      "S_CHEST_OPPRESSION": {"state":"absent"},
+      "S_HYPOCHONDRIAC_DISTENSION": {"state":"absent"},
+      "S_SIGHING": {"state":"absent"},
+      "S_THROAT_FOREIGN": {"state":"absent"},
+      "S_LIPS_NAILS_PALE": {"state":"absent"},
+      "S_LIPS_PURPLE": {"state":"absent"},
+      "S_NAIL_BRITTLE": {"state":"absent"},
+      "S_SKIN_SQUAMOUS": {"state":"absent"},
+      "S_ABD_PREFER_PRESS": {"state":"absent"},
+      "S_ABD_REFUSE_PRESS": {"state":"absent"},
+      "S_BITTER_MOUTH": {"state":"absent"},
+      "S_STICKY_MOUTH": {"state":"absent"},
+      "S_BLAND_MOUTH": {"state":"absent"},
+      "S_ACID_REFLUX": {"state":"absent"},
+      "S_INSOMNIA_ONSET": {"state":"absent"},
+      "S_INSOMNIA_MAINT": {"state":"absent"},
+      "S_DREAM_MANY": {"state":"absent"},
+      "S_RESTLESS_NO_SLEEP": {"state":"absent"}
+    },
+    "context": {
+      "course": "chronic"
+    }
+  },
+  "expect": {
+    "policy": {
+      "release": {
+        "level": "L1",
+        "notice": "inline",
+        "notices": [
+          "N-MED"
+        ]
+      },
+      "dev": {
+        "level": "L3",
+        "notices": [
+          "N-MED"
+        ]
+      }
+    },
+    "suppressed": {
+      "release": [
+        {
+          "kind": "formula",
+          "id": "F_SHENLING",
+          "reason": "rule",
+          "ruleId": "R_ANTICOAGULANT"
+        },
+        {
+          "kind": "formula",
+          "id": "F_SIJUNZI",
+          "reason": "rule",
+          "ruleId": "R_ANTICOAGULANT"
+        }
+      ]
+    }
+  }
+}

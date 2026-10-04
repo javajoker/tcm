@@ -1,0 +1,44 @@
+{
+  "id": "G-0028",
+  "title": "no findings: insufficient information",
+  "authoredBy": "synthetic",
+  "split": "tuning",
+  "input": {
+    "subject": {
+      "ageYears": 35,
+      "sex": "male",
+      "pregnancy": "not-applicable",
+      "lactating": false,
+      "medications": [],
+      "allergies": [],
+      "seriousChronicDisease": false
+    },
+    "redFlags": [],
+    "findings": {}
+  },
+  "expect": {
+    "confidence": "insufficient",
+    "policy": {
+      "release": {
+        "level": "L0",
+        "notice": "inline",
+        "notices": [
+          "N-LOWCONF"
+        ]
+      },
+      "dev": {
+        "level": "L3",
+        "notices": [
+          "N-LOWCONF"
+        ]
+      }
+    },
+    "formulas": {
+      "mustNotInclude": [
+        "F_SHENLING",
+        "F_SIJUNZI",
+        "F_MAHUANG"
+      ]
+    }
+  }
+}
