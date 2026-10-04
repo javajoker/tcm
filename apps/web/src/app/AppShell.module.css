@@ -14,3 +14,6 @@
 .langButton[aria-pressed="true"] { background: var(--primary); color: var(--on-primary); }
 .offer { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3); max-width: 70rem; margin: 0 auto; padding: var(--space-2) var(--gutter); background: var(--info-bg); color: var(--info-text); }
 .status { display: inline-flex; align-items: center; gap: var(--space-1); }
+.menu { display: flex; gap: var(--space-3); }
+.menu a, .footerNav a { display: inline-flex; align-items: center; min-height: 44px; color: var(--link); }
+.footerNav { display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-4); margin-inline-start: auto; align-items: center; }

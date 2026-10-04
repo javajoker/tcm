@@ -16,6 +16,8 @@ import { FormulaDetail } from "../screens/result/FormulaDetail.tsx";
 import { Result } from "../screens/result/Result.tsx";
 import { Review } from "../screens/review/Review.tsx";
 import { Screening } from "../screens/screening/Screening.tsx";
+import { Settings } from "../screens/settings/Settings.tsx";
+import { Sources } from "../screens/settings/Sources.tsx";
 import { DEFAULT_LANG, pathForLang, splitLangPath } from "./routing.ts";
 import { useApp } from "./store.tsx";
 
@@ -36,6 +38,8 @@ function Screens(): ReactNode {
           <Route path="/screen"><Screening /></Route>
           <Route path="/inquiry"><Inquiry /></Route>
           <Route path="/review"><Review /></Route>
+          <Route path="/settings"><Settings /></Route>
+          <Route path="/sources"><Sources /></Route>
           <Route path="/result/:id/formula/:fid">{(params) => <FormulaDetail id={params.id} fid={params.fid} />}</Route>
           <Route path="/result/:id">{(params) => <Result id={params.id} />}</Route>
           {Catalogue !== null ? <Route path="/_dev/components"><Suspense fallback={null}><Catalogue /></Suspense></Route> : null}

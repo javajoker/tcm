@@ -26,16 +26,16 @@
 | **K** Knowledge base | 8 | 19 |
 | **E** Engine and packages | 19 | 21 |
 | **I** Internationalisation | 2 | 5 |
-| **U** Web application | 3 | 16 |
+| **U** Web application | 3 | 15 |
 | **Q** Quality assurance | 0 | 10 |
 | **R** Release and operations | 0 | 7 |
 | **V** Review (non-code) | 0 | 7 |
 | **PF** Performance (P2) | 0 | 3 |
-| **All** | **56** | **112** |
+| **All** | **56** | **111** |
 
 | Priority | Done | Total |
 |---|---:|---:|
-| P0 | 40 | 62 |
+| P0 | 40 | 61 |
 | P1 | 14 | 42 |
 | P2 | 2 | 8 |
 
@@ -177,7 +177,7 @@ Suggested waves: **1** foundation (E-01, K-01, K-02, I-01, U-01, R-01) → **2**
 | [x] | U-18 | S14 Formula detail with 君臣佐使 table, rationale, cautions, `ModificationDiff` | P0 | L | U-17, E-13 | No amounts in release; modification at L2+ | — `screens/result/FormulaDetail.tsx`; only a formula that is part of the saved result can be opened; amounts and modifications follow `policy.features` (absent from release by construction and by test)
 | [x] | U-19 | S15 Citation viewer (sheet/drawer, verification state, translation label) | P0 | M | U-17 | Focus return; keyboard operable | — `app/citations.tsx` (`CitationsProvider`, `CitationChip`); English rendering shows "none yet" until K-13/V; edition/licence from the citation record
 | [ ] | U-20 | S16 History and compare | P1 | L | U-04, U-17 | E13 passes |
-| [ ] | U-21 | S17 Settings and privacy; S18 Sources | P0 | M | U-04 | Erase, versions, what-is-stored table; licence/provenance |
+| [x] | U-21 | S17 Settings and privacy; S18 Sources | P0 | M | U-04 | Erase, versions, what-is-stored table; licence/provenance | — `screens/settings/{Settings,Sources}.tsx`, header menu + footer links; "Remember birth data" default is added with the birth card (U-08); licence/NOTICE text arrives with K-18
 | [ ] | U-22 | S20 Developer inspector (dev only): Policy, Scores, Panel, Formulas, Safety, Params, Case export | P1 | L | E-17 | Tree-shaken from release (check passes) |
 | [ ] | U-23 | Print stylesheet, practitioner summary, JSON export of inputs | P1 | M | U-17 | E16 passes |
 | [ ] | U-24 | Feedback marks and export (FR-16) | P1 | S | U-17 | Stored locally; export is explicit |

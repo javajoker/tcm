@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import { Link } from "wouter";
 import { useI18n } from "../i18n/I18nProvider.tsx";
-import { APP_PROFILE, IS_DEV_PROFILE } from "./profile.ts";
+import { APP_BUILD, APP_PROFILE, IS_DEV_PROFILE } from "./profile.ts";
 import { EnglishOffer } from "./EnglishOffer.tsx";
 import { LanguageToggle } from "./LanguageToggle.tsx";
 import { NotSavedChip } from "./NotSavedChip.tsx";
@@ -20,6 +20,10 @@ export function AppShell({ children }: { children: ReactNode }): ReactNode {
           <Link className={styles.brand} href="/">{t.t("common.app.name")}</Link>
           {IS_DEV_PROFILE ? <span className={styles.badge} data-testid="profile-badge">{DEV_BADGE}</span> : null}
           <NotSavedChip />
+          <nav aria-label={t.t("common.nav.menu")} className={styles.menu}>
+            <Link href="/sources">{t.t("common.nav.sources")}</Link>
+            <Link href="/settings">{t.t("common.nav.settings")}</Link>
+          </nav>
           <LanguageToggle />
         </div>
         <EnglishOffer />
@@ -28,6 +32,11 @@ export function AppShell({ children }: { children: ReactNode }): ReactNode {
       <footer className={styles.footer}>
         <div className={styles.footerBar}>
           <span>{t.t("common.footer.disclaimer")}</span>
+          <nav aria-label={t.t("common.footer.nav")} className={styles.footerNav}>
+            <Link href="/settings#privacy">{t.t("common.footer.privacy")}</Link>
+            <Link href="/sources">{t.t("common.footer.sources")}</Link>
+            <span>{t.t("common.footer.version", { version: APP_BUILD })}</span>
+          </nav>
         </div>
       </footer>
     </>
