@@ -1,0 +1,106 @@
+import type { ReactNode } from "react";
+import { Link } from "wouter";
+import type { FormulaRecommendation } from "@tcm/engine";
+import { useI18n } from "../../i18n/I18nProvider.tsx";
+import type { MessageKey } from "../../i18n/catalogs.ts";
+import { CitationChip } from "../../app/citations.tsx";
+import { useLoaded } from "../../app/knowledge.tsx";
+import { Term } from "../../app/Term.tsx";
+import type { SavedAssessment } from "../../storage/types.ts";
+import { Card, Chip } from "../../ui/index.ts";
+import { BilingualName, ZhText } from "./shared.tsx";
+
+/** Match words from the share of the deviation a formula corrects (UX spec §4.10: words first, the number in the details). */
+export const matchWord = (explained: number): "good" | "moderate" | "partial" => (explained >= 0.6 ? "good" : explained >= 0.4 ? "moderate" : "partial");
+
+function FormulaCard({ f, savedId, study }: { f: FormulaRecommendation; savedId: string; study: boolean }): ReactNode {
+  const { t } = useI18n();
+  const { kb } = useLoaded();
+  const rec = kb.formulas.get(f.id);
+  if (!rec) return null;
+  const symptom = (id: string): string => { const s = kb.symptoms.get(id); return s ? (t.lang === "en" ? s.en : s["zh-Hant"]) : id; };
+  const word = matchWord(f.fit.explained);
+  const name = rec.name;
+  return (
+    <Card title={<BilingualName v={name} tag="strong" />} headingLevel={4}>
+      <p style={{ margin: "0 0 var(--space-2)" }}>
+        <Chip tone={study ? "notice" : "primary"}>{t.t("report.formula.tier", { tier: f.tier })}</Chip>{" "}
+        <Chip>{t.t("report.formula.match")}: {t.t(`report.match.${word}` as MessageKey)}</Chip>{" "}
+        <span className="muted">{t.t("report.formula.source", { book: rec.source.book })}</span>
+      </p>
+      <p><ZhText>{rec.rationale_zh}</ZhText></p>
+      <details>
+        <summary style={{ minHeight: 44, display: "flex", alignItems: "center", cursor: "pointer" }}>{t.t("report.formula.composition")}</summary>
+        <ul style={{ display: "flex", flexWrap: "wrap", gap: "var(--space-2)", listStyle: "none", padding: 0 }}>
+          {f.composition.map((r) => <li key={r.herb}><Chip><span lang="zh-Hant" title={t.t(`report.role.${r.role}` as MessageKey)}>{r.role}</span> {t.localized(r.name).text}</Chip></li>)}
+        </ul>
+        <p className="muted">{t.t("report.formula.explained", { pct: t.number(f.fit.explained, { style: "percent", maximumFractionDigits: 0 }) })}</p>
+      </details>
+      {f.fit.matched.length > 0 ? <p><strong>{t.t("report.formula.matches")}</strong> {f.fit.matched.map((id, i) => <span key={id}>{i > 0 ? "、" : ""}{symptom(id)}</span>)}</p> : null}
+      {f.fit.unmatched.length > 0 ? <p className="muted"><strong>{t.t("report.formula.notMatches")}</strong> {f.fit.unmatched.map((id, i) => <span key={id}>{i > 0 ? "、" : ""}{symptom(id)}</span>)}</p> : null}
+      {rec.cautions.length > 0 || f.annotations.length > 0 ? (
+        <>
+          <h5 style={{ margin: "var(--space-3) 0 var(--space-1)" }}>{t.t("report.formula.cautions")}</h5>
+          <ul>{rec.cautions.map((c) => <li key={c}><ZhText>{c}</ZhText></li>)}{f.annotations.map((n) => <li key={n.ruleId}>{t.localized(n.message).text}</li>)}</ul>
+        </>
+      ) : null}
+      <p className="muted">{t.t("safety.notice.formula.text")}</p>
+      <p>{f.citations.map((c) => <CitationChip key={c} id={c} usedFor={t.localized(name).text} />)}</p>
+      <p style={{ margin: 0 }}><Link href={`/result/${savedId}/formula/${f.id}`} aria-label={t.t("report.formula.open", { name: t.localized(name).text })}>{t.t("report.formula.open", { name: t.localized(name).text })}</Link></p>
+    </Card>
+  );
+}
+
+/** ⑥ Advice, by level: what the policy allows is already decided in the result; nothing here hides or adds. */
+export function Advice({ saved }: { saved: SavedAssessment }): ReactNode {
+  const { t } = useI18n();
+  const { kb } = useLoaded();
+  const r = saved.result.recommendations;
+  const patternName = (id: string): string => t.localized(kb.patternById.get(id)?.name ?? { "zh-Hant": id, en: null }).text;
+  return (
+    <Card title={t.t("report.advice.title")} id="sec-advice">
+      {r.status === "insufficient-information" ? <p className="muted">{t.t("report.advice.insufficient")}</p> : null}
+      {r.status === "limited-by-level" ? <p className="muted">{t.t("report.advice.limited")}</p> : null}
+
+      {r.principles.length > 0 ? (
+        <section aria-labelledby="adv-principles">
+          <h3 id="adv-principles">{t.t("report.advice.principles")}</h3>
+          <ul>{r.principles.map((p) => <li key={p.patternId}><strong>{patternName(p.patternId)}</strong>: <ZhText>{p.text}</ZhText></li>)}</ul>
+        </section>
+      ) : null}
+
+      <section aria-labelledby="adv-formulas">
+        <h3 id="adv-formulas">{t.t("report.advice.formulas")}</h3>
+        {r.formulas.length === 0 && r.studyOnly.length === 0 ? <p className="muted">{t.t("report.advice.formulasNone")}</p> : null}
+        <div style={{ display: "grid", gap: "var(--space-3)" }}>{r.formulas.map((f) => <FormulaCard key={f.id} f={f} savedId={saved.id} study={false} />)}</div>
+        {r.studyOnly.length > 0 ? (
+          <>
+            <h4>{t.t("report.advice.study")}</h4>
+            <div style={{ display: "grid", gap: "var(--space-3)" }}>{r.studyOnly.map((f) => <FormulaCard key={f.id} f={f} savedId={saved.id} study />)}</div>
+          </>
+        ) : null}
+      </section>
+
+      {r.foods.length > 0 ? (
+        <section aria-labelledby="adv-diet">
+          <h3 id="adv-diet">{t.t("report.advice.diet")}</h3>
+          <ul>{r.foods.map((f) => <li key={f.name}><Term zh={f.name} />{f.annotations.map((n) => <span key={n.ruleId} className="muted"> — {t.localized(n.message).text}</span>)}</li>)}</ul>
+        </section>
+      ) : null}
+
+      {r.acupoints.length > 0 ? (
+        <section aria-labelledby="adv-points">
+          <h3 id="adv-points">{t.t("report.advice.points")}</h3>
+          <ul>{r.acupoints.map((p) => <li key={p.name}><Term zh={p.name} /> <span className="muted">{t.t("report.points.meridian", { code: p.code, meridian: p.meridian })}</span>{p.annotations.map((n) => <span key={n.ruleId} className="muted"> — {t.localized(n.message).text}</span>)}</li>)}</ul>
+        </section>
+      ) : null}
+
+      <section aria-labelledby="adv-life">
+        <h3 id="adv-life">{t.t("report.advice.lifestyle")}</h3>
+        {r.lifestyle.length > 0 ? <ul>{r.lifestyle.map((l) => <li key={l.patternId}><strong>{patternName(l.patternId)}</strong>: <ZhText>{l.text}</ZhText></li>)}</ul> : null}
+        <p><strong>{t.t("report.advice.general")}</strong>: <ZhText>{r.general.text}</ZhText></p>
+        <p>{r.general.citations.map((c) => <CitationChip key={c} id={c} usedFor={t.t("report.advice.general")} />)}</p>
+      </section>
+    </Card>
+  );
+}

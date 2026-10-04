@@ -6,10 +6,10 @@ import type { MessageKey } from "../../i18n/catalogs.ts";
 import { useApp } from "../../app/store.tsx";
 import { Button, Dialog, DialogActions, Notice } from "../../ui/index.ts";
 import type { Draft } from "../../storage/types.ts";
-import { EmergencyNumbers, emergencyNumberText } from "./EmergencyNumbers.tsx";
+import { EmergencyNumbers } from "./EmergencyNumbers.tsx";
 import { NOTICE_STYLE } from "./model.ts";
+import { NOTICE_SLUG as SLUG, noticeParams } from "./noticeText.ts";
 
-const SLUG: Readonly<Record<string, string>> = { "N-A": "a", "N-B": "b", "N-MINOR": "minor", "N-PREG": "pregnancy", "N-LACT": "lactation", "N-SERIOUS": "serious" };
 const SELF_HARM = "RF_A_SELF_HARM";
 
 /**
@@ -26,13 +26,8 @@ export function NoticeScreen({ kb, draft, notices, onAcknowledge }: { kb: Knowle
   const withNumbers = notices.some((n) => n.id === "N-A" || n.id === "N-B");
   const selfHarm = notices.some((n) => n.reasons.includes(SELF_HARM));
 
-  const nameOf = (id: string): string => {
-    const f = kb.redFlags.find((x) => x.id === id);
-    const base = f ? t.localized(f.text).text : id;
-    return draft.screening.answers[id] === "unsure" ? `${base}${t.t("intake.screen.unsureTag")}` : base;
-  };
-  const listFormat = new Intl.ListFormat(t.lang === "en" ? "en" : "zh-Hant", { style: "long", type: "conjunction" });
-  const params = (n: NoticeRequest): Record<string, string> => ({ reason: listFormat.format(n.reasons.map(nameOf)), emergency_number: emergencyNumberText(kb, region, t.t("safety.emergency.local")) });
+  const ctx = { kb, t, region, answers: draft.screening.answers, allergies: draft.subject.allergies ?? [], enforcement: kb.config.profile.safety_enforcement };
+  const params = (n: NoticeRequest): Record<string, string> => noticeParams(ctx, n);
   const [first, ...rest] = notices;
 
   const block = (n: NoticeRequest, level: 2 | 3): ReactNode => {
