@@ -21,9 +21,18 @@ export class Rng {
   }
 }
 
-/** Run `check` on `n` generated cases; on failure rethrow with the case index and seed so it can be replayed. */
-export function forAll<T>(name: string, n: number, gen: (rng: Rng, i: number) => T, check: (value: T, i: number) => void, seed = 20261004): void {
-  for (let i = 0; i < n; i++) {
+/**
+ * The nightly job runs every property with more cases and a fresh seed: `PROPERTY_RUNS` multiplies every case count (default 1, nightly 10) and `PROPERTY_SEED`
+ * replaces the base seed. Both are printed whenever they are set, and a failure prints the seed of the case, so any run can be replayed exactly.
+ */
+const intEnv = (name: string, fallback: number): number => { const v = Number(process.env[name]); return Number.isInteger(v) && v > 0 ? v : fallback; };
+export const RUNS = intEnv("PROPERTY_RUNS", 1);
+export const BASE_SEED = intEnv("PROPERTY_SEED", 20261004);
+if (process.env.PROPERTY_RUNS !== undefined || process.env.PROPERTY_SEED !== undefined) console.log(`property tests: ×${RUNS} cases, base seed ${BASE_SEED}`);
+
+/** Run `check` on `n` (× PROPERTY_RUNS) generated cases; on failure rethrow with the case index and seed so it can be replayed. */
+export function forAll<T>(name: string, n: number, gen: (rng: Rng, i: number) => T, check: (value: T, i: number) => void, seed = BASE_SEED): void {
+  for (let i = 0; i < n * RUNS; i++) {
     const rng = new Rng(seed + i * 7919);
     const value = gen(rng, i);
     try {

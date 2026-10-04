@@ -27,15 +27,15 @@
 | **E** Engine and packages | 19 | 20 |
 | **I** Internationalisation | 2 | 4 |
 | **U** Web application | 6 | 6 |
-| **Q** Quality assurance | 2 | 10 |
+| **Q** Quality assurance | 3 | 10 |
 | **R** Release and operations | 0 | 4 |
 | **V** Review (non-code) | 0 | 7 |
 | **PF** Performance (P2) | 0 | 3 |
-| **All** | **61** | **96** |
+| **All** | **62** | **96** |
 
 | Priority | Done | Total |
 |---|---:|---:|
-| P0 | 42 | 54 |
+| P0 | 43 | 54 |
 | P1 | 16 | 34 |
 | P2 | 3 | 8 |
 
@@ -190,7 +190,7 @@ Suggested waves: **1** foundation (E-01, K-01, K-02, I-01, U-01, R-01) → **2**
 |---|---|---|---|---|---|---|
 | [x] | Q-01 | Safety vignette suite (28 red flags, populations, conditions, states, medication classes, allergies, hazards, pregnancy points) and runner | P0 | L | E-14 | 100 % green; blocks release |
 | [x] | Q-02 | Golden-case infrastructure (format, runner, tuning/held-out split, metrics) with a synthetic seed set | P0 | M | E-17 | Runner reports concordance; non-blocking until M3 |
-| [ ] | Q-03 | Property suite P1–P12 wired into CI (10× nightly) | P0 | M | E-17 | Seeds printed; nightly job |
+| [x] | Q-03 | Property suite P1–P12 wired into CI (10× nightly) | P0 | M | E-17 | Seeds printed; nightly job |
 | [ ] | Q-04 | Playwright E2E E1–E20 (desktop + mobile, zh-Hant + en) | P0 | XL | U-17, U-21 | All green in CI |
 | [ ] | Q-05 | Accessibility: axe sweep, manual AT protocol and record template | P0 | M | U-17 | Zero violations; manual results stored per release |
 | [ ] | Q-06 | Lighthouse CI + `size-limit` budgets | P1 | S | U-01, E-03 | Budgets of [tech spec §12](docs/tech-spec.md) enforced |

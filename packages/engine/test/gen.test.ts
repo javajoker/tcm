@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { forAll, Rng } from "./gen.ts";
+import { forAll, RUNS, Rng } from "./gen.ts";
 
 test("the generator is deterministic for a seed and differs between seeds", () => {
   const a = Array.from({ length: 8 }, ((r) => () => r.next())(new Rng(1)));
@@ -26,4 +26,10 @@ test("forAll reports the failing case with its seed", () => {
     () => forAll("always fails at 3", 10, (_rng, i) => i, (v) => { if (v === 3) throw new Error("boom"); }, 100),
     /property "always fails at 3" failed at case 3 \(seed \d+\): boom/,
   );
+});
+
+test("PROPERTY_RUNS multiplies the number of cases (the nightly job runs ×10)", () => {
+  let count = 0;
+  forAll("count", 7, () => 0, () => { count++; });
+  assert.equal(count, 7 * RUNS);
 });

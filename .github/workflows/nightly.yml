@@ -1,0 +1,48 @@
+# Nightly property and golden runs (docs/test-plan.md §3.2, §3.5, §6). Every property runs ×10 with a fresh seed; the seed is printed at the start, and a failure prints
+# the seed of the failing case and the case itself, so it can be replayed locally with `PROPERTY_SEED=<seed> pnpm test:properties`. Actions are pinned to major versions
+# here; pinning to commit SHAs is part of task R-05.
+name: Nightly
+
+on:
+  schedule:
+    - cron: "17 2 * * *"
+  workflow_dispatch:
+    inputs:
+      seed:
+        description: "Base seed for the property tests (default: the run id)"
+        required: false
+
+permissions:
+  contents: read
+
+jobs:
+  properties:
+    name: Properties ×10 with a fresh seed
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile --ignore-scripts
+      - name: Every engine test, properties ×10
+        run: pnpm test:properties:nightly
+        env:
+          PROPERTY_RUNS: "10"
+          PROPERTY_SEED: ${{ github.event.inputs.seed || github.run_id }}
+
+  golden:
+    name: Golden cases (report; blocking only after M3)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile --ignore-scripts
+      - name: Concordance by split
+        run: pnpm golden

@@ -82,6 +82,8 @@
 
 Generators produce subjects, red flags, findings, medications and allergies with seeded randomness; each failure prints its seed and a minimised case.
 
+> **Implementation (Q-03).** `packages/engine/test/properties.test.ts` runs P1–P12 end to end through `assess` over generated people (random answers, or a typical patient's full inquiry with a few answers changed, so that release can reach L1 and there are formulas to filter; the table is typed to need all twelve). Per-module versions stay next to the code (patterns, panel, formulas, policy, safety). `pnpm test:properties` runs the suite on every commit (it is part of `pnpm test`). **Seeds:** `PROPERTY_SEED` replaces the base seed and `PROPERTY_RUNS` multiplies every case count (`forAll` in `test/gen.ts`); both are printed whenever set, and a failure prints the seed of the failing case and the case itself — replay with `PROPERTY_SEED=<seed> pnpm test:properties`. **Nightly:** `.github/workflows/nightly.yml` runs every engine test ×10 with a fresh seed (the run id) and prints the golden-case report. Three properties carry a non-vacuity assertion (P7, P8, P10 fail when the generator did not produce enough people with formulas to filter). Two exceptions the properties encode on purpose: P1 allows the *order* of two patterns within the tie margin to be decided by the birth alignment (SOP §11 "平手裁決") and requires the verdict to say so (`tieBreak.by = "alignment"`); P7 accounts for tier A only in release, because tier B and C formulas are not in the release data at all.
+
 ### 3.3 Safety vignette suite (exhaustive)
 
 | Group | Cases |
