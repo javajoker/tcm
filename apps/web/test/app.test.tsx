@@ -14,7 +14,7 @@ describe("app scaffold", () => {
     expect(screen.getByRole("main")).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "跳到主要內容" })).toHaveAttribute("href", "#main");
     expect(screen.getByText("僅供教育參考，不是醫療診斷或處方。")).toBeInTheDocument();
-    expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent("中醫自我評估");
+    expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent("依古典中醫的方法，了解您的身體");
     expect(document.documentElement.lang).toBe("zh-Hant");
     expect(document.title).toBe("中醫自我評估");
   });
@@ -42,7 +42,7 @@ describe("language routing", () => {
     env.localStorage.setItem("tcm.prefs", JSON.stringify({ lang: "en" }));
     renderApp(testStore(env).store);
     expect(window.location.pathname).toBe("/en/");
-    expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent("TCM Self-Check");
+    expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent("Understand your body the way classical TCM does");
     expect(document.documentElement.lang).toBe("en");
   });
 
@@ -203,7 +203,7 @@ describe("storage and preferences in the shell", () => {
       const env = fakeEnvironment();
       env.localStorage.setItem("tcm.prefs", JSON.stringify({ lang: "zh-Hant" }));
       const second = renderApp(testStore(env).store);
-      expect(screen.queryByRole("region")).toBeNull();
+      expect(screen.queryByRole("region", { name: "語言" })).toBeNull();
       second.unmount();
       go("/en/");
       renderApp();

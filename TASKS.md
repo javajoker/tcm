@@ -26,16 +26,16 @@
 | **K** Knowledge base | 8 | 20 |
 | **E** Engine and packages | 19 | 21 |
 | **I** Internationalisation | 2 | 6 |
-| **U** Web application | 3 | 24 |
+| **U** Web application | 3 | 23 |
 | **Q** Quality assurance | 0 | 10 |
 | **R** Release and operations | 0 | 7 |
 | **V** Review (non-code) | 0 | 7 |
 | **PF** Performance (P2) | 0 | 3 |
-| **All** | **56** | **122** |
+| **All** | **56** | **121** |
 
 | Priority | Done | Total |
 |---|---:|---:|
-| P0 | 40 | 72 |
+| P0 | 40 | 71 |
 | P1 | 14 | 42 |
 | P2 | 2 | 8 |
 
@@ -162,7 +162,7 @@ Suggested waves: **1** foundation (E-01, K-01, K-02, I-01, U-01, R-01) → **2**
 | [x] | U-03 | i18n integration, language toggle, `/:lang` routing, `<html lang>`, route-preserving switch | P0 | M | I-01, U-01 | E11 passes (component-level equivalent in `apps/web/test/app.test.tsx`); aliases `/zh`, `/en-US` redirect; `/` honours `entryLang` (wired to saved prefs in U-04); one-time "View in English" offer moves to U-04 (needs persistence) |
 | [x] | U-04 | Storage layer (`storage.ts`), draft autosave, prefs, erase-all, migration scaffold, "Not saved" chip | P0 | L | U-01 | E12, E14, E20 pass; privacy rules satisfied; saved language → `entryLang`; one-time dismissible "View in English" offer for English browsers (`browserPrefersEnglish`) | — `apps/web/src/storage/*` (only module allowed to touch browser storage; ESLint-enforced), `app/store.tsx`
 | [x] | U-05 | KB and engine lazy loading, loading/error/offline states (S19), error boundary | P0 | M | E-03, U-01 | E15 passes (component-level in `apps/web/test/knowledge.test.tsx`); no partial medical output on error | — `app/knowledge.tsx` (`KnowledgeProvider`, `NeedsKnowledge`, `useLoaded`), `ErrorBoundary` safe fallback, `Term`; engine and KB loader are lazy chunks (initial JS ≈ 80 KB gz)
-| [ ] | U-06 | S01 Landing and disclaimer (versioned acknowledgement, resume, sample panel) | P0 | M | U-02, U-04 | Matches UX §4.1 |
+| [x] | U-06 | S01 Landing and disclaimer (versioned acknowledgement, resume, sample panel) | P0 | M | U-02, U-04 | Matches UX §4.1 | — `app/Landing.tsx`; disclaimer version = hash of the wording (`app/disclaimer.ts`); catalog text is test-checked against `docs/safety-policy.md`
 | [ ] | U-07 | S02 Basic profile (safety inputs, medications by class, allergies, validation) | P0 | L | U-02, U-04 | UX §4.2; policy inputs complete |
 | [ ] | U-08 | S03 Birth card (date/time/unknown, city picker + manual lon/tz, echo, ambiguity, remember toggle, N-BIRTH) | P1 | L | U-07, K-10 | E8 passes; no persistence by default |
 | [ ] | U-09 | S04/S05 Red-flag screening and blocking notices (merge, acknowledge, emergency numbers) | P0 | L | U-07, E-04, I-04, K-09 | E2–E4 pass |

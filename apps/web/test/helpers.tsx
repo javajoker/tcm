@@ -5,6 +5,8 @@ import { App } from "../src/app/App.tsx";
 import { createAppStore, StoreProvider, type AppStore, type StoreDeps } from "../src/app/store.tsx";
 import { createPersistence, type Environment, type Persistence } from "../src/storage/persistence.ts";
 
+let seq = 0;      // draft ids are unique across the stores of one test run
+
 /** A storage environment backed by a fresh fake IndexedDB and a Map-backed localStorage. */
 export function fakeEnvironment(over: Partial<Environment> = {}): Environment & { readonly localStorage: Storage } {
   const data = new Map<string, string>();
@@ -29,7 +31,7 @@ export const blockedEnvironment = (): Environment & { readonly localStorage: Sto
 export function testStore(env: Environment = fakeEnvironment(), deps: Partial<StoreDeps> = {}): { store: AppStore; persistence: Persistence; env: Environment } {
   const persistence = createPersistence(env);
   let n = 0;
-  const store = createAppStore({ persistence, now: () => 1_000 + n++, newId: () => "id" + n, reload: () => undefined, ...deps });
+  const store = createAppStore({ persistence, now: () => 1_000 + n++, newId: () => `id${seq++}`, reload: () => undefined, ...deps });
   return { store, persistence, env };
 }
 
