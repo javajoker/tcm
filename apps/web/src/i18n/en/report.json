@@ -1,1 +1,15 @@
-{}
+{
+  "report.citation.clause": "Clause {n}",
+  "report.citation.close": "Close",
+  "report.citation.edition": "Source edition",
+  "report.citation.editionNote": "Editions and licences are listed on the Sources page.",
+  "report.citation.noTranslation": "No English rendering yet.",
+  "report.citation.open": "Open source: {name}",
+  "report.citation.original": "Original text",
+  "report.citation.sources": "Sources",
+  "report.citation.title": "Source",
+  "report.citation.translation": "English rendering",
+  "report.citation.unverified": "Not yet matched against the source text",
+  "report.citation.usedFor": "Used in your result for: {label}",
+  "report.citation.verified": "Matched in the source text"
+}

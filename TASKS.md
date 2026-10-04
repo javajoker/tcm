@@ -26,16 +26,16 @@
 | **K** Knowledge base | 8 | 19 |
 | **E** Engine and packages | 19 | 21 |
 | **I** Internationalisation | 2 | 5 |
-| **U** Web application | 3 | 19 |
+| **U** Web application | 3 | 18 |
 | **Q** Quality assurance | 0 | 10 |
 | **R** Release and operations | 0 | 7 |
 | **V** Review (non-code) | 0 | 7 |
 | **PF** Performance (P2) | 0 | 3 |
-| **All** | **56** | **115** |
+| **All** | **56** | **114** |
 
 | Priority | Done | Total |
 |---|---:|---:|
-| P0 | 40 | 65 |
+| P0 | 40 | 64 |
 | P1 | 14 | 42 |
 | P2 | 2 | 8 |
 
@@ -175,7 +175,7 @@ Suggested waves: **1** foundation (E-01, K-01, K-02, I-01, U-01, R-01) → **2**
 | [ ] | U-16 | Visual components: `FivePhaseRadar`, `OrganHeat`, `SixQiBars`, `BagangAxes`, `OffsetCompare`, with table twins and generated descriptions | P0 | XL | U-02, E-10 | Axe clean; table equals data; no red/green; glyph-signed |
 | [ ] | U-17 | S13 Result report: banner and summary; panel; reasoning trace; transmission and forecast; advice; data and what-would-change (split into sub-commits only if each is independently shippable) | P0 | XL | E-17, U-16 | E1, E7 pass; section order per UX §4.10 |
 | [ ] | U-18 | S14 Formula detail with 君臣佐使 table, rationale, cautions, `ModificationDiff` | P0 | L | U-17, E-13 | No amounts in release; modification at L2+ |
-| [ ] | U-19 | S15 Citation viewer (sheet/drawer, verification state, translation label) | P0 | M | U-17 | Focus return; keyboard operable |
+| [x] | U-19 | S15 Citation viewer (sheet/drawer, verification state, translation label) | P0 | M | U-17 | Focus return; keyboard operable | — `app/citations.tsx` (`CitationsProvider`, `CitationChip`); English rendering shows "none yet" until K-13/V; edition/licence from the citation record
 | [ ] | U-20 | S16 History and compare | P1 | L | U-04, U-17 | E13 passes |
 | [ ] | U-21 | S17 Settings and privacy; S18 Sources | P0 | M | U-04 | Erase, versions, what-is-stored table; licence/provenance |
 | [ ] | U-22 | S20 Developer inspector (dev only): Policy, Scores, Panel, Formulas, Safety, Params, Case export | P1 | L | E-17 | Tree-shaken from release (check passes) |

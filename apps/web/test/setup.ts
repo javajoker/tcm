@@ -10,10 +10,12 @@ afterEach(() => { cleanup(); vi.restoreAllMocks(); });
 
 // jsdom (v30) has no <dialog>.showModal/close: model the observable parts the components rely on (open attribute, cancel + close events).
 if (typeof HTMLDialogElement !== "undefined" && typeof HTMLDialogElement.prototype.showModal !== "function") {
-  HTMLDialogElement.prototype.showModal = function showModal(this: HTMLDialogElement): void { this.setAttribute("open", ""); };
+  const openers = new WeakMap<HTMLDialogElement, Element | null>();
+  HTMLDialogElement.prototype.showModal = function showModal(this: HTMLDialogElement): void { openers.set(this, document.activeElement); this.setAttribute("open", ""); };
   HTMLDialogElement.prototype.close = function close(this: HTMLDialogElement): void {
     if (!this.hasAttribute("open")) return;
     this.removeAttribute("open");
+    (openers.get(this) as HTMLElement | null | undefined)?.focus?.();       // like a browser: focus goes back to the element that opened the dialog
     this.dispatchEvent(new Event("close"));
   };
 }

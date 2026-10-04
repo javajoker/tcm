@@ -1,1 +1,15 @@
-{}
+{
+  "report.citation.clause": "第 {n} 條",
+  "report.citation.close": "關閉",
+  "report.citation.edition": "來源版本",
+  "report.citation.editionNote": "版本與授權說明見「資料來源」頁。",
+  "report.citation.noTranslation": "尚無英文譯文。",
+  "report.citation.open": "查看出處：{name}",
+  "report.citation.original": "原文",
+  "report.citation.sources": "資料來源",
+  "report.citation.title": "出處",
+  "report.citation.translation": "英文譯文",
+  "report.citation.unverified": "尚未與原書文本核對",
+  "report.citation.usedFor": "在您的結果中用於：{label}",
+  "report.citation.verified": "已與原書文本核對相符"
+}

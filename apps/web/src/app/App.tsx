@@ -4,6 +4,7 @@ import type { Lang } from "@tcm/i18n";
 import { I18nProvider } from "../i18n/I18nProvider.tsx";
 import { AppShell } from "./AppShell.tsx";
 import { ErrorBoundary } from "./ErrorBoundary.tsx";
+import { CitationsProvider } from "./citations.tsx";
 import { KnowledgeProvider, type Loader } from "./knowledge.tsx";
 import { Landing } from "./Landing.tsx";
 import { NotFound } from "./NotFound.tsx";
@@ -64,12 +65,14 @@ function LanguageRoutes(): ReactNode {
 
   return (
     <I18nProvider lang={lang} setLang={setLang}>
-      <PrefsEffects />
-      <Router base={parsed.lang === null ? "" : `/${parsed.lang}`}>
-        <AppShell>
-          {parsed.lang === null ? <NotFound /> : <Screens />}
-        </AppShell>
-      </Router>
+      <CitationsProvider>
+        <PrefsEffects />
+        <Router base={parsed.lang === null ? "" : `/${parsed.lang}`}>
+          <AppShell>
+            {parsed.lang === null ? <NotFound /> : <Screens />}
+          </AppShell>
+        </Router>
+      </CitationsProvider>
     </I18nProvider>
   );
 }
