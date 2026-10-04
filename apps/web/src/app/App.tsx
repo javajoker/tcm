@@ -13,6 +13,9 @@ import { RouteFocus } from "./RouteFocus.tsx";
 import { Profile } from "../screens/profile/Profile.tsx";
 import { History } from "../screens/history/History.tsx";
 import { Inquiry } from "../screens/inquiry/Inquiry.tsx";
+import { Observe } from "../screens/observe/Observe.tsx";
+import { Pulse } from "../screens/observe/Pulse.tsx";
+import { Tongue } from "../screens/observe/Tongue.tsx";
 import { FormulaDetail } from "../screens/result/FormulaDetail.tsx";
 import { PractitionerSummary } from "../screens/result/PractitionerSummary.tsx";
 import { Result } from "../screens/result/Result.tsx";
@@ -39,6 +42,9 @@ function Screens(): ReactNode {
           <Route path="/start"><Profile /></Route>
           <Route path="/screen"><Screening /></Route>
           <Route path="/inquiry"><Inquiry /></Route>
+          <Route path="/observe"><Observe /></Route>
+          <Route path="/observe/tongue"><Tongue /></Route>
+          <Route path="/observe/pulse"><Pulse /></Route>
           <Route path="/review"><Review /></Route>
           <Route path="/history"><History /></Route>
           <Route path="/settings"><Settings /></Route>

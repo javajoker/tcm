@@ -214,6 +214,8 @@ A five-step mini-flow, each step skippable, with a persistent "Can't check right
 
 Short selection cards: complexion (pale · sallow · red · bluish · dark; lustrous vs dull), spirit (bright · tired · restless), voice (low/weak · loud · hoarse), breath and odour, optional: lips and nails. Same Yes / No / Not sure pattern; quality class "guided".
 
+> **Decided 2026-10-04 — MVP default, revisit after the MVP:** S09 is not a separate screen. Its content is already in the question bank — complexion and lips/nails as *guided* core questions (`Q_FACE`, `Q_LIPS_NAILS`, quality 0.7), energy, voice and breath as inquiry questions (`Q_ENERGY`, `Q_VOICE_BREATH`) — and the adaptive inquiry asks them. Odour has no symptom in the engine and is not asked. The observation stage (`/observe`) is therefore the tongue (S08) and the pulse (S10), each optional, reachable from a hub; "Can't check right now" leaves a step without recording anything beyond what was already chosen.
+
 ### 4.7 S10 Pulse (optional)
 
 ```

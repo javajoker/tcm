@@ -48,7 +48,7 @@ function Body({ draft }: { draft: Draft }): ReactNode {
     setView((v) => (v.kind === "edit" && v.index + 1 < history.length ? { kind: "edit", index: v.index + 1 } : { kind: "auto" }));
   };
   const back = (): void => { if (returnTo !== null) { navigate(returnTo); return; } setActed(true); setView((v) => (v.kind === "edit" ? (v.index > 0 ? { kind: "edit", index: v.index - 1 } : { kind: "chooser" }) : history.length > 0 ? { kind: "edit", index: history.length - 1 } : { kind: "chooser" })); };
-  const finish = (): void => navigate("/review");          // the observation and constitution stages (U-11…U-14) will slot in before the review
+  const finish = (): void => navigate("/observe");          // observation (tongue, pulse) is optional; the constitution quiz (U-14) will slot in after it
 
   let main: ReactNode;
   if (draft.inquiry.modules === null || view.kind === "chooser") {

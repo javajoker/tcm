@@ -26,6 +26,9 @@
   /* five-phase identity colours: IDENTITY ONLY, never magnitude or sign (docs/ux-spec.md §6.2 rule 2) */
   --wx-wood: #4f7d5b; --wx-fire: #b5523e; --wx-earth: #a8842f; --wx-metal: #7b8794; --wx-water: #3f5f86;
 
+  /* tongue illustration swatches (UX spec §4.5): illustration colours, not magnitude or state; always shown with a text label */
+  --tongue-normal: #e9a7a3; --tongue-pale: #f4d3cf; --tongue-red: #dc6b6b; --tongue-crimson: #b02a4a; --tongue-purple: #7d4d8c; --tongue-outline: #8a4b4b; --tongue-coat: #fdfaf2;
+
   --font-sans-zh: "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", system-ui, sans-serif;
   --font-sans-en: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --font-serif-zh: "Noto Serif TC", "Songti TC", "PMingLiU", serif;

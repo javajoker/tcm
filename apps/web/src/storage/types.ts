@@ -57,6 +57,12 @@ export interface InquiryProgress {
   readonly resolved: readonly string[];
 }
 
+/** What the observation screens keep besides the findings: the form values that cannot be read back from them. */
+export interface ObserveProgress {
+  /** Resting pulse rate (beats per minute) and the rhythm the user chose; `null` = not entered. */
+  readonly pulse?: { readonly rate: number | null; readonly rhythm: "regular" | "skips" | "irregular" | null };
+}
+
 /** IndexedDB `drafts/current`: the in-progress assessment, persisted after every answer. JSON-serialisable (no Set/Map/undefined holes). */
 export interface Draft {
   readonly id: string;
@@ -66,6 +72,7 @@ export interface Draft {
   readonly profile: ProfileAnswers;
   readonly screening: Screening;
   readonly inquiry: InquiryProgress;
+  readonly observe: ObserveProgress;
   /** Red-flag items answered yes or unsure. */
   readonly redFlags: readonly string[];
   readonly findings: Readonly<Record<string, Finding>>;
