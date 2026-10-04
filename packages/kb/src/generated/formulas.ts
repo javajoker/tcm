@@ -120,9 +120,24 @@ export interface Formulas {
         occurrences: number;
         total: number;
       };
-      composition_status: "verified-against-classical-text" | "verified-against-source-book" | "partially-verified";
+      composition_status:
+        | "verified-against-classical-text"
+        | "verified-against-source-book"
+        | "verified-against-second-source"
+        | "partially-verified";
       proportion_basis: string;
       role_status: string;
+      second_source?: {
+        checked: string;
+        entry: string;
+        herbs_found: string[];
+        herbs_not_found: string[];
+        method: string;
+        note: string;
+        page: string;
+        site: string;
+        url: string;
+      };
       source_note?: string;
     };
   }[];

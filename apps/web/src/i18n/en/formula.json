@@ -65,6 +65,7 @@
   "formula.verification.classical": "The composition was checked against the classical text.",
   "formula.verification.partial": "The composition was only partly checked.",
   "formula.verification.proportion": "Proportions are the textbook-typical ones, not the amounts of the original text.",
+  "formula.verification.secondSource": "The composition was checked against a second source (an independent online edition of the classical text).",
   "formula.verification.sourceBook": "The composition was checked against its source book, but not against the original clause.",
   "formula.verification.title": "Verification"
 }

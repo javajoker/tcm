@@ -273,8 +273,10 @@ def formulas() -> dict:
         "classical": obj({"anchor": STR, "matched_in_formula": arr(STR), "not_in_formula": arr(STR), "note": NSTR, "parsed": INT, "path": STR},
                          ["anchor", "matched_in_formula", "not_in_formula", "note", "parsed"]),
         "composition_check": obj({"book_path": STR, "found": INT, "missing": arr(STR), "note": STR, "occurrences": INT, "total": INT}, ["found", "missing", "occurrences", "total"]),
-        "composition_status": enum("verified-against-classical-text", "verified-against-source-book", "partially-verified"),
+        "composition_status": enum("verified-against-classical-text", "verified-against-source-book", "verified-against-second-source", "partially-verified"),
         "proportion_basis": STR, "role_status": STR, "source_note": STR,
+        "second_source": obj({"checked": STR, "entry": STR, "herbs_found": arr(STR), "herbs_not_found": arr(STR), "method": STR, "note": STR, "page": STR, "site": STR, "url": STR},
+                             ["checked", "entry", "herbs_found", "herbs_not_found", "method", "note", "page", "site", "url"]),
     }, ["composition_status", "proportion_basis", "role_status"])
     item = obj({
         "cautions": arr(STR), "classical_amounts": {"oneOf": [{"type": "null"}, arr(obj({"amount": NUM, "name": STR, "processing": STR, "unit": enum("兩", "個", "枚", "升", "合", "斤")}))]},

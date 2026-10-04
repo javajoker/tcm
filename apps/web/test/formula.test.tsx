@@ -59,6 +59,14 @@ describe("Formula detail (S14)", () => {
     expect(screen.getByText(/Sovereign: aims at the main disorder/)).toBeInTheDocument();
   });
 
+  it("says when the composition was checked against a second source, and when it was only partly checked", async () => {
+    const withStatus = (status: string) => [...devKb.formulas.values()].find((x) => x.verification.composition_status === status && (sp1.result.recommendations.formulas.some((r) => r.id === x.id) || sp1.result.recommendations.studyOnly.some((r) => r.id === x.id)));
+    const second = withStatus("verified-against-second-source");
+    expect(second, "SP1's formulas include one checked against a second source").toBeDefined();
+    await open(sp1, second!.id, dev);
+    expect(await screen.findByRole("region", { name: "Verification" })).toHaveTextContent("The composition was checked against a second source");
+  });
+
   it("every classical unit of the data has a name in both languages, in the script of the page (兩, not 两)", () => {
     const units = new Set([...devKb.formulas.values()].flatMap((x) => x.composition.flatMap((c) => (c.classical_amount ? [c.classical_amount.unit] : []))));
     expect(units.size).toBeGreaterThan(0);

@@ -651,6 +651,7 @@
                 "enum": [
                   "verified-against-classical-text",
                   "verified-against-source-book",
+                  "verified-against-second-source",
                   "partially-verified"
                 ]
               },
@@ -659,6 +660,56 @@
               },
               "role_status": {
                 "type": "string"
+              },
+              "second_source": {
+                "additionalProperties": false,
+                "properties": {
+                  "checked": {
+                    "type": "string"
+                  },
+                  "entry": {
+                    "type": "string"
+                  },
+                  "herbs_found": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "herbs_not_found": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "method": {
+                    "type": "string"
+                  },
+                  "note": {
+                    "type": "string"
+                  },
+                  "page": {
+                    "type": "string"
+                  },
+                  "site": {
+                    "type": "string"
+                  },
+                  "url": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "checked",
+                  "entry",
+                  "herbs_found",
+                  "herbs_not_found",
+                  "method",
+                  "note",
+                  "page",
+                  "site",
+                  "url"
+                ],
+                "type": "object"
               },
               "source_note": {
                 "type": "string"

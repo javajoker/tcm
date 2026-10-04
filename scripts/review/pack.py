@@ -261,7 +261,9 @@ def formulas(ctx: Context) -> Pack:
         v = f["verification"]
         md += f"\n---\n\n## `{f['id']}` {both(f['name'])}\n\n- **School:** {f['school']} · **source:** 《{f['source']['book']}》 {f['source']['ref']} · **tier:** {f['tier']} ({'; '.join(f['tier_reasons']) or '—'}) · **status:** {f['status']}\n"
         md += f"- **Principle:** {f['principle']} · **pregnancy:** {f['pregnancy']} · **interactions:** {', '.join(f['interactions']) or '—'}\n- **Rationale:** {f['rationale_zh']}\n"
-        md += f"- **Verification:** {v['composition_status']}; {v.get('source_note', '')}\n- **Core indications:** {', '.join(f['core_indications'])}\n- **Cautions:** {'；'.join(f['cautions']) or '—'}\n\n"
+        ss = v.get("second_source")
+        second = f"- **Second source ({ss['checked']}):** {ss['site']} — {ss['page']}, entry {ss['entry']}; found {len(ss['herbs_found'])}, not found {', '.join(ss['herbs_not_found']) or 'none'}. {ss['note']} <{ss['url']}> ({ss['method']})\n" if ss else ""
+        md += f"- **Verification:** {v['composition_status']}; {v.get('source_note', '')}\n{second}- **Core indications:** {', '.join(f['core_indications'])}\n- **Cautions:** {'；'.join(f['cautions']) or '—'}\n\n"
         md += "**Composition**\n\n" + table(["Herb", "Role", "Proportion", "Classical amount", "Note"], [[c["name"], c["role"], c["proportion"], f"{c['classical_amount']['value']} {c['classical_amount']['unit']} {c['classical_amount'].get('processing') or ''}".strip() if c.get("classical_amount") else "—", c.get("note") or ""] for c in f["composition"]])
         if f.get("modifications"):
             md += "\n**Modifications (加減)**\n\n" + table(["Condition", "Add", "Remove"], [[json_text(m.get("when") or m.get("when_symptoms") or ""), json_text(m.get("add", "")), json_text(m.get("remove", ""))] for m in f["modifications"]])

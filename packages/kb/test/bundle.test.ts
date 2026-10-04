@@ -39,9 +39,10 @@ test("release bundle: tier A formulas only, no amounts, no modifications, no her
     assert.ok(f.composition.every((c) => !("typical_g" in c) && !("classical_amount" in c)), f.id);
     assert.ok(!("kb_commit" in f), f.id);
     assert.ok(!("repo_path" in f.source), f.id);
+    assert.ok(!("second_source" in f.verification), `${f.id}: the second-source record is for reviewers`);
   }
   const all = text(chunks);
-  for (const needle of ["typical_g", '"classical_amount":', '"classical_amounts":[', "dose_g_reference", "dose_references", "annotate_only", "kb_commit", "repo_path", "book_path", "reference/sources"]) {
+  for (const needle of ["second_source", "zh.wikisource.org", "typical_g", '"classical_amount":', '"classical_amounts":[', "dose_g_reference", "dose_references", "annotate_only", "kb_commit", "repo_path", "book_path", "reference/sources"]) {
     assert.ok(!all.includes(needle), `release bundle must not contain ${needle}`);
   }
   assert.equal(chunks.core.config.profileName, "release");

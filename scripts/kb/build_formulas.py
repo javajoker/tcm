@@ -18,6 +18,7 @@ from opencc import OpenCC
 
 from .common import DATA, LIB, ROOT, book_path, dump, norm_ws, read_book, submodule_commits, term, tw
 from .curated.formulas import FORMULAS
+from .curated.second_source import CHECKED, METHOD, SECOND_SOURCE, SITE
 from .curated import prose_en
 from .curated.params import PARAMS
 from .curated.herbs import NAME_TO_LIB
@@ -258,8 +259,14 @@ def build(herbs_by_id: dict[str, dict], index: dict[str, str]) -> list[dict]:
                 if chk["missing"]:
                     chk["note"] = ("Missing herbs are usually lost characters in the GB18030 compilation (e.g. 芪, 芎 are dropped) or later additions "
                                    "to the original formula; confirm against a second source (Wikisource) before marking verified.")
+                ss = SECOND_SOURCE.get(f["id"])
+                if ss:
+                    verification["second_source"] = {"site": SITE, "checked": CHECKED, "method": METHOD, **ss}
+                    if not ss["herbs_not_found"]:
+                        chk["note"] = "The herbs not found in this text were found in a second source."
                 verification["composition_check"] = chk
                 verification["composition_status"] = ("verified-against-source-book" if chk["found"] == chk["total"]
+                                                      else "verified-against-second-source" if ss and not ss["herbs_not_found"]
                                                       else "partially-verified" if chk["found"] >= max(1, chk["total"] // 2) else "unverified")
             else:
                 verification["composition_status"] = "source-book-not-in-reference"

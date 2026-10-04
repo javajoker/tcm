@@ -87,6 +87,13 @@ class Packs(unittest.TestCase):
         self.assertRegex(f, r"\| `SP1` \| \d+% \| \d\.\d\d \| \d+ \|")
         self.assertIn("**Composition**", f)
 
+    def test_formulas_with_a_second_source_show_what_was_checked_and_how(self):
+        t = self.packs["formulas"]
+        f = t[t.index("## `F_SHENLING`"):]
+        f = f[:f.index("\n## ", 5)] if "\n## " in f[5:] else f
+        self.assertIn("**Second source (2026-10-04):**", f)
+        self.assertIn("byte for byte", f)                 # the limit of the check is stated next to the result
+
     def test_generation_is_deterministic(self):
         with tempfile.TemporaryDirectory() as other:
             again = build_all(Path(other))

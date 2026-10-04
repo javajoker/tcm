@@ -15,7 +15,7 @@ import { CHANNELS, LIUXIE_SLUG, ORGAN_SLUG, PRODUCT_SLUG } from "./words.ts";
 import { DataTable } from "./Panel.tsx";
 
 const SCHOOL_SLUG = { 經方: "jingfang", 時方: "shifang" } as const;
-const COMPOSITION_STATUS = { "verified-against-classical-text": "classical", "verified-against-source-book": "sourceBook", "partially-verified": "partial" } as const;
+const COMPOSITION_STATUS = { "verified-against-classical-text": "classical", "verified-against-source-book": "sourceBook", "verified-against-second-source": "secondSource", "partially-verified": "partial" } as const;
 const ROLE_SLUG = { 君: "sovereign", 臣: "minister", 佐: "assistant", 使: "envoy" } as const;
 
 /** Label of a panel dimension (`肺.qi`, `liuxie.濕`, `product.痰`) in the page language. */

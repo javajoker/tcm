@@ -65,6 +65,7 @@
   "formula.verification.classical": "組成已與經典原文核對相符。",
   "formula.verification.partial": "組成只有部分核對。",
   "formula.verification.proportion": "各藥的比例是教科書的典型比例，並非原文劑量。",
+  "formula.verification.secondSource": "組成已與第二來源（經典原文的另一個線上版本）核對相符。",
   "formula.verification.sourceBook": "組成已與出處書籍核對，但尚未對照原文條文。",
   "formula.verification.title": "核對狀態"
 }

@@ -1,8 +1,9 @@
 {
   "_meta": {
     "composition_status_counts": {
-      "partially-verified": 6,
+      "partially-verified": 1,
       "verified-against-classical-text": 9,
+      "verified-against-second-source": 5,
       "verified-against-source-book": 18
     },
     "count": 33,
@@ -1216,13 +1217,35 @@
             "茯苓",
             "山藥"
           ],
-          "note": "Missing herbs are usually lost characters in the GB18030 compilation (e.g. 芪, 芎 are dropped) or later additions to the original formula; confirm against a second source (Wikisource) before marking verified.",
+          "note": "The herbs not found in this text were found in a second source.",
           "occurrences": 23,
           "total": 10
         },
-        "composition_status": "partially-verified",
+        "composition_status": "verified-against-second-source",
         "proportion_basis": "textbook-typical (unverified)",
-        "role_status": "textbook-unreviewed"
+        "role_status": "textbook-unreviewed",
+        "second_source": {
+          "checked": "2026-10-04",
+          "entry": "參苓白朮散",
+          "herbs_found": [
+            "人參",
+            "白朮",
+            "茯苓",
+            "山藥",
+            "蓮子",
+            "白扁豆",
+            "薏苡仁",
+            "砂仁",
+            "桔梗",
+            "甘草"
+          ],
+          "herbs_not_found": [],
+          "method": "page read with a page-to-text tool; the herbs were looked for in the entry, the passage was not compared byte for byte with the page source",
+          "note": "All ten herbs are in the entry (the source lists 蓮子肉, 縮砂仁 and 白茯苓 under their full names).",
+          "page": "太平惠民和剂局方 (四库全书本)/卷3",
+          "site": "維基文庫 (zh.wikisource.org)",
+          "url": "https://zh.wikisource.org/zh-hans/%E5%A4%AA%E5%B9%B3%E6%83%A0%E6%B0%91%E5%92%8C%E5%8A%91%E5%B1%80%E6%96%B9_(%E5%9B%9B%E5%BA%AB%E5%85%A8%E6%9B%B8%E6%9C%AC)/%E5%8D%B73"
+        }
       }
     },
     {
@@ -1608,13 +1631,33 @@
           "missing": [
             "黃耆"
           ],
-          "note": "Missing herbs are usually lost characters in the GB18030 compilation (e.g. 芪, 芎 are dropped) or later additions to the original formula; confirm against a second source (Wikisource) before marking verified.",
+          "note": "The herbs not found in this text were found in a second source.",
           "occurrences": 2,
           "total": 8
         },
-        "composition_status": "partially-verified",
+        "composition_status": "verified-against-second-source",
         "proportion_basis": "textbook-typical (unverified)",
-        "role_status": "textbook-unreviewed"
+        "role_status": "textbook-unreviewed",
+        "second_source": {
+          "checked": "2026-10-04",
+          "entry": "補中益氣湯",
+          "herbs_found": [
+            "黃耆",
+            "人參",
+            "白朮",
+            "炙甘草",
+            "當歸",
+            "陳皮",
+            "升麻",
+            "柴胡"
+          ],
+          "herbs_not_found": [],
+          "method": "page read with a page-to-text tool; the herbs were looked for in the entry, the passage was not compared byte for byte with the page source",
+          "note": "The same author's earlier text of the formula (it is repeated in the 脾胃論 the record cites, where the reference copy has lost 耆); 橘皮 is 陳皮, 當歸身 is 當歸.",
+          "page": "內外傷辨惑論/卷中",
+          "site": "維基文庫 (zh.wikisource.org)",
+          "url": "https://zh.wikisource.org/wiki/%E5%85%A7%E5%A4%96%E5%82%B7%E8%BE%A8%E6%83%91%E8%AB%96/%E5%8D%B7%E4%B8%AD"
+        }
       }
     },
     {
@@ -2804,13 +2847,33 @@
           "missing": [
             "柴胡"
           ],
-          "note": "Missing herbs are usually lost characters in the GB18030 compilation (e.g. 芪, 芎 are dropped) or later additions to the original formula; confirm against a second source (Wikisource) before marking verified.",
+          "note": "The herbs not found in this text were found in a second source.",
           "occurrences": 8,
           "total": 8
         },
-        "composition_status": "partially-verified",
+        "composition_status": "verified-against-second-source",
         "proportion_basis": "textbook-typical (unverified)",
-        "role_status": "textbook-unreviewed"
+        "role_status": "textbook-unreviewed",
+        "second_source": {
+          "checked": "2026-10-04",
+          "entry": "逍遙散",
+          "herbs_found": [
+            "柴胡",
+            "當歸",
+            "芍藥",
+            "白朮",
+            "茯苓",
+            "炙甘草",
+            "薄荷",
+            "生薑"
+          ],
+          "herbs_not_found": [],
+          "method": "page read with a page-to-text tool; the herbs were looked for in the entry, the passage was not compared byte for byte with the page source",
+          "note": "Six herbs in the powder and 燒生薑 and 薄荷 added when it is decocted.",
+          "page": "太平惠民和剂局方 (四库全书本)/卷9",
+          "site": "維基文庫 (zh.wikisource.org)",
+          "url": "https://zh.wikisource.org/zh-hans/%E5%A4%AA%E5%B9%B3%E6%83%A0%E6%B0%91%E5%92%8C%E5%8A%91%E5%B1%80%E6%96%B9_(%E5%9B%9B%E5%BA%AB%E5%85%A8%E6%9B%B8%E6%9C%AC)/%E5%8D%B79"
+        }
       }
     },
     {
@@ -3124,13 +3187,30 @@
           "missing": [
             "川芎"
           ],
-          "note": "Missing herbs are usually lost characters in the GB18030 compilation (e.g. 芪, 芎 are dropped) or later additions to the original formula; confirm against a second source (Wikisource) before marking verified.",
+          "note": "The herbs not found in this text were found in a second source.",
           "occurrences": 3,
           "total": 5
         },
-        "composition_status": "partially-verified",
+        "composition_status": "verified-against-second-source",
         "proportion_basis": "textbook-typical (unverified)",
-        "role_status": "textbook-unreviewed"
+        "role_status": "textbook-unreviewed",
+        "second_source": {
+          "checked": "2026-10-04",
+          "entry": "越鞠丸",
+          "herbs_found": [
+            "香附",
+            "川芎",
+            "蒼朮",
+            "神曲",
+            "梔子"
+          ],
+          "herbs_not_found": [],
+          "method": "page read with a page-to-text tool; the herbs were looked for in the entry, the passage was not compared byte for byte with the page source",
+          "note": "All five herbs; the text writes the 川芎 as 撫芎 (a form of 川芎), which is what the reference copy lost.",
+          "page": "丹溪心法 (六鬱)",
+          "site": "維基文庫 (zh.wikisource.org)",
+          "url": "https://zh.wikisource.org/zh-hant/%E4%B8%B9%E6%BA%AA%E5%BF%83%E6%B3%95"
+        }
       }
     },
     {
@@ -3931,6 +4011,29 @@
         "composition_status": "partially-verified",
         "proportion_basis": "textbook-typical (unverified)",
         "role_status": "textbook-unreviewed",
+        "second_source": {
+          "checked": "2026-10-04",
+          "entry": "歸脾湯",
+          "herbs_found": [
+            "黃耆",
+            "龍眼肉",
+            "人參",
+            "白朮",
+            "酸棗仁",
+            "茯神",
+            "木香",
+            "炙甘草"
+          ],
+          "herbs_not_found": [
+            "當歸",
+            "遠志"
+          ],
+          "method": "page read with a page-to-text tool; the herbs were looked for in the entry, the passage was not compared byte for byte with the page source",
+          "note": "The original 濟生方 formula has eight herbs; 當歸 and 遠志 were added later (薛己), as the source note says. The app lists the common ten-herb form, so the composition stays partly verified.",
+          "page": "濟生方 (驚悸怔忡健忘門)",
+          "site": "維基文庫 (zh.wikisource.org)",
+          "url": "https://zh.wikisource.org/wiki/%E6%BF%9F%E7%94%9F%E6%96%B9"
+        },
         "source_note": "《嚴氏濟生方》原方無當歸、遠志（後世薛己《校注婦人良方》加入）；本表採通行方。"
       }
     },
@@ -4665,13 +4768,28 @@
           "missing": [
             "黃耆"
           ],
-          "note": "Missing herbs are usually lost characters in the GB18030 compilation (e.g. 芪, 芎 are dropped) or later additions to the original formula; confirm against a second source (Wikisource) before marking verified.",
+          "note": "The herbs not found in this text were found in a second source.",
           "occurrences": 1,
           "total": 3
         },
-        "composition_status": "partially-verified",
+        "composition_status": "verified-against-second-source",
         "proportion_basis": "textbook-typical (unverified)",
-        "role_status": "textbook-unreviewed"
+        "role_status": "textbook-unreviewed",
+        "second_source": {
+          "checked": "2026-10-04",
+          "entry": "玉屏風散",
+          "herbs_found": [
+            "黃耆",
+            "白朮",
+            "防風"
+          ],
+          "herbs_not_found": [],
+          "method": "page read with a page-to-text tool; the herbs were looked for in the entry, the passage was not compared byte for byte with the page source",
+          "note": "防風 and 黃耆 one 兩 each, 白朮 two 兩 (the reference copy has lost 耆).",
+          "page": "丹溪心法 (自汗)",
+          "site": "維基文庫 (zh.wikisource.org)",
+          "url": "https://zh.wikisource.org/zh-hant/%E4%B8%B9%E6%BA%AA%E5%BF%83%E6%B3%95"
+        }
       }
     },
     {

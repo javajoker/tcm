@@ -62,8 +62,8 @@ def variant_hits(rel: str, node, key: str = "") -> list[str]:
     return []
 
 
-# Fields that hold the Simplified source on purpose (quotation sources, paths into the source repositories, the strings the parser matches against the source text).
-SOURCE_KEYS = {"quote_source_zh_hans", "source_path", "repo_path", "book_path", "anchor", "path"}
+# Fields that hold the Simplified source on purpose (quotation sources, paths into the source repositories, page titles on a source site, the strings the parser matches against the source text).
+SOURCE_KEYS = {"quote_source_zh_hans", "source_path", "repo_path", "book_path", "anchor", "path", "page"}
 # Genuine Traditional characters that the Big5-HKSCS repertoire (the proxy for "an ordinary Traditional font has it") lacks: 次髎 (BL32) and three in the 五運六氣 quotations (瞤 腨 黅).
 # They are the only places a font could lack a glyph (task PF-02); everything else is in Big5-HKSCS.
 TRADITIONAL_BEYOND_BIG5 = {"髎", "瞤", "腨", "黅"}

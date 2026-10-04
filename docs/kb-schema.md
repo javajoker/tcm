@@ -206,7 +206,7 @@ The panel model: `organs.{zang, fu, element_of}`, `channels` (ranges), `liuxie` 
 | `modifications[]` | `{ id, result_name, when_symptoms[], add[{herb,name,role,typical_g}], remove[], source{book,verification}, status }` | Classical 加減 (e.g. 四君子湯 → 異功散 / 六君子湯) |
 | `mvp` | bool | In the MVP candidate set |
 | `source`, `kb_commit` | provenance | |
-| `verification` | `{ composition_status, composition_check | classical, proportion_basis, role_status }` | `verified-against-classical-text` (9) · `verified-against-source-book` (18) · `partially-verified` (6, with the missing herbs listed) |
+| `verification` | `{ composition_status, composition_check | classical, proportion_basis, role_status }` | `verified-against-classical-text` (9) · `verified-against-source-book` (18) · `verified-against-second-source` (5; `second_source { site, page, url, entry, herbs_found, herbs_not_found, checked, method, note }`, dev bundle only) · `partially-verified` (1, with the missing herbs listed) |
 | `status` | `draft` | |
 
 `composition[]` item: `{ herb, name, role (君|臣|佐|使), role_weight (1.0|0.6|0.35|0.15), proportion, effective_weight, typical_g, classical_amount?, note? }`.

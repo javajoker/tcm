@@ -89,9 +89,12 @@ Every herb carries `source.path` and the submodule commit; every formula carries
 ## Verification summary (at generation time)
 
 - Citations: **127 / 127 verified** against the source text.
-- Formulas: composition verified for all 33 — 9 against the original classical text (amounts parsed), 18 against the named source book, **6 partially**
-  (a few herbs not found near the heading: usually lost characters in the GB18030 compilation such as 芪 and 芎, or herbs added after the
-  original — e.g. 當歸 and 遠志 in 歸脾湯). Partial rows list the missing herbs; confirm with a second source (Wikisource) before marking `verified`.
+- Formulas: composition verified for all 33 — 9 against the original classical text (amounts parsed), 18 against the named source book, **5 against a second
+  source** and **1 partially**. Six had herbs not found near the heading in the reference copy (lost characters of the GB18030 compilation such as 芪 and 芎, or herbs
+  added after the original). K-14 looked each one up in an independent edition on Wikisource (`curated/second_source.py`, recorded as `verification.second_source`;
+  checked 2026-10-04 with a page-to-text tool, so the passages were not compared byte for byte): 參苓白朮散, 補中益氣湯 (the same author's 內外傷辨惑論), 逍遙散, 越鞠丸
+  and 玉屏風散 have every herb in the entry. 歸脾湯 stays partial on purpose — the original 《濟生方》 formula has eight herbs and 當歸 and 遠志 were added later; the app
+  lists the common ten-herb form. The record is for reviewers and is not shipped in the release bundle.
 - Five-phase correspondences and the 民病 excerpts are parsed from the original, not transcribed.
 - Pattern self-test: each of the 23 patterns ranks first for its own typical patient. Smallest margins (need discriminating questions):
   HT2 vs KD1 (20 points), LG1 vs EX4 (31), EX2 vs EX4 (29, both 桂枝湯 patterns). The three pairs were 11, 6 and 3 points apart before K-07

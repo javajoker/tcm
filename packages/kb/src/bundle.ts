@@ -141,7 +141,7 @@ function pruneFormula(f: Formula, reach: Reach, keepInternals: boolean): Formula
   const base = keepInternals ? f : withoutCommit;
   const source = keepInternals ? base.source : (({ repo_path: _p, ...s }) => s)(base.source);
   const verification = keepInternals ? base.verification : {
-    ...base.verification,
+    ...(({ second_source: _second, ...v }) => v)(base.verification),
     ...(base.verification.classical ? { classical: (({ path: _path, ...c }) => c)(base.verification.classical) } : {}),
     ...(base.verification.composition_check ? { composition_check: (({ book_path: _b, ...c }) => c)(base.verification.composition_check) } : {}),
   };
