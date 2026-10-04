@@ -3,6 +3,7 @@
 import type { Citations } from "./generated/citations.ts";
 import type { Constitutions } from "./generated/constitutions.ts";
 import type { Correspondences } from "./generated/correspondences.ts";
+import type { Emergency } from "./generated/emergency.ts";
 import type { Exclusions } from "./generated/exclusions.ts";
 import type { Formulas } from "./generated/formulas.ts";
 import type { Glossary } from "./generated/glossary.ts";
@@ -44,11 +45,12 @@ export type FormulaModification = Formula["modifications"][number];
 export type Herb = Herbs["items"][number];
 export type Citation = Citations["items"][number];
 export type GlossaryTerm = Glossary["items"][number];
+export type EmergencyRegion = Emergency["regions"][number];
 export type SafetyRule = SafetyRules["rules"][number];
 export type ScopeProfile = ScopeProfiles["profiles"]["release"];
 export type Bilingual = Herb["name"];
 
-export type { Citations, Constitutions, Correspondences, Exclusions, Formulas, Glossary, Herbs, Orientation, PanelSchema, PatternElements, Patterns, Pulse, Questions, RedFlags, SafetyRules };
+export type { Citations, Constitutions, Correspondences, Emergency, Exclusions, Formulas, Glossary, Herbs, Orientation, PanelSchema, PatternElements, Patterns, Pulse, Questions, RedFlags, SafetyRules };
 export type { ScopeProfiles, ScoringParams, Susceptibility, Symptoms, Tongue, TreatmentGuidance, Yunqi };
 
 // ── chunks (what the bundler writes and the loader reads; tech spec §5) ─────
@@ -80,6 +82,7 @@ export interface CoreChunk {
   readonly treatment: TreatmentGuidance;
   readonly wuxing: { readonly correspondences: Correspondences; readonly susceptibility: Susceptibility; readonly yunqi: Yunqi };
   readonly glossary: Glossary;
+  readonly emergency: Emergency;
 }
 /** Display names of every herb the retained formulas use: always present, so a bundle without herb records can still name the herbs. */
 export interface HerbName { readonly name: Bilingual; readonly latin: string | null }
@@ -141,6 +144,8 @@ export interface KnowledgeBase {
   readonly treatment: TreatmentGuidance;
   readonly wuxing: CoreChunk["wuxing"];
   readonly glossary: readonly GlossaryTerm[];
+  /** Emergency and crisis numbers by region (the safety policy §5); every build carries them. */
+  readonly emergency: Emergency;
 
   citation(id: string): Citation | undefined;
   /** zh-Hant term → glossary entry (first match). */

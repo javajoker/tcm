@@ -49,6 +49,7 @@ packages/wuxing (export tables) ─────┘
 | `build_diagnosis.py` | `diagnosis/*.json` | `curated/{symptoms,patterns,exam,panel}.py` |
 | `build_wuxing.py` + `export_wuxing_tables.ts` | `wuxing/*.json` | parsed from 《素問》 raw text; exported from `packages/wuxing` |
 | `build_policy.py` | `config/scope-profiles.json`, `safety/rules.json`, `treatment/guidance.json`, `glossary.json` | `curated/{policy,glossary,treatment}.py` |
+| `build_emergency.py` | `safety/emergency.json` (regional emergency and crisis numbers; default TW; every row `draft` until verified) | `curated/emergency.py` |
 
 ---
 

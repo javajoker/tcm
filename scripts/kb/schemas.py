@@ -370,6 +370,15 @@ def treatment_guidance() -> dict:
         "required": ["_meta", "acupoints", "food_pregnancy_caution", "general"], "additionalProperties": False}
 
 
+def emergency() -> dict:
+    number = obj({"label": ref("bilingualNamed"), "number": pattern(r"^[0-9]{2,4}$")})
+    region = obj({"crisis": arr(number), "emergency": arr(number), "id": pattern(r"^[A-Z]{2,5}$"), "name": ref("bilingualNamed"), "status": ref("reviewStatus")})
+    return {"type": "object", "properties": {
+        "_meta": meta({"default_region": STR, "status": ref("reviewStatus")}, ["default_region", "status"]),
+        "regions": arr(region, 1)},
+        "required": ["_meta", "regions"], "additionalProperties": False}
+
+
 def glossary() -> dict:
     item = obj({"domain": STR, "en": STR, "pinyin": STR, "status": enum("needs-review", "reviewed"), "zh-Hant": STR})
     return envelope(item, meta({"count": INT}, ["count"]))
@@ -401,6 +410,7 @@ SCHEMAS = {
     "wuxing/engine-params.json": ("engine-params", engine_params, "Five-phase engine defaults"),
     "config/scope-profiles.json": ("scope-profiles", scope_profiles, "Application configuration (profiles)"),
     "safety/rules.json": ("safety-rules", safety_rules, "Safety rules"),
+    "safety/emergency.json": ("emergency", emergency, "Emergency and crisis numbers"),
     "treatment/guidance.json": ("treatment-guidance", treatment_guidance, "Treatment guidance"),
 }
 

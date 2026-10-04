@@ -43,6 +43,7 @@ Needs Node ≥ 22.18 for the one TypeScript export step (`scripts/kb/export_wuxi
 | `safety/rules.json` | 26 rules | Safety filter rules per population / condition / state / medication class, 十八反・十九畏, pregnancy acupoints, reference amounts | curated |
 | `treatment/guidance.json` | 31 points | Acupoint registry (WHO code, meridian, pregnancy flag) and general lifestyle text | curated |
 | `schema/*.schema.json` | 22 | **JSON Schemas** (draft 2020-12) for every data file; the contract validated in the build and the source of the TypeScript types | `scripts/kb/schemas.py` |
+| `safety/emergency.json` | 12 regions | regional emergency / crisis numbers (safety policy §5; unverified) | curated |
 | `glossary.json` | 139 | zh-Hant ⇄ English ⇄ pinyin (needs review) | curated |
 
 ## Core modelling conventions

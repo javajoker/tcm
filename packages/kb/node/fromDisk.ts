@@ -18,7 +18,7 @@ export function readDataFiles(): DataFiles {
     patterns: read("diagnosis/patterns.json"), elements: read("diagnosis/pattern-elements.json"), constitutions: read("diagnosis/constitutions.json"),
     redFlags: read("diagnosis/red-flags.json"), tongue: read("diagnosis/tongue.json"), pulse: read("diagnosis/pulse.json"), panelSchema: read("diagnosis/panel-schema.json"),
     params: read("diagnosis/scoring-params.json"), safety: read("safety/rules.json"), treatment: read("treatment/guidance.json"),
-    correspondences: read("wuxing/correspondences.json"), susceptibility: read("wuxing/susceptibility.json"), yunqi: read("wuxing/yunqi.json"), glossary: read("glossary.json"),
+    correspondences: read("wuxing/correspondences.json"), susceptibility: read("wuxing/susceptibility.json"), yunqi: read("wuxing/yunqi.json"), glossary: read("glossary.json"), emergency: read("safety/emergency.json"),
     formulas: read("formulas/formulas.json"), herbs: read("herbs/herbs.json"), citations: read("citations.json"),
   };
 }

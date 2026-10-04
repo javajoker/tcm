@@ -120,3 +120,14 @@ test("an overridden release build is smaller still", () => {
   assert.equal(strict.reach.maxLevel, "L0");
   assert.ok(strict.chunks.formulas.items.every((f) => f.tier === "A"));
 });
+
+test("every profile carries the regional emergency numbers (a blocking notice must always be able to name one)", () => {
+  for (const { chunks } of [release, dev]) {
+    const kb = indexKnowledgeBase(chunks);
+    assert.equal(kb.emergency.regions.length, files.emergency.regions.length);
+    assert.equal(kb.emergency._meta.default_region, "TW");
+    const tw = kb.emergency.regions.find((r) => r.id === "TW")!;
+    assert.deepEqual(tw.emergency.map((n) => n.number), ["119"]);
+    assert.ok(kb.emergency.regions.some((r) => r.id === "OTHER" && r.emergency.length === 0), "the fallback region exists");
+  }
+});

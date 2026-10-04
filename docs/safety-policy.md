@@ -127,7 +127,7 @@ Buttons: **我已了解，繼續** / *I understand — continue* (primary, one d
 
 ## 5. Emergency resources (draft — regional owner and physician to verify)
 
-Shown on N-A / N-B and the self-harm item; chosen by the user's region (Q1). **Default Taiwan.** Numbers must be verified for the target region before release, and the list is stored as data (`data/safety/emergency.json`, planned) so it can be updated without a release of the app.
+Shown on N-A / N-B and the self-harm item; chosen by the user's region (Q1). **Default Taiwan.** Numbers must be verified for the target region before release, and the list is stored as data (`data/safety/emergency.json`, built from `scripts/kb/curated/emergency.py`; every row is `draft` until the regional owner verifies it) so it can be corrected without a release of the app.
 
 | Region | Emergency / ambulance | Crisis support |
 |---|---|---|

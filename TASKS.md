@@ -23,7 +23,7 @@
 |---|---:|---:|
 | **A** Documentation | 18 | 18 |
 | **DEC** Decisions | 6 | 6 |
-| **K** Knowledge base | 8 | 20 |
+| **K** Knowledge base | 8 | 19 |
 | **E** Engine and packages | 19 | 21 |
 | **I** Internationalisation | 2 | 6 |
 | **U** Web application | 3 | 22 |
@@ -31,11 +31,11 @@
 | **R** Release and operations | 0 | 7 |
 | **V** Review (non-code) | 0 | 7 |
 | **PF** Performance (P2) | 0 | 3 |
-| **All** | **56** | **120** |
+| **All** | **56** | **119** |
 
 | Priority | Done | Total |
 |---|---:|---:|
-| P0 | 40 | 70 |
+| P0 | 40 | 69 |
 | P1 | 14 | 42 |
 | P2 | 2 | 8 |
 
@@ -104,7 +104,7 @@ Suggested waves: **1** foundation (E-01, K-01, K-02, I-01, U-01, R-01) → **2**
 | [x] | K-06 | `diagnosis/exclusions.json`: mutually exclusive groups and synonym splits (SOP §5) | P0 | S | K-02 | Used by validation and by the engine's conflict check |
 | [ ] | K-07 | Discriminating questions for EX2/EX4, LG1/EX4, HT2/KD1 (≥ 3 each), adding symptoms/weights as needed | P1 | M | K-05 | Self-test margins improve or stay; new questions in the bank |
 | [ ] | K-08 | Constitution questionnaire: own-written 9-type items, 1–5 scale, scoring map, builder (SOP D6) | P1 | L | DEC-01 | `constitution-items.json` + scoring documented; reviewer pack |
-| [ ] | K-09 | `safety/emergency.json`: regional emergency and crisis numbers | P0 | S | DEC-02 | Verified by the regional owner; default Taiwan |
+| [x] | K-09 | `safety/emergency.json`: regional emergency and crisis numbers | P0 | S | DEC-02 | Verified by the regional owner; default Taiwan | — 12 regions, default TW; rows stay `draft` until the regional owner verifies (V-task); shipped in every bundle (`kb.emergency`)
 | [ ] | K-10 | `geo/cities.json` from GeoNames `cities15000` (CC BY 4.0) reduced per tech spec TQ2, with attribution; added as a reference source with its licence note | P1 | M | DEC-05 | ≥ 150 cities with lat/lon/IANA tz (all Taiwan, Hong Kong, Macau cities included); attribution text in `NOTICE` and Sources; size ≤ 25 KB gz |
 | [ ] | K-11 | Treatment guidance extension: acupoint location text and cautions, diet entries with rationale and citations, per-pattern lifestyle | P1 | L | — | Every acupoint/diet item referenced by a pattern has text in zh-Hant and en (draft) and a pregnancy flag |
 | [ ] | K-12 | Glossary upgrade: `source`/`alt`/`note`, WHO ISTM alignment, terms for all UI copy | P1 | M | A-08 | Glossary lint rules (i18n guide §8.2) pass |

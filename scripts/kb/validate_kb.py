@@ -134,12 +134,26 @@ def validate(load: Loader = load, check_sources: bool = True) -> list[str]:
     red_flags = load("diagnosis/red-flags.json")["items"]
     rules = load("safety/rules.json")
     glossary = load("glossary.json")["items"]
+    emergency = load("safety/emergency.json")
     for label, items in (("citation", cit["items"]), ("herb", herbs), ("formula", formulas), ("symptom", symptoms), ("pattern", patterns), ("element", elements),
                          ("constitution", constitutions), ("red flag", red_flags), ("safety rule", rules["rules"])):
         for d in duplicates(i["id"] for i in items):
             err(f"duplicate {label} id {d}")
     for d in duplicates((g["zh-Hant"], g["domain"]) for g in glossary):
         err(f"duplicate glossary term {d}")
+    # emergency numbers: a wrong or missing one is a safety incident (safety policy §9)
+    region_ids = [r["id"] for r in emergency["regions"]]
+    for d in duplicates(region_ids):
+        err(f"duplicate emergency region {d}")
+    if emergency["_meta"]["default_region"] not in region_ids:
+        err(f"emergency default_region {emergency['_meta']['default_region']} is not a listed region")
+    if "OTHER" not in region_ids:
+        err("emergency regions must include OTHER (the fallback 'call your local emergency number')")
+    for r in emergency["regions"]:
+        if r["id"] != "OTHER" and not r["emergency"]:
+            err(f"emergency region {r['id']} has no emergency number")
+        if r["id"] == "OTHER" and (r["emergency"] or r["crisis"]):
+            err("emergency region OTHER must not list numbers")
     for d in duplicates(h["name"]["zh-Hant"] for h in herbs):
         err(f"duplicate herb name {d}")
     herb_ids = {h["id"] for h in herbs}

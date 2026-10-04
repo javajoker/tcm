@@ -1,0 +1,241 @@
+{
+  "_meta": {
+    "default_region": "TW",
+    "description": "Emergency and crisis numbers by region (safety policy §5). Every row awaits verification by the regional owner before release; a wrong number is a safety incident, so correct this file rather than the app.",
+    "schema": 1,
+    "status": "draft"
+  },
+  "regions": [
+    {
+      "crisis": [
+        {
+          "label": {
+            "en": "Mental-health support line",
+            "zh-Hant": "安心專線（心理健康諮詢）"
+          },
+          "number": "1925"
+        }
+      ],
+      "emergency": [
+        {
+          "label": {
+            "en": "Fire and ambulance",
+            "zh-Hant": "消防與救護車"
+          },
+          "number": "119"
+        }
+      ],
+      "id": "TW",
+      "name": {
+        "en": "Taiwan",
+        "zh-Hant": "台灣"
+      },
+      "status": "draft"
+    },
+    {
+      "crisis": [],
+      "emergency": [
+        {
+          "label": {
+            "en": "Emergency services",
+            "zh-Hant": "緊急電話"
+          },
+          "number": "999"
+        }
+      ],
+      "id": "HK",
+      "name": {
+        "en": "Hong Kong",
+        "zh-Hant": "香港"
+      },
+      "status": "draft"
+    },
+    {
+      "crisis": [],
+      "emergency": [
+        {
+          "label": {
+            "en": "Emergency services",
+            "zh-Hant": "緊急電話"
+          },
+          "number": "999"
+        }
+      ],
+      "id": "MO",
+      "name": {
+        "en": "Macau",
+        "zh-Hant": "澳門"
+      },
+      "status": "draft"
+    },
+    {
+      "crisis": [],
+      "emergency": [
+        {
+          "label": {
+            "en": "Ambulance",
+            "zh-Hant": "救護車"
+          },
+          "number": "120"
+        },
+        {
+          "label": {
+            "en": "Police",
+            "zh-Hant": "警察"
+          },
+          "number": "110"
+        }
+      ],
+      "id": "CN",
+      "name": {
+        "en": "Mainland China",
+        "zh-Hant": "中國大陸"
+      },
+      "status": "draft"
+    },
+    {
+      "crisis": [],
+      "emergency": [
+        {
+          "label": {
+            "en": "Fire and ambulance",
+            "zh-Hant": "消防與救護車"
+          },
+          "number": "119"
+        }
+      ],
+      "id": "JP",
+      "name": {
+        "en": "Japan",
+        "zh-Hant": "日本"
+      },
+      "status": "draft"
+    },
+    {
+      "crisis": [],
+      "emergency": [
+        {
+          "label": {
+            "en": "Ambulance",
+            "zh-Hant": "救護車"
+          },
+          "number": "995"
+        }
+      ],
+      "id": "SG",
+      "name": {
+        "en": "Singapore",
+        "zh-Hant": "新加坡"
+      },
+      "status": "draft"
+    },
+    {
+      "crisis": [
+        {
+          "label": {
+            "en": "988 Suicide and Crisis Lifeline",
+            "zh-Hant": "988 自殺與危機生命線"
+          },
+          "number": "988"
+        }
+      ],
+      "emergency": [
+        {
+          "label": {
+            "en": "Emergency services",
+            "zh-Hant": "緊急電話"
+          },
+          "number": "911"
+        }
+      ],
+      "id": "US",
+      "name": {
+        "en": "United States",
+        "zh-Hant": "美國"
+      },
+      "status": "draft"
+    },
+    {
+      "crisis": [],
+      "emergency": [
+        {
+          "label": {
+            "en": "Emergency services",
+            "zh-Hant": "緊急電話"
+          },
+          "number": "911"
+        }
+      ],
+      "id": "CA",
+      "name": {
+        "en": "Canada",
+        "zh-Hant": "加拿大"
+      },
+      "status": "draft"
+    },
+    {
+      "crisis": [],
+      "emergency": [
+        {
+          "label": {
+            "en": "Emergency services",
+            "zh-Hant": "緊急電話"
+          },
+          "number": "999"
+        }
+      ],
+      "id": "GB",
+      "name": {
+        "en": "United Kingdom",
+        "zh-Hant": "英國"
+      },
+      "status": "draft"
+    },
+    {
+      "crisis": [],
+      "emergency": [
+        {
+          "label": {
+            "en": "Emergency services",
+            "zh-Hant": "緊急電話"
+          },
+          "number": "112"
+        }
+      ],
+      "id": "EU",
+      "name": {
+        "en": "European Union",
+        "zh-Hant": "歐盟"
+      },
+      "status": "draft"
+    },
+    {
+      "crisis": [],
+      "emergency": [
+        {
+          "label": {
+            "en": "Emergency services",
+            "zh-Hant": "緊急電話"
+          },
+          "number": "000"
+        }
+      ],
+      "id": "AU",
+      "name": {
+        "en": "Australia",
+        "zh-Hant": "澳洲"
+      },
+      "status": "draft"
+    },
+    {
+      "crisis": [],
+      "emergency": [],
+      "id": "OTHER",
+      "name": {
+        "en": "Other or not sure",
+        "zh-Hant": "其他或不確定"
+      },
+      "status": "draft"
+    }
+  ]
+}

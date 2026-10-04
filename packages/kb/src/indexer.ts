@@ -79,6 +79,7 @@ export function indexKnowledgeBase(raw: RawKbChunks): KnowledgeBase {
     treatment: core.treatment,
     wuxing: core.wuxing,
     glossary: core.glossary.items,
+    emergency: core.emergency,
     herbName: (id) => raw.formulas.herbNames[id],
     citation: (id) => citations.get(id),
     term: (zh) => terms.get(zh),
