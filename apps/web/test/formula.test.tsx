@@ -79,11 +79,12 @@ describe("Formula detail (S14)", () => {
   it("rationale with citation chips; cautions, pregnancy statement and interactions in words; the practitioner line", async () => {
     await open(sp1, f.id, dev);
     const rationale = within(await screen.findByRole("region", { name: "Rationale and basis" }));
-    expect(rationale.getByText(rec.rationale_zh)).toBeInTheDocument();
+    expect(rationale.getByText(rec.rationale_en)).toBeInTheDocument();                           // the English page shows the English draft ...
+    expect(rationale.getByText("(draft translation)")).toBeInTheDocument();                       // ... and says so
     if (rec.rationale_citations.length > 0) expect(rationale.getAllByRole("button", { name: /Open source/ }).length).toBeGreaterThan(0);
     const cautions = within(screen.getByRole("region", { name: "Cautions and contraindications" }));
     expect(cautions.getByText(/pregnancy/i)).toBeInTheDocument();
-    for (const c of rec.cautions) expect(cautions.getByText(c)).toBeInTheDocument();
+    for (const c of rec.cautions_en) expect(cautions.getByText(c)).toBeInTheDocument();
     if (rec.interactions.length > 0) expect(cautions.getByText("May interact with:")).toBeInTheDocument();
     expect(cautions.getByText(/must be set by a licensed practitioner/)).toBeInTheDocument();
   });

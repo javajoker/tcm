@@ -63,8 +63,8 @@ describe("Result report (S13)", () => {
     expect(summary.getByText("Most consistent with")).toBeInTheDocument();
     expect(summary.getByText(sp.name.en)).toBeInTheDocument();
     expect(summary.getByText(sp.name["zh-Hant"])).toHaveAttribute("lang", "zh-Hant");
-    expect(summary.getByText(sp.principle)).toBeInTheDocument();
-    expect(summary.getAllByText("中").length).toBeGreaterThan(0);                                         // Chinese-only prose is marked in the English UI
+    expect(summary.getByText(sp.principle_en)).toBeInTheDocument();
+    expect(summary.getByText("(draft translation)")).toBeInTheDocument();                                 // the English is a machine draft and says so
     expect(summary.getByRole("progressbar", { name: "Confidence" })).toBeInTheDocument();
     expect(summary.getByRole("progressbar", { name: "Confidence" }).getAttribute("aria-valuetext")).toMatch(/^(High|Medium|Low)$/);
   });

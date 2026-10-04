@@ -2,6 +2,7 @@
 
 export type CitationId = string;
 export type ElementId = string;
+export type EnStatus = "machine-draft" | "reviewed";
 export type FormulaId = string;
 export type PatternId = string;
 export type SymptomId = string;
@@ -21,6 +22,7 @@ export interface Patterns {
     };
     citations: CitationId[];
     elements: ElementId[];
+    en_status: EnStatus;
     formulas: FormulaId[];
     group: "external" | "spleen-stomach" | "liver" | "heart" | "lung" | "kidney" | "qi-blood";
     id: PatternId;
@@ -28,9 +30,11 @@ export interface Patterns {
     name: BilingualNamed;
     panel_projection_per_degree: PanelMap;
     principle: string;
+    principle_en: string;
     required_any: SymptomId[];
     status: ReviewStatus;
     tongue_pulse_note: string;
+    tongue_pulse_note_en: string;
     treatment: {
       acupoints: string[];
       foods: string[];

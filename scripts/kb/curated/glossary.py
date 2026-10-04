@@ -149,7 +149,7 @@ _TABLE = """
 長夏|late summer|cháng xià|season
 證型|pattern type|zhèng xíng|diagnosis|pattern; pattern/syndrome|The usual everyday word for the pattern a person leans towards; "pattern" alone is the WHO term for 證.
 辨證|pattern differentiation|biàn zhèng|diagnosis||
-氣血|qi and blood|qì xuè|substance||
+氣血|qi and blood|qì xuè|substance|qi, blood|"Qi, blood" is accepted where the two are listed among other items (the six constraints).
 臟腑|zang-fu organs (viscera)|zàng fǔ|zangfu|zang-fu; organs; organ|Functional systems, not the anatomical organs.
 經絡|channels and collaterals|jīng luò|theory|meridians|"Meridian" is the common loan; WHO uses "channels and collaterals".
 穴位|acupuncture point (acupoint)|xué wèi|treatment|acupoint; acupressure point; acupressure|
@@ -169,6 +169,8 @@ _TABLE = """
 痰濕|phlegm-dampness|tán shī|nature||
 濕熱|damp-heat|shī rè|nature||
 苔乾|dry coating|tāi gān|tongue||
+往來寒熱|alternating chills and fever|wǎng lái hán rè|diagnosis||The shaoyang pattern; distinct from 寒熱 (cold and heat) as a pair of poles.
+五味子|schisandra (wuweizi)|wǔ wèi zǐ|herb|wuweizi|The herb, not the five flavours (五味).
 """
 
 

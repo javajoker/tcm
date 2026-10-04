@@ -59,6 +59,12 @@
       "pattern": "^PE_.+$",
       "type": "string"
     },
+    "enStatus": {
+      "enum": [
+        "machine-draft",
+        "reviewed"
+      ]
+    },
     "evil": {
       "enum": [
         "風",

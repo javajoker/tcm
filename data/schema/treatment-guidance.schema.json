@@ -59,6 +59,12 @@
       "pattern": "^PE_.+$",
       "type": "string"
     },
+    "enStatus": {
+      "enum": [
+        "machine-draft",
+        "reviewed"
+      ]
+    },
     "evil": {
       "enum": [
         "風",
@@ -316,6 +322,9 @@
     "general": {
       "additionalProperties": false,
       "properties": {
+        "en_status": {
+          "$ref": "#/$defs/enStatus"
+        },
         "source": {
           "items": {
             "$ref": "#/$defs/citationId"
@@ -324,11 +333,16 @@
         },
         "text": {
           "type": "string"
+        },
+        "text_en": {
+          "type": "string"
         }
       },
       "required": [
+        "en_status",
         "source",
-        "text"
+        "text",
+        "text_en"
       ],
       "type": "object"
     },

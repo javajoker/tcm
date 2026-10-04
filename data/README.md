@@ -120,7 +120,7 @@ herb effect / burden weights, pregnancy / interaction / toxicity flags, red-flag
 
 ## Known gaps (tracked in the task list)
 
-- English text is mostly names only; prose translation is pending. English herb names are curated for the MVP formula herbs only.
+- English prose is a machine draft (`en_status: machine-draft`) for pattern principles and tongue/pulse notes, formula principles, rationales and cautions, the treatment guidance and the general regimen; it awaits the linguistic review (V-06). The English renderings of the classical quotations are still to do. English herb names are curated for the MVP formula herbs only.
 - No Simplified-Chinese output (the UI language set is zh-Hant + en).
 - Constitution questionnaire items are not included (licensing; SOP D6).
 - Acupoint locations and illustrations, tongue/pulse illustrations: UI task.

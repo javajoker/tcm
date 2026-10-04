@@ -21,6 +21,7 @@
         "PE_表_風",
         "PE_表_寒"
       ],
+      "en_status": "machine-draft",
       "formulas": [
         "F_MAHUANG"
       ],
@@ -37,11 +38,13 @@
         "liuxie.風": 1.0
       },
       "principle": "辛溫解表、發汗",
+      "principle_en": "Release the exterior with pungent-warm herbs; induce sweating",
       "required_any": [
         "S_AVERSION_COLD"
       ],
       "status": "draft",
       "tongue_pulse_note": "苔薄白；脈浮緊",
+      "tongue_pulse_note_en": "Thin white coating; floating, tight pulse",
       "treatment": {
         "acupoints": [
           "風池",
@@ -80,6 +83,7 @@
       "elements": [
         "PE_表_風"
       ],
+      "en_status": "machine-draft",
       "formulas": [
         "F_GUIZHI"
       ],
@@ -95,12 +99,14 @@
         "liuxie.風": 1.0
       },
       "principle": "解肌發表、調和營衛",
+      "principle_en": "Release the muscle layer and the exterior; harmonise the construction and defence",
       "required_any": [
         "S_AVERSION_WIND",
         "S_SPONTANEOUS_SWEAT"
       ],
       "status": "draft",
       "tongue_pulse_note": "苔薄白；脈浮緩",
+      "tongue_pulse_note_en": "Thin white coating; floating, moderate pulse",
       "treatment": {
         "acupoints": [
           "風池",
@@ -136,6 +142,7 @@
         "PE_表_風",
         "PE_表_火"
       ],
+      "en_status": "machine-draft",
       "formulas": [
         "F_YINQIAO",
         "F_SANGJU"
@@ -154,12 +161,14 @@
         "肺.yang": 0.5
       },
       "principle": "辛涼解表",
+      "principle_en": "Release the exterior with pungent-cool herbs",
       "required_any": [
         "S_FEVER",
         "S_SORE_THROAT"
       ],
       "status": "draft",
       "tongue_pulse_note": "舌邊尖紅，苔薄黃；脈浮數",
+      "tongue_pulse_note_en": "Tongue edges and tip red with a thin yellow coating; floating, rapid pulse",
       "treatment": {
         "acupoints": [
           "大椎",
@@ -203,6 +212,7 @@
       "elements": [
         "PE_表_氣虛"
       ],
+      "en_status": "machine-draft",
       "formulas": [
         "F_GUIZHI"
       ],
@@ -218,11 +228,13 @@
         "肺.qi": -1.0
       },
       "principle": "調和營衛",
+      "principle_en": "Harmonise the construction and defence",
       "required_any": [
         "S_SPONTANEOUS_SWEAT"
       ],
       "status": "draft",
       "tongue_pulse_note": "苔薄白；脈緩",
+      "tongue_pulse_note_en": "Thin white coating; moderate pulse",
       "treatment": {
         "acupoints": [
           "足三里",
@@ -257,6 +269,7 @@
       "elements": [
         "PE_脾_氣虛"
       ],
+      "en_status": "machine-draft",
       "formulas": [
         "F_SIJUNZI",
         "F_SHENLING"
@@ -272,6 +285,7 @@
         "脾.qi": -1.0
       },
       "principle": "益氣健脾",
+      "principle_en": "Tonify qi and support the spleen",
       "required_any": [
         "S_POOR_APPETITE",
         "S_POSTPRANDIAL_BLOAT",
@@ -279,6 +293,7 @@
       ],
       "status": "draft",
       "tongue_pulse_note": "舌淡苔白，常胖有齒痕；脈緩弱",
+      "tongue_pulse_note_en": "Pale tongue with a white coating, often swollen with tooth marks; moderate, weak pulse",
       "treatment": {
         "acupoints": [
           "足三里",
@@ -325,6 +340,7 @@
         "PE_脾_陽虛",
         "PE_脾_寒"
       ],
+      "en_status": "machine-draft",
       "formulas": [
         "F_LIZHONG"
       ],
@@ -340,12 +356,14 @@
         "脾.yang": -1.0
       },
       "principle": "溫中健脾",
+      "principle_en": "Warm the middle and support the spleen",
       "required_any": [
         "S_ABD_PAIN_PREFER_WARM_PRESS",
         "S_FEAR_COLD"
       ],
       "status": "draft",
       "tongue_pulse_note": "舌淡胖苔白滑；脈沉遲",
+      "tongue_pulse_note_en": "Pale, swollen tongue with a white, slippery coating; deep, slow pulse",
       "treatment": {
         "acupoints": [
           "中脘",
@@ -388,6 +406,7 @@
       "elements": [
         "PE_脾_氣虛"
       ],
+      "en_status": "machine-draft",
       "formulas": [
         "F_BUZHONG"
       ],
@@ -402,11 +421,13 @@
         "脾.qi": -1.0
       },
       "principle": "補中益氣、升陽舉陷",
+      "principle_en": "Tonify the middle and qi; raise the yang and lift what has sunk",
       "required_any": [
         "S_PROLAPSE_SENSATION"
       ],
       "status": "draft",
       "tongue_pulse_note": "舌淡；脈弱",
+      "tongue_pulse_note_en": "Pale tongue; weak pulse",
       "treatment": {
         "acupoints": [
           "百會",
@@ -447,6 +468,7 @@
         "PE_脾_濕",
         "PE_脾_痰"
       ],
+      "en_status": "machine-draft",
       "formulas": [
         "F_ERCHEN",
         "F_PINGWEI",
@@ -464,6 +486,7 @@
         "product.痰": 1.0
       },
       "principle": "燥濕化痰、理氣和中",
+      "principle_en": "Dry dampness and resolve phlegm; regulate qi and harmonise the middle",
       "required_any": [
         "S_BODY_HEAVY",
         "S_PHLEGM_COPIOUS",
@@ -471,6 +494,7 @@
       ],
       "status": "draft",
       "tongue_pulse_note": "舌胖苔膩；脈滑",
+      "tongue_pulse_note_en": "Swollen tongue with a greasy coating; slippery pulse",
       "treatment": {
         "acupoints": [
           "豐隆",
@@ -517,6 +541,7 @@
         "PE_脾_濕",
         "PE_胃_火"
       ],
+      "en_status": "machine-draft",
       "formulas": [
         "F_SANREN",
         "F_GANLU"
@@ -534,12 +559,14 @@
         "胃.yang": 0.5
       },
       "principle": "清熱利濕",
+      "principle_en": "Clear heat and drain dampness",
       "required_any": [
         "S_STICKY_STOOL",
         "T_COAT_YELLOW_GREASY"
       ],
       "status": "draft",
       "tongue_pulse_note": "舌紅苔黃膩；脈滑數",
+      "tongue_pulse_note_en": "Red tongue with a yellow, greasy coating; slippery, rapid pulse",
       "treatment": {
         "acupoints": [
           "陰陵泉",
@@ -582,6 +609,7 @@
       "elements": [
         "PE_胃_陰虛"
       ],
+      "en_status": "machine-draft",
       "formulas": [
         "F_YIWEI"
       ],
@@ -596,6 +624,7 @@
         "胃.yin": -1.0
       },
       "principle": "養陰益胃",
+      "principle_en": "Nourish yin and benefit the stomach",
       "required_any": [
         "S_DRY_MOUTH_THROAT",
         "S_HUNGER_NO_EAT",
@@ -603,6 +632,7 @@
       ],
       "status": "draft",
       "tongue_pulse_note": "舌紅少津；脈細數",
+      "tongue_pulse_note_en": "Red tongue lacking moisture; thin, rapid pulse",
       "treatment": {
         "acupoints": [
           "足三里",
@@ -644,6 +674,7 @@
       "elements": [
         "PE_肝_氣滯"
       ],
+      "en_status": "machine-draft",
       "formulas": [
         "F_XIAOYAO",
         "F_CHAIHUSHUGAN",
@@ -660,6 +691,7 @@
         "肝.stasis": 1.0
       },
       "principle": "疏肝解鬱",
+      "principle_en": "Soothe the liver and relieve constraint",
       "required_any": [
         "S_SIGHING",
         "S_HYPOCHONDRIAC_DISTENSION",
@@ -667,6 +699,7 @@
       ],
       "status": "draft",
       "tongue_pulse_note": "苔薄白；脈弦",
+      "tongue_pulse_note_en": "Thin white coating; wiry pulse",
       "treatment": {
         "acupoints": [
           "太衝",
@@ -710,6 +743,7 @@
       "elements": [
         "PE_肝_火"
       ],
+      "en_status": "machine-draft",
       "formulas": [
         "F_LONGDAN"
       ],
@@ -725,6 +759,7 @@
         "肝.yang": 0.5
       },
       "principle": "清肝瀉火",
+      "principle_en": "Clear the liver and drain fire",
       "required_any": [
         "S_IRRITABLE",
         "S_BITTER_MOUTH",
@@ -732,6 +767,7 @@
       ],
       "status": "draft",
       "tongue_pulse_note": "舌紅苔黃；脈弦數",
+      "tongue_pulse_note_en": "Red tongue with a yellow coating; wiry, rapid pulse",
       "treatment": {
         "acupoints": [
           "太衝",
@@ -775,6 +811,7 @@
       "elements": [
         "PE_肝_血虛"
       ],
+      "en_status": "machine-draft",
       "formulas": [
         "F_SIWU",
         "F_SUANZAOREN"
@@ -790,6 +827,7 @@
         "肝.blood": -1.0
       },
       "principle": "補血養肝（虛煩失眠者養血安神）",
+      "principle_en": "Tonify blood and nourish the liver (for restlessness and insomnia from deficiency: nourish blood and calm the spirit)",
       "required_any": [
         "S_BLURRED_VISION",
         "S_NAIL_BRITTLE",
@@ -797,6 +835,7 @@
       ],
       "status": "draft",
       "tongue_pulse_note": "舌淡；脈細",
+      "tongue_pulse_note_en": "Pale tongue; thin pulse",
       "treatment": {
         "acupoints": [
           "三陰交",
@@ -836,6 +875,7 @@
         "PE_肝_氣滯",
         "PE_胃_氣滯"
       ],
+      "en_status": "machine-draft",
       "formulas": [
         "F_CHAIHUSHUGAN"
       ],
@@ -851,12 +891,14 @@
         "胃.stasis": 1.0
       },
       "principle": "疏肝和胃",
+      "principle_en": "Soothe the liver and harmonise the stomach",
       "required_any": [
         "S_EPIGASTRIC_PAIN",
         "S_BELCHING"
       ],
       "status": "draft",
       "tongue_pulse_note": "苔薄白或薄黃；脈弦",
+      "tongue_pulse_note_en": "Thin white or thin yellow coating; wiry pulse",
       "treatment": {
         "acupoints": [
           "內關",
@@ -895,6 +937,7 @@
         "PE_心_血虛",
         "PE_脾_氣虛"
       ],
+      "en_status": "machine-draft",
       "formulas": [
         "F_GUIPI"
       ],
@@ -910,12 +953,14 @@
         "脾.qi": -1.0
       },
       "principle": "補益心脾、養血安神",
+      "principle_en": "Tonify the heart and spleen; nourish blood and calm the spirit",
       "required_any": [
         "S_PALPITATION",
         "S_FORGETFUL"
       ],
       "status": "draft",
       "tongue_pulse_note": "舌淡；脈細弱",
+      "tongue_pulse_note_en": "Pale tongue; thin, weak pulse",
       "treatment": {
         "acupoints": [
           "神門",
@@ -957,6 +1002,7 @@
         "PE_心_火",
         "PE_腎_陰虛"
       ],
+      "en_status": "machine-draft",
       "formulas": [
         "F_HUANGLIANEJIAO",
         "F_TIANWANG"
@@ -974,12 +1020,14 @@
         "腎.yin": -1.0
       },
       "principle": "滋陰降火、交通心腎",
+      "principle_en": "Enrich yin and bring down fire; restore communication between the heart and kidney",
       "required_any": [
         "S_RESTLESS_NO_SLEEP",
         "S_HEAT_PALMS_SOLES"
       ],
       "status": "draft",
       "tongue_pulse_note": "舌紅少苔；脈細數",
+      "tongue_pulse_note_en": "Red tongue with a scanty coating; thin, rapid pulse",
       "treatment": {
         "acupoints": [
           "神門",
@@ -1024,6 +1072,7 @@
         "PE_心_痰",
         "PE_心_火"
       ],
+      "en_status": "machine-draft",
       "formulas": [
         "F_WENDAN"
       ],
@@ -1040,12 +1089,14 @@
         "心.yang": 0.5
       },
       "principle": "清熱化痰、和胃安神",
+      "principle_en": "Clear heat and resolve phlegm; harmonise the stomach and calm the spirit",
       "required_any": [
         "S_STARTLE",
         "T_COAT_YELLOW_GREASY"
       ],
       "status": "draft",
       "tongue_pulse_note": "舌紅苔黃膩；脈滑數",
+      "tongue_pulse_note_en": "Red tongue with a yellow, greasy coating; slippery, rapid pulse",
       "treatment": {
         "acupoints": [
           "豐隆",
@@ -1082,6 +1133,7 @@
       "elements": [
         "PE_肺_氣虛"
       ],
+      "en_status": "machine-draft",
       "formulas": [
         "F_YUPINGFENG"
       ],
@@ -1096,12 +1148,14 @@
         "肺.qi": -1.0
       },
       "principle": "益氣固表",
+      "principle_en": "Tonify qi and secure the exterior",
       "required_any": [
         "S_EASY_COLD",
         "S_SHORT_BREATH"
       ],
       "status": "draft",
       "tongue_pulse_note": "舌淡苔白；脈弱",
+      "tongue_pulse_note_en": "Pale tongue with a white coating; weak pulse",
       "treatment": {
         "acupoints": [
           "太淵",
@@ -1138,6 +1192,7 @@
       "elements": [
         "PE_肺_陰虛"
       ],
+      "en_status": "machine-draft",
       "formulas": [
         "F_MAIMENDONG",
         "F_SHASHEN"
@@ -1153,11 +1208,13 @@
         "肺.yin": -1.0
       },
       "principle": "養陰潤肺",
+      "principle_en": "Nourish yin and moisten the lung",
       "required_any": [
         "S_COUGH_DRY"
       ],
       "status": "draft",
       "tongue_pulse_note": "舌紅少津；脈細數",
+      "tongue_pulse_note_en": "Red tongue lacking moisture; thin, rapid pulse",
       "treatment": {
         "acupoints": [
           "太淵",
@@ -1197,6 +1254,7 @@
       "elements": [
         "PE_腎_陰虛"
       ],
+      "en_status": "machine-draft",
       "formulas": [
         "F_LIUWEI"
       ],
@@ -1211,12 +1269,14 @@
         "腎.yin": -1.0
       },
       "principle": "滋陰補腎",
+      "principle_en": "Enrich yin and tonify the kidney",
       "required_any": [
         "S_LOW_BACK_SORE",
         "T_ROOT_COAT_PEELED"
       ],
       "status": "draft",
       "tongue_pulse_note": "舌紅少苔；脈細數",
+      "tongue_pulse_note_en": "Red tongue with a scanty coating; thin, rapid pulse",
       "treatment": {
         "acupoints": [
           "太溪",
@@ -1262,6 +1322,7 @@
         "PE_腎_陽虛",
         "PE_腎_寒"
       ],
+      "en_status": "machine-draft",
       "formulas": [
         "F_SHENQI",
         "F_YOUGUI"
@@ -1278,6 +1339,7 @@
         "腎.yang": -1.0
       },
       "principle": "溫補腎陽",
+      "principle_en": "Warm and tonify the kidney yang",
       "required_any": [
         "S_LOW_BACK_COLD",
         "S_FEAR_COLD",
@@ -1285,6 +1347,7 @@
       ],
       "status": "draft",
       "tongue_pulse_note": "舌淡胖苔白；脈沉細（尺弱）",
+      "tongue_pulse_note_en": "Pale, swollen tongue with a white coating; deep, thin pulse (weak at the chi position)",
       "treatment": {
         "acupoints": [
           "關元",
@@ -1327,6 +1390,7 @@
         "PE_脾_氣虛",
         "PE_心_血虛"
       ],
+      "en_status": "machine-draft",
       "formulas": [
         "F_BAZHEN"
       ],
@@ -1342,11 +1406,13 @@
         "脾.qi": -1.0
       },
       "principle": "益氣補血",
+      "principle_en": "Tonify qi and blood",
       "required_any": [
         "S_FATIGUE"
       ],
       "status": "draft",
       "tongue_pulse_note": "舌淡嫩；脈細弱",
+      "tongue_pulse_note_en": "Pale, tender tongue; thin, weak pulse",
       "treatment": {
         "acupoints": [
           "足三里",
@@ -1389,6 +1455,7 @@
       "elements": [
         "PE_全身_瘀"
       ],
+      "en_status": "machine-draft",
       "formulas": [
         "F_XUEFU"
       ],
@@ -1403,6 +1470,7 @@
         "product.瘀": 1.0
       },
       "principle": "活血化瘀",
+      "principle_en": "Invigorate blood and dispel stasis",
       "required_any": [
         "S_STABBING_PAIN_FIXED",
         "T_ECCHYMOSIS",
@@ -1411,6 +1479,7 @@
       ],
       "status": "draft",
       "tongue_pulse_note": "舌紫暗或有瘀斑；脈澀",
+      "tongue_pulse_note_en": "Purple or dusky tongue, or with ecchymosis; choppy pulse",
       "treatment": {
         "acupoints": [
           "血海",

@@ -8,7 +8,7 @@ import subprocess
 from collections import defaultdict
 
 from .common import DATA, LIB, ROOT, dump, i18n, read_lib, submodule_commits, tw
-from .curated import exam, panel, patterns as pat, symptoms, treatment, treatment_text
+from .curated import exam, panel, patterns as pat, prose_en, symptoms, treatment, treatment_text
 from .curated.formulas import FORMULAS
 
 NATURE_ZH = {"風": "風", "寒": "寒", "火": "火熱", "暑": "暑", "濕": "濕", "燥": "燥", "痰": "痰", "飲": "飲", "瘀": "血瘀", "食積": "食積",
@@ -78,6 +78,7 @@ def build_patterns(formula_ids: set[str], citation_ids: set[str]) -> tuple[dict,
             "id": p["id"], "name": {"zh-Hant": p["zh"], "en": p["en"]}, "group": p["group"], "elements": els, "principle": p["principle"],
             "weights": dict(sorted(p["weights"].items())), "against": dict(sorted(p["against"].items())), "required_any": p["required"],
             "max_score": sum(p["weights"].values()), "tongue_pulse_note": p["tongue_pulse"],
+            "principle_en": prose_en.PATTERN_PRINCIPLE[p["id"]], "tongue_pulse_note_en": prose_en.PATTERN_TONGUE_PULSE[p["id"]], "en_status": prose_en.EN_STATUS,
             "panel_projection_per_degree": {k: round(v, 3) for k, v in sorted(unit_projection.items())},
             "formulas": grp_formulas, "citations": p["cites"],
             "treatment": dict(zip(("foods", "acupoints", "lifestyle"), treatment.GUIDANCE[p["id"]])),
@@ -183,7 +184,8 @@ def build_guidance() -> dict:
                                      "flavours and functions from the herb record.", "status": "draft"},
             "acupoints": acupoints, "acupressure": {"how": pair(tt.ACUPRESSURE["how"]), "cautions": [pair(c) for c in tt.ACUPRESSURE["cautions"]]},
             "foods": foods, "lifestyle": lifestyle,
-            "food_pregnancy_caution": treatment.FOOD_PREGNANCY_CAUTION, "general": treatment.GENERAL}
+            "food_pregnancy_caution": treatment.FOOD_PREGNANCY_CAUTION,
+            "general": {**treatment.GENERAL, "text_en": prose_en.GENERAL_TEXT, "en_status": prose_en.EN_STATUS}}
 
 
 def build_yunqi(tables: dict) -> dict:

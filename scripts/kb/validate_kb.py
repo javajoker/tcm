@@ -534,6 +534,27 @@ def validate(load: Loader = load, check_sources: bool = True) -> list[str]:
     for c in load("treatment/guidance.json")["general"]["source"]:
         if c not in cit_ids:
             err(f"treatment guidance: unknown citation {c}")
+    # English prose (K-13): every Chinese-only prose field has its English, a status, and renders the glossary terms of the Chinese in the English (K-12 rule, glossary_lint.py)
+    from .glossary_lint import missing_terms
+    gl = load("glossary.json")["items"]
+    pairs: list[tuple[str, str, str]] = []
+    for p in patterns:
+        if p["en_status"] not in ("machine-draft", "reviewed"):
+            err(f"pattern {p['id']}: en_status {p['en_status']!r}")
+        pairs += [(f"pattern {p['id']} principle", p["principle"], p["principle_en"]), (f"pattern {p['id']} tongue_pulse_note", p["tongue_pulse_note"], p["tongue_pulse_note_en"])]
+    for f in formulas:
+        if len(f["cautions"]) != len(f["cautions_en"]):
+            err(f"formula {f['id']}: {len(f['cautions'])} cautions in Chinese but {len(f['cautions_en'])} in English")
+        pairs += [(f"formula {f['id']} principle", f["principle"], f["principle_en"]), (f"formula {f['id']} rationale", f["rationale_zh"], f["rationale_en"])]
+        pairs += [(f"formula {f['id']} caution {i + 1}", z, e) for i, (z, e) in enumerate(zip(f["cautions"], f["cautions_en"]))]
+    gen = load("treatment/guidance.json")["general"]
+    pairs.append(("treatment general text", gen["text"], gen["text_en"]))
+    for label, zh_text, en_text in pairs:
+        if not en_text.strip():
+            err(f"{label}: the English is empty")
+        for t in missing_terms(zh_text, en_text, gl):
+            err(f"{label}: the Chinese uses the glossary term {t['zh-Hant']} ({t['en']}) but the English does not")
+
     # the diet entries and per-pattern lifestyle of the guidance file (K-11): everything a pattern refers to has bilingual text and a pregnancy flag
     guide = load("treatment/guidance.json")
     herb_by_id = {h["id"]: h for h in load("herbs/herbs.json")["items"]}

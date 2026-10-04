@@ -169,7 +169,14 @@ export function checkKbWording(wording: Wording): Issue[] {
         for (const r of wording.rules.filter((x) => x.lang === lang && x.id !== "dose")) if (new RegExp(r.pattern, "i").test(text)) out.push({ severity: "warning", rule: `kb-wording:${r.id}`, message: `${file} ${path} (${lang}): ${r.why} — "${text.slice(0, 80)}"` });
       }
     }
-    for (const [k, v] of Object.entries(o)) scan(v, file, `${path}.${k}`);
+    // the English renderings of Chinese-only prose (`principle_en`, `rationale_en`, `cautions_en`, `text_en`: K-13) are scanned with the English rules
+    for (const [k, v] of Object.entries(o)) {
+      if (k.endsWith("_en") && (typeof v === "string" || (Array.isArray(v) && v.every((x) => typeof x === "string")))) {
+        for (const text of Array.isArray(v) ? v : [v]) {
+          for (const r of wording.rules.filter((x) => x.lang === "en" && x.id !== "dose")) if (new RegExp(r.pattern, "i").test(text as string)) out.push({ severity: "warning", rule: `kb-wording:${r.id}`, message: `${file} ${path}.${k} (en): ${r.why} — "${(text as string).slice(0, 80)}"` });
+        }
+      } else scan(v, file, `${path}.${k}`);
+    }
   };
   for (const f of walk(dataDir).filter((x) => x.endsWith(".json") && !skip(x))) scan(readJson(f), relative(dataDir, f), "$");
   return out;

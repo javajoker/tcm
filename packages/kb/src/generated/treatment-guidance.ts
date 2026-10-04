@@ -3,6 +3,7 @@
 export type ReviewStatus = "derived" | "curated-draft" | "draft" | "reviewed";
 export type CitationId = string;
 export type HerbId = string;
+export type EnStatus = "machine-draft" | "reviewed";
 
 export interface TreatmentGuidance {
   _meta: {
@@ -42,8 +43,10 @@ export interface TreatmentGuidance {
     };
   };
   general: {
+    en_status: EnStatus;
     source: CitationId[];
     text: string;
+    text_en: string;
   };
   lifestyle: {
     [k: string]: BilingualNamed;

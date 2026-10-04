@@ -33,6 +33,11 @@
         "高血壓、心悸、甲亢者慎用",
         "中病即止，不可過汗"
       ],
+      "cautions_en": [
+        "Not for a weak exterior with spontaneous sweating, a weak constitution with an external illness, blood deficiency or blood loss",
+        "Use with caution with high blood pressure, palpitations or an overactive thyroid",
+        "Stop once the illness is relieved; do not sweat the person too much"
+      ],
       "classical_amounts": [
         {
           "amount": 3.0,
@@ -129,6 +134,7 @@
         "P_FLOAT",
         "P_TIGHT"
       ],
+      "en_status": "machine-draft",
       "flavor_profile": {
         "甘": 0.167,
         "苦": 0.315,
@@ -172,10 +178,12 @@
       ],
       "pregnancy": "caution",
       "principle": "辛溫發汗、宣肺平喘",
+      "principle_en": "Release the exterior and induce sweating with pungent-warm herbs; diffuse the lung and calm wheezing",
       "rationale_citations": [
         "suwen-074-10",
         "suwen-074-11"
       ],
+      "rationale_en": "Mahuang induces sweating, releases the exterior, diffuses the lung and calms wheezing, and is the sovereign; guizhi helps mahuang to sweat and warms and frees the channels, as minister; xingren (apricot kernel) directs lung qi downward and helps to calm wheezing, as assistant; prepared licorice harmonises the other herbs, as envoy.",
       "rationale_zh": "麻黃發汗解表、宣肺平喘為君；桂枝助麻黃發汗、溫通經脈為臣；杏仁降肺氣助平喘為佐；炙甘草調和諸藥為使。",
       "school": "經方",
       "source": {
@@ -211,6 +219,11 @@
         "表實無汗者忌用",
         "溫熱病、陰虛火旺者不宜",
         "服後忌生冷、黏滑、肉麵、五辛、酒酪（原方服法）"
+      ],
+      "cautions_en": [
+        "Not for an excess exterior without sweating",
+        "Not suited to warm-heat illnesses or yin deficiency with fire",
+        "After the dose avoid raw and cold, sticky and slippery foods, meat, noodles, strong-smelling vegetables, alcohol and dairy (the original instructions)"
       ],
       "classical_amounts": [
         {
@@ -328,6 +341,7 @@
         "P_FLOAT",
         "P_MODERATE"
       ],
+      "en_status": "machine-draft",
       "flavor_profile": {
         "甘": 0.381,
         "苦": 0.146,
@@ -376,10 +390,12 @@
       ],
       "pregnancy": "caution",
       "principle": "解肌發表、調和營衛",
+      "principle_en": "Release the muscle layer and the exterior; harmonise the construction and defence",
       "rationale_citations": [
         "suwen-074-10",
         "suwen-074-11"
       ],
+      "rationale_en": "Guizhi releases the muscle layer and the exterior and warms the defensive yang, as sovereign; shaoyao (peony) boosts yin and astringes the construction, as minister — together guizhi and shaoyao disperse and astringe, and so harmonise construction and defence; shengjiang (fresh ginger) helps guizhi to release the muscle layer and dazao (jujube) helps shaoyao to boost the construction, as assistants; prepared licorice harmonises the other herbs, as envoy. After the dose, sip hot thin porridge to support the formula's action.",
       "rationale_zh": "桂枝解肌發表、溫通衛陽為君；芍藥益陰斂營為臣，桂芍相配一散一收、調和營衛；生薑助桂枝解肌、大棗助芍藥益營為佐；炙甘草調和諸藥為使。服後啜熱稀粥以助藥力。",
       "school": "經方",
       "source": {
@@ -414,6 +430,11 @@
         "外感風寒、無汗惡寒者不宜",
         "不宜久煎（芳香輕清，「過煮則味厚入中焦」）",
         "脾胃虛寒者慎用"
+      ],
+      "cautions_en": [
+        "Not for an external illness from wind-cold with no sweating and aversion to cold",
+        "Do not boil for long (it is aromatic and light; \"overcooked, its flavour turns heavy and enters the middle burner\")",
+        "Use with caution if the spleen and stomach are weak and cold"
       ],
       "classical_amounts": null,
       "composition": [
@@ -526,6 +547,7 @@
         "P_FLOAT",
         "P_RAPID"
       ],
+      "en_status": "machine-draft",
       "flavor_profile": {
         "淡": 0.021,
         "甘": 0.337,
@@ -572,10 +594,12 @@
       ],
       "pregnancy": "caution",
       "principle": "辛涼透表、清熱解毒",
+      "principle_en": "Release the exterior with pungent-cool herbs; clear heat and resolve toxin",
       "rationale_citations": [
         "suwen-074-10",
         "suwen-074-11"
       ],
+      "rationale_en": "Jinyinhua (honeysuckle) and lianqiao (forsythia) are pungent-cool, thrust out the pathogen and clear heat and toxin, as sovereigns; bohe (mint) and niubangzi disperse wind and heat, clear the head and eyes and ease the throat, while jingjiesui and dandouchi disperse and release the exterior, as ministers; zhuye (bamboo leaf) clears heat in the upper burner, lugen (reed rhizome) clears heat and generates fluids, and jiegeng (platycodon) diffuses the lung and eases the throat, as assistants; licorice harmonises the other herbs, as envoy.",
       "rationale_zh": "金銀花、連翹辛涼透邪、清熱解毒為君；薄荷、牛蒡子疏風散熱、清利頭目、解毒利咽，荊芥穗、淡豆豉辛散透表為臣；竹葉清上焦熱、蘆根清熱生津，桔梗宣肺利咽為佐；甘草調和諸藥為使。",
       "school": "時方",
       "source": {
@@ -603,6 +627,10 @@
       "cautions": [
         "風寒咳嗽者不宜",
         "脾胃虛寒者慎用"
+      ],
+      "cautions_en": [
+        "Not for cough from wind-cold",
+        "Use with caution if the spleen and stomach are weak and cold"
       ],
       "classical_amounts": null,
       "composition": [
@@ -694,6 +722,7 @@
         "S_HEADACHE",
         "P_FLOAT"
       ],
+      "en_status": "machine-draft",
       "flavor_profile": {
         "甘": 0.379,
         "苦": 0.516,
@@ -740,10 +769,12 @@
       ],
       "pregnancy": "caution",
       "principle": "疏風清熱、宣肺止咳",
+      "principle_en": "Disperse wind and clear heat; diffuse the lung and relieve cough",
       "rationale_citations": [
         "suwen-074-10",
         "suwen-074-11"
       ],
+      "rationale_en": "Sangye (mulberry leaf) and juhua (chrysanthemum) disperse wind and heat and diffuse the lung to relieve cough, as sovereigns; bohe helps to disperse wind, while xingren and jiegeng diffuse and direct downward the lung qi, as minister-assistants; lianqiao clears heat and lugen clears heat and generates fluids, as assistants; licorice harmonises the other herbs, as envoy.",
       "rationale_zh": "桑葉、菊花疏散風熱、宣肺止咳為君；薄荷助疏風，杏仁、桔梗宣降肺氣為臣佐；連翹清熱、蘆根清熱生津為佐；甘草調和諸藥為使。",
       "school": "時方",
       "source": {
@@ -771,6 +802,10 @@
       "cautions": [
         "實證、熱證、陰虛火旺者不宜",
         "人參不宜與藜蘆、五靈脂同用"
+      ],
+      "cautions_en": [
+        "Not for excess or heat patterns, or yin deficiency with fire",
+        "Renshen should not be used with lilu or wulingzhi"
       ],
       "classical_amounts": null,
       "composition": [
@@ -822,6 +857,7 @@
         "S_LAZY_SPEAK",
         "T_BODY_PALE"
       ],
+      "en_status": "machine-draft",
       "flavor_profile": {
         "淡": 0.1,
         "甘": 0.586,
@@ -954,10 +990,12 @@
       ],
       "pregnancy": "ok-unreviewed",
       "principle": "益氣健脾",
+      "principle_en": "Tonify qi and support the spleen",
       "rationale_citations": [
         "suwen-074-10",
         "suwen-074-11"
       ],
+      "rationale_en": "Renshen (ginseng) strongly tonifies the source qi and supports the spleen and stomach, as sovereign; baizhu dries dampness and supports the spleen, as minister; fuling (poria) drains dampness and supports the spleen, as assistant, and together with baizhu strengthens the removal of dampness; prepared licorice tonifies qi, harmonises the middle and harmonises the other herbs, as envoy.",
       "rationale_zh": "人參大補元氣、健脾養胃為君；白朮健脾燥濕為臣；茯苓滲濕健脾為佐，與白朮相配則健脾祛濕之功益著；炙甘草益氣和中、調和諸藥為使。",
       "school": "時方",
       "source": {
@@ -985,6 +1023,10 @@
       "cautions": [
         "濕熱內盛、陰虛火旺者不宜",
         "不宜與藜蘆、五靈脂同用（含人參）"
+      ],
+      "cautions_en": [
+        "Not for internal damp-heat or yin deficiency with fire",
+        "Should not be used with lilu or wulingzhi (it contains renshen)"
       ],
       "classical_amounts": null,
       "composition": [
@@ -1096,6 +1138,7 @@
         "S_POSTPRANDIAL_BLOAT",
         "T_TOOTHMARK_EDGE"
       ],
+      "en_status": "machine-draft",
       "flavor_profile": {
         "淡": 0.147,
         "澀": 0.038,
@@ -1148,10 +1191,12 @@
       ],
       "pregnancy": "caution",
       "principle": "益氣健脾、滲濕止瀉",
+      "principle_en": "Tonify qi and support the spleen; drain dampness and stop diarrhoea",
       "rationale_citations": [
         "suwen-074-10",
         "suwen-074-11"
       ],
+      "rationale_en": "Renshen, baizhu and fuling tonify qi, support the spleen and drain dampness, as sovereigns; shanyao and lianzi (lotus seed) help the sovereigns to support the spleen and tonify qi and also stop diarrhoea, as ministers; baibiandou (lablab bean) and yiyiren (coix seed) support the spleen and drain dampness, sharen (amomum) wakes the spleen, harmonises the stomach and moves qi, and jiegeng diffuses the lung and carries the herbs upward, as assistants; licorice supports the spleen, harmonises the middle and harmonises the other herbs, as envoy.",
       "rationale_zh": "人參、白朮、茯苓益氣健脾滲濕為君；山藥、蓮子助君藥健脾益氣、兼能止瀉為臣；白扁豆、薏苡仁健脾滲濕，砂仁醒脾和胃、行氣化滯，桔梗宣肺利氣、載藥上行為佐；甘草健脾和中、調和諸藥為使。",
       "school": "時方",
       "source": {
@@ -1184,6 +1229,10 @@
       "cautions": [
         "陰虛內熱、實熱證者忌用",
         "孕婦慎用乾薑"
+      ],
+      "cautions_en": [
+        "Not for yin deficiency with internal heat or excess heat patterns",
+        "Use ganjiang with caution in pregnancy"
       ],
       "classical_amounts": [
         {
@@ -1280,6 +1329,7 @@
         "S_PREFER_HOT_FOOD",
         "T_COAT_SLIPPERY"
       ],
+      "en_status": "machine-draft",
       "flavor_profile": {
         "甘": 0.4,
         "苦": 0.236,
@@ -1349,10 +1399,12 @@
       ],
       "pregnancy": "caution",
       "principle": "溫中祛寒、補氣健脾",
+      "principle_en": "Warm the middle and dispel cold; tonify qi and support the spleen",
       "rationale_citations": [
         "suwen-074-10",
         "suwen-074-11"
       ],
+      "rationale_en": "Ganjiang (dried ginger) warms the middle and dispels cold, as sovereign; renshen tonifies qi and supports the spleen, as minister; baizhu dries dampness and supports the spleen, as assistant; prepared licorice tonifies qi, harmonises the middle and harmonises the other herbs, as envoy.",
       "rationale_zh": "乾薑溫中祛寒為君；人參補氣健脾為臣；白朮燥濕健脾為佐；炙甘草益氣和中、調和諸藥為使。",
       "school": "經方",
       "source": {
@@ -1385,6 +1437,10 @@
       "cautions": [
         "陰虛發熱、內熱熾盛者不宜",
         "實證、肝陽上亢者忌用"
+      ],
+      "cautions_en": [
+        "Not for fever from yin deficiency or intense internal heat",
+        "Not for excess patterns or ascendant liver yang"
       ],
       "classical_amounts": null,
       "composition": [
@@ -1475,6 +1531,7 @@
         "S_SHORT_BREATH",
         "S_LAZY_SPEAK"
       ],
+      "en_status": "machine-draft",
       "flavor_profile": {
         "甘": 0.691,
         "苦": 0.208,
@@ -1528,10 +1585,12 @@
       ],
       "pregnancy": "caution",
       "principle": "補中益氣、升陽舉陷",
+      "principle_en": "Tonify the middle and qi; raise the yang and lift what has sunk",
       "rationale_citations": [
         "suwen-074-10",
         "suwen-074-11"
       ],
+      "rationale_en": "Huangqi (astragalus) tonifies the middle and qi and raises the yang and secures the exterior, as sovereign; renshen, baizhu and prepared licorice tonify qi and support the spleen, as ministers; danggui nourishes blood and harmonises the construction, and chenpi regulates qi and harmonises the stomach, as assistants; shengma and chaihu raise and lift the clear yang, as envoys (and also as assistants).",
       "rationale_zh": "黃耆補中益氣、升陽固表為君；人參、白朮、炙甘草補氣健脾為臣；當歸養血和營，陳皮理氣和胃為佐；升麻、柴胡升舉清陽為使（兼佐）。",
       "school": "時方",
       "source": {
@@ -1563,6 +1622,11 @@
         "陰虛燥咳、吐血、消渴者忌用",
         "半夏須炮製；孕婦慎用",
         "不宜與烏頭類同用"
+      ],
+      "cautions_en": [
+        "Not for dry cough from yin deficiency, vomiting of blood or wasting-thirst",
+        "Banxia must be processed; use with caution in pregnancy",
+        "Should not be used with wutou-type herbs"
       ],
       "classical_amounts": null,
       "composition": [
@@ -1614,6 +1678,7 @@
         "T_COAT_WHITE_GREASY",
         "P_SLIPPERY"
       ],
+      "en_status": "machine-draft",
       "flavor_profile": {
         "淡": 0.079,
         "甘": 0.096,
@@ -1652,10 +1717,12 @@
       ],
       "pregnancy": "caution",
       "principle": "燥濕化痰、理氣和中",
+      "principle_en": "Dry dampness and resolve phlegm; regulate qi and harmonise the middle",
       "rationale_citations": [
         "suwen-074-10",
         "suwen-074-11"
       ],
+      "rationale_en": "Banxia (pinellia) dries dampness, resolves phlegm and directs rebellious qi downward to harmonise the stomach, as sovereign; juhong (orange peel) regulates qi, moves stagnation, dries dampness and resolves phlegm, as minister — together, when qi flows smoothly phlegm descends; fuling supports the spleen and drains dampness, as assistant; prepared licorice harmonises the other herbs, as envoy.",
       "rationale_zh": "半夏燥濕化痰、降逆和胃為君；橘紅理氣行滯、燥濕化痰為臣，二藥相配使氣順則痰降；茯苓健脾滲濕為佐；炙甘草調和諸藥為使。",
       "school": "時方",
       "source": {
@@ -1683,6 +1750,10 @@
       "cautions": [
         "陰虛氣滯、脾胃虛弱者不宜",
         "孕婦慎用"
+      ],
+      "cautions_en": [
+        "Not for qi stagnation with yin deficiency, or a weak spleen and stomach",
+        "Use with caution in pregnancy"
       ],
       "classical_amounts": null,
       "composition": [
@@ -1733,6 +1804,7 @@
         "S_POOR_APPETITE",
         "T_COAT_WHITE_GREASY"
       ],
+      "en_status": "machine-draft",
       "flavor_profile": {
         "甘": 0.013,
         "苦": 0.494,
@@ -1772,10 +1844,12 @@
       ],
       "pregnancy": "caution",
       "principle": "燥濕運脾、行氣和胃",
+      "principle_en": "Dry dampness and move the spleen; move qi and harmonise the stomach",
       "rationale_citations": [
         "suwen-074-10",
         "suwen-074-11"
       ],
+      "rationale_en": "Cangzhu dries dampness and moves the spleen, as sovereign; houpo (magnolia bark) moves qi, relieves fullness and dries dampness, as minister; chenpi regulates qi and moves stagnation, as assistant; prepared licorice harmonises the other herbs, as envoy.",
       "rationale_zh": "蒼朮燥濕運脾為君；厚朴行氣除滿、燥濕為臣；陳皮理氣化滯為佐；炙甘草調和諸藥為使。",
       "school": "時方",
       "source": {
@@ -1803,6 +1877,10 @@
       "cautions": [
         "陰虛火旺、痰熱者不宜",
         "孕婦慎用桂枝"
+      ],
+      "cautions_en": [
+        "Not for yin deficiency with fire or phlegm-heat",
+        "Use guizhi with caution in pregnancy"
       ],
       "classical_amounts": [
         {
@@ -1899,6 +1977,7 @@
         "T_COAT_SLIPPERY",
         "P_SLIPPERY"
       ],
+      "en_status": "machine-draft",
       "flavor_profile": {
         "淡": 0.301,
         "甘": 0.511,
@@ -1940,10 +2019,12 @@
       ],
       "pregnancy": "caution",
       "principle": "溫陽化飲、健脾利濕",
+      "principle_en": "Warm the yang and transform rheum; support the spleen and drain dampness",
       "rationale_citations": [
         "suwen-074-10",
         "suwen-074-11"
       ],
+      "rationale_en": "Fuling supports the spleen, drains dampness and transforms rheum, as sovereign; guizhi warms the yang, transforms qi and calms upward surging, as minister; baizhu supports the spleen and dries dampness, as assistant; prepared licorice tonifies qi, harmonises the middle and harmonises the other herbs, as envoy. The Jingui says: \"For those ill with phlegm-rheum, harmonise it with warming medicine.\"",
       "rationale_zh": "茯苓健脾滲濕、化飲為君；桂枝溫陽化氣、平沖降逆為臣；白朮健脾燥濕為佐；炙甘草益氣和中、調和諸藥為使。《金匱》言「病痰飲者，當以溫藥和之」。",
       "school": "經方",
       "source": {
@@ -1977,6 +2058,11 @@
         "陰虛津傷、無濕熱者忌用",
         "孕婦慎用（薏苡仁、滑石、半夏）",
         "不宜與烏頭類同用（含半夏）"
+      ],
+      "cautions_en": [
+        "Not for yin deficiency with fluid damage, or without damp-heat",
+        "Use with caution in pregnancy (yiyiren, huashi, banxia)",
+        "Should not be used with wutou-type herbs (it contains banxia)"
       ],
       "classical_amounts": null,
       "composition": [
@@ -2068,6 +2154,7 @@
         "S_STICKY_MOUTH",
         "T_COAT_YELLOW_GREASY"
       ],
+      "en_status": "machine-draft",
       "flavor_profile": {
         "淡": 0.351,
         "甘": 0.351,
@@ -2110,10 +2197,12 @@
       ],
       "pregnancy": "caution",
       "principle": "宣暢氣機、清利濕熱",
+      "principle_en": "Diffuse and free the qi movement; clear and drain damp-heat",
       "rationale_citations": [
         "suwen-074-10",
         "suwen-074-11"
       ],
+      "rationale_en": "Xingren diffuses lung qi in the upper burner, baikouren (cardamom) transforms dampness with its fragrance and moves qi to ease the middle, and yiyiren drains dampness downward with its sweet blandness; together the three are the sovereigns, diffusing above, freeing the middle and draining below; huashi, tongcao and zhuye clear heat and drain dampness, as ministers; houpo and banxia move qi, dry dampness and disperse fullness, as assistants.",
       "rationale_zh": "杏仁宣利上焦肺氣，白蔻仁芳香化濕、行氣寬中，薏苡仁甘淡滲濕利下，三者共為君，宣上、暢中、滲下；滑石、通草、竹葉清熱利濕為臣；厚朴、半夏行氣燥濕、散滿消痞為佐。",
       "school": "時方",
       "source": {
@@ -2142,6 +2231,11 @@
         "原方「木通」須用川木通或通草，絕不可用含馬兜鈴酸的關木通",
         "寒濕證、陰虛者不宜",
         "孕婦慎用"
+      ],
+      "cautions_en": [
+        "In the original, \"mutong\" must be chuanmutong or tongcao — never guanmutong, which contains aristolochic acid",
+        "Not for cold-damp patterns or yin deficiency",
+        "Use with caution in pregnancy"
       ],
       "classical_amounts": null,
       "composition": [
@@ -2263,6 +2357,7 @@
         "S_BODY_HEAVY",
         "T_COAT_YELLOW_GREASY"
       ],
+      "en_status": "machine-draft",
       "flavor_profile": {
         "淡": 0.176,
         "甘": 0.211,
@@ -2311,10 +2406,12 @@
       ],
       "pregnancy": "caution",
       "principle": "利濕化濁、清熱解毒",
+      "principle_en": "Drain dampness and transform turbidity; clear heat and resolve toxin",
       "rationale_citations": [
         "suwen-074-10",
         "suwen-074-11"
       ],
+      "rationale_en": "Huashi drains water and clears heat, yinchen clears heat, drains dampness and relieves jaundice, and huangqin clears heat and dries dampness; together they are the sovereigns; shichangpu, chuanbeimu and mutong transform dampness and phlegm and lead heat downward, as ministers; huoxiang, baidoukou and bohe transform turbidity with their fragrance, while lianqiao and shegan clear heat, resolve toxin and ease the throat, as assistants.",
       "rationale_zh": "滑石利水清熱、茵陳清熱利濕退黃、黃芩清熱燥濕共為君；石菖蒲、川貝母、木通化濕化痰、導熱下行為臣；藿香、白豆蔻、薄荷芳香化濁，連翹、射干清熱解毒利咽為佐。",
       "school": "時方",
       "source": {
@@ -2344,6 +2441,10 @@
       "cautions": [
         "脾胃虛寒、濕盛、痰濕者忌用",
         "糖尿病者慎用冰糖"
+      ],
+      "cautions_en": [
+        "Not for a weak, cold spleen and stomach, or for dampness and phlegm-dampness",
+        "People with diabetes should use the rock sugar with caution"
       ],
       "classical_amounts": null,
       "composition": [
@@ -2404,6 +2505,7 @@
         "S_EPIGASTRIC_BURNING",
         "T_CRACKS_CENTER"
       ],
+      "en_status": "machine-draft",
       "flavor_profile": {
         "甘": 0.608,
         "苦": 0.392
@@ -2439,10 +2541,12 @@
       ],
       "pregnancy": "ok-unreviewed",
       "principle": "養陰益胃",
+      "principle_en": "Nourish yin and benefit the stomach",
       "rationale_citations": [
         "suwen-074-10",
         "suwen-074-11"
       ],
+      "rationale_en": "Shengdihuang (rehmannia) and maidong are sweet-cold, nourish yin, clear heat and generate fluids, as sovereigns; shashen and yuzhu nourish yin, generate fluids and benefit the stomach, as ministers; rock sugar moistens the lung and stomach and harmonises the other herbs, as assistant.",
       "rationale_zh": "生地黃、麥冬甘寒養陰、清熱生津為君；沙參、玉竹養陰生津、益胃為臣；冰糖濡養肺胃、調和諸藥為佐。",
       "school": "時方",
       "source": {
@@ -2471,6 +2575,11 @@
         "肝陽上亢、陰虛火旺者慎用",
         "孕婦慎用（含當歸）",
         "服藥期間宜情緒舒暢"
+      ],
+      "cautions_en": [
+        "Use with caution with ascendant liver yang or yin deficiency with fire",
+        "Use with caution in pregnancy (it contains danggui)",
+        "Keep the mood at ease while taking it"
       ],
       "classical_amounts": null,
       "composition": [
@@ -2563,6 +2672,7 @@
         "S_MENSES_IRREGULAR",
         "P_WIRY"
       ],
+      "en_status": "machine-draft",
       "flavor_profile": {
         "淡": 0.057,
         "甘": 0.225,
@@ -2669,10 +2779,12 @@
       ],
       "pregnancy": "caution",
       "principle": "疏肝解鬱、養血健脾",
+      "principle_en": "Soothe the liver and relieve constraint; nourish blood and support the spleen",
       "rationale_citations": [
         "suwen-074-10",
         "suwen-074-11"
       ],
+      "rationale_en": "Chaihu (bupleurum) soothes the liver and relieves constraint, as sovereign; danggui and baishao (white peony) nourish blood and soften the liver, as ministers — with chaihu they supplement the liver's substance and support its function; baizhu and fuling support the spleen and dispel dampness, bohe disperses suppressed qi and carries through the liver channel, and weijiang (roasted ginger) warms the stomach and harmonises the middle, as assistants; prepared licorice harmonises the other herbs, as envoy.",
       "rationale_zh": "柴胡疏肝解鬱為君；當歸、白芍養血柔肝為臣，與柴胡相配補肝體而助肝用；白朮、茯苓健脾祛濕，薄荷疏散鬱遏之氣、透達肝經，煨薑溫胃和中為佐；炙甘草調和諸藥為使。",
       "school": "時方",
       "source": {
@@ -2705,6 +2817,10 @@
       "cautions": [
         "陰虛火旺、脅痛由肝血不足者不宜",
         "孕婦慎用（川芎、枳殼）"
+      ],
+      "cautions_en": [
+        "Not for yin deficiency with fire, or hypochondriac pain from liver blood deficiency",
+        "Use with caution in pregnancy (chuanxiong, zhiqiao)"
       ],
       "classical_amounts": null,
       "composition": [
@@ -2786,6 +2902,7 @@
         "S_EMOTION_TRIGGERED",
         "P_WIRY"
       ],
+      "en_status": "machine-draft",
       "flavor_profile": {
         "甘": 0.049,
         "苦": 0.389,
@@ -2838,10 +2955,12 @@
       ],
       "pregnancy": "caution",
       "principle": "疏肝理氣、活血止痛",
+      "principle_en": "Soothe the liver and regulate qi; invigorate blood and relieve pain",
       "rationale_citations": [
         "suwen-074-10",
         "suwen-074-11"
       ],
+      "rationale_en": "Chaihu soothes the liver and relieves constraint, as sovereign; xiangfu regulates qi, soothes the liver and relieves pain, and chuanxiong invigorates blood, moves qi and relieves pain, as ministers; chenpi and zhiqiao regulate qi and move stagnation, while shaoyao and licorice nourish blood, soften the liver and relieve spasm and pain, as assistants and envoys.",
       "rationale_zh": "柴胡疏肝解鬱為君；香附理氣疏肝止痛，川芎活血行氣止痛為臣；陳皮、枳殼理氣行滯，芍藥、甘草養血柔肝、緩急止痛為佐使。",
       "school": "時方",
       "source": {
@@ -2871,6 +2990,10 @@
       "cautions": [
         "虛證鬱滯者不宜單用",
         "孕婦慎用（川芎）"
+      ],
+      "cautions_en": [
+        "Not to be used alone for constraint and stagnation from deficiency",
+        "Use with caution in pregnancy (chuanxiong)"
       ],
       "classical_amounts": null,
       "composition": [
@@ -2931,6 +3054,7 @@
         "S_POSTPRANDIAL_BLOAT",
         "S_DEPRESSED"
       ],
+      "en_status": "machine-draft",
       "flavor_profile": {
         "甘": 0.175,
         "苦": 0.299,
@@ -2975,10 +3099,12 @@
       ],
       "pregnancy": "caution",
       "principle": "行氣解鬱（氣血痰火濕食六鬱）",
+      "principle_en": "Move qi and relieve constraint (the six constraints: qi, blood, phlegm, fire, dampness, food)",
       "rationale_citations": [
         "suwen-074-10",
         "suwen-074-11"
       ],
+      "rationale_en": "Xiangfu moves qi and relieves qi constraint, as sovereign; chuanxiong invigorates blood and moves qi to relieve blood constraint, cangzhu dries dampness and moves the spleen to relieve damp constraint, shenqu (fermented leaven) disperses food and harmonises the stomach to relieve food constraint, and zhizi (gardenia) clears heat and drains fire to relieve fire constraint; phlegm constraint comes from qi stagnation and gathered dampness, so it clears when the other constraints are relieved.",
       "rationale_zh": "香附行氣解氣鬱為君；川芎活血行氣以解血鬱，蒼朮燥濕運脾以解濕鬱，神曲消食和胃以解食鬱，梔子清熱瀉火以解火鬱；痰鬱乃氣滯濕聚而成，諸鬱得解而痰鬱隨之消除。",
       "school": "時方",
       "source": {
@@ -3013,6 +3139,12 @@
         "脾胃虛寒、陰虛陽亢者忌用",
         "木通須用川木通，不可用關木通",
         "孕婦慎用"
+      ],
+      "cautions_en": [
+        "Bitter and cold and harsh: it easily harms the spleen and stomach, so do not take it for long",
+        "Not for a weak, cold spleen and stomach, or yin deficiency with hyperactive yang",
+        "Mutong must be chuanmutong; never guanmutong",
+        "Use with caution in pregnancy"
       ],
       "classical_amounts": null,
       "composition": [
@@ -3126,6 +3258,7 @@
         "P_WIRY",
         "P_RAPID"
       ],
+      "en_status": "machine-draft",
       "flavor_profile": {
         "甘": 0.324,
         "苦": 0.625,
@@ -3184,10 +3317,12 @@
       ],
       "pregnancy": "caution",
       "principle": "清瀉肝膽實火、清利肝經濕熱",
+      "principle_en": "Clear and drain excess fire of the liver and gallbladder; clear and drain damp-heat of the liver channel",
       "rationale_citations": [
         "suwen-074-10",
         "suwen-074-11"
       ],
+      "rationale_en": "Longdancao (gentian) is intensely bitter and cold, drains excess fire of the liver and gallbladder and drains damp-heat of the liver channel, as sovereign; huangqin and zhizi are bitter-cold and drain fire, as ministers; zexie (alisma), mutong and cheqianzi clear and drain damp-heat, while danggui and shengdihuang nourish blood and enrich yin to protect the liver yin, as assistants; chaihu soothes the liver and guides the herbs to the channel, and licorice harmonises the other herbs, as envoys.",
       "rationale_zh": "龍膽草大苦大寒、瀉肝膽實火並利肝經濕熱為君；黃芩、梔子苦寒瀉火為臣；澤瀉、木通、車前子清利濕熱，當歸、生地養血滋陰以顧護肝陰為佐；柴胡疏肝引經，甘草調和諸藥為使。",
       "school": "時方",
       "source": {
@@ -3217,6 +3352,10 @@
       "cautions": [
         "脾胃虛弱、食少便溏者慎用",
         "孕婦慎用（川芎、當歸）"
+      ],
+      "cautions_en": [
+        "Use with caution if the spleen and stomach are weak, with poor appetite and loose stools",
+        "Use with caution in pregnancy (chuanxiong, danggui)"
       ],
       "classical_amounts": null,
       "composition": [
@@ -3268,6 +3407,7 @@
         "S_HEAD_DIZZY",
         "T_BODY_PALE"
       ],
+      "en_status": "machine-draft",
       "flavor_profile": {
         "甘": 0.536,
         "苦": 0.125,
@@ -3336,10 +3476,12 @@
       ],
       "pregnancy": "caution",
       "principle": "補血調血",
+      "principle_en": "Tonify blood and regulate blood",
       "rationale_citations": [
         "suwen-074-10",
         "suwen-074-11"
       ],
+      "rationale_en": "Shudihuang (cooked rehmannia) enriches yin and nourishes blood, as sovereign; danggui tonifies blood, nourishes the liver, harmonises blood and regulates menstruation, as minister; baishao nourishes blood, softens the liver and harmonises the construction, as assistant; chuanxiong invigorates blood and moves qi and so frees qi and blood, as envoy, so that the tonification does not stagnate.",
       "rationale_zh": "熟地黃滋陰養血為君；當歸補血養肝、和血調經為臣；白芍養血柔肝和營為佐；川芎活血行氣、調暢氣血為使，使補而不滯。",
       "school": "時方",
       "source": {
@@ -3370,6 +3512,11 @@
         "孕婦慎用（川芎）",
         "有實邪鬱火者慎用酸棗仁",
         "服藥期間避免咖啡、濃茶"
+      ],
+      "cautions_en": [
+        "Use with caution in pregnancy (chuanxiong)",
+        "Use suanzaoren with caution with excess pathogen or constrained fire",
+        "Avoid coffee and strong tea while taking it"
       ],
       "classical_amounts": [
         {
@@ -3487,6 +3634,7 @@
         "S_BLURRED_VISION",
         "P_THIN"
       ],
+      "en_status": "machine-draft",
       "flavor_profile": {
         "淡": 0.082,
         "甘": 0.481,
@@ -3539,10 +3687,12 @@
       ],
       "pregnancy": "caution",
       "principle": "養血安神、清熱除煩",
+      "principle_en": "Nourish blood and calm the spirit; clear heat and relieve restlessness",
       "rationale_citations": [
         "suwen-074-10",
         "suwen-074-11"
       ],
+      "rationale_en": "Suanzaoren (jujube seed) nourishes blood, tonifies the liver and quiets the heart and spirit, as sovereign; fuling quiets the heart and spirit, as minister; zhimu enriches yin, clears heat, relieves restlessness and calms the spirit, and chuanxiong regulates blood and soothes the liver, as assistants; licorice harmonises the middle, relieves urgency and harmonises the other herbs, as envoy.",
       "rationale_zh": "酸棗仁養血補肝、寧心安神為君；茯苓寧心安神為臣；知母滋陰清熱、除煩安神，川芎調血疏肝為佐；甘草和中緩急、調和諸藥為使。",
       "school": "經方",
       "source": {
@@ -3577,6 +3727,11 @@
         "陰虛火旺、痰濕內盛者不宜",
         "孕婦慎用（當歸）",
         "外感發熱者暫停"
+      ],
+      "cautions_en": [
+        "Not for yin deficiency with fire, or with abundant internal phlegm-dampness",
+        "Use with caution in pregnancy (danggui)",
+        "Pause during an external illness with fever"
       ],
       "classical_amounts": null,
       "composition": [
@@ -3689,6 +3844,7 @@
         "S_FACE_SALLOW",
         "T_BODY_PALE"
       ],
+      "en_status": "machine-draft",
       "flavor_profile": {
         "淡": 0.061,
         "甘": 0.584,
@@ -3744,10 +3900,12 @@
       ],
       "pregnancy": "caution",
       "principle": "益氣補血、健脾養心",
+      "principle_en": "Tonify qi and blood; support the spleen and nourish the heart",
       "rationale_citations": [
         "suwen-074-10",
         "suwen-074-11"
       ],
+      "rationale_en": "Huangqi tonifies spleen qi, and longyanrou (longan flesh) tonifies the heart and spleen, nourishes blood and calms the spirit; together they are the sovereigns; renshen and baizhu help huangqi to tonify spleen qi, danggui helps longyanrou to nourish blood, and suanzaoren, fushen and yuanzhi quiet the heart and spirit, as ministers; muxiang regulates qi and wakes the spleen so that the tonification does not stagnate, as assistant; prepared licorice harmonises the other herbs, as envoy.",
       "rationale_zh": "黃耆補脾益氣、龍眼肉補益心脾、養血安神共為君；人參、白朮助黃耆補脾益氣，當歸助龍眼肉養血，酸棗仁、茯神、遠志寧心安神為臣；木香理氣醒脾、使補而不滯為佐；炙甘草調和諸藥為使。",
       "school": "時方",
       "source": {
@@ -3781,6 +3939,11 @@
         "脾胃虛寒、泄瀉者忌用",
         "苦寒藥不宜久服",
         "蛋類過敏者忌用雞子黃"
+      ],
+      "cautions_en": [
+        "Not for a weak, cold spleen and stomach, or diarrhoea",
+        "Do not take the bitter-cold herbs for long",
+        "Not for people allergic to egg (the egg yolk)"
       ],
       "classical_amounts": [
         {
@@ -3898,6 +4061,7 @@
         "T_TIP_RED",
         "P_RAPID"
       ],
+      "en_status": "machine-draft",
       "flavor_profile": {
         "甘": 0.298,
         "苦": 0.591,
@@ -3938,10 +4102,12 @@
       ],
       "pregnancy": "ok-unreviewed",
       "principle": "滋陰降火、交通心腎",
+      "principle_en": "Enrich yin and bring down fire; restore communication between the heart and kidney",
       "rationale_citations": [
         "suwen-074-10",
         "suwen-074-11"
       ],
+      "rationale_en": "Huanglian (coptis) clears heart fire and ejiao (donkey-hide gelatin) enriches kidney yin, restoring balance between water and fire, as sovereigns; huangqin helps huanglian to clear fire and shaoyao helps ejiao to enrich yin, as ministers; egg yolk nourishes the heart and enriches yin, calms the spirit and relieves restlessness, as assistant.",
       "rationale_zh": "黃連清心火、阿膠滋腎陰，水火既濟為君；黃芩助黃連清火，芍藥助阿膠滋陰為臣；雞子黃養心滋陰、安神除煩為佐。",
       "school": "經方",
       "source": {
@@ -3978,6 +4144,11 @@
         "原方朱砂為衣，已略去（含汞）",
         "脾胃虛寒、痰濕者慎用（滋膩藥多）",
         "不宜與藜蘆同用（含人參、玄參、丹參）"
+      ],
+      "cautions_en": [
+        "The original's cinnabar coating is omitted (it contains mercury)",
+        "Use with caution if the spleen and stomach are weak and cold, or with phlegm-dampness (many of the herbs are rich and cloying)",
+        "Should not be used with lilu (it contains renshen, xuanshen and danshen)"
       ],
       "classical_amounts": null,
       "composition": [
@@ -4120,6 +4291,7 @@
         "T_TIP_RED",
         "P_THIN"
       ],
+      "en_status": "machine-draft",
       "flavor_profile": {
         "淡": 0.016,
         "甘": 0.506,
@@ -4179,10 +4351,12 @@
       ],
       "pregnancy": "caution",
       "principle": "滋陰清熱、養血安神",
+      "principle_en": "Enrich yin and clear heat; nourish blood and calm the spirit",
       "rationale_citations": [
         "suwen-074-10",
         "suwen-074-11"
       ],
+      "rationale_en": "A large amount of shengdihuang enriches yin and clears heat, as sovereign; tiandong, maidong, suanzaoren and baiziren enrich yin, nourish blood and nourish the heart and spirit, as ministers; xuanshen, danggui, danshen, fuling, renshen, wuweizi and yuanzhi tonify qi and blood and quiet the heart, as assistants; jiegeng carries the herbs upward, as envoy. The original is coated with cinnabar; because it contains mercury, cinnabar is not included in this project's version.",
       "rationale_zh": "重用生地黃滋陰清熱為君；天冬、麥冬、酸棗仁、柏子仁滋陰養血、養心安神為臣；玄參、當歸、丹參、茯苓、人參、五味子、遠志補氣血、寧心神為佐；桔梗載藥上行為使。原方以朱砂為衣，因含汞，本專案配方不收朱砂。",
       "school": "時方",
       "source": {
@@ -4210,6 +4384,10 @@
       "cautions": [
         "陰虛燥咳者不宜",
         "孕婦慎用（半夏、枳實）"
+      ],
+      "cautions_en": [
+        "Not for dry cough from yin deficiency",
+        "Use with caution in pregnancy (banxia, zhishi)"
       ],
       "classical_amounts": null,
       "composition": [
@@ -4302,6 +4480,7 @@
         "T_COAT_YELLOW_GREASY",
         "P_SLIPPERY"
       ],
+      "en_status": "machine-draft",
       "flavor_profile": {
         "淡": 0.055,
         "甘": 0.233,
@@ -4351,10 +4530,12 @@
       ],
       "pregnancy": "caution",
       "principle": "理氣化痰、清膽和胃",
+      "principle_en": "Regulate qi and resolve phlegm; clear the gallbladder and harmonise the stomach",
       "rationale_citations": [
         "suwen-074-10",
         "suwen-074-11"
       ],
+      "rationale_en": "Banxia dries dampness, resolves phlegm, harmonises the stomach and stops vomiting, as sovereign; zhuru (bamboo shavings) clears heat, resolves phlegm, relieves restlessness and stops vomiting, as minister; zhishi and chenpi regulate qi and resolve phlegm, fuling supports the spleen and drains dampness, and shengjiang and dazao harmonise the middle, as assistants; prepared licorice harmonises the other herbs, as envoy.",
       "rationale_zh": "半夏燥濕化痰、和胃止嘔為君；竹茹清熱化痰、除煩止嘔為臣；枳實、陳皮理氣化痰，茯苓健脾滲濕，生薑、大棗和中為佐；炙甘草調和諸藥為使。",
       "school": "時方",
       "source": {
@@ -4382,6 +4563,10 @@
       "cautions": [
         "外感風邪、表實無汗者不宜",
         "陰虛盜汗者不宜"
+      ],
+      "cautions_en": [
+        "Not for an external wind illness, or an excess exterior without sweating",
+        "Not for night sweating from yin deficiency"
       ],
       "classical_amounts": null,
       "composition": [
@@ -4422,6 +4607,7 @@
         "S_EASY_COLD",
         "S_SHORT_BREATH"
       ],
+      "en_status": "machine-draft",
       "flavor_profile": {
         "甘": 0.746,
         "苦": 0.197,
@@ -4456,10 +4642,12 @@
       ],
       "pregnancy": "ok-unreviewed",
       "principle": "益氣固表止汗",
+      "principle_en": "Tonify qi, secure the exterior and stop sweating",
       "rationale_citations": [
         "suwen-074-10",
         "suwen-074-11"
       ],
+      "rationale_en": "Huangqi tonifies qi, secures the exterior and stops sweating, as sovereign; baizhu supports the spleen and tonifies qi and helps huangqi to secure the exterior, as minister; fangfeng dispels wind and moves to the exterior — together with huangqi it secures the exterior without trapping the pathogen and disperses wind without harming the upright qi, as assistant and envoy.",
       "rationale_zh": "黃耆益氣固表止汗為君；白朮健脾益氣、助黃耆固表為臣；防風祛風走表，與黃耆相配固表而不留邪、散風而不傷正為佐使。",
       "school": "時方",
       "source": {
@@ -4491,6 +4679,11 @@
         "痰濕咳嗽者不宜",
         "半夏須炮製",
         "不宜與藜蘆、五靈脂同用（含人參）"
+      ],
+      "cautions_en": [
+        "Not for cough from phlegm-dampness",
+        "Banxia must be processed",
+        "Should not be used with lilu or wulingzhi (it contains renshen)"
       ],
       "classical_amounts": [
         {
@@ -4629,6 +4822,7 @@
         "T_COAT_PEELED_ALL",
         "P_THIN"
       ],
+      "en_status": "machine-draft",
       "flavor_profile": {
         "甘": 0.654,
         "苦": 0.298,
@@ -4678,10 +4872,12 @@
       ],
       "pregnancy": "caution",
       "principle": "清養肺胃、降逆下氣",
+      "principle_en": "Clear and nourish the lung and stomach; direct rebellious qi downward",
       "rationale_citations": [
         "suwen-074-10",
         "suwen-074-11"
       ],
+      "rationale_en": "A large amount of maidong nourishes yin, generates fluids, nourishes the lung and stomach and clears deficiency fire, as sovereign; banxia directs rebellious qi downward and resolves phlegm — the amount is small and it is paired with a lot of maidong, so it neither dries nor harms yin, as minister; renshen, japonica rice and dazao tonify qi and nourish the stomach, so that the nourished stomach fills the lung qi, as assistants; licorice moistens the lung, eases the throat and harmonises the other herbs, as envoy.",
       "rationale_zh": "重用麥冬養陰生津、滋養肺胃、清虛火為君；半夏降逆下氣、化痰，用量甚輕且與大量麥冬相伍，不燥不傷陰為臣；人參、粳米、大棗益氣養胃、使胃得養而肺氣充為佐；甘草潤肺利咽、調和諸藥為使。",
       "school": "經方",
       "source": {
@@ -4717,6 +4913,11 @@
         "外感風寒咳嗽、痰濕者不宜",
         "不宜與烏頭類同用（含天花粉）",
         "不宜與藜蘆同用（含沙參）"
+      ],
+      "cautions_en": [
+        "Not for cough from external wind-cold, or for phlegm-dampness",
+        "Should not be used with wutou-type herbs (it contains tianhuafen)",
+        "Should not be used with lilu (it contains shashen)"
       ],
       "classical_amounts": null,
       "composition": [
@@ -4798,6 +4999,7 @@
         "T_BODY_RED",
         "P_THIN"
       ],
+      "en_status": "machine-draft",
       "flavor_profile": {
         "甘": 0.701,
         "苦": 0.299
@@ -4841,10 +5043,12 @@
       ],
       "pregnancy": "caution",
       "principle": "甘寒生津、清養肺胃",
+      "principle_en": "Generate fluids with sweet-cold herbs; clear and nourish the lung and stomach",
       "rationale_citations": [
         "suwen-074-10",
         "suwen-074-11"
       ],
+      "rationale_en": "Shashen and maidong are sweet-cold, nourish yin, clear the lung and moisten dryness, as sovereigns; yuzhu and tianhuafen help the sovereigns to generate fluids and nourish yin, as ministers; sangye lightly diffuses dry-heat, and baibiandou supports the spleen and harmonises the middle, as assistants; licorice harmonises the other herbs, as envoy.",
       "rationale_zh": "沙參、麥冬甘寒養陰、清肺潤燥為君；玉竹、天花粉助君藥生津養陰為臣；桑葉輕宣燥熱，白扁豆健脾和中為佐；甘草調和諸藥為使。",
       "school": "時方",
       "source": {
@@ -4873,6 +5077,11 @@
         "脾虛便溏、食少者慎用（滋膩）",
         "孕婦慎用牡丹皮",
         "感冒發熱期間暫停"
+      ],
+      "cautions_en": [
+        "Use with caution with a weak spleen, loose stools or poor appetite (it is rich and cloying)",
+        "Use mudanpi with caution in pregnancy",
+        "Pause during a cold with fever"
       ],
       "classical_amounts": null,
       "composition": [
@@ -4945,6 +5154,7 @@
         "T_ROOT_COAT_PEELED",
         "P_THIN"
       ],
+      "en_status": "machine-draft",
       "flavor_profile": {
         "淡": 0.051,
         "澀": 0.117,
@@ -5050,10 +5260,12 @@
       ],
       "pregnancy": "caution",
       "principle": "滋陰補腎",
+      "principle_en": "Enrich yin and tonify the kidney",
       "rationale_citations": [
         "suwen-074-10",
         "suwen-074-11"
       ],
+      "rationale_en": "A large amount of shudihuang enriches yin, tonifies the kidney and fills the essence and marrow, as sovereign; shanzhuyu (cornus) nourishes the liver and astringes essence, and shanyao tonifies the spleen and secures essence, as ministers — the three yin are tonified together; zexie drains dampness and turbidity, mudanpi (moutan) clears and drains liver fire, and fuling blandly drains spleen dampness, as assistants — the three draining herbs restrain the stagnation of the three tonifying ones.",
       "rationale_zh": "重用熟地黃滋陰補腎、填精益髓為君；山茱萸養肝澀精，山藥補脾固精為臣，三陰並補；澤瀉利濕泄濁、牡丹皮清瀉肝火、茯苓淡滲脾濕為佐，三瀉以制三補之滯。",
       "school": "時方",
       "source": {
@@ -5082,6 +5294,11 @@
         "含附子：有毒，孕婦禁用，須久煎並由醫師處方",
         "陰虛火旺者忌用",
         "不宜與半夏、瓜蔞、貝母、白蘞、白及同用"
+      ],
+      "cautions_en": [
+        "Contains fuzi: toxic, forbidden in pregnancy, must be boiled for a long time and used only under a practitioner's direction",
+        "Not for yin deficiency with fire",
+        "Should not be used with banxia, gualou, beimu, bailian or baiji"
       ],
       "classical_amounts": [
         {
@@ -5252,6 +5469,7 @@
         "T_BODY_PALE_SWOLLEN",
         "P_SINK"
       ],
+      "en_status": "machine-draft",
       "flavor_profile": {
         "淡": 0.04,
         "澀": 0.092,
@@ -5307,10 +5525,12 @@
       ],
       "pregnancy": "avoid",
       "principle": "補腎助陽、陰中求陽",
+      "principle_en": "Tonify the kidney and support the yang; seek yang within yin",
       "rationale_citations": [
         "suwen-074-10",
         "suwen-074-11"
       ],
+      "rationale_en": "Fuzi (aconite) and guizhi (later, sometimes rougui) warm and tonify kidney yang and stir kidney qi, as sovereigns, in the sense of \"a small fire generates qi\"; gandihuang, shanzhuyu and shanyao enrich and tonify kidney yin, seeking yang within yin, as ministers; zexie and fuling drain water and dampness, and mudanpi clears and drains liver fire, as assistants.",
       "rationale_zh": "附子、桂枝（後世或用肉桂）溫補腎陽、鼓舞腎氣為君，取「少火生氣」；乾地黃、山茱萸、山藥滋補腎陰、陰中求陽為臣；澤瀉、茯苓利水滲濕，牡丹皮清泄肝火為佐。",
       "school": "經方",
       "source": {
@@ -5349,6 +5569,11 @@
         "含附子、肉桂：孕婦禁用附子，須由醫師處方",
         "陰虛火旺、濕熱者忌用",
         "感冒期間暫停"
+      ],
+      "cautions_en": [
+        "Contains fuzi and rougui: fuzi is forbidden in pregnancy, and it must be used only under a practitioner's direction",
+        "Not for yin deficiency with fire, or damp-heat",
+        "Pause during a cold"
       ],
       "classical_amounts": null,
       "composition": [
@@ -5460,6 +5685,7 @@
         "S_SPIRIT_WITHDRAWN",
         "P_SINK"
       ],
+      "en_status": "machine-draft",
       "flavor_profile": {
         "澀": 0.051,
         "甘": 0.604,
@@ -5508,10 +5734,12 @@
       ],
       "pregnancy": "avoid",
       "principle": "溫補腎陽、填精益髓",
+      "principle_en": "Warm and tonify the kidney yang; fill the essence and marrow",
       "rationale_citations": [
         "suwen-074-10",
         "suwen-074-11"
       ],
+      "rationale_en": "Fuzi and rougui warm and tonify kidney yang, and lujiaojiao (deer-antler gelatin) warms kidney yang and boosts essence and blood; together they are the sovereigns; shudihuang, shanyao, shanzhuyu and gouqizi enrich yin and benefit the kidney, nourish the liver and tonify the spleen, seeking yang within yin, as ministers; tusizi and duzhong tonify the liver and kidney and strengthen the lower back and knees, and danggui nourishes and harmonises blood, as assistants.",
       "rationale_zh": "附子、肉桂溫補腎陽，鹿角膠溫腎陽、益精血共為君；熟地黃、山藥、山茱萸、枸杞子滋陰益腎、養肝補脾，陰中求陽為臣；菟絲子、杜仲補肝腎、強腰膝，當歸養血和血為佐。",
       "school": "時方",
       "source": {
@@ -5542,6 +5770,11 @@
         "外感發熱、實證者不宜",
         "脾胃虛弱、食少便溏者慎用（滋膩）",
         "孕婦慎用（當歸、川芎）"
+      ],
+      "cautions_en": [
+        "Not for an external illness with fever, or for excess patterns",
+        "Use with caution if the spleen and stomach are weak, with poor appetite and loose stools (it is rich and cloying)",
+        "Use with caution in pregnancy (danggui, chuanxiong)"
       ],
       "classical_amounts": null,
       "composition": [
@@ -5654,6 +5887,7 @@
         "T_BODY_PALE",
         "P_THIN"
       ],
+      "en_status": "machine-draft",
       "flavor_profile": {
         "淡": 0.078,
         "甘": 0.516,
@@ -5713,10 +5947,12 @@
       ],
       "pregnancy": "caution",
       "principle": "益氣補血",
+      "principle_en": "Tonify qi and blood",
       "rationale_citations": [
         "suwen-074-10",
         "suwen-074-11"
       ],
+      "rationale_en": "Renshen and shudihuang tonify qi and nourish blood, as sovereigns; baizhu and fuling support the spleen, and danggui and baishao nourish blood, as ministers; chuanxiong invigorates blood and moves qi so that the tonification does not stagnate, as assistant; prepared licorice, shengjiang and dazao harmonise the middle and the construction, as envoys. It is Sijunzi Tang combined with Siwu Tang.",
       "rationale_zh": "人參、熟地黃益氣養血共為君；白朮、茯苓健脾，當歸、白芍養血為臣；川芎活血行氣使補而不滯為佐；炙甘草、生薑、大棗和中調營為使。即四君子湯合四物湯。",
       "school": "時方",
       "source": {
@@ -5747,6 +5983,11 @@
         "孕婦及月經過多者禁用",
         "服用抗凝血藥或有出血傾向者禁用",
         "無瘀血者不宜"
+      ],
+      "cautions_en": [
+        "Forbidden in pregnancy and with heavy menstrual bleeding",
+        "Forbidden with anticoagulant medicines or a tendency to bleed",
+        "Not suited when there is no blood stasis"
       ],
       "classical_amounts": null,
       "composition": [
@@ -5868,6 +6109,7 @@
         "T_ECCHYMOSIS",
         "P_CHOPPY"
       ],
+      "en_status": "machine-draft",
       "flavor_profile": {
         "甘": 0.312,
         "苦": 0.355,
@@ -5925,10 +6167,12 @@
       ],
       "pregnancy": "caution",
       "principle": "活血化瘀、行氣止痛",
+      "principle_en": "Invigorate blood and dispel stasis; move qi and relieve pain",
       "rationale_citations": [
         "suwen-074-10",
         "suwen-074-11"
       ],
+      "rationale_en": "Taoren (peach kernel) and honghua (safflower) invigorate blood and dispel stasis, as sovereigns; chishao and chuanxiong help the sovereigns to invigorate blood, and niuxi dispels stasis, frees the vessels and leads blood downward, as ministers; shengdihuang and danggui nourish blood and enrich yin so that dispelling stasis does not harm the upright qi, chaihu and zhiqiao soothe the liver and regulate qi, and jiegeng opens the lung qi and carries the herbs upward, as assistants and envoys; licorice harmonises the other herbs.",
       "rationale_zh": "桃仁、紅花活血化瘀為君；赤芍、川芎助君藥活血，牛膝祛瘀通脈、引血下行為臣；生地黃、當歸養血益陰、使祛瘀而不傷正，柴胡、枳殼疏肝理氣，桔梗開肺氣、載藥上行為佐使；甘草調和諸藥。",
       "school": "時方",
       "source": {
@@ -5958,6 +6202,10 @@
       "cautions": [
         "往來寒熱屬外感症狀，應就醫評估",
         "僅供學習顯示，不作推薦"
+      ],
+      "cautions_en": [
+        "Alternating chills and fever is a symptom of an external illness and should be assessed by a doctor",
+        "Shown for study only, not as a recommendation"
       ],
       "classical_amounts": [
         {
@@ -6116,6 +6364,7 @@
         "S_BITTER_MOUTH",
         "S_NAUSEA"
       ],
+      "en_status": "machine-draft",
       "flavor_profile": {
         "甘": 0.124,
         "苦": 0.443,
@@ -6169,10 +6418,12 @@
       "patterns": [],
       "pregnancy": "caution",
       "principle": "和解少陽",
+      "principle_en": "Harmonise the shaoyang",
       "rationale_citations": [
         "suwen-074-10",
         "suwen-074-11"
       ],
+      "rationale_en": "Chaihu thrusts out the pathogen from the shaoyang and clears the channel qi, as sovereign; huangqin clears and drains shaoyang heat, as minister; banxia and shengjiang harmonise the stomach and direct rebellious qi downward, while renshen, prepared licorice and dazao support the upright qi and expel the pathogen, as assistants and envoys. Alternating chills and fever of the shaoyang is an external illness that needs a doctor, so this formula is not offered as self-care in the MVP; it is shown for study only.",
       "rationale_zh": "柴胡透泄少陽之邪、疏達經氣為君；黃芩清泄少陽之熱為臣；半夏、生薑和胃降逆，人參、炙甘草、大棗扶正祛邪為佐使。少陽往來寒熱屬應就醫的外感，不列入 MVP 自助推薦，僅供學習。",
       "school": "經方",
       "source": {

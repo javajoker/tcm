@@ -10,7 +10,7 @@ import { usePageTitle } from "../../app/usePageTitle.ts";
 import type { SavedAssessment } from "../../storage/types.ts";
 import { Card, Chip, LinkButton, Skeleton } from "../../ui/index.ts";
 import { matchWord } from "./Advice.tsx";
-import { BilingualName, ZhText } from "./shared.tsx";
+import { BilingualName, Prose } from "./shared.tsx";
 import { CHANNELS, LIUXIE_SLUG, ORGAN_SLUG, PRODUCT_SLUG } from "./words.ts";
 import { DataTable } from "./Panel.tsx";
 
@@ -85,14 +85,14 @@ function Detail({ saved, rec, formula, kb }: { saved: SavedAssessment; rec: Form
         </Card>
 
         <Card title={t.t("formula.rationale.title")} headingLevel={2} id="formula-rationale">
-          <p><ZhText>{formula.rationale_zh}</ZhText></p>
+          <p><Prose zh={formula.rationale_zh} en={formula.rationale_en} status={formula.en_status} /></p>
           <p>{formula.rationale_citations.map((c) => <CitationChip key={c} id={c} usedFor={t.localized(formula.name).text} />)}</p>
         </Card>
 
         <Card title={t.t("formula.cautions.title")} headingLevel={2} id="formula-cautions">
           <ul>
             <li>{t.t(formula.pregnancy === "avoid" ? "formula.cautions.pregnancy.avoid" : formula.pregnancy === "caution" ? "formula.cautions.pregnancy.caution" : "formula.cautions.pregnancy.ok")}</li>
-            {formula.cautions.map((c) => <li key={c}><ZhText>{c}</ZhText></li>)}
+            {formula.cautions.map((c, i) => <li key={c}><Prose zh={c} en={formula.cautions_en[i]} status={formula.en_status} /></li>)}
             {rec.annotations.map((n) => <li key={n.ruleId}>{t.localized(n.message).text}</li>)}
           </ul>
           {formula.interactions.length > 0 ? (<><p><strong>{t.t("formula.cautions.interactions")}</strong></p><ul>{formula.interactions.map((i) => <li key={i}>{t.t(`formula.interaction.${i}` as MessageKey)}</li>)}</ul></>) : null}

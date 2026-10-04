@@ -96,6 +96,7 @@ DEFS = {
     "panelDim": pattern(rf"^(({ORGANS})\.(qi|blood|yin|yang|stasis)|liuxie\.(風|寒|暑|濕|燥|火)|product\.(痰|飲|瘀|食積)|bagang\.exterior)$"),
     "panelMap": {"type": "object", "propertyNames": {"$ref": "#/$defs/panelDim"}, "additionalProperties": NUM},
     "reviewStatus": enum("derived", "curated-draft", "draft", "reviewed"),
+    "enStatus": enum("machine-draft", "reviewed"),
     "level": enum("L0", "L1", "L2", "L3"),
     "notice": enum("none", "inline", "blocking_ack"),
 }
@@ -163,7 +164,7 @@ def patterns() -> dict:
         "against": dictionary(NUM, ref("symptomId")), "citations": arr(ref("citationId")), "elements": arr(ref("elementId")), "formulas": arr(ref("formulaId")),
         "group": enum("external", "spleen-stomach", "liver", "heart", "lung", "kidney", "qi-blood"), "id": ref("patternId"), "max_score": INT,
         "name": ref("bilingualNamed"), "panel_projection_per_degree": ref("panelMap"), "principle": STR, "required_any": arr(ref("symptomId"), 1),
-        "status": ref("reviewStatus"), "tongue_pulse_note": STR,
+        "status": ref("reviewStatus"), "tongue_pulse_note": STR, "tongue_pulse_note_en": STR, "principle_en": STR, "en_status": ref("enStatus"),
         "treatment": obj({"acupoints": arr(STR), "foods": arr(STR), "lifestyle": STR}),
         "weights": dictionary({"type": "integer", "minimum": 1, "maximum": 3}, ref("symptomId"), 1),
     })
@@ -280,10 +281,10 @@ def formulas() -> dict:
         "composition": arr(comp, 1), "core_indications": arr(ref("symptomId"), 1), "flavor_profile": dictionary(NUM), "id": ref("formulaId"), "interactions": arr(STR),
         "kb_commit": STR, "modifications": arr(mod), "mvp": BOOL, "name": ref("bilingualNamed"), "panel_burden": ref("panelMap"), "panel_effect": ref("panelMap"),
         "patterns": arr(ref("patternId")), "pregnancy": enum("ok", "ok-unreviewed", "caution", "avoid"), "principle": STR, "rationale_citations": arr(ref("citationId")),
-        "rationale_zh": STR, "school": enum("經方", "時方"), "source": obj({"book": STR, "ref": STR, "repo_path": STR}, ["book", "ref"]), "status": ref("reviewStatus"),
+        "rationale_zh": STR, "rationale_en": STR, "cautions_en": arr(STR), "principle_en": STR, "en_status": ref("enStatus"), "school": enum("經方", "時方"), "source": obj({"book": STR, "ref": STR, "repo_path": STR}, ["book", "ref"]), "status": ref("reviewStatus"),
         "tier": enum("A", "B", "C"), "tier_reasons": arr(STR), "verification": verification,
-    }, ["cautions", "classical_amounts", "composition", "core_indications", "flavor_profile", "id", "interactions", "modifications", "mvp", "name", "panel_burden", "panel_effect", "patterns",
-        "pregnancy", "principle", "rationale_citations", "rationale_zh", "school", "source", "status", "tier", "tier_reasons", "verification"])  # kb_commit is internal: pruned from release bundles
+    }, ["cautions", "cautions_en", "classical_amounts", "composition", "core_indications", "en_status", "flavor_profile", "id", "interactions", "modifications", "mvp", "name", "panel_burden", "panel_effect", "patterns",
+        "pregnancy", "principle", "principle_en", "rationale_citations", "rationale_en", "rationale_zh", "school", "source", "status", "tier", "tier_reasons", "verification"])  # kb_commit is internal: pruned from release bundles
     return envelope(item, meta({"composition_status_counts": dictionary(INT), "count": INT, "proportion_note": STR, "role_weight_basis": arr(ref("citationId")), "role_weights": dictionary(NUM),
                                 "tier_counts": dictionary(INT), "tier_rule": STR},
                                ["composition_status_counts", "count", "proportion_note", "role_weight_basis", "role_weights", "tier_counts", "tier_rule"]))
@@ -373,7 +374,7 @@ def treatment_guidance() -> dict:
         "foods": dictionary(food, min_props=1),
         "lifestyle": dictionary(ref("bilingualNamed"), min_props=1),
         "food_pregnancy_caution": arr(STR),
-        "general": obj({"source": arr(ref("citationId")), "text": STR})},
+        "general": obj({"en_status": ref("enStatus"), "source": arr(ref("citationId")), "text": STR, "text_en": STR})},
         "required": ["_meta", "acupoints", "acupressure", "food_pregnancy_caution", "foods", "general", "lifestyle"], "additionalProperties": False}
 
 

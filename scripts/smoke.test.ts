@@ -1,5 +1,6 @@
 // The deploy files and the smoke test: a real build is served by the Pages emulator (scripts/serve-dist.ts) and must pass; seeded damage to the generated files must fail the
-// smoke test with the right message; the generators are checked directly.
+// smoke test with the right message; the generators are checked directly. Like check-release.test.ts it runs `vite build`, which writes apps/web/.kb/<profile>: the two files must not run at
+// the same time (`pnpm test:scripts` runs the test files one after the other).
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
 import { cpSync, mkdtempSync, readdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";

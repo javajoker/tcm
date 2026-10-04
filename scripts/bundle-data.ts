@@ -11,8 +11,10 @@ import { buildChunks, type Reach } from "../packages/kb/src/bundle.ts";
 import { readDataFiles } from "../packages/kb/node/fromDisk.ts";
 import type { ChunkRef, Manifest, ProfileName } from "../packages/kb/src/types.ts";
 
-/** Gzip budgets per chunk in bytes (tech spec §5.2). */
+/** Gzip budgets per chunk in bytes (tech spec §5.2) — the release budgets; the dev profile carries every tier and the herb records and gets half as much again. */
 export const BUDGET_GZ = { core: 60 * 1024, formulas: 30 * 1024, herbs: 25 * 1024, citations: 15 * 1024, guidance: 20 * 1024 } as const;
+
+export const DEV_BUDGET_FACTOR = 1.5;
 
 const sha256 = (s: string): string => createHash("sha256").update(s).digest("hex");
 
@@ -58,7 +60,7 @@ export function writeBundle(opts: WriteBundleOptions): WriteBundleResult {
     writeFileSync(join(out, file), body);
     const gz = gzipSync(body, { level: 9 }).length;
     refs[name] = { file, sha256: hash, bytes: Buffer.byteLength(body) };
-    const budget = BUDGET_GZ[name as keyof typeof BUDGET_GZ];
+    const budget = BUDGET_GZ[name as keyof typeof BUDGET_GZ] * (profile === "dev" ? DEV_BUDGET_FACTOR : 1);
     report.push(`  ${name.padEnd(10)} ${(Buffer.byteLength(body) / 1024).toFixed(1).padStart(7)} KB  gzip ${(gz / 1024).toFixed(1).padStart(6)} KB  (budget ${(budget / 1024).toFixed(0)} KB)`);
     if (gz > budget) overBudget.push(`${name}: ${(gz / 1024).toFixed(1)} KB gzip exceeds the ${(budget / 1024).toFixed(0)} KB budget`);
   }

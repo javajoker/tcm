@@ -18,6 +18,7 @@ from opencc import OpenCC
 
 from .common import DATA, LIB, ROOT, book_path, dump, norm_ws, read_book, submodule_commits, tw
 from .curated.formulas import FORMULAS
+from .curated import prose_en
 from .curated.params import PARAMS
 from .curated.herbs import NAME_TO_LIB
 
@@ -275,7 +276,7 @@ def build(herbs_by_id: dict[str, dict], index: dict[str, str]) -> list[dict]:
             "patterns": f["patterns"], "principle": f["principle"], "mvp": f.get("mvp", True),
             "composition": comp, "classical_amounts": classical_amounts,
             "core_indications": f["core"], "rationale_zh": f["fangyi"], "rationale_citations": ROLE_CITATIONS,
-            "cautions": f["cautions"],
+            "cautions": f["cautions"], "principle_en": prose_en.FORMULA[f["id"]][0], "rationale_en": prose_en.FORMULA[f["id"]][1], "cautions_en": prose_en.FORMULA[f["id"]][2], "en_status": prose_en.EN_STATUS,
             "panel_effect": {k: round(v, 3) for k, v in sorted(eff.items())},
             "panel_burden": {k: round(v, 3) for k, v in sorted(harm.items())},
             "flavor_profile": {k: round(v / total_flavor, 3) for k, v in sorted(flavor_share.items())},

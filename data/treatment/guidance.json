@@ -1745,6 +1745,7 @@
     }
   },
   "general": {
+    "en_status": "machine-draft",
     "source": [
       "suwen-001-1",
       "suwen-001-2",
@@ -1752,7 +1753,8 @@
       "suwen-022-1",
       "suwen-070-2"
     ],
-    "text": "食飲有節，起居有常，不妄作勞；恬惔虛無，真氣從之，精神內守，病安從來。四季依《四氣調神大論》調養；飲食「穀肉果菜，食養盡之，無使過之，傷其正也」。"
+    "text": "食飲有節，起居有常，不妄作勞；恬惔虛無，真氣從之，精神內守，病安從來。四季依《四氣調神大論》調養；飲食「穀肉果菜，食養盡之，無使過之，傷其正也」。",
+    "text_en": "Eat and drink in moderation, keep regular hours and do not overwork; keep the mind quiet and free of craving, so that the true qi follows and the spirit is kept within — how then could illness arise? Follow the four seasons in nourishing life, as the chapter on regulating the spirit in accordance with the four seasons describes; for food, \"let grains, meat, fruit and vegetables nourish you to the full, without overdoing it, which would harm the right qi\"."
   },
   "lifestyle": {
     "EX1": {

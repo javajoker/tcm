@@ -3,6 +3,7 @@
 export type CitationId = string;
 export type HerbId = string;
 export type SymptomId = string;
+export type EnStatus = "machine-draft" | "reviewed";
 export type FormulaId = string;
 export type PatternId = string;
 export type ReviewStatus = "derived" | "curated-draft" | "draft" | "reviewed";
@@ -28,6 +29,7 @@ export interface Formulas {
   };
   items: {
     cautions: string[];
+    cautions_en: string[];
     classical_amounts:
       | null
       | {
@@ -52,6 +54,7 @@ export interface Formulas {
       typical_g?: number;
     }[];
     core_indications: SymptomId[];
+    en_status: EnStatus;
     flavor_profile: {
       [k: string]: number;
     };
@@ -87,7 +90,9 @@ export interface Formulas {
     patterns: PatternId[];
     pregnancy: "ok" | "ok-unreviewed" | "caution" | "avoid";
     principle: string;
+    principle_en: string;
     rationale_citations: CitationId[];
+    rationale_en: string;
     rationale_zh: string;
     school: "經方" | "時方";
     source: {

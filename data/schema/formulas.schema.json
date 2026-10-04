@@ -59,6 +59,12 @@
       "pattern": "^PE_.+$",
       "type": "string"
     },
+    "enStatus": {
+      "enum": [
+        "machine-draft",
+        "reviewed"
+      ]
+    },
     "evil": {
       "enum": [
         "風",
@@ -215,6 +221,12 @@
             },
             "type": "array"
           },
+          "cautions_en": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
           "classical_amounts": {
             "oneOf": [
               {
@@ -340,6 +352,9 @@
             },
             "minItems": 1,
             "type": "array"
+          },
+          "en_status": {
+            "$ref": "#/$defs/enStatus"
           },
           "flavor_profile": {
             "additionalProperties": {
@@ -500,11 +515,17 @@
           "principle": {
             "type": "string"
           },
+          "principle_en": {
+            "type": "string"
+          },
           "rationale_citations": {
             "items": {
               "$ref": "#/$defs/citationId"
             },
             "type": "array"
+          },
+          "rationale_en": {
+            "type": "string"
           },
           "rationale_zh": {
             "type": "string"
@@ -653,9 +674,11 @@
         },
         "required": [
           "cautions",
+          "cautions_en",
           "classical_amounts",
           "composition",
           "core_indications",
+          "en_status",
           "flavor_profile",
           "id",
           "interactions",
@@ -667,7 +690,9 @@
           "patterns",
           "pregnancy",
           "principle",
+          "principle_en",
           "rationale_citations",
+          "rationale_en",
           "rationale_zh",
           "school",
           "source",

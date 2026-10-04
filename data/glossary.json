@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "count": 161,
+    "count": 163,
     "description": "zh-Hant ⇄ English glossary (English follows WHO ISTM where known; needs review).",
     "schema": 1
   },
@@ -1459,10 +1459,12 @@
       "zh-Hant": "辨證"
     },
     {
-      "alt": [],
+      "alt": [
+        "qi, blood"
+      ],
       "domain": "substance",
       "en": "qi and blood",
-      "note": null,
+      "note": "\"Qi, blood\" is accepted where the two are listed among other items (the six constraints).",
       "pinyin": "qì xuè",
       "source": "who-istm-2007",
       "status": "needs-review",
@@ -1691,6 +1693,28 @@
       "source": "textbook",
       "status": "needs-review",
       "zh-Hant": "苔乾"
+    },
+    {
+      "alt": [],
+      "domain": "diagnosis",
+      "en": "alternating chills and fever",
+      "note": "The shaoyang pattern; distinct from 寒熱 (cold and heat) as a pair of poles.",
+      "pinyin": "wǎng lái hán rè",
+      "source": "textbook",
+      "status": "needs-review",
+      "zh-Hant": "往來寒熱"
+    },
+    {
+      "alt": [
+        "wuweizi"
+      ],
+      "domain": "herb",
+      "en": "schisandra (wuweizi)",
+      "note": "The herb, not the five flavours (五味).",
+      "pinyin": "wǔ wèi zǐ",
+      "source": "textbook",
+      "status": "needs-review",
+      "zh-Hant": "五味子"
     }
   ]
 }

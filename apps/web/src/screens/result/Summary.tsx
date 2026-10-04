@@ -5,7 +5,7 @@ import { useLoaded } from "../../app/knowledge.tsx";
 import type { SavedAssessment } from "../../storage/types.ts";
 import { Button, Card, Chip, Progress } from "../../ui/index.ts";
 import { ConstitutionTendency } from "./ConstitutionTendency.tsx";
-import { BilingualName, ZhText } from "./shared.tsx";
+import { BilingualName, Prose } from "./shared.tsx";
 
 const METER = { high: 1, medium: 0.66, low: 0.33, insufficient: 0 } as const;
 
@@ -45,7 +45,7 @@ export function Summary({ saved, onAnswerMore }: { saved: SavedAssessment; onAns
             <Chip tone="primary">{t.t(`report.group.${leadRec.group}` as MessageKey)}</Chip>{" "}
             <Chip>{t.t(`report.band.${lead.band}` as MessageKey)}</Chip>
           </p>
-          <p><strong>{t.t("report.summary.direction")}</strong>: <ZhText>{leadRec.principle}</ZhText></p>
+          <p><strong>{t.t("report.summary.direction")}</strong>: <Prose zh={leadRec.principle} en={leadRec.principle_en} status={leadRec.en_status} /></p>
         </>
       ) : null}
       <div>

@@ -10,7 +10,7 @@ import { Card, Chip } from "../../ui/index.ts";
 import { FeedbackMarks } from "./feedback.tsx";
 import { formulaKey } from "./feedbackModel.ts";
 import { FoodItem, Lifestyle, PointItem, PressingNotes } from "./Guidance.tsx";
-import { BilingualName, ZhText } from "./shared.tsx";
+import { BilingualName, Prose, ZhText } from "./shared.tsx";
 
 const ROLE_SLUG = { 君: "sovereign", 臣: "minister", 佐: "assistant", 使: "envoy" } as const;
 
@@ -32,7 +32,7 @@ function FormulaCard({ f, savedId, study }: { f: FormulaRecommendation; savedId:
         <Chip>{t.t("report.formula.match")}: {t.t(`report.match.${word}` as MessageKey)}</Chip>{" "}
         <span className="muted">{t.t("report.formula.source", { book: rec.source.book })}</span>
       </p>
-      <p><ZhText>{rec.rationale_zh}</ZhText></p>
+      <p><Prose zh={rec.rationale_zh} en={rec.rationale_en} status={rec.en_status} /></p>
       <details>
         <summary style={{ minHeight: 44, display: "flex", alignItems: "center", cursor: "pointer" }}>{t.t("report.formula.composition")}</summary>
         <ul style={{ display: "flex", flexWrap: "wrap", gap: "var(--space-2)", listStyle: "none", padding: 0 }}>
@@ -45,7 +45,7 @@ function FormulaCard({ f, savedId, study }: { f: FormulaRecommendation; savedId:
       {rec.cautions.length > 0 || f.annotations.length > 0 ? (
         <>
           <h5 style={{ margin: "var(--space-3) 0 var(--space-1)" }}>{t.t("report.formula.cautions")}</h5>
-          <ul>{rec.cautions.map((c) => <li key={c}><ZhText>{c}</ZhText></li>)}{f.annotations.map((n) => <li key={n.ruleId}>{t.localized(n.message).text}</li>)}</ul>
+          <ul>{rec.cautions.map((c, i) => <li key={c}><Prose zh={c} en={rec.cautions_en[i]} status={rec.en_status} /></li>)}{f.annotations.map((n) => <li key={n.ruleId}>{t.localized(n.message).text}</li>)}</ul>
         </>
       ) : null}
       <p className="muted">{t.t("safety.notice.formula.text")}</p>
@@ -70,7 +70,7 @@ export function Advice({ saved }: { saved: SavedAssessment }): ReactNode {
       {r.principles.length > 0 ? (
         <section aria-labelledby="adv-principles">
           <h3 id="adv-principles">{t.t("report.advice.principles")}</h3>
-          <ul>{r.principles.map((p) => <li key={p.patternId}><strong>{patternName(p.patternId)}</strong>: <ZhText>{p.text}</ZhText></li>)}</ul>
+          <ul>{r.principles.map((p) => <li key={p.patternId}><strong>{patternName(p.patternId)}</strong>: <Prose zh={p.text} en={kb.patternById.get(p.patternId)?.principle_en} status={kb.patternById.get(p.patternId)?.en_status} /></li>)}</ul>
         </section>
       ) : null}
 
@@ -104,7 +104,7 @@ export function Advice({ saved }: { saved: SavedAssessment }): ReactNode {
       <section aria-labelledby="adv-life">
         <h3 id="adv-life">{t.t("report.advice.lifestyle")}</h3>
         {r.lifestyle.length > 0 ? <ul>{r.lifestyle.map((l) => <li key={l.patternId}><strong>{patternName(l.patternId)}</strong>: <Lifestyle patternId={l.patternId} fallback={<ZhText>{l.text}</ZhText>} /></li>)}</ul> : null}
-        <p><strong>{t.t("report.advice.general")}</strong>: <ZhText>{r.general.text}</ZhText></p>
+        <p><strong>{t.t("report.advice.general")}</strong>: <Prose zh={r.general.text} en={kb.treatment.general.text_en} status={kb.treatment.general.en_status} /></p>
         <p>{r.general.citations.map((c) => <CitationChip key={c} id={c} usedFor={t.t("report.advice.general")} />)}</p>
       </section>
     </Card>

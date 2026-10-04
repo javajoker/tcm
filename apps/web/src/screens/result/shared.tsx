@@ -16,4 +16,15 @@ export function ZhText({ children }: { children: ReactNode }): ReactNode {
   return <><span lang="zh-Hant">{children}</span>{lang === "en" ? <> <abbr className="muted" title={t.t("report.zhOnlyTitle")} lang="zh-Hant">{t.t("report.zhOnly")}</abbr></> : null}</>;
 }
 
+/**
+ * Prose of the knowledge base that has an English rendering (K-13): the English page shows the English with a "draft translation" marker while it is a machine draft; the Chinese page
+ * shows the Chinese. Without an English text the Chinese is shown as before, marked "中".
+ */
+export function Prose({ zh, en, status }: { zh: string; en?: string | undefined; status?: "machine-draft" | "reviewed" | undefined }): ReactNode {
+  const { lang, t } = useI18n();
+  if (lang !== "en") return <span lang="zh-Hant">{zh}</span>;
+  if (!en) return <ZhText>{zh}</ZhText>;
+  return <><span lang="en">{en}</span>{status === "machine-draft" ? <> <abbr className="muted" title={t.t("report.draftTranslationTitle")}>({t.t("report.draftTranslation")})</abbr></> : null}</>;
+}
+
 export const nameOf = (v: Bilingual | undefined, fallback: string): { "zh-Hant": string; en: string | null } => v ?? { "zh-Hant": fallback, en: null };

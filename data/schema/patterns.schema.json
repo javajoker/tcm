@@ -59,6 +59,12 @@
       "pattern": "^PE_.+$",
       "type": "string"
     },
+    "enStatus": {
+      "enum": [
+        "machine-draft",
+        "reviewed"
+      ]
+    },
     "evil": {
       "enum": [
         "風",
@@ -198,6 +204,9 @@
             },
             "type": "array"
           },
+          "en_status": {
+            "$ref": "#/$defs/enStatus"
+          },
           "formulas": {
             "items": {
               "$ref": "#/$defs/formulaId"
@@ -230,6 +239,9 @@
           "principle": {
             "type": "string"
           },
+          "principle_en": {
+            "type": "string"
+          },
           "required_any": {
             "items": {
               "$ref": "#/$defs/symptomId"
@@ -241,6 +253,9 @@
             "$ref": "#/$defs/reviewStatus"
           },
           "tongue_pulse_note": {
+            "type": "string"
+          },
+          "tongue_pulse_note_en": {
             "type": "string"
           },
           "treatment": {
@@ -286,6 +301,7 @@
           "against",
           "citations",
           "elements",
+          "en_status",
           "formulas",
           "group",
           "id",
@@ -293,9 +309,11 @@
           "name",
           "panel_projection_per_degree",
           "principle",
+          "principle_en",
           "required_any",
           "status",
           "tongue_pulse_note",
+          "tongue_pulse_note_en",
           "treatment",
           "weights"
         ],
