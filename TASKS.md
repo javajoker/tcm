@@ -209,7 +209,7 @@ Suggested waves: **1** foundation (E-01, K-01, K-02, I-01, U-01, R-01) → **2**
 | [x] | R-04 | Deploy workflow, headers file (CSP, caching), SPA fallback, smoke tests | P1 | M | DEC-03, R-02 | Staging deploys from tags |
 | [x] | R-05 | Dependency hygiene: Renovate/Dependabot, `pnpm audit`, licence allowlist, SBOM | P1 | S | E-01 | Reports attached to artifacts |
 | [x] | R-06 | Repo hygiene: `SECURITY.md`, issue/PR templates, `CODEOWNERS`, `CHANGELOG.md` | P1 | S | — | Templates match [CONTRIBUTING](CONTRIBUTING.md) |
-| [ ] | R-07 | Release-candidate dry run against [`CHECKLIST.md`](CHECKLIST.md) §5 | P1 | M | all P0 | Signed checklist |
+| [ ] | R-07 | Release-candidate dry run against [`CHECKLIST.md`](CHECKLIST.md) §5 | P1 | M | all P0 | Signed checklist — **dry run done** 2026-10-04: [release-dry-run.md](docs/release-dry-run.md) (what is green, what needs CI, an owner or people); the signed checklist itself stays open |
 
 ## V. Review (non-code; M3)
 
