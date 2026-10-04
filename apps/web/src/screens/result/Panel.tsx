@@ -4,7 +4,12 @@ import { useI18n } from "../../i18n/I18nProvider.tsx";
 import type { MessageKey } from "../../i18n/catalogs.ts";
 import type { SavedAssessment } from "../../storage/types.ts";
 import { Card } from "../../ui/index.ts";
-import { CHANNELS, ELEMENT_SLUG, level5, LIUXIE_SLUG, ORGAN_SLUG, PRODUCT_SLUG, signed } from "./words.ts";
+import { BagangAxes, SignedBars } from "./figures/BarFigures.tsx";
+import { FigureBlock } from "./figures/FigureBlock.tsx";
+import { describeRadar, FivePhaseRadar } from "./figures/FivePhaseRadar.tsx";
+import { OffsetCompare } from "./figures/OffsetCompare.tsx";
+import { OrganHeat } from "./figures/OrganHeat.tsx";
+import { ELEMENT_SLUG, level5, LIUXIE_SLUG, ORGAN_SLUG, PRODUCT_SLUG, signed } from "./words.ts";
 
 const th = { textAlign: "start", padding: "0.4rem 0.6rem", borderBottom: "2px solid var(--border-strong)" } as const;
 const td = { padding: "0.4rem 0.6rem", borderBottom: "1px solid var(--border)" } as const;
@@ -22,7 +27,7 @@ export function DataTable({ caption, head, rows }: { caption: string; head: stri
   );
 }
 
-/** ③ Panel (盤面): the observed panel in words, with the numbers in the table twins. Figures (radar, heat-map, bars) are added over these tables by U-16. */
+/** ③ Panel (盤面): figures (radar, bars, axes, organ heat map, offsets) each with a one-sentence description and its table twin; values are words first, numbers in the tables. */
 export function Panel({ saved }: { saved: SavedAssessment }): ReactNode {
   const { t } = useI18n();
   const p = saved.result.panel;
@@ -31,49 +36,53 @@ export function Panel({ saved }: { saved: SavedAssessment }): ReactNode {
   const element = (e: Element): string => t.t(`report.element.${ELEMENT_SLUG[e]}` as MessageKey);
   const level = (v: number, range = 3): string => t.t(`report.level.${level5(v, range)}` as MessageKey);
 
-  const strongest = [...ELEMENTS].map((e) => ({ e, v: p.offsetPopulation[e] })).sort((a, b) => Math.abs(b.v) - Math.abs(a.v))[0];
-  const summary = strongest !== undefined && level5(strongest.v) !== "normal"
-    ? t.t("report.panel.summary.some", { element: element(strongest.e), level: level(strongest.v) }) : t.t("report.panel.summary.none");
-
   const liuxie = (Object.keys(LIUXIE_SLUG) as (keyof typeof LIUXIE_SLUG)[]).map((k) => ({ label: t.t(`report.liuxie.${LIUXIE_SLUG[k]}` as MessageKey), v: p.observed[`liuxie.${k}`] ?? 0 }));
   const products = (Object.keys(PRODUCT_SLUG) as (keyof typeof PRODUCT_SLUG)[]).map((k) => ({ label: t.t(`report.product.${PRODUCT_SLUG[k]}` as MessageKey), v: p.observed[`product.${k}`] ?? 0 }));
-  const organs = (Object.keys(ORGAN_SLUG) as (keyof typeof ORGAN_SLUG)[]).map((o) => ({ organ: o, label: t.t(`report.organ.${ORGAN_SLUG[o]}` as MessageKey), cells: CHANNELS.map((c) => p.observed[`${o}.${c}`] ?? 0) })).filter((r) => r.cells.some((v) => v !== 0));
-  const liuxieRows = [...liuxie, ...products].filter((r) => Math.abs(r.v) >= 0.05);
+  const bars = [...liuxie, ...products];
+  const strongestBar = [...bars].sort((a, b) => Math.abs(b.v) - Math.abs(a.v))[0];
+  const barSummary = strongestBar !== undefined && level5(strongestBar.v) !== "normal" ? t.t("report.figure.bars.summary.some", { item: strongestBar.label, level: level(strongestBar.v) }) : t.t("report.figure.bars.summary.none");
+
   const b = p.bagang;
   const axis = (key: "coldHeat" | "deficiencyExcess", v: number): string => t.t(`report.axis.${key}.${level5(v, 1)}` as MessageKey);
   const exterior = b.exterior < 0.2 ? "none" : b.exterior < 0.5 ? "slight" : "clear";
+  const axesSummary = t.t("report.figure.axes.summary", { coldHeat: axis("coldHeat", b.coldHeat), deficiencyExcess: axis("deficiencyExcess", b.deficiencyExcess), exterior: t.t(`report.axis.exterior.${exterior}` as MessageKey), yinYang: t.t(`report.axis.yinYang.${b.yinYang}` as MessageKey) });
+
+  const organs = Object.entries(p.observed).filter(([k]) => /^[^.]+\.(qi|blood|yin|yang|stasis)$/.test(k) && !k.startsWith("liuxie.") && !k.startsWith("product.") && !k.startsWith("bagang."));
+  const topOrgan = [...organs].sort(([, x], [, y]) => Math.abs(y) - Math.abs(x))[0];
+  const organSummary = topOrgan !== undefined && level5(topOrgan[1]) !== "normal"
+    ? (() => { const [o, c] = topOrgan[0].split("."); return t.t("report.figure.organs.summary.some", { organ: o && o in ORGAN_SLUG ? t.t(`report.organ.${ORGAN_SLUG[o as keyof typeof ORGAN_SLUG]}` as MessageKey) : o ?? "", channel: t.t(`report.channel.${c ?? "qi"}` as MessageKey), level: level(topOrgan[1]) }); })()
+    : t.t("report.figure.organs.summary.none");
+
+  const itemHead = [t.t("report.panel.col.item"), t.t("report.panel.col.level"), t.t("report.panel.col.value")];
+  const series = [{ label: t.t("report.figure.series.typical"), values: p.offsetPopulation, marker: "circle" as const }, ...(p.offsetPersonal !== null ? [{ label: t.t("report.figure.series.usual"), values: p.offsetPersonal, dash: "6 4", marker: "square" as const }] : [])];
+
   return (
     <Card title={t.t("report.panel.title")} id="sec-panel">
-      <p>{summary}</p>
       <p className="muted">{t.t("report.panel.valueNote")}</p>
       <h3>{t.t("report.panel.primary")}</h3>
-      <DataTable caption={t.t("report.panel.caption.wuxing")} head={[t.t("report.panel.col.item"), t.t("report.panel.col.level"), t.t("report.panel.col.value")]}
-        rows={ELEMENTS.map((e) => [element(e), level(p.offsetPopulation[e]), num(p.offsetPopulation[e])])} />
-      {liuxieRows.length === 0 ? <p>{t.t("report.panel.liuxie.none")}</p> : (
-        <>
-          <DataTable caption={t.t("report.panel.caption.liuxie")} head={[t.t("report.panel.col.item"), t.t("report.panel.col.level"), t.t("report.panel.col.value")]}
-            rows={liuxieRows.map((r) => [r.label, level(r.v), num(r.v)])} />
-          <p className="muted" style={{ marginTop: "calc(var(--space-3) * -1)" }}>{t.t("report.panel.liuxie.rest")}</p>
-        </>
-      )}
-      <DataTable caption={t.t("report.panel.caption.bagang")} head={[t.t("report.panel.col.item"), t.t("report.panel.col.level"), t.t("report.panel.col.value")]}
-        rows={[
+      <FigureBlock summary={describeRadar(t, p.offsetPopulation)} figure={<FivePhaseRadar title={t.t("report.figure.radar.title")} series={series} />}
+        table={<DataTable caption={t.t("report.panel.caption.wuxing")} head={itemHead} rows={ELEMENTS.map((e) => [element(e), level(p.offsetPopulation[e]), num(p.offsetPopulation[e])])} />} />
+      <FigureBlock summary={barSummary} figure={<SignedBars title={t.t("report.figure.bars.title")} rows={bars.map((r) => ({ label: r.label, value: r.v }))} description={barSummary} />}
+        table={<DataTable caption={t.t("report.panel.caption.liuxie")} head={itemHead} rows={bars.map((r) => [r.label, level(r.v), num(r.v)])} />} />
+      <FigureBlock summary={axesSummary}
+        figure={<BagangAxes title={t.t("report.figure.axes.title")} description={axesSummary} axes={[{ key: "coldHeat", value: b.coldHeat, min: -1, max: 1 }, { key: "deficiencyExcess", value: b.deficiencyExcess, min: -1, max: 1 }, { key: "exterior", value: b.exterior, min: 0, max: 1 }]} />}
+        table={<DataTable caption={t.t("report.panel.caption.bagang")} head={itemHead} rows={[
           [t.t("report.panel.axis.coldHeat"), axis("coldHeat", b.coldHeat), num(b.coldHeat)],
           [t.t("report.panel.axis.deficiencyExcess"), axis("deficiencyExcess", b.deficiencyExcess), num(b.deficiencyExcess)],
           [t.t("report.panel.axis.exterior"), t.t(`report.axis.exterior.${exterior}` as MessageKey), t.number(b.exterior, { maximumFractionDigits: 1, minimumFractionDigits: 1 })],
           [t.t("report.panel.axis.yinYang"), t.t(`report.axis.yinYang.${b.yinYang}` as MessageKey), "—"],
-        ]} />
-      {organs.length === 0 ? <p>{t.t("report.panel.organs.none")}</p> : (
-        <DataTable caption={t.t("report.panel.caption.organs")} head={[t.t("report.panel.col.item"), ...CHANNELS.map((c) => t.t(`report.channel.${c}` as MessageKey))]}
-          rows={organs.map((r) => [r.label, ...r.cells.map((v) => (v === 0 ? "—" : `${level(v)} (${num(v)})`))])} />
-      )}
+        ]} />} />
+      <p>{organSummary}</p>
+      <OrganHeat observed={p.observed} caption={t.t("report.panel.caption.organs")} />
 
       {p.offsetPersonal !== null && p.alignment !== null ? (
         <>
           <h3>{t.t("report.panel.secondary")}</h3>
           <p className="muted">{t.t("report.panel.birthNote")}{t.t("safety.notice.birth.text")}</p>
-          <DataTable caption={t.t("report.panel.secondary")} head={[t.t("report.panel.col.item"), t.t("report.panel.col.typical"), t.t("report.panel.col.usual"), t.t("report.panel.col.match")]}
-            rows={ELEMENTS.map((e) => [element(e), num(p.offsetPopulation[e]), num(p.offsetPersonal![e]), t.t(`report.panel.align.${p.alignment![e]}` as MessageKey)])} />
+          <FigureBlock summary={t.t("report.figure.offsets.title")}
+            figure={<OffsetCompare title={t.t("report.figure.offsets.title")} description={t.t("report.figure.offsets.title")} primary={p.offsetPopulation} personal={p.offsetPersonal} alignment={p.alignment} />}
+            table={<DataTable caption={t.t("report.panel.secondary")} head={[t.t("report.panel.col.item"), t.t("report.panel.col.typical"), t.t("report.panel.col.usual"), t.t("report.panel.col.match")]}
+              rows={ELEMENTS.map((e) => [element(e), num(p.offsetPopulation[e]), num(p.offsetPersonal![e]), t.t(`report.panel.align.${p.alignment![e]}` as MessageKey)])} />} />
         </>
       ) : null}
       {ref !== null ? (

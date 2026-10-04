@@ -175,7 +175,7 @@ describe("Result report (S13)", () => {
   it.each(["en", "zh-Hant"] as const)("has no axe violations (%s)", async (lang) => {
     const { container } = await open(saved, dev, lang);
     await screen.findByRole("heading", { level: 1 });
-    expect((await axe(container, { rules: { "color-contrast": { enabled: false } } })).violations.map((v) => `${v.id}: ${v.nodes.map((n) => n.target.join(" ")).join(", ")}`)).toEqual([]);
+    expect((await axe(container, { rules: { "color-contrast": { enabled: false } } })).violations.map((v) => `${v.id}: ${v.help} :: ${v.nodes.map((n) => n.target.join(" ")).join(", ")}`)).toEqual([]);
   });
 });
 
@@ -193,7 +193,7 @@ describe("Result report (S13): panel, why, transmission, what would change", () 
   it("the panel is words with the numbers in tables that equal the data (five phases, six qi, eight principles, organs)", async () => {
     await open(saved, dev);
     const panel = within(await screen.findByRole("region", { name: "Panel" }));
-    expect(panel.getByText(/Compared with a typical healthy person/, { selector: "p" })).toBeInTheDocument();
+    expect(panel.getAllByText(/Compared with a typical healthy person/, { selector: "p" }).length).toBeGreaterThan(0);
     expect(panel.getByText("Values are deviations from a typical healthy person, not a health score.")).toBeInTheDocument();
     const wuxing = within(panel.getByRole("table", { name: "Five Phases (compared with a typical healthy person)" }));
     const names = { 木: "Wood", 火: "Fire", 土: "Earth", 金: "Metal", 水: "Water" } as const;
@@ -203,13 +203,18 @@ describe("Result report (S13): panel, why, transmission, what would change", () 
       expect(within(row).getByText(fmt(v))).toBeInTheDocument();
       expect(within(row).getByText(({ low: "low", somewhatLow: "somewhat low", normal: "normal", somewhatHigh: "somewhat high", high: "high" } as const)[level5(v)])).toBeInTheDocument();
     }
-    const sixQi = Object.keys(saved.result.panel.observed).some((k) => /^(liuxie|product)\./.test(k));
-    if (sixQi) expect(panel.getByRole("table", { name: "Six qi and phlegm, fluid, stasis" })).toBeInTheDocument();
-    else expect(panel.getByText(/No clear deviation in the six qi/)).toBeInTheDocument();
+    const sixQi = within(panel.getByRole("table", { name: "Six qi and phlegm, fluid, stasis" }));
+    expect(sixQi.getAllByRole("row")).toHaveLength(11);                                       // the twin lists every bar: six qi + four accumulations
+    expect(panel.getByRole("img", { name: "Five Phases radar chart" })).toBeInTheDocument();
+    expect(panel.getByRole("img", { name: "Bar chart of the six qi and phlegm, fluid, stasis and food retention" })).toBeInTheDocument();
+    expect(panel.getByRole("img", { name: "Eight Principles axes" })).toBeInTheDocument();
     const eight = within(panel.getByRole("table", { name: "Eight Principles" }));
     expect(eight.getByRole("row", { name: /^Cold–heat/ })).toHaveTextContent(fmt(saved.result.panel.bagang.coldHeat));
-    const organs = Object.keys(saved.result.panel.observed).filter((k) => /^[肝心脾肺腎膽小腸胃大膀胱]+\.(qi|blood|yin|yang|stasis)$/.test(k));
-    if (organs.length > 0) expect(panel.getByRole("table", { name: /^Organs/ })).toBeInTheDocument();
+    const heat = within(panel.getByRole("table", { name: /^Organs/ }));
+    expect(heat.getAllByRole("row")).toHaveLength(11);                                        // header + the ten organs
+    for (const [dim, v] of Object.entries(saved.result.panel.observed).filter(([k]) => /^[肝心脾肺腎膽小腸胃大膀胱]+\.(qi|blood|yin|yang|stasis)$/.test(k))) {
+      expect(heat.getAllByText(`${v > 0 ? "▲" : "▼"} ${fmt(v)}`).length, dim).toBeGreaterThan(0);
+    }
     expect(panel.queryByRole("heading", { name: "What the reference is made of" }) !== null).toBe(saved.result.reference !== null);
   });
 

@@ -118,11 +118,11 @@ describe("History (S16)", () => {
     const { persistence } = await open([A, B]);
     await userEvent.click(await screen.findByRole("button", { name: /^Delete the result of .*Sep/ }));
     await waitFor(async () => expect((await persistence.listAssessments()).map((s) => s.id)).toEqual([B.id]));
-    expect(screen.getAllByRole("listitem")).toHaveLength(1);
+    await waitFor(() => expect(screen.getAllByRole("listitem")).toHaveLength(1));
     expect(screen.getByRole("status")).toHaveTextContent("Deleted.");
     await userEvent.click(screen.getByRole("button", { name: "Undo" }));
     await waitFor(async () => expect((await persistence.listAssessments()).map((s) => s.id).sort()).toEqual([A.id, B.id].sort()));
-    expect(await screen.findAllByRole("listitem")).toHaveLength(2);
+    await waitFor(() => expect(screen.getAllByRole("listitem")).toHaveLength(2));
   });
 
   it("delete all asks once and then empties the history", async () => {

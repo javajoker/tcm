@@ -26,16 +26,16 @@
 | **K** Knowledge base | 8 | 19 |
 | **E** Engine and packages | 19 | 21 |
 | **I** Internationalisation | 2 | 5 |
-| **U** Web application | 3 | 14 |
+| **U** Web application | 3 | 13 |
 | **Q** Quality assurance | 0 | 10 |
 | **R** Release and operations | 0 | 7 |
 | **V** Review (non-code) | 0 | 7 |
 | **PF** Performance (P2) | 0 | 3 |
-| **All** | **56** | **110** |
+| **All** | **56** | **109** |
 
 | Priority | Done | Total |
 |---|---:|---:|
-| P0 | 40 | 61 |
+| P0 | 40 | 60 |
 | P1 | 14 | 41 |
 | P2 | 2 | 8 |
 
@@ -172,7 +172,7 @@ Suggested waves: **1** foundation (E-01, K-01, K-02, I-01, U-01, R-01) → **2**
 | [ ] | U-13 | S10 Pulse input (rate, rhythm, qualities with exclusive groups, positions, education note) | P0 | M | U-10 | E10 passes |
 | [ ] | U-14 | S11 Constitution quiz | P1 | M | K-08, E-07 | Skippable; result as tendency |
 | [x] | U-15 | S12 Review and confirm (edit-return, unsure list, quality summary) | P0 | M | U-10…U-14 | Edit returns to exact question | — `screens/review/*`, `app/assessment.ts` (draft ↔ engine input ↔ saved result); Edit/Answer-now return to the exact question via `/inquiry?edit=…&back=/review`; saving deletes the draft; "edit and re-run" = `draftFromSaved`
-| [ ] | U-16 | Visual components: `FivePhaseRadar`, `OrganHeat`, `SixQiBars`, `BagangAxes`, `OffsetCompare`, with table twins and generated descriptions | P0 | XL | U-02, E-10 | Axe clean; table equals data; no red/green; glyph-signed |
+| [x] | U-16 | Visual components: `FivePhaseRadar`, `OrganHeat`, `SixQiBars`, `BagangAxes`, `OffsetCompare`, with table twins and generated descriptions | P0 | XL | U-02, E-10 | Axe clean; table equals data; no red/green; glyph-signed | — `screens/result/figures/*` (geometry unit-tested; radar with line-style + marker per series, signed bars, eight-principles axes, ten-organ heat-map table with ▲/▼, offset comparison); every figure has a one-sentence description and a table twin; the history compare overlays two radars; tokens only (a test forbids hex, red/green and the identity colours)
 | [x] | U-17 | S13 Result report: banner and summary; panel; reasoning trace; transmission and forecast; advice; data and what-would-change (split into sub-commits only if each is independently shippable) | P0 | XL | E-17, U-16 | E1, E7 pass; section order per UX §4.10 | — `screens/result/*`: banner, summary, panel (word + table twins; figures come with U-16), why, transmission (+ forecast when a reference exists), advice, practitioner, your data + re-run, what would change, footer; insufficient results drop the pattern-derived sections; `/result/:id` route
 | [x] | U-18 | S14 Formula detail with 君臣佐使 table, rationale, cautions, `ModificationDiff` | P0 | L | U-17, E-13 | No amounts in release; modification at L2+ | — `screens/result/FormulaDetail.tsx`; only a formula that is part of the saved result can be opened; amounts and modifications follow `policy.features` (absent from release by construction and by test)
 | [x] | U-19 | S15 Citation viewer (sheet/drawer, verification state, translation label) | P0 | M | U-17 | Focus return; keyboard operable | — `app/citations.tsx` (`CitationsProvider`, `CitationChip`); English rendering shows "none yet" until K-13/V; edition/licence from the citation record

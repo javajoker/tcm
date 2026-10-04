@@ -7,6 +7,8 @@ import type { SavedAssessment } from "../../storage/types.ts";
 import { Button, Card } from "../../ui/index.ts";
 import { DataTable } from "../result/Panel.tsx";
 import { BilingualName } from "../result/shared.tsx";
+import { FigureBlock } from "../result/figures/FigureBlock.tsx";
+import { describeRadar, FivePhaseRadar } from "../result/figures/FivePhaseRadar.tsx";
 import { ELEMENT_SLUG, level5, signed } from "../result/words.ts";
 import { compare } from "./model.ts";
 
@@ -31,8 +33,13 @@ export function CompareView({ a, b, onBack }: { a: SavedAssessment; b: SavedAsse
           <DataTable caption={t.t("report.compare.ranking")} head={[t.t("report.compare.ranking.col.rank"), head("earlier"), head("later")]} rows={c.ranking.map((r) => [String(r.rank), pattern(r.earlier), pattern(r.later)])} />
         </Card>
         <Card title={t.t("report.compare.panel")} headingLevel={2} id="compare-panel">
-          <DataTable caption={t.t("report.compare.panel")} head={[t.t("report.panel.col.item"), head("earlier"), head("later"), t.t("report.compare.panel.col.change")]}
-            rows={c.panel.map((r) => [t.t(`report.element.${ELEMENT_SLUG[r.element]}` as MessageKey), `${t.t(`report.level.${level5(r.earlier)}` as MessageKey)} (${num(r.earlier)})`, `${t.t(`report.level.${level5(r.later)}` as MessageKey)} (${num(r.later)})`, num(r.change)])} />
+          <FigureBlock summary={describeRadar(t, c.later.result.panel.offsetPopulation)}
+            figure={<FivePhaseRadar title={t.t("report.figure.radar.title")} series={[
+              { label: head("earlier"), values: c.earlier.result.panel.offsetPopulation, marker: "circle" },
+              { label: head("later"), values: c.later.result.panel.offsetPopulation, dash: "6 4", marker: "square" },
+            ]} />}
+            table={<DataTable caption={t.t("report.compare.panel")} head={[t.t("report.panel.col.item"), head("earlier"), head("later"), t.t("report.compare.panel.col.change")]}
+              rows={c.panel.map((r) => [t.t(`report.element.${ELEMENT_SLUG[r.element]}` as MessageKey), `${t.t(`report.level.${level5(r.earlier)}` as MessageKey)} (${num(r.earlier)})`, `${t.t(`report.level.${level5(r.later)}` as MessageKey)} (${num(r.later)})`, num(r.change)])} />} />
         </Card>
         <Card title={t.t("report.compare.axes")} headingLevel={2} id="compare-axes">
           <DataTable caption={t.t("report.compare.axes")} head={[t.t("report.panel.col.item"), head("earlier"), head("later")]}
