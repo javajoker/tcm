@@ -37,7 +37,7 @@
 | **Birth data** | date, time/unknown, place (longitude, time zone) | **Sensitive (personal)** | Optional innate/annual reference | **Session memory only unless "Remember on this device" is ticked** (default off) → then IndexedDB | Session, or until deleted | Opt-in toggle; erase |
 | Results | assessments, reasoning, recommendations (with KB/engine versions) | **Sensitive (health, derived)** | History and compare | IndexedDB | Until the user deletes | Delete one/all |
 | Free-text notes | anything typed | Sensitive | Memo for the user | IndexedDB | Same | Same |
-| Feedback marks | match / partly / no | Low | Optional calibration export | IndexedDB | Same | Export or delete |
+| Feedback marks | match / partly / no, per result, pattern and formula (stored inside the saved result) | Low | Optional calibration export (marks + result summary; the answers only if the user ticks "include my answers") | IndexedDB | Same | Export or delete |
 | Technical | app/KB/engine versions, profile | Low | Reproducibility | Inside saved results | Same | — |
 
 **Never collected:** name, email, phone, account identifiers, device identifiers, precise location, IP addresses by the app, contacts, photos (no photo upload in MVP).

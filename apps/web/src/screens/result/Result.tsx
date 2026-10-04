@@ -12,6 +12,7 @@ import { Chip, LinkButton, Skeleton } from "../../ui/index.ts";
 import { Actions } from "./Actions.tsx";
 import { Advice } from "./Advice.tsx";
 import { Banner } from "./Banner.tsx";
+import { FeedbackCard, FeedbackProvider } from "./feedback.tsx";
 import { Panel } from "./Panel.tsx";
 import { PrintExtras, usePrintExpand } from "./PrintSupport.tsx";
 import { Summary } from "./Summary.tsx";
@@ -48,7 +49,7 @@ function Report({ saved }: { saved: SavedAssessment }): ReactNode {
   usePrintExpand();
   const answerMore = (): void => { adoptDraft(draftFromSaved(kb, saved, randomId(), Date.now())); navigate("/inquiry"); };
   return (
-    <>
+    <FeedbackProvider saved={saved}>
       <div className={styles.head}>
         <h1>{t.t("report.title")}</h1>
         <Chip tone={storage === "persistent" ? "plain" : "notice"}>{storage === "persistent" ? `✓ ${t.t("report.saved")}` : `⚠ ${t.t("report.notSaved")}`}</Chip>
@@ -66,11 +67,12 @@ function Report({ saved }: { saved: SavedAssessment }): ReactNode {
         <Advice saved={saved} />
         <Practitioner />
         <YourData saved={saved} />
+        <FeedbackCard saved={saved} />
         {established ? <WhatWouldChange saved={saved} /> : null}
       </div>
       <ReportFooter saved={saved} />
       <PrintExtras saved={saved} />
-    </>
+    </FeedbackProvider>
   );
 }
 

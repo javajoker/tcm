@@ -4,6 +4,7 @@ import type { Message } from "@tcm/i18n";
 import zhCommon from "./zh-Hant/common.json";
 import zhConstitution from "./zh-Hant/constitution.json";
 import zhErrors from "./zh-Hant/errors.json";
+import zhFeedback from "./zh-Hant/feedback.json";
 import zhFormula from "./zh-Hant/formula.json";
 import zhInquiry from "./zh-Hant/inquiry.json";
 import zhIntake from "./zh-Hant/intake.json";
@@ -13,6 +14,7 @@ import zhSafety from "./zh-Hant/safety.json";
 import enCommon from "./en/common.json";
 import enConstitution from "./en/constitution.json";
 import enErrors from "./en/errors.json";
+import enFeedback from "./en/feedback.json";
 import enFormula from "./en/formula.json";
 import enInquiry from "./en/inquiry.json";
 import enIntake from "./en/intake.json";
@@ -20,10 +22,10 @@ import enObserve from "./en/observe.json";
 import enReport from "./en/report.json";
 import enSafety from "./en/safety.json";
 
-export const NAMESPACES = ["common", "intake", "inquiry", "observe", "constitution", "report", "formula", "safety", "errors"] as const;
+export const NAMESPACES = ["common", "intake", "inquiry", "observe", "constitution", "report", "feedback", "formula", "safety", "errors"] as const;
 
-const zhHant = { ...zhCommon, ...zhIntake, ...zhInquiry, ...zhObserve, ...zhConstitution, ...zhReport, ...zhFormula, ...zhSafety, ...zhErrors };
-const en = { ...enCommon, ...enIntake, ...enInquiry, ...enObserve, ...enConstitution, ...enReport, ...enFormula, ...enSafety, ...enErrors };
+const zhHant = { ...zhCommon, ...zhIntake, ...zhInquiry, ...zhObserve, ...zhConstitution, ...zhReport, ...zhFeedback, ...zhFormula, ...zhSafety, ...zhErrors };
+const en = { ...enCommon, ...enIntake, ...enInquiry, ...enObserve, ...enConstitution, ...enReport, ...enFeedback, ...enFormula, ...enSafety, ...enErrors };
 
 export type MessageKey = keyof typeof zhHant;
 

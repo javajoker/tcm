@@ -512,6 +512,8 @@ Detailed terminology and glossary rules are in the [i18n guide](i18n-guide.md); 
 
 "Did this match your experience?" per result and per reasoning item (match / partly / no), stored locally; **Export feedback** produces a JSON the user may send to the maintainers (PRD FR-16). No automatic sending.
 
+> **Implementation notes (U-24).** *What can be marked:* the result as a whole (a card at the end of the report), each pattern's reasoning (S13 ④) and each formula card (S13 ⑥) — keys `result`, `pattern:<id>`, `formula:<id>`. *Storage:* the marks are part of the saved assessment (`SavedAssessment.feedback`), written at once on every change and deleted with it; a mark can be changed or cleared. They are hidden on paper. *Export:* disabled until something is marked; a dialog says the file stays on the device; the file (`tcm-feedback` v1) holds the marks, the version stamps and a summary of the result (status, confidence, pattern ids with percentages, formula ids). **The person's answers are included only if they tick "Also include my answers" (off by default)** — they are health data and not needed to read a mark. No network request is made.
+
 ---
 
 ## 14. Usability goals and testing hooks

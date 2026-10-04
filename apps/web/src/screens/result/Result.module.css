@@ -4,6 +4,7 @@
 .sections { display: grid; gap: var(--space-4); }
 .sections section[id], .sections [id^="sec-"] { scroll-margin-top: 4rem; }
 .printOnly, .printFooter { display: none; }
+.feedback { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3); margin-top: var(--space-3); padding-top: var(--space-2); border-top: 1px dashed var(--border); }
 .actions { display: flex; flex-wrap: wrap; gap: var(--space-2); margin: var(--space-3) 0; }
 @media print {
   .printOnly { display: block !important; margin-top: 1.5rem; font-size: 0.85rem; }   /* `hidden` on screen, shown on paper */

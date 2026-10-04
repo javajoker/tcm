@@ -1,0 +1,19 @@
+{
+  "feedback.card.body": "你的標記只保存在這個裝置上，不會傳送到任何地方。若你願意，可以匯出成檔案並寄給維護者，幫助改進本應用。",
+  "feedback.card.count": {
+    "other": "目前已標記 {n} 項。"
+  },
+  "feedback.card.title": "你的回饋",
+  "feedback.clear": "清除我的選擇",
+  "feedback.export": "匯出回饋",
+  "feedback.export.answers": "同時包含我的作答（症狀與基本資料）",
+  "feedback.export.answers.hint": "預設不勾選。這有助於維護者理解你的標記，但屬於健康資訊。",
+  "feedback.export.confirm": "下載檔案",
+  "feedback.export.title": "匯出回饋",
+  "feedback.export.warning": "檔案包含你的標記與所對應結果的摘要，只會存到你的裝置，不會上傳；是否寄給他人由你決定。",
+  "feedback.mark.match": "相符",
+  "feedback.mark.no": "不相符",
+  "feedback.mark.partial": "部分相符",
+  "feedback.question": "這和你的實際情況相符嗎？",
+  "feedback.result": "整體結果"
+}

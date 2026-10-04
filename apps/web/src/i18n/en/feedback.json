@@ -1,0 +1,20 @@
+{
+  "feedback.card.body": "Your marks stay on this device and are never sent anywhere. If you wish, you can export them as a file and send it to the maintainers to help improve the app.",
+  "feedback.card.count": {
+    "one": "{n} item marked so far.",
+    "other": "{n} items marked so far."
+  },
+  "feedback.card.title": "Your feedback",
+  "feedback.clear": "Clear my answer",
+  "feedback.export": "Export feedback",
+  "feedback.export.answers": "Also include my answers (symptoms and profile)",
+  "feedback.export.answers.hint": "Off by default. It helps the maintainers understand your marks, but it is health information.",
+  "feedback.export.confirm": "Download the file",
+  "feedback.export.title": "Export feedback",
+  "feedback.export.warning": "The file lists your marks and a summary of the result they refer to. It is saved only to your device and is not uploaded; you decide whether to send it to anyone.",
+  "feedback.mark.match": "Matches",
+  "feedback.mark.no": "Does not match",
+  "feedback.mark.partial": "Partly",
+  "feedback.question": "Did this match your experience?",
+  "feedback.result": "The result as a whole"
+}

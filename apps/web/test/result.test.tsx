@@ -50,7 +50,7 @@ describe("Result report (S13)", () => {
     await open(saved, dev);
     expect(await screen.findByRole("heading", { level: 1, name: "Your result" })).toBeInTheDocument();
     const headings = screen.getAllByRole("heading", { level: 2 }).map((h) => h.textContent);
-    expect(headings).toEqual(["Safety and scope", "Summary", "Panel", "Why", "Spread and susceptibility", "Advice", "When to see a doctor or a practitioner", "Your data", "What would change this"]);
+    expect(headings).toEqual(["Safety and scope", "Summary", "Panel", "Why", "Spread and susceptibility", "Advice", "When to see a doctor or a practitioner", "Your data", "Your feedback", "What would change this"]);
     expect(screen.getByText(/for education and self-understanding only/)).toBeInTheDocument();
     expect(screen.getByText(/Computed .*knowledge base .*engine 0\.1\.0/)).toBeInTheDocument();
     expect(screen.getByRole("navigation", { name: "Sections of this page" })).toBeInTheDocument();

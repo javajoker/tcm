@@ -8,6 +8,8 @@ import { useLoaded } from "../../app/knowledge.tsx";
 import { Term } from "../../app/Term.tsx";
 import type { SavedAssessment } from "../../storage/types.ts";
 import { Card, Chip } from "../../ui/index.ts";
+import { FeedbackMarks } from "./feedback.tsx";
+import { formulaKey } from "./feedbackModel.ts";
 import { BilingualName, ZhText } from "./shared.tsx";
 
 const ROLE_SLUG = { 君: "sovereign", 臣: "minister", 佐: "assistant", 使: "envoy" } as const;
@@ -48,6 +50,7 @@ function FormulaCard({ f, savedId, study }: { f: FormulaRecommendation; savedId:
       ) : null}
       <p className="muted">{t.t("safety.notice.formula.text")}</p>
       <p>{f.citations.map((c) => <CitationChip key={c} id={c} usedFor={t.localized(name).text} />)}</p>
+      <FeedbackMarks itemKey={formulaKey(f.id)} label={t.localized(name).text} />
       <p style={{ margin: 0 }}><Link href={`/result/${savedId}/formula/${f.id}`} aria-label={t.t("report.formula.open", { name: t.localized(name).text })}>{t.t("report.formula.open", { name: t.localized(name).text })}</Link></p>
     </Card>
   );

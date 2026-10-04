@@ -6,6 +6,8 @@ import { CitationChip } from "../../app/citations.tsx";
 import { useLoaded } from "../../app/knowledge.tsx";
 import type { SavedAssessment } from "../../storage/types.ts";
 import { Card, Chip } from "../../ui/index.ts";
+import { FeedbackMarks } from "./feedback.tsx";
+import { patternKey } from "./feedbackModel.ts";
 import { BilingualName } from "./shared.tsx";
 
 const SHOW = 6;
@@ -69,6 +71,7 @@ export function Why({ saved }: { saved: SavedAssessment }): ReactNode {
                 <ul>{ag.map((x) => <li key={x.symptomId}>{symptom(x.symptomId)} <span className="muted">— {t.t("report.why.againstItem", { p: num(x.penalty) })}</span></li>)}</ul>
               </>
             ) : null}
+            <FeedbackMarks itemKey={patternKey(id)} label={t.localized(rec.name).text} />
           </section>
         );
       })}
