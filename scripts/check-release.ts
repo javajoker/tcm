@@ -106,6 +106,19 @@ export function checkRelease(distDir: string, opts: CheckOptions = {}): Failure[
   for (const m of html.matchAll(/<script\b([^>]*)>/gi)) if (!/\bsrc=/.test(m[1]!)) fail(5, "index.html has an inline <script>");
   if (/https?:\/\//i.test(html.replace(/(?:href|src)="data:[^"]*"/g, ""))) fail(5, "index.html refers to an external address");
   for (const f of files.filter((x) => rel(dist, x).startsWith("assets/"))) if (!/-[A-Za-z0-9_-]{6,}\.[a-z0-9]+$/.test(f)) fail(5, `${rel(dist, f)} is not content-hashed`);
+  // everything the page points to is in the output: scripts, styles, icons and the manifest with its own icons (a broken reference is a Lighthouse failure and a missing icon)
+  for (const m of html.matchAll(/(?:href|src)="(\/[^"#?]*)"/g)) {
+    const ref = m[1]!;
+    if (ref.startsWith("//")) fail(5, `index.html refers to ${ref}, an address on another host`);
+    else if (!existsSync(join(dist, ref))) fail(5, `index.html refers to ${ref}, which is not in the output`);
+  }
+  const manifestHref = /<link[^>]+rel="manifest"[^>]+href="([^"]+)"/i.exec(html)?.[1];
+  if (manifestHref !== undefined && existsSync(join(dist, manifestHref))) {
+    try {
+      const wm = JSON.parse(read(join(dist, manifestHref))) as { icons?: { src: string }[] };
+      for (const icon of wm.icons ?? []) if (!existsSync(join(dist, icon.src))) fail(5, `${manifestHref} lists the icon ${icon.src}, which is not in the output`);
+    } catch { fail(5, `${manifestHref} is not valid JSON`); }
+  }
 
   // 6 (cont.) — the initial JavaScript budget
   const initial = [...html.matchAll(/(?:src|href)="([^"]+\.js)"/g)].map((m) => join(dist, m[1]!.replace(/^\/+/, "")));
@@ -128,6 +141,12 @@ export function checkRelease(distDir: string, opts: CheckOptions = {}): Failure[
   // 8 — review gates: unreviewed content needs the recorded closed-beta exception with the draft label on
   if (core !== null) {
     const unreviewed = core.params._meta.status !== "reviewed";
+    if (opts.draftLabel) {
+      // unreviewed content is not for search results: the closed beta must say noindex in the page and in robots.txt
+      if (!/<meta[^>]+name="robots"[^>]+content="[^"]*noindex/i.test(html)) fail(8, "a closed beta (draft label on) must not be indexable: index.html has no noindex robots meta");
+      const robots = existsSync(join(dist, "robots.txt")) ? read(join(dist, "robots.txt")) : "";
+      if (!/^Disallow:\s*\/\s*$/m.test(robots)) fail(8, "a closed beta (draft label on) must not be indexable: robots.txt does not disallow everything");
+    }
     if (unreviewed && !opts.draftLabel) fail(8, `the content is "${core.params._meta.status}" (not reviewed): a release needs the review records, or a recorded closed-beta exception with the draft label on (--draft-label / APP_DRAFT_LABEL=on)`);
   }
 

@@ -26,6 +26,7 @@
     "check:release": "node scripts/check-release.ts",
     "test:release": "node --test scripts/check-release.test.ts",
     "check:i18n": "node scripts/check-i18n.ts",
+    "check:icons": "python3 scripts/make_icons.py --check",
     "test:scripts": "node --test scripts/check-release.test.ts scripts/check-i18n.test.ts"
   },
   "devDependencies": {

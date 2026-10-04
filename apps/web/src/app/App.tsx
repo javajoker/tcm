@@ -7,6 +7,7 @@ import { ErrorBoundary } from "./ErrorBoundary.tsx";
 import { CitationsProvider } from "./citations.tsx";
 import { KnowledgeProvider, type Loader } from "./knowledge.tsx";
 import { Landing } from "./Landing.tsx";
+import { DocumentMeta } from "./DocumentMeta.tsx";
 import { NotFound } from "./NotFound.tsx";
 import { PrefsEffects } from "./PrefsEffects.tsx";
 import { RouteFocus } from "./RouteFocus.tsx";
@@ -89,6 +90,7 @@ function LanguageRoutes(): ReactNode {
     <I18nProvider lang={lang} setLang={setLang}>
       <CitationsProvider>
         <PrefsEffects />
+        <DocumentMeta />
         <Router base={parsed.lang === null ? "" : `/${parsed.lang}`}>
           <AppShell>
             {parsed.lang === null ? <NotFound /> : <Screens />}

@@ -9,19 +9,22 @@ import { after, before, describe, test } from "node:test";
 import { checkRelease, type Failure } from "./check-release.ts";
 
 const root = join(import.meta.dirname, "..");
-let base = "";
+let base = "";          // a closed-beta build: draft label on, so noindex
+let publicBase = "";    // the same build as a public release (indexable)
 const copies: string[] = [];
 
 before(() => {
   base = mkdtempSync(join(tmpdir(), "tcm-release-"));
-  execFileSync("pnpm", ["--filter", "@tcm/web", "exec", "vite", "build", "--outDir", base, "--emptyOutDir"], { cwd: root, env: { ...process.env, APP_PROFILE: "release" }, stdio: "pipe" });
+  execFileSync("pnpm", ["--filter", "@tcm/web", "exec", "vite", "build", "--outDir", base, "--emptyOutDir"], { cwd: root, env: { ...process.env, APP_PROFILE: "release", APP_DRAFT_LABEL: "on" }, stdio: "pipe" });
+  publicBase = mkdtempSync(join(tmpdir(), "tcm-release-public-"));
+  execFileSync("pnpm", ["--filter", "@tcm/web", "exec", "vite", "build", "--outDir", publicBase, "--emptyOutDir"], { cwd: root, env: { ...process.env, APP_PROFILE: "release", APP_DRAFT_LABEL: "off" }, stdio: "pipe" });
 });
-after(() => { rmSync(base, { recursive: true, force: true }); for (const c of copies) rmSync(c, { recursive: true, force: true }); });
+after(() => { rmSync(base, { recursive: true, force: true }); rmSync(publicBase, { recursive: true, force: true }); for (const c of copies) rmSync(c, { recursive: true, force: true }); });
 
 /** A private copy of the build to damage. */
-function copy(): string {
+function copy(from: string = base): string {
   const dir = mkdtempSync(join(tmpdir(), "tcm-release-copy-"));
-  cpSync(base, dir, { recursive: true });
+  cpSync(from, dir, { recursive: true });
   copies.push(dir);
   return dir;
 }
@@ -168,6 +171,39 @@ describe("check-release", () => {
     const enforce = copy();
     edit(enforce, "core", (c) => { c.config.profile.safety_enforcement = "annotate_only"; });
     assert.ok(rules(checkRelease(enforce, { draftLabel: true })).includes(7));
+  });
+
+  test("5: a page reference to a file that is not in the output, a manifest icon that is missing, an address on another host", () => {
+    const icon = copy();
+    rmSync(join(icon, "icon.svg"));
+    assert.match(messages(checkRelease(icon, { draftLabel: true })), /refers to \/icon\.svg, which is not in the output/);
+    const mani = copy();
+    rmSync(join(mani, "icon-512.png"));
+    assert.match(messages(checkRelease(mani, { draftLabel: true })), /manifest\.webmanifest lists the icon \/icon-512\.png/);
+    const broken = copy();
+    writeFileSync(join(broken, "manifest.webmanifest"), "{ nope");
+    assert.match(messages(checkRelease(broken, { draftLabel: true })), /manifest\.webmanifest is not valid JSON/);
+    const proto = copy();
+    html(proto, (x) => x.replace("</head>", '<link rel="stylesheet" href="//cdn.example.com/x.css"></head>'));
+    assert.match(messages(checkRelease(proto, { draftLabel: true })), /an address on another host/);
+  });
+
+  test("8: a closed beta (draft label on) that search engines may index; a public release is indexable and needs the review records", () => {
+    const meta = copy();
+    html(meta, (x) => x.replace(/<meta name="robots"[^>]*>/, ""));
+    assert.match(messages(checkRelease(meta, { draftLabel: true })), /index\.html has no noindex robots meta/);
+    const txt = copy();
+    writeFileSync(join(txt, "robots.txt"), "User-agent: *\nAllow: /\n");
+    assert.match(messages(checkRelease(txt, { draftLabel: true })), /robots\.txt does not disallow everything/);
+    // the beta build is noindex in both places; the public build is neither
+    assert.match(readFileSync(join(base, "robots.txt"), "utf8"), /^Disallow: \/$/m);
+    assert.match(readFileSync(join(base, "index.html"), "utf8"), /name="robots" content="noindex, nofollow"/);
+    assert.doesNotMatch(readFileSync(join(publicBase, "index.html"), "utf8"), /noindex/);
+    assert.doesNotMatch(readFileSync(join(publicBase, "robots.txt"), "utf8"), /^Disallow: \/$/m);
+    const pub = copy(publicBase);
+    edit(pub, "core", (c) => { c.params._meta.status = "reviewed"; });
+    assert.deepEqual(checkRelease(pub), []);
+    assert.match(messages(checkRelease(publicBase, { draftLabel: true })), /must not be indexable/);
   });
 
   test("9: source maps", () => {

@@ -330,7 +330,7 @@ List of books used with licence and review status; per-record provenance for pat
 | Offline / fetch failed | "We couldn't load the knowledge base. Check your connection and retry." + retry; drafts remain |
 | Engine error | Safe fallback: disclaimer, red-flag guidance, "copy my inputs", "start over"; **no partial medical output** |
 | Storage unavailable | A visible "Not saved on this device" chip; flow continues in memory |
-| 404 | Friendly page with links to Landing and Resume |
+| 404 | Friendly page with links to Landing and, when an assessment is in progress, to where the person left off (the link carries the language even when the address had none). The page and every personal route are `noindex`; only the start page and the sources are indexable (U-26) |
 | Empty history | Explanation + start button |
 
 ---

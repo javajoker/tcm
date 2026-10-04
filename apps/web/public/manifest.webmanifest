@@ -1,0 +1,17 @@
+{
+  "name": "中醫自我評估 · TCM Self-Check",
+  "short_name": "TCM Self-Check",
+  "description": "Traditional Chinese Medicine self-assessment — educational reference, not a medical diagnosis. 中醫自我評估，僅供教育參考，不是醫療診斷。",
+  "lang": "zh-Hant",
+  "start_url": "/",
+  "scope": "/",
+  "display": "browser",
+  "background_color": "#faf7f2",
+  "theme_color": "#1d6b74",
+  "icons": [
+    { "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

@@ -42,11 +42,25 @@ function cspPlugin(): Plugin {
   return { name: "tcm-csp", apply: "build", transformIndexHtml: (html) => html.replace("<head>", `<head>\n    <meta http-equiv="Content-Security-Policy" content="${csp}" />`) };
 }
 
+/**
+ * Keeps a build that is not the public release out of search results (release process §6, "Robots"): the dev profile and the closed beta with the draft
+ * label on get `<meta name="robots" content="noindex, nofollow">` and a robots.txt that disallows everything. A public release has neither.
+ */
+function robotsPlugin(noindex: boolean): Plugin {
+  return {
+    name: "tcm-robots",
+    transformIndexHtml: (html) => (noindex ? html.replace("<head>", `<head>\n    <meta name="robots" content="noindex, nofollow" />`) : html),
+    generateBundle() {
+      this.emitFile({ type: "asset", fileName: "robots.txt", source: noindex ? "User-agent: *\nDisallow: /\n" : "User-agent: *\nAllow: /\nDisallow: /kb/\n" });
+    },
+  };
+}
+
 export default defineConfig(({ command }) => {
   const profile = (process.env.APP_PROFILE ?? (command === "serve" ? "dev" : "release")) as "release" | "dev";
   if (profile !== "release" && profile !== "dev") throw new Error(`unknown APP_PROFILE ${profile}`);
   return {
-    plugins: [react(), kbPlugin(profile), cspPlugin()],
+    plugins: [react(), kbPlugin(profile), cspPlugin(), robotsPlugin(profile === "dev" || process.env.APP_DRAFT_LABEL === "on")],
     define: { __APP_PROFILE__: JSON.stringify(profile), __APP_BUILD__: JSON.stringify(process.env.APP_BUILD_ID ?? "local") },
     build: { target: "es2022", modulePreload: { polyfill: false }, sourcemap: false },
     css: { modules: { localsConvention: "camelCaseOnly" } },

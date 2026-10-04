@@ -54,7 +54,7 @@ Environment variables (build time):
 | `APP_OVERRIDES` | Path to a JSON file merged over the selected profile and re-validated (e.g. a stricter beta) | none |
 | `APP_BASE_URL` | Public base URL and asset base | `/` |
 | `APP_BUILD_ID` | Commit sha and build time (displayed in dev, short form in release) | from CI |
-| `APP_DRAFT_LABEL` | `on` to show N-DRAFT on every result screen (closed beta exception) | `off` |
+| `APP_DRAFT_LABEL` | `on` for a closed beta with unreviewed content (the recorded exception): the build is **noindex** (robots meta and `robots.txt`) and `check-release` is run with `--draft-label`; the N-DRAFT notice itself follows the content's review status, not this flag | `off` |
 
 There is **no runtime profile switch in release** ([tech spec §6.1](tech-spec.md)).
 
@@ -81,10 +81,10 @@ Jobs and blocking rules are in the [test plan §6](test-plan.md). The pipeline p
 2. The dev profile block, `annotate_only`, the `/_dev` route, the `ProfileBadge` and review-status badges are absent.
 3. No dose or amount fields (`classical_amounts`, `typical_g`, `dose_g_reference`, `dose_references`) anywhere in `kb/`.
 4. No tier-C formulas, no formula `modifications`, no herb effect/burden data, when the profile's maximum reachable level does not allow them ([tech spec §5.3](tech-spec.md)).
-5. CSP present with the required directives; no inline `<script>`; all assets content-hashed.
+5. CSP present with the required directives; no inline `<script>`; all assets content-hashed; every file the page points to (scripts, styles, icons, the web-app manifest and its icons) is in the output and none lives on another host.
 6. `manifest.json` hashes match the files; KB schema version equals the app's.
 7. Every `blocking_ack` population/condition of the release config is still blocking (config sanity) and `flow` = `continue`.
-8. Review gates ([content review §7](content-review.md)) satisfied for the enabled levels — or `APP_DRAFT_LABEL=on` with a recorded beta exception.
+8. Review gates ([content review §7](content-review.md)) satisfied for the enabled levels — or `APP_DRAFT_LABEL=on` with a recorded beta exception — and then the build must be non-indexable (a `noindex` robots meta in `index.html` and `Disallow: /` in `robots.txt`; the dev profile gets the same).
 9. `console.*` calls are stripped from app code; no source maps with sources in production (or they are not publicly served).
 
 ---
@@ -111,7 +111,7 @@ A tag build is promoted only when **all** hold. The checklist form is [`CHECKLIS
 - **Static hosting** (target to be chosen — tech spec TQ1). Required capabilities: custom response headers (CSP, caching), SPA fallback for `/:lang/*` to `index.html` with a 404 status only for unknown languages, HTTPS with HSTS, Brotli/gzip.
 - **Caching:** hashed assets and `kb/<version>/*` → `Cache-Control: public, max-age=31536000, immutable`; `index.html` and `kb/manifest.json` → `no-cache` (revalidate). A new release changes the KB URL, so users never mix an old app with a new KB.
 - **Headers:** CSP as in the [tech spec §11](tech-spec.md); `X-Content-Type-Options: nosniff`; `Referrer-Policy: no-referrer`; `Permissions-Policy` denying camera/microphone/geolocation; `Cross-Origin-Opener-Policy: same-origin`.
-- **Robots:** production allows the landing page; preview/dev hosts send `X-Robots-Tag: noindex`.
+- **Robots:** a public release ships `robots.txt` allowing the site (but not `/kb/`) and the app marks every route except the start page and the sources `noindex` at run time (a result or a step in the flow is personal); a dev build or a closed beta (draft label) is `noindex` in the page and in `robots.txt`, and preview/dev hosts also send `X-Robots-Tag: noindex`.
 - **`/.well-known/security.txt`** with the safety/security report channel.
 - **Smoke tests after deploy:** fetch `/` and `/zh-Hant/`, `/en/`; fetch the manifest and each chunk and verify hashes; run E1 headless against the deployed URL; verify headers.
 
