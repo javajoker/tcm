@@ -1,0 +1,5153 @@
+{
+  "_meta": {
+    "count": 484,
+    "description": "Cities for the birth-place picker: name (English, Traditional Chinese where known), latitude, longitude and IANA time zone. Always paired with manual longitude and time zone entry.",
+    "schema": 1,
+    "source": {
+      "attribution": "City names, coordinates and time zones: GeoNames (geonames.org), licensed under CC BY 4.0; reduced to a selection and, for some places, a Chinese name added or corrected by hand.",
+      "dataset": "cities15000",
+      "extract": "reference/geonames/cities-extract.tsv",
+      "licence": "CC BY 4.0",
+      "licence_url": "https://creativecommons.org/licenses/by/4.0/",
+      "name": "GeoNames",
+      "url": "https://www.geonames.org/"
+    },
+    "status": "derived"
+  },
+  "items": [
+    {
+      "alt_hans": [
+        "雪梨"
+      ],
+      "cc": "AU",
+      "en": "Sydney",
+      "id": 2147714,
+      "lat": -33.87,
+      "lon": 151.21,
+      "tz": "Australia/Sydney",
+      "zh": "悉尼"
+    },
+    {
+      "alt_hans": [
+        "墨尔本",
+        "新金山"
+      ],
+      "cc": "AU",
+      "en": "Melbourne",
+      "id": 2158177,
+      "lat": -37.81,
+      "lon": 144.96,
+      "tz": "Australia/Melbourne",
+      "zh": "墨爾本"
+    },
+    {
+      "alt_hans": [
+        "布里司班",
+        "布里斯班"
+      ],
+      "cc": "AU",
+      "en": "Brisbane",
+      "id": 2174003,
+      "lat": -27.47,
+      "lon": 153.03,
+      "tz": "Australia/Brisbane",
+      "zh": "布里斯本"
+    },
+    {
+      "cc": "AU",
+      "en": "Perth",
+      "id": 2063523,
+      "lat": -31.95,
+      "lon": 115.86,
+      "tz": "Australia/Perth",
+      "zh": "珀斯"
+    },
+    {
+      "alt_hans": [
+        "阿德来得",
+        "阿德莱德"
+      ],
+      "cc": "AU",
+      "en": "Adelaide",
+      "id": 2078025,
+      "lat": -34.93,
+      "lon": 138.6,
+      "tz": "Australia/Adelaide",
+      "zh": "阿德萊德"
+    },
+    {
+      "alt_hans": [
+        "黄金海岸"
+      ],
+      "cc": "AU",
+      "en": "Gold Coast",
+      "id": 2165087,
+      "lat": -28.0,
+      "lon": 153.43,
+      "tz": "Australia/Brisbane",
+      "zh": "黃金海岸"
+    },
+    {
+      "alt_hans": [
+        "纽卡斯尔"
+      ],
+      "cc": "AU",
+      "en": "Newcastle",
+      "id": 2155472,
+      "lat": -32.93,
+      "lon": 151.78,
+      "tz": "Australia/Sydney",
+      "zh": "紐卡斯爾"
+    },
+    {
+      "cc": "AU",
+      "en": "Sunshine Coast",
+      "id": 10630449,
+      "lat": -26.66,
+      "lon": 153.08,
+      "tz": "Australia/Brisbane",
+      "zh": "陽光海岸"
+    },
+    {
+      "alt_hans": [
+        "堪培拉"
+      ],
+      "cc": "AU",
+      "en": "Canberra",
+      "id": 2172517,
+      "lat": -35.28,
+      "lon": 149.13,
+      "tz": "Australia/Sydney",
+      "zh": "坎培拉"
+    },
+    {
+      "cc": "AU",
+      "en": "Central Coast",
+      "id": 8310663,
+      "lat": -33.43,
+      "lon": 151.37,
+      "tz": "Australia/Sydney"
+    },
+    {
+      "alt_hans": [
+        "多伦多"
+      ],
+      "cc": "CA",
+      "en": "Toronto",
+      "id": 6167865,
+      "lat": 43.71,
+      "lon": -79.4,
+      "tz": "America/Toronto",
+      "zh": "多倫多"
+    },
+    {
+      "alt_hans": [
+        "蒙特利尔"
+      ],
+      "cc": "CA",
+      "en": "Montréal",
+      "id": 6077243,
+      "lat": 45.51,
+      "lon": -73.59,
+      "tz": "America/Toronto",
+      "zh": "蒙特利爾"
+    },
+    {
+      "alt_hans": [
+        "卡尔加里"
+      ],
+      "cc": "CA",
+      "en": "Calgary",
+      "id": 5913490,
+      "lat": 51.05,
+      "lon": -114.09,
+      "tz": "America/Edmonton",
+      "zh": "卡加利"
+    },
+    {
+      "cc": "CA",
+      "en": "Ottawa",
+      "id": 6094817,
+      "lat": 45.41,
+      "lon": -75.7,
+      "tz": "America/Toronto",
+      "zh": "渥太華"
+    },
+    {
+      "alt_hans": [
+        "埃德蒙顿"
+      ],
+      "cc": "CA",
+      "en": "Edmonton",
+      "id": 5946768,
+      "lat": 53.55,
+      "lon": -113.47,
+      "tz": "America/Edmonton",
+      "zh": "埃德蒙頓"
+    },
+    {
+      "alt_hans": [
+        "温尼伯"
+      ],
+      "cc": "CA",
+      "en": "Winnipeg",
+      "id": 6183235,
+      "lat": 49.88,
+      "lon": -97.15,
+      "tz": "America/Winnipeg",
+      "zh": "溫尼伯"
+    },
+    {
+      "cc": "CA",
+      "en": "Mississauga",
+      "id": 6075357,
+      "lat": 43.58,
+      "lon": -79.66,
+      "tz": "America/Toronto",
+      "zh": "密西沙加"
+    },
+    {
+      "cc": "CA",
+      "en": "Vancouver",
+      "id": 6173331,
+      "lat": 49.25,
+      "lon": -123.12,
+      "tz": "America/Vancouver",
+      "zh": "溫哥華"
+    },
+    {
+      "alt_hans": [
+        "哈密尔顿"
+      ],
+      "cc": "CA",
+      "en": "Hamilton",
+      "id": 5969782,
+      "lat": 43.25,
+      "lon": -79.85,
+      "tz": "America/Toronto",
+      "zh": "哈密爾頓"
+    },
+    {
+      "alt_hans": [
+        "素里"
+      ],
+      "cc": "CA",
+      "en": "Surrey",
+      "id": 6159905,
+      "lat": 49.11,
+      "lon": -122.83,
+      "tz": "America/Vancouver",
+      "zh": "素裡"
+    },
+    {
+      "cc": "CA",
+      "en": "Québec",
+      "id": 6325494,
+      "lat": 46.81,
+      "lon": -71.21,
+      "tz": "America/Toronto",
+      "zh": "魁北克"
+    },
+    {
+      "cc": "CA",
+      "en": "Halifax",
+      "id": 6324729,
+      "lat": 44.64,
+      "lon": -63.58,
+      "tz": "America/Halifax",
+      "zh": "哈利法克斯"
+    },
+    {
+      "alt_hans": [
+        "中国上海"
+      ],
+      "cc": "CN",
+      "en": "Shanghai",
+      "id": 1796236,
+      "lat": 31.22,
+      "lon": 121.46,
+      "tz": "Asia/Shanghai",
+      "zh": "上海"
+    },
+    {
+      "alt_hans": [
+        "重庆",
+        "重庆市"
+      ],
+      "cc": "CN",
+      "en": "Chongqing",
+      "id": 1814906,
+      "lat": 29.56,
+      "lon": 106.56,
+      "tz": "Asia/Shanghai",
+      "zh": "重慶"
+    },
+    {
+      "alt_hans": [
+        "天府"
+      ],
+      "cc": "CN",
+      "en": "Chengdu",
+      "id": 1815286,
+      "lat": 30.67,
+      "lon": 104.07,
+      "tz": "Asia/Shanghai",
+      "zh": "成都"
+    },
+    {
+      "cc": "CN",
+      "en": "Beijing",
+      "id": 1816670,
+      "lat": 39.91,
+      "lon": 116.4,
+      "tz": "Asia/Shanghai",
+      "zh": "北京"
+    },
+    {
+      "alt_hans": [
+        "广州",
+        "广州市",
+        "広州"
+      ],
+      "cc": "CN",
+      "en": "Guangzhou",
+      "id": 1809858,
+      "lat": 23.12,
+      "lon": 113.25,
+      "tz": "Asia/Shanghai",
+      "zh": "廣州"
+    },
+    {
+      "alt_hans": [
+        "宝安",
+        "寶安",
+        "新安"
+      ],
+      "cc": "CN",
+      "en": "Shenzhen",
+      "id": 1795565,
+      "lat": 22.55,
+      "lon": 114.07,
+      "tz": "Asia/Shanghai",
+      "zh": "深圳"
+    },
+    {
+      "cc": "CN",
+      "en": "Tianjin",
+      "id": 1792947,
+      "lat": 39.14,
+      "lon": 117.18,
+      "tz": "Asia/Shanghai",
+      "zh": "天津"
+    },
+    {
+      "alt_hans": [
+        "武汉",
+        "武汉市"
+      ],
+      "cc": "CN",
+      "en": "Wuhan",
+      "id": 1791247,
+      "lat": 30.58,
+      "lon": 114.27,
+      "tz": "Asia/Shanghai",
+      "zh": "武漢"
+    },
+    {
+      "cc": "CN",
+      "en": "Xi’an",
+      "id": 1790630,
+      "lat": 34.26,
+      "lon": 108.93,
+      "tz": "Asia/Shanghai",
+      "zh": "西安"
+    },
+    {
+      "cc": "CN",
+      "en": "Hangzhou",
+      "id": 1808926,
+      "lat": 30.29,
+      "lon": 120.16,
+      "tz": "Asia/Shanghai",
+      "zh": "杭州"
+    },
+    {
+      "alt_hans": [
+        "哈尔滨",
+        "哈尔滨市"
+      ],
+      "cc": "CN",
+      "en": "Harbin",
+      "id": 2037013,
+      "lat": 45.75,
+      "lon": 126.65,
+      "tz": "Asia/Shanghai",
+      "zh": "哈爾濱"
+    },
+    {
+      "alt_hans": [
+        "东莞",
+        "东莞市"
+      ],
+      "cc": "CN",
+      "en": "Dongguan",
+      "id": 1812545,
+      "lat": 23.02,
+      "lon": 113.75,
+      "tz": "Asia/Shanghai",
+      "zh": "東莞"
+    },
+    {
+      "cc": "CN",
+      "en": "Hefei",
+      "id": 1808722,
+      "lat": 31.86,
+      "lon": 117.28,
+      "tz": "Asia/Shanghai",
+      "zh": "合肥"
+    },
+    {
+      "alt_hans": [
+        "潍坊",
+        "潍坊市"
+      ],
+      "cc": "CN",
+      "en": "Weifang",
+      "id": 1791681,
+      "lat": 36.71,
+      "lon": 119.1,
+      "tz": "Asia/Shanghai",
+      "zh": "濰坊"
+    },
+    {
+      "cc": "CN",
+      "en": "Nanjing",
+      "id": 1799962,
+      "lat": 32.06,
+      "lon": 118.78,
+      "tz": "Asia/Shanghai",
+      "zh": "南京"
+    },
+    {
+      "alt_hans": [
+        "沈阳",
+        "沈阳市"
+      ],
+      "cc": "CN",
+      "en": "Shenyang",
+      "id": 2034937,
+      "lat": 41.79,
+      "lon": 123.43,
+      "tz": "Asia/Shanghai",
+      "zh": "瀋陽"
+    },
+    {
+      "alt_hans": [
+        "济南",
+        "济南市",
+        "済南"
+      ],
+      "cc": "CN",
+      "en": "Jinan",
+      "id": 1805753,
+      "lat": 36.67,
+      "lon": 117.0,
+      "tz": "Asia/Shanghai",
+      "zh": "濟南"
+    },
+    {
+      "alt_hans": [
+        "大连",
+        "大连市",
+        "旅大"
+      ],
+      "cc": "CN",
+      "en": "Dalian",
+      "id": 1814087,
+      "lat": 38.91,
+      "lon": 121.6,
+      "tz": "Asia/Shanghai",
+      "zh": "大連"
+    },
+    {
+      "alt_hans": [
+        "吴忠",
+        "吴忠市",
+        "吴忠镇"
+      ],
+      "cc": "CN",
+      "en": "Wuzhong",
+      "id": 1790842,
+      "lat": 37.99,
+      "lon": 106.2,
+      "tz": "Asia/Shanghai",
+      "zh": "吳忠"
+    },
+    {
+      "alt_hans": [
+        "青岛",
+        "青岛市"
+      ],
+      "cc": "CN",
+      "en": "Qingdao",
+      "id": 1797929,
+      "lat": 36.06,
+      "lon": 120.38,
+      "tz": "Asia/Shanghai",
+      "zh": "青島"
+    },
+    {
+      "alt_hans": [
+        "烟台",
+        "烟台市",
+        "煙台市"
+      ],
+      "cc": "CN",
+      "en": "Yantai",
+      "id": 1787093,
+      "lat": 37.48,
+      "lon": 121.44,
+      "tz": "Asia/Shanghai",
+      "zh": "煙臺"
+    },
+    {
+      "alt_hans": [
+        "苏州",
+        "苏州市"
+      ],
+      "cc": "CN",
+      "en": "Suzhou",
+      "id": 1886760,
+      "lat": 31.3,
+      "lon": 120.6,
+      "tz": "Asia/Shanghai",
+      "zh": "蘇州"
+    },
+    {
+      "alt_hans": [
+        "郑州",
+        "郑州市"
+      ],
+      "cc": "CN",
+      "en": "Zhengzhou",
+      "id": 1784658,
+      "lat": 34.76,
+      "lon": 113.65,
+      "tz": "Asia/Shanghai",
+      "zh": "鄭州"
+    },
+    {
+      "alt_hans": [
+        "南宁",
+        "南宁市"
+      ],
+      "cc": "CN",
+      "en": "Nanning",
+      "id": 1799869,
+      "lat": 22.82,
+      "lon": 108.32,
+      "tz": "Asia/Shanghai",
+      "zh": "南寧"
+    },
+    {
+      "cc": "CN",
+      "en": "Kunming",
+      "id": 1804651,
+      "lat": 25.04,
+      "lon": 102.72,
+      "tz": "Asia/Shanghai",
+      "zh": "昆明"
+    },
+    {
+      "alt_hans": [
+        "石家庄",
+        "石家庄市",
+        "石家荘"
+      ],
+      "cc": "CN",
+      "en": "Shijiazhuang",
+      "id": 1795270,
+      "lat": 38.04,
+      "lon": 114.48,
+      "tz": "Asia/Shanghai",
+      "zh": "石家莊"
+    },
+    {
+      "alt_hans": [
+        "长春",
+        "长春市"
+      ],
+      "cc": "CN",
+      "en": "Changchun",
+      "id": 2038180,
+      "lat": 43.88,
+      "lon": 125.32,
+      "tz": "Asia/Shanghai",
+      "zh": "長春"
+    },
+    {
+      "cc": "CN",
+      "en": "Taiyuan",
+      "id": 1793511,
+      "lat": 37.87,
+      "lon": 112.56,
+      "tz": "Asia/Shanghai",
+      "zh": "太原"
+    },
+    {
+      "cc": "CN",
+      "en": "Zibo",
+      "id": 1785286,
+      "lat": 36.79,
+      "lon": 118.06,
+      "tz": "Asia/Shanghai",
+      "zh": "淄博"
+    },
+    {
+      "alt_hans": [
+        "厦门",
+        "厦门市"
+      ],
+      "cc": "CN",
+      "en": "Xiamen",
+      "id": 1790645,
+      "lat": 24.48,
+      "lon": 118.08,
+      "tz": "Asia/Shanghai",
+      "zh": "廈門"
+    },
+    {
+      "alt_hans": [
+        "扬州",
+        "扬州市"
+      ],
+      "cc": "CN",
+      "en": "Yangzhou",
+      "id": 1787227,
+      "lat": 32.4,
+      "lon": 119.44,
+      "tz": "Asia/Shanghai",
+      "zh": "揚州"
+    },
+    {
+      "cc": "CN",
+      "en": "Huai'an",
+      "id": 1797873,
+      "lat": 33.59,
+      "lon": 119.02,
+      "tz": "Asia/Shanghai",
+      "zh": "淮安"
+    },
+    {
+      "alt_hans": [
+        "贵阳",
+        "贵阳市"
+      ],
+      "cc": "CN",
+      "en": "Guiyang",
+      "id": 1809461,
+      "lat": 26.58,
+      "lon": 106.72,
+      "tz": "Asia/Shanghai",
+      "zh": "貴陽"
+    },
+    {
+      "alt_hans": [
+        "无锡",
+        "无锡市"
+      ],
+      "cc": "CN",
+      "en": "Wuxi",
+      "id": 1790923,
+      "lat": 31.57,
+      "lon": 120.29,
+      "tz": "Asia/Shanghai",
+      "zh": "無錫"
+    },
+    {
+      "alt_hans": [
+        "兰州",
+        "兰州市"
+      ],
+      "cc": "CN",
+      "en": "Lanzhou",
+      "id": 1804430,
+      "lat": 36.06,
+      "lon": 103.84,
+      "tz": "Asia/Shanghai",
+      "zh": "蘭州"
+    },
+    {
+      "cc": "CN",
+      "en": "Fuzhou",
+      "id": 1810821,
+      "lat": 26.06,
+      "lon": 119.31,
+      "tz": "Asia/Shanghai",
+      "zh": "福州"
+    },
+    {
+      "alt_hans": [
+        "乌鲁木齐",
+        "乌鲁木齐市",
+        "迪化"
+      ],
+      "cc": "CN",
+      "en": "Ürümqi",
+      "id": 1529102,
+      "lat": 43.8,
+      "lon": 87.6,
+      "tz": "Asia/Urumqi",
+      "zh": "烏魯木齊"
+    },
+    {
+      "alt_hans": [
+        "枣庄市",
+        "棗荘市"
+      ],
+      "cc": "CN",
+      "en": "Zaozhuang",
+      "id": 1785453,
+      "lat": 34.86,
+      "lon": 117.55,
+      "tz": "Asia/Shanghai",
+      "zh": "棗莊"
+    },
+    {
+      "cc": "CN",
+      "en": "Zhongshan",
+      "id": 6986104,
+      "lat": 22.52,
+      "lon": 113.38,
+      "tz": "Asia/Shanghai",
+      "zh": "中山"
+    },
+    {
+      "alt_hans": [
+        "汕头",
+        "汕头市",
+        "潮汕"
+      ],
+      "cc": "CN",
+      "en": "Shantou",
+      "id": 1795940,
+      "lat": 23.35,
+      "lon": 116.68,
+      "tz": "Asia/Shanghai",
+      "zh": "汕頭"
+    },
+    {
+      "alt_hans": [
+        "宁波",
+        "宁波市"
+      ],
+      "cc": "CN",
+      "en": "Ningbo",
+      "id": 1799397,
+      "lat": 29.88,
+      "lon": 121.55,
+      "tz": "Asia/Shanghai",
+      "zh": "寧波"
+    },
+    {
+      "alt_hans": [
+        "浦阳",
+        "浦阳街道"
+      ],
+      "cc": "CN",
+      "en": "Puyang",
+      "id": 1798425,
+      "lat": 29.46,
+      "lon": 119.89,
+      "tz": "Asia/Shanghai",
+      "zh": "濮陽"
+    },
+    {
+      "cc": "CN",
+      "en": "Shiyan",
+      "id": 1794903,
+      "lat": 32.65,
+      "lon": 110.78,
+      "tz": "Asia/Shanghai",
+      "zh": "十堰"
+    },
+    {
+      "alt_hans": [
+        "呼市"
+      ],
+      "cc": "CN",
+      "en": "Hohhot",
+      "id": 2036892,
+      "lat": 40.81,
+      "lon": 111.65,
+      "tz": "Asia/Shanghai",
+      "zh": "呼和浩特"
+    },
+    {
+      "cc": "CN",
+      "en": "Tangshan",
+      "id": 1793346,
+      "lat": 39.64,
+      "lon": 118.18,
+      "tz": "Asia/Shanghai",
+      "zh": "唐山"
+    },
+    {
+      "alt_hans": [
+        "吕梁市"
+      ],
+      "cc": "CN",
+      "en": "Lüliang",
+      "id": 13512505,
+      "lat": 37.52,
+      "lon": 111.14,
+      "tz": "Asia/Shanghai",
+      "zh": "呂梁"
+    },
+    {
+      "cc": "CN",
+      "en": "Anshan",
+      "id": 2038632,
+      "lat": 41.12,
+      "lon": 122.99,
+      "tz": "Asia/Shanghai",
+      "zh": "鞍山"
+    },
+    {
+      "cc": "CN",
+      "en": "Changzhou",
+      "id": 1815456,
+      "lat": 31.77,
+      "lon": 119.95,
+      "tz": "Asia/Shanghai",
+      "zh": "常州"
+    },
+    {
+      "cc": "CN",
+      "en": "Datong",
+      "id": 2037799,
+      "lat": 40.09,
+      "lon": 113.29,
+      "tz": "Asia/Shanghai",
+      "zh": "大同"
+    },
+    {
+      "alt_hans": [
+        "长沙",
+        "长沙市"
+      ],
+      "cc": "CN",
+      "en": "Changsha",
+      "id": 1815577,
+      "lat": 28.2,
+      "lon": 112.97,
+      "tz": "Asia/Shanghai",
+      "zh": "長沙"
+    },
+    {
+      "cc": "CN",
+      "en": "Huainan",
+      "id": 1807681,
+      "lat": 32.63,
+      "lon": 117.0,
+      "tz": "Asia/Shanghai",
+      "zh": "淮南"
+    },
+    {
+      "cc": "CN",
+      "en": "Haikou",
+      "id": 1809078,
+      "lat": 20.03,
+      "lon": 110.35,
+      "tz": "Asia/Shanghai",
+      "zh": "海口"
+    },
+    {
+      "alt_hans": [
+        "恵州",
+        "恵州市"
+      ],
+      "cc": "CN",
+      "en": "Huizhou",
+      "id": 1806776,
+      "lat": 23.11,
+      "lon": 114.42,
+      "tz": "Asia/Shanghai",
+      "zh": "惠州"
+    },
+    {
+      "alt_hans": [
+        "银川",
+        "银川市"
+      ],
+      "cc": "CN",
+      "en": "Yinchuan",
+      "id": 1786657,
+      "lat": 38.47,
+      "lon": 106.27,
+      "tz": "Asia/Shanghai",
+      "zh": "銀川"
+    },
+    {
+      "alt_hans": [
+        "包头",
+        "包头市"
+      ],
+      "cc": "CN",
+      "en": "Baotou",
+      "id": 2038432,
+      "lat": 40.65,
+      "lon": 109.84,
+      "tz": "Asia/Shanghai",
+      "zh": "包頭"
+    },
+    {
+      "alt_hans": [
+        "临沂",
+        "临沂市"
+      ],
+      "cc": "CN",
+      "en": "Linyi",
+      "id": 1803318,
+      "lat": 35.06,
+      "lon": 118.34,
+      "tz": "Asia/Shanghai",
+      "zh": "臨沂"
+    },
+    {
+      "cc": "CN",
+      "en": "Baoding",
+      "id": 1816971,
+      "lat": 38.87,
+      "lon": 115.46,
+      "tz": "Asia/Shanghai",
+      "zh": "保定"
+    },
+    {
+      "cc": "CN",
+      "en": "Bazhong",
+      "id": 11995100,
+      "lat": 31.87,
+      "lon": 106.74,
+      "tz": "Asia/Shanghai",
+      "zh": "巴中"
+    },
+    {
+      "alt_hans": [
+        "温州",
+        "温州市"
+      ],
+      "cc": "CN",
+      "en": "Wenzhou",
+      "id": 1791388,
+      "lat": 28.0,
+      "lon": 120.67,
+      "tz": "Asia/Shanghai",
+      "zh": "溫州"
+    },
+    {
+      "alt_hans": [
+        "云浮",
+        "云浮市"
+      ],
+      "cc": "CN",
+      "en": "Yunfu",
+      "id": 1785725,
+      "lat": 22.93,
+      "lon": 112.04,
+      "tz": "Asia/Shanghai",
+      "zh": "雲浮"
+    },
+    {
+      "alt_hans": [
+        "西宁",
+        "西宁市"
+      ],
+      "cc": "CN",
+      "en": "Xining",
+      "id": 1788852,
+      "lat": 36.63,
+      "lon": 101.76,
+      "tz": "Asia/Shanghai",
+      "zh": "西寧"
+    },
+    {
+      "cc": "CN",
+      "en": "Nanchang",
+      "id": 1800163,
+      "lat": 28.68,
+      "lon": 115.85,
+      "tz": "Asia/Shanghai",
+      "zh": "南昌"
+    },
+    {
+      "alt_hans": [
+        "绍兴",
+        "绍兴市"
+      ],
+      "cc": "CN",
+      "en": "Shaoxing",
+      "id": 1795855,
+      "lat": 30.0,
+      "lon": 120.58,
+      "tz": "Asia/Shanghai",
+      "zh": "紹興"
+    },
+    {
+      "cc": "CN",
+      "en": "Nantong",
+      "id": 1799722,
+      "lat": 32.03,
+      "lon": 120.87,
+      "tz": "Asia/Shanghai",
+      "zh": "南通"
+    },
+    {
+      "alt_hans": [
+        "鄂尔多斯市"
+      ],
+      "cc": "CN",
+      "en": "Ordos",
+      "id": 8347664,
+      "lat": 39.61,
+      "lon": 109.78,
+      "tz": "Asia/Shanghai",
+      "zh": "鄂爾多斯"
+    },
+    {
+      "alt_hans": [
+        "庆阳",
+        "庆阳市"
+      ],
+      "cc": "CN",
+      "en": "Qingyang",
+      "id": 12359313,
+      "lat": 35.71,
+      "lon": 107.64,
+      "tz": "Asia/Shanghai",
+      "zh": "慶陽"
+    },
+    {
+      "alt_hans": [
+        "昆山",
+        "昆山市",
+        "玉山"
+      ],
+      "cc": "CN",
+      "en": "Kunshan",
+      "id": 1785623,
+      "lat": 31.38,
+      "lon": 120.95,
+      "tz": "Asia/Shanghai",
+      "zh": "崑山"
+    },
+    {
+      "alt_hans": [
+        "遵义",
+        "遵义市"
+      ],
+      "cc": "CN",
+      "en": "Zunyi",
+      "id": 1783621,
+      "lat": 27.69,
+      "lon": 106.91,
+      "tz": "Asia/Shanghai",
+      "zh": "遵義"
+    },
+    {
+      "alt_hans": [
+        "连云港",
+        "连云港市"
+      ],
+      "cc": "CN",
+      "en": "Lianyungang",
+      "id": 10859300,
+      "lat": 34.6,
+      "lon": 119.22,
+      "tz": "Asia/Shanghai",
+      "zh": "連雲港"
+    },
+    {
+      "alt_hans": [
+        "普宁",
+        "普宁市"
+      ],
+      "cc": "CN",
+      "en": "Puning",
+      "id": 1802940,
+      "lat": 23.31,
+      "lon": 116.17,
+      "tz": "Asia/Shanghai",
+      "zh": "普寧"
+    },
+    {
+      "alt_hans": [
+        "赣州",
+        "赣州市"
+      ],
+      "cc": "CN",
+      "en": "Ganzhou",
+      "id": 1810638,
+      "lat": 25.85,
+      "lon": 114.93,
+      "tz": "Asia/Shanghai",
+      "zh": "贛州"
+    },
+    {
+      "cc": "CN",
+      "en": "Jilin",
+      "id": 2036502,
+      "lat": 43.85,
+      "lon": 126.56,
+      "tz": "Asia/Shanghai",
+      "zh": "吉林"
+    },
+    {
+      "cc": "CN",
+      "en": "Shangqiu",
+      "id": 1796134,
+      "lat": 34.41,
+      "lon": 115.66,
+      "tz": "Asia/Shanghai",
+      "zh": "商丘"
+    },
+    {
+      "cc": "CN",
+      "en": "Nanchong",
+      "id": 1800146,
+      "lat": 30.8,
+      "lon": 106.08,
+      "tz": "Asia/Shanghai",
+      "zh": "南充"
+    },
+    {
+      "alt_hans": [
+        "南阳",
+        "南阳市"
+      ],
+      "cc": "CN",
+      "en": "Nanyang",
+      "id": 1799629,
+      "lat": 33.01,
+      "lon": 112.55,
+      "tz": "Asia/Shanghai",
+      "zh": "南陽"
+    },
+    {
+      "alt_hans": [
+        "江阴市",
+        "澄江",
+        "澄江街道"
+      ],
+      "cc": "CN",
+      "en": "Jiangyin",
+      "id": 1815251,
+      "lat": 31.91,
+      "lon": 120.26,
+      "tz": "Asia/Shanghai",
+      "zh": "江陰"
+    },
+    {
+      "alt_hans": [
+        "阜阳市"
+      ],
+      "cc": "CN",
+      "en": "Fuyang",
+      "id": 1810845,
+      "lat": 32.9,
+      "lon": 115.82,
+      "tz": "Asia/Shanghai",
+      "zh": "阜陽"
+    },
+    {
+      "alt_hans": [
+        "巴彦淖尔市"
+      ],
+      "cc": "CN",
+      "en": "Bayan Nur",
+      "id": 11838258,
+      "lat": 40.74,
+      "lon": 107.39,
+      "tz": "Asia/Shanghai",
+      "zh": "巴彥淖爾"
+    },
+    {
+      "alt_hans": [
+        "清远",
+        "清远市"
+      ],
+      "cc": "CN",
+      "en": "Qingyuan",
+      "id": 1797945,
+      "lat": 23.7,
+      "lon": 113.03,
+      "tz": "Asia/Shanghai",
+      "zh": "清遠"
+    },
+    {
+      "cc": "CN",
+      "en": "Tai’an",
+      "id": 1793724,
+      "lat": 36.19,
+      "lon": 117.12,
+      "tz": "Asia/Shanghai",
+      "zh": "泰安"
+    },
+    {
+      "cc": "CN",
+      "en": "Suzhou",
+      "id": 1793743,
+      "lat": 33.64,
+      "lon": 116.98,
+      "tz": "Asia/Shanghai",
+      "zh": "宿州"
+    },
+    {
+      "cc": "CN",
+      "en": "Lu’an",
+      "id": 1802206,
+      "lat": 31.74,
+      "lon": 116.52,
+      "tz": "Asia/Shanghai",
+      "zh": "六安"
+    },
+    {
+      "alt_hans": [
+        "塩城市",
+        "盐城",
+        "盐城市"
+      ],
+      "cc": "CN",
+      "en": "Yancheng",
+      "id": 1787746,
+      "lat": 33.36,
+      "lon": 120.16,
+      "tz": "Asia/Shanghai",
+      "zh": "鹽城"
+    },
+    {
+      "cc": "CN",
+      "en": "Taizhou",
+      "id": 1793505,
+      "lat": 32.49,
+      "lon": 119.91,
+      "tz": "Asia/Shanghai",
+      "zh": "泰州"
+    },
+    {
+      "alt_hans": [
+        "大庆",
+        "大庆市"
+      ],
+      "cc": "CN",
+      "en": "Daqing",
+      "id": 2037860,
+      "lat": 46.58,
+      "lon": 125.0,
+      "tz": "Asia/Shanghai",
+      "zh": "大慶"
+    },
+    {
+      "alt_hans": [
+        "芜湖",
+        "芜湖市"
+      ],
+      "cc": "CN",
+      "en": "Wuhu",
+      "id": 1791236,
+      "lat": 31.35,
+      "lon": 118.43,
+      "tz": "Asia/Shanghai",
+      "zh": "蕪湖"
+    },
+    {
+      "alt_hans": [
+        "达州",
+        "达州市"
+      ],
+      "cc": "CN",
+      "en": "Dazhou",
+      "id": 1813325,
+      "lat": 31.21,
+      "lon": 107.46,
+      "tz": "Asia/Shanghai",
+      "zh": "達州"
+    },
+    {
+      "cc": "CN",
+      "en": "Guilin",
+      "id": 1809498,
+      "lat": 25.28,
+      "lon": 110.3,
+      "tz": "Asia/Shanghai",
+      "zh": "桂林"
+    },
+    {
+      "alt_hans": [
+        "肇庆",
+        "肇庆市"
+      ],
+      "cc": "CN",
+      "en": "Zhaoqing",
+      "id": 1784853,
+      "lat": 23.05,
+      "lon": 112.46,
+      "tz": "Asia/Shanghai",
+      "zh": "肇慶"
+    },
+    {
+      "alt_hans": [
+        "绵阳",
+        "绵阳市"
+      ],
+      "cc": "CN",
+      "en": "Mianyang",
+      "id": 1800627,
+      "lat": 31.47,
+      "lon": 104.68,
+      "tz": "Asia/Shanghai",
+      "zh": "綿陽"
+    },
+    {
+      "alt_hans": [
+        "万州区"
+      ],
+      "cc": "CN",
+      "en": "Wanzhou",
+      "id": 12358576,
+      "lat": 30.76,
+      "lon": 108.4,
+      "tz": "Asia/Shanghai",
+      "zh": "萬州"
+    },
+    {
+      "cc": "CN",
+      "en": "Putian",
+      "id": 1798449,
+      "lat": 25.44,
+      "lon": 119.01,
+      "tz": "Asia/Shanghai",
+      "zh": "莆田"
+    },
+    {
+      "alt_hans": [
+        "锦州市"
+      ],
+      "cc": "CN",
+      "en": "Jinzhou",
+      "id": 2036427,
+      "lat": 41.11,
+      "lon": 121.14,
+      "tz": "Asia/Shanghai",
+      "zh": "錦州"
+    },
+    {
+      "cc": "CN",
+      "en": "Taizhou",
+      "id": 8400694,
+      "lat": 28.66,
+      "lon": 121.43,
+      "tz": "Asia/Shanghai",
+      "zh": "台州"
+    },
+    {
+      "cc": "CN",
+      "en": "Quanzhou",
+      "id": 1797353,
+      "lat": 24.91,
+      "lon": 118.59,
+      "tz": "Asia/Shanghai",
+      "zh": "泉州"
+    },
+    {
+      "alt_hans": [
+        "金华",
+        "金华市"
+      ],
+      "cc": "CN",
+      "en": "Jinhua",
+      "id": 1805528,
+      "lat": 29.11,
+      "lon": 119.64,
+      "tz": "Asia/Shanghai",
+      "zh": "金華"
+    },
+    {
+      "alt_hans": [
+        "浒山",
+        "浒山街道"
+      ],
+      "cc": "CN",
+      "en": "Cixi",
+      "id": 1806602,
+      "lat": 30.18,
+      "lon": 121.25,
+      "tz": "Asia/Shanghai",
+      "zh": "慈溪"
+    },
+    {
+      "alt_hans": [
+        "常徳",
+        "常徳市"
+      ],
+      "cc": "CN",
+      "en": "Changde",
+      "id": 1791121,
+      "lat": 29.03,
+      "lon": 111.7,
+      "tz": "Asia/Shanghai",
+      "zh": "常德"
+    },
+    {
+      "alt_hans": [
+        "开封",
+        "开封市"
+      ],
+      "cc": "CN",
+      "en": "Kaifeng",
+      "id": 1804879,
+      "lat": 34.8,
+      "lon": 114.31,
+      "tz": "Asia/Shanghai",
+      "zh": "開封"
+    },
+    {
+      "alt_hans": [
+        "宝鶏市",
+        "宝鸡",
+        "宝鸡市"
+      ],
+      "cc": "CN",
+      "en": "Baoji",
+      "id": 10942359,
+      "lat": 34.37,
+      "lon": 107.24,
+      "tz": "Asia/Shanghai",
+      "zh": "寶雞"
+    },
+    {
+      "cc": "DE",
+      "en": "Berlin",
+      "id": 2950159,
+      "lat": 52.52,
+      "lon": 13.41,
+      "tz": "Europe/Berlin",
+      "zh": "柏林"
+    },
+    {
+      "alt_hans": [
+        "汉堡",
+        "汉堡市"
+      ],
+      "cc": "DE",
+      "en": "Hamburg",
+      "id": 2911298,
+      "lat": 53.55,
+      "lon": 9.99,
+      "tz": "Europe/Berlin",
+      "zh": "漢堡"
+    },
+    {
+      "cc": "DE",
+      "en": "Munich",
+      "id": 2867714,
+      "lat": 48.14,
+      "lon": 11.58,
+      "tz": "Europe/Berlin",
+      "zh": "慕尼黑"
+    },
+    {
+      "alt_hans": [
+        "古龍"
+      ],
+      "cc": "DE",
+      "en": "Köln",
+      "id": 2886242,
+      "lat": 50.93,
+      "lon": 6.95,
+      "tz": "Europe/Berlin",
+      "zh": "科隆"
+    },
+    {
+      "alt_hans": [
+        "法兰克福"
+      ],
+      "cc": "DE",
+      "en": "Frankfurt am Main",
+      "id": 2925533,
+      "lat": 50.12,
+      "lon": 8.68,
+      "tz": "Europe/Berlin",
+      "zh": "法蘭克福"
+    },
+    {
+      "alt_hans": [
+        "杜塞尔多夫",
+        "調素多爾夫"
+      ],
+      "cc": "DE",
+      "en": "Düsseldorf",
+      "id": 2934246,
+      "lat": 51.22,
+      "lon": 6.78,
+      "tz": "Europe/Berlin",
+      "zh": "杜塞爾多夫"
+    },
+    {
+      "alt_hans": [
+        "斯图加特"
+      ],
+      "cc": "DE",
+      "en": "Stuttgart",
+      "id": 2825297,
+      "lat": 48.78,
+      "lon": 9.18,
+      "tz": "Europe/Berlin",
+      "zh": "斯圖加特"
+    },
+    {
+      "cc": "DE",
+      "en": "Essen",
+      "id": 2928810,
+      "lat": 51.46,
+      "lon": 7.01,
+      "tz": "Europe/Berlin",
+      "zh": "埃森"
+    },
+    {
+      "alt_hans": [
+        "马德里"
+      ],
+      "cc": "ES",
+      "en": "Madrid",
+      "id": 3117735,
+      "lat": 40.42,
+      "lon": -3.7,
+      "tz": "Europe/Madrid",
+      "zh": "馬德里"
+    },
+    {
+      "alt_hans": [
+        "巴塞罗那",
+        "巴塞隆納",
+        "巴薩隆拿"
+      ],
+      "cc": "ES",
+      "en": "Barcelona",
+      "id": 3128760,
+      "lat": 41.39,
+      "lon": 2.16,
+      "tz": "Europe/Madrid",
+      "zh": "巴塞羅那"
+    },
+    {
+      "alt_hans": [
+        "瓦伦西亚",
+        "瓦倫西亞",
+        "華倫西亞"
+      ],
+      "cc": "ES",
+      "en": "Valencia",
+      "id": 2509954,
+      "lat": 39.47,
+      "lon": -0.38,
+      "tz": "Europe/Madrid",
+      "zh": "巴倫西亞"
+    },
+    {
+      "alt_hans": [
+        "萨拉戈萨"
+      ],
+      "cc": "ES",
+      "en": "Zaragoza",
+      "id": 3104324,
+      "lat": 41.66,
+      "lon": -0.88,
+      "tz": "Europe/Madrid",
+      "zh": "薩拉戈薩"
+    },
+    {
+      "alt_hans": [
+        "塞维利亚"
+      ],
+      "cc": "ES",
+      "en": "Sevilla",
+      "id": 2510911,
+      "lat": 37.38,
+      "lon": -5.97,
+      "tz": "Europe/Madrid",
+      "zh": "塞維亞"
+    },
+    {
+      "cc": "FR",
+      "en": "Paris",
+      "id": 2988507,
+      "lat": 48.85,
+      "lon": 2.35,
+      "tz": "Europe/Paris",
+      "zh": "巴黎"
+    },
+    {
+      "alt_hans": [
+        "马赛"
+      ],
+      "cc": "FR",
+      "en": "Marseille",
+      "id": 2995469,
+      "lat": 43.3,
+      "lon": 5.38,
+      "tz": "Europe/Paris",
+      "zh": "馬賽"
+    },
+    {
+      "cc": "FR",
+      "en": "Lyon",
+      "id": 2996944,
+      "lat": 45.75,
+      "lon": 4.85,
+      "tz": "Europe/Paris",
+      "zh": "里昂"
+    },
+    {
+      "alt_hans": [
+        "圖魯茲"
+      ],
+      "cc": "FR",
+      "en": "Toulouse",
+      "id": 2972315,
+      "lat": 43.6,
+      "lon": 1.44,
+      "tz": "Europe/Paris",
+      "zh": "圖盧茲"
+    },
+    {
+      "cc": "FR",
+      "en": "Nice",
+      "id": 2990440,
+      "lat": 43.7,
+      "lon": 7.27,
+      "tz": "Europe/Paris",
+      "zh": "尼斯"
+    },
+    {
+      "cc": "FR",
+      "en": "Nantes",
+      "id": 2990969,
+      "lat": 47.22,
+      "lon": -1.55,
+      "tz": "Europe/Paris",
+      "zh": "南特"
+    },
+    {
+      "cc": "FR",
+      "en": "Strasbourg",
+      "id": 2973783,
+      "lat": 48.58,
+      "lon": 7.75,
+      "tz": "Europe/Paris",
+      "zh": "斯特拉斯堡"
+    },
+    {
+      "alt_hans": [
+        "波尔多"
+      ],
+      "cc": "FR",
+      "en": "Bordeaux",
+      "id": 3031582,
+      "lat": 44.84,
+      "lon": -0.58,
+      "tz": "Europe/Paris",
+      "zh": "波爾多"
+    },
+    {
+      "alt_hans": [
+        "伦敦"
+      ],
+      "cc": "GB",
+      "en": "London",
+      "id": 2643743,
+      "lat": 51.51,
+      "lon": -0.13,
+      "tz": "Europe/London",
+      "zh": "倫敦"
+    },
+    {
+      "cc": "GB",
+      "en": "Birmingham",
+      "id": 2655603,
+      "lat": 52.48,
+      "lon": -1.9,
+      "tz": "Europe/London",
+      "zh": "伯明翰"
+    },
+    {
+      "cc": "GB",
+      "en": "Glasgow",
+      "id": 2648579,
+      "lat": 55.87,
+      "lon": -4.26,
+      "tz": "Europe/London",
+      "zh": "格拉斯哥"
+    },
+    {
+      "alt_hans": [
+        "曼彻斯特"
+      ],
+      "cc": "GB",
+      "en": "Manchester",
+      "id": 2643123,
+      "lat": 53.48,
+      "lon": -2.24,
+      "tz": "Europe/London",
+      "zh": "曼徹斯特"
+    },
+    {
+      "alt_hans": [
+        "谢菲尔德"
+      ],
+      "cc": "GB",
+      "en": "Sheffield",
+      "id": 2638077,
+      "lat": 53.38,
+      "lon": -1.47,
+      "tz": "Europe/London",
+      "zh": "謝菲爾德"
+    },
+    {
+      "alt_hans": [
+        "列斯",
+        "利兹"
+      ],
+      "cc": "GB",
+      "en": "Leeds",
+      "id": 2644688,
+      "lat": 53.8,
+      "lon": -1.55,
+      "tz": "Europe/London",
+      "zh": "利茲"
+    },
+    {
+      "alt_hans": [
+        "爱丁堡"
+      ],
+      "cc": "GB",
+      "en": "Edinburgh",
+      "id": 2650225,
+      "lat": 55.95,
+      "lon": -3.2,
+      "tz": "Europe/London",
+      "zh": "愛丁堡"
+    },
+    {
+      "cc": "GB",
+      "en": "Liverpool",
+      "id": 2644210,
+      "lat": 53.41,
+      "lon": -2.98,
+      "tz": "Europe/London",
+      "zh": "利物浦"
+    },
+    {
+      "alt_hans": [
+        "布里斯托尔"
+      ],
+      "cc": "GB",
+      "en": "Bristol",
+      "id": 2654675,
+      "lat": 51.46,
+      "lon": -2.6,
+      "tz": "Europe/London",
+      "zh": "布里斯托爾"
+    },
+    {
+      "cc": "GB",
+      "en": "Cardiff",
+      "id": 2653822,
+      "lat": 51.48,
+      "lon": -3.18,
+      "tz": "Europe/London",
+      "zh": "加的夫"
+    },
+    {
+      "alt_hans": [
+        "莱斯特"
+      ],
+      "cc": "GB",
+      "en": "Leicester",
+      "id": 2644668,
+      "lat": 52.64,
+      "lon": -1.13,
+      "tz": "Europe/London",
+      "zh": "萊斯特"
+    },
+    {
+      "alt_hans": [
+        "布拉德福德"
+      ],
+      "cc": "GB",
+      "en": "Bradford",
+      "id": 2654993,
+      "lat": 53.79,
+      "lon": -1.75,
+      "tz": "Europe/London",
+      "zh": "巴拉福特"
+    },
+    {
+      "cc": "HK",
+      "en": "Hong Kong",
+      "id": 1819729,
+      "lat": 22.28,
+      "lon": 114.17,
+      "tz": "Asia/Hong_Kong",
+      "zh": "香港"
+    },
+    {
+      "cc": "HK",
+      "en": "Victoria",
+      "id": 1931681,
+      "lat": 22.29,
+      "lon": 114.14,
+      "tz": "Asia/Hong_Kong"
+    },
+    {
+      "alt_hans": [
+        "屯门"
+      ],
+      "cc": "HK",
+      "en": "Tuen Mun",
+      "id": 1818446,
+      "lat": 22.39,
+      "lon": 113.97,
+      "tz": "Asia/Hong_Kong",
+      "zh": "屯門"
+    },
+    {
+      "cc": "HK",
+      "en": "Sha Tin",
+      "id": 1818920,
+      "lat": 22.38,
+      "lon": 114.18,
+      "tz": "Asia/Hong_Kong",
+      "zh": "沙田"
+    },
+    {
+      "alt_hans": [
+        "深水埗區"
+      ],
+      "cc": "HK",
+      "en": "Sham Shui Po",
+      "id": 1818953,
+      "lat": 22.33,
+      "lon": 114.16,
+      "tz": "Asia/Hong_Kong",
+      "zh": "深水埗"
+    },
+    {
+      "alt_hans": [
+        "黄大仙"
+      ],
+      "cc": "HK",
+      "en": "Wong Tai Sin",
+      "id": 1818304,
+      "lat": 22.35,
+      "lon": 114.18,
+      "tz": "Asia/Hong_Kong",
+      "zh": "黃大仙"
+    },
+    {
+      "alt_hans": [
+        "九龙城"
+      ],
+      "cc": "HK",
+      "en": "Kowloon City",
+      "id": 1819607,
+      "lat": 22.33,
+      "lon": 114.19,
+      "tz": "Asia/Hong_Kong",
+      "zh": "九龍城"
+    },
+    {
+      "cc": "HK",
+      "en": "Tseung Kwan O",
+      "id": 1818506,
+      "lat": 22.33,
+      "lon": 114.25,
+      "tz": "Asia/Hong_Kong",
+      "zh": "將軍澳"
+    },
+    {
+      "cc": "HK",
+      "en": "Kwai Chung",
+      "id": 1819595,
+      "lat": 22.37,
+      "lon": 114.14,
+      "tz": "Asia/Hong_Kong",
+      "zh": "葵涌"
+    },
+    {
+      "cc": "HK",
+      "en": "Tsuen Wan",
+      "id": 1818209,
+      "lat": 22.37,
+      "lon": 114.11,
+      "tz": "Asia/Hong_Kong",
+      "zh": "荃灣"
+    },
+    {
+      "alt_hans": [
+        "天水囲",
+        "天水围"
+      ],
+      "cc": "HK",
+      "en": "Tin Shui Wai",
+      "id": 1818558,
+      "lat": 22.46,
+      "lon": 114.0,
+      "tz": "Asia/Hong_Kong",
+      "zh": "天水圍"
+    },
+    {
+      "alt_hans": [
+        "大埔墟"
+      ],
+      "cc": "HK",
+      "en": "Tai Po",
+      "id": 1818673,
+      "lat": 22.45,
+      "lon": 114.17,
+      "tz": "Asia/Hong_Kong",
+      "zh": "大埔"
+    },
+    {
+      "cc": "HK",
+      "en": "Fanling",
+      "id": 1819873,
+      "lat": 22.49,
+      "lon": 114.14,
+      "tz": "Asia/Hong_Kong",
+      "zh": "粉嶺"
+    },
+    {
+      "alt_hans": [
+        "馬鞍山村",
+        "马鞍山",
+        "马鞍山村"
+      ],
+      "cc": "HK",
+      "en": "Ma On Shan",
+      "id": 1819400,
+      "lat": 22.41,
+      "lon": 114.24,
+      "tz": "Asia/Hong_Kong",
+      "zh": "馬鞍山"
+    },
+    {
+      "alt_hans": [
+        "元朗新墟"
+      ],
+      "cc": "HK",
+      "en": "Yuen Long San Hui",
+      "id": 1818222,
+      "lat": 22.43,
+      "lon": 114.03,
+      "tz": "Asia/Hong_Kong",
+      "zh": "元朗"
+    },
+    {
+      "alt_hans": [
+        "元朗墟"
+      ],
+      "cc": "HK",
+      "en": "Yuen Long",
+      "id": 1818225,
+      "lat": 22.45,
+      "lon": 114.03,
+      "tz": "Asia/Hong_Kong",
+      "zh": "元朗"
+    },
+    {
+      "cc": "HK",
+      "en": "Tsing Yi Town",
+      "id": 1818483,
+      "lat": 22.35,
+      "lon": 114.1,
+      "tz": "Asia/Hong_Kong",
+      "zh": "青衣"
+    },
+    {
+      "alt_hans": [
+        "元朗旧墟",
+        "元朗舊墟"
+      ],
+      "cc": "HK",
+      "en": "Yuen Long Kau Hui",
+      "id": 1818223,
+      "lat": 22.45,
+      "lon": 114.03,
+      "tz": "Asia/Hong_Kong",
+      "zh": "元朗墟"
+    },
+    {
+      "cc": "HK",
+      "en": "Wan Chai",
+      "id": 1818379,
+      "lat": 22.28,
+      "lon": 114.17,
+      "tz": "Asia/Hong_Kong",
+      "zh": "灣仔"
+    },
+    {
+      "cc": "HK",
+      "en": "Aberdeen",
+      "id": 1819757,
+      "lat": 22.25,
+      "lon": 114.15,
+      "tz": "Asia/Hong_Kong",
+      "zh": "香港仔"
+    },
+    {
+      "alt_hans": [
+        "新东涌坑"
+      ],
+      "cc": "HK",
+      "en": "San Tung Chung Hang",
+      "id": 1819283,
+      "lat": 22.28,
+      "lon": 113.94,
+      "tz": "Asia/Hong_Kong",
+      "zh": "新東涌坑"
+    },
+    {
+      "alt_hans": [
+        "东涌"
+      ],
+      "cc": "HK",
+      "en": "Tung Chung",
+      "id": 11101593,
+      "lat": 22.29,
+      "lon": 113.94,
+      "tz": "Asia/Hong_Kong",
+      "zh": "東涌"
+    },
+    {
+      "alt_hans": [
+        "沙田围",
+        "沙田圍"
+      ],
+      "cc": "HK",
+      "en": "Sha Tin Wai",
+      "id": 1818916,
+      "lat": 22.38,
+      "lon": 114.2,
+      "tz": "Asia/Hong_Kong",
+      "zh": "沙田"
+    },
+    {
+      "cc": "HK",
+      "en": "Shap Pat Heung",
+      "id": 12719430,
+      "lat": 22.42,
+      "lon": 114.04,
+      "tz": "Asia/Hong_Kong",
+      "zh": "十八鄉"
+    },
+    {
+      "cc": "HK",
+      "en": "Pok Fu Lam",
+      "id": 1819091,
+      "lat": 22.27,
+      "lon": 114.13,
+      "tz": "Asia/Hong_Kong",
+      "zh": "薄扶林"
+    },
+    {
+      "cc": "HK",
+      "en": "Nam Cheong",
+      "id": 12689055,
+      "lat": 22.33,
+      "lon": 114.15,
+      "tz": "Asia/Hong_Kong",
+      "zh": "南昌"
+    },
+    {
+      "cc": "HK",
+      "en": "Mong Kok",
+      "id": 1819353,
+      "lat": 22.32,
+      "lon": 114.17,
+      "tz": "Asia/Hong_Kong",
+      "zh": "旺角"
+    },
+    {
+      "cc": "HK",
+      "en": "Siu Lek Yuen",
+      "id": 1818781,
+      "lat": 22.38,
+      "lon": 114.21,
+      "tz": "Asia/Hong_Kong",
+      "zh": "小瀝源"
+    },
+    {
+      "cc": "HK",
+      "en": "Sau Mau Ping",
+      "id": 1818972,
+      "lat": 22.32,
+      "lon": 114.23,
+      "tz": "Asia/Hong_Kong",
+      "zh": "秀茂坪"
+    },
+    {
+      "alt_hans": [
+        "调景岭"
+      ],
+      "cc": "HK",
+      "en": "Tiu Keng Leng",
+      "id": 1818550,
+      "lat": 22.3,
+      "lon": 114.25,
+      "tz": "Asia/Hong_Kong",
+      "zh": "調景嶺"
+    },
+    {
+      "cc": "HK",
+      "en": "LOHAS Park",
+      "id": 12719433,
+      "lat": 22.29,
+      "lon": 114.27,
+      "tz": "Asia/Hong_Kong",
+      "zh": "日出康城"
+    },
+    {
+      "cc": "HK",
+      "en": "Mei Foo",
+      "id": 12640681,
+      "lat": 22.34,
+      "lon": 114.14,
+      "tz": "Asia/Hong_Kong",
+      "zh": "美孚"
+    },
+    {
+      "cc": "HK",
+      "en": "Ping Shan",
+      "id": 1819101,
+      "lat": 22.44,
+      "lon": 114.01,
+      "tz": "Asia/Hong_Kong",
+      "zh": "屏山"
+    },
+    {
+      "cc": "HK",
+      "en": "Kai Tak",
+      "id": 12640684,
+      "lat": 22.32,
+      "lon": 114.2,
+      "tz": "Asia/Hong_Kong",
+      "zh": "啟德"
+    },
+    {
+      "cc": "HK",
+      "en": "Jordan",
+      "id": 8224045,
+      "lat": 22.31,
+      "lon": 114.17,
+      "tz": "Asia/Hong_Kong",
+      "zh": "佐敦"
+    },
+    {
+      "cc": "HK",
+      "en": "Pat Heung",
+      "id": 12689063,
+      "lat": 22.45,
+      "lon": 114.09,
+      "tz": "Asia/Hong_Kong",
+      "zh": "八鄉"
+    },
+    {
+      "cc": "HK",
+      "en": "Whampoa",
+      "id": 12689057,
+      "lat": 22.31,
+      "lon": 114.19,
+      "tz": "Asia/Hong_Kong",
+      "zh": "黃埔"
+    },
+    {
+      "cc": "HK",
+      "en": "Choi Wan",
+      "id": 12689060,
+      "lat": 22.33,
+      "lon": 114.21,
+      "tz": "Asia/Hong_Kong",
+      "zh": "彩雲"
+    },
+    {
+      "cc": "HK",
+      "en": "Kennedy Town",
+      "id": 1819638,
+      "lat": 22.28,
+      "lon": 114.13,
+      "tz": "Asia/Hong_Kong",
+      "zh": "堅尼地城"
+    },
+    {
+      "cc": "HK",
+      "en": "Mei Foo Sun Chuen",
+      "id": 12719566,
+      "lat": 22.34,
+      "lon": 114.14,
+      "tz": "Asia/Hong_Kong",
+      "zh": "美孚新邨"
+    },
+    {
+      "alt_hans": [
+        "慈云山"
+      ],
+      "cc": "HK",
+      "en": "Tsz Wan Shan",
+      "id": 1818447,
+      "lat": 22.35,
+      "lon": 114.2,
+      "tz": "Asia/Hong_Kong",
+      "zh": "慈雲山"
+    },
+    {
+      "cc": "HK",
+      "en": "Hang Hau",
+      "id": 1819791,
+      "lat": 22.32,
+      "lon": 114.27,
+      "tz": "Asia/Hong_Kong",
+      "zh": "坑口"
+    },
+    {
+      "alt_hans": [
+        "西贡"
+      ],
+      "cc": "HK",
+      "en": "Sai Kung",
+      "id": 1819050,
+      "lat": 22.38,
+      "lon": 114.27,
+      "tz": "Asia/Hong_Kong",
+      "zh": "西貢"
+    },
+    {
+      "cc": "HK",
+      "en": "Tai Koo",
+      "id": 10170102,
+      "lat": 22.28,
+      "lon": 114.22,
+      "tz": "Asia/Hong_Kong",
+      "zh": "太古"
+    },
+    {
+      "cc": "HK",
+      "en": "Taikoo Shing",
+      "id": 12719589,
+      "lat": 22.29,
+      "lon": 114.22,
+      "tz": "Asia/Hong_Kong",
+      "zh": "太古城"
+    },
+    {
+      "cc": "HK",
+      "en": "Yau Tong",
+      "id": 1818266,
+      "lat": 22.3,
+      "lon": 114.24,
+      "tz": "Asia/Hong_Kong",
+      "zh": "油塘"
+    },
+    {
+      "cc": "HK",
+      "en": "Tai Kok Tsui",
+      "id": 1818721,
+      "lat": 22.32,
+      "lon": 114.16,
+      "tz": "Asia/Hong_Kong",
+      "zh": "大角咀"
+    },
+    {
+      "cc": "HK",
+      "en": "Shek Lei",
+      "id": 1818892,
+      "lat": 22.37,
+      "lon": 114.14,
+      "tz": "Asia/Hong_Kong",
+      "zh": "石梨"
+    },
+    {
+      "cc": "HK",
+      "en": "Whampoa Garden",
+      "id": 12719843,
+      "lat": 22.31,
+      "lon": 114.19,
+      "tz": "Asia/Hong_Kong",
+      "zh": "黃埔花園"
+    },
+    {
+      "cc": "HK",
+      "en": "Yau Ma Tei",
+      "id": 1818268,
+      "lat": 22.31,
+      "lon": 114.17,
+      "tz": "Asia/Hong_Kong",
+      "zh": "油麻地"
+    },
+    {
+      "cc": "HK",
+      "en": "Lower Wong Tai Sin Estate (I & II)",
+      "id": 12746539,
+      "lat": 22.34,
+      "lon": 114.19,
+      "tz": "Asia/Hong_Kong"
+    },
+    {
+      "cc": "HK",
+      "en": "South Horizons",
+      "id": 12719432,
+      "lat": 22.24,
+      "lon": 114.15,
+      "tz": "Asia/Hong_Kong",
+      "zh": "海怡半島"
+    },
+    {
+      "cc": "HK",
+      "en": "South Horizons (Estate)",
+      "id": 12719791,
+      "lat": 22.24,
+      "lon": 114.15,
+      "tz": "Asia/Hong_Kong"
+    },
+    {
+      "alt_hans": [
+        "礼顿山"
+      ],
+      "cc": "HK",
+      "en": "Leighton Hill",
+      "id": 1819529,
+      "lat": 22.28,
+      "lon": 114.18,
+      "tz": "Asia/Hong_Kong",
+      "zh": "禮頓山"
+    },
+    {
+      "alt_hans": [
+        "竹园"
+      ],
+      "cc": "HK",
+      "en": "Chuk Yuen",
+      "id": 1819923,
+      "lat": 22.35,
+      "lon": 114.19,
+      "tz": "Asia/Hong_Kong",
+      "zh": "竹園"
+    },
+    {
+      "cc": "HK",
+      "en": "Lei Tung",
+      "id": 12640693,
+      "lat": 22.24,
+      "lon": 114.16,
+      "tz": "Asia/Hong_Kong",
+      "zh": "利東"
+    },
+    {
+      "alt_hans": [
+        "华富邨"
+      ],
+      "cc": "HK",
+      "en": "Wah Fu",
+      "id": 1818385,
+      "lat": 22.25,
+      "lon": 114.14,
+      "tz": "Asia/Hong_Kong",
+      "zh": "華富邨"
+    },
+    {
+      "cc": "HK",
+      "en": "Sham Tseng",
+      "id": 1818950,
+      "lat": 22.37,
+      "lon": 114.05,
+      "tz": "Asia/Hong_Kong",
+      "zh": "深井"
+    },
+    {
+      "cc": "HK",
+      "en": "Shek Kip Mei Estate",
+      "id": 12719555,
+      "lat": 22.33,
+      "lon": 114.17,
+      "tz": "Asia/Hong_Kong"
+    },
+    {
+      "cc": "HK",
+      "en": "Choi Wan Estate (I & II)",
+      "id": 12746532,
+      "lat": 22.33,
+      "lon": 114.21,
+      "tz": "Asia/Hong_Kong"
+    },
+    {
+      "alt_hans": [
+        "尖沙嘴"
+      ],
+      "cc": "HK",
+      "en": "Tsim Sha Tsui",
+      "id": 1818501,
+      "lat": 22.3,
+      "lon": 114.17,
+      "tz": "Asia/Hong_Kong",
+      "zh": "尖沙咀"
+    },
+    {
+      "cc": "HK",
+      "en": "Wu Kai Sha",
+      "id": 12719443,
+      "lat": 22.43,
+      "lon": 114.24,
+      "tz": "Asia/Hong_Kong",
+      "zh": "烏溪沙"
+    },
+    {
+      "cc": "HK",
+      "en": "Laguna City",
+      "id": 12689059,
+      "lat": 22.31,
+      "lon": 114.23,
+      "tz": "Asia/Hong_Kong",
+      "zh": "麗港城"
+    },
+    {
+      "alt_hans": [
+        "船湾"
+      ],
+      "cc": "HK",
+      "en": "Shuen Wan",
+      "id": 1818817,
+      "lat": 22.47,
+      "lon": 114.21,
+      "tz": "Asia/Hong_Kong",
+      "zh": "船灣"
+    },
+    {
+      "cc": "HK",
+      "en": "Fo Tan",
+      "id": 1819855,
+      "lat": 22.4,
+      "lon": 114.19,
+      "tz": "Asia/Hong_Kong",
+      "zh": "火炭"
+    },
+    {
+      "alt_hans": [
+        "锦田"
+      ],
+      "cc": "HK",
+      "en": "Kam Tin",
+      "id": 1819685,
+      "lat": 22.44,
+      "lon": 114.06,
+      "tz": "Asia/Hong_Kong",
+      "zh": "錦田"
+    },
+    {
+      "cc": "HK",
+      "en": "Tsz Ching Estate",
+      "id": 12746541,
+      "lat": 22.35,
+      "lon": 114.2,
+      "tz": "Asia/Hong_Kong"
+    },
+    {
+      "alt_hans": [
+        "厦村市"
+      ],
+      "cc": "HK",
+      "en": "Ha Tsuen",
+      "id": 1819775,
+      "lat": 22.45,
+      "lon": 113.99,
+      "tz": "Asia/Hong_Kong",
+      "zh": "廈村"
+    },
+    {
+      "alt_hans": [
+        "大窝口",
+        "大窝口村",
+        "大窩口邨"
+      ],
+      "cc": "HK",
+      "en": "Tai Wo Hau",
+      "id": 1818614,
+      "lat": 22.37,
+      "lon": 114.12,
+      "tz": "Asia/Hong_Kong",
+      "zh": "大窩口"
+    },
+    {
+      "alt_hans": [
+        "石澳村"
+      ],
+      "cc": "HK",
+      "en": "Shek O",
+      "id": 1818883,
+      "lat": 22.23,
+      "lon": 114.25,
+      "tz": "Asia/Hong_Kong",
+      "zh": "石澳"
+    },
+    {
+      "cc": "HK",
+      "en": "Chek Chue",
+      "id": 1819980,
+      "lat": 22.22,
+      "lon": 114.21,
+      "tz": "Asia/Hong_Kong",
+      "zh": "赤柱"
+    },
+    {
+      "cc": "HK",
+      "en": "Sheung Shui",
+      "id": 1818845,
+      "lat": 22.52,
+      "lon": 114.12,
+      "tz": "Asia/Hong_Kong",
+      "zh": "上水"
+    },
+    {
+      "cc": "HK",
+      "en": "Hong Lok Yuen",
+      "id": 1819726,
+      "lat": 22.46,
+      "lon": 114.16,
+      "tz": "Asia/Hong_Kong",
+      "zh": "康樂園"
+    },
+    {
+      "cc": "HK",
+      "en": "Fairview Park",
+      "id": 12689069,
+      "lat": 22.47,
+      "lon": 114.05,
+      "tz": "Asia/Hong_Kong",
+      "zh": "錦繡花園"
+    },
+    {
+      "alt_hans": [
+        "碼頭圍",
+        "馬頭圍"
+      ],
+      "cc": "HK",
+      "en": "Ma Tau Wai",
+      "id": 1819394,
+      "lat": 22.32,
+      "lon": 114.19,
+      "tz": "Asia/Hong_Kong",
+      "zh": "古瑾圍"
+    },
+    {
+      "cc": "HK",
+      "en": "Tai Wai",
+      "id": 1818628,
+      "lat": 22.37,
+      "lon": 114.18,
+      "tz": "Asia/Hong_Kong",
+      "zh": "大圍"
+    },
+    {
+      "cc": "HK",
+      "en": "Ho Man Tin",
+      "id": 1819731,
+      "lat": 22.32,
+      "lon": 114.18,
+      "tz": "Asia/Hong_Kong",
+      "zh": "何文田"
+    },
+    {
+      "cc": "HK",
+      "en": "Cheung Chau",
+      "id": 1819968,
+      "lat": 22.21,
+      "lon": 114.03,
+      "tz": "Asia/Hong_Kong",
+      "zh": "長洲"
+    },
+    {
+      "cc": "HK",
+      "en": "Shui Chuen O",
+      "id": 12687143,
+      "lat": 22.37,
+      "lon": 114.2,
+      "tz": "Asia/Hong_Kong",
+      "zh": "水泉澳"
+    },
+    {
+      "cc": "HK",
+      "en": "San Tin",
+      "id": 1818996,
+      "lat": 22.5,
+      "lon": 114.07,
+      "tz": "Asia/Hong_Kong",
+      "zh": "新田"
+    },
+    {
+      "cc": "HK",
+      "en": "Tuen Mun San Hui",
+      "id": 1818444,
+      "lat": 22.4,
+      "lon": 113.98,
+      "tz": "Asia/Hong_Kong",
+      "zh": "屯門新墟"
+    },
+    {
+      "cc": "HK",
+      "en": "Olympic",
+      "id": 12689056,
+      "lat": 22.32,
+      "lon": 114.16,
+      "tz": "Asia/Hong_Kong",
+      "zh": "奧運"
+    },
+    {
+      "cc": "HK",
+      "en": "Discovery Bay",
+      "id": 1819894,
+      "lat": 22.3,
+      "lon": 114.02,
+      "tz": "Asia/Hong_Kong",
+      "zh": "愉景灣"
+    },
+    {
+      "cc": "HK",
+      "en": "The Peak",
+      "id": 12640687,
+      "lat": 22.26,
+      "lon": 114.16,
+      "tz": "Asia/Hong_Kong",
+      "zh": "山頂"
+    },
+    {
+      "cc": "HK",
+      "en": "Sung Wong Toi",
+      "id": 12640671,
+      "lat": 22.32,
+      "lon": 114.19,
+      "tz": "Asia/Hong_Kong",
+      "zh": "宋皇臺"
+    },
+    {
+      "cc": "HK",
+      "en": "So Uk",
+      "id": 12640674,
+      "lat": 22.34,
+      "lon": 114.16,
+      "tz": "Asia/Hong_Kong",
+      "zh": "蘇屋"
+    },
+    {
+      "alt_hans": [
+        "九龙塘"
+      ],
+      "cc": "HK",
+      "en": "Kowloon Tong",
+      "id": 1819602,
+      "lat": 22.33,
+      "lon": 114.18,
+      "tz": "Asia/Hong_Kong",
+      "zh": "九龍塘"
+    },
+    {
+      "cc": "HK",
+      "en": "Siu Sai Wan Estate",
+      "id": 12719587,
+      "lat": 22.26,
+      "lon": 114.25,
+      "tz": "Asia/Hong_Kong"
+    },
+    {
+      "alt_hans": [
+        "西湾河"
+      ],
+      "cc": "HK",
+      "en": "Sai Wan Ho",
+      "id": 1819029,
+      "lat": 22.28,
+      "lon": 114.22,
+      "tz": "Asia/Hong_Kong",
+      "zh": "西灣河"
+    },
+    {
+      "cc": "HK",
+      "en": "So Uk Estate",
+      "id": 12719581,
+      "lat": 22.34,
+      "lon": 114.16,
+      "tz": "Asia/Hong_Kong"
+    },
+    {
+      "cc": "HK",
+      "en": "Tak Long Estate",
+      "id": 12719848,
+      "lat": 22.33,
+      "lon": 114.2,
+      "tz": "Asia/Hong_Kong"
+    },
+    {
+      "cc": "HK",
+      "en": "Keng Hau",
+      "id": 12719547,
+      "lat": 22.37,
+      "lon": 114.17,
+      "tz": "Asia/Hong_Kong",
+      "zh": "坑口"
+    },
+    {
+      "cc": "HK",
+      "en": "Un Chau Estate",
+      "id": 12719552,
+      "lat": 22.34,
+      "lon": 114.16,
+      "tz": "Asia/Hong_Kong"
+    },
+    {
+      "cc": "HK",
+      "en": "Lam Tin",
+      "id": 1819554,
+      "lat": 22.31,
+      "lon": 114.24,
+      "tz": "Asia/Hong_Kong",
+      "zh": "藍田"
+    },
+    {
+      "cc": "HK",
+      "en": "Lei Tung Estate",
+      "id": 12719787,
+      "lat": 22.24,
+      "lon": 114.16,
+      "tz": "Asia/Hong_Kong"
+    },
+    {
+      "cc": "HK",
+      "en": "San Po Kong",
+      "id": 1819003,
+      "lat": 22.34,
+      "lon": 114.2,
+      "tz": "Asia/Hong_Kong",
+      "zh": "新蒲崗"
+    },
+    {
+      "cc": "HK",
+      "en": "Hok Yuen",
+      "id": 12719439,
+      "lat": 22.31,
+      "lon": 114.19,
+      "tz": "Asia/Hong_Kong",
+      "zh": "學園"
+    },
+    {
+      "cc": "HK",
+      "en": "Laguna Verde",
+      "id": 12719440,
+      "lat": 22.31,
+      "lon": 114.19,
+      "tz": "Asia/Hong_Kong",
+      "zh": "海逸豪園"
+    },
+    {
+      "cc": "HK",
+      "en": "Shek Kip Mei",
+      "id": 1818905,
+      "lat": 22.33,
+      "lon": 114.17,
+      "tz": "Asia/Hong_Kong",
+      "zh": "石硤尾"
+    },
+    {
+      "cc": "HK",
+      "en": "Heng Fa Chuen",
+      "id": 12719592,
+      "lat": 22.28,
+      "lon": 114.24,
+      "tz": "Asia/Hong_Kong",
+      "zh": "杏花邨"
+    },
+    {
+      "cc": "HK",
+      "en": "Aldrich Bay",
+      "id": 12719542,
+      "lat": 22.28,
+      "lon": 114.22,
+      "tz": "Asia/Hong_Kong",
+      "zh": "愛秩序灣"
+    },
+    {
+      "cc": "HK",
+      "en": "Choi Hung Estate",
+      "id": 12746531,
+      "lat": 22.34,
+      "lon": 114.21,
+      "tz": "Asia/Hong_Kong",
+      "zh": "彩虹邨"
+    },
+    {
+      "cc": "HK",
+      "en": "Tai Shui Hang",
+      "id": 1818654,
+      "lat": 22.41,
+      "lon": 114.22,
+      "tz": "Asia/Hong_Kong",
+      "zh": "大水坑"
+    },
+    {
+      "cc": "HK",
+      "en": "Wo Che",
+      "id": 1818349,
+      "lat": 22.39,
+      "lon": 114.19,
+      "tz": "Asia/Hong_Kong",
+      "zh": "禾輋"
+    },
+    {
+      "alt_hans": [
+        "大埔海滨",
+        "大埔海濱"
+      ],
+      "cc": "HK",
+      "en": "Tai Mei Tuk",
+      "id": 1818695,
+      "lat": 22.47,
+      "lon": 114.23,
+      "tz": "Asia/Hong_Kong",
+      "zh": "大美督"
+    },
+    {
+      "cc": "HK",
+      "en": "Kadoorie",
+      "id": 12640682,
+      "lat": 22.32,
+      "lon": 114.18,
+      "tz": "Asia/Hong_Kong",
+      "zh": "嘉道理"
+    },
+    {
+      "cc": "HK",
+      "en": "Oi Man Estate",
+      "id": 12719847,
+      "lat": 22.31,
+      "lon": 114.18,
+      "tz": "Asia/Hong_Kong"
+    },
+    {
+      "cc": "HK",
+      "en": "Discovery Park",
+      "id": 12689054,
+      "lat": 22.38,
+      "lon": 114.11,
+      "tz": "Asia/Hong_Kong",
+      "zh": "愉景新城"
+    },
+    {
+      "cc": "HK",
+      "en": "Ting Kau",
+      "id": 1818574,
+      "lat": 22.37,
+      "lon": 114.08,
+      "tz": "Asia/Hong_Kong",
+      "zh": "汀九"
+    },
+    {
+      "cc": "HK",
+      "en": "Chuk Yuen North Estate",
+      "id": 12746517,
+      "lat": 22.35,
+      "lon": 114.19,
+      "tz": "Asia/Hong_Kong"
+    },
+    {
+      "cc": "HK",
+      "en": "Wang Tau Hom",
+      "id": 1818365,
+      "lat": 22.34,
+      "lon": 114.19,
+      "tz": "Asia/Hong_Kong"
+    },
+    {
+      "cc": "HK",
+      "en": "Pak Tin Estate",
+      "id": 12719553,
+      "lat": 22.34,
+      "lon": 114.17,
+      "tz": "Asia/Hong_Kong"
+    },
+    {
+      "alt_hans": [
+        "田湾"
+      ],
+      "cc": "HK",
+      "en": "Tin Wan",
+      "id": 1818557,
+      "lat": 22.25,
+      "lon": 114.15,
+      "tz": "Asia/Hong_Kong",
+      "zh": "田灣"
+    },
+    {
+      "cc": "HK",
+      "en": "Wang Tau Hom Estate",
+      "id": 12746547,
+      "lat": 22.34,
+      "lon": 114.19,
+      "tz": "Asia/Hong_Kong"
+    },
+    {
+      "alt_hans": [
+        "観塘",
+        "觀塘",
+        "观塘"
+      ],
+      "cc": "HK",
+      "en": "Kwun Tong",
+      "id": 1819577,
+      "lat": 22.31,
+      "lon": 114.22,
+      "tz": "Asia/Hong_Kong",
+      "zh": "官塘"
+    },
+    {
+      "cc": "HK",
+      "en": "Kam Ying",
+      "id": 12719445,
+      "lat": 22.42,
+      "lon": 114.24,
+      "tz": "Asia/Hong_Kong",
+      "zh": "錦英"
+    },
+    {
+      "cc": "HK",
+      "en": "San Tin",
+      "id": 1818992,
+      "lat": 22.37,
+      "lon": 114.18,
+      "tz": "Asia/Hong_Kong",
+      "zh": "新田"
+    },
+    {
+      "cc": "HK",
+      "en": "Sun Tin Wai",
+      "id": 12689062,
+      "lat": 22.37,
+      "lon": 114.19,
+      "tz": "Asia/Hong_Kong",
+      "zh": "新田圍"
+    },
+    {
+      "cc": "HK",
+      "en": "Sam Shing",
+      "id": 12719540,
+      "lat": 22.38,
+      "lon": 113.98,
+      "tz": "Asia/Hong_Kong",
+      "zh": "三聖"
+    },
+    {
+      "cc": "HK",
+      "en": "Wong Chuk Hang",
+      "id": 9172583,
+      "lat": 22.24,
+      "lon": 114.17,
+      "tz": "Asia/Hong_Kong",
+      "zh": "黃竹坑"
+    },
+    {
+      "cc": "HK",
+      "en": "Yeung Uk Tsuen",
+      "id": 1818259,
+      "lat": 22.45,
+      "lon": 114.02,
+      "tz": "Asia/Hong_Kong",
+      "zh": "楊屋村"
+    },
+    {
+      "cc": "HK",
+      "en": "Braemar Hill",
+      "id": 12719438,
+      "lat": 22.28,
+      "lon": 114.2,
+      "tz": "Asia/Hong_Kong",
+      "zh": "寶馬山"
+    },
+    {
+      "cc": "HK",
+      "en": "Hoi Lai Estate",
+      "id": 12719569,
+      "lat": 22.33,
+      "lon": 114.15,
+      "tz": "Asia/Hong_Kong"
+    },
+    {
+      "cc": "HK",
+      "en": "Mount Davis",
+      "id": 1819339,
+      "lat": 22.28,
+      "lon": 114.12,
+      "tz": "Asia/Hong_Kong",
+      "zh": "摩星嶺"
+    },
+    {
+      "cc": "HK",
+      "en": "Pok Hong",
+      "id": 12687141,
+      "lat": 22.38,
+      "lon": 114.2,
+      "tz": "Asia/Hong_Kong",
+      "zh": "博康"
+    },
+    {
+      "cc": "HK",
+      "en": "Fu Cheong Estate",
+      "id": 12719572,
+      "lat": 22.33,
+      "lon": 114.15,
+      "tz": "Asia/Hong_Kong"
+    },
+    {
+      "cc": "HK",
+      "en": "To Kwa Wan",
+      "id": 1818544,
+      "lat": 22.32,
+      "lon": 114.19,
+      "tz": "Asia/Hong_Kong",
+      "zh": "土瓜灣"
+    },
+    {
+      "cc": "HK",
+      "en": "Lee On",
+      "id": 12719444,
+      "lat": 22.43,
+      "lon": 114.24,
+      "tz": "Asia/Hong_Kong",
+      "zh": "利安"
+    },
+    {
+      "cc": "HK",
+      "en": "Butterfly",
+      "id": 12689065,
+      "lat": 22.38,
+      "lon": 113.96,
+      "tz": "Asia/Hong_Kong",
+      "zh": "蝴蝶"
+    },
+    {
+      "cc": "HK",
+      "en": "Prince Edward",
+      "id": 12687144,
+      "lat": 22.32,
+      "lon": 114.18,
+      "tz": "Asia/Hong_Kong",
+      "zh": "太子"
+    },
+    {
+      "cc": "HK",
+      "en": "Mid Levels",
+      "id": 1819361,
+      "lat": 22.28,
+      "lon": 114.15,
+      "tz": "Asia/Hong_Kong",
+      "zh": "半山"
+    },
+    {
+      "alt_hans": [
+        "砲台山"
+      ],
+      "cc": "HK",
+      "en": "Fortress Hill",
+      "id": 7778986,
+      "lat": 22.29,
+      "lon": 114.19,
+      "tz": "Asia/Hong_Kong",
+      "zh": "炮臺山"
+    },
+    {
+      "cc": "HK",
+      "en": "Tung Tau Estate",
+      "id": 12746524,
+      "lat": 22.33,
+      "lon": 114.19,
+      "tz": "Asia/Hong_Kong"
+    },
+    {
+      "cc": "HK",
+      "en": "City One",
+      "id": 12640679,
+      "lat": 22.39,
+      "lon": 114.2,
+      "tz": "Asia/Hong_Kong",
+      "zh": "第一城"
+    },
+    {
+      "cc": "HK",
+      "en": "City Garden",
+      "id": 12719544,
+      "lat": 22.29,
+      "lon": 114.19,
+      "tz": "Asia/Hong_Kong"
+    },
+    {
+      "cc": "HK",
+      "en": "Yiu Tung Estate",
+      "id": 12719635,
+      "lat": 22.28,
+      "lon": 114.22,
+      "tz": "Asia/Hong_Kong"
+    },
+    {
+      "alt_hans": [
+        "勿礁維",
+        "勿礁维",
+        "巴达威亚"
+      ],
+      "cc": "ID",
+      "en": "Jakarta",
+      "id": 1642911,
+      "lat": -6.21,
+      "lon": 106.85,
+      "tz": "Asia/Jakarta",
+      "zh": "雅加達"
+    },
+    {
+      "cc": "ID",
+      "en": "Surabaya",
+      "id": 1625822,
+      "lat": -7.25,
+      "lon": 112.75,
+      "tz": "Asia/Jakarta",
+      "zh": "泗水"
+    },
+    {
+      "alt_hans": [
+        "万隆"
+      ],
+      "cc": "ID",
+      "en": "Bandung",
+      "id": 1650357,
+      "lat": -6.92,
+      "lon": 107.61,
+      "tz": "Asia/Jakarta",
+      "zh": "萬隆"
+    },
+    {
+      "cc": "ID",
+      "en": "Medan",
+      "id": 1214520,
+      "lat": 3.58,
+      "lon": 98.67,
+      "tz": "Asia/Jakarta",
+      "zh": "棉蘭"
+    },
+    {
+      "alt_hans": [
+        "當格朗"
+      ],
+      "cc": "ID",
+      "en": "Tangerang",
+      "id": 1625084,
+      "lat": -6.18,
+      "lon": 106.63,
+      "tz": "Asia/Jakarta",
+      "zh": "坦格朗"
+    },
+    {
+      "alt_hans": [
+        "旧港"
+      ],
+      "cc": "ID",
+      "en": "Palembang",
+      "id": 1633070,
+      "lat": -2.92,
+      "lon": 104.75,
+      "tz": "Asia/Jakarta",
+      "zh": "巨港"
+    },
+    {
+      "alt_hans": [
+        "罗马市"
+      ],
+      "cc": "IT",
+      "en": "Rome",
+      "id": 3169070,
+      "lat": 41.89,
+      "lon": 12.51,
+      "tz": "Europe/Rome",
+      "zh": "羅馬"
+    },
+    {
+      "cc": "IT",
+      "en": "Milan",
+      "id": 3173435,
+      "lat": 45.46,
+      "lon": 9.19,
+      "tz": "Europe/Rome",
+      "zh": "米蘭"
+    },
+    {
+      "cc": "IT",
+      "en": "Naples",
+      "id": 3172394,
+      "lat": 40.85,
+      "lon": 14.27,
+      "tz": "Europe/Rome",
+      "zh": "那不勒斯"
+    },
+    {
+      "alt_hans": [
+        "都灵"
+      ],
+      "cc": "IT",
+      "en": "Turin",
+      "id": 3165524,
+      "lat": 45.07,
+      "lon": 7.69,
+      "tz": "Europe/Rome",
+      "zh": "都靈"
+    },
+    {
+      "cc": "IT",
+      "en": "Palermo",
+      "id": 2523920,
+      "lat": 38.12,
+      "lon": 13.36,
+      "tz": "Europe/Rome",
+      "zh": "巴勒莫"
+    },
+    {
+      "alt_hans": [
+        "东京",
+        "東京都"
+      ],
+      "cc": "JP",
+      "en": "Tokyo",
+      "id": 1850147,
+      "lat": 35.69,
+      "lon": 139.69,
+      "tz": "Asia/Tokyo",
+      "zh": "東京"
+    },
+    {
+      "alt_hans": [
+        "横浜",
+        "横浜市",
+        "横滨市"
+      ],
+      "cc": "JP",
+      "en": "Yokohama",
+      "id": 1848354,
+      "lat": 35.43,
+      "lon": 139.65,
+      "tz": "Asia/Tokyo",
+      "zh": "橫濱"
+    },
+    {
+      "cc": "JP",
+      "en": "Osaka",
+      "id": 1853909,
+      "lat": 34.69,
+      "lon": 135.5,
+      "tz": "Asia/Tokyo",
+      "zh": "大阪"
+    },
+    {
+      "cc": "JP",
+      "en": "Nagoya",
+      "id": 1856057,
+      "lat": 35.18,
+      "lon": 136.91,
+      "tz": "Asia/Tokyo",
+      "zh": "名古屋"
+    },
+    {
+      "cc": "JP",
+      "en": "Sapporo",
+      "id": 2128295,
+      "lat": 43.07,
+      "lon": 141.35,
+      "tz": "Asia/Tokyo",
+      "zh": "札幌"
+    },
+    {
+      "cc": "JP",
+      "en": "Fukuoka",
+      "id": 1863967,
+      "lat": 33.6,
+      "lon": 130.42,
+      "tz": "Asia/Tokyo",
+      "zh": "福岡"
+    },
+    {
+      "alt_hans": [
+        "神户市",
+        "神戸",
+        "神戸市"
+      ],
+      "cc": "JP",
+      "en": "Kobe",
+      "id": 1859171,
+      "lat": 34.69,
+      "lon": 135.18,
+      "tz": "Asia/Tokyo",
+      "zh": "神戶"
+    },
+    {
+      "cc": "JP",
+      "en": "Kyoto",
+      "id": 1857910,
+      "lat": 35.02,
+      "lon": 135.75,
+      "tz": "Asia/Tokyo",
+      "zh": "京都"
+    },
+    {
+      "cc": "JP",
+      "en": "Saitama",
+      "id": 6940394,
+      "lat": 35.91,
+      "lon": 139.66,
+      "tz": "Asia/Tokyo",
+      "zh": "埼玉"
+    },
+    {
+      "alt_hans": [
+        "広島",
+        "広島市"
+      ],
+      "cc": "JP",
+      "en": "Hiroshima",
+      "id": 1862415,
+      "lat": 34.4,
+      "lon": 132.45,
+      "tz": "Asia/Tokyo",
+      "zh": "廣島"
+    },
+    {
+      "cc": "JP",
+      "en": "Sendai",
+      "id": 2111149,
+      "lat": 38.27,
+      "lon": 140.87,
+      "tz": "Asia/Tokyo",
+      "zh": "仙台"
+    },
+    {
+      "cc": "JP",
+      "en": "Chiba",
+      "id": 2113015,
+      "lat": 35.6,
+      "lon": 140.12,
+      "tz": "Asia/Tokyo",
+      "zh": "千葉"
+    },
+    {
+      "cc": "JP",
+      "en": "Kitakyushu",
+      "id": 1859307,
+      "lat": 33.85,
+      "lon": 130.85,
+      "tz": "Asia/Tokyo",
+      "zh": "北九州"
+    },
+    {
+      "cc": "JP",
+      "en": "Niigata",
+      "id": 1855431,
+      "lat": 37.92,
+      "lon": 139.04,
+      "tz": "Asia/Tokyo",
+      "zh": "新潟"
+    },
+    {
+      "alt_hans": [
+        "浜松",
+        "浜松市",
+        "滨松市"
+      ],
+      "cc": "JP",
+      "en": "Hamamatsu",
+      "id": 1863289,
+      "lat": 34.7,
+      "lon": 137.73,
+      "tz": "Asia/Tokyo",
+      "zh": "濱松"
+    },
+    {
+      "alt_hans": [
+        "首尔",
+        "首尔特别市"
+      ],
+      "cc": "KR",
+      "en": "Seoul",
+      "id": 1835848,
+      "lat": 37.57,
+      "lon": 126.98,
+      "tz": "Asia/Seoul",
+      "zh": "首爾"
+    },
+    {
+      "alt_hans": [
+        "釜山广域市",
+        "釜山広域市"
+      ],
+      "cc": "KR",
+      "en": "Busan",
+      "id": 1838524,
+      "lat": 35.1,
+      "lon": 129.03,
+      "tz": "Asia/Seoul",
+      "zh": "釜山"
+    },
+    {
+      "alt_hans": [
+        "仁川广域市",
+        "仁川広域市",
+        "仁川廣域市"
+      ],
+      "cc": "KR",
+      "en": "Incheon",
+      "id": 1843564,
+      "lat": 37.46,
+      "lon": 126.71,
+      "tz": "Asia/Seoul",
+      "zh": "仁川"
+    },
+    {
+      "alt_hans": [
+        "大邱广域市",
+        "大邱広域市",
+        "大邱廣域市"
+      ],
+      "cc": "KR",
+      "en": "Daegu",
+      "id": 1835329,
+      "lat": 35.87,
+      "lon": 128.59,
+      "tz": "Asia/Seoul",
+      "zh": "大邱"
+    },
+    {
+      "alt_hans": [
+        "大田广域市",
+        "大田広域市"
+      ],
+      "cc": "KR",
+      "en": "Daejeon",
+      "id": 1835235,
+      "lat": 36.35,
+      "lon": 127.38,
+      "tz": "Asia/Seoul",
+      "zh": "大田"
+    },
+    {
+      "alt_hans": [
+        "光州广域市",
+        "光州広域市",
+        "光州廣域市"
+      ],
+      "cc": "KR",
+      "en": "Gwangju",
+      "id": 1841811,
+      "lat": 35.15,
+      "lon": 126.92,
+      "tz": "Asia/Seoul",
+      "zh": "光州"
+    },
+    {
+      "cc": "KR",
+      "en": "Suwon",
+      "id": 1835553,
+      "lat": 37.29,
+      "lon": 127.01,
+      "tz": "Asia/Seoul",
+      "zh": "水原"
+    },
+    {
+      "alt_hans": [
+        "蔚山広域市"
+      ],
+      "cc": "KR",
+      "en": "Ulsan",
+      "id": 1833747,
+      "lat": 35.54,
+      "lon": 129.32,
+      "tz": "Asia/Seoul",
+      "zh": "蔚山"
+    },
+    {
+      "cc": "KR",
+      "en": "Changwon",
+      "id": 1846326,
+      "lat": 35.23,
+      "lon": 128.68,
+      "tz": "Asia/Seoul",
+      "zh": "昌原"
+    },
+    {
+      "cc": "KR",
+      "en": "Cheongju-si",
+      "id": 1845604,
+      "lat": 36.64,
+      "lon": 127.49,
+      "tz": "Asia/Seoul",
+      "zh": "清州"
+    },
+    {
+      "alt_hans": [
+        "澳门"
+      ],
+      "cc": "MO",
+      "en": "Macau",
+      "id": 1821274,
+      "lat": 22.2,
+      "lon": 113.55,
+      "tz": "Asia/Macau",
+      "zh": "澳門"
+    },
+    {
+      "cc": "MO",
+      "en": "Taipa",
+      "id": 1821263,
+      "lat": 22.16,
+      "lon": 113.56,
+      "tz": "Asia/Macau",
+      "zh": "氹仔"
+    },
+    {
+      "alt_hans": [
+        "大堂区"
+      ],
+      "cc": "MO",
+      "en": "Sé",
+      "id": 13527317,
+      "lat": 22.19,
+      "lon": 113.55,
+      "tz": "Asia/Macau",
+      "zh": "大堂區"
+    },
+    {
+      "alt_hans": [
+        "聖方濟堂區",
+        "路环"
+      ],
+      "cc": "MO",
+      "en": "Luhuan",
+      "id": 1821292,
+      "lat": 22.12,
+      "lon": 113.55,
+      "tz": "Asia/Macau",
+      "zh": "路環"
+    },
+    {
+      "cc": "MO",
+      "en": "Zhuojiacun",
+      "id": 1821294,
+      "lat": 22.16,
+      "lon": 113.56,
+      "tz": "Asia/Macau",
+      "zh": "卓家村"
+    },
+    {
+      "cc": "MO",
+      "en": "Lai Chi Van",
+      "id": 1821279,
+      "lat": 22.12,
+      "lon": 113.55,
+      "tz": "Asia/Macau",
+      "zh": "荔枝碗"
+    },
+    {
+      "cc": "MY",
+      "en": "Kuala Lumpur",
+      "id": 1735161,
+      "lat": 3.14,
+      "lon": 101.69,
+      "tz": "Asia/Kuala_Lumpur",
+      "zh": "吉隆坡"
+    },
+    {
+      "cc": "MY",
+      "en": "Johor Bahru",
+      "id": 1732752,
+      "lat": 1.47,
+      "lon": 103.76,
+      "tz": "Asia/Kuala_Lumpur",
+      "zh": "新山"
+    },
+    {
+      "cc": "MY",
+      "en": "Ipoh",
+      "id": 1734634,
+      "lat": 4.58,
+      "lon": 101.08,
+      "tz": "Asia/Kuala_Lumpur",
+      "zh": "怡保"
+    },
+    {
+      "alt_hans": [
+        "马六甲"
+      ],
+      "cc": "MY",
+      "en": "Malacca",
+      "id": 1734759,
+      "lat": 2.2,
+      "lon": 102.24,
+      "tz": "Asia/Kuala_Lumpur",
+      "zh": "馬六甲"
+    },
+    {
+      "alt_hans": [
+        "哥打巴鲁"
+      ],
+      "cc": "MY",
+      "en": "Kota Bharu",
+      "id": 1736376,
+      "lat": 6.12,
+      "lon": 102.24,
+      "tz": "Asia/Kuala_Lumpur",
+      "zh": "哥打巴魯"
+    },
+    {
+      "alt_hans": [
+        "关丹"
+      ],
+      "cc": "MY",
+      "en": "Kuantan",
+      "id": 1735227,
+      "lat": 3.81,
+      "lon": 103.33,
+      "tz": "Asia/Kuala_Lumpur",
+      "zh": "關丹"
+    },
+    {
+      "cc": "MY",
+      "en": "Sungai Petani",
+      "id": 1735498,
+      "lat": 5.65,
+      "lon": 100.49,
+      "tz": "Asia/Kuala_Lumpur"
+    },
+    {
+      "cc": "MY",
+      "en": "Kota Kinabalu",
+      "id": 1733432,
+      "lat": 5.97,
+      "lon": 116.07,
+      "tz": "Asia/Kuching",
+      "zh": "亞庇"
+    },
+    {
+      "cc": "MY",
+      "en": "Sandakan",
+      "id": 1734052,
+      "lat": 5.84,
+      "lon": 118.12,
+      "tz": "Asia/Kuching",
+      "zh": "山打根"
+    },
+    {
+      "alt_hans": [
+        "瓜拉登嘉楼"
+      ],
+      "cc": "MY",
+      "en": "Kuala Terengganu",
+      "id": 1734705,
+      "lat": 5.33,
+      "lon": 103.14,
+      "tz": "Asia/Kuala_Lumpur",
+      "zh": "瓜拉登嘉樓"
+    },
+    {
+      "alt_hans": [
+        "亚罗士打"
+      ],
+      "cc": "MY",
+      "en": "Alor Setar",
+      "id": 1736309,
+      "lat": 6.12,
+      "lon": 100.36,
+      "tz": "Asia/Kuala_Lumpur",
+      "zh": "亞羅士打"
+    },
+    {
+      "cc": "MY",
+      "en": "Kuching",
+      "id": 1735634,
+      "lat": 1.55,
+      "lon": 110.33,
+      "tz": "Asia/Kuching",
+      "zh": "古晉"
+    },
+    {
+      "alt_hans": [
+        "双溪乌绒",
+        "花城"
+      ],
+      "cc": "MY",
+      "en": "Seremban",
+      "id": 1734810,
+      "lat": 2.73,
+      "lon": 101.94,
+      "tz": "Asia/Kuala_Lumpur",
+      "zh": "芙蓉"
+    },
+    {
+      "alt_hans": [
+        "斗湖"
+      ],
+      "cc": "MY",
+      "en": "Tawau",
+      "id": 1734199,
+      "lat": 4.24,
+      "lon": 117.89,
+      "tz": "Asia/Kuching",
+      "zh": "鬥湖"
+    },
+    {
+      "cc": "NL",
+      "en": "Rotterdam",
+      "id": 2747891,
+      "lat": 51.92,
+      "lon": 4.48,
+      "tz": "Europe/Amsterdam",
+      "zh": "鹿特丹"
+    },
+    {
+      "cc": "NL",
+      "en": "Amsterdam",
+      "id": 2759794,
+      "lat": 52.37,
+      "lon": 4.89,
+      "tz": "Europe/Amsterdam",
+      "zh": "阿姆斯特丹"
+    },
+    {
+      "alt_hans": [
+        "乌得勒支",
+        "烏德勒支"
+      ],
+      "cc": "NL",
+      "en": "Utrecht",
+      "id": 2745912,
+      "lat": 52.09,
+      "lon": 5.12,
+      "tz": "Europe/Amsterdam",
+      "zh": "烏得勒支"
+    },
+    {
+      "alt_hans": [
+        "奧克蘭都會區"
+      ],
+      "cc": "NZ",
+      "en": "Auckland",
+      "id": 2193733,
+      "lat": -36.85,
+      "lon": 174.76,
+      "tz": "Pacific/Auckland",
+      "zh": "奧克蘭"
+    },
+    {
+      "alt_hans": [
+        "克赖斯特彻奇"
+      ],
+      "cc": "NZ",
+      "en": "Christchurch",
+      "id": 2192362,
+      "lat": -43.53,
+      "lon": 172.63,
+      "tz": "Pacific/Auckland",
+      "zh": "基督城"
+    },
+    {
+      "alt_hans": [
+        "惠灵顿"
+      ],
+      "cc": "NZ",
+      "en": "Wellington",
+      "id": 2179537,
+      "lat": -41.29,
+      "lon": 174.78,
+      "tz": "Pacific/Auckland",
+      "zh": "威靈頓"
+    },
+    {
+      "alt_hans": [
+        "哈密尔顿"
+      ],
+      "cc": "NZ",
+      "en": "Hamilton",
+      "id": 2190324,
+      "lat": -37.78,
+      "lon": 175.28,
+      "tz": "Pacific/Auckland",
+      "zh": "哈密爾頓"
+    },
+    {
+      "cc": "PH",
+      "en": "Quezon City",
+      "id": 1692192,
+      "lat": 14.65,
+      "lon": 121.05,
+      "tz": "Asia/Manila",
+      "zh": "奎松市"
+    },
+    {
+      "alt_hans": [
+        "达沃市"
+      ],
+      "cc": "PH",
+      "en": "Davao",
+      "id": 1715348,
+      "lat": 7.07,
+      "lon": 125.61,
+      "tz": "Asia/Manila",
+      "zh": "達沃"
+    },
+    {
+      "alt_hans": [
+        "马尼拉"
+      ],
+      "cc": "PH",
+      "en": "Manila",
+      "id": 1701668,
+      "lat": 14.6,
+      "lon": 120.98,
+      "tz": "Asia/Manila",
+      "zh": "馬尼拉"
+    },
+    {
+      "cc": "PH",
+      "en": "Taguig",
+      "id": 1684308,
+      "lat": 14.52,
+      "lon": 121.08,
+      "tz": "Asia/Manila"
+    },
+    {
+      "alt_hans": [
+        "三宝颜"
+      ],
+      "cc": "PH",
+      "en": "Zamboanga",
+      "id": 1679432,
+      "lat": 6.91,
+      "lon": 122.07,
+      "tz": "Asia/Manila",
+      "zh": "三寶顏"
+    },
+    {
+      "cc": "PH",
+      "en": "Cebu City",
+      "id": 1717512,
+      "lat": 10.32,
+      "lon": 123.89,
+      "tz": "Asia/Manila",
+      "zh": "宿霧"
+    },
+    {
+      "alt_hans": [
+        "卡加延德奥罗"
+      ],
+      "cc": "PH",
+      "en": "Cagayan de Oro",
+      "id": 1721080,
+      "lat": 8.48,
+      "lon": 124.65,
+      "tz": "Asia/Manila",
+      "zh": "卡加延德奧羅"
+    },
+    {
+      "cc": "PH",
+      "en": "General Santos",
+      "id": 1713022,
+      "lat": 6.11,
+      "lon": 125.17,
+      "tz": "Asia/Manila",
+      "zh": "三投斯將軍"
+    },
+    {
+      "alt_hans": [
+        "卡兰巴"
+      ],
+      "cc": "PH",
+      "en": "Calamba",
+      "id": 1720681,
+      "lat": 14.21,
+      "lon": 121.17,
+      "tz": "Asia/Manila",
+      "zh": "卡蘭巴"
+    },
+    {
+      "alt_hans": [
+        "星架坡"
+      ],
+      "cc": "SG",
+      "en": "Singapore",
+      "id": 1880252,
+      "lat": 1.29,
+      "lon": 103.85,
+      "tz": "Asia/Singapore",
+      "zh": "新加坡"
+    },
+    {
+      "cc": "TH",
+      "en": "Bangkok",
+      "id": 1609350,
+      "lat": 13.75,
+      "lon": 100.5,
+      "tz": "Asia/Bangkok",
+      "zh": "曼谷"
+    },
+    {
+      "cc": "TH",
+      "en": "Chon Buri",
+      "id": 1611110,
+      "lat": 13.36,
+      "lon": 100.98,
+      "tz": "Asia/Bangkok",
+      "zh": "春武里"
+    },
+    {
+      "cc": "TH",
+      "en": "Hat Yai",
+      "id": 1610780,
+      "lat": 7.01,
+      "lon": 100.48,
+      "tz": "Asia/Bangkok",
+      "zh": "合艾"
+    },
+    {
+      "cc": "TH",
+      "en": "Lat Krabang",
+      "id": 6957690,
+      "lat": 13.72,
+      "lon": 100.78,
+      "tz": "Asia/Bangkok"
+    },
+    {
+      "cc": "TH",
+      "en": "Lampang",
+      "id": 1152473,
+      "lat": 18.29,
+      "lon": 99.49,
+      "tz": "Asia/Bangkok",
+      "zh": "南邦"
+    },
+    {
+      "cc": "TH",
+      "en": "Surat Thani",
+      "id": 1150515,
+      "lat": 9.14,
+      "lon": 99.33,
+      "tz": "Asia/Bangkok",
+      "zh": "素叻他尼"
+    },
+    {
+      "alt_hans": [
+        "乌隆他尼"
+      ],
+      "cc": "TH",
+      "en": "Udon Thani",
+      "id": 1605239,
+      "lat": 17.42,
+      "lon": 102.79,
+      "tz": "Asia/Bangkok",
+      "zh": "烏隆他尼"
+    },
+    {
+      "alt_hans": [
+        "清迈"
+      ],
+      "cc": "TH",
+      "en": "Chiang Mai",
+      "id": 1153671,
+      "lat": 18.79,
+      "lon": 98.98,
+      "tz": "Asia/Bangkok",
+      "zh": "清邁"
+    },
+    {
+      "alt_hans": [
+        "台北",
+        "台北市"
+      ],
+      "cc": "TW",
+      "en": "Taipei",
+      "id": 1668341,
+      "lat": 25.05,
+      "lon": 121.53,
+      "tz": "Asia/Taipei",
+      "zh": "臺北"
+    },
+    {
+      "alt_hans": [
+        "新北市"
+      ],
+      "cc": "TW",
+      "en": "New Taipei City",
+      "id": 12908892,
+      "lat": 25.06,
+      "lon": 121.46,
+      "tz": "Asia/Taipei",
+      "zh": "新北"
+    },
+    {
+      "alt_hans": [
+        "台中",
+        "台中市"
+      ],
+      "cc": "TW",
+      "en": "Taichung",
+      "id": 1668399,
+      "lat": 24.15,
+      "lon": 120.68,
+      "tz": "Asia/Taipei",
+      "zh": "臺中"
+    },
+    {
+      "alt_hans": [
+        "高雄巿"
+      ],
+      "cc": "TW",
+      "en": "Kaohsiung",
+      "id": 1673820,
+      "lat": 22.62,
+      "lon": 120.31,
+      "tz": "Asia/Taipei",
+      "zh": "高雄"
+    },
+    {
+      "alt_hans": [
+        "台南",
+        "台南市"
+      ],
+      "cc": "TW",
+      "en": "Tainan",
+      "id": 1668355,
+      "lat": 22.99,
+      "lon": 120.21,
+      "tz": "Asia/Taipei",
+      "zh": "臺南"
+    },
+    {
+      "alt_hans": [
+        "板橋區",
+        "枋橋"
+      ],
+      "cc": "TW",
+      "en": "Banqiao",
+      "id": 1670029,
+      "lat": 25.01,
+      "lon": 121.47,
+      "tz": "Asia/Taipei",
+      "zh": "板橋"
+    },
+    {
+      "alt_hans": [
+        "桃園區"
+      ],
+      "cc": "TW",
+      "en": "Taoyuan",
+      "id": 6696918,
+      "lat": 24.99,
+      "lon": 121.3,
+      "tz": "Asia/Taipei",
+      "zh": "桃園"
+    },
+    {
+      "cc": "TW",
+      "en": "Hsinchu",
+      "id": 1675151,
+      "lat": 24.8,
+      "lon": 120.97,
+      "tz": "Asia/Taipei",
+      "zh": "新竹"
+    },
+    {
+      "cc": "TW",
+      "en": "Keelung",
+      "id": 1678228,
+      "lat": 25.13,
+      "lon": 121.74,
+      "tz": "Asia/Taipei",
+      "zh": "基隆"
+    },
+    {
+      "alt_hans": [
+        "鳳山区",
+        "鳳山區"
+      ],
+      "cc": "TW",
+      "en": "Fengshan",
+      "id": 1673816,
+      "lat": 22.63,
+      "lon": 120.36,
+      "tz": "Asia/Taipei",
+      "zh": "鳳山"
+    },
+    {
+      "alt_hans": [
+        "內湖區",
+        "内湖区"
+      ],
+      "cc": "TW",
+      "en": "Neihu",
+      "id": 1671467,
+      "lat": 25.08,
+      "lon": 121.59,
+      "tz": "Asia/Taipei",
+      "zh": "內湖"
+    },
+    {
+      "cc": "TW",
+      "en": "Chiayi City",
+      "id": 1678836,
+      "lat": 23.48,
+      "lon": 120.45,
+      "tz": "Asia/Taipei",
+      "zh": "嘉義市"
+    },
+    {
+      "alt_hans": [
+        "永康区",
+        "永康區"
+      ],
+      "cc": "TW",
+      "en": "Yongkang",
+      "id": 1665221,
+      "lat": 23.02,
+      "lon": 120.26,
+      "tz": "Asia/Taipei",
+      "zh": "永康"
+    },
+    {
+      "cc": "TW",
+      "en": "Chang-hua",
+      "id": 1679136,
+      "lat": 24.07,
+      "lon": 120.56,
+      "tz": "Asia/Taipei",
+      "zh": "彰化"
+    },
+    {
+      "cc": "TW",
+      "en": "Zhubei",
+      "id": 1677112,
+      "lat": 24.84,
+      "lon": 121.01,
+      "tz": "Asia/Taipei",
+      "zh": "竹北"
+    },
+    {
+      "alt_hans": [
+        "八徳区",
+        "八德區"
+      ],
+      "cc": "TW",
+      "en": "Bade",
+      "id": 1670909,
+      "lat": 24.93,
+      "lon": 121.28,
+      "tz": "Asia/Taipei",
+      "zh": "八德"
+    },
+    {
+      "alt_hans": [
+        "汐止区",
+        "汐止區"
+      ],
+      "cc": "TW",
+      "en": "Xizhi",
+      "id": 1675393,
+      "lat": 25.07,
+      "lon": 121.66,
+      "tz": "Asia/Taipei",
+      "zh": "汐止"
+    },
+    {
+      "cc": "TW",
+      "en": "Danshui",
+      "id": 1667982,
+      "lat": 25.17,
+      "lon": 121.44,
+      "tz": "Asia/Taipei",
+      "zh": "淡水"
+    },
+    {
+      "alt_hans": [
+        "樹林区",
+        "樹林區"
+      ],
+      "cc": "TW",
+      "en": "Shulin",
+      "id": 1668875,
+      "lat": 24.99,
+      "lon": 121.42,
+      "tz": "Asia/Taipei",
+      "zh": "樹林"
+    },
+    {
+      "cc": "TW",
+      "en": "Yuanlin",
+      "id": 1665443,
+      "lat": 23.96,
+      "lon": 120.58,
+      "tz": "Asia/Taipei",
+      "zh": "員林"
+    },
+    {
+      "alt_hans": [
+        "三峡区",
+        "三峽区",
+        "三峽區"
+      ],
+      "cc": "TW",
+      "en": "Sanxia",
+      "id": 1670106,
+      "lat": 24.93,
+      "lon": 121.37,
+      "tz": "Asia/Taipei",
+      "zh": "三峽"
+    },
+    {
+      "cc": "TW",
+      "en": "Neili",
+      "id": 1671444,
+      "lat": 24.97,
+      "lon": 121.26,
+      "tz": "Asia/Taipei",
+      "zh": "內壢"
+    },
+    {
+      "cc": "TW",
+      "en": "Douliu",
+      "id": 1665196,
+      "lat": 23.71,
+      "lon": 120.54,
+      "tz": "Asia/Taipei",
+      "zh": "斗六"
+    },
+    {
+      "cc": "TW",
+      "en": "Toufen",
+      "id": 1667027,
+      "lat": 24.69,
+      "lon": 120.91,
+      "tz": "Asia/Taipei",
+      "zh": "頭份"
+    },
+    {
+      "cc": "TW",
+      "en": "Nantou",
+      "id": 1671566,
+      "lat": 23.92,
+      "lon": 120.66,
+      "tz": "Asia/Taipei",
+      "zh": "南投"
+    },
+    {
+      "alt_hans": [
+        "台東"
+      ],
+      "cc": "TW",
+      "en": "Taitung",
+      "id": 1668295,
+      "lat": 22.76,
+      "lon": 121.14,
+      "tz": "Asia/Taipei",
+      "zh": "臺東"
+    },
+    {
+      "cc": "TW",
+      "en": "Hualien City",
+      "id": 1674504,
+      "lat": 23.98,
+      "lon": 121.6,
+      "tz": "Asia/Taipei",
+      "zh": "花蓮市"
+    },
+    {
+      "cc": "TW",
+      "en": "Caotun",
+      "id": 1666855,
+      "lat": 23.98,
+      "lon": 120.69,
+      "tz": "Asia/Taipei",
+      "zh": "草屯"
+    },
+    {
+      "cc": "TW",
+      "en": "Zhudong",
+      "id": 1677053,
+      "lat": 24.73,
+      "lon": 121.09,
+      "tz": "Asia/Taipei",
+      "zh": "竹東"
+    },
+    {
+      "alt_hans": [
+        "大溪區"
+      ],
+      "cc": "TW",
+      "en": "Daxi",
+      "id": 1668467,
+      "lat": 24.88,
+      "lon": 121.29,
+      "tz": "Asia/Taipei",
+      "zh": "大溪"
+    },
+    {
+      "cc": "TW",
+      "en": "Yilan",
+      "id": 1674199,
+      "lat": 24.76,
+      "lon": 121.75,
+      "tz": "Asia/Taipei",
+      "zh": "宜蘭"
+    },
+    {
+      "alt_hans": [
+        "鶯歌区",
+        "鶯歌區"
+      ],
+      "cc": "TW",
+      "en": "Yingge",
+      "id": 1665491,
+      "lat": 24.96,
+      "lon": 121.35,
+      "tz": "Asia/Taipei",
+      "zh": "鶯歌"
+    },
+    {
+      "cc": "TW",
+      "en": "Puli",
+      "id": 1670310,
+      "lat": 23.97,
+      "lon": 120.97,
+      "tz": "Asia/Taipei",
+      "zh": "埔里"
+    },
+    {
+      "cc": "TW",
+      "en": "Miaoli",
+      "id": 1671971,
+      "lat": 24.56,
+      "lon": 120.82,
+      "tz": "Asia/Taipei",
+      "zh": "苗栗"
+    },
+    {
+      "alt_hans": [
+        "新営区",
+        "新營區"
+      ],
+      "cc": "TW",
+      "en": "Xinying",
+      "id": 1668353,
+      "lat": 23.31,
+      "lon": 120.31,
+      "tz": "Asia/Taipei",
+      "zh": "新營"
+    },
+    {
+      "alt_hans": [
+        "霧峰区",
+        "霧峰區"
+      ],
+      "cc": "TW",
+      "en": "Wufeng",
+      "id": 1665892,
+      "lat": 24.06,
+      "lon": 120.7,
+      "tz": "Asia/Taipei",
+      "zh": "霧峰"
+    },
+    {
+      "alt_hans": [
+        "马公"
+      ],
+      "cc": "TW",
+      "en": "Magong",
+      "id": 1672228,
+      "lat": 23.57,
+      "lon": 119.59,
+      "tz": "Asia/Taipei",
+      "zh": "馬公"
+    },
+    {
+      "cc": "TW",
+      "en": "Xihu",
+      "id": 1675281,
+      "lat": 23.96,
+      "lon": 120.48,
+      "tz": "Asia/Taipei",
+      "zh": "溪湖"
+    },
+    {
+      "alt_hans": [
+        "潮洲"
+      ],
+      "cc": "TW",
+      "en": "Chaozhou",
+      "id": 1679047,
+      "lat": 22.55,
+      "lon": 120.54,
+      "tz": "Asia/Taipei",
+      "zh": "潮州"
+    },
+    {
+      "cc": "TW",
+      "en": "Donggang",
+      "id": 1666596,
+      "lat": 22.47,
+      "lon": 120.45,
+      "tz": "Asia/Taipei",
+      "zh": "東港"
+    },
+    {
+      "cc": "TW",
+      "en": "Zhushan",
+      "id": 1677099,
+      "lat": 23.76,
+      "lon": 120.68,
+      "tz": "Asia/Taipei",
+      "zh": "竹山"
+    },
+    {
+      "cc": "TW",
+      "en": "Erlin",
+      "id": 1676914,
+      "lat": 23.9,
+      "lon": 120.37,
+      "tz": "Asia/Taipei",
+      "zh": "二林"
+    },
+    {
+      "cc": "TW",
+      "en": "Buzi",
+      "id": 1670264,
+      "lat": 24.21,
+      "lon": 120.57,
+      "tz": "Asia/Taipei",
+      "zh": "埔子"
+    },
+    {
+      "cc": "TW",
+      "en": "Taibao",
+      "id": 1668347,
+      "lat": 23.46,
+      "lon": 120.33,
+      "tz": "Asia/Taipei",
+      "zh": "太保"
+    },
+    {
+      "alt_hans": [
+        "晋城"
+      ],
+      "cc": "TW",
+      "en": "Jincheng",
+      "id": 1678008,
+      "lat": 24.43,
+      "lon": 118.32,
+      "tz": "Asia/Taipei",
+      "zh": "金城"
+    },
+    {
+      "cc": "TW",
+      "en": "Xiluo",
+      "id": 1675232,
+      "lat": 23.8,
+      "lon": 120.46,
+      "tz": "Asia/Taipei",
+      "zh": "西螺"
+    },
+    {
+      "cc": "TW",
+      "en": "Shetou",
+      "id": 1669506,
+      "lat": 23.9,
+      "lon": 120.59,
+      "tz": "Asia/Taipei",
+      "zh": "社頭"
+    },
+    {
+      "cc": "TW",
+      "en": "Yongjing",
+      "id": 1665259,
+      "lat": 23.92,
+      "lon": 120.55,
+      "tz": "Asia/Taipei",
+      "zh": "永靖"
+    },
+    {
+      "cc": "TW",
+      "en": "Tianzhong",
+      "id": 1667471,
+      "lat": 23.86,
+      "lon": 120.59,
+      "tz": "Asia/Taipei",
+      "zh": "田中"
+    },
+    {
+      "cc": "TW",
+      "en": "Beigang",
+      "id": 1670826,
+      "lat": 23.57,
+      "lon": 120.3,
+      "tz": "Asia/Taipei",
+      "zh": "北港"
+    },
+    {
+      "cc": "TW",
+      "en": "Beidou",
+      "id": 1670697,
+      "lat": 23.87,
+      "lon": 120.52,
+      "tz": "Asia/Taipei",
+      "zh": "北斗"
+    },
+    {
+      "cc": "TW",
+      "en": "Jinhu",
+      "id": 1675170,
+      "lat": 24.44,
+      "lon": 118.42,
+      "tz": "Asia/Taipei",
+      "zh": "金湖"
+    },
+    {
+      "cc": "TW",
+      "en": "Xingang",
+      "id": 1674975,
+      "lat": 23.56,
+      "lon": 120.35,
+      "tz": "Asia/Taipei",
+      "zh": "新港"
+    },
+    {
+      "alt_hans": [
+        "恒春",
+        "恒春鎮"
+      ],
+      "cc": "TW",
+      "en": "Hengchun",
+      "id": 1676242,
+      "lat": 22.0,
+      "lon": 120.74,
+      "tz": "Asia/Taipei",
+      "zh": "恆春"
+    },
+    {
+      "cc": "TW",
+      "en": "Pitou",
+      "id": 1670436,
+      "lat": 23.89,
+      "lon": 120.48,
+      "tz": "Asia/Taipei",
+      "zh": "埤頭"
+    },
+    {
+      "cc": "TW",
+      "en": "Xizhou",
+      "id": 1676682,
+      "lat": 24.28,
+      "lon": 120.69,
+      "tz": "Asia/Taipei",
+      "zh": "溪洲"
+    },
+    {
+      "cc": "TW",
+      "en": "Tianwei",
+      "id": 1667121,
+      "lat": 23.89,
+      "lon": 120.52,
+      "tz": "Asia/Taipei",
+      "zh": "田尾"
+    },
+    {
+      "cc": "TW",
+      "en": "Zhongxing New Village",
+      "id": 7601921,
+      "lat": 23.96,
+      "lon": 120.69,
+      "tz": "Asia/Taipei",
+      "zh": "中興新村"
+    },
+    {
+      "cc": "TW",
+      "en": "Erlun",
+      "id": 1676909,
+      "lat": 23.77,
+      "lon": 120.41,
+      "tz": "Asia/Taipei",
+      "zh": "二崙"
+    },
+    {
+      "cc": "TW",
+      "en": "Citong",
+      "id": 1666323,
+      "lat": 23.76,
+      "lon": 120.5,
+      "tz": "Asia/Taipei",
+      "zh": "莿桐"
+    },
+    {
+      "alt_hans": [
+        "三芝区",
+        "三芝區"
+      ],
+      "cc": "TW",
+      "en": "Sanzhi",
+      "id": 1670157,
+      "lat": 25.26,
+      "lon": 121.5,
+      "tz": "Asia/Taipei",
+      "zh": "三芝"
+    },
+    {
+      "cc": "TW",
+      "en": "Budai",
+      "id": 1670295,
+      "lat": 23.38,
+      "lon": 120.16,
+      "tz": "Asia/Taipei",
+      "zh": "布袋"
+    },
+    {
+      "cc": "TW",
+      "en": "Lugu",
+      "id": 1672551,
+      "lat": 23.75,
+      "lon": 120.75,
+      "tz": "Asia/Taipei",
+      "zh": "鹿谷"
+    },
+    {
+      "cc": "TW",
+      "en": "Xiulin",
+      "id": 1674615,
+      "lat": 24.12,
+      "lon": 121.63,
+      "tz": "Asia/Taipei",
+      "zh": "秀林"
+    },
+    {
+      "cc": "TW",
+      "en": "Linnei",
+      "id": 1672869,
+      "lat": 23.76,
+      "lon": 120.62,
+      "tz": "Asia/Taipei",
+      "zh": "林內"
+    },
+    {
+      "cc": "TW",
+      "en": "Yujing",
+      "id": 1665357,
+      "lat": 23.12,
+      "lon": 120.46,
+      "tz": "Asia/Taipei",
+      "zh": "玉井"
+    },
+    {
+      "alt_hans": [
+        "紐約市"
+      ],
+      "cc": "US",
+      "en": "New York City",
+      "id": 5128581,
+      "lat": 40.71,
+      "lon": -74.01,
+      "tz": "America/New_York",
+      "zh": "紐約"
+    },
+    {
+      "alt_hans": [
+        "洛杉矶"
+      ],
+      "cc": "US",
+      "en": "Los Angeles",
+      "id": 5368361,
+      "lat": 34.05,
+      "lon": -118.24,
+      "tz": "America/Los_Angeles",
+      "zh": "洛杉磯"
+    },
+    {
+      "cc": "US",
+      "en": "Chicago",
+      "id": 4887398,
+      "lat": 41.85,
+      "lon": -87.65,
+      "tz": "America/Chicago",
+      "zh": "芝加哥"
+    },
+    {
+      "alt_hans": [
+        "休斯頓",
+        "休斯顿",
+        "侯斯頓"
+      ],
+      "cc": "US",
+      "en": "Houston",
+      "id": 4699066,
+      "lat": 29.76,
+      "lon": -95.36,
+      "tz": "America/Chicago",
+      "zh": "休斯敦"
+    },
+    {
+      "alt_hans": [
+        "凤凰城"
+      ],
+      "cc": "US",
+      "en": "Phoenix",
+      "id": 5308655,
+      "lat": 33.45,
+      "lon": -112.07,
+      "tz": "America/Phoenix",
+      "zh": "鳳凰城"
+    },
+    {
+      "alt_hans": [
+        "费城"
+      ],
+      "cc": "US",
+      "en": "Philadelphia",
+      "id": 4560349,
+      "lat": 39.95,
+      "lon": -75.16,
+      "tz": "America/New_York",
+      "zh": "費城"
+    },
+    {
+      "alt_hans": [
+        "圣安东尼奥"
+      ],
+      "cc": "US",
+      "en": "San Antonio",
+      "id": 4726206,
+      "lat": 29.42,
+      "lon": -98.49,
+      "tz": "America/Chicago",
+      "zh": "聖安東尼奧"
+    },
+    {
+      "cc": "US",
+      "en": "San Diego",
+      "id": 5391811,
+      "lat": 32.72,
+      "lon": -117.16,
+      "tz": "America/Los_Angeles",
+      "zh": "聖地牙哥"
+    },
+    {
+      "cc": "US",
+      "en": "Dallas",
+      "id": 4684888,
+      "lat": 32.78,
+      "lon": -96.81,
+      "tz": "America/Chicago",
+      "zh": "達拉斯"
+    },
+    {
+      "alt_hans": [
+        "杰克逊维尔"
+      ],
+      "cc": "US",
+      "en": "Jacksonville",
+      "id": 4160021,
+      "lat": 30.33,
+      "lon": -81.66,
+      "tz": "America/New_York",
+      "zh": "傑克遜維爾"
+    },
+    {
+      "cc": "US",
+      "en": "Fort Worth",
+      "id": 4691930,
+      "lat": 32.73,
+      "lon": -97.32,
+      "tz": "America/Chicago",
+      "zh": "沃思堡"
+    },
+    {
+      "cc": "US",
+      "en": "San Jose",
+      "id": 5392171,
+      "lat": 37.34,
+      "lon": -121.89,
+      "tz": "America/Los_Angeles",
+      "zh": "聖荷西"
+    },
+    {
+      "alt_hans": [
+        "柯士甸"
+      ],
+      "cc": "US",
+      "en": "Austin",
+      "id": 4671654,
+      "lat": 30.27,
+      "lon": -97.74,
+      "tz": "America/Chicago",
+      "zh": "奧斯汀"
+    },
+    {
+      "alt_hans": [
+        "哥伦布"
+      ],
+      "cc": "US",
+      "en": "Columbus",
+      "id": 4509177,
+      "lat": 39.96,
+      "lon": -83.0,
+      "tz": "America/New_York",
+      "zh": "哥倫布"
+    },
+    {
+      "cc": "US",
+      "en": "Charlotte",
+      "id": 4460243,
+      "lat": 35.23,
+      "lon": -80.84,
+      "tz": "America/New_York",
+      "zh": "夏洛特"
+    },
+    {
+      "cc": "US",
+      "en": "Indianapolis",
+      "id": 4259418,
+      "lat": 39.77,
+      "lon": -86.16,
+      "tz": "America/Indiana/Indianapolis",
+      "zh": "印第安納波利斯"
+    },
+    {
+      "alt_hans": [
+        "三藩市",
+        "旧金山"
+      ],
+      "cc": "US",
+      "en": "San Francisco",
+      "id": 5391959,
+      "lat": 37.77,
+      "lon": -122.42,
+      "tz": "America/Los_Angeles",
+      "zh": "舊金山"
+    },
+    {
+      "cc": "US",
+      "en": "Seattle",
+      "id": 5809844,
+      "lat": 47.61,
+      "lon": -122.33,
+      "tz": "America/Los_Angeles",
+      "zh": "西雅圖"
+    },
+    {
+      "cc": "US",
+      "en": "Denver",
+      "id": 5419384,
+      "lat": 39.74,
+      "lon": -104.98,
+      "tz": "America/Denver",
+      "zh": "丹佛"
+    },
+    {
+      "alt_hans": [
+        "华盛顿特区"
+      ],
+      "cc": "US",
+      "en": "Washington",
+      "id": 4140963,
+      "lat": 38.9,
+      "lon": -77.04,
+      "tz": "America/New_York",
+      "zh": "華盛頓"
+    },
+    {
+      "alt_hans": [
+        "纳什维尔"
+      ],
+      "cc": "US",
+      "en": "Nashville",
+      "id": 4644585,
+      "lat": 36.17,
+      "lon": -86.78,
+      "tz": "America/Chicago",
+      "zh": "納殊維爾"
+    },
+    {
+      "alt_hans": [
+        "奧克拉荷馬市"
+      ],
+      "cc": "US",
+      "en": "Oklahoma City",
+      "id": 4544349,
+      "lat": 35.47,
+      "lon": -97.52,
+      "tz": "America/Chicago",
+      "zh": "俄克拉荷馬城"
+    },
+    {
+      "cc": "US",
+      "en": "El Paso",
+      "id": 5520993,
+      "lat": 31.76,
+      "lon": -106.49,
+      "tz": "America/Denver",
+      "zh": "艾爾帕索"
+    },
+    {
+      "alt_hans": [
+        "波士顿"
+      ],
+      "cc": "US",
+      "en": "Boston",
+      "id": 4930956,
+      "lat": 42.36,
+      "lon": -71.06,
+      "tz": "America/New_York",
+      "zh": "波士頓"
+    },
+    {
+      "cc": "US",
+      "en": "Portland",
+      "id": 5746545,
+      "lat": 45.52,
+      "lon": -122.68,
+      "tz": "America/Los_Angeles",
+      "zh": "波特蘭"
+    },
+    {
+      "cc": "US",
+      "en": "Detroit",
+      "id": 4990729,
+      "lat": 42.33,
+      "lon": -83.05,
+      "tz": "America/Detroit",
+      "zh": "底特律"
+    },
+    {
+      "alt_hans": [
+        "拉斯维加斯"
+      ],
+      "cc": "US",
+      "en": "Las Vegas",
+      "id": 5506956,
+      "lat": 36.17,
+      "lon": -115.14,
+      "tz": "America/Los_Angeles",
+      "zh": "拉斯維加斯"
+    },
+    {
+      "alt_hans": [
+        "孟非斯"
+      ],
+      "cc": "US",
+      "en": "Memphis",
+      "id": 4641239,
+      "lat": 35.15,
+      "lon": -90.05,
+      "tz": "America/Chicago",
+      "zh": "孟菲斯"
+    },
+    {
+      "cc": "US",
+      "en": "Louisville",
+      "id": 4299276,
+      "lat": 38.25,
+      "lon": -85.76,
+      "tz": "America/Kentucky/Louisville",
+      "zh": "路易維爾"
+    },
+    {
+      "cc": "US",
+      "en": "Baltimore",
+      "id": 4347778,
+      "lat": 39.29,
+      "lon": -76.61,
+      "tz": "America/New_York",
+      "zh": "巴爾的摩"
+    },
+    {
+      "cc": "US",
+      "en": "Albuquerque",
+      "id": 5454711,
+      "lat": 35.08,
+      "lon": -106.65,
+      "tz": "America/Denver",
+      "zh": "阿布奎基"
+    },
+    {
+      "alt_hans": [
+        "密尔沃基"
+      ],
+      "cc": "US",
+      "en": "Milwaukee",
+      "id": 5263045,
+      "lat": 43.04,
+      "lon": -87.91,
+      "tz": "America/Chicago",
+      "zh": "密爾沃基"
+    },
+    {
+      "alt_hans": [
+        "图森"
+      ],
+      "cc": "US",
+      "en": "Tucson",
+      "id": 5318313,
+      "lat": 32.22,
+      "lon": -110.93,
+      "tz": "America/Phoenix",
+      "zh": "圖森"
+    },
+    {
+      "alt_hans": [
+        "弗雷斯诺"
+      ],
+      "cc": "US",
+      "en": "Fresno",
+      "id": 5350937,
+      "lat": 36.75,
+      "lon": -119.77,
+      "tz": "America/Los_Angeles",
+      "zh": "弗雷斯諾"
+    },
+    {
+      "cc": "US",
+      "en": "Sacramento",
+      "id": 5389489,
+      "lat": 38.58,
+      "lon": -121.49,
+      "tz": "America/Los_Angeles",
+      "zh": "沙加緬度"
+    },
+    {
+      "alt_hans": [
+        "亚特兰大"
+      ],
+      "cc": "US",
+      "en": "Atlanta",
+      "id": 4180439,
+      "lat": 33.75,
+      "lon": -84.39,
+      "tz": "America/New_York",
+      "zh": "亞特蘭大"
+    },
+    {
+      "alt_hans": [
+        "迈阿密",
+        "邁亞美"
+      ],
+      "cc": "US",
+      "en": "Miami",
+      "id": 4164138,
+      "lat": 25.77,
+      "lon": -80.19,
+      "tz": "America/New_York",
+      "zh": "邁阿密"
+    },
+    {
+      "alt_hans": [
+        "奥马哈"
+      ],
+      "cc": "US",
+      "en": "Omaha",
+      "id": 5074472,
+      "lat": 41.26,
+      "lon": -95.94,
+      "tz": "America/Chicago",
+      "zh": "奧馬哈"
+    },
+    {
+      "alt_hans": [
+        "罗利"
+      ],
+      "cc": "US",
+      "en": "Raleigh",
+      "id": 4487042,
+      "lat": 35.77,
+      "lon": -78.64,
+      "tz": "America/New_York",
+      "zh": "羅利"
+    },
+    {
+      "cc": "US",
+      "en": "Kansas City",
+      "id": 4393217,
+      "lat": 39.1,
+      "lon": -94.58,
+      "tz": "America/Chicago",
+      "zh": "堪薩斯城"
+    },
+    {
+      "cc": "VN",
+      "en": "Ho Chi Minh City",
+      "id": 1566083,
+      "lat": 10.82,
+      "lon": 106.63,
+      "tz": "Asia/Ho_Chi_Minh",
+      "zh": "胡志明市"
+    },
+    {
+      "cc": "VN",
+      "en": "Hanoi",
+      "id": 1581130,
+      "lat": 21.02,
+      "lon": 105.84,
+      "tz": "Asia/Bangkok",
+      "zh": "河內"
+    },
+    {
+      "cc": "VN",
+      "en": "Haiphong",
+      "id": 1581298,
+      "lat": 20.86,
+      "lon": 106.68,
+      "tz": "Asia/Bangkok",
+      "zh": "海防"
+    },
+    {
+      "cc": "VN",
+      "en": "Cần Thơ",
+      "id": 1586203,
+      "lat": 10.04,
+      "lon": 105.79,
+      "tz": "Asia/Ho_Chi_Minh",
+      "zh": "芹苴"
+    },
+    {
+      "alt_hans": [
+        "顺化市"
+      ],
+      "cc": "VN",
+      "en": "Huế",
+      "id": 1580240,
+      "lat": 16.46,
+      "lon": 107.6,
+      "tz": "Asia/Bangkok",
+      "zh": "順化"
+    },
+    {
+      "alt_hans": [
+        "岘港"
+      ],
+      "cc": "VN",
+      "en": "Da Nang",
+      "id": 1583992,
+      "lat": 16.07,
+      "lon": 108.22,
+      "tz": "Asia/Ho_Chi_Minh",
+      "zh": "峴港"
+    }
+  ]
+}

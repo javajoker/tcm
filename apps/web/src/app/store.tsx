@@ -65,7 +65,8 @@ export function createAppStore({ persistence, now = () => Date.now(), newId = ra
     },
     chooseLang(lang) { get().setPrefs({ lang, langOfferDismissed: true }); },
     startDraft() {
-      const draft = newDraft(newId(), now());
+      const fresh = newDraft(newId(), now());
+      const draft = get().prefs.rememberBirthDefault === true ? { ...fresh, rememberBirth: true } : fresh;
       set({ draft });
       saver.schedule(draft);
       return draft;

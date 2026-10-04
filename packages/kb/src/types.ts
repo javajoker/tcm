@@ -1,6 +1,7 @@
 // Domain types of the knowledge base. The shapes of the data files are GENERATED from data/schema (see ./generated); this module gives the
 // records readable names and defines the runtime view of the KB (tech spec §4.2).
 import type { Citations } from "./generated/citations.ts";
+import type { Cities } from "./generated/cities.ts";
 import type { ConstitutionItems } from "./generated/constitution-items.ts";
 import type { Constitutions } from "./generated/constitutions.ts";
 import type { Correspondences } from "./generated/correspondences.ts";
@@ -45,13 +46,14 @@ export type FormulaComposition = Formula["composition"][number];
 export type FormulaModification = Formula["modifications"][number];
 export type Herb = Herbs["items"][number];
 export type Citation = Citations["items"][number];
+export type City = Cities["items"][number];
 export type GlossaryTerm = Glossary["items"][number];
 export type EmergencyRegion = Emergency["regions"][number];
 export type SafetyRule = SafetyRules["rules"][number];
 export type ScopeProfile = ScopeProfiles["profiles"]["release"];
 export type Bilingual = Herb["name"];
 
-export type { Citations, ConstitutionItems, Constitutions, Correspondences, Emergency, Exclusions, Formulas, Glossary, Herbs, Orientation, PanelSchema, PatternElements, Patterns, Pulse, Questions, RedFlags, SafetyRules };
+export type { Citations, Cities, ConstitutionItems, Constitutions, Correspondences, Emergency, Exclusions, Formulas, Glossary, Herbs, Orientation, PanelSchema, PatternElements, Patterns, Pulse, Questions, RedFlags, SafetyRules };
 export type { ScopeProfiles, ScoringParams, Susceptibility, Symptoms, Tongue, TreatmentGuidance, Yunqi };
 
 // ── chunks (what the bundler writes and the loader reads; tech spec §5) ─────
@@ -115,6 +117,8 @@ export interface RawKbChunks {
   readonly herbs: HerbsChunk | null;
   readonly citations: CitationsChunk;
   readonly guidance: GuidanceChunk;
+  /** The birth-place picker's city list (K-10): the same in every profile, and loaded only when the picker is opened — a function when it is fetched on demand. */
+  readonly cities: Cities | (() => Promise<Cities>);
 }
 
 // ── manifest ────────────────────────────────────────────────────────────────
@@ -123,7 +127,7 @@ export interface Manifest {
   readonly schema: number;
   readonly version: string;
   readonly profile: ProfileName;
-  readonly chunks: { readonly core: ChunkRef; readonly formulas: ChunkRef; readonly herbs?: ChunkRef; readonly citations: ChunkRef; readonly guidance: ChunkRef };
+  readonly chunks: { readonly core: ChunkRef; readonly formulas: ChunkRef; readonly herbs?: ChunkRef; readonly citations: ChunkRef; readonly guidance: ChunkRef; readonly cities: ChunkRef };
 }
 
 // ── runtime view ────────────────────────────────────────────────────────────
@@ -166,6 +170,8 @@ export interface KnowledgeBase {
   /** The own-written constitution questionnaire (K-08): items, scale and a description of each type. */
   readonly constitutionItems: ConstitutionItems;
 
+  /** The city list of the birth-place picker, with its GeoNames attribution (fetched on first use, then kept). */
+  cities(): Promise<Cities>;
   citation(id: string): Citation | undefined;
   /** zh-Hant term → glossary entry (first match). */
   term(zhHant: string): GlossaryTerm | undefined;

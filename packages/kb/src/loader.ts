@@ -1,6 +1,6 @@
 import { KbError } from "./errors.ts";
 import { indexKnowledgeBase, SUPPORTED_SCHEMA_VERSION } from "./indexer.ts";
-import type { ChunkRef, CitationsChunk, CoreChunk, FormulasChunk, GuidanceChunk, HerbsChunk, KnowledgeBase, Manifest, RawKbChunks } from "./types.ts";
+import type { ChunkRef, Cities, CitationsChunk, CoreChunk, FormulasChunk, GuidanceChunk, HerbsChunk, KnowledgeBase, Manifest, RawKbChunks } from "./types.ts";
 
 export interface LoadOptions {
   /** URL (absolute or root-relative) of the directory that holds `manifest.json` and the chunk files, e.g. "/kb". */
@@ -20,7 +20,7 @@ const join = (base: string, file: string): string => `${base.replace(/\/+$/, "")
 
 function assertManifest(m: unknown): asserts m is Manifest {
   const ok = typeof m === "object" && m !== null && typeof (m as Manifest).version === "string" && typeof (m as Manifest).schema === "number" &&
-    typeof (m as Manifest).chunks === "object" && (m as Manifest).chunks !== null && !!(m as Manifest).chunks.core && !!(m as Manifest).chunks.formulas && !!(m as Manifest).chunks.citations && !!(m as Manifest).chunks.guidance;
+    typeof (m as Manifest).chunks === "object" && (m as Manifest).chunks !== null && !!(m as Manifest).chunks.core && !!(m as Manifest).chunks.formulas && !!(m as Manifest).chunks.citations && !!(m as Manifest).chunks.guidance && !!(m as Manifest).chunks.cities;
   if (!ok) throw new KbError("manifest-invalid", "manifest.json is missing required fields");
 }
 
@@ -61,6 +61,7 @@ export async function loadKnowledgeBase(opts: LoadOptions): Promise<KnowledgeBas
     chunk<CitationsChunk>("citations", chunks.citations),
     chunk<GuidanceChunk>("guidance", chunks.guidance),
   ]);
-  const raw: RawKbChunks = { version: manifest.version, schemaVersion: manifest.schema, core, formulas, herbs, citations, guidance };
+  // the city list is for one screen only: fetched (and hash-checked) when it is first asked for
+  const raw: RawKbChunks = { version: manifest.version, schemaVersion: manifest.schema, core, formulas, herbs, citations, guidance, cities: () => chunk<Cities>("cities", chunks.cities) };
   return indexKnowledgeBase(raw);
 }

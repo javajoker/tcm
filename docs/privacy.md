@@ -34,7 +34,7 @@
 | Medications, allergies, chronic conditions | classes, allergens, listed conditions, free-text medicine names the user types (never interpreted) | **Sensitive (health)** | Safety filter | IndexedDB | Same | Same |
 | Red-flag answers and acknowledgements | which items (yes / no / not sure), corrections ("I made a mistake"), time each notice was acknowledged | **Sensitive (health)** | Notices, record of acknowledgement | IndexedDB | Same | Same |
 | Findings | symptoms, tongue, pulse, constitution answers | **Sensitive (health)** | Pattern differentiation | IndexedDB | Same | Same |
-| **Birth data** | date, time/unknown, place (longitude, time zone) | **Sensitive (personal)** | Optional innate/annual reference | **Session memory only unless "Remember on this device" is ticked** (default off) → then IndexedDB | Session, or until deleted | Opt-in toggle; erase |
+| **Birth data** | date, time/unknown, place (longitude, time zone) | **Sensitive (personal)** | Optional innate/annual reference | **Session memory only unless "Remember on this device" is ticked** (default off; Settings has a "Remember birth data" default, off, that the person can turn on to start each assessment with the box ticked) → then IndexedDB | Session, or until deleted | Opt-in toggle; erase |
 | Results | assessments, reasoning, recommendations (with KB/engine versions) | **Sensitive (health, derived)** | History and compare | IndexedDB | Until the user deletes | Delete one/all |
 | Free-text notes | anything typed | Sensitive | Memo for the user | IndexedDB | Same | Same |
 | Feedback marks | match / partly / no, per result, pattern and formula (stored inside the saved result) | Low | Optional calibration export (marks + result summary; the answers only if the user ticks "include my answers") | IndexedDB | Same | Export or delete |
@@ -111,7 +111,7 @@ Collected only for the safety filter; subject to the same local-only handling.
 | No network after load | Playwright test that fails on any request not to the same origin after the KB is loaded; CSP header asserted in the built output |
 | Nothing sensitive in URLs/logs | E2E scans `location`, history entries and console output over a full assessment with a marker value in each field |
 | Erase works | E2E fills data, erases, asserts IndexedDB, `localStorage` and Cache Storage are empty and the draft is gone |
-| Birth data not persisted by default | E2E with "remember" off: reload → birth data absent, saved result holds no birth moment |
+| Birth data not persisted by default | E2E with "remember" off (also with the Settings default off): reload → birth data absent, saved result holds no birth moment |
 | Storage failure | Unit tests for `storage.ts` with throwing storage; E2E in a context with blocked storage shows "Not saved" and still produces a result |
 | Dependency review | Lockfile, `pnpm audit`, license check in CI |
 

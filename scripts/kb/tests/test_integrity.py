@@ -173,6 +173,16 @@ class Corruptions(unittest.TestCase):
         problems = validate_with({"citations.json": m})
         self.assertFalse(any("Simplified" in p for p in problems), problems)
 
+    def test_city_with_an_unknown_time_zone(self):
+        self.assertReported({"geo/cities.json": lambda d: d["items"][0].update(tz="Mars/Olympus")}, "is not an IANA time zone")
+
+    def test_city_out_of_range_and_duplicates(self):
+        self.assertReported({"geo/cities.json": lambda d: d["items"][0].update(lon=190.0)}, "out of range")
+        self.assertReported({"geo/cities.json": lambda d: d["items"].append(dict(d["items"][0], id=1))}, "duplicate city")
+
+    def test_cities_need_the_geonames_attribution(self):
+        self.assertReported({"geo/cities.json": lambda d: d["_meta"]["source"].update(licence="MIT")}, "attribution and licence are required")
+
     def test_scoring_params_ordering(self):
         self.assertReported({"diagnosis/scoring-params.json": lambda d: d["pattern"]["bands"].update(high=10)}, "pattern bands")
         self.assertReported({"diagnosis/scoring-params.json": lambda d: d["formula"]["role_weights"].update(使=2.0)}, "role weights")

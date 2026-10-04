@@ -42,7 +42,7 @@ export function measure(distDir: string): Measure {
     }
   }
   const kbDir = join(dist, "kb");
-  const kbFiles = existsSync(kbDir) ? readdirSync(kbDir).filter((f) => f.endsWith(".json") && f !== "manifest.json").map((f) => join(kbDir, f)) : [];
+  const kbFiles = existsSync(kbDir) ? readdirSync(kbDir).filter((f) => f.endsWith(".json") && f !== "manifest.json" && !f.startsWith("cities.")).map((f) => join(kbDir, f)) : [];
   return {
     initialJs: [...initial].reduce((n, f) => n + gz(f), 0), totalJs: js.reduce((n, f) => n + gz(f), 0), totalCss: css.reduce((n, f) => n + gz(f), 0),
     kbSession: kbFiles.reduce((n, f) => n + gz(f), 0), lazy: js.filter((f) => !initial.has(f)).map((f) => ({ file: f.slice(dist.length + 1), bytes: gz(f) })).sort((a, b) => b.bytes - a.bytes),

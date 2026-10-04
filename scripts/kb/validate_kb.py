@@ -11,6 +11,7 @@ import re
 import sys
 from collections import Counter
 from typing import Callable
+from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 from jsonschema import Draft202012Validator
 
@@ -82,7 +83,7 @@ def simplified_hits(rel: str, node, key: str = "") -> list[str]:
                     return [f"{rel}:{key} {c}"]
         return []
     if isinstance(node, dict):
-        return [h for k, v in node.items() for h in simplified_hits(rel, v, k if not isinstance(v, (dict, list)) else key or k)]
+        return [h for k, v in node.items() for h in simplified_hits(rel, v, k if not isinstance(v, dict) else key or k)]
     if isinstance(node, list):
         return [h for v in node for h in simplified_hits(rel, v, key)]
     return []
@@ -221,6 +222,27 @@ def validate(load: Loader = load, check_sources: bool = True) -> list[str]:
     for t in ci["types"]:
         if sum(1 for i in t["items"] if not i["reverse"]) < 2:
             err(f"constitution {t['constitution']} needs at least two non-reversed items")
+    # cities of the birth-place picker (K-10): a wrong time zone or longitude puts the hour pillar in the wrong place
+    cities = load("geo/cities.json")
+    if cities["_meta"]["count"] != len(cities["items"]) or len(cities["items"]) < 150:
+        err(f"geo/cities.json: count {cities['_meta']['count']} / {len(cities['items'])} items (at least 150 expected)")
+    if cities["_meta"]["source"]["licence"] != "CC BY 4.0" or "geonames.org" not in cities["_meta"]["source"]["attribution"]:
+        err("geo/cities.json: the GeoNames attribution and licence are required (CC BY 4.0)")
+    for d in duplicates(c["id"] for c in cities["items"]):
+        err(f"duplicate city id {d}")
+    for d in duplicates((c["en"], c["cc"], c["lat"], c["lon"]) for c in cities["items"]):
+        err(f"duplicate city {d}")
+    for c in cities["items"]:
+        if not (-90 <= c["lat"] <= 90 and -180 <= c["lon"] <= 180):
+            err(f"city {c['en']}: coordinates {c['lat']}, {c['lon']} out of range")
+        try:
+            ZoneInfo(c["tz"])
+        except (ZoneInfoNotFoundError, ValueError):
+            err(f"city {c['en']}: {c['tz']!r} is not an IANA time zone")
+    present = Counter(c["cc"] for c in cities["items"])
+    for cc in ("TW", "HK", "MO", "SG", "CN", "JP"):
+        if present[cc] == 0:
+            err(f"geo/cities.json: no city of {cc}")
     # emergency numbers: a wrong or missing one is a safety incident (safety policy §9)
     region_ids = [r["id"] for r in emergency["regions"]]
     for d in duplicates(region_ids):

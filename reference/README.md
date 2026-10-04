@@ -17,6 +17,9 @@ reference/
     └── tcm-mkg/           # herb entity corpus (property / meridian / flavour)
 ```
 
+`reference/geonames/` is not a submodule: it holds the committed **extract** of GeoNames `cities15000` (CC BY 4.0) that the birth-place picker is built from, with its provenance,
+licence and selection rules — see [`geonames/README.md`](geonames/README.md). The original download goes into `reference/derived/geonames/` (git-ignored).
+
 `reference/derived/` (git-ignored) is reserved for scratch output of conversion scripts.
 
 ## Getting the sources

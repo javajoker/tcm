@@ -44,6 +44,10 @@ export function Settings(): ReactNode {
           <Tile type="checkbox" name="autoAdvance" value="on" checked={prefs.autoAdvance} onChange={(on) => setPrefs({ autoAdvance: on })} label={t.t("common.settings.autoAdvance")} description={t.t("common.settings.autoAdvance.hint")} />
         </Card>
 
+        <Card title={t.t("common.settings.rememberBirth")} headingLevel={2} id="settings-birth">
+          <Tile type="checkbox" name="rememberBirthDefault" value="on" checked={prefs.rememberBirthDefault === true} onChange={(on) => setPrefs({ rememberBirthDefault: on })} label={t.t("common.settings.rememberBirth")} description={t.t("common.settings.rememberBirth.hint")} />
+        </Card>
+
         <Card title={t.t("common.settings.privacy.title")} headingLevel={2} id="privacy">
           <p>{t.t("common.settings.privacy.intro")}</p>
           <DataTable caption={t.t("common.settings.privacy.caption")} head={["what", "where", "until", "remove"].map((c) => k(`common.settings.privacy.col.${c}`))} rows={rows} />

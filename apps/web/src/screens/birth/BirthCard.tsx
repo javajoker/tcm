@@ -1,9 +1,14 @@
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 import { useI18n } from "../../i18n/I18nProvider.tsx";
 import { IS_DEV_PROFILE } from "../../app/profile.ts";
+import { Link } from "wouter";
+import type { City } from "@tcm/kb";
+import { useLoadedOptional } from "../../app/knowledge.tsx";
 import { useApp } from "../../app/store.tsx";
 import type { Draft } from "../../storage/types.ts";
 import { Button, Card, ChoiceGroup, Field, Notice, Select, Tile, TextInput } from "../../ui/index.ts";
+import { CityName, CityPicker } from "./CityPicker.tsx";
+import { formPatchOf, stillCity } from "./cities.ts";
 import { echoOf, EMPTY_FORM, formOf, isTimeZone, parseBirth, type BirthForm } from "./model.ts";
 
 interface Info { readonly resolution: "unique" | "ambiguous" | "nonexistent"; readonly echo: ReturnType<typeof echoOf> | null; readonly solarClock: { first: string; second: string } | null }
@@ -13,8 +18,8 @@ const hhmm = (c: { hour: number; minute: number }): string => `${String(c.hour).
 
 /**
  * The birth card (UX spec §4.2, S03): optional, opt-in in release (on by default in dev), with an echo of what will be used so the person can check it, both possibilities
- * for a time that happened twice when daylight saving ended, a warning for a time that never existed, and "remember on this device" (default off). Without a city list (K-10)
- * the place is entered as a longitude and an IANA time zone.
+ * for a time that happened twice when daylight saving ended, a warning for a time that never existed, and "remember on this device" (default off). The place is picked from the
+ * built-in city list (K-10, loaded when the card opens) or entered as a longitude and an IANA time zone, which always works — also when the list cannot be loaded.
  */
 export function BirthCard({ draft }: { draft: Draft }): ReactNode {
   const { t } = useI18n();
@@ -27,6 +32,16 @@ export function BirthCard({ draft }: { draft: Draft }): ReactNode {
   const key = parsed.birth === null ? "" : JSON.stringify(parsed.birth);
   const set = (patch: Partial<BirthForm>): void => setForm((f) => ({ ...f, ...patch }));
   const allZones = useMemo(() => zones(), []);
+  const loaded = useLoadedOptional();
+  const [cities, setCities] = useState<{ readonly status: "loading" | "ready" | "failed"; readonly items: readonly City[]; readonly attribution: string }>({ status: "loading", items: [], attribution: "" });
+  const [city, setCity] = useState<City | null>(null);
+  const named = city !== null && stillCity(form, city) ? city : null;
+  useEffect(() => {
+    if (!on || loaded === null) return;
+    let cancelled = false;
+    loaded.kb.cities().then((c) => { if (!cancelled) setCities({ status: "ready", items: c.items, attribution: c._meta.source.attribution }); }, () => { if (!cancelled) setCities({ status: "failed", items: [], attribution: "" }); });
+    return () => { cancelled = true; };
+  }, [on, loaded]);
 
   // what the chart makes of it: the echo, and whether the time is unique, happened twice or never happened (loaded on demand: the astronomy tables are not part of the first screens)
   useEffect(() => {
@@ -69,6 +84,9 @@ export function BirthCard({ draft }: { draft: Draft }): ReactNode {
           <fieldset style={{ border: 0, padding: 0, margin: "var(--space-4) 0 0" }}>
             <legend style={{ fontWeight: 600 }}>{t.t("intake.birth.place")}</legend>
             <p className="muted">{t.t("intake.birth.place.hint")}</p>
+            {cities.status === "ready" ? <CityPicker cities={cities.items} onChoose={(c) => { setCity(c); set(formPatchOf(c)); }} /> : null}
+            {cities.status === "failed" ? <p className="muted">{t.t("intake.birth.city.failed")}</p> : null}
+            {named ? <p>{t.t("intake.birth.city.using")} <CityName city={named} /></p> : null}
             <div style={{ display: "flex", flexWrap: "wrap", gap: "var(--space-3)" }}>
               <Field label={t.t("intake.birth.longitude")}><TextInput inputMode="decimal" maxLength={7} value={form.longitude} onChange={(e) => set({ longitude: e.currentTarget.value })} /></Field>
               <Field label={t.t("intake.birth.hemisphere")}>
@@ -81,6 +99,7 @@ export function BirthCard({ draft }: { draft: Draft }): ReactNode {
               <TextInput list="birth-zones" autoComplete="off" value={form.timeZone} onChange={(e) => set({ timeZone: e.currentTarget.value })} />
             </Field>
             <datalist id="birth-zones">{allZones.map((z) => <option key={z} value={z} />)}</datalist>
+            {cities.status === "ready" ? <p className="muted">{t.t("intake.birth.city.attribution")} <Link href="/sources">{t.t("intake.birth.city.sources")}</Link></p> : null}
           </fieldset>
 
           {parsed.birth === null && sex !== undefined ? <p className="muted">{t.t("intake.birth.incomplete")}</p> : null}

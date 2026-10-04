@@ -65,11 +65,12 @@ const sha = (s: string): string => createHash("sha256").update(s).digest("hex");
 function serve(overrides: { manifest?: Partial<Manifest>; corrupt?: string; missing?: string } = {}) {
   const bodies: Record<string, string> = {
     "core.json": JSON.stringify(raw.core), "formulas.json": JSON.stringify(raw.formulas), "herbs.json": JSON.stringify(raw.herbs), "citations.json": JSON.stringify(raw.citations), "guidance.json": JSON.stringify(raw.guidance),
+    "cities.json": JSON.stringify(typeof raw.cities === "function" ? {} : raw.cities),
   };
   const ref = (file: string) => ({ file, sha256: sha(bodies[file]!), bytes: bodies[file]!.length });
   const manifest: Manifest = {
     schema: 1, version: "v-test", profile: "dev",
-    chunks: { core: ref("core.json"), formulas: ref("formulas.json"), herbs: ref("herbs.json"), citations: ref("citations.json"), guidance: ref("guidance.json") }, ...overrides.manifest,
+    chunks: { core: ref("core.json"), formulas: ref("formulas.json"), herbs: ref("herbs.json"), citations: ref("citations.json"), guidance: ref("guidance.json"), cities: ref("cities.json") }, ...overrides.manifest,
   };
   const requested: string[] = [];
   const fakeFetch = (async (url: string) => {
@@ -77,7 +78,7 @@ function serve(overrides: { manifest?: Partial<Manifest>; corrupt?: string; miss
     requested.push(name);
     if (name === overrides.missing) return new Response("nope", { status: 404 });
     if (name === "manifest.json") return new Response(JSON.stringify(manifest));
-    const body = name === overrides.corrupt ? bodies[name]!.replace("脾", "X") : bodies[name]!;
+    const body = name === overrides.corrupt ? bodies[name]!.replace("脾", "X").replace("Asia", "Asi4") : bodies[name]!;
     return new Response(body);
   }) as unknown as typeof fetch;
   return { fakeFetch, requested };
@@ -88,7 +89,21 @@ test("the loader fetches the manifest and every chunk, verifies hashes and index
   const loaded = await loadKnowledgeBase({ baseUrl: "/kb/", fetch: fakeFetch });
   assert.equal(loaded.version, "v-test");
   assert.equal(loaded.patterns.length, 23);
-  assert.deepEqual([...requested].sort(), ["citations.json", "core.json", "formulas.json", "guidance.json", "herbs.json", "manifest.json"]);
+  assert.deepEqual([...requested].sort(), ["citations.json", "core.json", "formulas.json", "guidance.json", "herbs.json", "manifest.json"], "the city list is not fetched up front");
+});
+
+test("the city list is fetched on first use, verified, and kept; a corrupted one is refused", async () => {
+  const { fakeFetch, requested } = serve();
+  const loaded = await loadKnowledgeBase({ baseUrl: "/kb/", fetch: fakeFetch });
+  const first = await loaded.cities();
+  assert.ok(first.items.length >= 150);
+  assert.equal(first.items.find((c) => c.en === "Taipei")?.tz, "Asia/Taipei");
+  assert.match(first._meta.source.attribution, /GeoNames/);
+  assert.equal(await loaded.cities(), first, "the second call is the same object");
+  assert.equal(requested.filter((n) => n === "cities.json").length, 1);
+  const bad = serve({ corrupt: "cities.json" });
+  const loaded2 = await loadKnowledgeBase({ baseUrl: "/kb", fetch: bad.fakeFetch });
+  await assert.rejects(loaded2.cities(), (e: unknown) => e instanceof KbError && e.code === "chunk-hash-mismatch");
 });
 
 test("the loader refuses a schema-version mismatch before fetching any chunk", async () => {

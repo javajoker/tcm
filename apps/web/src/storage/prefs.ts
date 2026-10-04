@@ -18,6 +18,7 @@ export function parsePrefs(raw: string | null): Prefs {
     ...(isRecord(ack) && typeof ack["version"] === "string" && typeof ack["at"] === "number" ? { disclaimerAck: { version: ack["version"], at: ack["at"] } } : {}),
     langOfferDismissed: x["langOfferDismissed"] === true,
     autoAdvance: x["autoAdvance"] !== false,
+    ...(x["rememberBirthDefault"] === true ? { rememberBirthDefault: true } : {}),
     ...(typeof x["region"] === "string" && /^[A-Z]{2,5}$/.test(x["region"]) ? { region: x["region"] } : {}),
   };
 }

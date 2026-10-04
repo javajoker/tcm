@@ -156,7 +156,7 @@ export function checkRelease(distDir: string, opts: CheckOptions = {}): Failure[
   if (!existsSync(join(dist, "NOTICE.txt"))) fail(10, "NOTICE.txt is missing: the attribution notice must be shipped with the app");
   else {
     const notice = read(join(dist, "NOTICE.txt"));
-    for (const needed of ["TCM-Library", "Permission is hereby granted", "Apache License"]) if (!notice.includes(needed)) fail(10, `NOTICE.txt does not contain "${needed}"`);
+    for (const needed of ["TCM-Library", "Permission is hereby granted", "Apache License", "GeoNames", "CC BY 4.0"]) if (!notice.includes(needed)) fail(10, `NOTICE.txt does not contain "${needed}"`);
   }
 
   // 11 — the files a static host needs: headers (CSP with frame-ancestors, nosniff, referrer, caching that names this build's chunks), the SPA fallback for every language, a real 404 page, security.txt

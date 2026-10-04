@@ -405,6 +405,12 @@ def glossary() -> dict:
     return envelope(item, meta({"count": INT}, ["count"]))
 
 
+def cities() -> dict:
+    item = obj({"alt_hans": arr(STR, 1, True), "cc": pattern(r"^[A-Z]{2}$"), "en": STR, "id": INT, "lat": NUM, "lon": NUM, "tz": STR, "zh": STR}, ["cc", "en", "id", "lat", "lon", "tz"])
+    source = obj({"attribution": STR, "dataset": STR, "extract": STR, "licence": STR, "licence_url": STR, "name": STR, "url": STR})
+    return envelope(item, meta({"count": INT, "source": source, "status": ref("reviewStatus")}, ["count", "source", "status"]))
+
+
 def review_records() -> dict:
     role = enum("tcm-clinical", "pharmacy", "physician", "linguistic", "legal")
     hash16 = pattern(r"^[0-9a-f]{16}$")
@@ -425,6 +431,7 @@ def review_records() -> dict:
 SCHEMAS = {
     "citations.json": ("citations", citations, "Quotation registry"),
     "glossary.json": ("glossary", glossary, "Glossary"),
+    "geo/cities.json": ("cities", cities, "Cities for the birth-place picker"),
     "herbs/herbs.json": ("herbs", herbs, "Herbs"),
     "herbs/herb-index.json": ("herb-index", herb_index, "Herb name index"),
     "formulas/formulas.json": ("formulas", formulas, "Formulas"),

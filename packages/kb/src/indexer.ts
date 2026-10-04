@@ -1,5 +1,5 @@
 import { KbError } from "./errors.ts";
-import type { GlossaryTerm, KnowledgeBase, RawKbChunks, TreatmentGuidance } from "./types.ts";
+import type { Cities, GlossaryTerm, KnowledgeBase, RawKbChunks, TreatmentGuidance } from "./types.ts";
 
 /** The schema version this build of the app understands (data/schema, `_meta.schema`). A KB with another version is refused. */
 export const SUPPORTED_SCHEMA_VERSION = 1;
@@ -92,6 +92,7 @@ export function indexKnowledgeBase(raw: RawKbChunks): KnowledgeBase {
     emergency: core.emergency,
     constitutionItems: core.constitutionItems,
     herbName: (id) => raw.formulas.herbNames[id],
+    cities: (() => { let loaded: Promise<Cities> | null = null; return () => (loaded ??= Promise.resolve(typeof raw.cities === "function" ? raw.cities() : raw.cities)); })(),
     citation: (id) => citations.get(id),
     term: (zh) => terms.get(zh),
   };

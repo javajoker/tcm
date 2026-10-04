@@ -318,7 +318,7 @@ Nothing is `reviewed` yet; the release gate in the [release process](release-pro
 | File | Purpose | Notes |
 |---|---|---|
 | `diagnosis/constitution-items.json` | Own-written 9-type items, 1–5 scale, scoring map | SOP D6; needs review |
-| `geo/cities.json` | `{ id, name{zh-Hant,en}, lat, lon, tz }` | Decided: GeoNames `cities15000`, CC BY 4.0, reduced subset with attribution (tech spec TQ2) |
+| `geo/cities.json` ✔ | `{ id, en, zh?, alt_hans?[≤3], cc, lat, lon, tz }` + `_meta.source` (name, URL, dataset, licence, attribution, extract) | Done (K-10): GeoNames `cities15000`, CC BY 4.0, 484 places (every Taiwan, Hong Kong and Macau place; the largest elsewhere), built by `build_geo.py` from `reference/geonames/cities-extract.tsv`; Chinese names Traditional, hand corrections and additions in `curated/geo.py`; validated for unique ids, coordinate ranges and IANA zones |
 | `treatment/guidance.json` (extend) ✔ | Acupoint location text and cautions, diet entries with rationale and citations, bilingual lifestyle — done (K-11); the drawings are the web app's own (U-25: `acupointSpots.ts` places each point by its Chinese name on seven schematic views — no KB field) | |
 | English prose fields ✔ | English rendering of `rationale_zh`, `principle`, `tongue_pulse_note`, `cautions`, the general regimen (`*_en` fields with `en_status`) — done as a machine draft (K-13); the review (V-06) sets `reviewed` | Machine draft + review |
 | `review/records.json` ✔ | Review records compiled from `review/records/*.yaml` (K-16): the records, the units they cover (`reviewed`, with content hashes), those whose content changed since (`stale`) and per-file coverage with the roles each file needs | [Content review §5](content-review.md) |
@@ -352,7 +352,7 @@ Every change ends with: `python -m scripts.kb.build_kb` (deterministic) → comm
 
 ## 12. Licences and attribution
 
-`TCM-Library` MIT; `tcm-mkg` MIT (not yet used); `TCM-Ancient-Books` has **no declared licence** → verification and short quotations only, nothing redistributed beyond the 127 quoted passages;
+`TCM-Library` MIT; GeoNames `cities15000` CC BY 4.0 (the city list; attribution in `_meta`, NOTICE and the Sources screen); `tcm-mkg` MIT (not yet used); `TCM-Ancient-Books` has **no declared licence** → verification and short quotations only, nothing redistributed beyond the 127 quoted passages;
 Pharmacopoeia facts are used as structured data. The Sources screen lists each book with its licence. Non-commercial-only sources (ctext.org) are excluded. See [`reference/README.md`](../reference/README.md).
 
 ---

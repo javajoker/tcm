@@ -9,6 +9,7 @@ import { afterEach, describe, expect, it } from "vitest";
 import { assessInputOf } from "../src/app/assessment.ts";
 import { DISCLAIMER_VERSION } from "../src/app/disclaimer.ts";
 import type { Loaded } from "../src/app/knowledge.tsx";
+import { fold, formPatchOf, namesOf, searchCities, stillCity } from "../src/screens/birth/cities.ts";
 import { echoOf, EMPTY_FORM, formOf, isTimeZone, parseBirth, type BirthForm } from "../src/screens/birth/model.ts";
 import type { Draft } from "../src/storage/types.ts";
 import { fakeEnvironment, renderApp, testStore } from "./helpers.tsx";
@@ -60,6 +61,57 @@ describe("birth model", () => {
   });
 });
 
+describe("city search (K-10)", () => {
+  const list = rawChunksFromDisk("dev").cities as Awaited<ReturnType<typeof kb.cities>>;
+  const by = (en: string, cc: string) => list.items.find((c) => c.en === en && c.cc === cc)!;
+
+  it("finds a city by its English or Chinese name, in either script, with or without 市 and 台/臺", () => {
+    const first = (q: string) => searchCities(list.items, q)[0];
+    expect(first("Taipei")).toBe(by("Taipei", "TW"));
+    expect(first("taipei")).toBe(by("Taipei", "TW"));
+    expect(first("臺北")).toBe(by("Taipei", "TW"));
+    expect(first("台北")).toBe(by("Taipei", "TW"));                  // 台 = 臺
+    expect(first("台北市")).toBe(by("Taipei", "TW"));                 // the suffix people type
+    expect(first("广州")).toBe(by("Guangzhou", "CN"));                // simplified
+    expect(first("廣州市")).toBe(by("Guangzhou", "CN"));
+    expect(first("Zürich"), "no such city in the list").toBeUndefined();
+    expect(first("São")).toBeUndefined();
+    expect(searchCities(list.items, "  ")).toEqual([]);
+  });
+
+  it("ranks a whole name before the start of a name before the middle, and keeps the list's order within a kind; at most eight", () => {
+    const hits = searchCities(list.items, "san");
+    expect(hits.length).toBe(8);
+    const hong = searchCities(list.items, "hong kong");
+    expect(hong[0]).toBe(by("Hong Kong", "HK"));
+    const york = searchCities(list.items, "york");
+    expect(york[0]?.en).toBe("New York City");                         // the start of a word of the name
+  });
+
+  it("folds accents, case and punctuation", () => {
+    expect(fold("Montréal")).toBe("montreal");
+    expect(fold("Xi’an")).toBe("xian");
+    expect(fold("Huai'an")).toBe("huaian");
+    expect(searchCities(list.items, "montreal")[0]?.en).toBe("Montréal");
+  });
+
+  it("a chosen city fills a west longitude with its hemisphere; the form keeps naming the city until a number is changed", () => {
+    const ny = by("New York City", "US");
+    const patch = formPatchOf(ny);
+    expect(patch).toEqual({ longitude: "74.01", hemisphere: "west", timeZone: "America/New_York" });
+    expect(stillCity({ ...EMPTY_FORM, ...patch }, ny)).toBe(true);
+    expect(stillCity({ ...EMPTY_FORM, ...patch, longitude: "74" }, ny)).toBe(false);
+  });
+
+  it("names a city in the page language first and the other second; a city without a Chinese name has one name", () => {
+    const tp = by("Taipei", "TW");
+    expect(namesOf(tp, "zh-Hant")).toMatchObject({ primary: "臺北", secondary: "Taipei" });
+    expect(namesOf(tp, "en")).toMatchObject({ primary: "Taipei", secondary: "臺北" });
+    const none = list.items.find((c) => c.zh === undefined)!;
+    expect(namesOf(none, "zh-Hant")).toMatchObject({ primary: none.en, secondary: null });
+  });
+});
+
 async function open(draft: Draft = screenedDraft(kb, { ageYears: 36, sex: "male" }), lang: "en" | "zh-Hant" = "en") {
   const env = fakeEnvironment();
   env.localStorage.setItem("tcm.prefs", JSON.stringify({ disclaimerAck: { version: DISCLAIMER_VERSION, at: 1 }, lang }));
@@ -104,6 +156,59 @@ describe("Birth card (S03)", () => {
     await waitFor(() => expect(draftOf(store).birth).toEqual({ year: 1990, month: 5, day: 12, hour: 14, minute: 30, sex: "male", timeZone: "Asia/Shanghai", longitude: 121.47 }));
     expect(assessInputOf(draftOf(store), 1)!.options.birthModule).toBe(true);
     expect(assessInputOf(draftOf(store), 1)!.subject.birth?.timeZone).toBe("Asia/Shanghai");
+  });
+
+  it("picking a city fills the longitude and the time zone; typing in either script finds it; the numbers stay editable (K-10)", async () => {
+    const { store } = await open();
+    const c = card();
+    const box = await c.findByRole("combobox", { name: "City (optional)" });
+    await userEvent.type(box, "taipei");
+    const list = await c.findByRole("listbox");
+    expect(within(list).getAllByRole("option")[0]).toHaveTextContent("Taipei");
+    expect(c.getByRole("status")).toHaveTextContent(/cities match/);
+    await userEvent.keyboard("{Enter}");
+    expect(c.queryByRole("listbox")).toBeNull();
+    expect(c.getByLabelText("Longitude (degrees)")).toHaveValue("121.53");
+    expect(c.getByLabelText("Time zone")).toHaveValue("Asia/Taipei");
+    expect(c.getByText(/City chosen:/)).toHaveTextContent("臺北");
+    expect(c.getByText(/GeoNames \(geonames.org\), CC BY 4.0/)).toBeInTheDocument();
+    await fill(c, { date: "1990-05-12", time: "14:30" });
+    await waitFor(() => expect(draftOf(store).birth).toMatchObject({ timeZone: "Asia/Taipei", longitude: 121.53 }));
+    await userEvent.type(c.getByLabelText("Longitude (degrees)"), "1");                    // typing over the number: it is no longer "the city"
+    expect(c.queryByText(/City chosen:/)).toBeNull();
+    await userEvent.clear(box);
+    await userEvent.type(box, "广州");
+    expect(within(await c.findByRole("listbox")).getAllByRole("option")[0]).toHaveTextContent("Guangzhou");
+    await userEvent.clear(box);
+    await userEvent.type(box, "zzzz");
+    expect(await c.findByText("No city matches. Enter the longitude and the time zone below.")).toBeInTheDocument();
+  });
+
+  it("has no accessibility violations with the list open, in either language", async () => {
+    for (const lang of ["en", "zh-Hant"] as const) {
+      const { container, unmount } = await open(undefined, lang);
+      const box = await within(screen.getByRole("region", { name: lang === "en" ? "Birth data (optional)" : "生辰（選填）" })).findByRole("combobox", { name: lang === "en" ? "City (optional)" : "城市（選填）" });
+      await userEvent.type(box, lang === "en" ? "ta" : "臺");
+      await screen.findByRole("listbox");
+      expect((await axe(container, { rules: { "color-contrast": { enabled: false } } })).violations).toEqual([]);
+      unmount();
+    }
+  });
+
+  it("the arrow keys move through the matches and Escape closes the list", async () => {
+    await open();
+    const c = card();
+    const box = await c.findByRole("combobox", { name: "City (optional)" });
+    await userEvent.type(box, "san");
+    const options = within(await c.findByRole("listbox")).getAllByRole("option");
+    expect(options.length).toBeGreaterThan(1);
+    expect(options[0]).toHaveAttribute("aria-selected", "true");
+    await userEvent.keyboard("{ArrowDown}");
+    expect(c.getAllByRole("option")[1]).toHaveAttribute("aria-selected", "true");
+    expect(box).toHaveAttribute("aria-activedescendant", c.getAllByRole("option")[1]!.id);
+    await userEvent.keyboard("{Escape}");
+    expect(c.queryByRole("listbox")).toBeNull();
+    expect(box).toHaveAttribute("aria-expanded", "false");
   });
 
   it("the diagnosis is unchanged by the birth data: the same findings give the same patterns with and without it", async () => {

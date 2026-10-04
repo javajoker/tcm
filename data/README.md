@@ -45,6 +45,7 @@ Needs Node ≥ 22.18 for the one TypeScript export step (`scripts/kb/export_wuxi
 | `treatment/guidance.json` | 31 points, 47 foods, 23 lifestyle lines | Acupoint registry (WHO code, meridian, pregnancy flag) with a location text and cautions in both languages; diet entries (nature, flavour, rationale, cautions, pregnancy flag, citations — herb-backed ones take their properties from `herbs.json`); bilingual per-pattern lifestyle; general regimen text. All draft | curated + herb records |
 | `schema/*.schema.json` | 22 | **JSON Schemas** (draft 2020-12) for every data file; the contract validated in the build and the source of the TypeScript types | `scripts/kb/schemas.py` |
 | `diagnosis/constitution-items.json` | 37 items | own-written constitution questionnaire (K-08; draft) | curated |
+| `geo/cities.json` | 484 cities | birth-place picker: English and Traditional-Chinese names, latitude, longitude, IANA time zone; **GeoNames `cities15000`, CC BY 4.0** (K-10), built from `reference/geonames/cities-extract.tsv` | derived |
 | `safety/emergency.json` | 12 regions | regional emergency / crisis numbers (safety policy §5; unverified) | curated |
 | `glossary.json` | 161 | zh-Hant ⇄ English ⇄ pinyin with `source` (`who-istm-2007` = the WHO standard term, known with confidence; `textbook` = an established rendering not confirmed as the WHO term; `project` = a gloss coined for this app), accepted alternative English (`alt`) and a `note`; all needs-review until the linguistic review (V-06) checks them against the standard | curated |
 

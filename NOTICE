@@ -44,6 +44,14 @@ written for this project; every record keeps a pointer to where it came from.
    redistributed, and only short quotations of the public-domain texts themselves are used.
 
 --------------------------------------------------------------------------------
+3a. GeoNames — Creative Commons Attribution 4.0 (CC BY 4.0)
+   https://www.geonames.org/ — dataset cities15000, downloaded 2026-10-04 (extract at reference/geonames/)
+
+   City names, coordinates and time zones: GeoNames (geonames.org), licensed under CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Used for the birth-place picker
+   (data/geo/cities.json): a selection of 484 places, reduced to the English name, the Chinese alternate names, latitude and longitude (rounded to 0.01°) and the IANA time zone. The
+   selection and, for some places, a Chinese name added or corrected by hand are changes made by this project; GeoNames does not endorse the product.
+
+--------------------------------------------------------------------------------
 4. Consulted, not included
    tcm-mkg (https://github.com/lm203688/tcm-mkg, MIT; a mirror of GraphAI-for-TCM, Zenodo DOI 10.5281/zenodo.13763953) is available as a git submodule for herb entity data
    but none of its data is part of the knowledge base at present. If it is used later, this notice is updated in the same change.

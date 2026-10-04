@@ -18,6 +18,8 @@ export interface Prefs {
   readonly region?: string;
   /** Move on automatically after a single-choice answer without a severity step (UX spec §4.4). */
   readonly autoAdvance: boolean;
+  /** Start every new assessment with "remember my birth data on this device" ticked (off unless the person turned it on; privacy §3). */
+  readonly rememberBirthDefault?: boolean;
 }
 
 export const TEXT_SCALES = [0.9, 1, 1.15, 1.3] as const;

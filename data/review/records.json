@@ -178,6 +178,16 @@
       "units": 33,
       "whole_file_reviewed": false
     },
+    "geo/cities.json": {
+      "required_roles": [
+        [
+          "tcm-clinical"
+        ]
+      ],
+      "reviewed": 0,
+      "units": 0,
+      "whole_file_reviewed": false
+    },
     "glossary.json": {
       "required_roles": [
         [

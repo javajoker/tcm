@@ -3,7 +3,7 @@
 // content even if the UI is bypassed. Doses, tier-C formulas, herb weights, internal provenance and the other profile never reach a
 // bundle that cannot use them.
 import type {
-  Citations, ConstitutionItems, Constitutions, Correspondences, Emergency, Exclusions, Formula, Formulas, Glossary, Herb, Herbs, Level, Orientation, PanelSchema, PatternElements, Patterns, ProfileName, Pulse, Questions,
+  Citations, Cities, ConstitutionItems, Constitutions, Correspondences, Emergency, Exclusions, Formula, Formulas, Glossary, Herb, Herbs, Level, Orientation, PanelSchema, PatternElements, Patterns, ProfileName, Pulse, Questions,
   RawKbChunks, RedFlags, SafetyRules, ScopeConfig, ScopeProfile, ScopeProfiles, ScoringParams, Susceptibility, Symptoms, Tongue, TreatmentGuidance, Yunqi, FormulasChunk, GuidanceChunk, HerbName, TreatmentCore,
 } from "./types.ts";
 
@@ -33,6 +33,7 @@ export interface DataFiles {
   readonly formulas: Formulas;
   readonly herbs: Herbs;
   readonly citations: Citations;
+  readonly cities: Cities;
 }
 
 export const LEVELS: readonly Level[] = ["L0", "L1", "L2", "L3"];
@@ -208,6 +209,7 @@ export function buildChunks(files: DataFiles, opts: BuildOptions): BuildResult {
     },
     formulas,
     guidance,
+    cities: files.cities,
     herbs: herbs ? { items: herbs } : null,
     // the source-script quotation and the repository path are verification aids: dev only
     citations: dev ? files.citations : { ...files.citations, items: files.citations.items.map(({ source_path: _p, quote_source_zh_hans: _q, ...c }) => c) },

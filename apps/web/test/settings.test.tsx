@@ -63,6 +63,23 @@ describe("Settings and privacy (S17)", () => {
     expect(store.getState().prefs.autoAdvance).toBe(false);
   });
 
+  it("'remember birth data' is off until turned on, is kept, and makes the next assessment start with the birth card's box ticked", async () => {
+    const env = fakeEnvironment();
+    const { store, unmount } = await open("/en/settings", env);
+    const box = screen.getByRole("checkbox", { name: /Remember birth data/ });
+    expect(box).not.toBeChecked();
+    expect(store.getState().startDraft().rememberBirth).toBe(false);
+    await userEvent.click(box);
+    expect(store.getState().prefs.rememberBirthDefault).toBe(true);
+    expect(store.getState().startDraft().rememberBirth).toBe(true);
+    unmount();
+    const again = await open("/en/settings", env);
+    expect(again.store.getState().prefs.rememberBirthDefault).toBe(true);
+    expect(screen.getByRole("checkbox", { name: /Remember birth data/ })).toBeChecked();
+    await userEvent.click(screen.getByRole("checkbox", { name: /Remember birth data/ }));
+    expect(again.store.getState().startDraft().rememberBirth).toBe(false);
+  });
+
   it("the language can be switched here and the route is kept", async () => {
     await open("/zh-Hant/settings");
     await userEvent.click(screen.getByRole("radio", { name: "English" }));

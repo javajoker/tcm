@@ -52,6 +52,10 @@ describe("prefs", () => {
     expect(p).toEqual({ lang: "en", theme: "system", textScale: 1.15, disclaimerAck: { version: "1", at: 7 }, langOfferDismissed: true, autoAdvance: true });
     expect(parsePrefs(JSON.stringify({ lang: "fr", disclaimerAck: { version: 1 } })).lang).toBeUndefined();
   });
+  it("'remember birth data' is a default only when it is exactly true", () => {
+    expect(parsePrefs(JSON.stringify({ rememberBirthDefault: true })).rememberBirthDefault).toBe(true);
+    for (const v of [false, "true", 1, null]) expect(parsePrefs(JSON.stringify({ rememberBirthDefault: v })), String(v)).not.toHaveProperty("rememberBirthDefault");
+  });
 });
 
 describe("draft", () => {

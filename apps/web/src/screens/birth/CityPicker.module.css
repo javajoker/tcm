@@ -1,0 +1,4 @@
+.picker { position: relative; margin-bottom: var(--space-3); }
+.list { position: absolute; z-index: 5; left: 0; right: 0; max-width: 28rem; margin: 0; padding: var(--space-1); list-style: none; background: var(--surface); border: 1px solid var(--border-strong); border-radius: var(--radius-control); box-shadow: 0 6px 18px rgb(0 0 0 / 0.18); }
+.option, .optionActive { min-height: 44px; display: flex; align-items: center; flex-wrap: wrap; gap: 0 0.25rem; padding: 0.4rem var(--space-3); border-radius: var(--radius-control); cursor: pointer; }
+.optionActive { background: var(--scale-1); outline: 2px solid var(--primary); outline-offset: -2px; }
