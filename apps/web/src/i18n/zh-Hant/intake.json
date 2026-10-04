@@ -1,7 +1,6 @@
 {
   "intake.inquiry.auto": "單選題選好後會自動前往下一題（可在設定中關閉）。",
   "intake.inquiry.back": "上一題",
-  "intake.inquiry.changeFocus": "更改關注的方面",
   "intake.inquiry.conflict.ask": "哪一項比較符合您的情況？",
   "intake.inquiry.conflict.both": "兩者都有（在不同情況下）",
   "intake.inquiry.conflict.confirm": "確認",
@@ -161,7 +160,6 @@
   "intake.profile.sex.hint": "用於月經與生育相關的問題，以及（若您選擇使用）生辰推算。",
   "intake.profile.sex.legend": "出生時的性別",
   "intake.profile.sex.male": "男",
-  "intake.profile.sex.required": "請選擇。",
   "intake.profile.tag.add": "加入",
   "intake.profile.tag.remove": "移除 {name}",
   "intake.profile.title": "基本資料",

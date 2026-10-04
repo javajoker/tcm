@@ -1,7 +1,6 @@
 {
   "intake.inquiry.auto": "On single-choice questions we move on automatically after you choose (you can turn this off in Settings).",
   "intake.inquiry.back": "Back",
-  "intake.inquiry.changeFocus": "Change what to focus on",
   "intake.inquiry.conflict.ask": "Which one fits you better?",
   "intake.inquiry.conflict.both": "Both are true (in different situations)",
   "intake.inquiry.conflict.confirm": "Confirm",
@@ -162,7 +161,6 @@
   "intake.profile.sex.hint": "Used for menstrual and pregnancy-related questions and, if you choose to use it, the birth-date reading.",
   "intake.profile.sex.legend": "Sex at birth",
   "intake.profile.sex.male": "Male",
-  "intake.profile.sex.required": "Please choose one.",
   "intake.profile.tag.add": "Add",
   "intake.profile.tag.remove": "Remove {name}",
   "intake.profile.title": "Basic profile",

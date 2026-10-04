@@ -3,11 +3,6 @@
   "common.action.cancel": "Cancel",
   "common.action.close": "Close",
   "common.action.continue": "Continue",
-  "common.action.delete": "Delete",
-  "common.action.edit": "Edit",
-  "common.action.next": "Next",
-  "common.action.save": "Save",
-  "common.action.skip": "Skip",
   "common.app.name": "TCM Self-Check",
   "common.footer.disclaimer": "Educational reference — not a medical diagnosis or prescription.",
   "common.footer.nav": "Footer links",
@@ -107,6 +102,5 @@
   "common.sources.title": "Sources",
   "common.storage.notSaved": "Not saved",
   "common.storage.notSavedHelp": "This browser can't store data, so your answers won't be kept after you close or reload the page. You can still get your result.",
-  "common.storage.notSavedLabel": "Why is nothing saved?",
-  "common.term.explain": "What does “{term}” mean?"
+  "common.storage.notSavedLabel": "Why is nothing saved?"
 }

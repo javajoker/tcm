@@ -3,11 +3,6 @@
   "common.action.cancel": "取消",
   "common.action.close": "關閉",
   "common.action.continue": "繼續",
-  "common.action.delete": "刪除",
-  "common.action.edit": "修改",
-  "common.action.next": "下一步",
-  "common.action.save": "儲存",
-  "common.action.skip": "略過",
   "common.app.name": "中醫自我評估",
   "common.footer.disclaimer": "僅供教育參考，不是醫療診斷或處方。",
   "common.footer.nav": "頁尾連結",
@@ -107,6 +102,5 @@
   "common.sources.title": "資料來源",
   "common.storage.notSaved": "未儲存",
   "common.storage.notSavedHelp": "此瀏覽器無法儲存資料，您的答案不會在關閉或重新整理頁面後保留。結果仍可正常產生。",
-  "common.storage.notSavedLabel": "說明：為何未儲存",
-  "common.term.explain": "「{term}」是什麼意思？"
+  "common.storage.notSavedLabel": "說明：為何未儲存"
 }

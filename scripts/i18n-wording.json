@@ -1,0 +1,224 @@
+{
+  "_comment": "Forbidden wording for every user-visible string in both languages (docs/i18n-guide.md §5). `allow` lists keys (exact or prefix ending in `.`) where a rule may fire because the text NEGATES the claim or names the thing on purpose; each entry needs a reason (reviewed with the content).",
+  "rules": [
+    {
+      "id": "diagnosis",
+      "lang": "en",
+      "pattern": "\\bdiagnos(e|es|ed|ing|is|tic)\\b",
+      "why": "The app is not a diagnostic service",
+      "prefer": "assessment, pattern differentiation, closest match"
+    },
+    {
+      "id": "diagnosis",
+      "lang": "zh-Hant",
+      "pattern": "診斷",
+      "why": "The app is not a diagnostic service",
+      "prefer": "評估、辨證、最相符的證型"
+    },
+    {
+      "id": "prescription",
+      "lang": "en",
+      "pattern": "\\bprescri(be|bes|bed|bing|ption|ptions)\\b",
+      "why": "Prescribing is a practitioner's act",
+      "prefer": "formula traditionally used for…, for discussion with a practitioner"
+    },
+    {
+      "id": "prescription",
+      "lang": "zh-Hant",
+      "pattern": "處方|開藥",
+      "why": "Prescribing is a practitioner's act",
+      "prefer": "傳統上用於…的方劑、請與中醫師討論"
+    },
+    {
+      "id": "cure",
+      "lang": "en",
+      "pattern": "\\b(cure[sd]?|curing|heal(s|ed|ing)?|remed(y|ies))\\b|treatment plan",
+      "why": "No treatment or cure claims",
+      "prefer": "support, traditionally used to, regulation"
+    },
+    {
+      "id": "cure",
+      "lang": "zh-Hant",
+      "pattern": "治癒|根治|治療",
+      "why": "No treatment or cure claims",
+      "prefer": "調理、傳統上用於"
+    },
+    {
+      "id": "label",
+      "lang": "en",
+      "pattern": "\\byou (are|have) (a |an |the )?([a-z-]+ )?(deficiency|excess|constitution|syndrome|pattern|disease|illness)\\b",
+      "why": "Labels the person",
+      "prefer": "leans towards, is consistent with, tendency"
+    },
+    {
+      "id": "label",
+      "lang": "zh-Hant",
+      "pattern": "你是|您是[^，。]{0,6}(體質|證)|您患有",
+      "why": "Labels the person",
+      "prefer": "傾向於、與…相符"
+    },
+    {
+      "id": "certainty",
+      "lang": "en",
+      "pattern": "\\b(guarantee[sd]?|proven|definitely)\\b",
+      "why": "False certainty",
+      "prefer": "may, can, traditionally"
+    },
+    {
+      "id": "certainty",
+      "lang": "zh-Hant",
+      "pattern": "保證|必然|已證實|一定會",
+      "why": "False certainty",
+      "prefer": "可能、傳統上"
+    },
+    {
+      "id": "fate",
+      "lang": "en",
+      "pattern": "\\b(destiny|fate|fortune|lucky|unlucky)\\b",
+      "why": "No fate claims",
+      "prefer": "birth-based tendency (traditional)"
+    },
+    {
+      "id": "fate",
+      "lang": "zh-Hant",
+      "pattern": "命中註定|運勢|命格",
+      "why": "No fate claims",
+      "prefer": "出生資訊的傾向參考"
+    },
+    {
+      "id": "dose",
+      "lang": "en",
+      "pattern": "\\b(dose|doses|dosage|amount|amounts)\\b",
+      "why": "Release shows no amounts",
+      "prefer": "composition, proportions"
+    },
+    {
+      "id": "dose",
+      "lang": "zh-Hant",
+      "pattern": "劑量|用量",
+      "why": "Release shows no amounts",
+      "prefer": "組成、比例"
+    },
+    {
+      "id": "natural",
+      "lang": "en",
+      "pattern": "no side effects|natural(ly)? (is |and )?safe",
+      "why": "Misleading",
+      "prefer": "state cautions plainly"
+    },
+    {
+      "id": "natural",
+      "lang": "zh-Hant",
+      "pattern": "天然無副作用|無副作用",
+      "why": "Misleading",
+      "prefer": "照實說明注意事項"
+    },
+    {
+      "id": "fear",
+      "lang": "en",
+      "pattern": "\\b(dangerous|deadly|fatal)\\b",
+      "why": "Tone: calm and specific outside emergency notices",
+      "prefer": "calm, specific wording"
+    },
+    {
+      "id": "fear",
+      "lang": "zh-Hant",
+      "pattern": "很危險|致命",
+      "why": "Tone: calm and specific outside emergency notices",
+      "prefer": "平靜、具體的說法"
+    }
+  ],
+  "allow": [
+    {
+      "keys": [
+        "common.footer.disclaimer",
+        "safety.disclaimer.full",
+        "report.print.footer",
+        "safety.notice.a.",
+        "safety.notice.b.",
+        "safety.notice.minor.",
+        "safety.notice.pregnancy.",
+        "safety.notice.lactation.",
+        "safety.notice.serious.",
+        "safety.notice.birth.",
+        "safety.notice.formula.",
+        "safety.notice.tierC.",
+        "safety.notice.draft.",
+        "intake.landing.ack.label",
+        "intake.landing.sample.note",
+        "report.pract.intro"
+      ],
+      "rules": [
+        "diagnosis",
+        "prescription",
+        "cure",
+        "dose",
+        "fear"
+      ],
+      "reason": "The legal disclaimer and the notices name what the app is NOT ('not a medical diagnosis or prescription', 'does not replace emergency care', 'consult … before using any herb'); wording reviewed with the safety policy"
+    },
+    {
+      "keys": [
+        "formula.composition.col.amount",
+        "formula.composition.amount.",
+        "formula.practitioner",
+        "report.formula.",
+        "report.advice.",
+        "report.panel.valueNote",
+        "report.print.",
+        "report.export."
+      ],
+      "rules": [
+        "dose",
+        "prescription",
+        "diagnosis"
+      ],
+      "reason": "The amount column and its text exist only when the policy allows dose references (dev / L3); the practitioner line says a formula must be set by a practitioner"
+    },
+    {
+      "keys": [
+        "report.actions.",
+        "report.pract.",
+        "common.settings.privacy.",
+        "common.sources.",
+        "errors.crash.",
+        "intake.screen.",
+        "intake.landing.",
+        "report.summary.",
+        "report.why."
+      ],
+      "rules": [
+        "diagnosis",
+        "cure",
+        "prescription"
+      ],
+      "reason": "Negated forms ('not a diagnosis', 'cannot diagnose') and the names of the actions"
+    },
+    {
+      "keys": [
+        "intake.profile.conditions.",
+        "intake.profile.meds."
+      ],
+      "rules": [
+        "cure",
+        "dose",
+        "prescription",
+        "diagnosis"
+      ],
+      "reason": "These name the person's own circumstances and medicine classes as facts ('being treated for cancer', 'prescription medicines', 'high-dose steroids', 'diagnosed severe heart or lung disease'); they claim nothing about the app"
+    },
+    {
+      "keys": [
+        "formula.",
+        "report.transmission.intro",
+        "safety.notice."
+      ],
+      "rules": [
+        "diagnosis",
+        "prescription",
+        "dose"
+      ],
+      "reason": "Negated forms ('not a diagnosis', 'not a prescription', 'not the original amounts') and the notices owned by the safety policy ('lower amounts' for people over 65), reviewed with it"
+    }
+  ]
+}

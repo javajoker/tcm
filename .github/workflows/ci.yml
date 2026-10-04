@@ -31,6 +31,7 @@ jobs:
       - run: pnpm typecheck
       - run: pnpm check:kb-types
       - run: pnpm check:notices
+      - run: pnpm check:i18n
       - run: pnpm test
       - run: pnpm test:tools
 
@@ -71,8 +72,8 @@ jobs:
       - name: Release assertions on the built output
         # the content is still a draft: the closed-beta exception (draft label on) is the recorded state until the review records exist
         run: node scripts/check-release.ts --dist apps/web/dist --draft-label
-      - name: The release checker rejects every seeded violation
-        run: node --test scripts/check-release.test.ts
+      - name: The release and i18n checkers reject every seeded violation
+        run: pnpm test:scripts
       - uses: actions/upload-artifact@v4
         with:
           name: dist-release
