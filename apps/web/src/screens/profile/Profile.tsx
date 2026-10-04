@@ -7,6 +7,7 @@ import { useDraft } from "../../app/useDraft.ts";
 import { usePageTitle } from "../../app/usePageTitle.ts";
 import { Button, LinkButton, Skeleton } from "../../ui/index.ts";
 import { missingItems } from "./model.ts";
+import { BirthCard } from "../birth/BirthCard.tsx";
 import { AboutCard, HealthCard, PregnancyCard } from "./ProfileCards.tsx";
 
 /** S02 Basic profile (UX spec §4.2): the safety and scope inputs. The birth card (S03) is added to this screen by task U-08. */
@@ -29,6 +30,7 @@ export function Profile(): ReactNode {
         <AboutCard draft={draft} change={updateDraft} />
         <PregnancyCard draft={draft} change={updateDraft} />
         <HealthCard draft={draft} change={updateDraft} />
+        <BirthCard draft={draft} />
       </div>
       <div style={{ display: "flex", flexWrap: "wrap", gap: "var(--space-3)", marginTop: "var(--space-5)" }}>
         <LinkButton href="/">{t.t("intake.profile.saveExit")}</LinkButton>

@@ -130,6 +130,7 @@ function Body({ draft, onFinishing, onUnfinish }: { draft: Draft; onFinishing: (
           </Card>
         ) : null}
       </div>
+      {draft.birth !== undefined ? <p>{t.t("intake.review.birth.used")} {t.t(draft.rememberBirth ? "intake.review.birth.remembered" : "intake.review.birth.forgotten")}</p> : null}
       {selfObserved > 0 ? <p className="muted">{t.plural("intake.review.quality.selfObserved", selfObserved)}</p> : null}
       {lowCoverage ? <p className="muted">{t.t("intake.review.coverage.low")}</p> : null}
       {failed ? <Notice kind="caution" kindLabel={t.t("common.notice.caution")}>{t.t("intake.review.error")}</Notice> : null}

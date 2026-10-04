@@ -125,6 +125,8 @@ Sections as collapsible cards; ★ items required; everything else optional with
 - Nonexistent or ambiguous local times (daylight-saving transitions): show both possibilities and let the user pick or continue without birth data.
 - A checkbox *"Remember this on this device"* (default off) controls persistence ([tech spec §8.3](tech-spec.md)).
 
+> **Implementation note (U-08).** Until the built-in city list exists (K-10), the place is a longitude (with East / West) and an IANA time zone typed with suggestions; the echo line ("Longitude 121.47° East · Asia/Shanghai · true solar time is about −50 min from clock time") lets the person check it. A wall time that occurred twice when daylight saving ended shows both readings with their true-solar clocks (`BirthInput.fold`, default the first); a time in the spring-forward gap is refused with a way to continue without birth data.
+
 Validation is inline, never blocks scrolling; the primary action "Continue" is disabled with a visible reason ("Age is required") rather than silently.
 
 ### 4.3 S04 Red-flag screening and S05 notice

@@ -98,6 +98,8 @@ export interface TrueSolarTimeInput {
   readonly longitude: number;
   readonly applyEquationOfTime?: boolean;
   readonly applyLongitude?: boolean;
+  /** Which instant to take when the wall time occurs twice (a daylight-saving overlap): the first (daylight-saving side, the default) or the second (standard time). Ignored otherwise. */
+  readonly fold?: "first" | "second";
 }
 
 export interface TrueSolarTimeResult {
@@ -123,7 +125,11 @@ export function toTrueSolarTime(input: TrueSolarTimeInput): TrueSolarTimeResult 
   const applyEot = input.applyEquationOfTime ?? true;
   const applyLon = input.applyLongitude ?? true;
 
-  const conv = wallTimeToUtc(input.wall, input.timeZone);
+  const first = wallTimeToUtc(input.wall, input.timeZone);
+  const second = input.fold === "second" && first.resolution === "ambiguous" && first.alternativeUtcMillis !== null && first.alternativeOffsetMinutes !== null;
+  const conv: WallTimeConversion = second
+    ? { utcMillis: first.alternativeUtcMillis!, offsetMinutes: first.alternativeOffsetMinutes!, resolution: "ambiguous", alternativeUtcMillis: first.utcMillis, alternativeOffsetMinutes: first.offsetMinutes, isDaylightSaving: false }
+    : first;
   const jdCivil = millisToJulianDay(conv.utcMillis);
 
   const longitudeMinutes = applyLon ? input.longitude * MINUTES_PER_DEGREE : 0;

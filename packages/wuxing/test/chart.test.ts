@@ -132,3 +132,30 @@ test("buildChart refuses an invalid birth instead of silently building a wrong c
   assert.throws(() => buildChart({ ...ok, longitude: 500 }), /longitude/);
   assert.throws(() => buildChart({ ...ok, timeZone: "Mars/Base" }), /time zone/i);
 });
+
+// ── a wall time that occurs twice (daylight-saving overlap): the person picks which ──────────────────────
+
+const overlap: BirthInput = { year: 2026, month: 11, day: 1, hour: 1, minute: 30, sex: "female", timeZone: "America/New_York", longitude: -74 };
+
+test("fold: the first and the second occurrence of an overlap hour are an hour apart; the default is the first", () => {
+  const first = buildChart(overlap);
+  const explicitFirst = buildChart({ ...overlap, fold: "first" });
+  const second = buildChart({ ...overlap, fold: "second" });
+  assert.equal(first.corrections.resolution, "ambiguous");
+  assert.equal(second.corrections.resolution, "ambiguous");
+  assert.deepEqual({ ...explicitFirst, input: first.input }, first, "'first' is the default");
+  assert.equal(first.corrections.isDaylightSaving, true);
+  assert.equal(second.corrections.isDaylightSaving, false);
+  assert.equal(first.corrections.tzOffsetMinutes, -240);
+  assert.equal(second.corrections.tzOffsetMinutes, -300);
+  assert.ok(Math.abs(second.birthJdUT - first.birthJdUT - 1 / 24) < 1e-7, "the instants are one hour apart");
+  assert.ok(Math.abs(second.trueSolarJd - first.trueSolarJd - 1 / 24) < 1e-5, "the true-solar clocks differ by the hour plus the hour's change of the equation of time (< 1 s)");
+});
+
+test("fold has no effect on a time that occurs once, nor on a time in a gap, and an invalid value is refused", () => {
+  assert.deepEqual(buildChart({ ...overlap, hour: 14, fold: "second" }).corrections, buildChart({ ...overlap, hour: 14 }).corrections);
+  const gap: BirthInput = { ...overlap, month: 3, day: 8, hour: 2, minute: 30 };
+  assert.equal(buildChart(gap).corrections.resolution, "nonexistent");
+  assert.deepEqual(buildChart({ ...gap, fold: "second" }).corrections, buildChart(gap).corrections);
+  assert.throws(() => buildChart({ ...overlap, fold: "third" as never }), /fold must be/);
+});

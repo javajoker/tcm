@@ -39,6 +39,8 @@ export interface BirthInput {
   readonly longitude: number;
   /** Set when the birth hour is unknown: the hour pillar is left out, never guessed. */
   readonly unknownHour?: boolean;
+  /** For a wall time that occurs twice (daylight-saving overlap): `first` (daylight-saving side, the default) or `second` (standard time). */
+  readonly fold?: "first" | "second";
 }
 
 export interface SilingInfo {
@@ -207,6 +209,7 @@ export function validateBirthInput(input: BirthInput): string[] {
   if (typeof input.longitude !== "number" || !Number.isFinite(input.longitude) || input.longitude < -180 || input.longitude > 180) problems.push("longitude must be a number from −180 to 180 (east positive)");
   if (input.sex !== "male" && input.sex !== "female") problems.push('sex must be "male" or "female"');
   if (typeof input.timeZone !== "string" || input.timeZone.length === 0) problems.push("timeZone must be an IANA zone name");
+  if (input.fold !== undefined && input.fold !== "first" && input.fold !== "second") problems.push('fold must be "first" or "second"');
   return problems;
 }
 
@@ -222,6 +225,7 @@ export function buildChart(input: BirthInput, options: ChartOptions = {}): Natal
     longitude: input.longitude,
     applyLongitude: params.chart.trueSolarTime,
     applyEquationOfTime: params.chart.trueSolarTime && params.chart.equationOfTime,
+    ...(input.fold !== undefined ? { fold: input.fold } : {}),
   });
   const birthJdUT = tst.jdCivil;
   const trueSolarCalendar = fromJulianDay(tst.jdTrueSolar);

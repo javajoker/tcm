@@ -105,6 +105,21 @@ describe("Review screen (S12)", () => {
     expect(screen.getByText(/You have answered few questions/)).toBeInTheDocument();
   });
 
+  it("says in one sentence what happens with birth data, when there is some", async () => {
+    const b = { year: 1990, month: 5, day: 12, hour: 14, minute: 30, sex: "female", timeZone: "Asia/Shanghai", longitude: 121.47 } as const;
+    const { unmount } = await open({ ...rich(), birth: b });
+    expect(await screen.findByText(/used only as a traditional background reference; it does not change how your symptoms are scored\. It is not stored/)).toBeInTheDocument();
+    unmount();
+    await open({ ...rich(), birth: b, rememberBirth: true });
+    expect(await screen.findByText(/It will be kept on this device because you chose to remember it/)).toBeInTheDocument();
+  });
+
+  it("says nothing about birth data when there is none", async () => {
+    await open(rich());
+    await screen.findByRole("heading", { level: 1, name: "Review your answers" });
+    expect(screen.queryByText(/birth data/i)).toBeNull();
+  });
+
   it("marked red flags are listed", async () => {
     await open(withAnswer(rich(), "RF_B_JAUNDICE", "unsure"));
     // an unacknowledged blocking notice sends the person to the screening first — acknowledge it as the real flow would
