@@ -24,7 +24,11 @@
   "common.nav.skip": "跳到主要內容",
   "common.notFound.body": "網址可能有誤。您可以回到首頁重新開始。",
   "common.notFound.title": "找不到這個頁面",
+  "common.notice.caution": "注意",
+  "common.notice.emergency": "緊急",
+  "common.notice.info": "資訊",
   "common.storage.notSaved": "未儲存",
   "common.storage.notSavedHelp": "此瀏覽器無法儲存資料，您的答案不會在關閉或重新整理頁面後保留。結果仍可正常產生。",
-  "common.storage.notSavedLabel": "說明：為何未儲存"
+  "common.storage.notSavedLabel": "說明：為何未儲存",
+  "common.term.explain": "「{term}」是什麼意思？"
 }

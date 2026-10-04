@@ -1,1 +1,13 @@
-{}
+{
+  "errors.crash.body": "Sorry — this page could not be shown properly, so no assessment result is displayed.",
+  "errors.crash.copied": "Copied.",
+  "errors.crash.copy": "Copy what I entered",
+  "errors.crash.copyFailed": "Couldn't copy — please note your answers down yourself.",
+  "errors.crash.restart": "Start over",
+  "errors.crash.seekCare": "If you feel seriously unwell — for example chest pain, trouble breathing, heavy bleeding, sudden weakness or confusion — get medical care or call your local emergency number now; do not wait for this tool.",
+  "errors.crash.title": "Something went wrong",
+  "errors.kb.body": "Check your connection and try again. The answers you have entered are still here.",
+  "errors.kb.offline": "You appear to be offline.",
+  "errors.kb.retry": "Try again",
+  "errors.kb.title": "We couldn't load the knowledge base"
+}

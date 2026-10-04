@@ -1,1 +1,13 @@
-{}
+{
+  "errors.crash.body": "很抱歉，這個頁面無法正常顯示，因此不會顯示任何評估結果。",
+  "errors.crash.copied": "已複製。",
+  "errors.crash.copy": "複製我填寫的內容",
+  "errors.crash.copyFailed": "無法複製，請自行記下您的答案。",
+  "errors.crash.restart": "重新開始",
+  "errors.crash.seekCare": "如果您感到嚴重不適——例如胸痛、呼吸困難、大量出血、突然無力或意識不清——請立即就醫或撥打當地緊急電話，不要等待本工具。",
+  "errors.crash.title": "發生了問題",
+  "errors.kb.body": "請檢查網路連線後再試一次。您目前填寫的答案仍然保留。",
+  "errors.kb.offline": "您目前似乎已離線。",
+  "errors.kb.retry": "重試",
+  "errors.kb.title": "無法載入知識庫"
+}

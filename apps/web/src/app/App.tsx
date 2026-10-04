@@ -3,6 +3,8 @@ import { Redirect, Route, Router, Switch, useLocation, useSearch } from "wouter"
 import type { Lang } from "@tcm/i18n";
 import { I18nProvider } from "../i18n/I18nProvider.tsx";
 import { AppShell } from "./AppShell.tsx";
+import { ErrorBoundary } from "./ErrorBoundary.tsx";
+import { KnowledgeProvider, type Loader } from "./knowledge.tsx";
 import { Landing } from "./Landing.tsx";
 import { NotFound } from "./NotFound.tsx";
 import { PrefsEffects } from "./PrefsEffects.tsx";
@@ -16,14 +18,17 @@ const Catalogue = __APP_PROFILE__ === "dev" ? lazy(() => import("../dev/Catalogu
 
 /** Routes inside a language scope; paths here carry no language segment (the nested Router's base supplies it). */
 function Screens(): ReactNode {
+  const [path] = useLocation();
   return (
     <>
       <RouteFocus />
-      <Switch>
-        <Route path="/"><Landing /></Route>
-        {Catalogue !== null ? <Route path="/_dev/components"><Suspense fallback={null}><Catalogue /></Suspense></Route> : null}
-        <Route><NotFound /></Route>
-      </Switch>
+      <ErrorBoundary resetKey={path}>
+        <Switch>
+          <Route path="/"><Landing /></Route>
+          {Catalogue !== null ? <Route path="/_dev/components"><Suspense fallback={null}><Catalogue /></Suspense></Route> : null}
+          <Route><NotFound /></Route>
+        </Switch>
+      </ErrorBoundary>
     </>
   );
 }
@@ -32,7 +37,11 @@ function Screens(): ReactNode {
  * The language is the first path segment. `/` goes to the entry language (the one the user chose, else zh-Hant for everyone);
  * `/zh`, `/en-US`… are redirected to the canonical tag; anything else is a not-found screen in the default language.
  */
-export function App(): ReactNode {
+export function App({ load }: { load?: Loader }): ReactNode {
+  return <KnowledgeProvider {...(load ? { load } : {})}><LanguageRoutes /></KnowledgeProvider>;
+}
+
+function LanguageRoutes(): ReactNode {
   const entryLang = useApp((s) => s.prefs.lang) ?? DEFAULT_LANG;
   const chooseLang = useApp((s) => s.chooseLang);
   const [location, navigate] = useLocation();

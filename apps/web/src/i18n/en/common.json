@@ -24,7 +24,11 @@
   "common.nav.skip": "Skip to main content",
   "common.notFound.body": "The address may be wrong. You can go back to the start.",
   "common.notFound.title": "We couldn't find that page",
+  "common.notice.caution": "Caution",
+  "common.notice.emergency": "Emergency",
+  "common.notice.info": "Information",
   "common.storage.notSaved": "Not saved",
   "common.storage.notSavedHelp": "This browser can't store data, so your answers won't be kept after you close or reload the page. You can still get your result.",
-  "common.storage.notSavedLabel": "Why is nothing saved?"
+  "common.storage.notSavedLabel": "Why is nothing saved?",
+  "common.term.explain": "What does “{term}” mean?"
 }
