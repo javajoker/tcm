@@ -37,6 +37,8 @@ async function open(s: SavedAssessment, lang: "en" | "zh-Hant") {
 describe("diet, acupressure and lifestyle in the result (K-11)", () => {
   const sp1 = saved("SP1", "r0123456789abcdef");
   const advice = (): ReturnType<typeof within> => within(screen.getByRole("region", { name: /^(Advice|建議)$/ }));
+  /** The list item of a point or food (a point's name is also a label in its schematic). */
+  const listed = (name: string): HTMLElement => advice().getAllByText(name).map((e: HTMLElement) => e.closest("li")).find((li: HTMLElement | null) => li !== null)!;
 
   it("a food shows its nature and flavour, and — folded — why it is suggested, its basis, cautions and citation", async () => {
     await open(sp1, "en");
@@ -55,9 +57,11 @@ describe("diet, acupressure and lifestyle in the result (K-11)", () => {
 
   it("a point shows where it is, its code and meridian, its own cautions, and one shared note on how to press", async () => {
     await open(sp1, "en");
-    const point = advice().getByText("足三里").closest("li")!;
+    const point = listed("足三里");
     expect(within(point).getByText("ST36 · 胃經")).toBeInTheDocument();
     expect(within(point).getByText(/four finger-widths below the outer hollow under the kneecap/)).toBeInTheDocument();
+    const figure = advice().getByRole("img", { name: /Front of the leg \(right leg\).*足三里 ST36/ });         // the schematic of the leg, with the point marked and labelled in text
+    expect(within(figure.closest("figure")!).getByText("足三里")).toBeInTheDocument();
     const notes = advice().getByText("How to press").closest("details")!;
     await userEvent.click(within(notes).getByText("How to press"));
     expect(within(notes).getByText(/Press and knead with the thumb or a fingertip/)).toBeInTheDocument();
@@ -66,7 +70,7 @@ describe("diet, acupressure and lifestyle in the result (K-11)", () => {
 
   it("a point to avoid in pregnancy says so with a chip and a caution; a food with a caution has a chip too", async () => {
     await open(saved("QB1", "r1123456789abcdef"), "en");
-    const point = advice().getByText("三陰交").closest("li")!;
+    const point = listed("三陰交");
     expect(within(point).getByText("Not in pregnancy")).toBeInTheDocument();
     await userEvent.click(within(point).getByText("Cautions for this point"));
     expect(within(point).getByText(/Do not press this point if you are pregnant or may be pregnant/)).toBeInTheDocument();

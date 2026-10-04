@@ -287,6 +287,14 @@ describe("Pulse (S10, E10)", () => {
     expect(draftOf(store).observe.pulse).toEqual({ rate: 104, rhythm: "regular" });
   });
 
+  it("shows where the three positions are on each wrist, and the figure follows the chosen position", async () => {
+    await open("/observe/pulse");
+    expect(await screen.findByRole("img", { name: /^Both wrists, palms up\./ })).toBeInTheDocument();
+    expect(screen.getByText(/middle finger on the bony bump/)).toBeInTheDocument();
+    await userEvent.click(screen.getByRole("radio", { name: "Left chi" }));
+    expect(screen.getByRole("img", { name: /Selected: Left chi\.$/ })).toBeInTheDocument();
+  });
+
   it("exclusive qualities replace each other and the form says why (one group, one choice)", async () => {
     await open("/observe/pulse");
     await userEvent.click(await screen.findByRole("checkbox", { name: /^floating pulse/ }));

@@ -12,6 +12,8 @@ import { NeedsKnowledge, useLoaded } from "../app/knowledge.tsx";
 import { useApp } from "../app/store.tsx";
 import { usePageTitle } from "../app/usePageTitle.ts";
 import { Button, Tabs } from "../ui/index.ts";
+import { PulsePositions } from "../screens/observe/PulsePositions.tsx";
+import { AcupointFigures } from "../screens/result/figures/AcupointFigures.tsx";
 
 const f1 = (n: number): string => (Math.round(n * 100) / 100).toString();
 const th = { textAlign: "start", padding: "0.25rem 0.5rem", borderBottom: "2px solid var(--border-strong)", whiteSpace: "nowrap" } as const;
@@ -124,6 +126,20 @@ function CaseTab({ input, a, profile }: { input: engine.AssessInput; a: Assessme
   );
 }
 
+/** Every drawing with every point (and the pulse figure with one position chosen), so a reviewer can check them without building a case; needs no draft. */
+function FiguresTab({ kb }: { kb: KnowledgeBase }): ReactNode {
+  const points = Object.entries(kb.treatment.acupoints).map(([name, a]) => ({ name, code: a.code, meridian: a.meridian, patterns: [], annotations: [] }));
+  const [position, setPosition] = useState("L-guan");
+  return (
+    <>
+      <p>The {points.length} acupressure points on their schematics (the result shows only the views its points need), then the pulse positions.</p>
+      <AcupointFigures points={points} />
+      <p><label>Selected pulse position <select value={position} onChange={(e) => setPosition(e.currentTarget.value)}>{kb.pulse.positions.map((p) => <option key={p.id} value={p.id}>{p.id}</option>)}</select></label></p>
+      <PulsePositions position={position} />
+    </>
+  );
+}
+
 function Inspector(): ReactNode {
   const { kb: loadedKb } = useLoaded();
   const draft = useApp((s) => s.draft);
@@ -138,7 +154,7 @@ function Inspector(): ReactNode {
   const a = useMemo(() => (input === null ? null : engine.assess(kb, input)), [kb, input]);
 
   if (draft === null || input === null || a === null) {
-    return <><h1>Developer inspector</h1><p>There is no complete draft to inspect. Fill in the profile (and the inquiry) first; the inspector reads the current draft and recomputes live.</p></>;
+    return <><h1>Developer inspector</h1><p>There is no complete draft to inspect. Fill in the profile (and the inquiry) first; the inspector reads the current draft and recomputes live.</p><h2>Figures</h2><FiguresTab kb={loadedKb} /></>;
   }
   return (
     <>
@@ -154,6 +170,7 @@ function Inspector(): ReactNode {
           apply={() => { try { setEdited(paramsText === JSON.stringify(loadedKb.params, null, 2) ? null : JSON.parse(paramsText) as KnowledgeBase["params"]); setError(null); } catch (e) { setError(`Not valid JSON: ${(e as Error).message}`); } }}
           reset={() => { setEdited(null); setParamsText(JSON.stringify(loadedKb.params, null, 2)); setError(null); }} /> },
         { id: "case", label: "Case", panel: <CaseTab input={input} a={a} profile={kb.profile} /> },
+        { id: "figures", label: "Figures", panel: <FiguresTab kb={kb} /> },
       ]} />
     </>
   );

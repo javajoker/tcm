@@ -10,6 +10,7 @@ import { Card, Chip } from "../../ui/index.ts";
 import { FeedbackMarks } from "./feedback.tsx";
 import { formulaKey } from "./feedbackModel.ts";
 import { FoodItem, Lifestyle, PointItem, PressingNotes } from "./Guidance.tsx";
+import { AcupointFigures } from "./figures/AcupointFigures.tsx";
 import { BilingualName, Prose, ZhText } from "./shared.tsx";
 
 const ROLE_SLUG = { 君: "sovereign", 臣: "minister", 佐: "assistant", 使: "envoy" } as const;
@@ -96,6 +97,7 @@ export function Advice({ saved }: { saved: SavedAssessment }): ReactNode {
       {r.acupoints.length > 0 ? (
         <section aria-labelledby="adv-points">
           <h3 id="adv-points">{t.t("report.advice.points")}</h3>
+          <AcupointFigures points={r.acupoints} />
           <ul>{r.acupoints.map((p) => <PointItem key={p.name} point={p} />)}</ul>
           <PressingNotes />
         </section>

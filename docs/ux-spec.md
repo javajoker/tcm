@@ -545,7 +545,7 @@ Testing method and scenarios are in the [test plan](test-plan.md).
 | UQ4 | Tongue illustration style: line art vs. soft fills; need for a second, photo-based reference set | Line art; photos only if a free licence is found |
 | UQ5 | Whether history compare is MVP (P1) or later | P1 |
 | UQ6 | Voice/screen-reader auto-advance default | A setting, **"Move on automatically after I answer"** (default **on**, only for single-choice questions without a severity step). No screen-reader detection (it is not reliably detectable); the first question's hint mentions the setting |
-| UQ7 | Acupoint diagrams: licence-safe source or original drawings | Original simple diagrams; WHO codes as text |
+| UQ7 | Acupoint diagrams: licence-safe source or original drawings | Original simple diagrams; WHO codes as text — done (U-25): a schematic per body part with only the recommended points marked, labels as live text, a line saying it is a schematic and the written location counts |
 
 ---
 

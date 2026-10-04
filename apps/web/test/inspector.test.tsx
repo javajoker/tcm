@@ -48,12 +48,13 @@ describe.runIf(IS_DEV_PROFILE)("developer inspector (S20)", () => {
     expect(await screen.findByRole("heading", { level: 1, name: "Developer inspector" })).toBeInTheDocument();
     expect(screen.getByText(/no complete draft/i)).toBeInTheDocument();
     expect(screen.queryByRole("tablist")).toBeNull();
+    expect(screen.getByRole("heading", { level: 2, name: "Figures" })).toBeInTheDocument();       // the drawings need no draft
   });
 
-  it("has the seven tabs of the spec and each shows its data", async () => {
+  it("has the seven tabs of the spec, then the figures for reviewers, and each shows its data", async () => {
     await open(true);
     const list = await screen.findByRole("tablist", { name: "Inspector sections" });
-    expect(within(list).getAllByRole("tab").map((t) => t.textContent)).toEqual(["Policy", "Scores", "Panel", "Formulas", "Safety", "Params", "Case"]);
+    expect(within(list).getAllByRole("tab").map((t) => t.textContent)).toEqual(["Policy", "Scores", "Panel", "Formulas", "Safety", "Params", "Case", "Figures"]);
     expect(screen.getByRole("tabpanel")).toHaveTextContent(/Effective level/);
     const tab = async (name: string): Promise<void> => { await userEvent.click(within(list).getByRole("tab", { name })); };
     await tab("Scores");
@@ -66,6 +67,9 @@ describe.runIf(IS_DEV_PROFILE)("developer inspector (S20)", () => {
     await tab("Safety");
     const rules = screen.getByRole("table", { name: `All ${kb.safety.rules.length} safety rules` });
     expect(within(rules).getAllByRole("row")).toHaveLength(kb.safety.rules.length + 1);
+    await tab("Figures");
+    expect(screen.getAllByRole("figure").length).toBeGreaterThanOrEqual(8);                       // the acupoint views and the pulse positions
+    expect(screen.getByText("太衝", { selector: "tspan" })).toBeInTheDocument();
   });
 
   it("moves between tabs with the arrow keys, Home and End", async () => {
@@ -77,11 +81,11 @@ describe.runIf(IS_DEV_PROFILE)("developer inspector (S20)", () => {
     expect(tabs[1]).toHaveAttribute("aria-selected", "true");
     expect(tabs[1]).toHaveFocus();
     await userEvent.keyboard("{End}");
-    expect(tabs[6]).toHaveAttribute("aria-selected", "true");
+    expect(tabs[7]).toHaveAttribute("aria-selected", "true");
     await userEvent.keyboard("{ArrowRight}");
     expect(tabs[0]).toHaveAttribute("aria-selected", "true");
     await userEvent.keyboard("{ArrowLeft}");
-    expect(tabs[6]).toHaveAttribute("aria-selected", "true");
+    expect(tabs[7]).toHaveAttribute("aria-selected", "true");
     await userEvent.keyboard("{Home}");
     expect(tabs[0]).toHaveFocus();
   });
@@ -135,7 +139,7 @@ describe.runIf(IS_DEV_PROFILE)("developer inspector (S20)", () => {
   it("has no accessibility violations on any tab", async () => {
     const { container } = await open(true);
     await screen.findByRole("tablist");
-    for (const name of ["Policy", "Scores", "Panel", "Formulas", "Safety", "Params", "Case"]) {
+    for (const name of ["Policy", "Scores", "Panel", "Formulas", "Safety", "Params", "Case", "Figures"]) {
       await userEvent.click(screen.getByRole("tab", { name }));
       expect((await axe(container, { rules: { "color-contrast": { enabled: false } } })).violations.map((v) => `${name} ${v.id}: ${v.nodes.map((n) => n.target.join(" ")).join(", ")}`)).toEqual([]);
     }

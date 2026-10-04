@@ -319,7 +319,7 @@ Nothing is `reviewed` yet; the release gate in the [release process](release-pro
 |---|---|---|
 | `diagnosis/constitution-items.json` | Own-written 9-type items, 1–5 scale, scoring map | SOP D6; needs review |
 | `geo/cities.json` | `{ id, name{zh-Hant,en}, lat, lon, tz }` | Decided: GeoNames `cities15000`, CC BY 4.0, reduced subset with attribution (tech spec TQ2) |
-| `treatment/guidance.json` (extend) ✔ | Acupoint location text and cautions, diet entries with rationale and citations, bilingual lifestyle — done (K-11); illustration ids to follow (U-25) | |
+| `treatment/guidance.json` (extend) ✔ | Acupoint location text and cautions, diet entries with rationale and citations, bilingual lifestyle — done (K-11); the drawings are the web app's own (U-25: `acupointSpots.ts` places each point by its Chinese name on seven schematic views — no KB field) | |
 | English prose fields ✔ | English rendering of `rationale_zh`, `principle`, `tongue_pulse_note`, `cautions`, the general regimen (`*_en` fields with `en_status`) — done as a machine draft (K-13); the review (V-06) sets `reviewed` | Machine draft + review |
 | `review/records.json` ✔ | Review records compiled from `review/records/*.yaml` (K-16): the records, the units they cover (`reviewed`, with content hashes), those whose content changed since (`stale`) and per-file coverage with the roles each file needs | [Content review §5](content-review.md) |
 

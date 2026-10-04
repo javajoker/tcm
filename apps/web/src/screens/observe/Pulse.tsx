@@ -13,6 +13,7 @@ import { pendingNotices, withAcknowledged } from "../screening/model.ts";
 import { NoticeScreen } from "../screening/NoticeScreen.tsx";
 import { toggleExclusive } from "./exclusive.ts";
 import { applyPulse, clearPulse, parseRate, RATE_GROUP, type Rhythm } from "./model.ts";
+import { PulsePositions } from "./PulsePositions.tsx";
 
 const TIMER_SECONDS = 30;
 const GROUP_ORDER = ["depth", "flow", "strength", "length", "tension", "rhythm", "width"];
@@ -92,6 +93,7 @@ function Form({ draft }: { draft: Draft }): ReactNode {
           ))}
           <p role="status" className="muted">{note}</p>
           {qualities.length > 0 ? <p>{t.t("safety.notice.pulseEducation.text")}</p> : null}
+          <PulsePositions position={position} />
           <ChoiceGroup legend={t.t("observe.pulse.positions.legend")} inline value={position} onChange={setPosition}
             options={kb.pulse.positions.map((p) => ({ value: p.id, label: t.t(`observe.pulse.position.${p.id}` as MessageKey) }))} />
         </Card>

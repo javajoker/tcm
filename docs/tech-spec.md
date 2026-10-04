@@ -291,7 +291,7 @@ The first-pass `data/` does not yet contain everything the engine and UI need. T
 | `data/diagnosis/exclusions.json` ✔ (task K-06) | Mutually exclusive symptom groups (浮/沉, 遲/數/疾, 便乾/便溏 …) and synonym-split rules (惡寒 ≠ 畏寒) | For SOP §5.3 consistency checks |
 | `data/diagnosis/constitution-items.json` | Own-written 9-type questionnaire items and scoring map (SOP D6) | Needs review; licence-safe |
 | `data/geo/cities.json` | Birth-place picker: name (zh-Hant/en), latitude, longitude, IANA time zone | Source decision pending (e.g. GeoNames, CC-BY); always paired with manual longitude/time-zone entry |
-| `data/treatment/guidance.json` ✔ (K-11) | Acupoint location text and cautions, diet entries with rationale and citations, bilingual per-pattern lifestyle; illustrations are still a UI task (U-25) | Shipped in the `guidance` chunk (§5.2) |
+| `data/treatment/guidance.json` ✔ (K-11) | Acupoint location text and cautions, diet entries with rationale and citations, bilingual per-pattern lifestyle; the drawings are original SVG in the web app (U-25, `screens/result/figures/AcupointFigures.tsx`), placed by Chinese name | Shipped in the `guidance` chunk (§5.2) |
 | English prose in patterns, formulas, treatment | English rendering of rationale, principles, cautions | Machine draft + review; fallback is zh-Hant |
 
 ---
@@ -589,7 +589,8 @@ All SVG, no libraries; each visual is a component with the data table equivalent
 | `BagangAxes` | cold↔heat, deficiency↔excess, exterior (0–1) | Three labelled sliders (read-only) |
 | `OffsetCompare` | observed vs reference per element, alignment glyph | Population offset emphasised, personal offset secondary |
 | `TongueMap` | zone selection and sign markers over a stylised tongue | Original SVG illustration (no photos); zones per `tongue.json`; each zone selectable by keyboard |
-| `PulsePositions` | six positions (左右寸關尺) | Used only when position input is chosen |
+| `PulsePositions` ✔ (U-25) | both wrists palm-up with the three positions on the thumb side, the chosen one filled and ticked | Beside the position choice on the pulse screen; the choice group is the control, the figure only helps to find the places |
+| `AcupointFigures` ✔ (U-25) | one schematic per body part the recommended points lie on (head and neck, front of trunk, back, inner forearm and palm, back of hand, front of leg, top and sole of foot), points marked with name and WHO code as live text | Original line-style SVG; drawn to cun proportions where the written location gives one; always labelled schematic — the written location (the text twin) is the authority |
 | `FormulaTable` | 君臣佐使 role, herb, proportion bar | Dose column only when `policy.features.dosage` |
 | `ModificationDiff` | before/after composition with reasons | L2+ |
 | `ConfidenceMeter` | high / medium / low / insufficient | Text first, graphic second |
