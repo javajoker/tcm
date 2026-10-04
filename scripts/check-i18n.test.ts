@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, test } from "node:test";
-import { checkParity, checkStyle, checkUse, checkWording, loadCatalogs, runChecks, usedKeys, visualWidth } from "./check-i18n.ts";
+import { checkGlossary, checkParity, checkStyle, checkUse, checkWording, englishForms, loadCatalogs, runChecks, usedKeys, usesEnglishForm, visualWidth, type GlossaryTerm } from "./check-i18n.ts";
 
 const wording = JSON.parse(readFileSync(join(import.meta.dirname, "i18n-wording.json"), "utf8"));
 const ns = (zh: string[], en: string[]): Record<string, { zh: string[]; en: string[] }> => ({ common: { zh, en } });
@@ -96,5 +96,59 @@ describe("orphan and missing keys", () => {
     assert.ok(u.literal.has("common.app.name"));
     assert.ok(u.prefixes.includes("report.role."));
     assert.ok(!u.literal.has("safety.notice.<slug>.*"));
+  });
+});
+
+describe("check-i18n: glossary conformance (i18n guide §2.1 rule 5, §8.2)", () => {
+  const term = (zh: string, en: string, alt: string[] = [], domain = "diagnosis"): GlossaryTerm => ({ "zh-Hant": zh, en, alt, domain });
+  const glossary = [term("氣虛", "qi deficiency", [], "nature"), term("氣虛質", "qi-deficiency constitution", ["Qi deficiency"], "constitution"), term("五行", "five phases (five elements)", [], "theory"), term("木", "wood", [], "wuxing"), term("脈象", "pulse quality", ["pulse"])];
+  const run = (zh: string, en: string, allow = {}): string[] => checkGlossary({ "k.a": zh }, { "k.a": en }, glossary, { ...wording, ...allow }).map((i) => i.message);
+
+  test("the English forms of a term: the main term, the parenthetical, the alternatives; hyphens and dashes are spaces", () => {
+    assert.deepEqual(englishForms(term("五行", "five phases (five elements)")), ["five phases (five elements)", "five phases", "five elements"]);
+    assert.deepEqual(englishForms(term("寒熱", "cold and heat", ["cold–heat"])), ["cold and heat", "cold heat"]);
+    assert.ok(usesEnglishForm("This is Qi-deficiency pattern", ["qi deficiency"]));
+  });
+
+  test("inflection is tolerated, other words are not", () => {
+    assert.ok(usesEnglishForm("Many phlegms", ["phlegm"]));
+    assert.ok(usesEnglishForm("a constitutional tendency", ["constitution"]));
+    assert.ok(usesEnglishForm("it is warming", ["warm"]));
+    assert.equal(usesEnglishForm("qi deficiencyish", ["qi deficiency"]), false);
+    assert.equal(usesEnglishForm("the spleen", ["pleen"]), false, "a form must start at a word boundary");
+  });
+
+  test("a zh term must be rendered with the glossary English (or an alternative) in the paired English", () => {
+    assert.deepEqual(run("氣虛的表現", "Signs of qi deficiency"), []);
+    assert.deepEqual(run("五行", "The five elements"), []);
+    assert.deepEqual(run("脈象", "Pulse"), [], "an accepted alternative");
+    assert.match(run("氣虛的表現", "Signs of weak energy")[0]!, /uses the glossary term 氣虛 \(qi deficiency\) but the English text does not/);
+  });
+
+  test("the longer term wins over the term inside it; terms of one character are not checked", () => {
+    assert.deepEqual(run("氣虛質", "Qi deficiency type"), [], "氣虛質 consumes 氣虛");
+    assert.match(run("氣虛質", "A weak type")[0]!, /氣虛質/);
+    assert.deepEqual(run("木頭", "A log"), [], "木 is one character");
+  });
+
+  test("plural messages are compared form by form", () => {
+    const zh = { "k.p": { other: "氣虛 {n} 項" } }, en = { "k.p": { one: "{n} qi deficiency item", other: "{n} qi deficiency items" } };
+    assert.deepEqual(checkGlossary(zh as never, en as never, glossary, wording), []);
+    assert.equal(checkGlossary(zh as never, { "k.p": { other: "{n} items" } } as never, glossary, wording).length, 1);
+  });
+
+  test("a reasoned exception silences one term for a key prefix; the severity is an error", () => {
+    const allow = { glossaryAllow: [{ keys: ["k."], terms: ["氣虛"], reason: "context" }] };
+    assert.deepEqual(run("氣虛", "weak", allow), []);
+    assert.equal(run("五行", "weak", allow).length, 1, "another term is still checked");
+    assert.equal(checkGlossary({ "k.a": "氣虛" }, { "k.a": "weak" }, glossary, wording)[0]!.severity, "error");
+  });
+
+  test("every allow-list entry has a reason and names real keys and terms", () => {
+    const { zh } = loadCatalogs();
+    for (const a of wording.glossaryAllow ?? []) {
+      assert.ok(a.reason.length > 20, a.terms.join());
+      for (const k of a.keys) assert.ok(k in zh || Object.keys(zh).some((z) => z.startsWith(k)), `${k} matches no key`);
+    }
   });
 });

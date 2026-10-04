@@ -253,9 +253,9 @@ Also: `dose_references` (age fractions for minors, elderly note — never shown 
 
 `acupoints{ zhName: { code (WHO), meridian, pregnancy_avoid, location{zh-Hant,en}, cautions[{zh-Hant,en}], status, basis } }` (31) · `acupressure{ how, cautions[] }` (the notes that apply to every point) · `foods{ name: { herb (id | null), nature, flavors[], functions[], rationale{zh-Hant,en}, cautions[], pregnancy_caution, basis (pharmacopoeia | textbook), citations[], status } }` (47, every food a pattern lists) · `lifestyle{ patternId: { zh-Hant, en } }` (23) · `general{ text, source[] }` · `food_pregnancy_caution[]` (the list the safety rule reads). A food that is also a herb takes `nature`, `flavors` and `functions` from the herb record (`basis: pharmacopoeia`); the others state them from the general textbook teaching (`basis: textbook`). Point locations follow the WHO standard descriptions in the project's own words. Everything is `draft`; `validate_kb` checks that everything a pattern refers to has bilingual text, that the pregnancy flags match the safety rule, the herb-backed entries and the citations. Illustrations are not yet included (U-25).
 
-### 6.4 `glossary.json` — 139 terms
+### 6.4 `glossary.json` — 161 terms
 
-`{ zh-Hant, en, pinyin, domain, status: "needs-review" }`; domains: pulse, treatment, diagnosis, tongue, wuxing, zangfu, constitution, bagang, liuxie, herb, yunqi, substance, product, formula, bazi, nature, theory, season, calendar.
+`{ zh-Hant, en, pinyin, domain, status: "needs-review", source (who-istm-2007 | textbook | project), alt[], note | null }` (K-12); domains: pulse, treatment, diagnosis, tongue, wuxing, zangfu, constitution, bagang, liuxie, herb, yunqi, substance, product, formula, bazi, nature, theory, season, calendar.
 
 ---
 

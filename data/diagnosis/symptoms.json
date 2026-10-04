@@ -1018,7 +1018,7 @@
     },
     {
       "dimension": "tongue",
-      "en": "thin white coat",
+      "en": "thin white coating",
       "id": "T_COAT_THIN_WHITE",
       "kind": "tongue",
       "tongue": {
@@ -1030,7 +1030,7 @@
     },
     {
       "dimension": "tongue",
-      "en": "white greasy coat",
+      "en": "white greasy coating",
       "id": "T_COAT_WHITE_GREASY",
       "kind": "tongue",
       "tongue": {
@@ -1042,7 +1042,7 @@
     },
     {
       "dimension": "tongue",
-      "en": "white slippery coat",
+      "en": "white slippery coating",
       "id": "T_COAT_SLIPPERY",
       "kind": "tongue",
       "tongue": {
@@ -1054,7 +1054,7 @@
     },
     {
       "dimension": "tongue",
-      "en": "yellow coat",
+      "en": "yellow coating",
       "id": "T_COAT_YELLOW",
       "kind": "tongue",
       "tongue": {
@@ -1066,7 +1066,7 @@
     },
     {
       "dimension": "tongue",
-      "en": "yellow greasy coat",
+      "en": "yellow greasy coating",
       "id": "T_COAT_YELLOW_GREASY",
       "kind": "tongue",
       "tongue": {
@@ -1078,7 +1078,7 @@
     },
     {
       "dimension": "tongue",
-      "en": "thick curdy coat",
+      "en": "thick curdy coating",
       "id": "T_COAT_THICK_ROT",
       "kind": "tongue",
       "tongue": {
@@ -1090,7 +1090,7 @@
     },
     {
       "dimension": "tongue",
-      "en": "scanty or peeled coat",
+      "en": "scanty or peeled coating",
       "id": "T_COAT_PEELED_ALL",
       "kind": "tongue",
       "tongue": {
@@ -1102,7 +1102,7 @@
     },
     {
       "dimension": "tongue",
-      "en": "dry coat",
+      "en": "dry coating",
       "id": "T_COAT_DRY",
       "kind": "tongue",
       "tongue": {
@@ -1114,7 +1114,7 @@
     },
     {
       "dimension": "tongue",
-      "en": "peeled coat at the tongue tip",
+      "en": "peeled coating at the tongue tip",
       "id": "T_TIP_COAT_PEELED",
       "kind": "tongue",
       "tongue": {
@@ -1126,7 +1126,7 @@
     },
     {
       "dimension": "tongue",
-      "en": "thick coat in the middle",
+      "en": "thick coating in the middle",
       "id": "T_CENTER_COAT_THICK",
       "kind": "tongue",
       "tongue": {
@@ -1138,7 +1138,7 @@
     },
     {
       "dimension": "tongue",
-      "en": "yellow greasy coat in the middle",
+      "en": "yellow greasy coating in the middle",
       "id": "T_CENTER_COAT_YELLOW_GREASY",
       "kind": "tongue",
       "tongue": {
@@ -1150,7 +1150,7 @@
     },
     {
       "dimension": "tongue",
-      "en": "peeled coat in the middle",
+      "en": "peeled coating in the middle",
       "id": "T_CENTER_COAT_PEELED",
       "kind": "tongue",
       "tongue": {
@@ -1162,7 +1162,7 @@
     },
     {
       "dimension": "tongue",
-      "en": "thick greasy coat at the root",
+      "en": "thick greasy coating at the root",
       "id": "T_ROOT_COAT_THICK_GREASY",
       "kind": "tongue",
       "tongue": {
@@ -1174,7 +1174,7 @@
     },
     {
       "dimension": "tongue",
-      "en": "peeled coat at the root",
+      "en": "peeled coating at the root",
       "id": "T_ROOT_COAT_PEELED",
       "kind": "tongue",
       "tongue": {

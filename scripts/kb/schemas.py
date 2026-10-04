@@ -397,7 +397,8 @@ def emergency() -> dict:
 
 
 def glossary() -> dict:
-    item = obj({"domain": STR, "en": STR, "pinyin": STR, "status": enum("needs-review", "reviewed"), "zh-Hant": STR})
+    item = obj({"alt": arr(STR, None, True), "domain": STR, "en": STR, "note": {"oneOf": [{"type": "null"}, STR]}, "pinyin": STR, "source": enum("who-istm-2007", "textbook", "project"),
+                "status": enum("needs-review", "reviewed"), "zh-Hant": STR})
     return envelope(item, meta({"count": INT}, ["count"]))
 
 

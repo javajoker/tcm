@@ -220,5 +220,63 @@
       ],
       "reason": "Negated forms ('not a diagnosis', 'not a prescription', 'not the original amounts') and the notices owned by the safety policy ('lower amounts' for people over 65), reviewed with it"
     }
+  ],
+  "glossaryAllow": [
+    {
+      "keys": [
+        "observe.tongue.zone.",
+        "observe.tongue.sublingual"
+      ],
+      "terms": [
+        "舌尖",
+        "舌根"
+      ],
+      "reason": "On the tongue-map screen the labels are the zone names; \"tongue\" is the context, so the English says Tip / Root (the Chinese keeps the full term)."
+    },
+    {
+      "keys": [
+        "constitution.intro"
+      ],
+      "terms": [
+        "體質"
+      ],
+      "reason": "Plain language before term (UX spec §9 rule 1): the questionnaire intro says \"long-standing tendencies\"; the glossary term appears in the headings."
+    },
+    {
+      "keys": [
+        "report.axis.yinYang.balanced"
+      ],
+      "terms": [
+        "陰陽"
+      ],
+      "reason": "The axis is already named \"Yin–yang\" in its label; the sentence says \"roughly balanced\"."
+    },
+    {
+      "keys": [
+        "report.figure.bars.summary.some"
+      ],
+      "terms": [
+        "食積"
+      ],
+      "reason": "The sentence groups phlegm, fluid, stasis and food retention as \"the accumulations\" for a lay reader; the chart's own labels use the glossary terms."
+    },
+    {
+      "keys": [
+        "report.points."
+      ],
+      "terms": [
+        "穴位"
+      ],
+      "reason": "In the acupressure section \"point\" is the word the person sees and the heading says acupressure."
+    },
+    {
+      "keys": [
+        "formula.modification.diff"
+      ],
+      "terms": [
+        "加減"
+      ],
+      "reason": "The diff view is titled \"Before and after\" for lay readers; the term 加減 is shown in the formula's own heading."
+    }
   ]
 }

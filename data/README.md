@@ -46,7 +46,7 @@ Needs Node ≥ 22.18 for the one TypeScript export step (`scripts/kb/export_wuxi
 | `schema/*.schema.json` | 22 | **JSON Schemas** (draft 2020-12) for every data file; the contract validated in the build and the source of the TypeScript types | `scripts/kb/schemas.py` |
 | `diagnosis/constitution-items.json` | 37 items | own-written constitution questionnaire (K-08; draft) | curated |
 | `safety/emergency.json` | 12 regions | regional emergency / crisis numbers (safety policy §5; unverified) | curated |
-| `glossary.json` | 139 | zh-Hant ⇄ English ⇄ pinyin (needs review) | curated |
+| `glossary.json` | 161 | zh-Hant ⇄ English ⇄ pinyin with `source` (`who-istm-2007` = the WHO standard term, known with confidence; `textbook` = an established rendering not confirmed as the WHO term; `project` = a gloss coined for this app), accepted alternative English (`alt`) and a `note`; all needs-review until the linguistic review (V-06) checks them against the standard | curated |
 
 ## Core modelling conventions
 

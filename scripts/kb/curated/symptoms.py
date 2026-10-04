@@ -152,20 +152,20 @@ T_ECCHYMOSIS|舌有瘀斑瘀點|ecchymoses or petechiae on the tongue|tongue
 T_SUBLINGUAL_VEINS|舌下絡脈怒張紫暗|engorged, dusky sublingual veins|tongue
 T_TIP_RED|舌尖紅|red tongue tip|tongue
 T_EDGE_RED|舌邊紅|red tongue edges|tongue
-T_COAT_THIN_WHITE|薄白苔|thin white coat|tongue
-T_COAT_WHITE_GREASY|白膩苔|white greasy coat|tongue
-T_COAT_SLIPPERY|白滑苔|white slippery coat|tongue
-T_COAT_YELLOW|黃苔|yellow coat|tongue
-T_COAT_YELLOW_GREASY|黃膩苔|yellow greasy coat|tongue
-T_COAT_THICK_ROT|厚腐苔|thick curdy coat|tongue
-T_COAT_PEELED_ALL|少苔或剝苔|scanty or peeled coat|tongue
-T_COAT_DRY|苔乾|dry coat|tongue
-T_TIP_COAT_PEELED|舌尖少苔|peeled coat at the tongue tip|tongue
-T_CENTER_COAT_THICK|舌中部苔厚|thick coat in the middle|tongue
-T_CENTER_COAT_YELLOW_GREASY|舌中部黃膩苔|yellow greasy coat in the middle|tongue
-T_CENTER_COAT_PEELED|舌中部少苔或剝落|peeled coat in the middle|tongue
-T_ROOT_COAT_THICK_GREASY|舌根部厚膩苔|thick greasy coat at the root|tongue
-T_ROOT_COAT_PEELED|舌根部少苔或剝落|peeled coat at the root|tongue
+T_COAT_THIN_WHITE|薄白苔|thin white coating|tongue
+T_COAT_WHITE_GREASY|白膩苔|white greasy coating|tongue
+T_COAT_SLIPPERY|白滑苔|white slippery coating|tongue
+T_COAT_YELLOW|黃苔|yellow coating|tongue
+T_COAT_YELLOW_GREASY|黃膩苔|yellow greasy coating|tongue
+T_COAT_THICK_ROT|厚腐苔|thick curdy coating|tongue
+T_COAT_PEELED_ALL|少苔或剝苔|scanty or peeled coating|tongue
+T_COAT_DRY|苔乾|dry coating|tongue
+T_TIP_COAT_PEELED|舌尖少苔|peeled coating at the tongue tip|tongue
+T_CENTER_COAT_THICK|舌中部苔厚|thick coating in the middle|tongue
+T_CENTER_COAT_YELLOW_GREASY|舌中部黃膩苔|yellow greasy coating in the middle|tongue
+T_CENTER_COAT_PEELED|舌中部少苔或剝落|peeled coating in the middle|tongue
+T_ROOT_COAT_THICK_GREASY|舌根部厚膩苔|thick greasy coating at the root|tongue
+T_ROOT_COAT_PEELED|舌根部少苔或剝落|peeled coating at the root|tongue
 # ── 脈象 pulse (optional self-reported input; general quality) ──
 P_FLOAT|浮脈|floating pulse|pulse
 P_SINK|沉脈|deep pulse|pulse

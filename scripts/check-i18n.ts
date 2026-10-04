@@ -1,7 +1,7 @@
 // Checks of the UI message catalogs (docs/i18n-guide.md §8.2). Errors fail the run; warnings are listed.
 //   node scripts/check-i18n.ts [--kb]       --kb also scans the bilingual display text of data/ for forbidden wording
 // Rules: key parity zh-Hant ⇄ en · placeholder, tag and plural parity · forbidden wording (scripts/i18n-wording.json) · orphan and missing keys ·
-// length ratio and Han–Latin spacing / full-width punctuation (warnings). Glossary conformance and `en_status` arrive with K-12 (the glossary review).
+// glossary conformance (an error: the catalogs are clean, i18n guide §8.2) · length ratio and Han–Latin spacing / full-width punctuation (warnings). `en_status` arrives with K-13.
 import { readFileSync, readdirSync, statSync } from "node:fs";
 import { dirname, join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -15,7 +15,8 @@ const NAMESPACES = ["common", "intake", "inquiry", "observe", "constitution", "r
 export type Severity = "error" | "warning";
 export interface Issue { readonly severity: Severity; readonly rule: string; readonly key?: string; readonly message: string }
 type Catalog = Record<string, Message>;
-interface Wording { rules: { id: string; lang: "en" | "zh-Hant"; pattern: string; why: string; prefer: string }[]; allow: { keys: string[]; rules: string[]; reason: string }[] }
+export interface GlossaryTerm { readonly "zh-Hant": string; readonly en: string; readonly alt: readonly string[]; readonly domain: string }
+interface Wording { glossaryAllow?: { keys: string[]; terms: string[]; reason: string }[]; rules: { id: string; lang: "en" | "zh-Hant"; pattern: string; why: string; prefer: string }[]; allow: { keys: string[]; rules: string[]; reason: string }[] }
 
 const readJson = <T>(p: string): T => JSON.parse(readFileSync(p, "utf8")) as T;
 const walk = (dir: string): string[] => readdirSync(dir).flatMap((n) => { const p = join(dir, n); return statSync(p).isDirectory() ? walk(p) : [p]; });
@@ -113,6 +114,45 @@ export function checkUse(zh: Catalog, used: { literal: Set<string>; prefixes: st
   return out;
 }
 
+/** The accepted English forms of a glossary term, normalised: lower case, hyphens as spaces. The parenthetical of `en` ("five phases (five elements)") is an alternative too. */
+export function englishForms(t: GlossaryTerm): string[] {
+  const norm = (x: string): string => x.toLowerCase().replace(/[–—-]/g, " ").replace(/\s+/g, " ").trim();
+  const paren = /\(([^)]*)\)/.exec(t.en)?.[1];
+  return [...new Set([t.en, t.en.replace(/\s*\(.*?\)/g, ""), ...(paren ? [paren] : []), ...t.alt].map(norm).filter((x) => x.length > 0))];
+}
+
+/** Does the English text use one of the forms, tolerant of inflection (a plural, -ed, -ing at the end of the form)? */
+export function usesEnglishForm(text: string, forms: readonly string[]): boolean {
+  const norm = text.toLowerCase().replace(/[–—-]/g, " ").replace(/\s+/g, " ");
+  return forms.some((f) => new RegExp(`(^|[^a-z])${f.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}(s|es|ed|ing|al)?([^a-z]|$)`).test(norm));
+}
+
+/**
+ * Glossary conformance (i18n guide §2.1 rule 5, §8.2): a glossary term of two or more characters in a zh-Hant message must be rendered with the glossary English (or an accepted alternative)
+ * in the paired English message. Longer terms win over the shorter terms inside them (氣虛質 over 氣虛). Allow-listed exceptions carry a reason in scripts/i18n-wording.json.
+ */
+export function checkGlossary(zh: Catalog, en: Catalog, glossary: readonly GlossaryTerm[], wording: Wording, severity: Severity = "error"): Issue[] {
+  const out: Issue[] = [];
+  const terms = [...glossary].filter((g) => [...g["zh-Hant"]].length >= 2).sort((a, b) => [...b["zh-Hant"]].length - [...a["zh-Hant"]].length);
+  const allowed = (key: string, term: string): boolean => (wording.glossaryAllow ?? []).some((a) => a.terms.includes(term) && a.keys.some((k) => key === k || (k.endsWith(".") && key.startsWith(k))));
+  for (const [key, zm] of Object.entries(zh)) {
+    const em = en[key];
+    if (em === undefined) continue;
+    const forms: [string, string][] = typeof zm === "string" ? [[zm, textsOf(em)[0] ?? ""]] : Object.entries(zm).filter((e): e is [string, string] => typeof e[1] === "string").map(([f, t]) => [t, typeof em === "string" ? em : (em as Record<string, string | undefined>)[f] ?? (em as Record<string, string>).other ?? ""]);
+    for (const [zText, eText] of forms) {
+      let rest = zText;
+      for (const t of terms) {
+        const zhTerm = t["zh-Hant"];
+        if (!rest.includes(zhTerm)) continue;
+        rest = rest.split(zhTerm).join(" ");                   // a shorter term inside this one no longer counts
+        if (allowed(key, zhTerm) || usesEnglishForm(eText, englishForms(t))) continue;
+        out.push({ severity, rule: "glossary", key, message: `"${key}": the zh text uses the glossary term ${zhTerm} (${t.en}${t.alt.length ? `; also ${t.alt.join(", ")}` : ""}) but the English text does not — "${eText.slice(0, 70)}"` });
+      }
+    }
+  }
+  return out;
+}
+
 /** Bilingual display text of the knowledge base: objects shaped { "zh-Hant", en } (classical quotations are not scanned). */
 export function checkKbWording(wording: Wording): Issue[] {
   const out: Issue[] = [];
@@ -138,7 +178,8 @@ export function checkKbWording(wording: Wording): Issue[] {
 export function runChecks(opts: { kb?: boolean } = {}): Issue[] {
   const { zh, en, perNamespace } = loadCatalogs();
   const wording = readJson<Wording>(join(root, "scripts", "i18n-wording.json"));
-  return [...checkParity(zh, en, perNamespace), ...checkWording(zh, en, wording), ...checkStyle(zh, en), ...checkUse(zh, usedKeys()), ...(opts.kb ? checkKbWording(wording) : [])];
+  const glossary = readJson<{ items: GlossaryTerm[] }>(join(root, "data", "glossary.json")).items;
+  return [...checkParity(zh, en, perNamespace), ...checkWording(zh, en, wording), ...checkGlossary(zh, en, glossary, wording), ...checkStyle(zh, en), ...checkUse(zh, usedKeys()), ...(opts.kb ? checkKbWording(wording) : [])];
 }
 
 if (import.meta.main) {

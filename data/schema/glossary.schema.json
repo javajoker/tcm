@@ -173,14 +173,38 @@
       "items": {
         "additionalProperties": false,
         "properties": {
+          "alt": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "uniqueItems": true
+          },
           "domain": {
             "type": "string"
           },
           "en": {
             "type": "string"
           },
+          "note": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "type": "string"
+              }
+            ]
+          },
           "pinyin": {
             "type": "string"
+          },
+          "source": {
+            "enum": [
+              "who-istm-2007",
+              "textbook",
+              "project"
+            ]
           },
           "status": {
             "enum": [
@@ -193,9 +217,12 @@
           }
         },
         "required": [
+          "alt",
           "domain",
           "en",
+          "note",
           "pinyin",
+          "source",
           "status",
           "zh-Hant"
         ],

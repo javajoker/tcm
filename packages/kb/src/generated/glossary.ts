@@ -8,9 +8,12 @@ export interface Glossary {
     [k: string]: unknown;
   };
   items: {
+    alt: string[];
     domain: string;
     en: string;
+    note: null | string;
     pinyin: string;
+    source: "who-istm-2007" | "textbook" | "project";
     status: "needs-review" | "reviewed";
     "zh-Hant": string;
   }[];

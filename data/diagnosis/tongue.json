@@ -202,7 +202,7 @@
       "id": "T_COAT_THIN_WHITE",
       "meaning": "薄白苔：正常，或表證初起",
       "name": {
-        "en": "thin white coat",
+        "en": "thin white coating",
         "zh-Hant": "薄白苔"
       },
       "zone": "all"
@@ -212,7 +212,7 @@
       "id": "T_COAT_WHITE_GREASY",
       "meaning": "白膩苔：痰濕、寒濕",
       "name": {
-        "en": "white greasy coat",
+        "en": "white greasy coating",
         "zh-Hant": "白膩苔"
       },
       "zone": "all"
@@ -222,7 +222,7 @@
       "id": "T_COAT_SLIPPERY",
       "meaning": "白滑苔：寒濕、陽虛水停",
       "name": {
-        "en": "white slippery coat",
+        "en": "white slippery coating",
         "zh-Hant": "白滑苔"
       },
       "zone": "all"
@@ -232,7 +232,7 @@
       "id": "T_COAT_YELLOW",
       "meaning": "黃苔：熱證",
       "name": {
-        "en": "yellow coat",
+        "en": "yellow coating",
         "zh-Hant": "黃苔"
       },
       "zone": "all"
@@ -242,7 +242,7 @@
       "id": "T_COAT_YELLOW_GREASY",
       "meaning": "黃膩苔：濕熱、痰熱",
       "name": {
-        "en": "yellow greasy coat",
+        "en": "yellow greasy coating",
         "zh-Hant": "黃膩苔"
       },
       "zone": "all"
@@ -252,7 +252,7 @@
       "id": "T_COAT_THICK_ROT",
       "meaning": "厚腐苔：食積、痰濁",
       "name": {
-        "en": "thick curdy coat",
+        "en": "thick curdy coating",
         "zh-Hant": "厚腐苔"
       },
       "zone": "all"
@@ -262,7 +262,7 @@
       "id": "T_COAT_PEELED_ALL",
       "meaning": "少苔或剝苔：陰虛、胃氣陰兩傷",
       "name": {
-        "en": "scanty or peeled coat",
+        "en": "scanty or peeled coating",
         "zh-Hant": "少苔或剝苔"
       },
       "zone": "all"
@@ -272,7 +272,7 @@
       "id": "T_COAT_DRY",
       "meaning": "苔乾：津傷",
       "name": {
-        "en": "dry coat",
+        "en": "dry coating",
         "zh-Hant": "苔乾"
       },
       "zone": "all"
@@ -282,7 +282,7 @@
       "id": "T_TIP_COAT_PEELED",
       "meaning": "舌尖少苔：心肺陰虛",
       "name": {
-        "en": "peeled coat at the tongue tip",
+        "en": "peeled coating at the tongue tip",
         "zh-Hant": "舌尖少苔"
       },
       "zone": "tip"
@@ -292,7 +292,7 @@
       "id": "T_CENTER_COAT_THICK",
       "meaning": "舌中苔厚：脾胃濕滯、食積",
       "name": {
-        "en": "thick coat in the middle",
+        "en": "thick coating in the middle",
         "zh-Hant": "舌中部苔厚"
       },
       "zone": "center"
@@ -302,7 +302,7 @@
       "id": "T_CENTER_COAT_YELLOW_GREASY",
       "meaning": "舌中黃膩：脾胃濕熱",
       "name": {
-        "en": "yellow greasy coat in the middle",
+        "en": "yellow greasy coating in the middle",
         "zh-Hant": "舌中部黃膩苔"
       },
       "zone": "center"
@@ -312,7 +312,7 @@
       "id": "T_CENTER_COAT_PEELED",
       "meaning": "舌中少苔或剝落：胃陰不足",
       "name": {
-        "en": "peeled coat in the middle",
+        "en": "peeled coating in the middle",
         "zh-Hant": "舌中部少苔或剝落"
       },
       "zone": "center"
@@ -322,7 +322,7 @@
       "id": "T_ROOT_COAT_THICK_GREASY",
       "meaning": "舌根厚膩：下焦濕濁、腎與膀胱濕熱",
       "name": {
-        "en": "thick greasy coat at the root",
+        "en": "thick greasy coating at the root",
         "zh-Hant": "舌根部厚膩苔"
       },
       "zone": "root"
@@ -332,7 +332,7 @@
       "id": "T_ROOT_COAT_PEELED",
       "meaning": "舌根少苔或剝落：腎陰虧虛",
       "name": {
-        "en": "peeled coat at the root",
+        "en": "peeled coating at the root",
         "zh-Hant": "舌根部少苔或剝落"
       },
       "zone": "root"

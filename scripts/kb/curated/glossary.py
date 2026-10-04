@@ -1,9 +1,14 @@
-"""Glossary (zh-Hant ⇄ English, pinyin). English follows WHO International Standard Terminologies on
-Traditional Medicine where the author knows the standard term; every English entry is `needs-review`
-(SOP D11). Format: 繁體中文 | English | pinyin | domain."""
+"""Glossary (zh-Hant ⇄ English, pinyin). English follows the WHO International Standard Terminologies on Traditional Medicine (Western Pacific Region, 2007) where the standard term is known;
+every entry is `needs-review` until the linguistic reviewer has checked it against the standard (SOP D11, task V-06).
+
+Format of a row: 繁體中文 | English | pinyin | domain [| alt English; alt English … [| note]]. `source` (K-12) says where the English comes from:
+  who-istm-2007  the English is the WHO standard term (the entries in WHO_ISTM below, which the author knows with confidence);
+  textbook       an established textbook rendering that is not confirmed as the WHO term (the default);
+  project        a gloss coined for this app (BaZi, five periods and six qi, and the like), written in the plain WHO style.
+`alt` lists accepted alternative English renderings (the lint accepts them in paired strings); a parenthetical in `en` is also accepted as an alternative."""
 
 _TABLE = """
-陰陽|yin and yang|yīn yáng|theory
+陰陽|yin and yang|yīn yáng|theory|yin-yang|
 五行|five phases (five elements)|wǔ xíng|theory
 木|wood|mù|wuxing
 火|fire|huǒ|wuxing
@@ -32,10 +37,10 @@ _TABLE = """
 精|essence|jīng|substance
 神|spirit (shen)|shén|substance
 四診|four examinations|sì zhěn|diagnosis
-望診|inspection|wàng zhěn|diagnosis
+望診|inspection|wàng zhěn|diagnosis|observation|
 聞診|listening and smelling examination|wén zhěn|diagnosis
-問診|inquiry|wèn zhěn|diagnosis
-切診|palpation (pulse-taking)|qiè zhěn|diagnosis
+問診|inquiry|wèn zhěn|diagnosis|questions; questionnaire; questioning|
+切診|palpation (pulse-taking)|qiè zhěn|diagnosis|pulse|
 十問歌|ten questions mnemonic|shí wèn gē|diagnosis
 辨證論治|pattern differentiation and treatment determination|biàn zhèng lùn zhì|diagnosis
 證|pattern (syndrome)|zhèng|diagnosis
@@ -58,24 +63,24 @@ _TABLE = """
 痰|phlegm|tán|product
 飲|fluid-retention (rheum)|yǐn|product
 瘀|blood stasis|yū|product
-食積|food stagnation|shí jī|product
+食積|food stagnation|shí jī|product|food retention|
 氣滯|qi stagnation|qì zhì|product
 氣虛|qi deficiency|qì xū|nature
 血虛|blood deficiency|xuè xū|nature
 陰虛|yin deficiency|yīn xū|nature
 陽虛|yang deficiency|yáng xū|nature
-體質|constitution|tǐ zhì|constitution
-平和質|balanced constitution|píng hé zhì|constitution
-氣虛質|qi-deficiency constitution|qì xū zhì|constitution
-陽虛質|yang-deficiency constitution|yáng xū zhì|constitution
-陰虛質|yin-deficiency constitution|yīn xū zhì|constitution
-痰濕質|phlegm-dampness constitution|tán shī zhì|constitution
-濕熱質|damp-heat constitution|shī rè zhì|constitution
-血瘀質|blood-stasis constitution|xuè yū zhì|constitution
-氣鬱質|qi-stagnation constitution|qì yù zhì|constitution
+體質|constitution|tǐ zhì|constitution|constitutional|
+平和質|balanced constitution|píng hé zhì|constitution|Balanced|
+氣虛質|qi-deficiency constitution|qì xū zhì|constitution|Qi deficiency|
+陽虛質|yang-deficiency constitution|yáng xū zhì|constitution|Yang deficiency|
+陰虛質|yin-deficiency constitution|yīn xū zhì|constitution|Yin deficiency|
+痰濕質|phlegm-dampness constitution|tán shī zhì|constitution|Phlegm-dampness|
+濕熱質|damp-heat constitution|shī rè zhì|constitution|Damp-heat|
+血瘀質|blood-stasis constitution|xuè yū zhì|constitution|Blood stasis|
+氣鬱質|qi-stagnation constitution|qì yù zhì|constitution|Qi stagnation|
 特稟質|special (allergic) diathesis|tè bǐng zhì|constitution
 舌質|tongue body|shé zhì|tongue
-舌苔|tongue coating|shé tāi|tongue
+舌苔|tongue coating|shé tāi|tongue|coating|On the tongue screens the word "coating" alone is clear.
 齒痕|tooth marks|chǐ hén|tongue
 裂紋|cracks|liè wén|tongue
 芒刺|prickles (red dots)|máng cì|tongue
@@ -86,7 +91,7 @@ _TABLE = """
 薄白苔|thin white coating|báo bái tāi|tongue
 膩苔|greasy coating|nì tāi|tongue
 剝苔|peeled coating|bō tāi|tongue
-脈象|pulse quality|mài xiàng|pulse
+脈象|pulse quality|mài xiàng|pulse|pulse|
 寸關尺|cun, guan, chi positions|cùn guān chǐ|pulse
 浮脈|floating pulse|fú mài|pulse
 沉脈|deep pulse|chén mài|pulse
@@ -104,7 +109,7 @@ _TABLE = """
 結脈|knotted pulse|jié mài|pulse
 代脈|regularly intermittent pulse|dài mài|pulse
 促脈|rapid-irregular pulse|cù mài|pulse
-治則|treatment principle|zhì zé|treatment
+治則|treatment principle|zhì zé|treatment|direction of care|The app says "direction of care" in the result so that it does not read as a treatment instruction.
 治法|treatment method|zhì fǎ|treatment
 治病求本|treat the root|zhì bìng qiú běn|treatment
 標本緩急|priority of root and branch|biāo běn huǎn jí|treatment
@@ -120,7 +125,7 @@ _TABLE = """
 方劑|formula|fāng jì|formula
 君臣佐使|sovereign, minister, assistant, envoy|jūn chén zuǒ shǐ|formula
 經方|classical formula|jīng fāng|formula
-時方|later-period formula|shí fāng|formula
+時方|later-period formula|shí fāng|formula|later formula|
 加減|modification (addition and subtraction)|jiā jiǎn|formula
 四氣|four natures|sì qì|herb
 五味|five flavours|wǔ wèi|herb
@@ -136,23 +141,59 @@ _TABLE = """
 客氣|guest qi|kè qì|yunqi
 節氣|solar term|jié qì|calendar
 四柱|four pillars (BaZi)|sì zhù|bazi
-八字|eight characters (BaZi)|bā zì|bazi
+八字|eight characters (BaZi)|bā zì|bazi|birth chart|The app says "birth chart" for the whole feature; the four pillars are shown only as a derived panel.
 大運|decade luck cycle|dà yùn|bazi
 流年|annual cycle|liú nián|bazi
 司令|commanding hidden stem|sī lìng|bazi
 四氣調神|regulating the spirit in accordance with the four seasons|sì qì tiáo shén|season
 長夏|late summer|cháng xià|season
+證型|pattern type|zhèng xíng|diagnosis|pattern; pattern/syndrome|The usual everyday word for the pattern a person leans towards; "pattern" alone is the WHO term for 證.
+辨證|pattern differentiation|biàn zhèng|diagnosis||
+氣血|qi and blood|qì xuè|substance||
+臟腑|zang-fu organs (viscera)|zàng fǔ|zangfu|zang-fu; organs; organ|Functional systems, not the anatomical organs.
+經絡|channels and collaterals|jīng luò|theory|meridians|"Meridian" is the common loan; WHO uses "channels and collaterals".
+穴位|acupuncture point (acupoint)|xué wèi|treatment|acupoint; acupressure point; acupressure|
+舌象|tongue appearance|shé xiàng|tongue|tongue picture; tongue|
+寒熱|cold and heat|hán rè|bagang|cold-heat|
+虛實|deficiency and excess|xū shí|bagang|deficiency-excess|
+表裡|exterior and interior|biǎo lǐ|bagang|exterior-interior|
+中醫|traditional Chinese medicine|zhōng yī|theory|TCM; Chinese medicine|
+中醫師|TCM practitioner|zhōng yī shī|diagnosis|practitioner; licensed practitioner; qualified practitioner; traditional Chinese medicine practitioner|The app never says "TCM doctor": a practitioner is a licensed person, not the app.
+藥材|herbal material|yào cái|herb|herb; medicinal material|
+惡寒|aversion to cold|wù hán|diagnosis||Not relieved by adding clothes; distinct from 畏寒.
+畏寒|cold intolerance (fear of cold)|wèi hán|diagnosis|fear of cold|Relieved by warmth; distinct from 惡寒.
+自汗|spontaneous sweating|zì hàn|diagnosis||
+盜汗|night sweating|dào hàn|diagnosis|night sweats|
+潮熱|tidal fever|cháo rè|diagnosis||
+心悸|palpitations|xīn jì|diagnosis||
+痰濕|phlegm-dampness|tán shī|nature||
+濕熱|damp-heat|shī rè|nature||
+苔乾|dry coating|tāi gān|tongue||
 """
+
+
+# English terms known with confidence to be the WHO ISTM (2007) renderings; everything else is `textbook`, or `project` for the BaZi / yunqi / season / calendar glosses.
+WHO_ISTM = {
+    "陰陽", "五行", "木", "火", "土", "金", "水", "相生", "相克", "相乘", "相侮", "肝", "心", "脾", "肺", "腎", "膽", "小腸", "胃", "大腸", "膀胱", "氣", "血", "津液", "精", "四診", "望診", "聞診", "問診", "切診",
+    "辨證論治", "辨證", "證", "八綱", "表", "裡", "寒", "熱", "虛", "實", "風", "暑", "濕", "燥", "六淫", "痰", "飲", "瘀", "氣滯", "氣虛", "血虛", "陰虛", "陽虛", "舌質", "舌苔", "齒痕", "裂紋",
+    "浮脈", "沉脈", "遲脈", "數脈", "滑脈", "澀脈", "弦脈", "洪脈", "緊脈", "緩脈", "濡脈", "弱脈", "結脈", "代脈", "促脈", "四氣", "五味", "歸經", "十八反", "十九畏", "君臣佐使", "歸經", "體質",
+    "自汗", "盜汗", "潮熱", "惡寒", "氣血", "經絡", "表裡", "寒熱", "虛實", "心悸",
+}
+PROJECT_DOMAINS = {"bazi", "yunqi", "season", "calendar"}
 
 
 def parse() -> list[dict]:
     out, seen = [], set()
     for line in _TABLE.strip().splitlines():
-        zh, en, py, dom = [x.strip() for x in line.split("|")]
+        cols = [x.strip() for x in line.split("|")]
+        zh, en, py, dom = cols[:4]
+        alt = [a.strip() for a in cols[4].split(";") if a.strip()] if len(cols) > 4 else []
+        note = cols[5] if len(cols) > 5 and cols[5] else None
         key = (zh, dom)
         assert key not in seen, f"duplicate {key}"
         seen.add(key)
-        out.append({"zh-Hant": zh, "en": en, "pinyin": py, "domain": dom, "status": "needs-review"})
+        source = "project" if dom in PROJECT_DOMAINS else "who-istm-2007" if zh in WHO_ISTM else "textbook"
+        out.append({"zh-Hant": zh, "en": en, "pinyin": py, "domain": dom, "status": "needs-review", "source": source, "alt": alt, "note": note})
     return out
 
 

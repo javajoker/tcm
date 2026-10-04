@@ -6,7 +6,7 @@
 | **Status** | Draft — the lint (`scripts/check-i18n.ts`) and the catalogs are specified here, not yet implemented |
 | **Last updated** | 2026-10-04 |
 | **Audience** | Developers writing UI strings, translators, content reviewers |
-| **Related** | [PRD FR-2](PRD.md) · [Tech spec §4.4, §9](tech-spec.md) · [UX spec §9](ux-spec.md) · [KB schema](kb-schema.md) · [`data/glossary.json`](../data/glossary.json) (139 terms, `needs-review`) |
+| **Related** | [PRD FR-2](PRD.md) · [Tech spec §4.4, §9](tech-spec.md) · [UX spec §9](ux-spec.md) · [KB schema](kb-schema.md) · [`data/glossary.json`](../data/glossary.json) (161 terms, `needs-review`) |
 
 ---
 
@@ -29,7 +29,7 @@
 ### 2.1 Rules
 
 1. **Glossary first.** Every TCM term used in UI copy or KB prose must exist in `data/glossary.json` (zh-Hant ⇄ en ⇄ pinyin, `domain`, `status`). New copy that needs a new term adds it to the glossary in the same change.
-2. **English follows the WHO International Standard Terminologies on Traditional Medicine** (Western Pacific Region, 2007) wherever the term exists there; otherwise the established textbook term (WHO-style, lower-case); otherwise a literal gloss in quotation marks on first use plus pinyin. The chosen source is recorded per glossary row (`source`, to be added).
+2. **English follows the WHO International Standard Terminologies on Traditional Medicine** (Western Pacific Region, 2007) wherever the term exists there; otherwise the established textbook term (WHO-style, lower-case); otherwise a literal gloss in quotation marks on first use plus pinyin. The chosen source is recorded per glossary row (`source`: `who-istm-2007`, `textbook`, `project`; K-12).
 3. **Every term in the app can be shown as three layers:** Chinese · pinyin (tone marks, syllables separated: *pí qì xū*) · English. The UI shows the layer the user's language needs first and the others on demand (`<Term>` popover, UX spec §5).
 4. **Plain language before term.** Questions and explanations are written in everyday words; the TCM term is secondary (UX spec §9 rule 1).
 5. **One term, one translation, everywhere.** If two concepts would collide (e.g. 惡寒 *aversion to cold* vs 畏寒 *fear of cold*), the glossary keeps both and the UI uses the precise one.
@@ -132,7 +132,7 @@ Classical quotations: the English rendering is the **project's own translation**
 
 ### 4.4 Glossary file
 
-`data/glossary.json` item: `{ zh-Hant, en, pinyin, domain, status }` plus (to add) `source` (e.g. `WHO-ISTM-2007`, `textbook`, `project`), `alt` (accepted alternative English), `note`. Change control: glossary edits are reviewed like content ([content review](content-review.md)); changing an `en` term triggers the i18n lint over all strings and KB prose that use it.
+`data/glossary.json` item: `{ zh-Hant, en, pinyin, domain, status }` plus `source` (`who-istm-2007`, `textbook`, `project`), `alt` (accepted alternative English; the parenthetical of `en` counts too) and `note` (K-12). Change control: glossary edits are reviewed like content ([content review](content-review.md)); changing an `en` term triggers the i18n lint over all strings and KB prose that use it.
 
 ---
 
@@ -195,7 +195,7 @@ See [UX spec §6.3](ux-spec.md) for fonts. i18n-specific requirements:
 | Key parity zh-Hant ⇄ en per namespace | error |
 | Placeholder, tag and plural-key parity | error |
 | Forbidden wording (§5) in either language | error |
-| Glossary: a glossary `zh-Hant` term inside a zh string must be rendered with the glossary `en` in the paired en string (checked by term lookup, tolerant of inflection) | warning → error before release |
+| Glossary: a glossary `zh-Hant` term (two or more characters) inside a zh string must be rendered with the glossary `en` or an accepted alternative in the paired en string (checked by term lookup, longest term first, tolerant of an inflected ending; reasoned exceptions in `scripts/i18n-wording.json` → `glossaryAllow`) | **error** (the catalogs are clean; it was specified as warning → error before release) |
 | Length ratio outside 0.4–2.5 | warning |
 | Han–Latin spacing and full-width punctuation in zh strings | warning |
 | `en_status` of `machine-draft` for UI/notice strings at release time | error |
@@ -228,3 +228,5 @@ UI strings, disclaimers and all notices exist in both languages with `reviewed` 
 | Version | Date | Change |
 |---|---|---|
 | 0.1 | 2026-10-04 | Initial guide |
+
+> **Implementation (K-12).** The glossary rows carry `source`, `alt` and `note`; `source` is the *best-known* basis — the 90 terms the author knows to be the WHO ISTM (2007) wording are `who-istm-2007`, the BaZi / five-periods-and-six-qi / season / calendar glosses are `project`, the rest `textbook` — and **all rows stay `needs-review`**: the bilingual linguistic reviewer verifies the WHO alignment against the standard itself (V-06), which is not in the repository. 22 terms the UI copy needed were added (證型, 氣血, 臟腑, 穴位, 舌象, 中醫師, 惡寒 / 畏寒 kept apart, 自汗, 盜汗 …). `validate_kb` checks the glossary: pinyin with tone marks, alternatives that differ from the main English, and agreement with the names the data files use for the same term (patterns, formulas, constitutions, symptoms) — which found and fixed "coat" → "coating" in the tongue symptoms. `check-i18n` enforces conformance in the catalogs; checking it found an English notice (N-MINOR) that omitted a sentence the Chinese had, now corrected in the safety policy. The glossary popover (`<Term>`) shows the note.

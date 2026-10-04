@@ -1,982 +1,1696 @@
 {
   "_meta": {
-    "count": 139,
+    "count": 161,
     "description": "zh-Hant ⇄ English glossary (English follows WHO ISTM where known; needs review).",
     "schema": 1
   },
   "items": [
     {
+      "alt": [
+        "yin-yang"
+      ],
       "domain": "theory",
       "en": "yin and yang",
+      "note": null,
       "pinyin": "yīn yáng",
+      "source": "who-istm-2007",
       "status": "needs-review",
       "zh-Hant": "陰陽"
     },
     {
+      "alt": [],
       "domain": "theory",
       "en": "five phases (five elements)",
+      "note": null,
       "pinyin": "wǔ xíng",
+      "source": "who-istm-2007",
       "status": "needs-review",
       "zh-Hant": "五行"
     },
     {
+      "alt": [],
       "domain": "wuxing",
       "en": "wood",
+      "note": null,
       "pinyin": "mù",
+      "source": "who-istm-2007",
       "status": "needs-review",
       "zh-Hant": "木"
     },
     {
+      "alt": [],
       "domain": "wuxing",
       "en": "fire",
+      "note": null,
       "pinyin": "huǒ",
+      "source": "who-istm-2007",
       "status": "needs-review",
       "zh-Hant": "火"
     },
     {
+      "alt": [],
       "domain": "wuxing",
       "en": "earth",
+      "note": null,
       "pinyin": "tǔ",
+      "source": "who-istm-2007",
       "status": "needs-review",
       "zh-Hant": "土"
     },
     {
+      "alt": [],
       "domain": "wuxing",
       "en": "metal",
+      "note": null,
       "pinyin": "jīn",
+      "source": "who-istm-2007",
       "status": "needs-review",
       "zh-Hant": "金"
     },
     {
+      "alt": [],
       "domain": "wuxing",
       "en": "water",
+      "note": null,
       "pinyin": "shuǐ",
+      "source": "who-istm-2007",
       "status": "needs-review",
       "zh-Hant": "水"
     },
     {
+      "alt": [],
       "domain": "wuxing",
       "en": "generation (mutual promotion)",
+      "note": null,
       "pinyin": "xiāng shēng",
+      "source": "who-istm-2007",
       "status": "needs-review",
       "zh-Hant": "相生"
     },
     {
+      "alt": [],
       "domain": "wuxing",
       "en": "restraint (mutual control)",
+      "note": null,
       "pinyin": "xiāng kè",
+      "source": "who-istm-2007",
       "status": "needs-review",
       "zh-Hant": "相克"
     },
     {
+      "alt": [],
       "domain": "wuxing",
       "en": "over-restraint",
+      "note": null,
       "pinyin": "xiāng chéng",
+      "source": "who-istm-2007",
       "status": "needs-review",
       "zh-Hant": "相乘"
     },
     {
+      "alt": [],
       "domain": "wuxing",
       "en": "counter-restraint (insult)",
+      "note": null,
       "pinyin": "xiāng wǔ",
+      "source": "who-istm-2007",
       "status": "needs-review",
       "zh-Hant": "相侮"
     },
     {
+      "alt": [],
       "domain": "wuxing",
       "en": "disorder of the mother affecting the child",
+      "note": null,
       "pinyin": "mǔ bìng jí zǐ",
+      "source": "textbook",
       "status": "needs-review",
       "zh-Hant": "母病及子"
     },
     {
+      "alt": [],
       "domain": "wuxing",
       "en": "child draining the mother's qi",
+      "note": null,
       "pinyin": "zǐ dào mǔ qì",
+      "source": "textbook",
       "status": "needs-review",
       "zh-Hant": "子盜母氣"
     },
     {
+      "alt": [],
       "domain": "zangfu",
       "en": "liver",
+      "note": null,
       "pinyin": "gān",
+      "source": "who-istm-2007",
       "status": "needs-review",
       "zh-Hant": "肝"
     },
     {
+      "alt": [],
       "domain": "zangfu",
       "en": "heart",
+      "note": null,
       "pinyin": "xīn",
+      "source": "who-istm-2007",
       "status": "needs-review",
       "zh-Hant": "心"
     },
     {
+      "alt": [],
       "domain": "zangfu",
       "en": "spleen",
+      "note": null,
       "pinyin": "pí",
+      "source": "who-istm-2007",
       "status": "needs-review",
       "zh-Hant": "脾"
     },
     {
+      "alt": [],
       "domain": "zangfu",
       "en": "lung",
+      "note": null,
       "pinyin": "fèi",
+      "source": "who-istm-2007",
       "status": "needs-review",
       "zh-Hant": "肺"
     },
     {
+      "alt": [],
       "domain": "zangfu",
       "en": "kidney",
+      "note": null,
       "pinyin": "shèn",
+      "source": "who-istm-2007",
       "status": "needs-review",
       "zh-Hant": "腎"
     },
     {
+      "alt": [],
       "domain": "zangfu",
       "en": "gallbladder",
+      "note": null,
       "pinyin": "dǎn",
+      "source": "who-istm-2007",
       "status": "needs-review",
       "zh-Hant": "膽"
     },
     {
+      "alt": [],
       "domain": "zangfu",
       "en": "small intestine",
+      "note": null,
       "pinyin": "xiǎo cháng",
+      "source": "who-istm-2007",
       "status": "needs-review",
       "zh-Hant": "小腸"
     },
     {
+      "alt": [],
       "domain": "zangfu",
       "en": "stomach",
+      "note": null,
       "pinyin": "wèi",
+      "source": "who-istm-2007",
       "status": "needs-review",
       "zh-Hant": "胃"
     },
     {
+      "alt": [],
       "domain": "zangfu",
       "en": "large intestine",
+      "note": null,
       "pinyin": "dà cháng",
+      "source": "who-istm-2007",
       "status": "needs-review",
       "zh-Hant": "大腸"
     },
     {
+      "alt": [],
       "domain": "zangfu",
       "en": "bladder",
+      "note": null,
       "pinyin": "páng guāng",
+      "source": "who-istm-2007",
       "status": "needs-review",
       "zh-Hant": "膀胱"
     },
     {
+      "alt": [],
       "domain": "substance",
       "en": "qi",
+      "note": null,
       "pinyin": "qì",
+      "source": "who-istm-2007",
       "status": "needs-review",
       "zh-Hant": "氣"
     },
     {
+      "alt": [],
       "domain": "substance",
       "en": "blood",
+      "note": null,
       "pinyin": "xuè",
+      "source": "who-istm-2007",
       "status": "needs-review",
       "zh-Hant": "血"
     },
     {
+      "alt": [],
       "domain": "substance",
       "en": "body fluids",
+      "note": null,
       "pinyin": "jīn yè",
+      "source": "who-istm-2007",
       "status": "needs-review",
       "zh-Hant": "津液"
     },
     {
+      "alt": [],
       "domain": "substance",
       "en": "essence",
+      "note": null,
       "pinyin": "jīng",
+      "source": "who-istm-2007",
       "status": "needs-review",
       "zh-Hant": "精"
     },
     {
+      "alt": [],
       "domain": "substance",
       "en": "spirit (shen)",
+      "note": null,
       "pinyin": "shén",
+      "source": "textbook",
       "status": "needs-review",
       "zh-Hant": "神"
     },
     {
+      "alt": [],
       "domain": "diagnosis",
       "en": "four examinations",
+      "note": null,
       "pinyin": "sì zhěn",
+      "source": "who-istm-2007",
       "status": "needs-review",
       "zh-Hant": "四診"
     },
     {
+      "alt": [
+        "observation"
+      ],
       "domain": "diagnosis",
       "en": "inspection",
+      "note": null,
       "pinyin": "wàng zhěn",
+      "source": "who-istm-2007",
       "status": "needs-review",
       "zh-Hant": "望診"
     },
     {
+      "alt": [],
       "domain": "diagnosis",
       "en": "listening and smelling examination",
+      "note": null,
       "pinyin": "wén zhěn",
+      "source": "who-istm-2007",
       "status": "needs-review",
       "zh-Hant": "聞診"
     },
     {
+      "alt": [
+        "questions",
+        "questionnaire",
+        "questioning"
+      ],
       "domain": "diagnosis",
       "en": "inquiry",
+      "note": null,
       "pinyin": "wèn zhěn",
+      "source": "who-istm-2007",
       "status": "needs-review",
       "zh-Hant": "問診"
     },
     {
+      "alt": [
+        "pulse"
+      ],
       "domain": "diagnosis",
       "en": "palpation (pulse-taking)",
+      "note": null,
       "pinyin": "qiè zhěn",
+      "source": "who-istm-2007",
       "status": "needs-review",
       "zh-Hant": "切診"
     },
     {
+      "alt": [],
       "domain": "diagnosis",
       "en": "ten questions mnemonic",
+      "note": null,
       "pinyin": "shí wèn gē",
+      "source": "textbook",
       "status": "needs-review",
       "zh-Hant": "十問歌"
     },
     {
+      "alt": [],
       "domain": "diagnosis",
       "en": "pattern differentiation and treatment determination",
+      "note": null,
       "pinyin": "biàn zhèng lùn zhì",
+      "source": "who-istm-2007",
       "status": "needs-review",
       "zh-Hant": "辨證論治"
     },
     {
+      "alt": [],
       "domain": "diagnosis",
       "en": "pattern (syndrome)",
+      "note": null,
       "pinyin": "zhèng",
+      "source": "who-istm-2007",
       "status": "needs-review",
       "zh-Hant": "證"
     },
     {
+      "alt": [],
       "domain": "diagnosis",
       "en": "pattern element",
+      "note": null,
       "pinyin": "zhèng sù",
+      "source": "textbook",
       "status": "needs-review",
       "zh-Hant": "證素"
     },
     {
+      "alt": [],
       "domain": "diagnosis",
       "en": "disease location",
+      "note": null,
       "pinyin": "bìng wèi",
+      "source": "textbook",
       "status": "needs-review",
       "zh-Hant": "病位"
     },
     {
+      "alt": [],
       "domain": "diagnosis",
       "en": "disease nature",
+      "note": null,
       "pinyin": "bìng xìng",
+      "source": "textbook",
       "status": "needs-review",
       "zh-Hant": "病性"
     },
     {
+      "alt": [],
       "domain": "diagnosis",
       "en": "eight principles",
+      "note": null,
       "pinyin": "bā gāng",
+      "source": "who-istm-2007",
       "status": "needs-review",
       "zh-Hant": "八綱"
     },
     {
+      "alt": [],
       "domain": "bagang",
       "en": "exterior",
+      "note": null,
       "pinyin": "biǎo",
+      "source": "who-istm-2007",
       "status": "needs-review",
       "zh-Hant": "表"
     },
     {
+      "alt": [],
       "domain": "bagang",
       "en": "interior",
+      "note": null,
       "pinyin": "lǐ",
+      "source": "who-istm-2007",
       "status": "needs-review",
       "zh-Hant": "裡"
     },
     {
+      "alt": [],
       "domain": "bagang",
       "en": "cold",
+      "note": null,
       "pinyin": "hán",
+      "source": "who-istm-2007",
       "status": "needs-review",
       "zh-Hant": "寒"
     },
     {
+      "alt": [],
       "domain": "bagang",
       "en": "heat",
+      "note": null,
       "pinyin": "rè",
+      "source": "who-istm-2007",
       "status": "needs-review",
       "zh-Hant": "熱"
     },
     {
+      "alt": [],
       "domain": "bagang",
       "en": "deficiency",
+      "note": null,
       "pinyin": "xū",
+      "source": "who-istm-2007",
       "status": "needs-review",
       "zh-Hant": "虛"
     },
     {
+      "alt": [],
       "domain": "bagang",
       "en": "excess",
+      "note": null,
       "pinyin": "shí",
+      "source": "who-istm-2007",
       "status": "needs-review",
       "zh-Hant": "實"
     },
     {
+      "alt": [],
       "domain": "liuxie",
       "en": "wind",
+      "note": null,
       "pinyin": "fēng",
+      "source": "who-istm-2007",
       "status": "needs-review",
       "zh-Hant": "風"
     },
     {
+      "alt": [],
       "domain": "liuxie",
       "en": "summer-heat",
+      "note": null,
       "pinyin": "shǔ",
+      "source": "who-istm-2007",
       "status": "needs-review",
       "zh-Hant": "暑"
     },
     {
+      "alt": [],
       "domain": "liuxie",
       "en": "dampness",
+      "note": null,
       "pinyin": "shī",
+      "source": "who-istm-2007",
       "status": "needs-review",
       "zh-Hant": "濕"
     },
     {
+      "alt": [],
       "domain": "liuxie",
       "en": "dryness",
+      "note": null,
       "pinyin": "zào",
+      "source": "who-istm-2007",
       "status": "needs-review",
       "zh-Hant": "燥"
     },
     {
+      "alt": [],
       "domain": "liuxie",
       "en": "fire (heat)",
+      "note": null,
       "pinyin": "huǒ",
+      "source": "who-istm-2007",
       "status": "needs-review",
       "zh-Hant": "火"
     },
     {
+      "alt": [],
       "domain": "liuxie",
       "en": "six climatic pathogenic factors",
+      "note": null,
       "pinyin": "liù yín",
+      "source": "who-istm-2007",
       "status": "needs-review",
       "zh-Hant": "六淫"
     },
     {
+      "alt": [],
       "domain": "product",
       "en": "phlegm",
+      "note": null,
       "pinyin": "tán",
+      "source": "who-istm-2007",
       "status": "needs-review",
       "zh-Hant": "痰"
     },
     {
+      "alt": [],
       "domain": "product",
       "en": "fluid-retention (rheum)",
+      "note": null,
       "pinyin": "yǐn",
+      "source": "who-istm-2007",
       "status": "needs-review",
       "zh-Hant": "飲"
     },
     {
+      "alt": [],
       "domain": "product",
       "en": "blood stasis",
+      "note": null,
       "pinyin": "yū",
+      "source": "who-istm-2007",
       "status": "needs-review",
       "zh-Hant": "瘀"
     },
     {
+      "alt": [
+        "food retention"
+      ],
       "domain": "product",
       "en": "food stagnation",
+      "note": null,
       "pinyin": "shí jī",
+      "source": "textbook",
       "status": "needs-review",
       "zh-Hant": "食積"
     },
     {
+      "alt": [],
       "domain": "product",
       "en": "qi stagnation",
+      "note": null,
       "pinyin": "qì zhì",
+      "source": "who-istm-2007",
       "status": "needs-review",
       "zh-Hant": "氣滯"
     },
     {
+      "alt": [],
       "domain": "nature",
       "en": "qi deficiency",
+      "note": null,
       "pinyin": "qì xū",
+      "source": "who-istm-2007",
       "status": "needs-review",
       "zh-Hant": "氣虛"
     },
     {
+      "alt": [],
       "domain": "nature",
       "en": "blood deficiency",
+      "note": null,
       "pinyin": "xuè xū",
+      "source": "who-istm-2007",
       "status": "needs-review",
       "zh-Hant": "血虛"
     },
     {
+      "alt": [],
       "domain": "nature",
       "en": "yin deficiency",
+      "note": null,
       "pinyin": "yīn xū",
+      "source": "who-istm-2007",
       "status": "needs-review",
       "zh-Hant": "陰虛"
     },
     {
+      "alt": [],
       "domain": "nature",
       "en": "yang deficiency",
+      "note": null,
       "pinyin": "yáng xū",
+      "source": "who-istm-2007",
       "status": "needs-review",
       "zh-Hant": "陽虛"
     },
     {
+      "alt": [
+        "constitutional"
+      ],
       "domain": "constitution",
       "en": "constitution",
+      "note": null,
       "pinyin": "tǐ zhì",
+      "source": "who-istm-2007",
       "status": "needs-review",
       "zh-Hant": "體質"
     },
     {
+      "alt": [
+        "Balanced"
+      ],
       "domain": "constitution",
       "en": "balanced constitution",
+      "note": null,
       "pinyin": "píng hé zhì",
+      "source": "textbook",
       "status": "needs-review",
       "zh-Hant": "平和質"
     },
     {
+      "alt": [
+        "Qi deficiency"
+      ],
       "domain": "constitution",
       "en": "qi-deficiency constitution",
+      "note": null,
       "pinyin": "qì xū zhì",
+      "source": "textbook",
       "status": "needs-review",
       "zh-Hant": "氣虛質"
     },
     {
+      "alt": [
+        "Yang deficiency"
+      ],
       "domain": "constitution",
       "en": "yang-deficiency constitution",
+      "note": null,
       "pinyin": "yáng xū zhì",
+      "source": "textbook",
       "status": "needs-review",
       "zh-Hant": "陽虛質"
     },
     {
+      "alt": [
+        "Yin deficiency"
+      ],
       "domain": "constitution",
       "en": "yin-deficiency constitution",
+      "note": null,
       "pinyin": "yīn xū zhì",
+      "source": "textbook",
       "status": "needs-review",
       "zh-Hant": "陰虛質"
     },
     {
+      "alt": [
+        "Phlegm-dampness"
+      ],
       "domain": "constitution",
       "en": "phlegm-dampness constitution",
+      "note": null,
       "pinyin": "tán shī zhì",
+      "source": "textbook",
       "status": "needs-review",
       "zh-Hant": "痰濕質"
     },
     {
+      "alt": [
+        "Damp-heat"
+      ],
       "domain": "constitution",
       "en": "damp-heat constitution",
+      "note": null,
       "pinyin": "shī rè zhì",
+      "source": "textbook",
       "status": "needs-review",
       "zh-Hant": "濕熱質"
     },
     {
+      "alt": [
+        "Blood stasis"
+      ],
       "domain": "constitution",
       "en": "blood-stasis constitution",
+      "note": null,
       "pinyin": "xuè yū zhì",
+      "source": "textbook",
       "status": "needs-review",
       "zh-Hant": "血瘀質"
     },
     {
+      "alt": [
+        "Qi stagnation"
+      ],
       "domain": "constitution",
       "en": "qi-stagnation constitution",
+      "note": null,
       "pinyin": "qì yù zhì",
+      "source": "textbook",
       "status": "needs-review",
       "zh-Hant": "氣鬱質"
     },
     {
+      "alt": [],
       "domain": "constitution",
       "en": "special (allergic) diathesis",
+      "note": null,
       "pinyin": "tè bǐng zhì",
+      "source": "textbook",
       "status": "needs-review",
       "zh-Hant": "特稟質"
     },
     {
+      "alt": [],
       "domain": "tongue",
       "en": "tongue body",
+      "note": null,
       "pinyin": "shé zhì",
+      "source": "who-istm-2007",
       "status": "needs-review",
       "zh-Hant": "舌質"
     },
     {
+      "alt": [
+        "coating"
+      ],
       "domain": "tongue",
       "en": "tongue coating",
+      "note": "On the tongue screens the word \"coating\" alone is clear.",
       "pinyin": "shé tāi",
+      "source": "who-istm-2007",
       "status": "needs-review",
       "zh-Hant": "舌苔"
     },
     {
+      "alt": [],
       "domain": "tongue",
       "en": "tooth marks",
+      "note": null,
       "pinyin": "chǐ hén",
+      "source": "who-istm-2007",
       "status": "needs-review",
       "zh-Hant": "齒痕"
     },
     {
+      "alt": [],
       "domain": "tongue",
       "en": "cracks",
+      "note": null,
       "pinyin": "liè wén",
+      "source": "who-istm-2007",
       "status": "needs-review",
       "zh-Hant": "裂紋"
     },
     {
+      "alt": [],
       "domain": "tongue",
       "en": "prickles (red dots)",
+      "note": null,
       "pinyin": "máng cì",
+      "source": "textbook",
       "status": "needs-review",
       "zh-Hant": "芒刺"
     },
     {
+      "alt": [],
       "domain": "tongue",
       "en": "ecchymosis",
+      "note": null,
       "pinyin": "yū bān",
+      "source": "textbook",
       "status": "needs-review",
       "zh-Hant": "瘀斑"
     },
     {
+      "alt": [],
       "domain": "tongue",
       "en": "sublingual veins",
+      "note": null,
       "pinyin": "shé xià luò mài",
+      "source": "textbook",
       "status": "needs-review",
       "zh-Hant": "舌下絡脈"
     },
     {
+      "alt": [],
       "domain": "tongue",
       "en": "tongue tip",
+      "note": null,
       "pinyin": "shé jiān",
+      "source": "textbook",
       "status": "needs-review",
       "zh-Hant": "舌尖"
     },
     {
+      "alt": [],
       "domain": "tongue",
       "en": "tongue root",
+      "note": null,
       "pinyin": "shé gēn",
+      "source": "textbook",
       "status": "needs-review",
       "zh-Hant": "舌根"
     },
     {
+      "alt": [],
       "domain": "tongue",
       "en": "thin white coating",
+      "note": null,
       "pinyin": "báo bái tāi",
+      "source": "textbook",
       "status": "needs-review",
       "zh-Hant": "薄白苔"
     },
     {
+      "alt": [],
       "domain": "tongue",
       "en": "greasy coating",
+      "note": null,
       "pinyin": "nì tāi",
+      "source": "textbook",
       "status": "needs-review",
       "zh-Hant": "膩苔"
     },
     {
+      "alt": [],
       "domain": "tongue",
       "en": "peeled coating",
+      "note": null,
       "pinyin": "bō tāi",
+      "source": "textbook",
       "status": "needs-review",
       "zh-Hant": "剝苔"
     },
     {
+      "alt": [
+        "pulse"
+      ],
       "domain": "pulse",
       "en": "pulse quality",
+      "note": null,
       "pinyin": "mài xiàng",
+      "source": "textbook",
       "status": "needs-review",
       "zh-Hant": "脈象"
     },
     {
+      "alt": [],
       "domain": "pulse",
       "en": "cun, guan, chi positions",
+      "note": null,
       "pinyin": "cùn guān chǐ",
+      "source": "textbook",
       "status": "needs-review",
       "zh-Hant": "寸關尺"
     },
     {
+      "alt": [],
       "domain": "pulse",
       "en": "floating pulse",
+      "note": null,
       "pinyin": "fú mài",
+      "source": "who-istm-2007",
       "status": "needs-review",
       "zh-Hant": "浮脈"
     },
     {
+      "alt": [],
       "domain": "pulse",
       "en": "deep pulse",
+      "note": null,
       "pinyin": "chén mài",
+      "source": "who-istm-2007",
       "status": "needs-review",
       "zh-Hant": "沉脈"
     },
     {
+      "alt": [],
       "domain": "pulse",
       "en": "slow pulse",
+      "note": null,
       "pinyin": "chí mài",
+      "source": "who-istm-2007",
       "status": "needs-review",
       "zh-Hant": "遲脈"
     },
     {
+      "alt": [],
       "domain": "pulse",
       "en": "rapid pulse",
+      "note": null,
       "pinyin": "shuò mài",
+      "source": "who-istm-2007",
       "status": "needs-review",
       "zh-Hant": "數脈"
     },
     {
+      "alt": [],
       "domain": "pulse",
       "en": "slippery pulse",
+      "note": null,
       "pinyin": "huá mài",
+      "source": "who-istm-2007",
       "status": "needs-review",
       "zh-Hant": "滑脈"
     },
     {
+      "alt": [],
       "domain": "pulse",
       "en": "choppy pulse",
+      "note": null,
       "pinyin": "sè mài",
+      "source": "who-istm-2007",
       "status": "needs-review",
       "zh-Hant": "澀脈"
     },
     {
+      "alt": [],
       "domain": "pulse",
       "en": "wiry pulse",
+      "note": null,
       "pinyin": "xián mài",
+      "source": "who-istm-2007",
       "status": "needs-review",
       "zh-Hant": "弦脈"
     },
     {
+      "alt": [],
       "domain": "pulse",
       "en": "thin pulse",
+      "note": null,
       "pinyin": "xì mài",
+      "source": "textbook",
       "status": "needs-review",
       "zh-Hant": "細脈"
     },
     {
+      "alt": [],
       "domain": "pulse",
       "en": "surging pulse",
+      "note": null,
       "pinyin": "hóng mài",
+      "source": "who-istm-2007",
       "status": "needs-review",
       "zh-Hant": "洪脈"
     },
     {
+      "alt": [],
       "domain": "pulse",
       "en": "tight pulse",
+      "note": null,
       "pinyin": "jǐn mài",
+      "source": "who-istm-2007",
       "status": "needs-review",
       "zh-Hant": "緊脈"
     },
     {
+      "alt": [],
       "domain": "pulse",
       "en": "moderate pulse",
+      "note": null,
       "pinyin": "huǎn mài",
+      "source": "who-istm-2007",
       "status": "needs-review",
       "zh-Hant": "緩脈"
     },
     {
+      "alt": [],
       "domain": "pulse",
       "en": "soggy pulse",
+      "note": null,
       "pinyin": "rú mài",
+      "source": "who-istm-2007",
       "status": "needs-review",
       "zh-Hant": "濡脈"
     },
     {
+      "alt": [],
       "domain": "pulse",
       "en": "weak pulse",
+      "note": null,
       "pinyin": "ruò mài",
+      "source": "who-istm-2007",
       "status": "needs-review",
       "zh-Hant": "弱脈"
     },
     {
+      "alt": [],
       "domain": "pulse",
       "en": "knotted pulse",
+      "note": null,
       "pinyin": "jié mài",
+      "source": "who-istm-2007",
       "status": "needs-review",
       "zh-Hant": "結脈"
     },
     {
+      "alt": [],
       "domain": "pulse",
       "en": "regularly intermittent pulse",
+      "note": null,
       "pinyin": "dài mài",
+      "source": "who-istm-2007",
       "status": "needs-review",
       "zh-Hant": "代脈"
     },
     {
+      "alt": [],
       "domain": "pulse",
       "en": "rapid-irregular pulse",
+      "note": null,
       "pinyin": "cù mài",
+      "source": "who-istm-2007",
       "status": "needs-review",
       "zh-Hant": "促脈"
     },
     {
+      "alt": [
+        "direction of care"
+      ],
       "domain": "treatment",
       "en": "treatment principle",
+      "note": "The app says \"direction of care\" in the result so that it does not read as a treatment instruction.",
       "pinyin": "zhì zé",
+      "source": "textbook",
       "status": "needs-review",
       "zh-Hant": "治則"
     },
     {
+      "alt": [],
       "domain": "treatment",
       "en": "treatment method",
+      "note": null,
       "pinyin": "zhì fǎ",
+      "source": "textbook",
       "status": "needs-review",
       "zh-Hant": "治法"
     },
     {
+      "alt": [],
       "domain": "treatment",
       "en": "treat the root",
+      "note": null,
       "pinyin": "zhì bìng qiú běn",
+      "source": "textbook",
       "status": "needs-review",
       "zh-Hant": "治病求本"
     },
     {
+      "alt": [],
       "domain": "treatment",
       "en": "priority of root and branch",
+      "note": null,
       "pinyin": "biāo běn huǎn jí",
+      "source": "textbook",
       "status": "needs-review",
       "zh-Hant": "標本緩急"
     },
     {
+      "alt": [],
       "domain": "treatment",
       "en": "treatment adapted to person, time and place",
+      "note": null,
       "pinyin": "sān yīn zhì yí",
+      "source": "textbook",
       "status": "needs-review",
       "zh-Hant": "三因制宜"
     },
     {
+      "alt": [],
       "domain": "treatment",
       "en": "preventive treatment",
+      "note": null,
       "pinyin": "zhì wèi bìng",
+      "source": "textbook",
       "status": "needs-review",
       "zh-Hant": "治未病"
     },
     {
+      "alt": [],
       "domain": "treatment",
       "en": "eight methods",
+      "note": null,
       "pinyin": "bā fǎ",
+      "source": "textbook",
       "status": "needs-review",
       "zh-Hant": "八法"
     },
     {
+      "alt": [],
       "domain": "treatment",
       "en": "diaphoresis",
+      "note": null,
       "pinyin": "hàn fǎ",
+      "source": "textbook",
       "status": "needs-review",
       "zh-Hant": "汗法"
     },
     {
+      "alt": [],
       "domain": "treatment",
       "en": "harmonising",
+      "note": null,
       "pinyin": "hé fǎ",
+      "source": "textbook",
       "status": "needs-review",
       "zh-Hant": "和法"
     },
     {
+      "alt": [],
       "domain": "treatment",
       "en": "warming",
+      "note": null,
       "pinyin": "wēn fǎ",
+      "source": "textbook",
       "status": "needs-review",
       "zh-Hant": "溫法"
     },
     {
+      "alt": [],
       "domain": "treatment",
       "en": "clearing",
+      "note": null,
       "pinyin": "qīng fǎ",
+      "source": "textbook",
       "status": "needs-review",
       "zh-Hant": "清法"
     },
     {
+      "alt": [],
       "domain": "treatment",
       "en": "dispersing",
+      "note": null,
       "pinyin": "xiāo fǎ",
+      "source": "textbook",
       "status": "needs-review",
       "zh-Hant": "消法"
     },
     {
+      "alt": [],
       "domain": "treatment",
       "en": "tonifying",
+      "note": null,
       "pinyin": "bǔ fǎ",
+      "source": "textbook",
       "status": "needs-review",
       "zh-Hant": "補法"
     },
     {
+      "alt": [],
       "domain": "formula",
       "en": "formula",
+      "note": null,
       "pinyin": "fāng jì",
+      "source": "textbook",
       "status": "needs-review",
       "zh-Hant": "方劑"
     },
     {
+      "alt": [],
       "domain": "formula",
       "en": "sovereign, minister, assistant, envoy",
+      "note": null,
       "pinyin": "jūn chén zuǒ shǐ",
+      "source": "who-istm-2007",
       "status": "needs-review",
       "zh-Hant": "君臣佐使"
     },
     {
+      "alt": [],
       "domain": "formula",
       "en": "classical formula",
+      "note": null,
       "pinyin": "jīng fāng",
+      "source": "textbook",
       "status": "needs-review",
       "zh-Hant": "經方"
     },
     {
+      "alt": [
+        "later formula"
+      ],
       "domain": "formula",
       "en": "later-period formula",
+      "note": null,
       "pinyin": "shí fāng",
+      "source": "textbook",
       "status": "needs-review",
       "zh-Hant": "時方"
     },
     {
+      "alt": [],
       "domain": "formula",
       "en": "modification (addition and subtraction)",
+      "note": null,
       "pinyin": "jiā jiǎn",
+      "source": "textbook",
       "status": "needs-review",
       "zh-Hant": "加減"
     },
     {
+      "alt": [],
       "domain": "herb",
       "en": "four natures",
+      "note": null,
       "pinyin": "sì qì",
+      "source": "who-istm-2007",
       "status": "needs-review",
       "zh-Hant": "四氣"
     },
     {
+      "alt": [],
       "domain": "herb",
       "en": "five flavours",
+      "note": null,
       "pinyin": "wǔ wèi",
+      "source": "who-istm-2007",
       "status": "needs-review",
       "zh-Hant": "五味"
     },
     {
+      "alt": [],
       "domain": "herb",
       "en": "channel tropism",
+      "note": null,
       "pinyin": "guī jīng",
+      "source": "who-istm-2007",
       "status": "needs-review",
       "zh-Hant": "歸經"
     },
     {
+      "alt": [],
       "domain": "herb",
       "en": "ascending, descending, floating, sinking",
+      "note": null,
       "pinyin": "shēng jiàng fú chén",
+      "source": "textbook",
       "status": "needs-review",
       "zh-Hant": "升降浮沉"
     },
     {
+      "alt": [],
       "domain": "herb",
       "en": "eighteen incompatibilities",
+      "note": null,
       "pinyin": "shí bā fǎn",
+      "source": "who-istm-2007",
       "status": "needs-review",
       "zh-Hant": "十八反"
     },
     {
+      "alt": [],
       "domain": "herb",
       "en": "nineteen antagonisms",
+      "note": null,
       "pinyin": "shí jiǔ wèi",
+      "source": "who-istm-2007",
       "status": "needs-review",
       "zh-Hant": "十九畏"
     },
     {
+      "alt": [],
       "domain": "yunqi",
       "en": "five periods and six qi",
+      "note": null,
       "pinyin": "yùn qì",
+      "source": "project",
       "status": "needs-review",
       "zh-Hant": "運氣"
     },
     {
+      "alt": [],
       "domain": "yunqi",
       "en": "annual phase (central period)",
+      "note": null,
       "pinyin": "suì yùn",
+      "source": "project",
       "status": "needs-review",
       "zh-Hant": "歲運"
     },
     {
+      "alt": [],
       "domain": "yunqi",
       "en": "qi governing heaven",
+      "note": null,
       "pinyin": "sī tiān",
+      "source": "project",
       "status": "needs-review",
       "zh-Hant": "司天"
     },
     {
+      "alt": [],
       "domain": "yunqi",
       "en": "qi at the spring (below)",
+      "note": null,
       "pinyin": "zài quán",
+      "source": "project",
       "status": "needs-review",
       "zh-Hant": "在泉"
     },
     {
+      "alt": [],
       "domain": "yunqi",
       "en": "host qi",
+      "note": null,
       "pinyin": "zhǔ qì",
+      "source": "project",
       "status": "needs-review",
       "zh-Hant": "主氣"
     },
     {
+      "alt": [],
       "domain": "yunqi",
       "en": "guest qi",
+      "note": null,
       "pinyin": "kè qì",
+      "source": "project",
       "status": "needs-review",
       "zh-Hant": "客氣"
     },
     {
+      "alt": [],
       "domain": "calendar",
       "en": "solar term",
+      "note": null,
       "pinyin": "jié qì",
+      "source": "project",
       "status": "needs-review",
       "zh-Hant": "節氣"
     },
     {
+      "alt": [],
       "domain": "bazi",
       "en": "four pillars (BaZi)",
+      "note": null,
       "pinyin": "sì zhù",
+      "source": "project",
       "status": "needs-review",
       "zh-Hant": "四柱"
     },
     {
+      "alt": [
+        "birth chart"
+      ],
       "domain": "bazi",
       "en": "eight characters (BaZi)",
+      "note": "The app says \"birth chart\" for the whole feature; the four pillars are shown only as a derived panel.",
       "pinyin": "bā zì",
+      "source": "project",
       "status": "needs-review",
       "zh-Hant": "八字"
     },
     {
+      "alt": [],
       "domain": "bazi",
       "en": "decade luck cycle",
+      "note": null,
       "pinyin": "dà yùn",
+      "source": "project",
       "status": "needs-review",
       "zh-Hant": "大運"
     },
     {
+      "alt": [],
       "domain": "bazi",
       "en": "annual cycle",
+      "note": null,
       "pinyin": "liú nián",
+      "source": "project",
       "status": "needs-review",
       "zh-Hant": "流年"
     },
     {
+      "alt": [],
       "domain": "bazi",
       "en": "commanding hidden stem",
+      "note": null,
       "pinyin": "sī lìng",
+      "source": "project",
       "status": "needs-review",
       "zh-Hant": "司令"
     },
     {
+      "alt": [],
       "domain": "season",
       "en": "regulating the spirit in accordance with the four seasons",
+      "note": null,
       "pinyin": "sì qì tiáo shén",
+      "source": "project",
       "status": "needs-review",
       "zh-Hant": "四氣調神"
     },
     {
+      "alt": [],
       "domain": "season",
       "en": "late summer",
+      "note": null,
       "pinyin": "cháng xià",
+      "source": "project",
       "status": "needs-review",
       "zh-Hant": "長夏"
+    },
+    {
+      "alt": [
+        "pattern",
+        "pattern/syndrome"
+      ],
+      "domain": "diagnosis",
+      "en": "pattern type",
+      "note": "The usual everyday word for the pattern a person leans towards; \"pattern\" alone is the WHO term for 證.",
+      "pinyin": "zhèng xíng",
+      "source": "textbook",
+      "status": "needs-review",
+      "zh-Hant": "證型"
+    },
+    {
+      "alt": [],
+      "domain": "diagnosis",
+      "en": "pattern differentiation",
+      "note": null,
+      "pinyin": "biàn zhèng",
+      "source": "who-istm-2007",
+      "status": "needs-review",
+      "zh-Hant": "辨證"
+    },
+    {
+      "alt": [],
+      "domain": "substance",
+      "en": "qi and blood",
+      "note": null,
+      "pinyin": "qì xuè",
+      "source": "who-istm-2007",
+      "status": "needs-review",
+      "zh-Hant": "氣血"
+    },
+    {
+      "alt": [
+        "zang-fu",
+        "organs",
+        "organ"
+      ],
+      "domain": "zangfu",
+      "en": "zang-fu organs (viscera)",
+      "note": "Functional systems, not the anatomical organs.",
+      "pinyin": "zàng fǔ",
+      "source": "textbook",
+      "status": "needs-review",
+      "zh-Hant": "臟腑"
+    },
+    {
+      "alt": [
+        "meridians"
+      ],
+      "domain": "theory",
+      "en": "channels and collaterals",
+      "note": "\"Meridian\" is the common loan; WHO uses \"channels and collaterals\".",
+      "pinyin": "jīng luò",
+      "source": "who-istm-2007",
+      "status": "needs-review",
+      "zh-Hant": "經絡"
+    },
+    {
+      "alt": [
+        "acupoint",
+        "acupressure point",
+        "acupressure"
+      ],
+      "domain": "treatment",
+      "en": "acupuncture point (acupoint)",
+      "note": null,
+      "pinyin": "xué wèi",
+      "source": "textbook",
+      "status": "needs-review",
+      "zh-Hant": "穴位"
+    },
+    {
+      "alt": [
+        "tongue picture",
+        "tongue"
+      ],
+      "domain": "tongue",
+      "en": "tongue appearance",
+      "note": null,
+      "pinyin": "shé xiàng",
+      "source": "textbook",
+      "status": "needs-review",
+      "zh-Hant": "舌象"
+    },
+    {
+      "alt": [
+        "cold-heat"
+      ],
+      "domain": "bagang",
+      "en": "cold and heat",
+      "note": null,
+      "pinyin": "hán rè",
+      "source": "who-istm-2007",
+      "status": "needs-review",
+      "zh-Hant": "寒熱"
+    },
+    {
+      "alt": [
+        "deficiency-excess"
+      ],
+      "domain": "bagang",
+      "en": "deficiency and excess",
+      "note": null,
+      "pinyin": "xū shí",
+      "source": "who-istm-2007",
+      "status": "needs-review",
+      "zh-Hant": "虛實"
+    },
+    {
+      "alt": [
+        "exterior-interior"
+      ],
+      "domain": "bagang",
+      "en": "exterior and interior",
+      "note": null,
+      "pinyin": "biǎo lǐ",
+      "source": "who-istm-2007",
+      "status": "needs-review",
+      "zh-Hant": "表裡"
+    },
+    {
+      "alt": [
+        "TCM",
+        "Chinese medicine"
+      ],
+      "domain": "theory",
+      "en": "traditional Chinese medicine",
+      "note": null,
+      "pinyin": "zhōng yī",
+      "source": "textbook",
+      "status": "needs-review",
+      "zh-Hant": "中醫"
+    },
+    {
+      "alt": [
+        "practitioner",
+        "licensed practitioner",
+        "qualified practitioner",
+        "traditional Chinese medicine practitioner"
+      ],
+      "domain": "diagnosis",
+      "en": "TCM practitioner",
+      "note": "The app never says \"TCM doctor\": a practitioner is a licensed person, not the app.",
+      "pinyin": "zhōng yī shī",
+      "source": "textbook",
+      "status": "needs-review",
+      "zh-Hant": "中醫師"
+    },
+    {
+      "alt": [
+        "herb",
+        "medicinal material"
+      ],
+      "domain": "herb",
+      "en": "herbal material",
+      "note": null,
+      "pinyin": "yào cái",
+      "source": "textbook",
+      "status": "needs-review",
+      "zh-Hant": "藥材"
+    },
+    {
+      "alt": [],
+      "domain": "diagnosis",
+      "en": "aversion to cold",
+      "note": "Not relieved by adding clothes; distinct from 畏寒.",
+      "pinyin": "wù hán",
+      "source": "who-istm-2007",
+      "status": "needs-review",
+      "zh-Hant": "惡寒"
+    },
+    {
+      "alt": [
+        "fear of cold"
+      ],
+      "domain": "diagnosis",
+      "en": "cold intolerance (fear of cold)",
+      "note": "Relieved by warmth; distinct from 惡寒.",
+      "pinyin": "wèi hán",
+      "source": "textbook",
+      "status": "needs-review",
+      "zh-Hant": "畏寒"
+    },
+    {
+      "alt": [],
+      "domain": "diagnosis",
+      "en": "spontaneous sweating",
+      "note": null,
+      "pinyin": "zì hàn",
+      "source": "who-istm-2007",
+      "status": "needs-review",
+      "zh-Hant": "自汗"
+    },
+    {
+      "alt": [
+        "night sweats"
+      ],
+      "domain": "diagnosis",
+      "en": "night sweating",
+      "note": null,
+      "pinyin": "dào hàn",
+      "source": "who-istm-2007",
+      "status": "needs-review",
+      "zh-Hant": "盜汗"
+    },
+    {
+      "alt": [],
+      "domain": "diagnosis",
+      "en": "tidal fever",
+      "note": null,
+      "pinyin": "cháo rè",
+      "source": "who-istm-2007",
+      "status": "needs-review",
+      "zh-Hant": "潮熱"
+    },
+    {
+      "alt": [],
+      "domain": "diagnosis",
+      "en": "palpitations",
+      "note": null,
+      "pinyin": "xīn jì",
+      "source": "who-istm-2007",
+      "status": "needs-review",
+      "zh-Hant": "心悸"
+    },
+    {
+      "alt": [],
+      "domain": "nature",
+      "en": "phlegm-dampness",
+      "note": null,
+      "pinyin": "tán shī",
+      "source": "textbook",
+      "status": "needs-review",
+      "zh-Hant": "痰濕"
+    },
+    {
+      "alt": [],
+      "domain": "nature",
+      "en": "damp-heat",
+      "note": null,
+      "pinyin": "shī rè",
+      "source": "textbook",
+      "status": "needs-review",
+      "zh-Hant": "濕熱"
+    },
+    {
+      "alt": [],
+      "domain": "tongue",
+      "en": "dry coating",
+      "note": null,
+      "pinyin": "tāi gān",
+      "source": "textbook",
+      "status": "needs-review",
+      "zh-Hant": "苔乾"
     }
   ]
 }

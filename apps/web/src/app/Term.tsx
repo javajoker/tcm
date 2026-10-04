@@ -15,6 +15,7 @@ export function Term({ zh, children }: { zh: string; children?: ReactNode }): Re
   return (
     <Tooltip trigger={shown}>
       <span lang="zh-Hant">{entry["zh-Hant"]}</span>{" · "}<i>{entry.pinyin}</i>{" · "}<span lang="en">{entry.en}</span>
+      {entry.note ? <><br /><span lang="en">{entry.note}</span></> : null}
     </Tooltip>
   );
 }

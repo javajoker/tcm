@@ -25,7 +25,7 @@
   "safety.notice.lowConfidence.text": "There is not enough information yet for a reliable leaning, so only lifestyle suggestions and follow-up questions are shown.",
   "safety.notice.medication.text": "The medicine you listed ({class}) may interact with some herbs; affected items have been {removed_or_marked}. Please ask your doctor or pharmacist before using any herb.",
   "safety.notice.medicationUnknown.text": "We can only check the medicine classes listed; for \"{text}\", please ask your doctor or pharmacist.",
-  "safety.notice.minor.body": "Children and teenagers differ from adults in constitution and in how medicines act, and this app is designed for adults. You can continue to read educational content; some suggestions will not be shown.",
+  "safety.notice.minor.body": "Children and teenagers differ from adults in constitution and in how medicines act, and this app is designed for adults. Please have a pediatrician or a licensed practitioner assess this. You can continue to read educational content; some suggestions will not be shown.",
   "safety.notice.minor.title": "Please have a pediatrician or licensed practitioner assess this",
   "safety.notice.pregnancy.body": "Many herbs and acupressure points should be avoided in pregnancy; please consult your obstetric doctor and a licensed practitioner first. You can continue with gentle lifestyle and diet information; other content will not be shown.",
   "safety.notice.pregnancy.title": "Please talk to your doctor first during pregnancy",

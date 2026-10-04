@@ -7,6 +7,7 @@ Checks fall into: 1 schema · 2 parameters · 3 identity and uniqueness · 4 cro
 from __future__ import annotations
 
 import json
+import re
 import sys
 from collections import Counter
 from typing import Callable
@@ -152,6 +153,29 @@ def validate(load: Loader = load, check_sources: bool = True) -> list[str]:
             err(f"duplicate {label} id {d}")
     for d in duplicates((g["zh-Hant"], g["domain"]) for g in glossary):
         err(f"duplicate glossary term {d}")
+    # glossary quality (K-12, i18n guide §2.1 and §4.4): pinyin with tone marks, alternatives that differ from the main English, and agreement with the names the data files use
+    tones = set("āáǎàēéěèīíǐìōóǒòūúǔùǖǘǚǜ")
+    named = {}
+    for label, items, getter in (("pattern", patterns, lambda i: i["name"]), ("formula", formulas, lambda i: i["name"]), ("constitution", constitutions, lambda i: i["name"]),
+                                 ("symptom", symptoms, lambda i: {"zh-Hant": i["zh-Hant"], "en": i["en"]})):
+        for i in items:
+            n = getter(i)
+            if n.get("en"):
+                named.setdefault(n["zh-Hant"], []).append((label, n["en"]))
+    for g in glossary:
+        where = f"glossary {g['zh-Hant']} ({g['domain']})"
+        if not g["en"].strip() or not g["pinyin"].strip():
+            err(f"{where}: en and pinyin are required")
+        elif not (set(g["pinyin"]) & tones) and g["pinyin"] not in ("tāi gān",):
+            if any(ch for ch in g["pinyin"] if ch.isalpha()) and not any(ch in tones for ch in g["pinyin"]):
+                err(f"{where}: pinyin {g['pinyin']!r} has no tone marks")
+        main = re.sub(r"\s*\(.*?\)", "", g["en"]).strip().lower()
+        if g["en"].lower() in [a.lower() for a in g["alt"]] or main in [a.lower() for a in g["alt"]]:
+            err(f"{where}: alt repeats the main English")
+        for label, en in named.get(g["zh-Hant"], []):
+            ok = {main, g["en"].lower(), *(a.lower() for a in g["alt"])}
+            if en.lower() not in ok and re.sub(r"\s*\(.*?\)", "", en).strip().lower() not in ok:
+                err(f"{where}: the glossary says {g['en']!r} but the {label} named {g['zh-Hant']} is {en!r} in the data (use one English, or list the other in alt)")
     # constitution questionnaire (K-08): every constitution has its items, ids are unique, the scale is 1–5
     ci = load("diagnosis/constitution-items.json")
     ci_ids = [i["id"] for t in ci["types"] for i in t["items"]]
