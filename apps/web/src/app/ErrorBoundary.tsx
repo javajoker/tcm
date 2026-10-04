@@ -6,7 +6,8 @@ import { useApp } from "./store.tsx";
 
 /**
  * The safe fallback of UX spec S19: if anything in a screen throws, show no assessment output at all — only the permanent disclaimer (in the shell),
- * emergency guidance, a way to keep the user's inputs and a way to start over.
+ * emergency guidance, a way to keep the user's inputs and a way to start over. "Try again" reloads the page where it is: a screen that could not be fetched
+ * (the connection dropped between two steps) comes back, and the draft is already on the device.
  */
 function SafeFallback(): ReactNode {
   const { t } = useI18n();
@@ -27,7 +28,8 @@ function SafeFallback(): ReactNode {
       <Notice kind="emergency" kindLabel={t.t("common.notice.emergency")}>{t.t("errors.crash.seekCare")}</Notice>
       <p style={{ display: "flex", flexWrap: "wrap", gap: "0.75rem", marginTop: "1rem" }}>
         {draft !== null ? <Button onClick={onCopy}>{t.t("errors.crash.copy")}</Button> : null}
-        <Button variant="primary" onClick={restart}>{t.t("errors.crash.restart")}</Button>
+        <Button variant="primary" onClick={() => window.location.reload()}>{t.t("errors.crash.retry")}</Button>
+        <Button onClick={restart}>{t.t("errors.crash.restart")}</Button>
       </p>
       <p role="status">{copy === "ok" ? t.t("errors.crash.copied") : copy === "failed" ? t.t("errors.crash.copyFailed") : null}</p>
     </div>

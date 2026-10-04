@@ -78,7 +78,7 @@ function deployPlugin(profile: "release" | "dev", noindex: boolean): Plugin {
       const advisory = /https:\/\/github\.com\/[^\s)>]+\/security\/advisories\/new/.exec(readFileSync(resolve(here, "../../SECURITY.md"), "utf8"))?.[0];
       if (advisory === undefined) throw new Error("SECURITY.md does not give the private vulnerability-reporting address");
       this.emitFile({ type: "asset", fileName: "_headers", source: headersFile({ noindex, kbChunks }) });
-      this.emitFile({ type: "asset", fileName: "_redirects", source: redirectsFile() });
+      this.emitFile({ type: "asset", fileName: "_redirects", source: redirectsFile({ pseudo: profile === "dev" }) });
       this.emitFile({ type: "asset", fileName: "404.html", source: notFoundPage() });
       this.emitFile({ type: "asset", fileName: ".well-known/security.txt", source: securityTxt(advisory, new Date(), advisory.replace(/\/security\/advisories\/new$/, "/blob/main/SECURITY.md")) });
     },

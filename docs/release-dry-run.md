@@ -1,6 +1,6 @@
 # Release-candidate dry run — 2026-10-04
 
-A pass over the [go / no-go checklist](../CHECKLIST.md) §5 on commit `2ba117b`, run on a developer machine (task R-07). It records what the automated gates say today and what is still
+A pass over the [go / no-go checklist](../CHECKLIST.md) §5 on commit `2ba117b` (the end-to-end scenarios of Q-04 were added afterwards: 87 runs green locally on Chrome), run on a developer machine (task R-07). It records what the automated gates say today and what is still
 open, so that the first real release candidate starts from facts. **It is not the signed checklist:** nothing here was run on CI (no push has happened yet) or on a deployment, and the
 human items are untouched. The verdict is **no-go for a public release; the closed-beta path (draft label on) is technically ready** once an owner has set up hosting.
 
@@ -10,7 +10,7 @@ Legend: ✔ done and evidenced · ◐ automated part done, rest open · ○ not 
 
 | Item | | Evidence / what is left |
 |---|---|---|
-| Tag build from `main`; CI fully green | ○ | The workflows (`ci.yml`, `nightly.yml`, `deploy.yml`, `rollback.yml`) are written and SHA-pinned but have never run: nothing is pushed. First push will show whether they pass; the owner must set the Cloudflare secrets, variables and environments ([release process §6](release-process.md)). |
+| Tag build from `main`; CI fully green | ○ | The workflows (`ci.yml` with its `e2e` job, `nightly.yml`, `visual.yml`, `deploy.yml`, `rollback.yml`) are written and SHA-pinned but have never run: nothing is pushed. First push will show whether they pass; the owner must set the Cloudflare secrets, variables and environments ([release process §6](release-process.md)). |
 | `check-release` passes; profile = `release` | ◐ | With the closed-beta exception (`APP_DRAFT_LABEL=on`, `--draft-label`): passes (rules 0–11, incl. `noindex`, `NOTICE.txt`, host files). Without it: **fails rule 8** — the content is `draft`, which is the honest state until the review records exist. |
 | Budgets; Lighthouse mobile Performance ≥ 90, Accessibility ≥ 95 | ◐ | `check-budgets`: initial JS 120.4 / 200 KB gz · all JS 223.1 / 260 · CSS 5.5 / 20 · knowledge base per session 84.3 / 100. Lighthouse CI is configured (`lighthouserc.json`) but needs Chrome and a runner: not run. |
 | No open S1/S2 defects | ◐ | None known; there is no tracker yet, and no usability round (Q-09) or beta has produced defects. |
@@ -38,7 +38,7 @@ Legend: ✔ done and evidenced · ◐ automated part done, rest open · ○ not 
 
 | Item | | Evidence / what is left |
 |---|---|---|
-| axe clean across the route × language × theme matrix | ✔ | The accessibility sweep and the per-screen axe tests pass (489 web tests). |
+| axe clean across the route × language × theme matrix | ✔ | The jsdom accessibility sweep passes (491 web tests), and so does axe in a real browser, colour contrast included, on every screen of the flow in light and dark (`e2e/e21-axe.spec.ts`, Chrome, 2026-10-05). |
 | Manual pass (§6) on this build | ○ | Needs people with VoiceOver, TalkBack and NVDA ([accessibility protocol](accessibility-protocol.md), template in `docs/a11y-records/`). |
 | Reduced motion, 200 % zoom, text-size presets | ◐ | Covered by tests and CSS; not verified on a device. |
 

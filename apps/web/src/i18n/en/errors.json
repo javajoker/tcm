@@ -4,6 +4,7 @@
   "errors.crash.copy": "Copy what I entered",
   "errors.crash.copyFailed": "Couldn't copy — please note your answers down yourself.",
   "errors.crash.restart": "Start over",
+  "errors.crash.retry": "Try again",
   "errors.crash.seekCare": "If you feel seriously unwell — for example chest pain, trouble breathing, heavy bleeding, sudden weakness or confusion — get medical care or call your local emergency number now; do not wait for this tool.",
   "errors.crash.title": "Something went wrong",
   "errors.kb.body": "Check your connection and try again. The answers you have entered are still here.",

@@ -23,7 +23,7 @@ const purity = (extraImportPatterns) => ({
 });
 
 export default tseslint.config(
-  { ignores: ["**/node_modules/**", "**/dist/**", "**/coverage/**", "reference/**", "data/**", ".venv/**", "**/*.generated.ts", "packages/kb/src/generated/**", "packages/wuxing/src/astro/vsop87-earth.ts"] },
+  { ignores: ["**/node_modules/**", "**/dist/**", "**/dist-dev/**", "**/coverage/**", "apps/web/e2e/.results/**", "apps/web/e2e/.report/**", "apps/web/e2e/__screenshots__/**", "reference/**", "data/**", ".venv/**", "**/*.generated.ts", "packages/kb/src/generated/**", "packages/wuxing/src/astro/vsop87-earth.ts"] },
   ...tseslint.configs.recommended,
   {
     files: ["**/*.ts", "**/*.tsx"],
@@ -80,6 +80,11 @@ export default tseslint.config(
       "no-restricted-globals": ["error", ...["localStorage", "sessionStorage", "indexedDB", "caches"].map((name) => ({ name, message: "Use apps/web/src/storage (persistence.ts) — the only module allowed to touch browser storage." }))],
       "no-restricted-properties": ["error", ...["localStorage", "sessionStorage", "indexedDB", "caches"].map((property) => ({ object: "window", property, message: "Use apps/web/src/storage (persistence.ts) — the only module allowed to touch browser storage." }))],
     },
+  },
+  // End-to-end scenarios (Playwright): a fixture's `use` is not a React hook, and the scenarios may use Node and the console.
+  {
+    files: ["apps/web/e2e/**/*.ts"],
+    rules: { "react-hooks/rules-of-hooks": "off", "no-console": "off", "no-restricted-properties": "off", "no-restricted-globals": "off" },
   },
   // Tests and scripts may use Node and the console.
   {

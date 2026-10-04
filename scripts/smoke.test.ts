@@ -7,7 +7,7 @@ import { cpSync, mkdtempSync, readdirSync, readFileSync, rmSync, writeFileSync }
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { after, before, describe, test } from "node:test";
-import { cspHeader, cspMeta, headersFile, LANGUAGE_SEGMENTS, notFoundPage, redirectsFile, securityTxt } from "./deploy-files.ts";
+import { cspHeader, cspMeta, headersFile, LANGUAGE_SEGMENTS, notFoundPage, PSEUDO_SEGMENTS, redirectsFile, securityTxt } from "./deploy-files.ts";
 import { parseHeaders, parseRedirects, servePages } from "./serve-dist.ts";
 import { smoke } from "./smoke.ts";
 
@@ -106,6 +106,13 @@ describe("the generators", () => {
     assert.ok(!/<script|style=|<style/.test(page), "the CSP allows neither inline script nor style");
     assert.match(page, /找不到這個頁面/);
     assert.match(page, /We couldn't find that page/);
+  });
+
+  test("the pseudo-locales fall back to the app in the dev build only", () => {
+    const dev = parseRedirects(redirectsFile({ pseudo: true }));
+    for (const l of PSEUDO_SEGMENTS) assert.ok(dev.some((r) => r.from === `/${l}/*` && r.status === 200), l);
+    const release = parseRedirects(redirectsFile());
+    for (const l of PSEUDO_SEGMENTS) assert.ok(!release.some((r) => r.from.startsWith(`/${l}`)), `${l} must be a real 404 in a release build`);
   });
 
   test("security.txt follows RFC 9116: a contact, an expiry at most a year ahead", () => {

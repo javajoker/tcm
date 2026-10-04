@@ -126,6 +126,35 @@ jobs:
         env:
           APP_BUILD_ID: ${{ github.sha }}
 
+  e2e:
+    name: End-to-end scenarios E1–E20 and axe in a real browser
+    needs: [fast]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - uses: pnpm/action-setup@b906affcce14559ad1aafd4ab0e942779e9f58b1 # v4.3.0
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile --ignore-scripts
+      - name: Browser for Playwright
+        run: pnpm --filter @tcm/web exec playwright install --with-deps chromium
+      - name: Both builds (release with the draft label, and dev), as the host serves them
+        run: pnpm --filter @tcm/web build:e2e
+        env:
+          APP_BUILD_ID: ${{ github.sha }}
+      - name: Scenarios (desktop and mobile, zh-Hant and en; the dev profile where a scenario needs it)
+        run: pnpm --filter @tcm/web exec playwright test
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        if: failure()
+        with:
+          name: e2e-report
+          path: |
+            apps/web/e2e/.report
+            apps/web/e2e/.results
+          retention-days: 14
+
   lighthouse:
     name: Lighthouse (mobile, throttled)
     needs: [build]

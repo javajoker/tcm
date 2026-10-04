@@ -4,6 +4,7 @@
   "errors.crash.copy": "複製我填寫的內容",
   "errors.crash.copyFailed": "無法複製，請自行記下您的答案。",
   "errors.crash.restart": "重新開始",
+  "errors.crash.retry": "再試一次",
   "errors.crash.seekCare": "如果您感到嚴重不適——例如胸痛、呼吸困難、大量出血、突然無力或意識不清——請立即就醫或撥打當地緊急電話，不要等待本工具。",
   "errors.crash.title": "發生了問題",
   "errors.kb.body": "請檢查網路連線後再試一次。您目前填寫的答案仍然保留。",

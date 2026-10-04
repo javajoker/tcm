@@ -1,0 +1,42 @@
+# Visual regression (docs/test-plan.md §1, task Q-07): the key screens in zh-Hant, en and the pseudo-locale en-XA at 320 and 1280 px.
+# Baselines depend on the platform's fonts, so they are made here, on the CI image, never on a laptop: run this workflow with "update" ticked, download the `visual-baselines` artifact,
+# look at every picture (that is the review), and commit the files under apps/web/e2e/__screenshots__ — a change of baseline is a design change and goes through a pull request like any other.
+# Without "update" the workflow compares against the committed baselines and uploads the diffs. Actions are pinned to full commit SHAs (version in a comment).
+name: Visual baselines
+
+on:
+  workflow_dispatch:
+    inputs:
+      update:
+        description: "Write new baselines (tick), or compare against the committed ones (leave empty)"
+        type: boolean
+        default: false
+  # Once the baselines are committed, add a `pull_request` trigger on apps/web/src/** and apps/web/e2e/__screenshots__/** so a visual change shows up in the review.
+
+permissions:
+  contents: read
+
+jobs:
+  visual:
+    name: Screenshots
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - uses: pnpm/action-setup@b906affcce14559ad1aafd4ab0e942779e9f58b1 # v4.3.0
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile --ignore-scripts
+      - run: pnpm --filter @tcm/web exec playwright install --with-deps chromium
+      - run: pnpm --filter @tcm/web build:e2e
+      - name: Screenshots (compare, or write new baselines)
+        run: pnpm --filter @tcm/web exec playwright test --project=visual-320 --project=visual-1280 ${{ inputs.update && '--update-snapshots' || '' }}
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        if: always()
+        with:
+          name: visual-baselines
+          path: |
+            apps/web/e2e/__screenshots__
+            apps/web/e2e/.results
+          retention-days: 14

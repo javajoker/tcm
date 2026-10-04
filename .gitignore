@@ -26,3 +26,9 @@ reference/derived/
 __pycache__/
 apps/web/.kb/
 review/packs/
+apps/web/dist-dev/
+apps/web/e2e/.results/
+apps/web/e2e/.report/
+apps/web/e2e/.fixtures/
+apps/web/e2e/__screenshots__/**/*-darwin.png
+apps/web/e2e/__screenshots__/**/*-win32.png
