@@ -27,15 +27,15 @@
 | **E** Engine and packages | 19 | 20 |
 | **I** Internationalisation | 2 | 4 |
 | **U** Web application | 6 | 6 |
-| **Q** Quality assurance | 3 | 10 |
+| **Q** Quality assurance | 4 | 10 |
 | **R** Release and operations | 0 | 4 |
 | **V** Review (non-code) | 0 | 7 |
 | **PF** Performance (P2) | 0 | 3 |
-| **All** | **62** | **96** |
+| **All** | **63** | **96** |
 
 | Priority | Done | Total |
 |---|---:|---:|
-| P0 | 43 | 54 |
+| P0 | 44 | 54 |
 | P1 | 16 | 34 |
 | P2 | 3 | 8 |
 
@@ -195,7 +195,7 @@ Suggested waves: **1** foundation (E-01, K-01, K-02, I-01, U-01, R-01) → **2**
 | [ ] | Q-05 | Accessibility: axe sweep, manual AT protocol and record template | P0 | M | U-17 | Zero violations; manual results stored per release |
 | [ ] | Q-06 | Lighthouse CI + `size-limit` budgets | P1 | S | U-01, E-03 | Budgets of [tech spec §12](docs/tech-spec.md) enforced |
 | [ ] | Q-07 | Visual regression baselines (`zh-Hant`, `en`, `en-XA`; 320/1280) | P1 | M | I-05, U-17 | Diff review workflow |
-| [ ] | Q-08 | Privacy tests (network, URL/log scan, erase, birth persistence, storage failure) | P0 | M | U-04 | E14, E19, E20 green |
+| [x] | Q-08 | Privacy tests (network, URL/log scan, erase, birth persistence, storage failure) | P0 | M | U-04 | E14, E19, E20 green |
 | [ ] | Q-09 | Usability round R1 (prototype S01–S07, S13), R2 (MVP), R3 (beta) | P1 | L each | U-10, U-17 | Issue lists; UX spec changelog updated |
 | [ ] | Q-10 | Practitioner blinded evaluation | P1 | L | V-05 | Concordance report |
 

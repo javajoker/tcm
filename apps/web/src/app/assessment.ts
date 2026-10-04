@@ -19,13 +19,22 @@ export function assessInputOf(d: Draft, now: number): AssessInput | null {
   };
 }
 
+/**
+ * Privacy §3: unless the person chose to remember their birth data, a saved result keeps the derived panel and the fact that birth data was used — not the birth
+ * moment. The four pillars and the true solar time of birth would give it away, so they are removed before the result is stored.
+ */
+export function withoutBirthMoment(result: Assessment): Assessment {
+  if (result.reference === null) return result;
+  return { ...result, reference: { ...result.reference, birth: { ...result.reference.birth, pillars: null, trueSolarTime: null } } };
+}
+
 /** The record stored for a result. Birth data is kept only when the user chose to remember it (privacy §3). */
 export function toSaved(d: Draft, result: Assessment, ctx: { id: string; lang: Lang }): SavedAssessment {
   return {
     id: ctx.id, createdAt: result.meta.computedAt, appVersion: APP_BUILD, kbVersion: result.meta.kbVersion, engineVersion: result.meta.engineVersion,
     paramsFingerprint: result.meta.paramsFingerprint, profile: result.meta.profile, lang: ctx.lang, seasonModel: result.meta.seasonModel,
     input: { subject: d.subject, profile: d.profile, screening: d.screening, redFlags: d.redFlags, findings: d.findings, context: d.context, ...(Object.keys(d.constitutionAnswers).length > 0 ? { constitutionAnswers: d.constitutionAnswers } : {}), ...(d.rememberBirth && d.birth !== undefined ? { birth: d.birth } : {}) },
-    result,
+    result: d.rememberBirth && d.birth !== undefined ? result : withoutBirthMoment(result),
   };
 }
 
