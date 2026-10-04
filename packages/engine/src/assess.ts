@@ -4,6 +4,7 @@ import type { BirthInput, SeasonModel } from "@tcm/wuxing";
 import type { KnowledgeBase } from "@tcm/kb";
 import { explain, type TraceItem } from "./explain.ts";
 import { normalize, type Conflict } from "./normalize.ts";
+import { scoreConstitution, susceptibilityAt, type ConstitutionBlock } from "./constitution.ts";
 import { checkConsistency, orient, type ConsistencyFlag, type Orientation } from "./orient.ts";
 import type { PanelResult } from "./panel.ts";
 import { synthesizePanel } from "./panel.ts";
@@ -24,6 +25,8 @@ export interface AssessInput {
   readonly redFlags: ReadonlySet<string>;
   readonly findings: Findings;
   readonly context?: AssessContext;
+  /** Answers of the constitution questionnaire (item id → 1…5); absent when the quiz was skipped. */
+  readonly constitutionAnswers?: Readonly<Record<string, number>>;
   readonly options: {
     /** UTC milliseconds — injected; the engine never reads a clock. */
     readonly now: number;
@@ -48,6 +51,8 @@ export interface Assessment {
   };
   readonly reference: ReferenceBlock | null;
   readonly orientation: Orientation;
+  /** The constitution tendency and the susceptibility to the season (SOP §7); `null` when the quiz was skipped. */
+  readonly constitution: ConstitutionBlock | null;
   readonly consistency: readonly ConsistencyFlag[];
   /** All patterns, best first. */
   readonly patterns: readonly ScoredPattern[];
@@ -95,9 +100,20 @@ export function assess(kb: KnowledgeBase, input: AssessInput): Assessment {
     answered: new Set([...normalized.present, ...normalized.absent]), ...(input.context?.course ? { course: input.context.course } : {}),
   });
 
+  // step 5: the constitution tendency (never part of the score) and the susceptibility to the season
+  const constitutionResult = input.constitutionAnswers ? scoreConstitution(kb, input.constitutionAnswers) : null;
+  const constitution: ConstitutionBlock | null = constitutionResult === null ? null : {
+    result: constitutionResult,
+    susceptibility: constitutionResult.primary === null ? null : {
+      constitution: constitutionResult.primary,
+      now: reference ? susceptibilityAt(kb, constitutionResult.primary, reference.panel) : null,
+      upcoming: reference ? reference.forecast.map((p) => susceptibilityAt(kb, constitutionResult.primary!, p)) : [],
+    },
+  };
+
   // step 0 again with the states the engine found; steps 10–11 under that policy
   let policy = resolvePolicy(kb, factsOf(subject, input.redFlags, acuteExternal, false, verdict.states));
-  const safetySubject = { ageYears: subject.ageYears, pregnant: subject.pregnancy === "yes" || subject.pregnancy === "possible", lactating: subject.lactating, medications: subject.medications, allergies: subject.allergies, constitution: null };
+  const safetySubject = { ageYears: subject.ageYears, pregnant: subject.pregnancy === "yes" || subject.pregnancy === "possible", lactating: subject.lactating, medications: subject.medications, allergies: subject.allergies, constitution: constitutionResult?.primary ?? null };
   let rec = recommend(kb, { subject: safetySubject, policy, normalized, panel, verdict });
   if (rec.safety?.allergyMatch) {
     // an allergy match is itself a condition of the scope policy (notice, possibly a lower level); redo the recommendations if the level fell
@@ -124,7 +140,7 @@ export function assess(kb: KnowledgeBase, input: AssessInput): Assessment {
       coverage: normalized.coverage, kappa: verdict.confidenceInputs.kappa, unansweredCore: normalized.unansweredCore, conflicts: normalized.conflicts,
       unknownFindings: normalized.unknown, unmatchedAllergies: rec.safety?.unmatchedAllergies ?? [],
     },
-    reference, orientation, consistency, patterns, elements, panel, verdict, recommendations: rec.recommendations,
+    reference, orientation, constitution, consistency, patterns, elements, panel, verdict, recommendations: rec.recommendations,
     suppressed: rec.safety?.suppressed ?? [], trace,
   };
 }

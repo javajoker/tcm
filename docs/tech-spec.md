@@ -394,7 +394,7 @@ interface Assessment {
 }
 ```
 
-Not yet in `Assessment`: the constitution result (steps 5: task E-07, waiting for the questionnaire items K-08).
+`Assessment.constitution` (step 5, task E-07) carries the quiz result — nine converted scores with levels, primary and secondary tendency, the balanced verdict — and, for the primary constitution, the susceptibility to the season now and in the coming seasons when a reference exists. It is `null` when the quiz was skipped (`AssessInput.constitutionAnswers` absent). It never changes a pattern score; the only effect on the recommendations is the safety rule for the allergic constitution (primary = `C_TEBING`). Types with fewer than half their items answered are not scored.
 
 ### 7.2 No prose from the engine
 
