@@ -45,7 +45,7 @@ describe("acupoint schematics (U-25)", () => {
     expect(legText.getByText("Front of the leg (right leg)")).toBeInTheDocument();
     expect(screen.getByRole("img", { name: /Inner side of the forearm and palm.*內關 PC6/ })).toBeInTheDocument();
     expect(screen.queryByRole("img", { name: /Head and neck/ })).toBeNull();
-    expect(screen.getByText(/the written location above is what counts/)).toBeInTheDocument();
+    expect(screen.getByText(/the written location in the list below is what counts/)).toBeInTheDocument();
   });
 
   it("nothing is drawn for no points, or for a point without a drawing", () => {

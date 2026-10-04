@@ -250,7 +250,7 @@
   "report.panel.valueNote": "數值是相對一般健康人的偏離，不是健康分數。",
   "report.points.cautions": "這個穴位的注意事項",
   "report.points.figure.label": "{view}示意圖；標示的穴位：{points}。",
-  "report.points.figure.note": "示意圖不按比例，只幫助找到大致的位置；以上面文字所述的位置為準。圖中只標一側，多數穴位兩側都有。",
+  "report.points.figure.note": "示意圖不按比例，只幫助找到大致的位置；以下面各穴位文字所述的位置為準。圖中只標一側，多數穴位兩側都有。",
   "report.points.general.title": "按壓任何穴位之前",
   "report.points.how.title": "按壓方法",
   "report.points.meridian": "{code}・{meridian}",

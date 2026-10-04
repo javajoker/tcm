@@ -251,7 +251,7 @@
   "report.panel.valueNote": "Values are deviations from a typical healthy person, not a health score.",
   "report.points.cautions": "Cautions for this point",
   "report.points.figure.label": "Schematic of the {view}; marked points: {points}.",
-  "report.points.figure.note": "Schematic drawings, not to scale: they only show the neighbourhood of each point, and the written location above is what counts. Points are marked on one side; most also exist on the other.",
+  "report.points.figure.note": "Schematic drawings, not to scale: they only show the neighbourhood of each point, and the written location in the list below is what counts. Points are marked on one side; most also exist on the other.",
   "report.points.general.title": "Before you press any point",
   "report.points.how.title": "How to press",
   "report.points.meridian": "{code} · {meridian}",
