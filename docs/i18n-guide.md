@@ -174,6 +174,8 @@ See [UX spec §6.3](ux-spec.md) for fonts. i18n-specific requirements:
 - No `text-transform: uppercase` on Chinese, no letter-spacing on CJK, no italics for CJK.
 - Wrapping: `line-break: strict` and `word-break: normal`; avoid orphaned punctuation at line starts; no manual line breaks inside sentences.
 - **Pseudo-localisation:** a dev-only third locale (`en-XA`) expands strings ≈ 40 % with accents and brackets to expose truncation; a `zh-XL` mode repeats long strings. Playwright screenshot checks run in `zh-Hant`, `en` and `en-XA` at 320 px and 1280 px.
+> **Implementation (I-05).** `pseudoXA` / `pseudoXL` / `pseudoize` in `@tcm/i18n` (pure; `{placeholders}` and `<tags>` are never touched, so messages still interpolate and render rich text); `createI18n` takes a `transform` applied to each template before its parameters are filled in. In the **dev profile only**, the routes `/en-XA/…` (English: accented look-alike letters, vowels doubled ≈ +35 %, ⟦brackets⟧) and `/zh-XL/…` (Chinese: every string repeated with " · ") serve the app in that mode (`app/routing.ts`; the language segment has a base language, so `<html lang>` stays `en` / `zh-Hant`, and `<html data-pseudo>` marks the mode). The segments do not exist in a release build — the table is dead-code-eliminated and `check-release` fails a build that contains them. A test checks that every English message keeps exactly its placeholders, tags and plural forms under `en-XA`. The Playwright screenshot job (Q-07) uses these routes at 320 and 1280 px.
+
 - No text inside images; the tongue illustration labels are live text.
 
 ---

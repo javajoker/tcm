@@ -4,6 +4,8 @@
 //   · rich text: `<tag>text</tag>` is returned as parts for the UI to render (never HTML);
 //   · en falls back to zh-Hant (never the reverse) and the fallback is REPORTED so the UI can mark untranslated text;
 //   · Intl helpers for numbers and dates; no locale logic anywhere else.
+export { pseudoize, pseudoXA, pseudoXL, type PseudoMode } from "./pseudo.ts";
+
 export type Lang = "zh-Hant" | "en";
 export const LANGS: readonly Lang[] = ["zh-Hant", "en"];
 export const DEFAULT_LANG: Lang = "zh-Hant";
@@ -36,6 +38,8 @@ export interface CreateOptions {
   readonly onMissing?: (key: string, lang: Lang) => void;
   /** Called when the English UI falls back to a zh-Hant message. */
   readonly onFallback?: (key: string) => void;
+  /** Applied to every message template before its parameters are filled in (pseudo-localisation, dev only). Placeholders and tags must survive it. */
+  readonly transform?: (template: string) => string;
 }
 
 const LOCALE: Record<Lang, string> = { "zh-Hant": "zh-Hant-TW", en: "en" };
@@ -93,9 +97,8 @@ export function createI18n<K extends string>(
   const text = (key: string, n?: number): string => {
     const { message } = lookup(key);
     if (message === undefined) return key;
-    if (typeof message === "string") return message;
-    const category = n === undefined ? "other" : pr.select(n);
-    return (message[category] ?? message.other);
+    const pick = typeof message === "string" ? message : (message[n === undefined ? "other" : pr.select(n)] ?? message.other);
+    return options.transform ? options.transform(pick) : pick;
   };
 
   return {

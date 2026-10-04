@@ -79,6 +79,9 @@ describe("check-release", () => {
     const b = copy();
     edit(b, "core", (c) => { c.config.note = "annotate_only"; });
     assert.deepEqual(rules(checkRelease(b, { draftLabel: true })), [2]);
+    const pseudo = copy();
+    writeFileSync(entryJs(pseudo), `${readFileSync(entryJs(pseudo), "utf8")}\n;({"en-xa":1});`);
+    assert.deepEqual(rules(checkRelease(pseudo, { draftLabel: true })), [2], "a pseudo-locale in a release build");
     const c2 = copy();
     writeFileSync(entryJs(c2), `${readFileSync(entryJs(c2), "utf8")}\n;"Component catalogue";`);
     assert.deepEqual(rules(checkRelease(c2, { draftLabel: true })), [2]);

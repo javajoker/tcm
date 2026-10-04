@@ -1,6 +1,6 @@
 // Language lives in the URL (`/:lang/…`, docs/ux-spec.md §3): the path is the single source of truth, so a shared link opens in the sender's language
 // and the switch keeps the route. Pure functions only; the React glue is in App.tsx.
-import type { Lang } from "@tcm/i18n";
+import type { Lang, PseudoMode } from "@tcm/i18n";
 
 export const LANGS: readonly Lang[] = ["zh-Hant", "en"];
 export const DEFAULT_LANG: Lang = "zh-Hant";
@@ -10,9 +10,20 @@ const ALIASES: Readonly<Record<string, Lang>> = {
   "en": "en", "en-us": "en", "en-gb": "en",
 };
 
+/**
+ * Pseudo-locales (docs/i18n-guide.md §8): a dev-only way to see the app with expanded, accented English (`/en-XA/…`) or doubled Chinese (`/zh-XL/…`). The segment names a base language
+ * and a transform. The table is empty in a release build, so the segments are unknown there (a 404) and the code is dropped.
+ */
+const PSEUDO: Readonly<Record<string, { readonly lang: Lang; readonly mode: PseudoMode; readonly canonical: string }>> =
+  __APP_PROFILE__ === "dev" ? { "en-xa": { lang: "en", mode: "xa", canonical: "en-XA" }, "zh-xl": { lang: "zh-Hant", mode: "xl", canonical: "zh-XL" } } : {};
+
 export interface LangPath {
-  /** The language the first segment names, `null` when it names none. */
+  /** The language the first segment names, `null` when it names none (for a pseudo-locale: its base language). */
   readonly lang: Lang | null;
+  /** The pseudo-locale transform the first segment asks for (dev builds only), else `null`. */
+  readonly pseudo: PseudoMode | null;
+  /** The canonical first segment (`zh-Hant`, `en`, `en-XA` …) — the base of the nested router — or `null` when the first segment names no language. */
+  readonly segment: string | null;
   /** True when the first segment is an accepted alias (`/zh/…`, `/EN/…`) rather than the canonical tag: the caller redirects to `canonical`. */
   readonly alias: boolean;
   /** The path without the language segment; always starts with "/". */
@@ -25,10 +36,12 @@ export interface LangPath {
 export function splitLangPath(path: string): LangPath {
   const m = /^\/([^/]+)(\/.*)?$/.exec(path);
   const seg = m?.[1];
-  const lang = seg === undefined ? undefined : ALIASES[seg.toLowerCase()];
-  if (m === null || seg === undefined || lang === undefined) return { lang: null, alias: false, rest: path === "" ? "/" : path, canonical: path };
+  const pseudo = seg === undefined ? undefined : PSEUDO[seg.toLowerCase()];
+  const lang = pseudo?.lang ?? (seg === undefined ? undefined : ALIASES[seg.toLowerCase()]);
+  if (m === null || seg === undefined || lang === undefined) return { lang: null, pseudo: null, segment: null, alias: false, rest: path === "" ? "/" : path, canonical: path };
   const rest = m[2] ?? "/";
-  return { lang, alias: seg !== lang, rest, canonical: `/${lang}${rest}` };
+  const segment = pseudo?.canonical ?? lang;
+  return { lang, pseudo: pseudo?.mode ?? null, segment, alias: seg !== segment, rest, canonical: `/${segment}${rest}` };
 }
 
 /** The same route in another language: `/en/start` → `/zh-Hant/start`. Search and hash are carried over. */

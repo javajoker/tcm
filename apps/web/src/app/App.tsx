@@ -87,11 +87,11 @@ function LanguageRoutes(): ReactNode {
   if (parsed.lang !== null && parsed.alias) return <Redirect to={parsed.canonical + (search === "" ? "" : `?${search}`)} replace />;
 
   return (
-    <I18nProvider lang={lang} setLang={setLang}>
+    <I18nProvider lang={lang} setLang={setLang} pseudo={parsed.pseudo}>
       <CitationsProvider>
         <PrefsEffects />
         <DocumentMeta />
-        <Router base={parsed.lang === null ? "" : `/${parsed.lang}`}>
+        <Router base={parsed.segment === null ? "" : `/${parsed.segment}`}>
           <AppShell>
             {parsed.lang === null ? <NotFound /> : <Screens />}
           </AppShell>

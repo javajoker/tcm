@@ -89,3 +89,33 @@ test("has() sees both catalogs", () => {
   const e = createI18n(catalogs, "en");
   assert.ok(e.has("only.zh") && e.has("common.app.name") && !e.has("x"));
 });
+
+// ── pseudo-localisation ─────────────────────────────────────────────────────
+
+import { pseudoize, pseudoXA, pseudoXL } from "../src/index.ts";
+
+test("en-XA accents the letters, doubles the vowels, brackets the string and leaves placeholders and tags alone", () => {
+  assert.equal(pseudoXA("Save"), "⟦Šååṽéé⟧");
+  assert.equal(pseudoXA("Hello {name}, <b>welcome</b>!"), "⟦Ĥééłłøø {name}, <b>ŵééłçøøɱéé</b>!⟧");
+  assert.equal(pseudoXA(""), "");
+  const text = "Please enter your date of birth so that the app can work out the chart.";
+  const ratio = [...pseudoXA(text)].length / [...text].length;
+  assert.ok(ratio > 1.25 && ratio < 1.6, `expansion ${ratio.toFixed(2)}`);
+  assert.equal(pseudoXA("中文 {n}"), "⟦中文 {n}⟧", "characters without a mapping are kept");
+});
+
+test("zh-XL repeats the string, and the dispatcher picks the mode", () => {
+  assert.equal(pseudoXL("請輸入出生日期"), "請輸入出生日期 · 請輸入出生日期");
+  assert.equal(pseudoize("xl", "a"), "a · a");
+  assert.equal(pseudoize("xa", "a"), "⟦åå⟧");
+});
+
+test("a transform is applied to the template before parameters, plurals and tags are handled", () => {
+  const catalogs = { "zh-Hant": { greet: "你好 {name}", rich: "<b>粗</b>字", items: { other: "{n} 項" } }, en: { greet: "Hello {name}", rich: "<b>bold</b> text", items: { one: "{n} item", other: "{n} items" } } };
+  const t = createI18n(catalogs, "en", { transform: pseudoXA });
+  assert.equal(t.t("greet", { name: "Alice" }), "⟦Ĥééłłøø Alice⟧", "parameter values are not transformed");
+  assert.deepEqual(t.rich("rich"), [{ type: "text", text: "⟦" }, { type: "tag", tag: "b", text: "ƀøøłđ" }, { type: "text", text: " ţééẋţ⟧" }]);
+  assert.equal(t.plural("items", 1), "⟦1 îîţééɱ⟧");
+  assert.equal(t.plural("items", 3), "⟦3 îîţééɱš⟧");
+  assert.equal(createI18n(catalogs, "zh-Hant", { transform: (s) => pseudoize("xl", s) }).t("greet", { name: "A" }), "你好 A · 你好 A");
+});
