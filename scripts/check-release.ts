@@ -150,6 +150,13 @@ export function checkRelease(distDir: string, opts: CheckOptions = {}): Failure[
     if (unreviewed && !opts.draftLabel) fail(8, `the content is "${core.params._meta.status}" (not reviewed): a release needs the review records, or a recorded closed-beta exception with the draft label on (--draft-label / APP_DRAFT_LABEL=on)`);
   }
 
+  // 10 — the attribution notice travels with the app: MIT-licensed material derived into the knowledge base requires its copyright and permission notice to be kept
+  if (!existsSync(join(dist, "NOTICE.txt"))) fail(10, "NOTICE.txt is missing: the attribution notice must be shipped with the app");
+  else {
+    const notice = read(join(dist, "NOTICE.txt"));
+    for (const needed of ["TCM-Library", "Permission is hereby granted", "Apache License"]) if (!notice.includes(needed)) fail(10, `NOTICE.txt does not contain "${needed}"`);
+  }
+
   // 9 — no source maps
   for (const f of files.filter((x) => x.endsWith(".map"))) fail(9, `${rel(dist, f)}: source maps must not be served`);
   for (const f of js) if (/\/\/# sourceMappingURL=/.test(read(f))) fail(9, `${rel(dist, f)} points to a source map`);

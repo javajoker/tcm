@@ -42,6 +42,16 @@ function cspPlugin(): Plugin {
   return { name: "tcm-csp", apply: "build", transformIndexHtml: (html) => html.replace("<head>", `<head>\n    <meta http-equiv="Content-Security-Policy" content="${csp}" />`) };
 }
 
+/** Ships the attribution notice with the app (`/NOTICE.txt`, linked from the Sources screen): the MIT-licensed sources require their notice to travel with what is derived from them. */
+function noticePlugin(): Plugin {
+  const text = (): string => readFileSync(resolve(here, "../../NOTICE"), "utf8");
+  return {
+    name: "tcm-notice",
+    configureServer(server) { server.middlewares.use("/NOTICE.txt", (_req, res) => { res.setHeader("Content-Type", "text/plain; charset=utf-8"); res.end(text()); }); },
+    generateBundle() { this.emitFile({ type: "asset", fileName: "NOTICE.txt", source: text() }); },
+  };
+}
+
 /**
  * Keeps a build that is not the public release out of search results (release process §6, "Robots"): the dev profile and the closed beta with the draft
  * label on get `<meta name="robots" content="noindex, nofollow">` and a robots.txt that disallows everything. A public release has neither.
@@ -60,7 +70,7 @@ export default defineConfig(({ command }) => {
   const profile = (process.env.APP_PROFILE ?? (command === "serve" ? "dev" : "release")) as "release" | "dev";
   if (profile !== "release" && profile !== "dev") throw new Error(`unknown APP_PROFILE ${profile}`);
   return {
-    plugins: [react(), kbPlugin(profile), cspPlugin(), robotsPlugin(profile === "dev" || process.env.APP_DRAFT_LABEL === "on")],
+    plugins: [react(), kbPlugin(profile), cspPlugin(), noticePlugin(), robotsPlugin(profile === "dev" || process.env.APP_DRAFT_LABEL === "on")],
     define: { __APP_PROFILE__: JSON.stringify(profile), __APP_BUILD__: JSON.stringify(process.env.APP_BUILD_ID ?? "local") },
     build: { target: "es2022", modulePreload: { polyfill: false }, sourcemap: false },
     css: { modules: { localsConvention: "camelCaseOnly" } },

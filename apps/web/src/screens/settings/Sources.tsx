@@ -46,7 +46,10 @@ function Body(): ReactNode {
         </Card>
         <Card title={t.t("common.sources.books.title")} headingLevel={2} id="sources-books">
           <DataTable caption={t.t("common.sources.books.caption")} head={["book", "passages", "verified", "source"].map((c) => k(`common.sources.books.col.${c}`))} rows={bookRows} />
-          <p className="muted">{t.t("common.sources.licences")}</p>
+        </Card>
+        <Card title={t.t("common.sources.licences.title")} headingLevel={2} id="sources-licences">
+          <p>{t.t("common.sources.licences.body")}</p>
+          <p style={{ margin: 0 }}><a href={`${import.meta.env.BASE_URL}NOTICE.txt`} lang="en">{t.t("common.sources.licences.link")}</a></p>
         </Card>
       </div>
     </>

@@ -71,13 +71,17 @@ most restrictive of all matched dimensions. `safety_enforcement`: `suppress_hard
 
 ## Provenance and licences
 
-| Source | Licence | Used for |
-|---|---|---|
-| TCM-Library (submodule) | MIT | classics text, herb properties/functions, 經方 text |
-| TCM-Ancient-Books (submodule) | none declared — reference only | verification of later formulas and of quoted passages; **no text redistributed beyond short quotations** |
-| tcm-mkg (submodule) | MIT | not yet used (candidate for English/Latin herb names) |
-| 《中華人民共和國藥典》 facts via TCM-Library | official publication | properties, functions, cautions as structured facts only |
-| `packages/wuxing` | project code | stems/branches/yunqi tables, parameters |
+> **Licence statement.** The [`NOTICE`](../NOTICE) file at the root of the repository is the authoritative list of attributions and is shipped with the app (`/NOTICE.txt`, linked from the Sources screen). In short: **material written for this project** — the curated tables, the question bank and constitution questionnaire items, all English and Traditional Chinese wording, the generators — is under the **Apache License 2.0**, like the code. **Material derived from other sources keeps its licence and its attribution**: the MIT-licensed TCM-Library (the text of quoted passages, herb records, formula composition text) requires its copyright and permission notice to be kept, which `NOTICE` does. The classics themselves are in the public domain. Compilations without a licence (TCM-Ancient-Books) are used to verify quotations only and are never redistributed. Machine-derived herb records from the Pharmacopoeia are structured facts, marked `derived`. *Decided 2026-10-04 — MVP default (the project's own data under Apache-2.0); revisit after the MVP together with the legal review of the public statement (V-07).*
+
+| Source | Licence | Used for | In the shipped data |
+|---|---|---|---|
+| TCM-Library (submodule, v1.0.0) | MIT, © 2026 TCM-Library contributors | quoted passages (source text, not the 白話提要 summaries), herb properties/functions, 經方 composition text | yes — attribution in `NOTICE` |
+| TCM-Ancient-Books (submodule) | none declared — reference only | verification of later formulas and of quoted passages | **no files**; only short quotations of public-domain texts (7 citations name it) |
+| tcm-mkg (submodule) | MIT | candidate for English/Latin herb names | **not used yet**; `NOTICE` is updated if it is |
+| 《中華人民共和國藥典》 facts via TCM-Library | official publication | properties, functions, cautions as structured facts only | yes, as `derived` facts |
+| Classical texts (素問, 傷寒論, …) | public domain | the 127 quotations | yes |
+| `packages/wuxing`, `scripts/kb/curated`, `diagnosis/constitution-items.json`, UI and English text | Apache-2.0 (project) | everything original | yes |
+| GeoNames `cities15000` (planned, K-10) | CC BY 4.0 — attribution required | city → coordinates and time zone for the birth card | not yet; added with its attribution in `NOTICE` and on the Sources screen |
 
 Every herb carries `source.path` and the submodule commit; every formula carries its verification record.
 

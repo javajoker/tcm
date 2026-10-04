@@ -1,3 +1,5 @@
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 import { act, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import * as engine from "@tcm/engine";
@@ -138,6 +140,23 @@ describe("Sources (S18)", () => {
     expect(books.getAllByRole("row").length).toBe(expected.size + 1);
     for (const [book, n] of expected) expect(books.getByRole("row", { name: new RegExp(`《${book}》 ${n} `) })).toBeInTheDocument();
     expect(books.getAllByText(/TCM-Library \(MIT\)/).length).toBeGreaterThan(0);
+  });
+
+  it("names the licences and links to the notice file that ships with the app, which names every source of the data", async () => {
+    await open("/en/sources");
+    const card = within(await screen.findByRole("region", { name: "Licences and acknowledgements" }));
+    expect(card.getByText(/TCM-Library \(MIT licence\)/)).toBeInTheDocument();
+    expect(card.getByText(/Apache License 2\.0/)).toBeInTheDocument();
+    expect(card.getByRole("link", { name: /Read the full notice/ })).toHaveAttribute("href", "/NOTICE.txt");
+    // every source the knowledge base records in its citations is in the notice
+    const notice = readFileSync(join(import.meta.dirname, "..", "..", "..", "NOTICE"), "utf8");
+    const ids = new Set([...kb.formulas.values()].flatMap((f) => [f.source.ref, ...f.rationale_citations]).concat(kb.patterns.flatMap((p) => p.citations)));
+    for (const id of ids) { const c = kb.citation(id); if (c?.source_repo) expect(notice, c.source_repo).toContain(c.source_repo.replace(/ \(.*$/, "")); }
+  });
+
+  it("is in Traditional Chinese too", async () => {
+    await open("/zh-Hant/sources");
+    expect(await screen.findByRole("region", { name: "授權與致謝" })).toHaveTextContent("Apache License 2.0");
   });
 
   it.each(["en", "zh-Hant"] as const)("has no axe violations (%s)", async (lang) => {

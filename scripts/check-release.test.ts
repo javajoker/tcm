@@ -206,6 +206,18 @@ describe("check-release", () => {
     assert.match(messages(checkRelease(publicBase, { draftLabel: true })), /must not be indexable/);
   });
 
+  test("10: the attribution notice is shipped and complete", () => {
+    const missing = copy();
+    rmSync(join(missing, "NOTICE.txt"));
+    assert.match(messages(checkRelease(missing, { draftLabel: true })), /NOTICE\.txt is missing/);
+    const gutted = copy();
+    writeFileSync(join(gutted, "NOTICE.txt"), "TCM Self-Check");
+    const m = messages(checkRelease(gutted, { draftLabel: true }));
+    assert.match(m, /does not contain "TCM-Library"/);
+    assert.match(m, /does not contain "Permission is hereby granted"/);
+    assert.deepEqual(rules(checkRelease(gutted, { draftLabel: true })), [10]);
+  });
+
   test("9: source maps", () => {
     const map = copy();
     writeFileSync(join(map, "assets", "index-abcdef12.js.map"), "{}");

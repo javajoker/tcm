@@ -13,11 +13,11 @@ after(() => { for (const c of copies) rmSync(c, { recursive: true, force: true }
 function copy(): string {
   const dir = mkdtempSync(join(tmpdir(), "tcm-hygiene-"));
   copies.push(dir);
-  for (const f of ["SECURITY.md", "CHANGELOG.md", "CONTRIBUTING.md", "LICENSE", ".github/CODEOWNERS", ".github/pull_request_template.md", ".github/ISSUE_TEMPLATE/config.yml", ".github/ISSUE_TEMPLATE/bug_report.md", ".github/ISSUE_TEMPLATE/safety_report.md"]) {
+  for (const f of ["NOTICE", "data/README.md", "SECURITY.md", "CHANGELOG.md", "CONTRIBUTING.md", "LICENSE", ".github/CODEOWNERS", ".github/pull_request_template.md", ".github/ISSUE_TEMPLATE/config.yml", ".github/ISSUE_TEMPLATE/bug_report.md", ".github/ISSUE_TEMPLATE/safety_report.md"]) {
     mkdirSync(dirname(join(dir, f)), { recursive: true });
     cpSync(join(root, f), join(dir, f));
   }
-  for (const d of ["data", "scripts", "docs"]) mkdirSync(join(dir, d), { recursive: true });
+  for (const d of ["scripts", "docs"]) mkdirSync(join(dir, d), { recursive: true });
   for (const f of ["docs/safety-policy.md", "docs/content-review.md", "docs/diagnosis-sop.zh-TW.md", "docs/privacy.md", "docs/release-process.md", "scripts/check-release.ts"]) writeFileSync(join(dir, f), "");
   mkdirSync(join(dir, "scripts/kb"), { recursive: true });
   return dir;
@@ -60,6 +60,16 @@ test("SECURITY.md and the issue form name the same private channel and forbid a 
   const p = checkHygiene(d).join("\n");
   assert.match(p, /does not give the private vulnerability-reporting address/);
   assert.match(p, /does not say not to open a public issue/);
+});
+
+test("NOTICE must name the sources and their licences; the data README must point to it", () => {
+  const d = copy();
+  edit(d, "NOTICE", (s) => s.replace(/TCM-Library/g, "the library").replace("Permission is hereby granted", "Permission"));
+  edit(d, "data/README.md", (s) => s.replace(/NOTICE/g, "the notice"));
+  const p = checkHygiene(d).join("\n");
+  assert.match(p, /NOTICE does not mention "TCM-Library"/);
+  assert.match(p, /NOTICE does not mention "Permission is hereby granted"/);
+  assert.match(p, /data\/README\.md does not refer to NOTICE/);
 });
 
 test("CODEOWNERS paths must exist and every line needs an owner; the changelog needs its Unreleased section", () => {
