@@ -227,9 +227,9 @@ Suggested waves: **1** foundation (E-01, K-01, K-02, I-01, U-01, R-01) → **2**
 
 | ✔ | ID | Task | Pri | Size | Deps | Done when |
 |---|---|---|---|---|---|---|
-| [ ] | PF-01 | Split a lightweight season entry (`@tcm/wuxing/season`) from the VSOP chart | P2 | M | E-06 | Engine chunk smaller; tests |
+| [ ] | PF-01 | Split a lightweight season entry (`@tcm/wuxing/season`) from the VSOP chart | P2 | M | E-06 | Engine chunk smaller; tests — **considered 2026-10-05, not done:** the astronomy tables (VSOP87, ≈ 18 KB gzip of the 26 KB engine chunk) are needed by every session for the season and the five periods, not only by the birth chart, so a lighter entry would have to replace them with a lower-accuracy sun (±15 min at a solar-term boundary) *and* the birth chart would have to load them lazily — an asynchronous birth path in the engine. The budgets have room (initial JS 121 of 200 KB, knowledge base 84 of 100 KB); revisit if they tighten |
 | [x] | PF-02 | Self-hosted CJK font subset for citations (if glyph gaps are found) | P2 | M | U-19 | Missing-glyph rate reported — audited, no subset needed: of 1,965 distinct CJK characters in the data and 842 in the UI strings only 4 (髎 瞤 腨 黅; 6 occurrences) lie outside Big5-HKSCS, all in the CJK Unified block and present in the system CJK fonts checked (Heiti, Songti, Hiragino); `validate_kb` pins the set. The audit also found Simplified forms in Traditional fields (a citation chapter, the classical units and processing notes) — fixed, and the validator now fails on them |
-| [ ] | PF-03 | Move the engine into a Web Worker (only if `assess` exceeds its budget) | P2 | M | E-19 | Same API; tests |
+| [ ] | PF-03 | Move the engine into a Web Worker (only if `assess` exceeds its budget) | P2 | M | E-19 | Same API; tests — not triggered: `assess` p95 is 5.6 ms against a 50 ms budget (`pnpm bench:check`) |
 
 ## Backlog (post-MVP, not scheduled)
 
