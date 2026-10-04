@@ -5,7 +5,7 @@ A bilingual (Traditional Chinese default / English), responsive web app that gui
 conclusion with citations to classical texts (《黃帝內經》《傷寒論》《金匱要略》 …), and suggests classical formulas — with their
 君臣佐使 structure — and lifestyle guidance as **educational reference**, not a medical diagnosis.
 
-> Status: **documentation set (M0), first-pass knowledge base and the five-phase engine are done; the web app is not started.** Start with the [documentation index](docs/README.md); the work plan is [`TASKS.md`](TASKS.md).
+> Status: **pre-release.** The documentation set, the first-pass knowledge base, the five-phase engine, the diagnosis engine and the web app (MVP flow, both languages) exist; all medical content is still `draft` and unreviewed, and nothing has been published. Start with the [documentation index](docs/README.md); the work plan is [`TASKS.md`](TASKS.md); what changed is in [`CHANGELOG.md`](CHANGELOG.md).
 
 ## What is here
 
@@ -23,7 +23,9 @@ conclusion with citations to classical texts (《黃帝內經》《傷寒論》�
 | [`data/`](data/README.md) | Knowledge base: 127 verified quotations, 703 herbs, 33 formulas, 23 patterns, tongue/pulse, scope profiles, safety rules | first pass, review pending |
 | [`scripts/kb`](scripts/kb) | Deterministic KB build, validation, pattern self-test, reference diagnosis pipeline | done |
 | [`reference/`](reference/README.md) | Source texts and datasets as git submodules | — |
-| `packages/{kb,engine,i18n}`, `apps/web` | Knowledge-base loader, diagnosis engine, i18n, the web app | planned ([tech spec §2.1](docs/tech-spec.md)) |
+| [`packages/{kb,engine,i18n}`](packages) | Knowledge-base loader and indexer, diagnosis engine (with property, vignette, golden and parity tests), message formatter | MVP done |
+| [`apps/web`](apps/web) | The web app: React 19 + Vite, `zh-Hant` / `en`, two build profiles, client-only | MVP flow done; see [`TASKS.md`](TASKS.md) |
+| [`SECURITY.md`](SECURITY.md) · [`CHANGELOG.md`](CHANGELOG.md) | How to report a vulnerability · what changed | — |
 
 ## Quick start
 
@@ -35,8 +37,10 @@ python3 -m venv .venv && .venv/bin/pip install -r scripts/requirements.txt
 .venv/bin/python -m scripts.kb.build_kb            # build data/ + validate + self-test (deterministic)
 .venv/bin/python -m scripts.kb.example_pipeline    # worked example used in the SOP
 
-# workspace: five-phase engine tests, type checks and lint
+# workspace: tests, type checks and lint for every package and the web app
 pnpm install && pnpm check
+pnpm dev                                           # the web app (dev profile) on http://localhost:5173
+pnpm test:safety                                   # the safety vignette suite (blocks a release)
 ```
 
 ## Configuration in one paragraph

@@ -31,7 +31,8 @@
     "test:release": "node --test scripts/check-release.test.ts",
     "check:i18n": "node scripts/check-i18n.ts",
     "check:icons": "python3 scripts/make_icons.py --check",
-    "test:scripts": "node --test scripts/check-release.test.ts scripts/check-i18n.test.ts"
+    "check:hygiene": "node scripts/check-hygiene.ts",
+    "test:scripts": "node --test scripts/check-release.test.ts scripts/check-i18n.test.ts scripts/check-hygiene.test.ts"
   },
   "devDependencies": {
     "@types/node": "^22.10.0",

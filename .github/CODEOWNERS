@@ -1,0 +1,17 @@
+# Review requests (docs/content-review.md, CONTRIBUTING.md §5). Medical-content paths are listed separately so that a change to them is always routed to the owner,
+# who forwards it to the matching reviewer role; add the reviewers' handles here when roles are filled (task V-01).
+*                                  @javajoker
+
+# Medical content and its generators
+/data/                             @javajoker
+/scripts/kb/                       @javajoker
+/docs/safety-policy.md             @javajoker
+/docs/content-review.md            @javajoker
+/docs/diagnosis-sop.zh-TW.md       @javajoker
+
+# Privacy, release and security
+/docs/privacy.md                   @javajoker
+/docs/release-process.md           @javajoker
+/SECURITY.md                       @javajoker
+/.github/                          @javajoker
+/scripts/check-release.ts          @javajoker

@@ -19,7 +19,7 @@ pnpm install
 pnpm check            # lint + typecheck + tests for every package
 ```
 
-Root scripts: `pnpm lint`, `pnpm typecheck`, `pnpm test`, `pnpm check`, `pnpm build:kb`, `pnpm dev` (web app, dev profile), `pnpm build` (release profile), `pnpm build:dev`. Per package: `pnpm --filter @tcm/wuxing test`. `pnpm check:i18n` arrives with task I-03.
+Root scripts: `pnpm lint`, `pnpm typecheck`, `pnpm test`, `pnpm check`, `pnpm build:kb`, `pnpm dev` (web app, dev profile), `pnpm build` (release profile), `pnpm build:dev`. Per package: `pnpm --filter @tcm/wuxing test`. `pnpm check:i18n`, `pnpm test:safety` (safety vignettes), `pnpm test:properties`, `pnpm golden` (golden-case concordance), `pnpm check:icons`, `pnpm check:hygiene`.
 
 ## 2. Layout
 
@@ -95,7 +95,7 @@ Root scripts: `pnpm lint`, `pnpm typecheck`, `pnpm test`, `pnpm check`, `pnpm bu
 
 - **Bugs and ideas:** open an issue.
 - **Safety or content concerns** (a wrong contraindication, a missing notice, misleading wording): use the *Safety report* template; include the item id and the KB/engine versions shown in Settings. **Do not include personal health information.**
-- **Security issues:** see `SECURITY.md` (to be added) — do not open a public issue.
+- **Security issues:** see [`SECURITY.md`](SECURITY.md) — do not open a public issue.
 
 ## 9. Licence
 

@@ -33,6 +33,7 @@ jobs:
       - run: pnpm check:notices
       - run: pnpm check:i18n
       - run: pnpm check:icons
+      - run: pnpm check:hygiene
       - run: pnpm test
       - name: Safety vignette suite (blocks the release)
         run: pnpm test:safety
