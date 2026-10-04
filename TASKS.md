@@ -25,17 +25,17 @@
 | **DEC** Decisions | 6 | 6 |
 | **K** Knowledge base | 8 | 19 |
 | **E** Engine and packages | 19 | 21 |
-| **I** Internationalisation | 2 | 6 |
+| **I** Internationalisation | 2 | 5 |
 | **U** Web application | 3 | 22 |
 | **Q** Quality assurance | 0 | 10 |
 | **R** Release and operations | 0 | 7 |
 | **V** Review (non-code) | 0 | 7 |
 | **PF** Performance (P2) | 0 | 3 |
-| **All** | **56** | **119** |
+| **All** | **56** | **118** |
 
 | Priority | Done | Total |
 |---|---:|---:|
-| P0 | 40 | 69 |
+| P0 | 40 | 68 |
 | P1 | 14 | 42 |
 | P2 | 2 | 8 |
 
@@ -149,7 +149,7 @@ Suggested waves: **1** foundation (E-01, K-01, K-02, I-01, U-01, R-01) → **2**
 | [x] | I-01 | `@tcm/i18n` (typed keys, interpolation, plural, fallback marking, Intl helpers) | P0 | M | E-01 | Unit tests; zero dependencies |
 | [x] | I-02 | Catalog scaffolding, key generation, ESLint no-literal-strings rule | P0 | M | I-01 | Hard-coded UI text fails lint |
 | [ ] | I-03 | `scripts/check-i18n.ts` + `scripts/i18n-wording.json` (parity, placeholders, glossary, forbidden wording, ratios) | P0 | L | I-01, K-12 | Rules of [i18n guide §8.2](docs/i18n-guide.md); CI job |
-| [ ] | I-04 | Notice catalogue in the `safety` namespace (both languages, with allow-list annotations) | P0 | M | I-02, A-10 | All notice ids render with all parameters; lint passes |
+| [x] | I-04 | Notice catalogue in the `safety` namespace (both languages, with allow-list annotations) | P0 | M | I-02, A-10 | All notice ids render with all parameters; lint passes | — generated from the policy by `scripts/sync-notices.ts` (`pnpm sync:notices` / `check:notices`); keys `safety.notice.<slug>.{title,body|text}`; the forbidden-wording allow-list for these ids is added by I-03
 | [ ] | I-05 | Pseudo-locale (`en-XA`) and long-text mode | P1 | S | I-01 | Screenshot job uses it |
 | [ ] | I-06 | Linguistic review pass of all UI strings (bilingual reviewer) | P0 | M | V-06 | `en_status: reviewed` for UI and notices |
 
