@@ -15,6 +15,7 @@ Reading order for a new contributor: **PRD → Diagnosis SOP → Tech spec → U
 | [Safety policy](safety-policy.md) | English | Who gets what output, notice wording, filter semantics, emergency resources, incidents | **Notice wording** and safety behaviour | 0.1 |
 | [Privacy and data handling](privacy.md) | English | Data inventory, storage, erase, compliance posture, developer rules | Privacy decisions | 0.1 |
 | [Test plan](test-plan.md) | English | Test layers, properties, safety vignettes, golden cases, E2E, usability | Quality strategy | 0.1 |
+| [Accessibility protocol](accessibility-protocol.md) | English | What is automated, the manual assistive-technology pass per release, findings and severity, the record template | Accessibility acceptance | 0.1 |
 | [Release process](release-process.md) | English | Versions, environments, gates, deployment, rollback | Release rules | 0.1 |
 | [`TASKS.md`](../TASKS.md) | English | The implementation task list (one commit per task) | Work breakdown | 0.1 |
 | [`CHECKLIST.md`](../CHECKLIST.md) | English | Definition of done and milestone/release checklists | Acceptance | 0.1 |

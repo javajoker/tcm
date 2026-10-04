@@ -175,6 +175,8 @@ Blinded vignettes (written, synthetic) are given to ≥ 3 practitioners **and** 
 
 Automated: axe (WCAG 2.1 A/AA) on every route × `zh-Hant`/`en` × light/dark, in default and 200 % zoom. Manual before each release: VoiceOver (iOS and macOS), TalkBack, NVDA — full flow including the tongue map (zone buttons and the checklist twin), the notice dialog (focus trap/restore), the radar's table equivalent and the citation sheet; keyboard-only run; reduced-motion; text-size presets; colour-blindness simulation of the panel visuals; contrast of the token table (unit-tested). Exit criterion: zero axe violations and all manual tasks completed.
 
+> **Implementation (Q-05).** `apps/web/test/a11y-sweep.test.tsx` runs axe on every route of `App.tsx` in both languages (each in a state where it has content, plus the emergency-notice state) and fails when a route is added without being listed; contrast is verified from the token pairs of both schemes (`tokens.test.ts`) and, for real rendering, in the Playwright/Lighthouse runs. The manual assistive-technology pass, its severity rules and the record template are in the [accessibility protocol](accessibility-protocol.md); results are stored per release in `docs/a11y-records/`.
+
 ### 5.3 Responsive and cross-browser
 
 Viewports 320, 375, 600, 900, 1200, 1920; landscape phone; touch targets ≥ 44 px (measured in Playwright); no horizontal scroll; Chrome, Safari (iOS), Firefox, Edge (last 2 versions) on the E1/E2/E9/E10 scenarios.

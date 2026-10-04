@@ -27,15 +27,15 @@
 | **E** Engine and packages | 19 | 20 |
 | **I** Internationalisation | 2 | 4 |
 | **U** Web application | 6 | 6 |
-| **Q** Quality assurance | 4 | 10 |
+| **Q** Quality assurance | 5 | 10 |
 | **R** Release and operations | 0 | 4 |
 | **V** Review (non-code) | 0 | 7 |
 | **PF** Performance (P2) | 0 | 3 |
-| **All** | **63** | **96** |
+| **All** | **64** | **96** |
 
 | Priority | Done | Total |
 |---|---:|---:|
-| P0 | 44 | 54 |
+| P0 | 45 | 54 |
 | P1 | 16 | 34 |
 | P2 | 3 | 8 |
 
@@ -192,7 +192,7 @@ Suggested waves: **1** foundation (E-01, K-01, K-02, I-01, U-01, R-01) → **2**
 | [x] | Q-02 | Golden-case infrastructure (format, runner, tuning/held-out split, metrics) with a synthetic seed set | P0 | M | E-17 | Runner reports concordance; non-blocking until M3 |
 | [x] | Q-03 | Property suite P1–P12 wired into CI (10× nightly) | P0 | M | E-17 | Seeds printed; nightly job |
 | [ ] | Q-04 | Playwright E2E E1–E20 (desktop + mobile, zh-Hant + en) | P0 | XL | U-17, U-21 | All green in CI |
-| [ ] | Q-05 | Accessibility: axe sweep, manual AT protocol and record template | P0 | M | U-17 | Zero violations; manual results stored per release |
+| [x] | Q-05 | Accessibility: axe sweep, manual AT protocol and record template | P0 | M | U-17 | Zero violations; manual results stored per release |
 | [ ] | Q-06 | Lighthouse CI + `size-limit` budgets | P1 | S | U-01, E-03 | Budgets of [tech spec §12](docs/tech-spec.md) enforced |
 | [ ] | Q-07 | Visual regression baselines (`zh-Hant`, `en`, `en-XA`; 320/1280) | P1 | M | I-05, U-17 | Diff review workflow |
 | [x] | Q-08 | Privacy tests (network, URL/log scan, erase, birth persistence, storage failure) | P0 | M | U-04 | E14, E19, E20 green |

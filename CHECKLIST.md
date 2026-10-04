@@ -162,7 +162,7 @@ Each row is accepted when **all** its checks hold and the verifying test or revi
 
 ### 5.4 Accessibility
 - [ ] axe clean across the route × language × theme matrix
-- [ ] Manual pass (§6) done on this build
+- [ ] Manual pass (§6) done on this build, following the [accessibility protocol](docs/accessibility-protocol.md) and recorded in `docs/a11y-records/<release>.md`
 - [ ] Reduced motion, 200 % zoom, text-size presets verified
 
 ### 5.5 Privacy and legal
@@ -181,7 +181,7 @@ Each row is accepted when **all** its checks hold and the verifying test or revi
 
 ## 6. Manual accessibility pass (per release)
 
-Record device, OS, browser and AT versions with the result.
+Record device, OS, browser and AT versions with the result, in a copy of [`docs/a11y-records/TEMPLATE.md`](docs/a11y-records/TEMPLATE.md). The task list, the severity rules and the exit criterion are in the [accessibility protocol](docs/accessibility-protocol.md); the rows below are its summary.
 
 | Flow | VoiceOver iOS | TalkBack | NVDA + Firefox/Chrome | Keyboard only |
 |---|---|---|---|---|
