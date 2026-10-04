@@ -291,6 +291,8 @@ MOBILE                                    DESKTOP (≥ 1200 px)
 
 **Result actions (menu ⋯):** Save (auto-saved), Print / PDF, Practitioner summary, Export my inputs (JSON, with a warning), Compare with earlier, Start a new assessment, Delete.
 
+> **Implementation notes (U-17).** *Words:* panel values map to five words on the −3…+3 channel scale (≤ −1.5 low · ≤ −0.5 somewhat low · < 0.5 normal · < 1.5 somewhat high · else high; scalars of another range are rescaled first); a formula's match is *good* when it corrects ≥ 60 % of the deviation, *moderate* from 40 %, else *partial*. *Insufficient information:* the panel, the reasoning, the spread and "what would change this" are not shown (they would suggest a precision the data do not have); the summary lists what is missing and offers to answer it, and only general lifestyle principles are given. *Tables:* the five-phase and eight-principle tables are always complete; the six-qi / phlegm table lists only non-zero rows and says the rest is normal. Chinese-only prose from the knowledge base (治則, rationale, lifestyle) is shown as is and marked "中" in the English UI until K-13 lands. Citation chips open the S15 sheet; the English rendering slot says "none yet".
+
 ### 4.11 S14 Formula detail
 
 - Header: name (zh-Hant · pinyin · English), source and **verification badge** ("composition verified against the classical text / source book / partially") with a plain explanation; tier chip with reason ("contains a strong herb" …).

@@ -11,7 +11,11 @@ import type { SavedAssessment } from "../../storage/types.ts";
 import { Chip, LinkButton, Skeleton } from "../../ui/index.ts";
 import { Advice } from "./Advice.tsx";
 import { Banner } from "./Banner.tsx";
+import { Panel } from "./Panel.tsx";
 import { Summary } from "./Summary.tsx";
+import { Transmission } from "./Transmission.tsx";
+import { WhatWouldChange } from "./WhatWouldChange.tsx";
+import { Why } from "./Why.tsx";
 import { Practitioner, ReportFooter, YourData } from "./Tail.tsx";
 import styles from "./Result.module.css";
 
@@ -28,7 +32,7 @@ function useSaved(id: string): State {
   return state.id === id ? state.value : { status: "loading" };
 }
 
-const SECTIONS = [["summary", "sec-summary"], ["advice", "sec-advice"], ["data", "sec-data"]] as const;
+const SECTIONS = [["summary", "sec-summary"], ["panel", "sec-panel"], ["why", "sec-why"], ["transmission", "sec-transmission"], ["advice", "sec-advice"], ["data", "sec-data"], ["change", "sec-change"]] as const;
 
 function Report({ saved }: { saved: SavedAssessment }): ReactNode {
   const { t } = useI18n();
@@ -36,6 +40,9 @@ function Report({ saved }: { saved: SavedAssessment }): ReactNode {
   const [, navigate] = useLocation();
   const adoptDraft = useApp((s) => s.adoptDraft);
   const storage = useApp((s) => s.storage);
+  // with insufficient information there is no pattern to explain: the panel, the reasoning, the spread and the differential would only suggest false precision
+  const established = saved.result.verdict.status === "established";
+  const sections = SECTIONS.filter(([k]) => established || !["panel", "why", "transmission", "change"].includes(k));
   const answerMore = (): void => { adoptDraft(draftFromSaved(kb, saved, randomId(), Date.now())); navigate("/inquiry"); };
   return (
     <>
@@ -44,14 +51,18 @@ function Report({ saved }: { saved: SavedAssessment }): ReactNode {
         <Chip tone={storage === "persistent" ? "plain" : "notice"}>{storage === "persistent" ? `✓ ${t.t("report.saved")}` : `⚠ ${t.t("report.notSaved")}`}</Chip>
       </div>
       <nav aria-label={t.t("report.nav.label")} className={styles.chips}>
-        {SECTIONS.map(([k, anchor]) => <a key={k} href={`#${anchor}`} className={styles.chip}>{t.t(`report.nav.${k}` as MessageKey)}</a>)}
+        {sections.map(([k, anchor]) => <a key={k} href={`#${anchor}`} className={styles.chip}>{t.t(`report.nav.${k}` as MessageKey)}</a>)}
       </nav>
       <div className={styles.sections}>
         <Banner saved={saved} />
         <Summary saved={saved} onAnswerMore={answerMore} />
+        {established ? <Panel saved={saved} /> : null}
+        {established ? <Why saved={saved} /> : null}
+        {established ? <Transmission saved={saved} /> : null}
         <Advice saved={saved} />
         <Practitioner />
         <YourData saved={saved} />
+        {established ? <WhatWouldChange saved={saved} /> : null}
       </div>
       <ReportFooter saved={saved} />
     </>

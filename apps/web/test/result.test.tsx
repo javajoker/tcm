@@ -8,6 +8,7 @@ import { afterEach, describe, expect, it } from "vitest";
 import { assessInputOf, toSaved } from "../src/app/assessment.ts";
 import { DISCLAIMER_VERSION } from "../src/app/disclaimer.ts";
 import type { Loaded } from "../src/app/knowledge.tsx";
+import { level5, signed } from "../src/screens/result/words.ts";
 import type { Draft, SavedAssessment } from "../src/storage/types.ts";
 import { fakeEnvironment, renderApp, testStore } from "./helpers.tsx";
 import { interview, screenedDraft } from "./interview.ts";
@@ -35,7 +36,7 @@ async function open(saved: SavedAssessment | null, loaded: Loaded, lang: "en" | 
   return { ...view, ...t, env };
 }
 
-describe("Result report (S13), part 1", () => {
+describe("Result report (S13)", () => {
   const sp1 = interview(devKb, "SP1");
   const saved = save(dev, sp1);
 
@@ -49,7 +50,7 @@ describe("Result report (S13), part 1", () => {
     await open(saved, dev);
     expect(await screen.findByRole("heading", { level: 1, name: "Your result" })).toBeInTheDocument();
     const headings = screen.getAllByRole("heading", { level: 2 }).map((h) => h.textContent);
-    expect(headings).toEqual(["Safety and scope", "Summary", "Advice", "When to see a doctor or a practitioner", "Your data"]);
+    expect(headings).toEqual(["Safety and scope", "Summary", "Panel", "Why", "Spread and susceptibility", "Advice", "When to see a doctor or a practitioner", "Your data", "What would change this"]);
     expect(screen.getByText(/for education and self-understanding only/)).toBeInTheDocument();
     expect(screen.getByText(/Computed .*knowledge base .*engine 0\.1\.0/)).toBeInTheDocument();
     expect(screen.getByRole("navigation", { name: "Sections of this page" })).toBeInTheDocument();
@@ -178,3 +179,91 @@ describe("Result report (S13), part 1", () => {
   });
 });
 
+describe("Result report (S13): panel, why, transmission, what would change", () => {
+  const sp1 = interview(devKb, "SP1");
+  const sp1WithTongue = ((): Draft => {
+    const weights = devKb.patternById.get("SP1")!.weights as Record<string, number>;
+    const tongue = Object.keys(weights).find((k) => k.startsWith("T_"));
+    const pulse = Object.keys(weights).find((k) => k.startsWith("P_"));
+    return { ...sp1, findings: { ...sp1.findings, ...(tongue ? { [tongue]: { state: "present" as const, source: "guided" as const } } : {}), ...(pulse ? { [pulse]: { state: "present" as const, source: "pulse" as const } } : {}) } };
+  })();
+  const saved = save(dev, sp1WithTongue, "r5555555555555555");
+  const fmt = (v: number): string => signed(v, (n) => n.toLocaleString("en", { maximumFractionDigits: 1, minimumFractionDigits: 1 }));
+
+  it("the panel is words with the numbers in tables that equal the data (five phases, six qi, eight principles, organs)", async () => {
+    await open(saved, dev);
+    const panel = within(await screen.findByRole("region", { name: "Panel" }));
+    expect(panel.getByText(/Compared with a typical healthy person/, { selector: "p" })).toBeInTheDocument();
+    expect(panel.getByText("Values are deviations from a typical healthy person, not a health score.")).toBeInTheDocument();
+    const wuxing = within(panel.getByRole("table", { name: "Five Phases (compared with a typical healthy person)" }));
+    const names = { 木: "Wood", 火: "Fire", 土: "Earth", 金: "Metal", 水: "Water" } as const;
+    for (const e of ["木", "火", "土", "金", "水"] as const) {
+      const row = wuxing.getByRole("row", { name: new RegExp(`^${names[e]}`) });
+      const v = saved.result.panel.offsetPopulation[e];
+      expect(within(row).getByText(fmt(v))).toBeInTheDocument();
+      expect(within(row).getByText(({ low: "low", somewhatLow: "somewhat low", normal: "normal", somewhatHigh: "somewhat high", high: "high" } as const)[level5(v)])).toBeInTheDocument();
+    }
+    const sixQi = Object.keys(saved.result.panel.observed).some((k) => /^(liuxie|product)\./.test(k));
+    if (sixQi) expect(panel.getByRole("table", { name: "Six qi and phlegm, fluid, stasis" })).toBeInTheDocument();
+    else expect(panel.getByText(/No clear deviation in the six qi/)).toBeInTheDocument();
+    const eight = within(panel.getByRole("table", { name: "Eight Principles" }));
+    expect(eight.getByRole("row", { name: /^Cold–heat/ })).toHaveTextContent(fmt(saved.result.panel.bagang.coldHeat));
+    const organs = Object.keys(saved.result.panel.observed).filter((k) => /^[肝心脾肺腎膽小腸胃大膀胱]+\.(qi|blood|yin|yang|stasis)$/.test(k));
+    if (organs.length > 0) expect(panel.getByRole("table", { name: /^Organs/ })).toBeInTheDocument();
+    expect(panel.queryByRole("heading", { name: "What the reference is made of" }) !== null).toBe(saved.result.reference !== null);
+  });
+
+  it("the reasoning lists what was reported with severity and a tag for self-observed items, the evidence against, and the classical basis", async () => {
+    await open(saved, dev);
+    const why = within(await screen.findByRole("region", { name: "Why" }));
+    const sp = devKb.patternById.get("SP1")!;
+    expect(why.getByRole("heading", { level: 3, name: new RegExp(sp.name.en!.slice(0, 20)) })).toBeInTheDocument();
+    expect(why.getAllByRole("heading", { level: 4, name: "What you reported" }).length).toBeGreaterThan(0);
+    const evidence = saved.result.trace.filter((x) => x.kind === "evidence" && x.patternId === "SP1");
+    expect(evidence.length).toBeGreaterThan(0);
+    if (evidence.length > 6) expect(why.getByText(`Show all ${evidence.length}`)).toBeInTheDocument();
+    const first = why.getAllByRole("group")[0] ?? why.getAllByText(/weight/i)[0];
+    expect(first).toBeDefined();
+    await userEvent.click(why.getAllByText(/\(Moderate\)|\(Mild\)|\(Strong\)/)[0]!.closest("summary")!);
+    expect(why.getAllByText(/weight [\d.]+ × severity [\d.]+ × data quality [\d.]+ → contribution [\d.]+/).length).toBeGreaterThan(0);
+    if (saved.result.trace.some((x) => x.kind === "evidence" && x.quality < 0.9)) expect(why.getAllByText("self-observed — counts for less").length).toBeGreaterThan(0);
+    expect(why.getAllByRole("heading", { level: 4, name: "Classical basis" }).length).toBeGreaterThan(0);
+    expect(why.getAllByRole("button", { name: /Open source/ }).length).toBeGreaterThan(0);
+    if (saved.result.trace.some((x) => x.kind === "against" && x.patternId === "SP1")) expect(why.getByRole("heading", { level: 4, name: "What points the other way" })).toBeInTheDocument();
+  });
+
+  it("the transmission notes use tendency wording with a classical anchor", async () => {
+    await open(saved, dev);
+    const tr = within(await screen.findByRole("region", { name: "Spread and susceptibility" }));
+    expect(tr.getByText(/not a diagnosis/)).toBeInTheDocument();
+    const rules = saved.result.panel.transmission.rules.slice(0, 3);
+    expect(tr.getAllByRole("listitem").length).toBeGreaterThanOrEqual(rules.length);
+    expect(tr.getAllByRole("button", { name: /Open source/ }).length).toBeGreaterThan(0);
+    if ((saved.result.reference?.forecast.length ?? 0) > 0) expect(tr.getByRole("heading", { name: "Coming seasons (traditional tendency reference)" })).toBeInTheDocument();
+  });
+
+  it("'what would change this' lists the engine's differential in plain words", async () => {
+    await open(saved, dev);
+    const ch = within(await screen.findByRole("region", { name: "What would change this" }));
+    const items = saved.result.trace.filter((x) => x.kind === "whatWouldChange");
+    if (items.length === 0) expect(ch.getByText("There is nothing to list at the moment.")).toBeInTheDocument();
+    else expect(ch.getAllByRole("listitem")).toHaveLength(items.length);
+  });
+
+  it("a thin result (insufficient information) shows what is missing and general advice, and none of the pattern-derived sections", async () => {
+    const thin = save(dev, screenedDraft(devKb), "r6666666666666666");
+    await open(thin, dev);
+    await screen.findByRole("heading", { level: 1, name: "Your result" });
+    for (const name of ["Panel", "Why", "Spread and susceptibility", "What would change this"]) expect(screen.queryByRole("region", { name })).toBeNull();
+    expect(screen.getByRole("region", { name: "There is not enough information yet for a leaning" })).toBeInTheDocument();
+    expect(screen.getByRole("region", { name: "Advice" })).toBeInTheDocument();
+    expect(screen.getByText("There is not enough information, so only general lifestyle principles are given.")).toBeInTheDocument();
+    expect(screen.getByRole("navigation", { name: "Sections of this page" })).not.toHaveTextContent("Panel");
+  });
+
+  it("the Traditional Chinese report has the same sections", async () => {
+    await open(saved, dev, "zh-Hant");
+    await screen.findByRole("heading", { level: 1, name: "評估結果" });
+    for (const name of ["盤面", "理由", "傳變與易感", "什麼情況會改變這個結果"]) expect(screen.getByRole("region", { name })).toBeInTheDocument();
+  });
+});

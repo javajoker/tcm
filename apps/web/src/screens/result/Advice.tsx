@@ -10,6 +10,8 @@ import type { SavedAssessment } from "../../storage/types.ts";
 import { Card, Chip } from "../../ui/index.ts";
 import { BilingualName, ZhText } from "./shared.tsx";
 
+const ROLE_SLUG = { 君: "sovereign", 臣: "minister", 佐: "assistant", 使: "envoy" } as const;
+
 /** Match words from the share of the deviation a formula corrects (UX spec §4.10: words first, the number in the details). */
 export const matchWord = (explained: number): "good" | "moderate" | "partial" => (explained >= 0.6 ? "good" : explained >= 0.4 ? "moderate" : "partial");
 
@@ -32,7 +34,7 @@ function FormulaCard({ f, savedId, study }: { f: FormulaRecommendation; savedId:
       <details>
         <summary style={{ minHeight: 44, display: "flex", alignItems: "center", cursor: "pointer" }}>{t.t("report.formula.composition")}</summary>
         <ul style={{ display: "flex", flexWrap: "wrap", gap: "var(--space-2)", listStyle: "none", padding: 0 }}>
-          {f.composition.map((r) => <li key={r.herb}><Chip><span lang="zh-Hant" title={t.t(`report.role.${r.role}` as MessageKey)}>{r.role}</span> {t.localized(r.name).text}</Chip></li>)}
+          {f.composition.map((r) => <li key={r.herb}><Chip><span lang="zh-Hant" title={t.t(`report.role.${ROLE_SLUG[r.role]}` as MessageKey)}>{r.role}</span> {t.localized(r.name).text}</Chip></li>)}
         </ul>
         <p className="muted">{t.t("report.formula.explained", { pct: t.number(f.fit.explained, { style: "percent", maximumFractionDigits: 0 }) })}</p>
       </details>

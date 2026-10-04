@@ -34,7 +34,7 @@ export function Banner({ saved }: { saved: SavedAssessment }): ReactNode {
   // notices the engine does not request but the policy requires from what was entered
   for (const med of saved.input.profile.medicationText) items.push({ key: `N-MED-UNKNOWN|${med}`, kind: "info", title: null, body: text("medicationUnknown", "text", { text: med }) });
   for (const al of a.quality.unmatchedAllergies) items.push({ key: `N-ALLERGY-UNKNOWN|${al}`, kind: "info", title: null, body: text("allergyUnknown", "text", { text: al }) });
-  if (Object.entries(saved.input.findings).some(([id, f]) => f.state === "present" && (f.source === "guided" || f.source === "pulse" || id.startsWith("T_") || id.startsWith("P_")))) items.push({ key: "N-SELFOBS", kind: "info", title: null, body: text("selfObserved", "text", {}) });
+  if (Object.entries(saved.input.findings).some(([id, f]) => f.state === "present" && (kb.symptoms.get(id)?.kind ?? "symptom") !== "symptom")) items.push({ key: "N-SELFOBS", kind: "info", title: null, body: text("selfObserved", "text", {}) });
   if (kb.params._meta.status !== "reviewed") items.push({ key: "N-DRAFT", kind: "caution", title: null, body: text("draft", "text", {}) });
 
   const older = saved.kbVersion !== kb.version || saved.engineVersion !== ENGINE_VERSION;
