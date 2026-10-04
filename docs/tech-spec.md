@@ -496,11 +496,13 @@ Unknown routes render a 404 with a way back; language switching preserves the ro
 
 ```ts
 interface AppState {
-  prefs: { lang: Lang; theme: "system"|"light"|"dark"; textScale: 0.9|1|1.15|1.3; disclaimerAck?: { version: string; at: number } };
+  prefs: { lang?: Lang;              // set only when the user chooses (toggle or the English offer); absent → zh-Hant
+           theme: "system"|"light"|"dark"; textScale: 0.9|1|1.15|1.3; disclaimerAck?: { version: string; at: number }; langOfferDismissed: boolean };
   draft: {                      // the in-progress assessment; persisted after every answer
     id: string; startedAt: number; updatedAt: number;
     subject: Partial<Subject>;  redFlags: RedFlagId[];
     findings: Record<SymptomId, Finding>;
+    context: AssessContext;     // non-symptom answers (course)
     constitutionAnswers: Record<ItemId, number>;
     birth?: BirthInput; rememberBirth: boolean;
     acknowledgements: RequiredAcknowledgement[];

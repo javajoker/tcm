@@ -72,6 +72,15 @@ export default tseslint.config(
     plugins: { i18n },
     rules: { "i18n/no-literal-strings": "error" },
   },
+  // Browser storage is reached only through apps/web/src/storage (docs/privacy.md §6 rule 4): it catches every failure and reports "Not saved".
+  {
+    files: ["apps/web/src/**/*.{ts,tsx}"],
+    ignores: ["apps/web/src/storage/**"],
+    rules: {
+      "no-restricted-globals": ["error", ...["localStorage", "sessionStorage", "indexedDB", "caches"].map((name) => ({ name, message: "Use apps/web/src/storage (persistence.ts) — the only module allowed to touch browser storage." }))],
+      "no-restricted-properties": ["error", ...["localStorage", "sessionStorage", "indexedDB", "caches"].map((property) => ({ object: "window", property, message: "Use apps/web/src/storage (persistence.ts) — the only module allowed to touch browser storage." }))],
+    },
+  },
   // Tests and scripts may use Node and the console.
   {
     files: ["**/test/**/*.ts", "**/test/**/*.tsx", "**/node/**/*.ts", "scripts/**/*.ts", "tools/**/*.js", "**/*.config.*"],

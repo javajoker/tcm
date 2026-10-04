@@ -12,3 +12,6 @@
 .langButton { min-width: 44px; min-height: 44px; padding: 0 0.75rem; border: 0; background: var(--surface); color: var(--ink); font-weight: 600; }
 .langButton + .langButton { border-inline-start: 1px solid var(--border-strong); }
 .langButton[aria-pressed="true"] { background: var(--primary); color: var(--on-primary); }
+.offer { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3); max-width: 70rem; margin: 0 auto; padding: var(--space-2) var(--gutter); background: var(--info-bg); color: var(--info-text); }
+.offer button { color: inherit; }
+.status { display: inline-flex; align-items: center; gap: var(--space-1); }

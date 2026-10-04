@@ -16,9 +16,15 @@
   "common.lang.en": "EN",
   "common.lang.label": "語言",
   "common.lang.zh-Hant": "中文",
+  "common.langOffer.action": "改用英文",
+  "common.langOffer.dismiss": "不用了",
+  "common.langOffer.text": "本頁也提供英文版。",
   "common.loading": "載入中…",
   "common.nav.home": "回到首頁",
   "common.nav.skip": "跳到主要內容",
   "common.notFound.body": "網址可能有誤。您可以回到首頁重新開始。",
-  "common.notFound.title": "找不到這個頁面"
+  "common.notFound.title": "找不到這個頁面",
+  "common.storage.notSaved": "未儲存",
+  "common.storage.notSavedHelp": "此瀏覽器無法儲存資料，您的答案不會在關閉或重新整理頁面後保留。結果仍可正常產生。",
+  "common.storage.notSavedLabel": "說明：為何未儲存"
 }

@@ -26,16 +26,16 @@
 | **K** Knowledge base | 8 | 20 |
 | **E** Engine and packages | 19 | 21 |
 | **I** Internationalisation | 2 | 6 |
-| **U** Web application | 3 | 26 |
+| **U** Web application | 3 | 25 |
 | **Q** Quality assurance | 0 | 10 |
 | **R** Release and operations | 0 | 7 |
 | **V** Review (non-code) | 0 | 7 |
 | **PF** Performance (P2) | 0 | 3 |
-| **All** | **56** | **124** |
+| **All** | **56** | **123** |
 
 | Priority | Done | Total |
 |---|---:|---:|
-| P0 | 40 | 74 |
+| P0 | 40 | 73 |
 | P1 | 14 | 42 |
 | P2 | 2 | 8 |
 
@@ -160,7 +160,7 @@ Suggested waves: **1** foundation (E-01, K-01, K-02, I-01, U-01, R-01) → **2**
 | [x] | U-01 | App scaffold: Vite + React + TS, wouter, Zustand, CSS Modules, `__APP_PROFILE__`, CSP, `index.html` | P0 | M | E-01 | Dev server runs; `release` and `dev` builds produce different profile constants |
 | [x] | U-02 | Design tokens (light/dark, scale), typography, base components (Button, Card, Chip, Tile, Dialog, Sheet, Tooltip; `Term` moves to U-05 with the KB provider), contrast unit test, component catalogue route | P0 | L | U-01 | Token table passes 4.5 : 1 / 3 : 1 tests; catalogue lists states — `apps/web/src/ui/*`, dev-only `/dev/catalogue`, axe-clean |
 | [x] | U-03 | i18n integration, language toggle, `/:lang` routing, `<html lang>`, route-preserving switch | P0 | M | I-01, U-01 | E11 passes (component-level equivalent in `apps/web/test/app.test.tsx`); aliases `/zh`, `/en-US` redirect; `/` honours `entryLang` (wired to saved prefs in U-04); one-time "View in English" offer moves to U-04 (needs persistence) |
-| [ ] | U-04 | Storage layer (`storage.ts`), draft autosave, prefs, erase-all, migration scaffold, "Not saved" chip | P0 | L | U-01 | E12, E14, E20 pass; privacy rules satisfied; saved language → `entryLang`; one-time dismissible "View in English" offer for English browsers (`browserPrefersEnglish`) |
+| [x] | U-04 | Storage layer (`storage.ts`), draft autosave, prefs, erase-all, migration scaffold, "Not saved" chip | P0 | L | U-01 | E12, E14, E20 pass; privacy rules satisfied; saved language → `entryLang`; one-time dismissible "View in English" offer for English browsers (`browserPrefersEnglish`) | — `apps/web/src/storage/*` (only module allowed to touch browser storage; ESLint-enforced), `app/store.tsx`
 | [ ] | U-05 | KB and engine lazy loading, loading/error/offline states (S19), error boundary | P0 | M | E-03, U-01 | E15 passes; no partial medical output on error |
 | [ ] | U-06 | S01 Landing and disclaimer (versioned acknowledgement, resume, sample panel) | P0 | M | U-02, U-04 | Matches UX §4.1 |
 | [ ] | U-07 | S02 Basic profile (safety inputs, medications by class, allergies, validation) | P0 | L | U-02, U-04 | UX §4.2; policy inputs complete |
