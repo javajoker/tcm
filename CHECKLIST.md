@@ -171,7 +171,7 @@ Each row is accepted when **all** its checks hold and the verifying test or revi
 - [ ] Attribution and licence screen complete (sources, CC-BY data if any); `NOTICE` current
 
 ### 5.6 Operations
-- [ ] Headers verified on staging (CSP, caching, `nosniff`, referrer, permissions)
+- [ ] Headers verified on staging (CSP, caching, `nosniff`, referrer, permissions) — the *Deploy* workflow's smoke test does this against the deployed URL
 - [ ] Smoke tests pass on staging and again after promotion
 - [ ] Previous artifact retained; rollback rehearsed
 - [ ] Changelog and release notes complete (versions: app / KB / engine / parameters; KB changes; safety changes; known issues)

@@ -218,6 +218,31 @@ describe("check-release", () => {
     assert.deepEqual(rules(checkRelease(gutted, { draftLabel: true })), [10]);
   });
 
+  test("11: the host files — headers, caching of this build's chunks, fallback for every language, a 404 page, security.txt", () => {
+    for (const f of ["_headers", "_redirects", "404.html", ".well-known/security.txt"]) {
+      const d = copy();
+      rmSync(join(d, f));
+      assert.match(messages(checkRelease(d, { draftLabel: true })), new RegExp(`${f.replace(/[.]/g, "\\.")} is missing`), f);
+    }
+    const headers = (fn: (s: string) => string): string[] => { const d = copy(); writeFileSync(join(d, "_headers"), fn(readFileSync(join(d, "_headers"), "utf8"))); return checkRelease(d, { draftLabel: true }).filter((x) => x.rule === 11).map((x) => x.message); };
+    assert.match(headers((s) => s.replace(/ {2}Content-Security-Policy:.*\n/, "")).join("\n"), /Content-Security-Policy is missing/);
+    assert.match(headers((s) => s.replace(/; frame-ancestors 'none'/, "")).join("\n"), /Content-Security-Policy is missing or is not the policy/);
+    assert.match(headers((s) => s.replace("nosniff", "sniff")).join("\n"), /nosniff is missing/);
+    assert.match(headers((s) => s.replace("/*\n", "/*\n  Cache-Control: no-cache\n")).join("\n"), /\/\* must not set Cache-Control/);
+    assert.match(headers((s) => s.replace(/(\/assets\/\*\n {2}Cache-Control: )[^\n]*/, "$1no-store")).join("\n"), /\/assets\/\* must be cached as immutable/);
+    assert.match(headers((s) => s.replace(/(\/kb\/manifest\.json\n {2}Cache-Control: )[^\n]*/, "$1public, max-age=31536000, immutable")).join("\n"), /manifest\.json must be revalidated/);
+    assert.match(headers((s) => s.replace(/(\/kb\/core\.[0-9a-f]+\.json\n {2}Cache-Control: )[^\n]*/, "$1no-cache")).join("\n"), /the core chunk .* must be cached as immutable/);
+    const r = copy();
+    writeFileSync(join(r, "_redirects"), "/en/*  /index.html  200\n/*  /index.html  200\n");
+    const m = messages(checkRelease(r, { draftLabel: true }));
+    assert.match(m, /_redirects: \/zh-Hant\/\* does not fall back to the app/);
+    assert.match(m, /a catch-all rewrite would hide the 404/);
+    const s = copy();
+    writeFileSync(join(s, ".well-known/security.txt"), "Expires: 2020-01-01T00:00:00Z\n");
+    assert.match(messages(checkRelease(s, { draftLabel: true })), /security\.txt has no Contact/);
+    assert.match(messages(checkRelease(s, { draftLabel: true })), /no Expires or it is in the past/);
+  });
+
   test("9: source maps", () => {
     const map = copy();
     writeFileSync(join(map, "assets", "index-abcdef12.js.map"), "{}");

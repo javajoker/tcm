@@ -6,6 +6,7 @@ import { fileURLToPath } from "node:url";
 import react from "@vitejs/plugin-react";
 import { defineConfig, type Plugin } from "vitest/config";
 import { writeBundle } from "../../scripts/bundle-data.ts";
+import { cspMeta, headersFile, notFoundPage, redirectsFile, securityTxt } from "../../scripts/deploy-files.ts";
 
 const here = dirname(fileURLToPath(import.meta.url));
 
@@ -36,9 +37,9 @@ function kbPlugin(profile: "release" | "dev"): Plugin {
   };
 }
 
-/** Strict Content-Security-Policy for production builds (tech spec §11). Not applied to the dev server (Vite injects inline scripts for HMR). */
+/** Strict Content-Security-Policy for production builds (tech spec §11). Not applied to the dev server (Vite injects inline scripts for HMR). The header version adds `frame-ancestors` (deploy-files.ts). */
 function cspPlugin(): Plugin {
-  const csp = "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'";
+  const csp = cspMeta();
   return { name: "tcm-csp", apply: "build", transformIndexHtml: (html) => html.replace("<head>", `<head>\n    <meta http-equiv="Content-Security-Policy" content="${csp}" />`) };
 }
 
@@ -66,11 +67,29 @@ function robotsPlugin(noindex: boolean): Plugin {
   };
 }
 
+/** The files a static host needs (`_headers`, `_redirects`, `404.html`, security.txt): see scripts/deploy-files.ts. */
+function deployPlugin(profile: "release" | "dev", noindex: boolean): Plugin {
+  const kbDir = resolve(here, ".kb", profile);
+  return {
+    name: "tcm-deploy",
+    apply: "build",
+    generateBundle() {
+      const kbChunks = readdirSync(kbDir).filter((f) => f !== "manifest.json" && f.endsWith(".json"));
+      const advisory = /https:\/\/github\.com\/[^\s)>]+\/security\/advisories\/new/.exec(readFileSync(resolve(here, "../../SECURITY.md"), "utf8"))?.[0];
+      if (advisory === undefined) throw new Error("SECURITY.md does not give the private vulnerability-reporting address");
+      this.emitFile({ type: "asset", fileName: "_headers", source: headersFile({ noindex, kbChunks }) });
+      this.emitFile({ type: "asset", fileName: "_redirects", source: redirectsFile() });
+      this.emitFile({ type: "asset", fileName: "404.html", source: notFoundPage() });
+      this.emitFile({ type: "asset", fileName: ".well-known/security.txt", source: securityTxt(advisory, new Date(), advisory.replace(/\/security\/advisories\/new$/, "/blob/main/SECURITY.md")) });
+    },
+  };
+}
+
 export default defineConfig(({ command }) => {
   const profile = (process.env.APP_PROFILE ?? (command === "serve" ? "dev" : "release")) as "release" | "dev";
   if (profile !== "release" && profile !== "dev") throw new Error(`unknown APP_PROFILE ${profile}`);
   return {
-    plugins: [react(), kbPlugin(profile), cspPlugin(), noticePlugin(), robotsPlugin(profile === "dev" || process.env.APP_DRAFT_LABEL === "on")],
+    plugins: [react(), kbPlugin(profile), cspPlugin(), noticePlugin(), robotsPlugin(profile === "dev" || process.env.APP_DRAFT_LABEL === "on"), deployPlugin(profile, profile === "dev" || process.env.APP_DRAFT_LABEL === "on")],
     define: { __APP_PROFILE__: JSON.stringify(profile), __APP_BUILD__: JSON.stringify(process.env.APP_BUILD_ID ?? "local") },
     build: { target: "es2022", modulePreload: { polyfill: false }, sourcemap: false },
     css: { modules: { localsConvention: "camelCaseOnly" } },

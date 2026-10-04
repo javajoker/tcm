@@ -1,0 +1,49 @@
+# Rollback (docs/release-process.md §7): redeploy the artifact of an earlier Deploy run to staging or production and smoke-test it. The knowledge base is versioned by URL inside the
+# artifact, so the old app and its knowledge base cannot mismatch. Find the run id in the Actions list (the run of the tag that was good); artifacts are kept for 90 days.
+name: Rollback
+
+on:
+  workflow_dispatch:
+    inputs:
+      run_id:
+        description: "Run id of the earlier Deploy workflow whose dist-release artifact to redeploy"
+        required: true
+      target:
+        description: "Where to redeploy it"
+        type: choice
+        options: [production, staging]
+        default: production
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
+jobs:
+  redeploy:
+    name: Redeploy ${{ inputs.target }} from run ${{ inputs.run_id }}
+    runs-on: ubuntu-latest
+    environment:
+      name: ${{ inputs.target }}
+      url: ${{ inputs.target == 'production' && vars.PRODUCTION_URL || vars.STAGING_URL }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: 24
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          name: dist-release
+          path: dist
+          run-id: ${{ inputs.run_id }}
+          github-token: ${{ github.token }}
+      - uses: cloudflare/wrangler-action@9acf94ace14e7dc412b076f2c5c20b8ce93c79cd # v3.15.0
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy dist --project-name=${{ inputs.target == 'production' && vars.CF_PAGES_PRODUCTION_PROJECT || vars.CF_PAGES_STAGING_PROJECT }} --branch=main --commit-dirty=false
+      - name: Smoke test the redeployed URL
+        run: node scripts/smoke.ts "${{ inputs.target == 'production' && vars.PRODUCTION_URL || vars.STAGING_URL }}" ${{ (vars.DRAFT_LABEL || 'on') == 'on' && '--noindex' || '' }}

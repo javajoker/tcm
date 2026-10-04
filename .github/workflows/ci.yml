@@ -105,7 +105,12 @@ jobs:
       - name: Release assertions on the built output
         # the content is still a draft: the closed-beta exception (draft label on) is the recorded state until the review records exist
         run: node scripts/check-release.ts --dist apps/web/dist --draft-label
-      - name: The release and i18n checkers reject every seeded violation
+      - name: Smoke test the output behind a Pages-like host (headers, SPA fallback, real 404, knowledge-base caching)
+        run: |
+          node scripts/serve-dist.ts apps/web/dist 8788 &
+          sleep 2
+          node scripts/smoke.ts http://127.0.0.1:8788 --noindex
+      - name: The release, i18n, hygiene, licence and smoke checkers reject every seeded violation
         run: pnpm test:scripts
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:

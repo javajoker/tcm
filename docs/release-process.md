@@ -87,6 +87,7 @@ Jobs and blocking rules are in the [test plan §6](test-plan.md). The pipeline p
 8. Review gates ([content review §7](content-review.md)) satisfied for the enabled levels — or `APP_DRAFT_LABEL=on` with a recorded beta exception — and then the build must be non-indexable (a `noindex` robots meta in `index.html` and `Disallow: /` in `robots.txt`; the dev profile gets the same).
 9. `console.*` calls are stripped from app code; no source maps with sources in production (or they are not publicly served).
 10. `NOTICE.txt` is shipped and carries the attributions (the MIT permission notice of TCM-Library, the Apache licence statement): material derived from MIT-licensed sources requires its notice to travel with the app.
+11. The host files are present and right: `_headers` (the CSP with `frame-ancestors`, `nosniff`, referrer policy, immutable caching for `/assets/*` and for each chunk of this build, `no-cache` for the manifest, no `Cache-Control` on `/*`), `_redirects` (every language falls back to the app, no catch-all), `404.html`, and an unexpired `security.txt` ([§6](#6-deployment)).
 
 ---
 
@@ -109,12 +110,14 @@ A tag build is promoted only when **all** hold. The checklist form is [`CHECKLIS
 
 ## 6. Deployment
 
-- **Static hosting** (target to be chosen — tech spec TQ1). Required capabilities: custom response headers (CSP, caching), SPA fallback for `/:lang/*` to `index.html` with a 404 status only for unknown languages, HTTPS with HSTS, Brotli/gzip.
+- **Static hosting:** Cloudflare Pages ([tech spec TQ1](tech-spec.md#13-open-technical-questions)). Required capabilities: custom response headers (CSP, caching), SPA fallback for `/:lang/*` to `index.html` with a 404 status only for unknown languages, HTTPS with HSTS, Brotli/gzip.
 - **Caching:** hashed assets and `kb/<version>/*` → `Cache-Control: public, max-age=31536000, immutable`; `index.html` and `kb/manifest.json` → `no-cache` (revalidate). A new release changes the KB URL, so users never mix an old app with a new KB.
 - **Headers:** CSP as in the [tech spec §11](tech-spec.md); `X-Content-Type-Options: nosniff`; `Referrer-Policy: no-referrer`; `Permissions-Policy` denying camera/microphone/geolocation; `Cross-Origin-Opener-Policy: same-origin`.
 - **Robots:** a public release ships `robots.txt` allowing the site (but not `/kb/`) and the app marks every route except the start page and the sources `noindex` at run time (a result or a step in the flow is personal); a dev build or a closed beta (draft label) is `noindex` in the page and in `robots.txt`, and preview/dev hosts also send `X-Robots-Tag: noindex`.
 - **`/.well-known/security.txt`** with the safety/security report channel.
 - **Smoke tests after deploy:** fetch `/` and `/zh-Hant/`, `/en/`; fetch the manifest and each chunk and verify hashes; run E1 headless against the deployed URL; verify headers.
+
+> **Implementation (R-04).** The build generates, next to the app (`scripts/deploy-files.ts`, written by the Vite plugin `tcm-deploy`): **`_headers`** (CSP *with* `frame-ancestors 'none'`, `nosniff`, `Referrer-Policy: no-referrer`, a `Permissions-Policy` denying camera, microphone and geolocation, COOP, HSTS, and `X-Robots-Tag: noindex` for a dev build or closed beta; `/assets/*` and **each content-hashed knowledge-base chunk of that build** immutable, `/kb/manifest.json` `no-cache` — cache rules are per exact path and never overlap, because Cloudflare combines the values of every matching rule, and `/*` sets none so documents revalidate by default); **`_redirects`** (every language segment, canonical and the lower-case aliases the app understands, falls back to `index.html` with 200); **`404.html`** (static, bilingual, no script or style; having it turns off Pages' blanket SPA mode, so an unknown first segment is a **real 404** and the app renders its own not-found screen only under a known language); **`/.well-known/security.txt`** (contact from `SECURITY.md`, `Expires` 180 days after the build). `check-release` rule 11 asserts all of it on every build. **`scripts/serve-dist.ts`** serves a build like Pages (applies `_headers` and `_redirects`, 404.html with status 404) and **`scripts/smoke.ts <url>`** checks a running site: the app answers under every language and route and is revalidated, the headers, an unknown language is a 404 with the headers, the manifest is `no-cache` and every chunk matches its hash and is immutable, hashed assets are immutable, the root files and security.txt (unexpired) exist, and noindex is sent exactly when it should be. CI runs the smoke test against every build through the emulator; `.github/workflows/deploy.yml` (tag `v*` → CI → build once → staging → smoke → **production after approval** → smoke) runs it against the deployed URLs, and `rollback.yml` redeploys the artifact of an earlier run (kept 90 days). One-time setup by the owner: the Cloudflare Pages projects, the secrets `CLOUDFLARE_API_TOKEN` / `CLOUDFLARE_ACCOUNT_ID`, the variables `CF_PAGES_STAGING_PROJECT`, `CF_PAGES_PRODUCTION_PROJECT`, `STAGING_URL`, `PRODUCTION_URL`, `DRAFT_LABEL`, and the `staging` / `production` environments (production with required reviewers). Per-PR dev previews behind access control are not automated yet.
 
 ---
 
@@ -122,7 +125,7 @@ A tag build is promoted only when **all** hold. The checklist form is [`CHECKLIS
 
 | Topic | Rule |
 |---|---|
-| **Rollback** | Redeploy the previous artifact (keep the last 5). KB is versioned by URL, so app and KB cannot mismatch. |
+| **Rollback** | Redeploy the previous artifact (kept 90 days) with the *Rollback* workflow: run id of the good Deploy run, target environment; it smoke-tests the result. KB is versioned by URL, so app and KB cannot mismatch. |
 | **Storage compatibility** | Storage-schema bumps follow *expand/contract*: release N reads old and new shapes and writes the old shape; release N+1 writes the new one. A rollback never meets data it cannot read. |
 | **Data hotfix** (safety rule, flag, wording) | The fastest path: change the curated table → build → targeted tests → reviewer sign-off (S1/S2) → tag `PATCH` → deploy. Target ≤ 24 h for S1 ([safety policy §8](safety-policy.md)). |
 | **Kill-switch** | If a formula or rule must be disabled immediately, the quickest control is a KB change (mark it `restricted`; the engine treats it as suppressed with the reason "temporarily withdrawn"); no remote flag service exists. |

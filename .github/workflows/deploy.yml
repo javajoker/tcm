@@ -1,0 +1,103 @@
+# Deployment to Cloudflare Pages (docs/release-process.md §6, tech spec TQ1): a tag `v*` runs CI, builds the release once, deploys that exact artifact to STAGING, smoke-tests the
+# deployed URL, and then waits for the approval of the `production` environment before deploying the same artifact there and smoke-testing it again. Actions are pinned to full commit SHAs
+# (version in a comment); Dependabot keeps them current.
+#
+# One-time setup (repository settings): secrets CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID; variables CF_PAGES_STAGING_PROJECT, CF_PAGES_PRODUCTION_PROJECT, STAGING_URL, PRODUCTION_URL;
+# environments `staging` and `production` (production with required reviewers). Variable DRAFT_LABEL is "on" for a closed beta with unreviewed content (the default) and then also makes the build
+# noindex; set it to "off" only when the review records of docs/content-review.md exist.
+name: Deploy
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
+jobs:
+  ci:
+    uses: ./.github/workflows/ci.yml
+
+  build:
+    name: Build the release artifact
+    needs: ci
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - uses: pnpm/action-setup@b906affcce14559ad1aafd4ab0e942779e9f58b1 # v4.3.0
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile --ignore-scripts
+      - name: Release build
+        run: pnpm build
+        env:
+          APP_BUILD_ID: ${{ github.sha }}
+          APP_DRAFT_LABEL: ${{ vars.DRAFT_LABEL || 'on' }}
+      - name: Release assertions on the built output
+        run: node scripts/check-release.ts --dist apps/web/dist ${{ (vars.DRAFT_LABEL || 'on') == 'on' && '--draft-label' || '' }}
+      - name: Smoke test the output behind a Pages-like host
+        run: |
+          node scripts/serve-dist.ts apps/web/dist 8788 &
+          sleep 2
+          node scripts/smoke.ts http://127.0.0.1:8788 ${{ (vars.DRAFT_LABEL || 'on') == 'on' && '--noindex' || '' }}
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: dist-release
+          path: apps/web/dist
+          include-hidden-files: true         # _headers, _redirects and .well-known are part of the release
+          retention-days: 90                 # a rollback redeploys a previous artifact (release process §7)
+
+  staging:
+    name: Deploy to staging and smoke-test it
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: staging
+      url: ${{ vars.STAGING_URL }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: 24
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          name: dist-release
+          path: dist
+      - uses: cloudflare/wrangler-action@9acf94ace14e7dc412b076f2c5c20b8ce93c79cd # v3.15.0
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy dist --project-name=${{ vars.CF_PAGES_STAGING_PROJECT }} --branch=main --commit-hash=${{ github.sha }} --commit-dirty=false
+      - name: Smoke test the deployed URL
+        run: node scripts/smoke.ts "${{ vars.STAGING_URL }}" ${{ (vars.DRAFT_LABEL || 'on') == 'on' && '--noindex' || '' }}
+
+  production:
+    name: Promote to production (needs approval) and smoke-test it
+    needs: staging
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: ${{ vars.PRODUCTION_URL }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: 24
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          name: dist-release
+          path: dist
+      - uses: cloudflare/wrangler-action@9acf94ace14e7dc412b076f2c5c20b8ce93c79cd # v3.15.0
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy dist --project-name=${{ vars.CF_PAGES_PRODUCTION_PROJECT }} --branch=main --commit-hash=${{ github.sha }} --commit-dirty=false
+      - name: Smoke test the deployed URL
+        run: node scripts/smoke.ts "${{ vars.PRODUCTION_URL }}" ${{ (vars.DRAFT_LABEL || 'on') == 'on' && '--noindex' || '' }}

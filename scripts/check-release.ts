@@ -10,6 +10,8 @@ import { reachOf } from "../packages/kb/src/bundle.ts";
 import { SUPPORTED_SCHEMA_VERSION } from "../packages/kb/src/indexer.ts";
 import type { CoreChunk, FormulasChunk, Manifest } from "../packages/kb/src/types.ts";
 import { BUDGET_GZ } from "./bundle-data.ts";
+import { cspHeader, IMMUTABLE, LANGUAGE_SEGMENTS } from "./deploy-files.ts";
+import { parseHeaders, parseRedirects } from "./serve-dist.ts";
 
 export interface Failure { readonly rule: number; readonly message: string }
 export interface CheckOptions {
@@ -155,6 +157,33 @@ export function checkRelease(distDir: string, opts: CheckOptions = {}): Failure[
   else {
     const notice = read(join(dist, "NOTICE.txt"));
     for (const needed of ["TCM-Library", "Permission is hereby granted", "Apache License"]) if (!notice.includes(needed)) fail(10, `NOTICE.txt does not contain "${needed}"`);
+  }
+
+  // 11 — the files a static host needs: headers (CSP with frame-ancestors, nosniff, referrer, caching that names this build's chunks), the SPA fallback for every language, a real 404 page, security.txt
+  for (const f of ["_headers", "_redirects", "404.html", ".well-known/security.txt"]) if (!existsSync(join(dist, f))) fail(11, `${f} is missing: the host needs it (scripts/deploy-files.ts)`);
+  if (existsSync(join(dist, "_headers"))) {
+    const rules = parseHeaders(read(join(dist, "_headers")));
+    const all = rules.find((r) => r.pattern === "/*");
+    const header = (name: string): string | undefined => all?.headers.find(([k]) => k.toLowerCase() === name)?.[1];
+    if (header("content-security-policy") !== cspHeader()) fail(11, "_headers: the Content-Security-Policy is missing or is not the policy of the page plus frame-ancestors 'none'");
+    if (header("x-content-type-options") !== "nosniff") fail(11, "_headers: X-Content-Type-Options: nosniff is missing");
+    if (header("referrer-policy") !== "no-referrer") fail(11, "_headers: Referrer-Policy: no-referrer is missing");
+    if (all?.headers.some(([k]) => k.toLowerCase() === "cache-control")) fail(11, "_headers: /* must not set Cache-Control (Cloudflare combines every matching rule)");
+    const cache = (path: string): string | undefined => rules.find((r) => r.pattern === path)?.headers.find(([k]) => k.toLowerCase() === "cache-control")?.[1];
+    if (cache("/assets/*") !== IMMUTABLE) fail(11, "_headers: /assets/* must be cached as immutable");
+    if (cache("/kb/manifest.json") !== "no-cache") fail(11, "_headers: /kb/manifest.json must be revalidated (no-cache)");
+    for (const [name, ref] of Object.entries(manifest.chunks)) if (ref && cache(`/kb/${ref.file}`) !== IMMUTABLE) fail(11, `_headers: the ${name} chunk /kb/${ref.file} must be cached as immutable`);
+  }
+  if (existsSync(join(dist, "_redirects"))) {
+    const redirects = parseRedirects(read(join(dist, "_redirects")));
+    for (const l of LANGUAGE_SEGMENTS) if (!redirects.some((r) => r.from === `/${l}/*` && r.to === "/index.html" && r.status === 200)) fail(11, `_redirects: /${l}/* does not fall back to the app`);
+    if (redirects.some((r) => r.from === "/*")) fail(11, "_redirects: a catch-all rewrite would hide the 404 for unknown languages");
+  }
+  if (existsSync(join(dist, ".well-known/security.txt"))) {
+    const t = read(join(dist, ".well-known/security.txt"));
+    const expires = /^Expires:\s*(\S+)$/m.exec(t)?.[1];
+    if (!/^Contact:\s*\S+/m.test(t)) fail(11, "security.txt has no Contact");
+    if (expires === undefined || Date.parse(expires) <= Date.now()) fail(11, "security.txt has no Expires or it is in the past");
   }
 
   // 9 — no source maps
