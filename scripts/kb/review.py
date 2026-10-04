@@ -105,6 +105,12 @@ def units_of(rel: str, data: Any) -> dict[str, str]:
     return out
 
 
+def kb_fingerprint(data: dict[str, Any]) -> str:
+    """A version string for "the content that was reviewed": 12 hex digits over the whole-file hashes of every data file, in path order. A record's `kb_version` may carry it."""
+    text = "\n".join(f"{rel}:{unit_hash(d, whole_file=True)}" for rel, d in sorted(data.items()))
+    return hashlib.sha256(text.encode("utf-8")).hexdigest()[:12]
+
+
 def load_data(data_dir: Path) -> dict[str, Any]:
     """Every data file (relative path → parsed JSON), without the schemas and the review output itself."""
     out: dict[str, Any] = {}

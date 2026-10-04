@@ -12,6 +12,7 @@
     "test": "pnpm -r --if-present test",
     "lint": "eslint .",
     "check": "pnpm lint && pnpm typecheck && pnpm check:notices && pnpm check:i18n && pnpm test && pnpm test:scripts",
+    "review:pack": ".venv/bin/python -m scripts.review.pack",
     "build:kb": ".venv/bin/python -m scripts.kb.build_kb",
     "test:kb": ".venv/bin/python -m unittest discover -s scripts/kb/tests -t .",
     "generate:kb-types": "node scripts/generate-kb-types.ts",

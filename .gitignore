@@ -25,3 +25,4 @@ reference/derived/
 .venv/
 __pycache__/
 apps/web/.kb/
+review/packs/

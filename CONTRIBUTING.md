@@ -19,7 +19,7 @@ pnpm install
 pnpm check            # lint + typecheck + tests for every package
 ```
 
-Root scripts: `pnpm lint`, `pnpm typecheck`, `pnpm test`, `pnpm check`, `pnpm build:kb`, `pnpm dev` (web app, dev profile), `pnpm build` (release profile), `pnpm build:dev`. Per package: `pnpm --filter @tcm/wuxing test`. `pnpm check:i18n`, `pnpm test:safety` (safety vignettes), `pnpm test:properties`, `pnpm golden` (golden-case concordance), `pnpm check:icons`, `pnpm check:hygiene`, `pnpm check:licenses` (licence allow-list), `pnpm sbom`, `pnpm serve:dist` + `pnpm smoke <url>` (a build behind a Pages-like host).
+Root scripts: `pnpm lint`, `pnpm typecheck`, `pnpm test`, `pnpm check`, `pnpm build:kb`, `pnpm dev` (web app, dev profile), `pnpm build` (release profile), `pnpm build:dev`. Per package: `pnpm --filter @tcm/wuxing test`. `pnpm check:i18n`, `pnpm test:safety` (safety vignettes), `pnpm test:properties`, `pnpm golden` (golden-case concordance), `pnpm check:icons`, `pnpm check:hygiene`, `pnpm check:licenses` (licence allow-list), `pnpm sbom`, `pnpm review:pack <area>` (review packs), `pnpm serve:dist` + `pnpm smoke <url>` (a build behind a Pages-like host).
 
 ## 2. Layout
 
