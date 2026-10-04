@@ -196,7 +196,7 @@ The panel model: `organs.{zang, fu, element_of}`, `channels` (ranges), `liuxie` 
 | `name`, `school` | bilingual; `經方 | 時方` | |
 | `principle`, `rationale_zh`, `rationale_citations[]` | string, string, ids | Method and the explanation shown to users |
 | `composition[]` | see below | Herbs with roles and weights |
-| `classical_amounts[]` | `{ name, amount, unit, processing }` or `null` | Parsed from the **classical text** (9 formulas); for display only at L3; unit ∈ 两 个 枚 升 合 斤 |
+| `classical_amounts[]` | `{ name, amount, unit, processing }` or `null` | Parsed from the **classical text** (9 formulas); for display only at L3; unit ∈ 兩 個 枚 升 合 斤 (Traditional; the parser reads the Simplified source and the builder converts the unit and the processing note) |
 | `panel_effect`, `panel_burden` | `{ panelDim: Δ }` | `Σ effective_weight × herb effects / harms` |
 | `flavor_profile` | `{ flavor: share }` | Flavour shares (basis of the 55 % excess rule) |
 | `core_indications[]` | symptom ids | Basis of the symptom-level fit (≥ 60 %) |

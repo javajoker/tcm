@@ -16,7 +16,7 @@ from collections import Counter
 
 from opencc import OpenCC
 
-from .common import DATA, LIB, ROOT, book_path, dump, norm_ws, read_book, submodule_commits, tw
+from .common import DATA, LIB, ROOT, book_path, dump, norm_ws, read_book, submodule_commits, term, tw
 from .curated.formulas import FORMULAS
 from .curated import prose_en
 from .curated.params import PARAMS
@@ -86,6 +86,14 @@ def cn_number(s: str) -> float:
         else:
             cur = _CN[ch]
     return float(total + cur)
+
+
+_UNIT_TW = {"两": "兩", "个": "個"}   # the other units (斤 升 合 枚) are written the same in both scripts
+
+
+def shown_unit(unit: str) -> str:
+    """The unit as it is shown (Traditional); the parser reads the Simplified source text."""
+    return _UNIT_TW.get(unit, unit)
 
 
 def parse_classical(text: str, anchor: str) -> list[dict]:
@@ -228,7 +236,7 @@ def build(herbs_by_id: dict[str, dict], index: dict[str, str]) -> list[dict]:
         classical_amounts = None
         if classical:
             parsed, path, anchor = classical
-            classical_amounts = [{"name": p["name"], "amount": p["amount"], "unit": p["unit"], "processing": p["processing"]} for p in parsed]
+            classical_amounts = [{"name": p["name"], "amount": p["amount"], "unit": shown_unit(p["unit"]), "processing": term(p["processing"])} for p in parsed]
             comp_names = [c["name"] for c in comp]
             matched, unmatched = [], []
             for p in parsed:
@@ -240,7 +248,7 @@ def build(herbs_by_id: dict[str, dict], index: dict[str, str]) -> list[dict]:
             for c in comp:
                 for p in parsed:
                     if _t2s.convert(p["name"]) in variants(c["name"]) or p["name"] == c["name"] or p["name"] in SYN.get(c["name"], []):
-                        c["classical_amount"] = {"value": p["amount"], "unit": p["unit"], "processing": p["processing"]}
+                        c["classical_amount"] = {"value": p["amount"], "unit": shown_unit(p["unit"]), "processing": term(p["processing"])}
                         break
         else:
             src = f["source"]

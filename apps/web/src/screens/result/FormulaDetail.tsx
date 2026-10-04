@@ -71,7 +71,7 @@ function Detail({ saved, rec, formula, kb }: { saved: SavedAssessment; rec: Form
               <span key="r"><span lang="zh-Hant">{r.role}</span> <span className="muted">{t.t(`report.role.${ROLE_SLUG[r.role]}` as MessageKey)}</span></span>,
               <BilingualName key="h" v={r.name} />,
               <span key="s" style={{ display: "inline-flex", alignItems: "center", gap: "var(--space-2)" }}><span aria-hidden="true" style={{ display: "inline-block", width: `${Math.round(r.proportion * 120)}px`, height: 8, background: "var(--scale-6)", borderRadius: 4 }} />{pct(r.proportion)}</span>,
-              ...(showAmounts ? [r.typicalG !== undefined ? t.t("formula.composition.amount.g", { g: r.typicalG }) : r.classicalAmount ? t.t("formula.composition.amount.classical", { value: r.classicalAmount.value, unit: r.classicalAmount.unit }) : "—"] : []),
+              ...(showAmounts ? [r.typicalG !== undefined ? t.t("formula.composition.amount.g", { g: r.typicalG }) : r.classicalAmount ? t.t("formula.composition.amount.classical", { value: r.classicalAmount.value, unit: t.t(`formula.composition.unit.${UNIT_ID[r.classicalAmount.unit]}` as MessageKey) }) : "—"] : []),
             ])} />
           <p className="muted">{t.t("formula.composition.roleNote")}</p>
         </Card>
@@ -137,6 +137,9 @@ function Detail({ saved, rec, formula, kb }: { saved: SavedAssessment; rec: Form
 }
 
 /** S14 Formula detail (UX spec §4.11). Only a formula that is part of the saved result is shown: nothing outside the policy's output can be opened by address. */
+/** The classical units of the original texts (兩 斤 升 合 and the counting units) and the key of each one's name in the page language. */
+export const UNIT_ID = { 兩: "liang", 斤: "jin", 升: "sheng", 合: "ge", 個: "piece", 枚: "piece" } as const;
+
 export function FormulaDetail({ id, fid }: { id: string; fid: string }): ReactNode {
   const { t } = useI18n();
   usePageTitle("formula.title");

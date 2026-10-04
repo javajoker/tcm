@@ -36,12 +36,12 @@ export interface Formulas {
           amount: number;
           name: string;
           processing: string;
-          unit: "两" | "个" | "枚" | "升" | "合" | "斤";
+          unit: "兩" | "個" | "枚" | "升" | "合" | "斤";
         }[];
     composition: {
       classical_amount?: {
         processing: string;
-        unit: "两" | "个" | "枚" | "升" | "合" | "斤";
+        unit: "兩" | "個" | "枚" | "升" | "合" | "斤";
         value: number;
       };
       effective_weight: number;

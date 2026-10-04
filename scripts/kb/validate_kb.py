@@ -62,6 +62,32 @@ def variant_hits(rel: str, node, key: str = "") -> list[str]:
     return []
 
 
+# Fields that hold the Simplified source on purpose (quotation sources, paths into the source repositories, the strings the parser matches against the source text).
+SOURCE_KEYS = {"quote_source_zh_hans", "source_path", "repo_path", "book_path", "anchor", "path"}
+# Genuine Traditional characters that the Big5-HKSCS repertoire (the proxy for "an ordinary Traditional font has it") lacks: 次髎 (BL32) and three in the 五運六氣 quotations (瞤 腨 黅).
+# They are the only places a font could lack a glyph (task PF-02); everything else is in Big5-HKSCS.
+TRADITIONAL_BEYOND_BIG5 = {"髎", "瞤", "腨", "黅"}
+
+
+def simplified_hits(rel: str, node, key: str = "") -> list[str]:
+    """Paths of strings under `node` with a character that Big5-HKSCS cannot encode (in practice: a Simplified form), outside the fields that keep the Simplified source."""
+    if isinstance(node, str):
+        if key.endswith("_hans") or key in SOURCE_KEYS:
+            return []
+        for c in node:
+            if "\u3400" <= c <= "\u9fff" and c not in TRADITIONAL_BEYOND_BIG5:
+                try:
+                    c.encode("big5hkscs")
+                except UnicodeEncodeError:
+                    return [f"{rel}:{key} {c}"]
+        return []
+    if isinstance(node, dict):
+        return [h for k, v in node.items() for h in simplified_hits(rel, v, k if not isinstance(v, (dict, list)) else key or k)]
+    if isinstance(node, list):
+        return [h for v in node for h in simplified_hits(rel, v, key)]
+    return []
+
+
 def duplicates(values) -> list:
     return [v for v, n in Counter(values).items() if n > 1]
 
@@ -88,6 +114,11 @@ def validate(load: Loader = load, check_sources: bool = True) -> list[str]:
         hits = variant_hits(rel, load(rel))
         if hits:
             err(f"{rel}: 溼 found outside quotations (use 濕): {sorted(set(hits))[:4]}")
+
+    for rel in SCHEMAS:
+        hits = simplified_hits(rel, load(rel))
+        if hits:
+            err(f"{rel}: Simplified characters in text that is shown in Traditional ({len(hits)}): {sorted(set(hits))[:4]}")
 
     # ── review: `reviewed` is set by the build from valid records only, never by hand (content review §5)
     from . import review as rv

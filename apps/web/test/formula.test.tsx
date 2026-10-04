@@ -10,6 +10,9 @@ import type { Loaded } from "../src/app/knowledge.tsx";
 import type { Draft, SavedAssessment } from "../src/storage/types.ts";
 import { fakeEnvironment, renderApp, testStore } from "./helpers.tsx";
 import { interview } from "./interview.ts";
+import { UNIT_ID } from "../src/screens/result/FormulaDetail.tsx";
+import en from "../src/i18n/en/formula.json";
+import zhHant from "../src/i18n/zh-Hant/formula.json";
 
 const devKb = indexKnowledgeBase(rawChunksFromDisk("dev"));
 const relKb = indexKnowledgeBase(rawChunksFromDisk("release"));
@@ -54,6 +57,18 @@ describe("Formula detail (S14)", () => {
     expect(table.getByRole("columnheader", { name: "Amount" })).toBeInTheDocument();           // dev: dosage references allowed
     expect(table.getAllByText(/^about \d+(\.\d+)? g$/).length).toBeGreaterThan(0);
     expect(screen.getByText(/Sovereign: aims at the main disorder/)).toBeInTheDocument();
+  });
+
+  it("every classical unit of the data has a name in both languages, in the script of the page (兩, not 两)", () => {
+    const units = new Set([...devKb.formulas.values()].flatMap((x) => x.composition.flatMap((c) => (c.classical_amount ? [c.classical_amount.unit] : []))));
+    expect(units.size).toBeGreaterThan(0);
+    for (const u of units) {
+      expect(UNIT_ID, u).toHaveProperty(u);
+      const key = `formula.composition.unit.${UNIT_ID[u]}` as keyof typeof en;
+      expect(en[key], key).toBeTruthy();
+      expect(zhHant[key], key).toBeTruthy();
+    }
+    expect(zhHant["formula.composition.unit.liang"]).toBe("兩");
   });
 
   it("a release result has no amounts and no modification section", async () => {

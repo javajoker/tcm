@@ -42,33 +42,33 @@
         {
           "amount": 3.0,
           "name": "麻黃",
-          "processing": "去节",
-          "unit": "两"
+          "processing": "去節",
+          "unit": "兩"
         },
         {
           "amount": 2.0,
           "name": "桂枝",
           "processing": "去皮",
-          "unit": "两"
+          "unit": "兩"
         },
         {
           "amount": 1.0,
           "name": "甘草",
           "processing": "炙",
-          "unit": "两"
+          "unit": "兩"
         },
         {
           "amount": 70.0,
           "name": "杏仁",
-          "processing": "汤去皮尖",
-          "unit": "个"
+          "processing": "湯去皮尖",
+          "unit": "個"
         }
       ],
       "composition": [
         {
           "classical_amount": {
-            "processing": "去节",
-            "unit": "两",
+            "processing": "去節",
+            "unit": "兩",
             "value": 3.0
           },
           "effective_weight": 0.5556,
@@ -83,7 +83,7 @@
         {
           "classical_amount": {
             "processing": "去皮",
-            "unit": "两",
+            "unit": "兩",
             "value": 2.0
           },
           "effective_weight": 0.2222,
@@ -97,8 +97,8 @@
         },
         {
           "classical_amount": {
-            "processing": "汤去皮尖",
-            "unit": "个",
+            "processing": "湯去皮尖",
+            "unit": "個",
             "value": 70.0
           },
           "effective_weight": 0.1944,
@@ -113,7 +113,7 @@
         {
           "classical_amount": {
             "processing": "炙",
-            "unit": "两",
+            "unit": "兩",
             "value": 1.0
           },
           "effective_weight": 0.0278,
@@ -230,25 +230,25 @@
           "amount": 3.0,
           "name": "桂枝",
           "processing": "去皮",
-          "unit": "两"
+          "unit": "兩"
         },
         {
           "amount": 3.0,
           "name": "芍藥",
           "processing": "",
-          "unit": "两"
+          "unit": "兩"
         },
         {
           "amount": 2.0,
           "name": "甘草",
           "processing": "炙",
-          "unit": "两"
+          "unit": "兩"
         },
         {
           "amount": 3.0,
           "name": "生薑",
           "processing": "切",
-          "unit": "两"
+          "unit": "兩"
         },
         {
           "amount": 12.0,
@@ -261,7 +261,7 @@
         {
           "classical_amount": {
             "processing": "去皮",
-            "unit": "两",
+            "unit": "兩",
             "value": 3.0
           },
           "effective_weight": 0.3973,
@@ -276,7 +276,7 @@
         {
           "classical_amount": {
             "processing": "",
-            "unit": "两",
+            "unit": "兩",
             "value": 3.0
           },
           "effective_weight": 0.2384,
@@ -291,7 +291,7 @@
         {
           "classical_amount": {
             "processing": "切",
-            "unit": "两",
+            "unit": "兩",
             "value": 3.0
           },
           "effective_weight": 0.1391,
@@ -321,7 +321,7 @@
         {
           "classical_amount": {
             "processing": "炙",
-            "unit": "两",
+            "unit": "兩",
             "value": 2.0
           },
           "effective_weight": 0.0397,
@@ -1238,33 +1238,33 @@
         {
           "amount": 3.0,
           "name": "人參",
-          "processing": "甘温",
-          "unit": "两"
+          "processing": "甘溫",
+          "unit": "兩"
         },
         {
           "amount": 3.0,
           "name": "甘草",
           "processing": "炙，甘平",
-          "unit": "两"
+          "unit": "兩"
         },
         {
           "amount": 3.0,
           "name": "白朮",
-          "processing": "甘温",
-          "unit": "两"
+          "processing": "甘溫",
+          "unit": "兩"
         },
         {
           "amount": 3.0,
           "name": "乾薑",
-          "processing": "辛热",
-          "unit": "两"
+          "processing": "辛熱",
+          "unit": "兩"
         }
       ],
       "composition": [
         {
           "classical_amount": {
-            "processing": "辛热",
-            "unit": "两",
+            "processing": "辛熱",
+            "unit": "兩",
             "value": 3.0
           },
           "effective_weight": 0.4762,
@@ -1278,8 +1278,8 @@
         },
         {
           "classical_amount": {
-            "processing": "甘温",
-            "unit": "两",
+            "processing": "甘溫",
+            "unit": "兩",
             "value": 3.0
           },
           "effective_weight": 0.2857,
@@ -1293,8 +1293,8 @@
         },
         {
           "classical_amount": {
-            "processing": "甘温",
-            "unit": "两",
+            "processing": "甘溫",
+            "unit": "兩",
             "value": 3.0
           },
           "effective_weight": 0.1667,
@@ -1309,7 +1309,7 @@
         {
           "classical_amount": {
             "processing": "炙，甘平",
-            "unit": "两",
+            "unit": "兩",
             "value": 3.0
           },
           "effective_weight": 0.0714,
@@ -1887,32 +1887,32 @@
           "amount": 4.0,
           "name": "茯苓",
           "processing": "",
-          "unit": "两"
+          "unit": "兩"
         },
         {
           "amount": 3.0,
           "name": "桂枝",
           "processing": "去皮",
-          "unit": "两"
+          "unit": "兩"
         },
         {
           "amount": 2.0,
           "name": "白朮",
           "processing": "",
-          "unit": "两"
+          "unit": "兩"
         },
         {
           "amount": 2.0,
           "name": "甘草",
           "processing": "炙",
-          "unit": "两"
+          "unit": "兩"
         }
       ],
       "composition": [
         {
           "classical_amount": {
             "processing": "",
-            "unit": "两",
+            "unit": "兩",
             "value": 4.0
           },
           "effective_weight": 0.5882,
@@ -1927,7 +1927,7 @@
         {
           "classical_amount": {
             "processing": "去皮",
-            "unit": "两",
+            "unit": "兩",
             "value": 3.0
           },
           "effective_weight": 0.2647,
@@ -1942,7 +1942,7 @@
         {
           "classical_amount": {
             "processing": "",
-            "unit": "两",
+            "unit": "兩",
             "value": 2.0
           },
           "effective_weight": 0.1029,
@@ -1957,7 +1957,7 @@
         {
           "classical_amount": {
             "processing": "炙",
-            "unit": "两",
+            "unit": "兩",
             "value": 2.0
           },
           "effective_weight": 0.0441,
@@ -3529,25 +3529,25 @@
           "amount": 1.0,
           "name": "甘草",
           "processing": "",
-          "unit": "两"
+          "unit": "兩"
         },
         {
           "amount": 2.0,
           "name": "知母",
           "processing": "",
-          "unit": "两"
+          "unit": "兩"
         },
         {
           "amount": 2.0,
           "name": "茯苓",
           "processing": "",
-          "unit": "两"
+          "unit": "兩"
         },
         {
           "amount": 2.0,
           "name": "穹窮",
-          "processing": "深师有生姜二两",
-          "unit": "两"
+          "processing": "深師有生薑二兩",
+          "unit": "兩"
         }
       ],
       "composition": [
@@ -3569,7 +3569,7 @@
         {
           "classical_amount": {
             "processing": "",
-            "unit": "两",
+            "unit": "兩",
             "value": 2.0
           },
           "effective_weight": 0.1549,
@@ -3584,7 +3584,7 @@
         {
           "classical_amount": {
             "processing": "",
-            "unit": "两",
+            "unit": "兩",
             "value": 2.0
           },
           "effective_weight": 0.0903,
@@ -3598,8 +3598,8 @@
         },
         {
           "classical_amount": {
-            "processing": "深师有生姜二两",
-            "unit": "两",
+            "processing": "深師有生薑二兩",
+            "unit": "兩",
             "value": 2.0
           },
           "effective_weight": 0.0903,
@@ -3614,7 +3614,7 @@
         {
           "classical_amount": {
             "processing": "",
-            "unit": "两",
+            "unit": "兩",
             "value": 1.0
           },
           "effective_weight": 0.0193,
@@ -3950,38 +3950,38 @@
           "amount": 4.0,
           "name": "黃連",
           "processing": "苦寒",
-          "unit": "两"
+          "unit": "兩"
         },
         {
           "amount": 1.0,
           "name": "黃芩",
           "processing": "苦寒",
-          "unit": "两"
+          "unit": "兩"
         },
         {
           "amount": 2.0,
           "name": "芍藥",
           "processing": "酸平",
-          "unit": "两"
+          "unit": "兩"
         },
         {
           "amount": 2.0,
           "name": "雞子黃",
-          "processing": "甘温",
+          "processing": "甘溫",
           "unit": "枚"
         },
         {
           "amount": 3.0,
           "name": "阿膠",
-          "processing": "甘温",
-          "unit": "两"
+          "processing": "甘溫",
+          "unit": "兩"
         }
       ],
       "composition": [
         {
           "classical_amount": {
             "processing": "苦寒",
-            "unit": "两",
+            "unit": "兩",
             "value": 4.0
           },
           "effective_weight": 0.4153,
@@ -3995,8 +3995,8 @@
         },
         {
           "classical_amount": {
-            "processing": "甘温",
-            "unit": "两",
+            "processing": "甘溫",
+            "unit": "兩",
             "value": 3.0
           },
           "effective_weight": 0.3114,
@@ -4011,7 +4011,7 @@
         {
           "classical_amount": {
             "processing": "苦寒",
-            "unit": "两",
+            "unit": "兩",
             "value": 1.0
           },
           "effective_weight": 0.1246,
@@ -4026,7 +4026,7 @@
         {
           "classical_amount": {
             "processing": "酸平",
-            "unit": "两",
+            "unit": "兩",
             "value": 2.0
           },
           "effective_weight": 0.1246,
@@ -4040,7 +4040,7 @@
         },
         {
           "classical_amount": {
-            "processing": "甘温",
+            "processing": "甘溫",
             "unit": "枚",
             "value": 2.0
           },
@@ -4702,13 +4702,13 @@
           "amount": 3.0,
           "name": "人參",
           "processing": "",
-          "unit": "两"
+          "unit": "兩"
         },
         {
           "amount": 2.0,
           "name": "甘草",
           "processing": "",
-          "unit": "两"
+          "unit": "兩"
         },
         {
           "amount": 3.0,
@@ -4757,7 +4757,7 @@
         {
           "classical_amount": {
             "processing": "",
-            "unit": "两",
+            "unit": "兩",
             "value": 3.0
           },
           "effective_weight": 0.0593,
@@ -4802,7 +4802,7 @@
         {
           "classical_amount": {
             "processing": "",
-            "unit": "两",
+            "unit": "兩",
             "value": 2.0
           },
           "effective_weight": 0.0169,
@@ -5305,43 +5305,43 @@
           "amount": 8.0,
           "name": "乾地黃",
           "processing": "",
-          "unit": "两"
+          "unit": "兩"
         },
         {
           "amount": 4.0,
           "name": "薯蕷",
           "processing": "",
-          "unit": "两"
+          "unit": "兩"
         },
         {
           "amount": 4.0,
           "name": "山茱萸",
           "processing": "",
-          "unit": "两"
+          "unit": "兩"
         },
         {
           "amount": 3.0,
           "name": "澤瀉",
           "processing": "",
-          "unit": "两"
+          "unit": "兩"
         },
         {
           "amount": 3.0,
           "name": "茯苓",
           "processing": "",
-          "unit": "两"
+          "unit": "兩"
         },
         {
           "amount": 3.0,
           "name": "牡丹皮",
           "processing": "",
-          "unit": "两"
+          "unit": "兩"
         },
         {
           "amount": 1.0,
           "name": "桂枝",
           "processing": "",
-          "unit": "两"
+          "unit": "兩"
         }
       ],
       "composition": [
@@ -5358,7 +5358,7 @@
         {
           "classical_amount": {
             "processing": "",
-            "unit": "两",
+            "unit": "兩",
             "value": 1.0
           },
           "effective_weight": 0.0677,
@@ -5373,7 +5373,7 @@
         {
           "classical_amount": {
             "processing": "",
-            "unit": "两",
+            "unit": "兩",
             "value": 8.0
           },
           "effective_weight": 0.3255,
@@ -5388,7 +5388,7 @@
         {
           "classical_amount": {
             "processing": "",
-            "unit": "两",
+            "unit": "兩",
             "value": 4.0
           },
           "effective_weight": 0.1627,
@@ -5403,7 +5403,7 @@
         {
           "classical_amount": {
             "processing": "",
-            "unit": "两",
+            "unit": "兩",
             "value": 4.0
           },
           "effective_weight": 0.1627,
@@ -5418,7 +5418,7 @@
         {
           "classical_amount": {
             "processing": "",
-            "unit": "两",
+            "unit": "兩",
             "value": 3.0
           },
           "effective_weight": 0.0712,
@@ -5433,7 +5433,7 @@
         {
           "classical_amount": {
             "processing": "",
-            "unit": "两",
+            "unit": "兩",
             "value": 3.0
           },
           "effective_weight": 0.0712,
@@ -5448,7 +5448,7 @@
         {
           "classical_amount": {
             "processing": "",
-            "unit": "两",
+            "unit": "兩",
             "value": 3.0
           },
           "effective_weight": 0.0712,
@@ -6218,19 +6218,19 @@
           "amount": 3.0,
           "name": "黃芩",
           "processing": "",
-          "unit": "两"
+          "unit": "兩"
         },
         {
           "amount": 3.0,
           "name": "人參",
           "processing": "",
-          "unit": "两"
+          "unit": "兩"
         },
         {
           "amount": 3.0,
           "name": "甘草",
           "processing": "",
-          "unit": "两"
+          "unit": "兩"
         },
         {
           "amount": 0.5,
@@ -6242,7 +6242,7 @@
           "amount": 3.0,
           "name": "生薑",
           "processing": "切",
-          "unit": "两"
+          "unit": "兩"
         },
         {
           "amount": 13.0,
@@ -6270,7 +6270,7 @@
         {
           "classical_amount": {
             "processing": "",
-            "unit": "两",
+            "unit": "兩",
             "value": 3.0
           },
           "effective_weight": 0.1216,
@@ -6300,7 +6300,7 @@
         {
           "classical_amount": {
             "processing": "",
-            "unit": "两",
+            "unit": "兩",
             "value": 3.0
           },
           "effective_weight": 0.0709,
@@ -6315,7 +6315,7 @@
         {
           "classical_amount": {
             "processing": "",
-            "unit": "两",
+            "unit": "兩",
             "value": 3.0
           },
           "effective_weight": 0.0304,
@@ -6330,7 +6330,7 @@
         {
           "classical_amount": {
             "processing": "切",
-            "unit": "两",
+            "unit": "兩",
             "value": 3.0
           },
           "effective_weight": 0.0709,

@@ -38,7 +38,7 @@ def build() -> list[dict]:
             prefix, book, chapter = source[5:].split("|")
             text = read_book(prefix)
             entry.update({
-                "book": book, "chapter": chapter,
+                "book": book, "chapter": tw(chapter),
                 "source_path": book_path(prefix),
                 "source_repo": "TCM-Ancient-Books (no upstream licence: reference only)",
             })

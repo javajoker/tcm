@@ -263,7 +263,7 @@ def herb_index() -> dict:
 
 
 def formulas() -> dict:
-    classical = obj({"processing": STR, "unit": enum("两", "个", "枚", "升", "合", "斤"), "value": NUM})
+    classical = obj({"processing": STR, "unit": enum("兩", "個", "枚", "升", "合", "斤"), "value": NUM})
     comp = obj({"classical_amount": classical, "effective_weight": NUM, "herb": ref("herbId"), "name": STR, "note": NSTR, "proportion": NUM, "role": enum("君", "臣", "佐", "使"),
                 "role_weight": NUM, "typical_g": NUM}, ["effective_weight", "herb", "name", "note", "proportion", "role", "role_weight"])  # amounts are pruned from release bundles
     mod_herb = obj({"herb": ref("herbId"), "name": STR, "role": enum("君", "臣", "佐", "使"), "typical_g": NUM}, ["herb", "name", "role"])
@@ -277,7 +277,7 @@ def formulas() -> dict:
         "proportion_basis": STR, "role_status": STR, "source_note": STR,
     }, ["composition_status", "proportion_basis", "role_status"])
     item = obj({
-        "cautions": arr(STR), "classical_amounts": {"oneOf": [{"type": "null"}, arr(obj({"amount": NUM, "name": STR, "processing": STR, "unit": enum("两", "个", "枚", "升", "合", "斤")}))]},
+        "cautions": arr(STR), "classical_amounts": {"oneOf": [{"type": "null"}, arr(obj({"amount": NUM, "name": STR, "processing": STR, "unit": enum("兩", "個", "枚", "升", "合", "斤")}))]},
         "composition": arr(comp, 1), "core_indications": arr(ref("symptomId"), 1), "flavor_profile": dictionary(NUM), "id": ref("formulaId"), "interactions": arr(STR),
         "kb_commit": STR, "modifications": arr(mod), "mvp": BOOL, "name": ref("bilingualNamed"), "panel_burden": ref("panelMap"), "panel_effect": ref("panelMap"),
         "patterns": arr(ref("patternId")), "pregnancy": enum("ok", "ok-unreviewed", "caution", "avoid"), "principle": STR, "rationale_citations": arr(ref("citationId")),

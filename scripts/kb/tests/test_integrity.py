@@ -161,6 +161,18 @@ class Corruptions(unittest.TestCase):
         problems = validate_with({"citations.json": m})
         self.assertFalse(any("溼" in p for p in problems), problems)
 
+    def test_simplified_characters_in_text_shown_in_traditional(self):
+        def m(d):
+            d["items"][0]["classical_amounts"][0]["processing"] = "去节"
+        self.assertReported({"formulas/formulas.json": m}, "Simplified characters in text that is shown in Traditional")
+
+    def test_simplified_characters_are_allowed_in_the_source_fields_and_rare_traditional_ones_are_not_flagged(self):
+        def m(d):
+            d["items"][0]["quote_source_zh_hans"] = "有诸内者形诸外"
+            d["items"][0]["chapter"] = "次髎、黅"          # rare Traditional characters that the Big5-HKSCS proxy lacks
+        problems = validate_with({"citations.json": m})
+        self.assertFalse(any("Simplified" in p for p in problems), problems)
+
     def test_scoring_params_ordering(self):
         self.assertReported({"diagnosis/scoring-params.json": lambda d: d["pattern"]["bands"].update(high=10)}, "pattern bands")
         self.assertReported({"diagnosis/scoring-params.json": lambda d: d["formula"]["role_weights"].update(使=2.0)}, "role weights")
