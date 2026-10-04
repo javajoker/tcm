@@ -186,6 +186,8 @@ Screening is a short list of yes/no questions grouped A (emergency) / B (within 
 - The **end condition** is shown honestly: "We have enough for a first result. [See result] or [Answer a few more to sharpen it]".
 - **Desktop:** the right rail summarises what has been recorded (collapsed list per dimension) with edit links; it never shows pattern names while the inquiry is running (avoid anchoring the user).
 
+> **Implementation notes (U-10).** A skipped question is never asked again in the same assessment (the app keeps the order shown, since the engine cannot see a skipped *onset* question). Contradictions found after an answer are followed up on the next screen before any new question: the user keeps one of the clashing symptoms (the others become "no") or, for the "possible together" groups, says both are true. A graded symptom starts at "moderate" once chosen and can be changed; the desktop rail lists recorded symptoms by dimension and never names a pattern.
+
 ### 4.5 S08 Tongue observation
 
 A five-step mini-flow, each step skippable, with a persistent "Can't check right now" exit that records nothing.

@@ -10,6 +10,7 @@ import { NotFound } from "./NotFound.tsx";
 import { PrefsEffects } from "./PrefsEffects.tsx";
 import { RouteFocus } from "./RouteFocus.tsx";
 import { Profile } from "../screens/profile/Profile.tsx";
+import { Inquiry } from "../screens/inquiry/Inquiry.tsx";
 import { Screening } from "../screens/screening/Screening.tsx";
 import { DEFAULT_LANG, pathForLang, splitLangPath } from "./routing.ts";
 import { useApp } from "./store.tsx";
@@ -29,6 +30,7 @@ function Screens(): ReactNode {
           <Route path="/"><Landing /></Route>
           <Route path="/start"><Profile /></Route>
           <Route path="/screen"><Screening /></Route>
+          <Route path="/inquiry"><Inquiry /></Route>
           {Catalogue !== null ? <Route path="/_dev/components"><Suspense fallback={null}><Catalogue /></Suspense></Route> : null}
           <Route><NotFound /></Route>
         </Switch>

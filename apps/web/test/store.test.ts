@@ -5,7 +5,7 @@ import type { Draft } from "../src/storage/types.ts";
 import { fakeEnvironment, testStore } from "./helpers.tsx";
 
 const stub = (over: Partial<Persistence> = {}): Persistence => ({
-  status: "persistent", subscribe: () => () => undefined, loadPrefs: () => ({ theme: "system", textScale: 1, langOfferDismissed: false }), savePrefs: () => undefined,
+  status: "persistent", subscribe: () => () => undefined, loadPrefs: () => ({ theme: "system", textScale: 1, langOfferDismissed: false, autoAdvance: true }), savePrefs: () => undefined,
   loadDraft: async () => null, saveDraft: async () => undefined, clearDraft: async () => undefined,
   putAssessment: async () => undefined, getAssessment: async () => null, listAssessments: async () => [], deleteAssessment: async () => undefined,
   eraseAll: async () => ({ indexedDb: true, localStorage: true, cacheStorage: true }), ...over,
@@ -108,7 +108,7 @@ describe("app store", () => {
     a.store.getState().setPrefs({ theme: "dark", textScale: 1.15 });
     a.store.getState().chooseLang("en");
     const b = testStore(env);
-    expect(b.store.getState().prefs).toMatchObject({ theme: "dark", textScale: 1.15, lang: "en", langOfferDismissed: true });
+    expect(b.store.getState().prefs).toMatchObject({ theme: "dark", textScale: 1.15, lang: "en", langOfferDismissed: true, autoAdvance: true });
   });
 
   it("erase everything clears the draft and storage and then reloads", async () => {

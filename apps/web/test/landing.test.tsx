@@ -98,11 +98,11 @@ describe("Landing (S01)", () => {
 
     it("Continue goes to the saved position", async () => {
       go("/zh-Hant/");
-      const env = await withDraft("/inquiry");
+      const env = await withDraft("/observe");
       renderApp(testStore(env).store);
-      expect(await screen.findByText(/問診・8 分鐘前/)).toBeInTheDocument();
+      expect(await screen.findByText(/望診與切診・8 分鐘前/)).toBeInTheDocument();
       await userEvent.click(screen.getByRole("button", { name: "繼續" }));
-      expect(window.location.pathname).toBe("/zh-Hant/inquiry");
+      expect(window.location.pathname).toBe("/zh-Hant/observe");
     });
 
     it("Discard asks first; cancelling keeps the draft, confirming deletes it everywhere", async () => {

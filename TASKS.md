@@ -26,16 +26,16 @@
 | **K** Knowledge base | 8 | 19 |
 | **E** Engine and packages | 19 | 21 |
 | **I** Internationalisation | 2 | 5 |
-| **U** Web application | 3 | 21 |
+| **U** Web application | 3 | 20 |
 | **Q** Quality assurance | 0 | 10 |
 | **R** Release and operations | 0 | 7 |
 | **V** Review (non-code) | 0 | 7 |
 | **PF** Performance (P2) | 0 | 3 |
-| **All** | **56** | **117** |
+| **All** | **56** | **116** |
 
 | Priority | Done | Total |
 |---|---:|---:|
-| P0 | 40 | 67 |
+| P0 | 40 | 66 |
 | P1 | 14 | 42 |
 | P2 | 2 | 8 |
 
@@ -166,7 +166,7 @@ Suggested waves: **1** foundation (E-01, K-01, K-02, I-01, U-01, R-01) → **2**
 | [x] | U-07 | S02 Basic profile (safety inputs, medications by class, allergies, validation) | P0 | L | U-02, U-04 | UX §4.2; policy inputs complete | — `screens/profile/*`, `app/useDraft.ts`; Lifestyle card and region deferred (see UX spec §4.2 decision); `subjectOf(draft)` builds the engine `Subject`
 | [ ] | U-08 | S03 Birth card (date/time/unknown, city picker + manual lon/tz, echo, ambiguity, remember toggle, N-BIRTH) | P1 | L | U-07, K-10 | E8 passes; no persistence by default |
 | [x] | U-09 | S04/S05 Red-flag screening and blocking notices (merge, acknowledge, emergency numbers) | P0 | L | U-07, E-04, I-04, K-09 | E2–E4 pass | — `screens/screening/*` (S04 + S05 `NoticeScreen`, `EmergencyNumbers`); blocking notices equal the engine policy (tested); acknowledgement keyed by notice + reasons; region in prefs
-| [ ] | U-10 | S06/S07 Inquiry (module chooser, question card, severity, why-asked, conflict follow-up, end condition, rail) | P0 | XL | E-16, U-04 | UX §4.4; E1 up to inquiry |
+| [x] | U-10 | S06/S07 Inquiry (module chooser, question card, severity, why-asked, conflict follow-up, end condition, rail) | P0 | XL | E-16, U-04 | UX §4.4; E1 up to inquiry | — `screens/inquiry/*` (chooser, question card, conflict follow-up, end card, rail); answer semantics per kb-schema §3.2b; a UI-model simulation leads every pattern's typical patient to its pattern; `prefs.autoAdvance` (toggle lands in U-21)
 | [ ] | U-11 | S08 Tongue observation (steps, zones, signs, checklist twin, swatches) | P0 | L | U-02, U-25 | E9 passes; keyboard parity |
 | [ ] | U-12 | S09 Face, spirit, voice, odour | P1 | M | U-10 | Selection cards map to symptom ids |
 | [ ] | U-13 | S10 Pulse input (rate, rhythm, qualities with exclusive groups, positions, education note) | P0 | M | U-10 | E10 passes |

@@ -4,7 +4,7 @@ const isRecord = (x: unknown): x is Record<string, unknown> => typeof x === "obj
 const isStringArray = (x: unknown): x is string[] => Array.isArray(x) && x.every((s) => typeof s === "string");
 
 export function newDraft(id: string, now: number, route = "/start"): Draft {
-  return { id, startedAt: now, updatedAt: now, subject: {}, profile: { medicationText: [] }, screening: { answers: {}, corrected: [], acknowledgedAt: {} }, redFlags: [], findings: {}, context: {}, constitutionAnswers: {}, rememberBirth: false, acknowledgements: [], position: { route } };
+  return { id, startedAt: now, updatedAt: now, subject: {}, profile: { medicationText: [] }, screening: { answers: {}, corrected: [], acknowledgedAt: {} }, inquiry: { modules: null, history: [], resolved: [] }, redFlags: [], findings: {}, context: {}, constitutionAnswers: {}, rememberBirth: false, acknowledgements: [], position: { route } };
 }
 
 /**
@@ -31,6 +31,11 @@ function parseProfile(x: unknown): Draft["profile"] {
   };
 }
 
+function parseInquiry(x: unknown): Draft["inquiry"] {
+  if (!isRecord(x)) return { modules: null, history: [], resolved: [] };
+  return { modules: isStringArray(x["modules"]) ? x["modules"] : null, history: isStringArray(x["history"]) ? x["history"] : [], resolved: isStringArray(x["resolved"]) ? x["resolved"] : [] };
+}
+
 function parseScreening(x: unknown): Draft["screening"] {
   const empty = { answers: {}, corrected: [], acknowledgedAt: {} };
   if (!isRecord(x)) return empty;
@@ -49,6 +54,6 @@ export function parseDraft(x: unknown): Draft | null {
   if (!isRecord(subject) || !isStringArray(redFlags) || !isRecord(findings) || !isRecord(context) || !isRecord(constitutionAnswers)) return null;
   if (typeof rememberBirth !== "boolean" || !isStringArray(acknowledgements) || !isRecord(position) || typeof position["route"] !== "string") return null;
   const profile = parseProfile(x["profile"]);
-  const draft = { id, startedAt, updatedAt, subject, profile, screening: parseScreening(x["screening"]), redFlags, findings, context, constitutionAnswers, rememberBirth, acknowledgements, position } as unknown as Draft;
+  const draft = { id, startedAt, updatedAt, subject, profile, screening: parseScreening(x["screening"]), inquiry: parseInquiry(x["inquiry"]), redFlags, findings, context, constitutionAnswers, rememberBirth, acknowledgements, position } as unknown as Draft;
   return isRecord(birth) && rememberBirth ? ({ ...draft, birth } as unknown as Draft) : draft;
 }

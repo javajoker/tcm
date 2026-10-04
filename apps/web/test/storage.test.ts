@@ -45,11 +45,11 @@ describe("kv", () => {
 
 describe("prefs", () => {
   it("defaults on absent, corrupt or foreign values", () => {
-    for (const raw of [null, "", "{", "[]", "42", "null"]) expect(parsePrefs(raw)).toEqual({ theme: "system", textScale: 1, langOfferDismissed: false });
+    for (const raw of [null, "", "{", "[]", "42", "null"]) expect(parsePrefs(raw)).toEqual({ theme: "system", textScale: 1, langOfferDismissed: false, autoAdvance: true });
   });
   it("keeps valid fields and drops invalid ones", () => {
     const p = parsePrefs(JSON.stringify({ lang: "en", theme: "purple", textScale: 1.15, disclaimerAck: { version: "1", at: 7 }, langOfferDismissed: true, extra: 1 }));
-    expect(p).toEqual({ lang: "en", theme: "system", textScale: 1.15, disclaimerAck: { version: "1", at: 7 }, langOfferDismissed: true });
+    expect(p).toEqual({ lang: "en", theme: "system", textScale: 1.15, disclaimerAck: { version: "1", at: 7 }, langOfferDismissed: true, autoAdvance: true });
     expect(parsePrefs(JSON.stringify({ lang: "fr", disclaimerAck: { version: 1 } })).lang).toBeUndefined();
   });
 });
@@ -121,7 +121,7 @@ describe("persistence on IndexedDB", () => {
     const caches = { keys: async () => ["a", "b"], delete: async (k: string) => { deleted.push(k); return true; } } as unknown as CacheStorage;
     const env = fakeEnvironment({ caches });
     const p = createPersistence(env);
-    p.savePrefs({ theme: "dark", textScale: 1, langOfferDismissed: true });
+    p.savePrefs({ theme: "dark", textScale: 1, langOfferDismissed: true, autoAdvance: true });
     await p.saveDraft(draftWithBirth(true));
     await p.putAssessment(saved("a", 1));
     expect(env.localStorage.length).toBeGreaterThan(0);
@@ -145,7 +145,7 @@ describe("persistence when storage is blocked (E20)", () => {
     expect(p.status).toBe("memory");
     expect(seen).toEqual(["memory"]);
     expect((await p.loadDraft())?.id).toBe("d1");                   // still available within the session
-    p.savePrefs({ theme: "dark", textScale: 1, langOfferDismissed: false });
+    p.savePrefs({ theme: "dark", textScale: 1, langOfferDismissed: false, autoAdvance: true });
     expect(p.loadPrefs().theme).toBe("dark");
     await expect(p.eraseAll()).resolves.toBeDefined();
   });

@@ -29,7 +29,7 @@
 | Data | Examples | Sensitivity | Purpose | Stored where | Default retention | User control |
 |---|---|---|---|---|---|---|
 | Disclaimer acknowledgement | version, time | Low | Re-prompt when wording changes | `localStorage` | Until erased | Settings → Erase |
-| Preferences | language (only once the user has chosen one), theme, text size, emergency-number region, "English offer dismissed" flag | Low | Personalisation; the one-time English offer is shown only while no language has been chosen | `localStorage` key `tcm.prefs` | Until erased | Settings |
+| Preferences | language (only once the user has chosen one), theme, text size, emergency-number region, "move on automatically" switch, "English offer dismissed" flag | Low | Personalisation; the one-time English offer is shown only while no language has been chosen | `localStorage` key `tcm.prefs` | Until erased | Settings |
 | Basic profile | age, sex at birth, pregnancy/lactation, region, lifestyle | **Sensitive (health)** | Safety scope and context | IndexedDB (draft, history) | Until the user deletes the assessment | Edit, delete |
 | Medications, allergies, chronic conditions | classes, allergens, listed conditions, free-text medicine names the user types (never interpreted) | **Sensitive (health)** | Safety filter | IndexedDB | Same | Same |
 | Red-flag answers and acknowledgements | which items (yes / no / not sure), corrections ("I made a mistake"), time each notice was acknowledged | **Sensitive (health)** | Notices, record of acknowledgement | IndexedDB | Same | Same |

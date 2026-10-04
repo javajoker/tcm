@@ -16,11 +16,13 @@ export interface Prefs {
   readonly langOfferDismissed: boolean;
   /** Region of the emergency numbers (an id of `emergency.json`); absent → the data's default. */
   readonly region?: string;
+  /** Move on automatically after a single-choice answer without a severity step (UX spec §4.4). */
+  readonly autoAdvance: boolean;
 }
 
 export const TEXT_SCALES = [0.9, 1, 1.15, 1.3] as const;
 export const THEMES = ["system", "light", "dark"] as const;
-export const DEFAULT_PREFS: Prefs = { theme: "system", textScale: 1, langOfferDismissed: false };
+export const DEFAULT_PREFS: Prefs = { theme: "system", textScale: 1, langOfferDismissed: false, autoAdvance: true };
 
 /** What the user answered on the profile screen that the engine's `Subject` cannot express (free text, and explicit "none" answers — silence is not "none"). */
 export interface ProfileAnswers {
@@ -45,6 +47,16 @@ export interface Screening {
   readonly acknowledgedAt: Readonly<Record<string, number>>;
 }
 
+/** Where the adaptive inquiry (S06/S07) stands. The answers themselves live in the draft's `findings` and `context`. */
+export interface InquiryProgress {
+  /** Complaint modules chosen on S06 (empty = "general check"); `null` until S06 has been confirmed. */
+  readonly modules: readonly string[] | null;
+  /** Ids of the questions shown and answered or skipped, in order (Back walks it; a skipped question is not asked again). */
+  readonly history: readonly string[];
+  /** Contradictions the user has resolved (`<group>|<symptoms>`), so they are asked once. */
+  readonly resolved: readonly string[];
+}
+
 /** IndexedDB `drafts/current`: the in-progress assessment, persisted after every answer. JSON-serialisable (no Set/Map/undefined holes). */
 export interface Draft {
   readonly id: string;
@@ -53,6 +65,7 @@ export interface Draft {
   readonly subject: Partial<Omit<Subject, "birth">>;
   readonly profile: ProfileAnswers;
   readonly screening: Screening;
+  readonly inquiry: InquiryProgress;
   /** Red-flag items answered yes or unsure. */
   readonly redFlags: readonly string[];
   readonly findings: Readonly<Record<string, Finding>>;

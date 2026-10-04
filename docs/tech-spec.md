@@ -498,11 +498,13 @@ Unknown routes render a 404 with a way back; language switching preserves the ro
 interface AppState {
   prefs: { lang?: Lang;              // set only when the user chooses (toggle or the English offer); absent → zh-Hant
            theme: "system"|"light"|"dark"; textScale: 0.9|1|1.15|1.3; disclaimerAck?: { version: string; at: number }; langOfferDismissed: boolean;
-           region?: string };          // emergency-number region (id in emergency.json); absent → the data's default
+           region?: string;            // emergency-number region (id in emergency.json); absent → the data's default
+           autoAdvance: boolean };     // move on after a single-choice answer (UX spec §4.4), default on
   draft: {                      // the in-progress assessment; persisted after every answer
     id: string; startedAt: number; updatedAt: number;
     subject: Partial<Subject>;  profile: ProfileAnswers;   // explicit none/some/unsure answers and free-text medicine names
     screening: Screening;       // red-flag answers (yes/no/unsure), corrections, acknowledgement times
+    inquiry: InquiryProgress;   // chosen modules, the order questions were shown in (Back, never re-ask), resolved contradictions
     redFlags: RedFlagId[];      // the engine input: yes-or-unsure A/B items plus the profile's serious conditions
     findings: Record<SymptomId, Finding>;
     context: AssessContext;     // non-symptom answers (course)

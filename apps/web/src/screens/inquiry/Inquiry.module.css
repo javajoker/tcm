@@ -1,0 +1,5 @@
+.layout { display: grid; gap: var(--space-5); }
+@media (min-width: 900px) { .layout { grid-template-columns: minmax(0, 1fr) 20rem; align-items: start; } }
+.column { max-width: 40rem; margin: 0 auto; width: 100%; }
+.rail { display: none; }
+@media (min-width: 900px) { .rail { display: block; } }
