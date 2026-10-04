@@ -500,7 +500,8 @@ interface AppState {
            theme: "system"|"light"|"dark"; textScale: 0.9|1|1.15|1.3; disclaimerAck?: { version: string; at: number }; langOfferDismissed: boolean };
   draft: {                      // the in-progress assessment; persisted after every answer
     id: string; startedAt: number; updatedAt: number;
-    subject: Partial<Subject>;  redFlags: RedFlagId[];
+    subject: Partial<Subject>;  profile: ProfileAnswers;   // explicit none/some/unsure answers and free-text medicine names
+    redFlags: RedFlagId[];
     findings: Record<SymptomId, Finding>;
     context: AssessContext;     // non-symptom answers (course)
     constitutionAnswers: Record<ItemId, number>;

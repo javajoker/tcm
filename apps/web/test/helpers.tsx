@@ -2,6 +2,7 @@ import { IDBFactory } from "fake-indexeddb";
 import { render } from "@testing-library/react";
 import type { ReactNode } from "react";
 import { App } from "../src/app/App.tsx";
+import type { Loader } from "../src/app/knowledge.tsx";
 import { createAppStore, StoreProvider, type AppStore, type StoreDeps } from "../src/app/store.tsx";
 import { createPersistence, type Environment, type Persistence } from "../src/storage/persistence.ts";
 
@@ -35,7 +36,7 @@ export function testStore(env: Environment = fakeEnvironment(), deps: Partial<St
   return { store, persistence, env };
 }
 
-export function renderApp(store: AppStore = testStore().store): ReturnType<typeof render> & { store: AppStore } {
-  const ui: ReactNode = <StoreProvider store={store}><App /></StoreProvider>;
+export function renderApp(store: AppStore = testStore().store, load?: Loader): ReturnType<typeof render> & { store: AppStore } {
+  const ui: ReactNode = <StoreProvider store={store}><App {...(load ? { load } : {})} /></StoreProvider>;
   return { ...render(ui), store };
 }

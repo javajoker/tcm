@@ -10,3 +10,5 @@ export { Skeleton } from "./Skeleton.tsx";
 export { Tile, type TileProps } from "./Tile.tsx";
 export { Tooltip } from "./Tooltip.tsx";
 export { ConfirmDialog } from "./ConfirmDialog.tsx";
+export { CheckGroup, ChoiceGroup, type ChoiceOption } from "./ChoiceGroup.tsx";
+export { TagInput } from "./TagInput.tsx";

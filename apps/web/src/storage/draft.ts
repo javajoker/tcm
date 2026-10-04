@@ -4,7 +4,7 @@ const isRecord = (x: unknown): x is Record<string, unknown> => typeof x === "obj
 const isStringArray = (x: unknown): x is string[] => Array.isArray(x) && x.every((s) => typeof s === "string");
 
 export function newDraft(id: string, now: number, route = "/start"): Draft {
-  return { id, startedAt: now, updatedAt: now, subject: {}, redFlags: [], findings: {}, context: {}, constitutionAnswers: {}, rememberBirth: false, acknowledgements: [], position: { route } };
+  return { id, startedAt: now, updatedAt: now, subject: {}, profile: { medicationText: [] }, redFlags: [], findings: {}, context: {}, constitutionAnswers: {}, rememberBirth: false, acknowledgements: [], position: { route } };
 }
 
 /**
@@ -17,6 +17,20 @@ export function toStored(d: Draft): Draft {
   return rest;
 }
 
+const oneOf = <T extends string>(v: unknown, allowed: readonly T[]): T | undefined => (allowed as readonly unknown[]).includes(v) ? (v as T) : undefined;
+
+/** Tolerant: a draft written before the profile existed, or with a damaged profile, simply has no profile answers. */
+function parseProfile(x: unknown): Draft["profile"] {
+  if (!isRecord(x)) return { medicationText: [] };
+  const medications = oneOf(x["medications"], ["none", "some", "unsure"] as const);
+  const allergies = oneOf(x["allergies"], ["none", "some"] as const);
+  const conditions = oneOf(x["conditions"], ["none", "some"] as const);
+  return {
+    medicationText: isStringArray(x["medicationText"]) ? x["medicationText"] : [],
+    ...(medications ? { medications } : {}), ...(allergies ? { allergies } : {}), ...(conditions ? { conditions } : {}),
+  };
+}
+
 /** Validates a migrated stored draft; anything structurally wrong is "no draft" rather than a crash later in the flow. */
 export function parseDraft(x: unknown): Draft | null {
   if (!isRecord(x)) return null;
@@ -24,6 +38,7 @@ export function parseDraft(x: unknown): Draft | null {
   if (typeof id !== "string" || id === "" || typeof startedAt !== "number" || typeof updatedAt !== "number") return null;
   if (!isRecord(subject) || !isStringArray(redFlags) || !isRecord(findings) || !isRecord(context) || !isRecord(constitutionAnswers)) return null;
   if (typeof rememberBirth !== "boolean" || !isStringArray(acknowledgements) || !isRecord(position) || typeof position["route"] !== "string") return null;
-  const draft = { id, startedAt, updatedAt, subject, redFlags, findings, context, constitutionAnswers, rememberBirth, acknowledgements, position } as unknown as Draft;
+  const profile = parseProfile(x["profile"]);
+  const draft = { id, startedAt, updatedAt, subject, profile, redFlags, findings, context, constitutionAnswers, rememberBirth, acknowledgements, position } as unknown as Draft;
   return isRecord(birth) && rememberBirth ? ({ ...draft, birth } as unknown as Draft) : draft;
 }

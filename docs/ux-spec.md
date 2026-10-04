@@ -115,6 +115,8 @@ Sections as collapsible cards; ★ items required; everything else optional with
 | Where you live | Region/climate (dry / humid / cold / temperate / hot) | |
 | **Birth (optional)** | Date, time or "I don't know the hour", place | Collapsed by default; see below |
 
+> **Decided 2026-10-04 — MVP default, revisit after the MVP:** the **Lifestyle** card is not built (nothing in the engine consumes it — the SOP uses it only as a weak prior — and asking for answers that change nothing would mislead); **Where you live** is not a profile card either: the region is asked on S04/S05, where the emergency numbers need it (task U-09). Pregnancy and breastfeeding are asked of females aged 10–60 only; everyone else is recorded as "not applicable". "Not sure" about medicines is treated as the class "other" (conservative on doubt). Every required question must be answered explicitly — silence is never read as "no".
+
 **Birth card (S03)**
 
 - A short, honest explainer: *"Some traditions describe a person's innate tendencies from their birth moment. This is optional, stays on your device, is not clinically validated, and never changes how your symptoms are scored."* In release the toggle is **off by default** (opt-in); in dev it is on.

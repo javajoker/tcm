@@ -70,3 +70,13 @@
 .tipButton > span { display: inline-grid; place-items: center; width: 1.4rem; height: 1.4rem; border: 1.5px solid currentColor; border-radius: 50%; font-size: 0.85rem; line-height: 1; }
 .tipBubble { position: absolute; z-index: 20; top: 100%; inset-inline-start: 0; width: max-content; max-width: min(20rem, 80vw); padding: var(--space-3); background: var(--surface); color: var(--ink); border: 1px solid var(--border-strong); border-radius: var(--radius-control); box-shadow: 0 4px 16px rgb(0 0 0 / 0.18); font-size: 0.9rem; font-weight: 400; }
 .termButton { display: inline; padding: 0; border: 0; border-bottom: 1px dotted currentColor; background: transparent; color: inherit; font: inherit; cursor: help; border-radius: 0; }
+
+.group { border: 0; margin: 0 0 var(--space-4); padding: 0; min-width: 0; }
+.groupLegend { font-weight: 600; padding: 0; margin-bottom: var(--space-2); }
+.groupOptions { display: grid; gap: var(--space-2); }
+@media (min-width: 600px) { .groupOptions.inline { grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr)); } }
+.tags { display: flex; flex-wrap: wrap; gap: var(--space-2); margin: var(--space-2) 0; padding: 0; list-style: none; }
+.tag { display: inline-flex; align-items: center; gap: 0.25rem; padding: 0 0 0 0.75rem; border: 1px solid var(--border-strong); border-radius: var(--radius-pill); background: var(--surface); }
+.tagRemove { min-width: 44px; min-height: 44px; border: 0; background: transparent; color: var(--link); font-size: 1.1rem; border-radius: var(--radius-pill); }
+.addRow { display: flex; gap: var(--space-2); align-items: stretch; flex-wrap: wrap; }
+.addRow .input { flex: 1 1 12rem; }

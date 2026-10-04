@@ -9,6 +9,7 @@ import { Landing } from "./Landing.tsx";
 import { NotFound } from "./NotFound.tsx";
 import { PrefsEffects } from "./PrefsEffects.tsx";
 import { RouteFocus } from "./RouteFocus.tsx";
+import { Profile } from "../screens/profile/Profile.tsx";
 import { DEFAULT_LANG, pathForLang, splitLangPath } from "./routing.ts";
 import { useApp } from "./store.tsx";
 
@@ -25,6 +26,7 @@ function Screens(): ReactNode {
       <ErrorBoundary resetKey={path}>
         <Switch>
           <Route path="/"><Landing /></Route>
+          <Route path="/start"><Profile /></Route>
           {Catalogue !== null ? <Route path="/_dev/components"><Suspense fallback={null}><Catalogue /></Suspense></Route> : null}
           <Route><NotFound /></Route>
         </Switch>

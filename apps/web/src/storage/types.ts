@@ -20,12 +20,24 @@ export const TEXT_SCALES = [0.9, 1, 1.15, 1.3] as const;
 export const THEMES = ["system", "light", "dark"] as const;
 export const DEFAULT_PREFS: Prefs = { theme: "system", textScale: 1, langOfferDismissed: false };
 
+/** What the user answered on the profile screen that the engine's `Subject` cannot express (free text, and explicit "none" answers — silence is not "none"). */
+export interface ProfileAnswers {
+  /** Takes regular medicines? Unanswered is not "no". "unsure" is treated conservatively (class "other"). */
+  readonly medications?: "none" | "some" | "unsure";
+  /** Free-text medicine names the user typed under "other" (never interpreted; shown back in the notice N-MED-UNKNOWN). */
+  readonly medicationText: readonly string[];
+  readonly allergies?: "none" | "some";
+  /** Serious long-term conditions: "none" was ticked, or at least one RF_C_* item is in the draft's red flags. */
+  readonly conditions?: "none" | "some";
+}
+
 /** IndexedDB `drafts/current`: the in-progress assessment, persisted after every answer. JSON-serialisable (no Set/Map/undefined holes). */
 export interface Draft {
   readonly id: string;
   readonly startedAt: number;
   readonly updatedAt: number;
   readonly subject: Partial<Omit<Subject, "birth">>;
+  readonly profile: ProfileAnswers;
   /** Red-flag items answered yes or unsure. */
   readonly redFlags: readonly string[];
   readonly findings: Readonly<Record<string, Finding>>;
@@ -51,7 +63,7 @@ export interface SavedAssessment {
   readonly lang: Lang;
   readonly seasonModel: string;
   /** The inputs; `birth` only when the user chose to remember it. */
-  readonly input: { readonly subject: Draft["subject"]; readonly redFlags: readonly string[]; readonly findings: Draft["findings"]; readonly context: AssessContext; readonly birth?: BirthInput };
+  readonly input: { readonly subject: Draft["subject"]; readonly profile: ProfileAnswers; readonly redFlags: readonly string[]; readonly findings: Draft["findings"]; readonly context: AssessContext; readonly birth?: BirthInput };
   readonly result: Assessment;
   readonly userNote?: string;
   readonly feedback?: Readonly<Record<string, "match" | "partial" | "no">>;
