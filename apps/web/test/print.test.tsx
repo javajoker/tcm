@@ -129,7 +129,7 @@ describe("print view (E16)", () => {
     for (const id of ids.slice(0, 5)) { const c = kb.citation(id)!; expect(notes.getByText(`《${c.book}》${c.chapter}：${c.quote_zh_hant}`)).toBeInTheDocument(); }
     expect(screen.getAllByText("Educational reference — not a medical diagnosis or prescription.").length).toBeGreaterThanOrEqual(2);       // footer and the print footer
     // every citation chip on the screen has a footnote
-    const chipNames = screen.getAllByRole("button", { name: /Open source/ }).map((b) => b.textContent!);
+    const chipNames = screen.getAllByRole("button", { name: /Open source/ }).map((b) => b.textContent!.replace(/（\d）$/, ""));      // (a number only tells two passages of one chapter apart)
     for (const name of new Set(chipNames)) expect(notes.getAllByText(new RegExp(`^${name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}：`), { exact: false }).length).toBeGreaterThan(0);
   });
 

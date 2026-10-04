@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import type { TraceItem } from "@tcm/engine";
 import { useI18n } from "../../i18n/I18nProvider.tsx";
 import type { MessageKey } from "../../i18n/catalogs.ts";
-import { CitationChip } from "../../app/citations.tsx";
+import { CitationChips } from "../../app/citations.tsx";
 import { useLoaded } from "../../app/knowledge.tsx";
 import type { SavedAssessment } from "../../storage/types.ts";
 import { Card, Chip } from "../../ui/index.ts";
@@ -64,7 +64,7 @@ export function Why({ saved }: { saved: SavedAssessment }): ReactNode {
                 <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>{ev.slice(SHOW).map(row)}</ul>
               </details>
             ) : null}
-            {cites.length > 0 ? (<><h4>{t.t("report.why.basis")}</h4><p>{cites.map((c) => <CitationChip key={c} id={c} usedFor={t.localized(rec.name).text} />)}</p></>) : null}
+            {cites.length > 0 ? (<><h4>{t.t("report.why.basis")}</h4><p><CitationChips ids={cites} usedFor={t.localized(rec.name).text} /></p></>) : null}
             {ag.length > 0 ? (
               <>
                 <h4>{t.t("report.why.against")}</h4>

@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import { useI18n } from "../../i18n/I18nProvider.tsx";
 import type { MessageKey } from "../../i18n/catalogs.ts";
-import { CitationChip } from "../../app/citations.tsx";
+import { CitationChips } from "../../app/citations.tsx";
 import { useLoaded } from "../../app/knowledge.tsx";
 import { Term } from "../../app/Term.tsx";
 import { Chip } from "../../ui/index.ts";
@@ -35,7 +35,7 @@ export function FoodItem({ food }: { food: FoodRecommendation }): ReactNode {
           <p>{text(entry.rationale)}</p>
           {entry.cautions.length > 0 ? <><h5 style={{ margin: "var(--space-2) 0 var(--space-1)" }}>{t.t("report.diet.cautions")}</h5><ul>{entry.cautions.map((c, i) => <li key={i}>{text(c)}</li>)}</ul></> : null}
           <p className="muted">{t.t(`report.diet.basis.${entry.basis}` as MessageKey)}</p>
-          <p>{entry.citations.map((c) => <CitationChip key={c} id={c} usedFor={food.name} />)}</p>
+          <p><CitationChips ids={entry.citations} usedFor={food.name} /></p>
         </details>
       ) : null}
     </li>

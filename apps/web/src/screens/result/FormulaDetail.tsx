@@ -3,7 +3,7 @@ import type { FormulaRecommendation } from "@tcm/engine";
 import type { Formula, KnowledgeBase } from "@tcm/kb";
 import { useI18n } from "../../i18n/I18nProvider.tsx";
 import type { MessageKey, } from "../../i18n/catalogs.ts";
-import { CitationChip } from "../../app/citations.tsx";
+import { CitationChip, CitationChips } from "../../app/citations.tsx";
 import { NeedsKnowledge, useLoaded } from "../../app/knowledge.tsx";
 import { useApp } from "../../app/store.tsx";
 import { usePageTitle } from "../../app/usePageTitle.ts";
@@ -86,7 +86,7 @@ function Detail({ saved, rec, formula, kb }: { saved: SavedAssessment; rec: Form
 
         <Card title={t.t("formula.rationale.title")} headingLevel={2} id="formula-rationale">
           <p><Prose zh={formula.rationale_zh} en={formula.rationale_en} status={formula.en_status} /></p>
-          <p>{formula.rationale_citations.map((c) => <CitationChip key={c} id={c} usedFor={t.localized(formula.name).text} />)}</p>
+          <p><CitationChips ids={formula.rationale_citations} usedFor={t.localized(formula.name).text} /></p>
         </Card>
 
         <Card title={t.t("formula.cautions.title")} headingLevel={2} id="formula-cautions">

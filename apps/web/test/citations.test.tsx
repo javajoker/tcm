@@ -6,7 +6,7 @@ import { indexKnowledgeBase } from "@tcm/kb";
 import { rawChunksFromDisk } from "@tcm/kb/node";
 import { axe } from "vitest-axe";
 import { describe, expect, it } from "vitest";
-import { CitationChip, CitationsProvider } from "../src/app/citations.tsx";
+import { CitationChip, CitationChips, CitationsProvider } from "../src/app/citations.tsx";
 import { KnowledgeProvider, type Loaded } from "../src/app/knowledge.tsx";
 import { I18nProvider } from "../src/i18n/I18nProvider.tsx";
 
@@ -19,6 +19,20 @@ function Tree({ children, loaded = dev, lang = "en" }: { children: ReactNode; lo
 }
 
 describe("Citation viewer (S15)", () => {
+  it("two different passages of one chapter are told apart by a number; chips that already differ are not numbered", async () => {
+    const all = [...new Set([...dev.kb.formulas.values()].flatMap((f) => f.rationale_citations))].map((id) => dev.kb.citation(id)!);
+    const first = all.find((c) => all.some((o) => o.id !== c.id && o.book === c.book && o.chapter === c.chapter))!;
+    const second = all.find((o) => o.id !== first.id && o.book === first.book && o.chapter === first.chapter)!;
+    const other = cite;                                                  // 《傷寒論》: another book
+    const { unmount } = render(<Tree><CitationChips ids={[first.id, second.id]} /></Tree>);
+    expect(await screen.findByRole("button", { name: `Open source: 《${first.book}》${first.chapter}（1）` })).toHaveTextContent("（1）");
+    expect(screen.getByRole("button", { name: `Open source: 《${second.book}》${second.chapter}（2）` })).toBeInTheDocument();
+    unmount();
+    render(<Tree><CitationChips ids={[first.id, other.id]} /></Tree>);
+    await screen.findAllByRole("button");
+    for (const b of screen.getAllByRole("button")) expect(b.textContent).not.toMatch(/（\d）/);
+  });
+
   it("a chip names the source and opens the sheet with the original text, its verification state and what it is used for", async () => {
     render(<Tree><CitationChip id="shanghan-035" usedFor="Mahuang Tang" /></Tree>);
     const opener = await screen.findByRole("button", { name: `Open source: 《${cite.book}》${cite.chapter}` });

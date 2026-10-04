@@ -3,7 +3,7 @@ import { Link } from "wouter";
 import type { FormulaRecommendation } from "@tcm/engine";
 import { useI18n } from "../../i18n/I18nProvider.tsx";
 import type { MessageKey } from "../../i18n/catalogs.ts";
-import { CitationChip } from "../../app/citations.tsx";
+import { CitationChips } from "../../app/citations.tsx";
 import { useLoaded } from "../../app/knowledge.tsx";
 import type { SavedAssessment } from "../../storage/types.ts";
 import { Card, Chip } from "../../ui/index.ts";
@@ -50,7 +50,7 @@ function FormulaCard({ f, savedId, study }: { f: FormulaRecommendation; savedId:
         </>
       ) : null}
       <p className="muted">{t.t("safety.notice.formula.text")}</p>
-      <p>{f.citations.map((c) => <CitationChip key={c} id={c} usedFor={t.localized(name).text} />)}</p>
+      <p><CitationChips ids={f.citations} usedFor={t.localized(name).text} /></p>
       <FeedbackMarks itemKey={formulaKey(f.id)} label={t.localized(name).text} />
       <p style={{ margin: 0 }}><Link href={`/result/${savedId}/formula/${f.id}`} aria-label={t.t("report.formula.open", { name: t.localized(name).text })}>{t.t("report.formula.open", { name: t.localized(name).text })}</Link></p>
     </Card>
@@ -107,7 +107,7 @@ export function Advice({ saved }: { saved: SavedAssessment }): ReactNode {
         <h3 id="adv-life">{t.t("report.advice.lifestyle")}</h3>
         {r.lifestyle.length > 0 ? <ul>{r.lifestyle.map((l) => <li key={l.patternId}><strong>{patternName(l.patternId)}</strong>: <Lifestyle patternId={l.patternId} fallback={<ZhText>{l.text}</ZhText>} /></li>)}</ul> : null}
         <p><strong>{t.t("report.advice.general")}</strong>: <Prose zh={r.general.text} en={kb.treatment.general.text_en} status={kb.treatment.general.en_status} /></p>
-        <p>{r.general.citations.map((c) => <CitationChip key={c} id={c} usedFor={t.t("report.advice.general")} />)}</p>
+        <p><CitationChips ids={r.general.citations} usedFor={t.t("report.advice.general")} /></p>
       </section>
     </Card>
   );

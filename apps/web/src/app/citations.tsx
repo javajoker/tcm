@@ -51,14 +51,32 @@ function CitationSheet({ current, onClose }: { current: Open | null; onClose: ()
 }
 
 /** A chip naming a classical source; Enter or a tap opens the sheet. Renders nothing for an id the knowledge base does not know or before it is loaded. */
-export function CitationChip({ id, usedFor }: { id: string; usedFor?: string }): ReactNode {
+export function CitationChip({ id, usedFor, mark }: { id: string; usedFor?: string; mark?: number }): ReactNode {
   const { t } = useI18n();
   const loaded = useLoadedOptional();
   const ctx = useContext(Ctx);
   const c = loaded?.kb.citation(id);
   if (!c || ctx === null) return null;
   const name = `《${c.book}》${c.chapter}`;
+  const shown = mark === undefined ? name : `${name}（${mark}）`;
   return (
-    <button type="button" className={styles.chip} lang="zh-Hant" aria-label={t.t("report.citation.open", { name })} onClick={() => ctx.open(id, usedFor)}>{name}</button>
+    <button type="button" className={styles.chip} lang="zh-Hant" aria-label={t.t("report.citation.open", { name: shown })} onClick={() => ctx.open(id, usedFor)}>{shown}</button>
   );
+}
+
+/**
+ * The chips of a list of quotations. Two different passages of one chapter would read as the same chip twice, so they are numbered （1）（2） — only when they would otherwise look alike.
+ */
+export function CitationChips({ ids, usedFor }: { ids: readonly string[]; usedFor?: string }): ReactNode {
+  const loaded = useLoadedOptional();
+  const label = (id: string): string | undefined => { const c = loaded?.kb.citation(id); return c ? `${c.book}|${c.chapter}` : undefined; };
+  const seen = new Map<string, number>();
+  const total = new Map<string, number>();
+  for (const id of ids) { const l = label(id); if (l !== undefined) total.set(l, (total.get(l) ?? 0) + 1); }
+  return <>{ids.map((id) => {
+    const l = label(id);
+    const n = l === undefined ? 0 : (seen.get(l) ?? 0) + 1;
+    if (l !== undefined) seen.set(l, n);
+    return <CitationChip key={id} id={id} {...(usedFor !== undefined ? { usedFor } : {})} {...(l !== undefined && (total.get(l) ?? 0) > 1 ? { mark: n } : {})} />;
+  })}</>;
 }
