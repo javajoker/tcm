@@ -36,6 +36,14 @@ const visual = ([320, 1280] as const).map((width) => ({
   use: { ...browser({ viewport: { width, height: width === 320 ? 640 : 800 } }), baseURL: DEV, lang: "en" as Lang, locale: "en-US", timezoneId: "Asia/Taipei", colorScheme: "light" as const, reducedMotion: "reduce" as const },
 }));
 
+// Cross-browser (test plan §5.3): E1, E2, E9 and E10 in Safari's engine (desktop and an iPhone) and in Firefox. They need those browsers installed (`playwright install webkit firefox`), so they only
+// run when E2E_CROSS=1 (the nightly workflow sets it).
+const cross = process.env.E2E_CROSS === "1" ? [
+  { name: "cross-webkit-desktop", use: { ...devices["Desktop Safari"], viewport: { width: 1280, height: 800 }, lang: "en" as Lang, locale: "en-US", timezoneId: "Asia/Taipei" } },
+  { name: "cross-webkit-iphone", use: { ...devices["iPhone 13"], lang: "zh-Hant" as Lang, locale: "zh-TW", timezoneId: "Asia/Taipei" } },
+  { name: "cross-firefox-desktop", use: { ...devices["Desktop Firefox"], viewport: { width: 1280, height: 800 }, lang: "en" as Lang, locale: "en-US", timezoneId: "Asia/Taipei" } },
+].map((p) => ({ ...p, grep: /E1:|E2:|E9:|E10:/, testMatch: /^(?!.*\/(dev\.|visual\.)).*\.spec\.ts$/, use: { ...p.use, baseURL: RELEASE } })) : [];
+
 export default defineConfig<Options>({
   testDir: "./e2e",
   outputDir: "./e2e/.results",
@@ -52,5 +60,5 @@ export default defineConfig<Options>({
     { command: "node ../../scripts/serve-dist.ts dist 4173", url: `${RELEASE}/en/`, reuseExistingServer: !process.env.CI, timeout: 60_000 },
     { command: "node ../../scripts/serve-dist.ts dist-dev 4174", url: `${DEV}/en/`, reuseExistingServer: !process.env.CI, timeout: 60_000 },
   ],
-  projects: [...projects, ...visual],
+  projects: [...projects, ...visual, ...cross],
 });

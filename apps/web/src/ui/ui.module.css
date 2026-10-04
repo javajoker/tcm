@@ -9,6 +9,8 @@
 
 .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-card); padding: var(--space-4) var(--space-4); }
 @media (min-width: 600px) { .card { padding: var(--space-5); } }
+/* a card inside a card (a formula in the advice) needs less room around it, or on a phone the text column is squeezed */
+.card .card { padding: var(--space-3); }
 .cardTitle { margin: 0 0 var(--space-3); font-size: 1.125rem; }
 
 .chip { display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.15rem 0.7rem; border-radius: var(--radius-pill); border: 1px solid var(--border-strong); background: var(--surface); font-size: 0.875rem; line-height: 1.6; }
