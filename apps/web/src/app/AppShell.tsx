@@ -18,7 +18,7 @@ export function AppShell({ children }: { children: ReactNode }): ReactNode {
       <header className={styles.header}>
         <div className={styles.bar}>
           <Link className={styles.brand} href="/">{t.t("common.app.name")}</Link>
-          {IS_DEV_PROFILE ? <span className={styles.badge} data-testid="profile-badge">{DEV_BADGE}</span> : null}
+          {IS_DEV_PROFILE ? <Link href="/_dev" className={styles.badge} data-testid="profile-badge">{DEV_BADGE}</Link> : null}
           <NotSavedChip />
           <nav aria-label={t.t("common.nav.menu")} className={styles.menu}>
             <Link href="/history">{t.t("common.nav.history")}</Link>

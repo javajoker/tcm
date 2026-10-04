@@ -12,3 +12,4 @@ export { Tooltip } from "./Tooltip.tsx";
 export { ConfirmDialog } from "./ConfirmDialog.tsx";
 export { CheckGroup, ChoiceGroup, type ChoiceOption } from "./ChoiceGroup.tsx";
 export { TagInput } from "./TagInput.tsx";
+export { Tabs } from "./Tabs.tsx";

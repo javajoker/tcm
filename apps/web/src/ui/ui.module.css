@@ -80,3 +80,7 @@
 .tagRemove { min-width: 44px; min-height: 44px; border: 0; background: transparent; color: var(--link); font-size: 1.1rem; border-radius: var(--radius-pill); }
 .addRow { display: flex; gap: var(--space-2); align-items: stretch; flex-wrap: wrap; }
 .addRow .input { flex: 1 1 12rem; }
+
+.tablist { display: flex; flex-wrap: wrap; gap: var(--space-1); border-bottom: 2px solid var(--border); margin-bottom: var(--space-4); }
+.tab { min-height: 44px; padding: 0 1rem; border: 0; border-bottom: 3px solid transparent; background: transparent; color: var(--ink); font-weight: 600; cursor: pointer; }
+.tab[aria-selected="true"] { border-bottom-color: var(--primary); color: var(--primary); }

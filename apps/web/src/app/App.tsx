@@ -30,6 +30,7 @@ import { useApp } from "./store.tsx";
 // dev-only route. The comparison must be written against the compile-time define itself: a dynamic import behind an imported constant is
 // still emitted as a chunk, whereas a literal condition removes the import (and the whole dev module) from a release build.
 const Catalogue = __APP_PROFILE__ === "dev" ? lazy(() => import("../dev/Catalogue.tsx")) : null;
+const Inspector = __APP_PROFILE__ === "dev" ? lazy(() => import("../dev/Inspector.tsx")) : null;
 
 /** Routes inside a language scope; paths here carry no language segment (the nested Router's base supplies it). */
 function Screens(): ReactNode {
@@ -54,6 +55,7 @@ function Screens(): ReactNode {
           <Route path="/result/:id/summary">{(params) => <PractitionerSummary id={params.id} />}</Route>
           <Route path="/result/:id/formula/:fid">{(params) => <FormulaDetail id={params.id} fid={params.fid} />}</Route>
           <Route path="/result/:id">{(params) => <Result id={params.id} />}</Route>
+          {Inspector !== null ? <Route path="/_dev"><Suspense fallback={null}><Inspector /></Suspense></Route> : null}
           {Catalogue !== null ? <Route path="/_dev/components"><Suspense fallback={null}><Catalogue /></Suspense></Route> : null}
           <Route><NotFound /></Route>
         </Switch>
