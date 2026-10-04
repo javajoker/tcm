@@ -19,6 +19,8 @@ S_COLD_LIMBS|手足冰冷|cold limbs|cold-heat
 S_HEAT_PALMS_SOLES|五心煩熱／手足心熱|heat in the five centres (palms, soles, chest)|cold-heat
 S_TIDAL_FEVER|午後潮熱|tidal fever (afternoon)|cold-heat
 S_ALTERNATING_CHILLS_FEVER|往來寒熱|alternating chills and fever|cold-heat
+S_PERIODIC_FEVER_SWEAT|時發熱自汗（平時並無他病）|recurring spells of fever and sweating with no other illness|sweat
+S_WIND_COLD_TRIGGER|受風受涼後起病|onset after exposure to wind or cold|cold-heat
 S_FEAR_HEAT|怕熱喜涼|heat intolerance|cold-heat
 # ── 汗 sweat ──
 S_SPONTANEOUS_SWEAT|自汗（動則汗出）|spontaneous sweating|sweat
@@ -26,8 +28,12 @@ S_NIGHT_SWEAT|盜汗|night sweating|sweat
 S_NO_SWEAT|無汗|absence of sweating|sweat
 # ── 頭身 head-body ──
 S_HEADACHE|頭痛|headache|head-body
+S_NECK_STIFF|項背拘緊|stiff neck and upper back|head-body
 S_HEAD_HEAVY|頭重如裹|heavy-headedness (as if wrapped)|head-body
 S_HEAD_DIZZY|頭暈目眩|dizziness|head-body
+S_HAIR_LOSS|脫髮增多|increased hair loss|head-body
+S_TEETH_LOOSE|牙齒鬆動|loose teeth|head-body
+S_HEEL_PAIN|足跟痠痛|aching heels|head-body
 S_HEAD_DISTENDING|頭脹痛|distending headache|head-body
 S_BODY_ACHE|身體疼痛|body aches|head-body
 S_BODY_HEAVY|身重困倦|heavy body and drowsiness|head-body
@@ -77,6 +83,7 @@ S_SIGHING|善太息|frequent sighing|chest-abdomen
 # ── 耳目口咽 ear-eye-throat ──
 S_TINNITUS_HIGH_LOUD|耳鳴如潮|tinnitus, loud (like tides)|ear-eye-throat
 S_TINNITUS_THIN|耳鳴如蟬|tinnitus, thin (like cicadas)|ear-eye-throat
+S_HEARING_DECLINE|聽力減退|declining hearing|ear-eye-throat
 S_BLURRED_VISION|視物模糊|blurred vision|ear-eye-throat
 S_DRY_EYES|目乾澀|dry eyes|ear-eye-throat
 S_RED_EYES|目赤|red eyes|ear-eye-throat
@@ -98,6 +105,8 @@ S_DREAM_MANY|多夢|profuse dreaming|sleep
 S_RESTLESS_NO_SLEEP|心煩不得眠|vexation with inability to sleep|sleep
 S_FORGETFUL|健忘|forgetfulness|sleep
 S_STARTLE|易驚|susceptibility to fright|sleep
+S_THOUGHT_RACING_AT_NIGHT|夜間思緒紛亂|racing thoughts at night|sleep
+S_TONGUE_TIP_BURNING|舌尖灼熱刺痛|burning pain at the tongue tip|sleep
 # ── 情志 emotion ──
 S_DEPRESSED|情緒抑鬱|depressed mood|emotion
 S_IRRITABLE|急躁易怒|irritability and easy anger|emotion
@@ -116,12 +125,16 @@ S_SHORT_BREATH|氣短|shortness of breath|qi-spirit-form
 S_LAZY_SPEAK|少氣懶言|disinclination to speak|qi-spirit-form
 S_LOW_VOICE|聲低|low voice|voice-breath
 S_EASY_COLD|容易感冒|susceptibility to common cold|qi-spirit-form
+S_COLD_EVERY_SEASON_CHANGE|換季即感冒、遷延難癒|catching cold at every change of weather and recovering slowly|qi-spirit-form
+S_BREATH_ON_EXERTION|稍動即氣短|shortness of breath on slight exertion|voice-breath
 S_COUGH_DRY|乾咳少痰|dry cough with scanty phlegm|voice-breath
 S_COUGH_WEAK|咳聲無力|weak cough|voice-breath
 S_COUGH_PHLEGM_YELLOW|咳痰黃稠|cough with thick yellow phlegm|voice-breath
 S_PHLEGM_COPIOUS|痰多|copious phlegm|voice-breath
 S_RUNNY_NOSE_CLEAR|鼻塞流清涕|nasal congestion with clear discharge|voice-breath
 S_NASAL_CONGESTION|鼻塞|nasal congestion|voice-breath
+S_NASAL_NOISE_DRY_RETCH|鼻鳴乾嘔|noisy nasal breathing with dry retching|head-body
+S_SPEAKING_TIRES|說話稍久即聲低乏力|voice fading and tiring after speaking for a while|voice-breath
 S_EDEMA|浮腫|oedema|qi-spirit-form
 S_SPIRIT_WITHDRAWN|精神萎靡|listlessness|qi-spirit-form
 # ── 面色皮膚 face-skin ──

@@ -22,8 +22,8 @@ Needs Node ≥ 22.18 for the one TypeScript export step (`scripts/kb/export_wuxi
 | `herbs/herbs.json` | 703 | Herb model: 四氣 (signed warmth), 五味→五行, 歸經 organs, functions, **panel effects**, **burden weights (利弊)**, tags, pregnancy / interaction / toxicity flags | TCM-Library (Pharmacopoeia 2025 + textbook entries) → derived rules; 94 curated herbs override |
 | `herbs/herb-index.json` | 714 | zh-Hant name / alias → herb id | same |
 | `formulas/formulas.json` | 33 | Formulas: composition with 君臣佐使 roles and proportions, aggregate panel effect and burden, flavour profile, computed tier A/B/C, pregnancy and interaction flags, modifications (加減), verification record | curated + verified against the classics |
-| `diagnosis/symptoms.json` | 171 | 12-dimension symptom registry + 32 tongue features + 28 pulses (zh-Hant / English) | curated |
-| `diagnosis/questions.json` | 28 questions, 8 modules | **Question bank** for the adaptive inquiry: plain-language prompts (zh-Hant, en), options → symptom ids, severity grading, exclusivity, prerequisites, follow-up triggers; all 111 inquiry symptoms reachable | curated draft (`scripts/kb/curated/questions.py`) |
+| `diagnosis/symptoms.json` | 184 | 12-dimension symptom registry + 32 tongue features + 28 pulses (zh-Hant / English) | curated |
+| `diagnosis/questions.json` | 36 questions, 8 modules | **Question bank** for the adaptive inquiry: plain-language prompts (zh-Hant, en), options → symptom ids, severity grading, exclusivity, prerequisites, follow-up triggers; all 124 inquiry symptoms reachable | curated draft (`scripts/kb/curated/questions.py`) |
 | `diagnosis/exclusions.json` | 23 groups, 10 splits | Mutually exclusive symptom groups (incl. pulse), soft conflicts, and look-alike symptom splits with their distinguishing hints | curated draft |
 | `diagnosis/orientation.json` | 4 sign lists | 八綱 first-impression signs (cold/heat, deficiency/excess), external triggers, 表/半表半裡 rule — routing and consistency only | curated draft |
 | `diagnosis/patterns.json` | 23 | MVP patterns with weighted evidence, required symptoms, panel projection, formulas, diet/acupoints/lifestyle, citations | curated |
@@ -94,7 +94,9 @@ Every herb carries `source.path` and the submodule commit; every formula carries
   original — e.g. 當歸 and 遠志 in 歸脾湯). Partial rows list the missing herbs; confirm with a second source (Wikisource) before marking `verified`.
 - Five-phase correspondences and the 民病 excerpts are parsed from the original, not transcribed.
 - Pattern self-test: each of the 23 patterns ranks first for its own typical patient. Smallest margins (need discriminating questions):
-  EX2 vs EX4 (both 桂枝湯 patterns; 3 points), HT2 vs KD1 (11), LG1 vs EX4 (5).
+  HT2 vs KD1 (20 points), LG1 vs EX4 (31), EX2 vs EX4 (29, both 桂枝湯 patterns). The three pairs were 11, 6 and 3 points apart before K-07
+  (decided 2026-10-04): 13 new symptoms and 8 follow-up questions, each asked only when a symptom shared by the pair is present
+  (`Q_WIND_ONSET`, `Q_NOSE_NECK`, `Q_SWEAT_SPELLS`, `Q_BREATH_EXERTION`, `Q_COLD_EACH_SEASON`, `Q_KIDNEY_ESSENCE`, `Q_HEARING`, `Q_HEART_AT_NIGHT`).
 - Pharmacopoeia facts are used as structured data (`derived` herbs: 609) and **have not been reviewed**.
 
 ### Data-quality findings in the sources (kept visible)

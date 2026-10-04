@@ -68,15 +68,15 @@ packages/wuxing (export tables) ─────┘
 | `source_path`, `source_repo` | string | Path under `reference/sources/…` and the repository with its licence note |
 | `verified` | bool | The source-script quote was found in the source text (all 127 `true`; `_meta.unverified` must be empty) |
 
-### 3.2 `diagnosis/symptoms.json` — the 171-code registry
+### 3.2 `diagnosis/symptoms.json` — the 184-code registry
 
-One namespace for symptoms (`S_*`, 111), tongue features (`T_*`, 32) and pulses (`P_*`, 28). Items: `id`, `kind` (`symptom` | `tongue` | `pulse`), `dimension`
+One namespace for symptoms (`S_*`, 124), tongue features (`T_*`, 32) and pulses (`P_*`, 28). Items: `id`, `kind` (`symptom` | `tongue` | `pulse`), `dimension`
 (`cold-heat`, `sweat`, `head-body`, `stool-urine`, `diet-taste`, `chest-abdomen`, `ear-eye-throat`, `thirst`, `sleep`, `emotion`, `menses`, `face-skin`,
 `voice-breath`, `qi-spirit-form`, `tongue`, `pulse`), `zh-Hant`, `en`. Tongue items add `tongue: { category, zone, meaning }` (`category`: `body | shape | special |
 zone-body | coat | zone-coat`; `zone`: `all | tip | center | edge | root`); pulse items add `pulse: { optional: true, quality_coefficient: 0.5 }`.
 The data-quality class is derived from the prefix: `T_` → *guided* (q = 0.7), `P_` → *pulse* (q = 0.5), otherwise *inquiry* (q = 1.0); see [SOP §4.7](diagnosis-sop.zh-TW.md).
 
-### 3.2b `diagnosis/questions.json` — the question bank (28 questions, 8 modules)
+### 3.2b `diagnosis/questions.json` — the question bank (36 questions, 8 modules)
 
 The adaptive inquiry's content (SOP §4.2, §4.8). `modules[]` = the eight complaint modules (`sleep`, `fatigue`, `digestion`, `cold-heat-sweat`, `head-body-pain`, `mood-stress`, `womens-cycle` — requires female and not pregnant —, `early-external`).
 
@@ -95,7 +95,7 @@ The adaptive inquiry's content (SOP §4.2, §4.8). `modules[]` = the eight compl
 | `modules[]` | Modules in which the question is asked early (the engine still orders by information gain) |
 
 **Answer semantics (binding for the engine and the UI).** *Answering* a question (at least one option, or "none of these") records the symptoms of the selected options as `present` (with severity for graded ones) and the symptoms of the **unselected** options of that question as `absent`. *Skipping* ("not sure") records every symptom of the question as `unsure`. `absent` and `unsure` add nothing to a pattern score (the denominator Σw is fixed); they differ in coverage and in what is asked next. Context options set `AssessInput.context` (today only `course`, used to route the external/internal channel, SOP §9.1).
-`_meta.coverage` records how many of the 111 inquiry symptoms are reachable (all); `validate_kb` and `tests/test_question_bank.py` keep that true and check that every pattern's typical patient can be fully described through the bank (follow-up triggers included).
+`_meta.coverage` records how many of the 124 inquiry symptoms are reachable (all); `validate_kb` and `tests/test_question_bank.py` keep that true and check that every pattern's typical patient can be fully described through the bank (follow-up triggers included).
 
 ### 3.2c `diagnosis/exclusions.json` — exclusive groups, conflicts, look-alike splits
 

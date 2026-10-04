@@ -1,10 +1,10 @@
 {
   "_meta": {
     "core_count": 23,
-    "count": 28,
+    "count": 36,
     "coverage": {
-      "covered": 111,
-      "inquiry_symptoms": 111,
+      "covered": 124,
+      "inquiry_symptoms": 124,
       "uncovered": []
     },
     "description": "Question bank for the adaptive inquiry (SOP §4.2, §4.8): plain-language prompts, options mapped to symptom ids, prerequisites, modules. Answering a question records selected symptoms as present and the others of that question as absent; skipping records unsure.",
@@ -2159,6 +2159,438 @@
         "zh-Hant": "這些不舒服大約持續多久了？"
       },
       "select": "one",
+      "source": "inquiry",
+      "status": "draft"
+    },
+    {
+      "core": false,
+      "dimension": "cold-heat",
+      "exclusive_groups": [],
+      "follows": [
+        "S_AVERSION_WIND",
+        "S_SPONTANEOUS_SWEAT",
+        "S_AVERSION_COLD",
+        "S_FEVER"
+      ],
+      "graded": [],
+      "hint": {
+        "en": "A sudden start after a chill points to a new external illness; long-standing, repeated sweating is different.",
+        "zh-Hant": "剛受風寒而起，與長期反覆自汗不同。"
+      },
+      "id": "Q_WIND_ONSET",
+      "modules": [
+        "early-external"
+      ],
+      "options": [
+        {
+          "id": "wind_cold_trigger",
+          "label": {
+            "en": "Yes, it began soon after being caught in wind or cold",
+            "zh-Hant": "是，受風受涼後不久就開始"
+          },
+          "none": false,
+          "symptoms": [
+            "S_WIND_COLD_TRIGGER"
+          ]
+        },
+        {
+          "id": "none",
+          "label": {
+            "en": "No, or I cannot say",
+            "zh-Hant": "不是，或說不上來"
+          },
+          "none": true,
+          "symptoms": []
+        }
+      ],
+      "order": 140,
+      "prompt": {
+        "en": "Did this start soon after you were caught in wind, cold or rain?",
+        "zh-Hant": "這種不舒服，是不是在受風、受涼或淋雨之後不久才開始的？"
+      },
+      "select": "one",
+      "source": "inquiry",
+      "status": "draft"
+    },
+    {
+      "core": false,
+      "dimension": "head-body",
+      "exclusive_groups": [],
+      "follows": [
+        "S_AVERSION_WIND",
+        "S_SPONTANEOUS_SWEAT",
+        "S_FEVER"
+      ],
+      "graded": [],
+      "id": "Q_NOSE_NECK",
+      "modules": [
+        "early-external"
+      ],
+      "options": [
+        {
+          "id": "nasal_noise_dry_retch",
+          "label": {
+            "en": "Noisy nasal breathing, or feeling like retching with nothing coming up",
+            "zh-Hant": "鼻子呼吸有聲、鼻塞，或想吐卻吐不出"
+          },
+          "none": false,
+          "symptoms": [
+            "S_NASAL_NOISE_DRY_RETCH"
+          ]
+        },
+        {
+          "id": "neck_stiff",
+          "label": {
+            "en": "A stiff, tight neck or upper back",
+            "zh-Hant": "脖子、上背僵硬拘緊"
+          },
+          "none": false,
+          "symptoms": [
+            "S_NECK_STIFF"
+          ]
+        },
+        {
+          "id": "none",
+          "label": {
+            "en": "None of these",
+            "zh-Hant": "以上都沒有"
+          },
+          "none": true,
+          "symptoms": []
+        }
+      ],
+      "order": 141,
+      "prompt": {
+        "en": "Do you also have any of these? Select all that apply.",
+        "zh-Hant": "同時有沒有以下情況？符合的請全選。"
+      },
+      "select": "many",
+      "source": "inquiry",
+      "status": "draft"
+    },
+    {
+      "core": false,
+      "dimension": "sweat",
+      "exclusive_groups": [],
+      "follows": [
+        "S_SPONTANEOUS_SWEAT"
+      ],
+      "graded": [],
+      "hint": {
+        "en": "Repeated, regular spells of fever and sweating with no other illness are traditionally read as a disharmony of the nutrient and defensive qi.",
+        "zh-Hant": "反覆、定時的發熱自汗而無其他疾病，傳統上屬營衛不和。"
+      },
+      "id": "Q_SWEAT_SPELLS",
+      "modules": [
+        "cold-heat-sweat"
+      ],
+      "options": [
+        {
+          "id": "periodic_fever_sweat",
+          "label": {
+            "en": "Yes, repeated spells of feeling feverish and sweating",
+            "zh-Hant": "有，一陣陣發熱出汗，反覆好幾次"
+          },
+          "none": false,
+          "symptoms": [
+            "S_PERIODIC_FEVER_SWEAT"
+          ]
+        },
+        {
+          "id": "none",
+          "label": {
+            "en": "No",
+            "zh-Hant": "沒有"
+          },
+          "none": true,
+          "symptoms": []
+        }
+      ],
+      "order": 142,
+      "prompt": {
+        "en": "Do you have spells of feeling feverish and sweating again and again even though you are not otherwise ill?",
+        "zh-Hant": "有沒有這種情形：平時並沒有生什麼病，卻一陣一陣地發熱、出汗，反覆發作？"
+      },
+      "select": "one",
+      "source": "inquiry",
+      "status": "draft"
+    },
+    {
+      "core": false,
+      "dimension": "voice-breath",
+      "exclusive_groups": [],
+      "follows": [
+        "S_EASY_COLD",
+        "S_SPONTANEOUS_SWEAT",
+        "S_AVERSION_WIND",
+        "S_SHORT_BREATH",
+        "S_COUGH_WEAK",
+        "S_LOW_VOICE"
+      ],
+      "graded": [
+        "S_BREATH_ON_EXERTION"
+      ],
+      "id": "Q_BREATH_EXERTION",
+      "modules": [
+        "fatigue"
+      ],
+      "options": [
+        {
+          "id": "breath_on_exertion",
+          "label": {
+            "en": "I get short of breath with even slight exertion",
+            "zh-Hant": "稍微活動就覺得氣短"
+          },
+          "none": false,
+          "symptoms": [
+            "S_BREATH_ON_EXERTION"
+          ]
+        },
+        {
+          "id": "speaking_tires",
+          "label": {
+            "en": "My voice fades and I tire after talking for a while",
+            "zh-Hant": "話說久了，聲音變小、沒力氣"
+          },
+          "none": false,
+          "symptoms": [
+            "S_SPEAKING_TIRES"
+          ]
+        },
+        {
+          "id": "none",
+          "label": {
+            "en": "None of these",
+            "zh-Hant": "以上都沒有"
+          },
+          "none": true,
+          "symptoms": []
+        }
+      ],
+      "order": 143,
+      "prompt": {
+        "en": "Do you get short of breath or tired when walking, climbing stairs or talking for a while?",
+        "zh-Hant": "走路、爬樓梯或說話久了，會不會氣喘、氣短或更沒力氣？"
+      },
+      "select": "many",
+      "source": "inquiry",
+      "status": "draft"
+    },
+    {
+      "core": false,
+      "dimension": "qi-spirit-form",
+      "exclusive_groups": [],
+      "follows": [
+        "S_EASY_COLD",
+        "S_AVERSION_WIND"
+      ],
+      "graded": [],
+      "id": "Q_COLD_EACH_SEASON",
+      "modules": [
+        "fatigue"
+      ],
+      "options": [
+        {
+          "id": "cold_every_season_change",
+          "label": {
+            "en": "Yes, I catch a cold at every change and recover slowly",
+            "zh-Hant": "是，一換季就感冒，好得慢"
+          },
+          "none": false,
+          "symptoms": [
+            "S_COLD_EVERY_SEASON_CHANGE"
+          ]
+        },
+        {
+          "id": "none",
+          "label": {
+            "en": "No",
+            "zh-Hant": "不是"
+          },
+          "none": true,
+          "symptoms": []
+        }
+      ],
+      "order": 144,
+      "prompt": {
+        "en": "Do you catch a cold whenever the weather or the season changes, and take long to get over it?",
+        "zh-Hant": "是不是一換季或天氣變化就容易感冒，而且好得很慢？"
+      },
+      "select": "one",
+      "source": "inquiry",
+      "status": "draft"
+    },
+    {
+      "core": false,
+      "dimension": "head-body",
+      "exclusive_groups": [],
+      "follows": [
+        "S_HEAT_PALMS_SOLES",
+        "S_NIGHT_SWEAT",
+        "S_TINNITUS_THIN",
+        "S_LOW_BACK_SORE"
+      ],
+      "graded": [],
+      "id": "Q_KIDNEY_ESSENCE",
+      "modules": [
+        "fatigue",
+        "cold-heat-sweat"
+      ],
+      "options": [
+        {
+          "id": "hair_loss",
+          "label": {
+            "en": "More hair loss than before",
+            "zh-Hant": "頭髮掉得比以前多"
+          },
+          "none": false,
+          "symptoms": [
+            "S_HAIR_LOSS"
+          ]
+        },
+        {
+          "id": "teeth_loose",
+          "label": {
+            "en": "Loose teeth, or gums and tooth roots that often ache",
+            "zh-Hant": "牙齒鬆動，或牙根常常痠軟"
+          },
+          "none": false,
+          "symptoms": [
+            "S_TEETH_LOOSE"
+          ]
+        },
+        {
+          "id": "heel_pain",
+          "label": {
+            "en": "Aching heels",
+            "zh-Hant": "腳跟痠痛"
+          },
+          "none": false,
+          "symptoms": [
+            "S_HEEL_PAIN"
+          ]
+        },
+        {
+          "id": "none",
+          "label": {
+            "en": "None of these",
+            "zh-Hant": "以上都沒有"
+          },
+          "none": true,
+          "symptoms": []
+        }
+      ],
+      "order": 145,
+      "prompt": {
+        "en": "Have you noticed any of these lately? Select all that apply.",
+        "zh-Hant": "最近有沒有以下情況？符合的請全選。"
+      },
+      "select": "many",
+      "source": "inquiry",
+      "status": "draft"
+    },
+    {
+      "core": false,
+      "dimension": "ear-eye-throat",
+      "exclusive_groups": [],
+      "follows": [
+        "S_HEAT_PALMS_SOLES",
+        "S_NIGHT_SWEAT",
+        "S_TINNITUS_THIN",
+        "S_LOW_BACK_SORE"
+      ],
+      "graded": [],
+      "id": "Q_HEARING",
+      "modules": [
+        "fatigue",
+        "cold-heat-sweat"
+      ],
+      "options": [
+        {
+          "id": "hearing_decline",
+          "label": {
+            "en": "Yes, my hearing has declined",
+            "zh-Hant": "有，聽力不如以前"
+          },
+          "none": false,
+          "symptoms": [
+            "S_HEARING_DECLINE"
+          ]
+        },
+        {
+          "id": "none",
+          "label": {
+            "en": "No",
+            "zh-Hant": "沒有"
+          },
+          "none": true,
+          "symptoms": []
+        }
+      ],
+      "order": 146,
+      "prompt": {
+        "en": "Is your hearing not as good as it used to be?",
+        "zh-Hant": "聽力有沒有比以前差？"
+      },
+      "select": "one",
+      "source": "inquiry",
+      "status": "draft"
+    },
+    {
+      "core": false,
+      "dimension": "sleep",
+      "exclusive_groups": [],
+      "follows": [
+        "S_RESTLESS_NO_SLEEP",
+        "S_PALPITATION",
+        "S_HEAT_PALMS_SOLES",
+        "S_NIGHT_SWEAT",
+        "S_TINNITUS_THIN"
+      ],
+      "graded": [],
+      "id": "Q_HEART_AT_NIGHT",
+      "modules": [
+        "sleep"
+      ],
+      "options": [
+        {
+          "id": "thought_racing_at_night",
+          "label": {
+            "en": "My mind will not stop; thoughts race",
+            "zh-Hant": "腦子停不下來，思緒紛亂"
+          },
+          "none": false,
+          "symptoms": [
+            "S_THOUGHT_RACING_AT_NIGHT"
+          ]
+        },
+        {
+          "id": "tongue_tip_burning",
+          "label": {
+            "en": "A burning, stinging tip of the tongue",
+            "zh-Hant": "舌尖覺得灼熱刺痛"
+          },
+          "none": false,
+          "symptoms": [
+            "S_TONGUE_TIP_BURNING"
+          ]
+        },
+        {
+          "id": "none",
+          "label": {
+            "en": "None of these",
+            "zh-Hant": "以上都沒有"
+          },
+          "none": true,
+          "symptoms": []
+        }
+      ],
+      "order": 147,
+      "prompt": {
+        "en": "At night, do you notice any of these? Select all that apply.",
+        "zh-Hant": "夜裡心裡有沒有以下的感覺？符合的請全選。"
+      },
+      "select": "many",
       "source": "inquiry",
       "status": "draft"
     },

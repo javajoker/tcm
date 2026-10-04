@@ -202,7 +202,7 @@ const PROPERTIES = {
   P10: ["formula safety: in release a pregnant (or possibly pregnant) person never gets a formula with an avoid/caution herb, and a user of an anticoagulant never gets one with an activating herb", () => {
     const kb = releaseAtL1(["pregnant", "minor_under_18", "lactating"]);
     let removedForPregnancy = 0, removedForAnticoagulant = 0;
-    forAll("P10", 100, (rng) => ({ p: { ...randomPerson(rng), findings: { ...rng.pick(INTERVIEWS), ...randomFindings(rng, 0.02) } }, pregnant: rng.chance(0.5), anticoag: rng.chance(0.5) }), ({ p, pregnant, anticoag }) => {
+    forAll("P10", 250, (rng) => ({ p: { ...calm(rng, randomPerson(rng)), findings: { ...rng.pick(INTERVIEWS), ...randomFindings(rng, 0.02) } }, pregnant: rng.chance(0.5), anticoag: rng.chance(0.5) }), ({ p, pregnant, anticoag }) => {
       const subject: Subject = { ...p.subject, sex: pregnant ? "female" : p.subject.sex, pregnancy: pregnant ? pregnancyStatus(p) : p.subject.pregnancy, medications: anticoag ? [...new Set([...p.subject.medications, "anticoagulant" as const])] : p.subject.medications };
       const a = run(kb, { ...p, subject });
       removedForPregnancy += a.suppressed.filter((x) => x.ruleId?.startsWith("R_PREG_HERB")).length;

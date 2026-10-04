@@ -2,23 +2,23 @@
   "_meta": {
     "by_dimension": {
       "chest-abdomen": 14,
-      "cold-heat": 10,
+      "cold-heat": 11,
       "diet-taste": 12,
-      "ear-eye-throat": 9,
+      "ear-eye-throat": 10,
       "emotion": 4,
       "face-skin": 8,
-      "head-body": 13,
+      "head-body": 18,
       "menses": 6,
       "pulse": 28,
-      "qi-spirit-form": 6,
-      "sleep": 6,
+      "qi-spirit-form": 7,
+      "sleep": 8,
       "stool-urine": 7,
-      "sweat": 3,
+      "sweat": 4,
       "thirst": 6,
       "tongue": 32,
-      "voice-breath": 7
+      "voice-breath": 9
     },
-    "count": 171,
+    "count": 184,
     "description": "Symptom / sign registry: 12 inquiry dimensions + tongue + pulse. English needs review.",
     "schema": 1
   },
@@ -87,6 +87,20 @@
       "zh-Hant": "往來寒熱"
     },
     {
+      "dimension": "sweat",
+      "en": "recurring spells of fever and sweating with no other illness",
+      "id": "S_PERIODIC_FEVER_SWEAT",
+      "kind": "symptom",
+      "zh-Hant": "時發熱自汗（平時並無他病）"
+    },
+    {
+      "dimension": "cold-heat",
+      "en": "onset after exposure to wind or cold",
+      "id": "S_WIND_COLD_TRIGGER",
+      "kind": "symptom",
+      "zh-Hant": "受風受涼後起病"
+    },
+    {
       "dimension": "cold-heat",
       "en": "heat intolerance",
       "id": "S_FEAR_HEAT",
@@ -123,6 +137,13 @@
     },
     {
       "dimension": "head-body",
+      "en": "stiff neck and upper back",
+      "id": "S_NECK_STIFF",
+      "kind": "symptom",
+      "zh-Hant": "項背拘緊"
+    },
+    {
+      "dimension": "head-body",
       "en": "heavy-headedness (as if wrapped)",
       "id": "S_HEAD_HEAVY",
       "kind": "symptom",
@@ -134,6 +155,27 @@
       "id": "S_HEAD_DIZZY",
       "kind": "symptom",
       "zh-Hant": "頭暈目眩"
+    },
+    {
+      "dimension": "head-body",
+      "en": "increased hair loss",
+      "id": "S_HAIR_LOSS",
+      "kind": "symptom",
+      "zh-Hant": "脫髮增多"
+    },
+    {
+      "dimension": "head-body",
+      "en": "loose teeth",
+      "id": "S_TEETH_LOOSE",
+      "kind": "symptom",
+      "zh-Hant": "牙齒鬆動"
+    },
+    {
+      "dimension": "head-body",
+      "en": "aching heels",
+      "id": "S_HEEL_PAIN",
+      "kind": "symptom",
+      "zh-Hant": "足跟痠痛"
     },
     {
       "dimension": "head-body",
@@ -452,6 +494,13 @@
     },
     {
       "dimension": "ear-eye-throat",
+      "en": "declining hearing",
+      "id": "S_HEARING_DECLINE",
+      "kind": "symptom",
+      "zh-Hant": "聽力減退"
+    },
+    {
+      "dimension": "ear-eye-throat",
       "en": "blurred vision",
       "id": "S_BLURRED_VISION",
       "kind": "symptom",
@@ -584,6 +633,20 @@
       "zh-Hant": "易驚"
     },
     {
+      "dimension": "sleep",
+      "en": "racing thoughts at night",
+      "id": "S_THOUGHT_RACING_AT_NIGHT",
+      "kind": "symptom",
+      "zh-Hant": "夜間思緒紛亂"
+    },
+    {
+      "dimension": "sleep",
+      "en": "burning pain at the tongue tip",
+      "id": "S_TONGUE_TIP_BURNING",
+      "kind": "symptom",
+      "zh-Hant": "舌尖灼熱刺痛"
+    },
+    {
       "dimension": "emotion",
       "en": "depressed mood",
       "id": "S_DEPRESSED",
@@ -689,6 +752,20 @@
       "zh-Hant": "容易感冒"
     },
     {
+      "dimension": "qi-spirit-form",
+      "en": "catching cold at every change of weather and recovering slowly",
+      "id": "S_COLD_EVERY_SEASON_CHANGE",
+      "kind": "symptom",
+      "zh-Hant": "換季即感冒、遷延難癒"
+    },
+    {
+      "dimension": "voice-breath",
+      "en": "shortness of breath on slight exertion",
+      "id": "S_BREATH_ON_EXERTION",
+      "kind": "symptom",
+      "zh-Hant": "稍動即氣短"
+    },
+    {
       "dimension": "voice-breath",
       "en": "dry cough with scanty phlegm",
       "id": "S_COUGH_DRY",
@@ -729,6 +806,20 @@
       "id": "S_NASAL_CONGESTION",
       "kind": "symptom",
       "zh-Hant": "鼻塞"
+    },
+    {
+      "dimension": "head-body",
+      "en": "noisy nasal breathing with dry retching",
+      "id": "S_NASAL_NOISE_DRY_RETCH",
+      "kind": "symptom",
+      "zh-Hant": "鼻鳴乾嘔"
+    },
+    {
+      "dimension": "voice-breath",
+      "en": "voice fading and tiring after speaking for a while",
+      "id": "S_SPEAKING_TIRES",
+      "kind": "symptom",
+      "zh-Hant": "說話稍久即聲低乏力"
     },
     {
       "dimension": "qi-spirit-form",

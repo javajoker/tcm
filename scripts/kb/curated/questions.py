@@ -274,4 +274,46 @@ QUESTIONS = [
         none_opt(),
     ], order=91, modules=("sleep", "mood-stress"), graded=("S_FORGETFUL",),
       follows=["S_INSOMNIA_ONSET", "S_INSOMNIA_MAINT", "S_DREAM_MANY", "S_RESTLESS_NO_SLEEP", "S_PALPITATION", "S_FATIGUE", "S_MENTAL_STRAIN"]),
+
+    # ── discriminating follow-ups (K-07): asked only when a trigger symptom is present, for the pairs the pattern self-test finds closest —
+    #    EX2 / EX4 (both 桂枝湯 patterns), LG1 / EX4 (both sweat and fear the wind) and HT2 / KD1 (both heat in the five centres, night sweating, tinnitus) ──
+    q("Q_WIND_ONSET", "cold-heat", "這種不舒服，是不是在受風、受涼或淋雨之後不久才開始的？", "Did this start soon after you were caught in wind, cold or rain?", [
+        opt("是，受風受涼後不久就開始", "Yes, it began soon after being caught in wind or cold", "S_WIND_COLD_TRIGGER"),
+        none_opt("不是，或說不上來", "No, or I cannot say"),
+    ], order=140, select="one", modules=("early-external",), follows=["S_AVERSION_WIND", "S_SPONTANEOUS_SWEAT", "S_AVERSION_COLD", "S_FEVER"],
+      hint=("剛受風寒而起，與長期反覆自汗不同。", "A sudden start after a chill points to a new external illness; long-standing, repeated sweating is different.")),
+    q("Q_NOSE_NECK", "head-body", "同時有沒有以下情況？符合的請全選。", "Do you also have any of these? Select all that apply.", [
+        opt("鼻子呼吸有聲、鼻塞，或想吐卻吐不出", "Noisy nasal breathing, or feeling like retching with nothing coming up", "S_NASAL_NOISE_DRY_RETCH"),
+        opt("脖子、上背僵硬拘緊", "A stiff, tight neck or upper back", "S_NECK_STIFF"),
+        none_opt(),
+    ], order=141, modules=("early-external",), follows=["S_AVERSION_WIND", "S_SPONTANEOUS_SWEAT", "S_FEVER"]),
+    q("Q_SWEAT_SPELLS", "sweat", "有沒有這種情形：平時並沒有生什麼病，卻一陣一陣地發熱、出汗，反覆發作？", "Do you have spells of feeling feverish and sweating again and again even though you are not otherwise ill?", [
+        opt("有，一陣陣發熱出汗，反覆好幾次", "Yes, repeated spells of feeling feverish and sweating", "S_PERIODIC_FEVER_SWEAT"),
+        none_opt("沒有", "No"),
+    ], order=142, select="one", modules=("cold-heat-sweat",), follows=["S_SPONTANEOUS_SWEAT"],
+      hint=("反覆、定時的發熱自汗而無其他疾病，傳統上屬營衛不和。", "Repeated, regular spells of fever and sweating with no other illness are traditionally read as a disharmony of the nutrient and defensive qi.")),
+    q("Q_BREATH_EXERTION", "voice-breath", "走路、爬樓梯或說話久了，會不會氣喘、氣短或更沒力氣？", "Do you get short of breath or tired when walking, climbing stairs or talking for a while?", [
+        opt("稍微活動就覺得氣短", "I get short of breath with even slight exertion", "S_BREATH_ON_EXERTION"),
+        opt("話說久了，聲音變小、沒力氣", "My voice fades and I tire after talking for a while", "S_SPEAKING_TIRES"),
+        none_opt(),
+    ], order=143, modules=("fatigue",), graded=("S_BREATH_ON_EXERTION",), follows=["S_EASY_COLD", "S_SPONTANEOUS_SWEAT", "S_AVERSION_WIND", "S_SHORT_BREATH", "S_COUGH_WEAK", "S_LOW_VOICE"]),
+    q("Q_COLD_EACH_SEASON", "qi-spirit-form", "是不是一換季或天氣變化就容易感冒，而且好得很慢？", "Do you catch a cold whenever the weather or the season changes, and take long to get over it?", [
+        opt("是，一換季就感冒，好得慢", "Yes, I catch a cold at every change and recover slowly", "S_COLD_EVERY_SEASON_CHANGE"),
+        none_opt("不是", "No"),
+    ], order=144, select="one", modules=("fatigue",), follows=["S_EASY_COLD", "S_AVERSION_WIND"]),
+    q("Q_KIDNEY_ESSENCE", "head-body", "最近有沒有以下情況？符合的請全選。", "Have you noticed any of these lately? Select all that apply.", [
+        opt("頭髮掉得比以前多", "More hair loss than before", "S_HAIR_LOSS"),
+        opt("牙齒鬆動，或牙根常常痠軟", "Loose teeth, or gums and tooth roots that often ache", "S_TEETH_LOOSE"),
+        opt("腳跟痠痛", "Aching heels", "S_HEEL_PAIN"),
+        none_opt(),
+    ], order=145, modules=("fatigue", "cold-heat-sweat"), follows=["S_HEAT_PALMS_SOLES", "S_NIGHT_SWEAT", "S_TINNITUS_THIN", "S_LOW_BACK_SORE"]),
+    q("Q_HEARING", "ear-eye-throat", "聽力有沒有比以前差？", "Is your hearing not as good as it used to be?", [
+        opt("有，聽力不如以前", "Yes, my hearing has declined", "S_HEARING_DECLINE"),
+        none_opt("沒有", "No"),
+    ], order=146, select="one", modules=("fatigue", "cold-heat-sweat"), follows=["S_HEAT_PALMS_SOLES", "S_NIGHT_SWEAT", "S_TINNITUS_THIN", "S_LOW_BACK_SORE"]),
+    q("Q_HEART_AT_NIGHT", "sleep", "夜裡心裡有沒有以下的感覺？符合的請全選。", "At night, do you notice any of these? Select all that apply.", [
+        opt("腦子停不下來，思緒紛亂", "My mind will not stop; thoughts race", "S_THOUGHT_RACING_AT_NIGHT"),
+        opt("舌尖覺得灼熱刺痛", "A burning, stinging tip of the tongue", "S_TONGUE_TIP_BURNING"),
+        none_opt(),
+    ], order=147, modules=("sleep",), follows=["S_RESTLESS_NO_SLEEP", "S_PALPITATION", "S_HEAT_PALMS_SOLES", "S_NIGHT_SWEAT", "S_TINNITUS_THIN"]),
 ]

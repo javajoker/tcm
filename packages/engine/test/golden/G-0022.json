@@ -79,6 +79,8 @@
       "S_ABD_PAIN_PREFER_WARM_PRESS": {"state":"absent"},
       "S_ABD_DISTENSION_INTERMITTENT": {"state":"absent"},
       "S_PROLAPSE_SENSATION": {"state":"absent"},
+      "S_BREATH_ON_EXERTION": {"state":"absent"},
+      "S_SPEAKING_TIRES": {"state":"absent"},
       "S_PALPITATION": {"state":"present","severity":"moderate"},
       "S_CHEST_OPPRESSION": {"state":"absent"},
       "S_HYPOCHONDRIAC_DISTENSION": {"state":"absent"},

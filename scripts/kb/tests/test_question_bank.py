@@ -43,6 +43,25 @@ class QuestionBank(unittest.TestCase):
                 weighted = {s for s in list(p["weights"]) + list(p["against"]) if s.startswith("S_")}
                 self.assertEqual(weighted - reachable(self.bank, patient | weighted), set())
 
+    def test_closest_confusable_pairs_have_discriminating_questions(self):
+        """K-07: for each pair the pattern self-test finds closest, at least three questions offer a symptom that weighs at least two points
+        differently for the two patterns, and each is asked when a symptom the pair shares is present (a core question or a follow-up trigger)."""
+        by_id = {p["id"]: p for p in self.patterns}
+
+        def signed(p: dict, s: str) -> float:
+            return p["weights"].get(s, 0) - p["against"].get(s, 0)
+
+        for a, b in (("EX2", "EX4"), ("LG1", "EX4"), ("HT2", "KD1")):
+            pa, pb = by_id[a], by_id[b]
+            shared = {s for s in set(typical_patient(pa)) & set(typical_patient(pb)) if s.startswith("S_")}
+            discriminating = [
+                q["id"] for q in self.bank
+                if (q["core"] or set(q.get("follows", [])) & shared)
+                and any(abs(signed(pa, s) - signed(pb, s)) >= 2 for o in q["options"] for s in o["symptoms"])
+            ]
+            with self.subTest(f"{a} vs {b}"):
+                self.assertGreaterEqual(len(discriminating), 3, f"{a} vs {b}: only {discriminating}")
+
     def test_core_questions_stay_within_the_budget(self):
         core = [q for q in self.bank if q["core"]]
         self.assertLessEqual(len(core), 30)

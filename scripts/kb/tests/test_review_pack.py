@@ -76,8 +76,9 @@ class Packs(unittest.TestCase):
         t = self.packs["patterns"]
         sp1 = t[t.index("## `SP1`"):t.index("## `SP2`")]
         self.assertRegex(sp1, r"this pattern scores \*\*\d+\.\d\*\* \(rank 1\)")
-        ex2 = t[t.index("## `EX2`"):t.index("## `EX3`")]
-        self.assertIn("confusable", ex2, "EX2 and EX4 are within a few points of each other (data README)")
+        kd1 = t[t.index("## `KD1`"):t.index("## `KD2`")]
+        self.assertIn("confusable", kd1, "KD1 and HT2 are the closest pair after K-07 (data README)")
+        self.assertNotIn("confusable", sp1)
         self.assertIn("Asked by question", t)
 
     def test_formulas_carry_the_explained_share_for_the_patterns_that_recommend_them(self):

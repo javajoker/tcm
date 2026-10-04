@@ -254,7 +254,7 @@ describe("the end of the inquiry", () => {
   const finished = (stopAt: "enough" | "all"): Draft => {
     let d: Draft = { ...screened(), inquiry: { modules: [], history: [], resolved: [] } };
     d = applyAnswer(d, q("Q_COURSE"), { kind: "answered", options: [q("Q_COURSE").options.find((o) => o.context?.course === "chronic")!.id], severities: {} });
-    const patient = new Set(["S_FATIGUE", "S_LOW_VOICE", "S_SHORT_BREATH", "S_SPONTANEOUS_SWEAT", "S_POOR_APPETITE", "S_LOOSE_STOOL"]);
+    const patient = new Set(Object.entries(kb.patternById.get("SP1")!.weights).filter(([s, w]) => w >= 2 && s.startsWith("S_")).map(([s]) => s));   // the typical 脾氣虛 patient
     for (let i = 0; i < 60; i++) {
       const n = pickNext(kb, d)!;
       if (n.suggestion === null || (stopAt === "enough" && n.done === "enough")) break;

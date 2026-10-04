@@ -24,6 +24,7 @@
     "build": "pnpm --filter @tcm/web build",
     "build:dev": "pnpm --filter @tcm/web build:dev",
     "golden": "node scripts/golden-report.ts",
+    "golden:reseed": "node scripts/golden-reseed.ts",
     "test:properties": "node --test packages/engine/test/properties.test.ts",
     "test:properties:nightly": "pnpm --filter @tcm/engine test",
     "bench": "node packages/engine/bench/assess.bench.ts",

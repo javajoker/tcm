@@ -66,6 +66,8 @@
       "S_THROAT_FOREIGN": {"state":"absent"},
       "S_FORGETFUL": {"state":"absent"},
       "S_STARTLE": {"state":"present","severity":"moderate"},
+      "S_THOUGHT_RACING_AT_NIGHT": {"state":"absent"},
+      "S_TONGUE_TIP_BURNING": {"state":"absent"},
       "S_HEADACHE": {"state":"absent"},
       "S_HEAD_HEAVY": {"state":"absent"},
       "S_HEAD_DIZZY": {"state":"absent"},

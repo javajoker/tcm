@@ -29,10 +29,35 @@
     },
     {
       "id": "STATE-LOW-CONFIDENCE",
-      "title": "low confidence (the 桂枝湯 patient's inquiry stays below medium): L0 in release",
+      "title": "low confidence (answers that fit 肺氣虛 and the 桂枝湯 patient about equally leave the verdict below medium): L0 in release",
       "ref": "safety policy §2.1 (state)",
       "input": {
-        "interview": "EX2"
+        "interview": "EX2",
+        "findings": {
+          "S_PERIODIC_FEVER_SWEAT": {
+            "state": "present",
+            "severity": "moderate"
+          },
+          "S_WIND_COLD_TRIGGER": {
+            "state": "absent"
+          },
+          "S_EASY_COLD": {
+            "state": "present",
+            "severity": "moderate"
+          },
+          "S_BREATH_ON_EXERTION": {
+            "state": "present",
+            "severity": "moderate"
+          },
+          "S_COLD_EVERY_SEASON_CHANGE": {
+            "state": "present",
+            "severity": "moderate"
+          },
+          "S_SHORT_BREATH": {
+            "state": "present",
+            "severity": "moderate"
+          }
+        }
       },
       "expect": {
         "both": {
@@ -106,6 +131,31 @@
         "subject": {
           "sex": "female",
           "pregnancy": "yes"
+        },
+        "findings": {
+          "S_PERIODIC_FEVER_SWEAT": {
+            "state": "present",
+            "severity": "moderate"
+          },
+          "S_WIND_COLD_TRIGGER": {
+            "state": "absent"
+          },
+          "S_EASY_COLD": {
+            "state": "present",
+            "severity": "moderate"
+          },
+          "S_BREATH_ON_EXERTION": {
+            "state": "present",
+            "severity": "moderate"
+          },
+          "S_COLD_EVERY_SEASON_CHANGE": {
+            "state": "present",
+            "severity": "moderate"
+          },
+          "S_SHORT_BREATH": {
+            "state": "present",
+            "severity": "moderate"
+          }
         }
       },
       "expect": {

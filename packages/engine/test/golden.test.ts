@@ -37,6 +37,12 @@ test("the seed set covers every pattern once, and says it is synthetic", () => {
   assert.ok(cases.every((c) => c.authoredBy === "synthetic"), "no case is practitioner-agreed yet");
 });
 
+test("the seed cases describe the current question bank: their findings are what the typical patient answers now (`node scripts/golden-reseed.ts --write` after a bank change)", () => {
+  for (const c of cases.filter((x) => x.authoredBy === "synthetic" && x.title.startsWith("typical patient of"))) {
+    assert.deepEqual(c.input.findings, interviewOf(dev, c.expect.patterns!.first!).findings, `${c.id} is out of date`);
+  }
+});
+
 // ── the checker itself ──────────────────────────────────────────────────────
 
 test("pattern concordance: the practitioner's pattern in the engine's top three counts; first is stricter; mustNotInclude is a separate failure", () => {

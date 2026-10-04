@@ -118,7 +118,7 @@
         ]
       ],
       "reviewed": 0,
-      "units": 36,
+      "units": 44,
       "whole_file_reviewed": false
     },
     "diagnosis/red-flags.json": {
@@ -152,7 +152,7 @@
         ]
       ],
       "reviewed": 0,
-      "units": 171,
+      "units": 184,
       "whole_file_reviewed": false
     },
     "diagnosis/tongue.json": {

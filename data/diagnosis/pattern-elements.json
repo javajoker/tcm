@@ -79,7 +79,9 @@
         "S_RESTLESS_NO_SLEEP": 3,
         "S_SEMINAL_EMISSION": 1,
         "S_STARTLE": 3,
+        "S_THOUGHT_RACING_AT_NIGHT": 2,
         "S_TINNITUS_THIN": 2,
+        "S_TONGUE_TIP_BURNING": 1,
         "T_BODY_RED": 2,
         "T_COAT_PEELED_ALL": 2,
         "T_COAT_YELLOW_GREASY": 3,
@@ -278,6 +280,7 @@
     {
       "against": {
         "S_NIGHT_SWEAT": 1,
+        "S_PERIODIC_FEVER_SWEAT": 1,
         "T_BODY_RED": 2
       },
       "id": "PE_肺_氣虛",
@@ -296,11 +299,14 @@
       "weights": {
         "P_DEFICIENT": 2,
         "S_AVERSION_WIND": 2,
+        "S_BREATH_ON_EXERTION": 2,
+        "S_COLD_EVERY_SEASON_CHANGE": 2,
         "S_COUGH_WEAK": 1,
         "S_EASY_COLD": 3,
         "S_FATIGUE": 1,
         "S_LOW_VOICE": 2,
         "S_SHORT_BREATH": 3,
+        "S_SPEAKING_TIRES": 1,
         "S_SPONTANEOUS_SWEAT": 3,
         "T_BODY_PALE": 1,
         "T_COAT_THIN_WHITE": 1
@@ -713,6 +719,7 @@
     {
       "against": {
         "S_FEAR_COLD": 2,
+        "S_THOUGHT_RACING_AT_NIGHT": 1,
         "T_BODY_PALE": 2,
         "T_COAT_WHITE_GREASY": 1
       },
@@ -733,17 +740,24 @@
       "weights": {
         "P_RAPID": 2,
         "P_THIN": 2,
+        "S_DREAM_MANY": 1,
         "S_DRY_MOUTH_THROAT": 2,
         "S_FORGETFUL": 1,
+        "S_HAIR_LOSS": 1,
         "S_HEAD_DIZZY": 1,
+        "S_HEARING_DECLINE": 2,
         "S_HEAT_PALMS_SOLES": 3,
+        "S_HEEL_PAIN": 1,
         "S_LOW_BACK_SORE": 3,
         "S_NIGHT_SWEAT": 2,
         "S_PALPITATION": 2,
         "S_RESTLESS_NO_SLEEP": 3,
         "S_SEMINAL_EMISSION": 1,
+        "S_TEETH_LOOSE": 1,
+        "S_THOUGHT_RACING_AT_NIGHT": 2,
         "S_TIDAL_FEVER": 1,
         "S_TINNITUS_THIN": 2,
+        "S_TONGUE_TIP_BURNING": 1,
         "T_BODY_RED": 2,
         "T_COAT_PEELED_ALL": 2,
         "T_CRACKS_ALL": 1,
@@ -820,14 +834,19 @@
         "S_NO_SWEAT": 3,
         "S_NO_THIRST": 1,
         "S_RUNNY_NOSE_CLEAR": 2,
+        "S_WIND_COLD_TRIGGER": 1,
         "T_COAT_THIN_WHITE": 1
       }
     },
     {
       "against": {
+        "S_BREATH_ON_EXERTION": 1,
+        "S_LOW_VOICE": 1,
+        "S_NASAL_NOISE_DRY_RETCH": 1,
         "S_NIGHT_SWEAT": 1,
         "S_NO_SWEAT": 2,
-        "S_THIRST_COLD_DRINK": 1
+        "S_THIRST_COLD_DRINK": 1,
+        "S_WIND_COLD_TRIGGER": 1
       },
       "id": "PE_表_氣虛",
       "location": "表",
@@ -849,6 +868,7 @@
         "S_AVERSION_WIND": 3,
         "S_EASY_COLD": 2,
         "S_FATIGUE": 1,
+        "S_PERIODIC_FEVER_SWEAT": 3,
         "S_SPONTANEOUS_SWEAT": 3,
         "T_COAT_THIN_WHITE": 1
       }
@@ -894,6 +914,7 @@
       "against": {
         "S_NO_SWEAT": 3,
         "S_NO_THIRST": 2,
+        "S_PERIODIC_FEVER_SWEAT": 1,
         "S_SORE_THROAT": 1,
         "S_SPONTANEOUS_SWEAT": 2,
         "S_THIRST_COLD_DRINK": 2,
@@ -929,12 +950,15 @@
         "S_FEVER": 3,
         "S_HEADACHE": 2,
         "S_NASAL_CONGESTION": 1,
+        "S_NASAL_NOISE_DRY_RETCH": 2,
+        "S_NECK_STIFF": 1,
         "S_NO_SWEAT": 3,
         "S_NO_THIRST": 1,
         "S_RUNNY_NOSE_CLEAR": 2,
         "S_SORE_THROAT": 3,
         "S_SPONTANEOUS_SWEAT": 3,
         "S_THIRST_LIGHT": 2,
+        "S_WIND_COLD_TRIGGER": 2,
         "T_COAT_THIN_WHITE": 1,
         "T_COAT_YELLOW": 1,
         "T_EDGE_RED": 2,

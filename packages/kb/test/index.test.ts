@@ -9,9 +9,9 @@ const raw = rawChunksFromDisk("dev");
 const kb = indexKnowledgeBase(raw);
 
 test("the real data indexes: counts and lookups", () => {
-  assert.equal(kb.symptoms.size, 171);
+  assert.equal(kb.symptoms.size, 184);
   assert.equal(kb.patterns.length, 23);
-  assert.equal(kb.questions.length, 28);
+  assert.equal(kb.questions.length, 36);
   assert.equal(kb.modules.length, 8);
   assert.equal(kb.formulas.size, 33);
   assert.equal(kb.herbs?.size, 94, "dev bundle: the curated herbs");

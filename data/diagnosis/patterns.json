@@ -27,7 +27,7 @@
       ],
       "group": "external",
       "id": "EX1",
-      "max_score": 21,
+      "max_score": 22,
       "name": {
         "en": "Wind-cold fettering the exterior (taiyang cold damage)",
         "zh-Hant": "風寒束表（太陽傷寒）"
@@ -69,12 +69,14 @@
         "S_NO_SWEAT": 3,
         "S_NO_THIRST": 1,
         "S_RUNNY_NOSE_CLEAR": 2,
+        "S_WIND_COLD_TRIGGER": 1,
         "T_COAT_THIN_WHITE": 1
       }
     },
     {
       "against": {
         "S_NO_SWEAT": 3,
+        "S_PERIODIC_FEVER_SWEAT": 1,
         "S_THIRST_COLD_DRINK": 2
       },
       "citations": [
@@ -89,7 +91,7 @@
       ],
       "group": "external",
       "id": "EX2",
-      "max_score": 16,
+      "max_score": 21,
       "name": {
         "en": "Taiyang wind strike (exterior deficiency)",
         "zh-Hant": "太陽中風（表虛）"
@@ -126,7 +128,10 @@
         "S_FEVER": 2,
         "S_HEADACHE": 1,
         "S_NASAL_CONGESTION": 1,
+        "S_NASAL_NOISE_DRY_RETCH": 2,
+        "S_NECK_STIFF": 1,
         "S_SPONTANEOUS_SWEAT": 3,
+        "S_WIND_COLD_TRIGGER": 2,
         "T_COAT_THIN_WHITE": 1
       }
     },
@@ -202,9 +207,13 @@
     },
     {
       "against": {
+        "S_BREATH_ON_EXERTION": 1,
+        "S_LOW_VOICE": 1,
+        "S_NASAL_NOISE_DRY_RETCH": 1,
         "S_NIGHT_SWEAT": 1,
         "S_NO_SWEAT": 2,
-        "S_THIRST_COLD_DRINK": 1
+        "S_THIRST_COLD_DRINK": 1,
+        "S_WIND_COLD_TRIGGER": 1
       },
       "citations": [
         "shanghan-053"
@@ -218,7 +227,7 @@
       ],
       "group": "external",
       "id": "EX4",
-      "max_score": 12,
+      "max_score": 15,
       "name": {
         "en": "Disharmony of nutrient and defensive qi",
         "zh-Hant": "營衛不和"
@@ -252,6 +261,7 @@
         "S_AVERSION_WIND": 3,
         "S_EASY_COLD": 2,
         "S_FATIGUE": 1,
+        "S_PERIODIC_FEVER_SWEAT": 3,
         "S_SPONTANEOUS_SWEAT": 3,
         "T_COAT_THIN_WHITE": 1
       }
@@ -1009,7 +1019,7 @@
       ],
       "group": "heart",
       "id": "HT2",
-      "max_score": 29,
+      "max_score": 33,
       "name": {
         "en": "Disharmony between heart and kidney (yin deficiency with effulgent fire)",
         "zh-Hant": "心腎不交（陰虛火旺）"
@@ -1044,6 +1054,7 @@
       "weights": {
         "P_RAPID": 2,
         "P_THIN": 1,
+        "S_DREAM_MANY": 1,
         "S_DRY_MOUTH_THROAT": 1,
         "S_FORGETFUL": 1,
         "S_HEAT_PALMS_SOLES": 3,
@@ -1052,7 +1063,9 @@
         "S_PALPITATION": 2,
         "S_RESTLESS_NO_SLEEP": 3,
         "S_SEMINAL_EMISSION": 1,
+        "S_THOUGHT_RACING_AT_NIGHT": 2,
         "S_TINNITUS_THIN": 2,
+        "S_TONGUE_TIP_BURNING": 1,
         "T_BODY_RED": 2,
         "T_COAT_PEELED_ALL": 2,
         "T_ROOT_COAT_PEELED": 2,
@@ -1127,6 +1140,7 @@
     {
       "against": {
         "S_NIGHT_SWEAT": 1,
+        "S_PERIODIC_FEVER_SWEAT": 1,
         "T_BODY_RED": 2
       },
       "citations": [],
@@ -1139,7 +1153,7 @@
       ],
       "group": "lung",
       "id": "LG1",
-      "max_score": 19,
+      "max_score": 24,
       "name": {
         "en": "Lung qi deficiency (insecure defensive exterior)",
         "zh-Hant": "肺氣虛（衛表不固）"
@@ -1170,11 +1184,14 @@
       "weights": {
         "P_DEFICIENT": 2,
         "S_AVERSION_WIND": 2,
+        "S_BREATH_ON_EXERTION": 2,
+        "S_COLD_EVERY_SEASON_CHANGE": 2,
         "S_COUGH_WEAK": 1,
         "S_EASY_COLD": 3,
         "S_FATIGUE": 1,
         "S_LOW_VOICE": 2,
         "S_SHORT_BREATH": 3,
+        "S_SPEAKING_TIRES": 1,
         "S_SPONTANEOUS_SWEAT": 3,
         "T_BODY_PALE": 1,
         "T_COAT_THIN_WHITE": 1
@@ -1247,6 +1264,7 @@
     {
       "against": {
         "S_FEAR_COLD": 2,
+        "S_THOUGHT_RACING_AT_NIGHT": 1,
         "T_BODY_PALE": 2,
         "T_COAT_WHITE_GREASY": 1
       },
@@ -1260,7 +1278,7 @@
       ],
       "group": "kidney",
       "id": "KD1",
-      "max_score": 26,
+      "max_score": 31,
       "name": {
         "en": "Kidney yin deficiency",
         "zh-Hant": "腎陰虛"
@@ -1296,11 +1314,15 @@
         "P_RAPID": 1,
         "P_THIN": 2,
         "S_DRY_MOUTH_THROAT": 2,
+        "S_HAIR_LOSS": 1,
         "S_HEAD_DIZZY": 1,
+        "S_HEARING_DECLINE": 2,
         "S_HEAT_PALMS_SOLES": 3,
+        "S_HEEL_PAIN": 1,
         "S_LOW_BACK_SORE": 3,
         "S_NIGHT_SWEAT": 2,
         "S_SEMINAL_EMISSION": 1,
+        "S_TEETH_LOOSE": 1,
         "S_TIDAL_FEVER": 1,
         "S_TINNITUS_THIN": 2,
         "T_BODY_RED": 2,

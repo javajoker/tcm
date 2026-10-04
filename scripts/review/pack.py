@@ -211,6 +211,11 @@ def asked_by(ctx: Context, symptom_id: str) -> str:
     return ", ".join(qs) if qs else "— (self-observed or not asked)"
 
 
+# A pattern whose typical patient scores less than this many points above the next pattern is flagged for the clinical reviewer. It was 10 until K-07 (decided 2026-10-04)
+# raised the closest pairs above that; 20 keeps the few closest pairs in view.
+CONFUSABLE_MARGIN = 20.0
+
+
 def patterns(ctx: Context) -> Pack:
     rel = "diagnosis/patterns.json"
     md = header(ctx, "patterns (證型)", "TCM clinical reviewer.",
@@ -235,7 +240,7 @@ def patterns(ctx: Context) -> Pack:
         if p["against"]:
             md += "\n**Against (penalty)**\n\n" + table(["Symptom", "zh-Hant", "Penalty"], [[f"`{s}`", ctx.symptoms[s]["zh-Hant"] if s in ctx.symptoms else "", v] for s, v in sorted(p["against"].items())])
         md += "\n**Citations**\n\n" + cites(ctx, p["citations"])
-        flag = " ⚠ **confusable — check the separating symptoms**" if margin < 10 else ""
+        flag = " ⚠ **confusable — check the separating symptoms**" if margin < CONFUSABLE_MARGIN else ""
         md += f"\n**Engine behaviour** — the typical patient (every symptom of weight ≥ 2, moderate): this pattern scores **{own:.1f}** (rank {1 + [k for k, _ in ranked].index(p['id'])}); the next is `{rival[0]}` at {rival[1]:.1f}, margin **{margin:.1f}**{flag}. Top three: " + ", ".join(f"`{k}` {v:.1f}" for k, v in ranked[:3]) + ".\n"
     return Pack("patterns", "patterns (證型)", "TCM clinical", md, [(rel, ctx.units(rel))])
 

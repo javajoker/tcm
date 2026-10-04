@@ -256,7 +256,7 @@ The KB is **derived from real sources**, never authored from memory or generated
 | Citations | `citations.json` | 127 verified quotations |
 | Herbs | `herbs/herbs.json`, `herb-index.json` | 703 (94 curated, 609 derived) |
 | Formulas | `formulas/formulas.json` | 33 with roles, proportions, tiers, modifications, verification |
-| Diagnosis | `symptoms`, `patterns`, `pattern-elements`, `tongue`, `pulse`, `constitutions`, `red-flags`, `panel-schema` | 171 symptoms (incl. 32 tongue, 28 pulse), 23 patterns, 24 pattern elements, 9 constitutions, 28 red flags |
+| Diagnosis | `symptoms`, `patterns`, `pattern-elements`, `tongue`, `pulse`, `constitutions`, `red-flags`, `panel-schema` | 184 symptoms (incl. 32 tongue, 28 pulse), 23 patterns, 24 pattern elements, 9 constitutions, 28 red flags |
 | Five phases | `wuxing/correspondences`, `ganzhi`, `yunqi`, `susceptibility`, `engine-params` | parsed from 《素問》; exported from `packages/wuxing` |
 | Policy | `config/scope-profiles.json`, `safety/rules.json`, `treatment/guidance.json`, `glossary.json` | 2 profiles, 26 safety rules, 31 acupoints, 161 terms |
 
