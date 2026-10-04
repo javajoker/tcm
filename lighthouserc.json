@@ -1,0 +1,66 @@
+{
+  "ci": {
+    "collect": {
+      "startServerCommand": "node scripts/serve-dist.ts apps/web/dist 8788",
+      "startServerReadyPattern": "serving",
+      "url": [
+        "http://127.0.0.1:8788/zh-Hant/",
+        "http://127.0.0.1:8788/en/",
+        "http://127.0.0.1:8788/en/start",
+        "http://127.0.0.1:8788/en/sources"
+      ],
+      "numberOfRuns": 3,
+      "settings": {
+        "preset": "perf",
+        "formFactor": "mobile",
+        "throttlingMethod": "simulate"
+      }
+    },
+    "assert": {
+      "assertions": {
+        "categories:performance": [
+          "error",
+          {
+            "minScore": 0.9
+          }
+        ],
+        "categories:accessibility": [
+          "error",
+          {
+            "minScore": 0.95
+          }
+        ],
+        "categories:best-practices": [
+          "error",
+          {
+            "minScore": 0.9
+          }
+        ],
+        "largest-contentful-paint": [
+          "error",
+          {
+            "maxNumericValue": 2500
+          }
+        ],
+        "total-blocking-time": [
+          "error",
+          {
+            "maxNumericValue": 200
+          }
+        ],
+        "cumulative-layout-shift": [
+          "error",
+          {
+            "maxNumericValue": 0.1
+          }
+        ],
+        "uses-http2": "off",
+        "is-crawlable": "off"
+      }
+    },
+    "upload": {
+      "target": "filesystem",
+      "outputDir": ".lighthouseci"
+    }
+  }
+}

@@ -11,27 +11,37 @@ import { DocumentMeta } from "./DocumentMeta.tsx";
 import { NotFound } from "./NotFound.tsx";
 import { PrefsEffects } from "./PrefsEffects.tsx";
 import { RouteFocus } from "./RouteFocus.tsx";
-import { Profile } from "../screens/profile/Profile.tsx";
-import { History } from "../screens/history/History.tsx";
-import { Constitution } from "../screens/constitution/Constitution.tsx";
-import { Inquiry } from "../screens/inquiry/Inquiry.tsx";
-import { Observe } from "../screens/observe/Observe.tsx";
-import { Pulse } from "../screens/observe/Pulse.tsx";
-import { Tongue } from "../screens/observe/Tongue.tsx";
-import { FormulaDetail } from "../screens/result/FormulaDetail.tsx";
-import { PractitionerSummary } from "../screens/result/PractitionerSummary.tsx";
-import { Result } from "../screens/result/Result.tsx";
-import { Review } from "../screens/review/Review.tsx";
-import { Screening } from "../screens/screening/Screening.tsx";
-import { Settings } from "../screens/settings/Settings.tsx";
-import { Sources } from "../screens/settings/Sources.tsx";
+import { useI18n } from "../i18n/I18nProvider.tsx";
+import { Skeleton } from "../ui/index.ts";
 import { DEFAULT_LANG, pathForLang, splitLangPath } from "./routing.ts";
 import { useApp } from "./store.tsx";
+
+// Every screen except the landing page is its own chunk (tech spec §12: the initial JavaScript is the shell and the landing page; the flow loads as the person walks through it).
+const Profile = lazy(() => import("../screens/profile/Profile.tsx").then((m) => ({ default: m.Profile })));
+const History = lazy(() => import("../screens/history/History.tsx").then((m) => ({ default: m.History })));
+const Constitution = lazy(() => import("../screens/constitution/Constitution.tsx").then((m) => ({ default: m.Constitution })));
+const Inquiry = lazy(() => import("../screens/inquiry/Inquiry.tsx").then((m) => ({ default: m.Inquiry })));
+const Observe = lazy(() => import("../screens/observe/Observe.tsx").then((m) => ({ default: m.Observe })));
+const Pulse = lazy(() => import("../screens/observe/Pulse.tsx").then((m) => ({ default: m.Pulse })));
+const Tongue = lazy(() => import("../screens/observe/Tongue.tsx").then((m) => ({ default: m.Tongue })));
+const FormulaDetail = lazy(() => import("../screens/result/FormulaDetail.tsx").then((m) => ({ default: m.FormulaDetail })));
+const PractitionerSummary = lazy(() => import("../screens/result/PractitionerSummary.tsx").then((m) => ({ default: m.PractitionerSummary })));
+const Result = lazy(() => import("../screens/result/Result.tsx").then((m) => ({ default: m.Result })));
+const Review = lazy(() => import("../screens/review/Review.tsx").then((m) => ({ default: m.Review })));
+const Screening = lazy(() => import("../screens/screening/Screening.tsx").then((m) => ({ default: m.Screening })));
+const Settings = lazy(() => import("../screens/settings/Settings.tsx").then((m) => ({ default: m.Settings })));
+const Sources = lazy(() => import("../screens/settings/Sources.tsx").then((m) => ({ default: m.Sources })));
 
 // dev-only route. The comparison must be written against the compile-time define itself: a dynamic import behind an imported constant is
 // still emitted as a chunk, whereas a literal condition removes the import (and the whole dev module) from a release build.
 const Catalogue = __APP_PROFILE__ === "dev" ? lazy(() => import("../dev/Catalogue.tsx")) : null;
 const Inspector = __APP_PROFILE__ === "dev" ? lazy(() => import("../dev/Inspector.tsx")) : null;
+
+/** What the person sees while a screen's chunk loads: a busy region that says so, with the skeleton of a page. */
+function LoadingScreen(): ReactNode {
+  const { t } = useI18n();
+  return <div role="status" aria-busy="true"><span className="visually-hidden">{t.t("common.loading")}</span><Skeleton height="2rem" width="50%" /><br /><Skeleton /><br /><Skeleton /></div>;
+}
 
 /** Routes inside a language scope; paths here carry no language segment (the nested Router's base supplies it). */
 function Screens(): ReactNode {
@@ -40,6 +50,7 @@ function Screens(): ReactNode {
     <>
       <RouteFocus />
       <ErrorBoundary resetKey={path}>
+        <Suspense fallback={<LoadingScreen />}>
         <Switch>
           <Route path="/"><Landing /></Route>
           <Route path="/start"><Profile /></Route>
@@ -60,6 +71,7 @@ function Screens(): ReactNode {
           {Catalogue !== null ? <Route path="/_dev/components"><Suspense fallback={null}><Catalogue /></Suspense></Route> : null}
           <Route><NotFound /></Route>
         </Switch>
+        </Suspense>
       </ErrorBoundary>
     </>
   );

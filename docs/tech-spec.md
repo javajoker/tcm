@@ -618,9 +618,9 @@ Colour: one sequential hue per quantity family, never red/green as good/bad; sig
 
 | Budget | Value | How it is met / checked |
 |---|---|---|
-| Initial JS (gzip) | ≤ 200 KB | React + router + store + shell only; each screen is a lazy route; engine and `@tcm/wuxing` load with the first inquiry; asserted by `size-limit` in CI |
+| Initial JS (gzip) | ≤ 200 KB | React + router + store + shell only; every screen but the landing page is a lazy route; engine and `@tcm/wuxing` load with the first inquiry; asserted by `scripts/check-budgets.ts` in CI (≈ 120 KB today); any lazy chunk ≤ 50 KB, all JS ≤ 260 KB, CSS ≤ 20 KB |
 | LCP / INP (mobile 4G) | ≤ 2.5 s / ≤ 200 ms | Lighthouse CI on the landing and result routes, throttled |
-| KB per session (release) | ≈ 55–65 KB gz | §5.2; per-chunk budgets enforced in `bundle-data.ts` |
+| KB per session (release) | ≈ 82 KB gz today (budget 100 KB) | §5.2; per-chunk budgets enforced in `bundle-data.ts` (dev: 1.5×), the session total in `check-budgets.ts` |
 | Engine time | `assess` ≤ 50 ms p95 on a mid-range phone | micro-benchmarks in `packages/engine/bench`, tracked per release; no allocation in inner loops of noisy-OR and greedy 加減 |
 | Interaction | Answering a question never blocks on the engine | `nextQuestions` runs after the answer is stored; it is incremental and bounded |
 | Fonts | System CJK stacks (PingFang TC / Noto Sans TC / Microsoft JhengHei; serif for citations); optional self-hosted subset later | Avoids multi-MB webfont cost; subsetting is task T-PERF-3 |

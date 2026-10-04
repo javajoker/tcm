@@ -21,6 +21,7 @@ async function open(path: string, env = fakeEnvironment(), deps: Parameters<type
   const t = testStore(env, deps);
   const view = renderApp(t.store, () => Promise.resolve(loaded));
   await act(async () => { await Promise.resolve(); });
+  await screen.findByRole("heading", { level: 1 });                                  // every screen but the landing page is a lazy chunk
   return { ...view, ...t, env };
 }
 

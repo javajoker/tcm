@@ -107,6 +107,8 @@ jobs:
       - name: Release assertions on the built output
         # the content is still a draft: the closed-beta exception (draft label on) is the recorded state until the review records exist
         run: node scripts/check-release.ts --dist apps/web/dist --draft-label
+      - name: Size budgets (initial JS ≤ 200 KB gzip, lazy chunks, CSS, knowledge base per session)
+        run: node scripts/check-budgets.ts --dist apps/web/dist
       - name: Smoke test the output behind a Pages-like host (headers, SPA fallback, real 404, knowledge-base caching)
         run: |
           node scripts/serve-dist.ts apps/web/dist 8788 &
@@ -123,3 +125,26 @@ jobs:
         run: pnpm build:dev
         env:
           APP_BUILD_ID: ${{ github.sha }}
+
+  lighthouse:
+    name: Lighthouse (mobile, throttled)
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - uses: pnpm/action-setup@b906affcce14559ad1aafd4ab0e942779e9f58b1 # v4.3.0
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile --ignore-scripts
+      - name: Release build (closed-beta state)
+        run: pnpm build
+        env:
+          APP_DRAFT_LABEL: "on"
+      - name: Lighthouse on the landing, start and sources pages in both languages
+        uses: treosh/lighthouse-ci-action@3e7e23fb74242897f95c0ba9cabad3d0227b9b18 # v12
+        with:
+          configPath: ./lighthouserc.json
+          uploadArtifacts: true
+          temporaryPublicStorage: false

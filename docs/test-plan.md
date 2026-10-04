@@ -34,7 +34,7 @@
 | **Component** | Rendering, interaction, a11y roles | Vitest + Testing Library (+ `vitest-axe`) | `apps/web/src/**/*.test.tsx` | every commit |
 | **E2E** | Full flows on desktop and mobile viewports, both languages | Playwright | `apps/web/e2e/` | CI; nightly full matrix |
 | **Accessibility** | axe on every route × language × theme; manual AT runs | `@axe-core/playwright`, VoiceOver/TalkBack/NVDA | CI + release checklist | CI; per release |
-| **Performance** | Bundle budgets, Lighthouse CI, engine micro-benchmarks | `size-limit`, Lighthouse CI, `node --test` bench | CI | CI; per release |
+| **Performance** | Bundle budgets, Lighthouse CI, engine micro-benchmarks | `scripts/check-budgets.ts`, Lighthouse CI, `node --test` bench | CI | CI; per release |
 | **Visual regression** | Key screens in `zh-Hant`, `en`, `en-XA` at 320 px and 1280 px | Playwright screenshots | CI (diffs reviewed, not auto-approved) | CI |
 | **Usability** | Moderated sessions | Protocol §7 | — | before beta; each major UX change |
 | **Practitioner evaluation** | Concordance on blinded vignettes | Protocol §4.3 | — | M3, M4 |
@@ -189,12 +189,14 @@ Viewports 320, 375, 600, 900, 1200, 1920; landscape phone; touch targets ≥ 44 
 
 | Test | Budget |
 |---|---|
-| `size-limit` | Initial JS ≤ 200 KB gzip; engine chunk and KB chunks within their budgets |
+| `scripts/check-budgets.ts` | Initial JS ≤ 200 KB gzip; any lazy chunk ≤ 50 KB; all JS ≤ 260 KB; all CSS ≤ 20 KB; knowledge base per session ≤ 100 KB (the per-chunk KB budgets are in `bundle-data.ts`) |
 | Lighthouse CI (mobile, throttled) | Performance ≥ 90, Accessibility ≥ 95, LCP ≤ 2.5 s, INP ≤ 200 ms on landing and result routes |
 | Engine bench | `assess` ≤ 50 ms p95 (reference mid-range device profile, CPU throttled); regression > 20 % fails |
 
 > **Implementation (E-19).** `pnpm bench` / `pnpm bench:check` (`packages/engine/bench/`): `assess` for the typical patient of every pattern in both profiles (600 timed runs, each figure the median of three rounds after a warm-up) and `nextQuestions`; p50, p95, max. A fixed reference workload measures the machine, and the baseline (`bench/baseline.json`) stores each p95 as a **ratio to it**, so the 20 % regression guard travels between machines; the absolute 50 ms budget is checked on the raw time. CI runs `bench:check` on every push. Today `assess` is ≈ 2 ms median and ≈ 6 ms p95 on a laptop, about a tenth of the budget, which is why the engine stays on the main thread (tech spec TQ5). Re-baseline with `node packages/engine/bench/assess.bench.ts --write-baseline` only after an intended change, in the same commit.
 | Memory | No growth after 50 consecutive assessments in one session |
+
+> **Implementation (Q-06).** Every screen except the landing page is a lazy route (`React.lazy`, with a busy-region fallback), so the initial JavaScript is the shell and the landing page: **≈ 120 KB gzip** (it was ≈ 156 KB before the split; budget 200 KB). `scripts/check-budgets.ts` measures the build output in gzip — the initial load (the entry and what it imports statically), each lazy chunk, all JS, all CSS and the knowledge base per session — and fails over the budgets above; it replaces a `size-limit` dependency because everything it needs is in the output directory, and has seeded-damage tests (`pnpm check:budgets`; a CI step after the release build). `lighthouserc.json` configures Lighthouse CI (mobile, throttled; the landing, start and sources pages in both languages, served by the Pages emulator): performance ≥ 0.9, accessibility ≥ 0.95, best practices ≥ 0.9, LCP ≤ 2.5 s, TBT ≤ 200 ms (the lab proxy for INP), CLS ≤ 0.1; the *Lighthouse* CI job has not run on a real runner yet, so its first run may need the thresholds or the page list adjusted. The result route needs a saved result in the browser and joins with the Playwright suite (Q-04). The crawlability audit is off because closed-beta builds are deliberately `noindex`.
 
 ### 5.6 Security
 
@@ -207,7 +209,7 @@ CSP present and strict in the built output; no inline scripts; dependency audit;
 | Stage | Jobs |
 |---|---|
 | **Fast (every push)** | typecheck all packages · unit + property + parity + golden (non-blocking) · KB build determinism and validation · i18n lint · component tests · ESLint |
-| **Build** | `bundle-data` per profile with budgets · web build `release` and `dev` · `check-release.ts` on the release output · size-limit |
+| **Build** | `bundle-data` per profile with budgets · web build `release` and `dev` · `check-release.ts` on the release output · `check-budgets.ts` |
 | **Integration** | Playwright E1–E20 (desktop + mobile, both languages) · axe sweep · Lighthouse CI · visual regression · privacy network test |
 | **Nightly** | Full browser matrix · property tests with 10× iterations · long-running oracle comparison with fresh seeds |
 | **Release** | All of the above on the release candidate + the manual checklist ([`CHECKLIST.md`](../CHECKLIST.md)) |
