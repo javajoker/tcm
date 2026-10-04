@@ -14,6 +14,7 @@ import { Profile } from "../screens/profile/Profile.tsx";
 import { History } from "../screens/history/History.tsx";
 import { Inquiry } from "../screens/inquiry/Inquiry.tsx";
 import { FormulaDetail } from "../screens/result/FormulaDetail.tsx";
+import { PractitionerSummary } from "../screens/result/PractitionerSummary.tsx";
 import { Result } from "../screens/result/Result.tsx";
 import { Review } from "../screens/review/Review.tsx";
 import { Screening } from "../screens/screening/Screening.tsx";
@@ -42,6 +43,7 @@ function Screens(): ReactNode {
           <Route path="/history"><History /></Route>
           <Route path="/settings"><Settings /></Route>
           <Route path="/sources"><Sources /></Route>
+          <Route path="/result/:id/summary">{(params) => <PractitionerSummary id={params.id} />}</Route>
           <Route path="/result/:id/formula/:fid">{(params) => <FormulaDetail id={params.id} fid={params.fid} />}</Route>
           <Route path="/result/:id">{(params) => <Result id={params.id} />}</Route>
           {Catalogue !== null ? <Route path="/_dev/components"><Suspense fallback={null}><Catalogue /></Suspense></Route> : null}

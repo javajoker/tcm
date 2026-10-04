@@ -9,9 +9,11 @@ import { usePageTitle } from "../../app/usePageTitle.ts";
 import { randomId } from "../../storage/ids.ts";
 import type { SavedAssessment } from "../../storage/types.ts";
 import { Chip, LinkButton, Skeleton } from "../../ui/index.ts";
+import { Actions } from "./Actions.tsx";
 import { Advice } from "./Advice.tsx";
 import { Banner } from "./Banner.tsx";
 import { Panel } from "./Panel.tsx";
+import { PrintExtras, usePrintExpand } from "./PrintSupport.tsx";
 import { Summary } from "./Summary.tsx";
 import { Transmission } from "./Transmission.tsx";
 import { WhatWouldChange } from "./WhatWouldChange.tsx";
@@ -43,6 +45,7 @@ function Report({ saved }: { saved: SavedAssessment }): ReactNode {
   // with insufficient information there is no pattern to explain: the panel, the reasoning, the spread and the differential would only suggest false precision
   const established = saved.result.verdict.status === "established";
   const sections = SECTIONS.filter(([k]) => established || !["panel", "why", "transmission", "change"].includes(k));
+  usePrintExpand();
   const answerMore = (): void => { adoptDraft(draftFromSaved(kb, saved, randomId(), Date.now())); navigate("/inquiry"); };
   return (
     <>
@@ -50,6 +53,7 @@ function Report({ saved }: { saved: SavedAssessment }): ReactNode {
         <h1>{t.t("report.title")}</h1>
         <Chip tone={storage === "persistent" ? "plain" : "notice"}>{storage === "persistent" ? `✓ ${t.t("report.saved")}` : `⚠ ${t.t("report.notSaved")}`}</Chip>
       </div>
+      <Actions saved={saved} />
       <nav aria-label={t.t("report.nav.label")} className={styles.chips}>
         {sections.map(([k, anchor]) => <a key={k} href={`#${anchor}`} className={styles.chip}>{t.t(`report.nav.${k}` as MessageKey)}</a>)}
       </nav>
@@ -65,6 +69,7 @@ function Report({ saved }: { saved: SavedAssessment }): ReactNode {
         {established ? <WhatWouldChange saved={saved} /> : null}
       </div>
       <ReportFooter saved={saved} />
+      <PrintExtras saved={saved} />
     </>
   );
 }

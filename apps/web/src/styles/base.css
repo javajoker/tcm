@@ -23,3 +23,17 @@ table { border-collapse: collapse; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
 }
+
+/* Print (UX spec §12): black on white, one column, no controls; sections that start new pages; the disclaimer in every page footer. */
+@media print {
+  :root { --bg: #fff; --surface: #fff; --ink: #000; --ink-muted: #333; --border: #999; --border-strong: #333; --link: #000; --primary: #000; --on-primary: #fff;
+    --notice-bg: #fff; --notice-text: #000; --danger-bg: #fff; --danger-text: #000; --info-bg: #fff; --info-text: #000; }
+  html { font-size: 11pt; }
+  body { background: #fff; color: #000; }
+  header, footer nav, [data-noprint], nav, dialog, button:not([lang]) { display: none !important; }   /* citation chips keep their lang="zh-Hant" and so their text on paper */
+  main { max-width: none !important; padding: 0 !important; min-height: 0 !important; }
+  section, figure, table, details { break-inside: avoid; }
+  #sec-advice, #sec-data { break-before: page; }
+  a { text-decoration: none; color: #000; }
+  svg { max-width: 14cm; }
+}

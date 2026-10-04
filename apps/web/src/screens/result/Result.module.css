@@ -3,3 +3,10 @@
 .chip { flex: none; display: inline-flex; align-items: center; min-height: 44px; padding: 0 1rem; border: 1px solid var(--border-strong); border-radius: var(--radius-pill); background: var(--surface); color: var(--ink); text-decoration: none; }
 .sections { display: grid; gap: var(--space-4); }
 .sections section[id], .sections [id^="sec-"] { scroll-margin-top: 4rem; }
+.printOnly, .printFooter { display: none; }
+.actions { display: flex; flex-wrap: wrap; gap: var(--space-2); margin: var(--space-3) 0; }
+@media print {
+  .printOnly { display: block !important; margin-top: 1.5rem; font-size: 0.85rem; }   /* `hidden` on screen, shown on paper */
+  .printFooter { display: block; position: fixed; bottom: 0; left: 0; right: 0; text-align: center; font-size: 0.75rem; border-top: 1px solid #999; padding-top: 0.25rem; background: #fff; }
+  .chips, .actions { display: none; }
+}
