@@ -17,7 +17,7 @@ Pre-release. The web app, the diagnosis engine and the knowledge base exist; not
 - **Five-phase module** (`@tcm/wuxing`): birth chart, element weights, 大運 / 流年, 五運六氣, reference panel.
 - **Knowledge base** (`data/`): citations, formulas, herbs, patterns, symptoms, questions, tongue / pulse, constitutions, scope profiles, safety rules, emergency numbers.
 - **Quality gates**: parity with the Python oracle, property tests P1–P12 (nightly ×10), a safety vignette suite (100+ vignettes, blocks the release), golden-case infrastructure, privacy tests,
-  accessibility sweep, release-output assertions (`check-release`), i18n checks.
+  accessibility sweep, release-output assertions (`check-release`), i18n checks, the twenty end-to-end scenarios and a real-browser axe sweep (Chromium, Safari's engine, Firefox), and a visual-regression workflow.
 - **Birth place picker**: a built-in list of 484 cities (GeoNames, CC BY 4.0, attribution in the app and `NOTICE`) with a search in English and Chinese, and a "Remember birth data" default in Settings (off).
 - **Original schematics** of the pulse positions and of the body parts the recommended acupressure points lie on.
 - **Developer inspector** (dev profile only).
