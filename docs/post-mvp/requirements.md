@@ -78,7 +78,7 @@ Browse what the app knows, with provenance, without taking an assessment.
 
 Acceptance:
 1. Pages exist for patterns, constitutions, formulas, acupoints, foods, quotations and glossary terms (herbs follow in Release C). Each page shows names as *Chinese · pinyin · English*, the content the result report would show, its sources and verification state, its review state (draft label while draft), and links to related pages.
-2. Search covers Traditional, Simplified, English, pinyin and aliases, offline, within the loaded data.
+2. Search covers Traditional, Simplified, English and aliases, and the pinyin the data already carries (glossary terms and the pinyin names of formulas), offline; a name without pinyin in the data is found by its Chinese and English forms (adding pinyin for every name is a data task that needs a pinyin library and an approval to download).
 3. **Anonymous context rule:** pages are never personalised. Anything that reads like advice (a formula, a food, a point) is shown with its cautions beside it — pregnancy, interactions, allergies, the tier — and a line saying it is general information and not advice for the reader. No second-person wording.
 4. A release build shows only what its bundle contains (tier-A formulas, no amounts, no herb weights); the dev build shows everything with the dev banner.
 5. Every page lists at least one citation or says "no source"; a clinical statement with neither fails the build.
