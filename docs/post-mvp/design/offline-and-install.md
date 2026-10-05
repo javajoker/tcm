@@ -40,7 +40,7 @@ One versioned cache per build, `tcm-app-<buildId>`, filled in two steps.
 | Group | Files | When | Notes |
 |---|---|---|---|
 | **Shell** | `index.html`, every file under `assets/` (scripts including lazy chunks, styles), icons, `manifest.webmanifest`, `NOTICE.txt` | At install, atomically (`cache.addAll`; one failure fails the install and the browser retries on a later visit) | Names are content-hashed, so a name is its own integrity check |
-| **Knowledge** | `kb/manifest.json`, the chunks of the **script in use** (Traditional or Simplified, [Simplified design](simplified-chinese.md)), and the city chunk | When the page, once started, asks: `{ type: "CACHE_KB", script }`; again when the person switches language | English uses the Traditional variant. A language whose variant is not cached is *not available offline yet*, and the interface says so instead of failing |
+| **Knowledge** | `kb/manifest.json`, the knowledge chunks and the city chunk (the same for every language), and — for a person who uses Simplified — the **display dictionary** and the Simplified catalogue ([Simplified design](simplified-chinese.md)) | When the page, once started, asks: `{ type: "CACHE_KB", script }`; again when the person switches language | English uses the Traditional script. A language whose dictionary or catalogue is not cached is *not available offline yet*, and the interface says so instead of failing |
 
 Never cached: any non-`GET`, any request with a body, any cross-origin request (there is none), `sw.js` itself, `_headers`, `_redirects`, `404.html`, security and robots files. A fetch for a same-origin file that is **not** in the build's list goes to the network untouched.
 
@@ -100,7 +100,7 @@ Rules:
 
 | Piece | Design |
 |---|---|
-| Registration | Release profile only, feature-detected, after the page has loaded and the browser is idle (`updateViaCache: "none"`), so the first visit is not slowed; then posts `CACHE_KB` for the script in use |
+| Registration | Release profile only, feature-detected, after the page has loaded and the browser is idle (`updateViaCache: "none"`), so the first visit is not slowed; then posts `CACHE_KB` for the script in use (the dictionary and catalogue only for Simplified) |
 | Status | A small store: `unsupported` · `preparing` · `ready` · `update-ready` · `failed`. `ready` means the shell and the script's knowledge files are cached |
 | Settings → *Offline use* | The status in words; *Remove offline copy* (deletes the cache and unregisters; the next visit installs again) |
 | Update banner | `role="status"` strip: "A new version is ready" with *Reload*; dismissible; not shown while a modal notice is open; also a quiet line on the landing page if it is still pending |
@@ -130,7 +130,7 @@ Rules:
 | Install fails midway (connection lost) | The install is atomic: no half-built cache; the old worker keeps serving | The browser retries on a later visit |
 | A faulty worker ships | `sw.js` is never cached by the host, so the next navigation fetches the fix; if the page cannot start, the boot guard unregisters after two failures | Deploy the corrected build, or the kill worker (§5) |
 | Cache is erased by the browser or the person | The worker falls through to the network; a status of `preparing` returns | The next visit re-precaches |
-| Knowledge variant not cached, offline | The language is "not available offline yet" | Go online once |
+| Simplified dictionary or catalogue not cached, offline | The language is "not available offline yet" | Go online once |
 | Two tabs open during an update | The new worker waits until both are closed or the person reloads | None needed |
 | A request the worker does not know | Not handled: the browser behaves as without a worker | — |
 | The host cannot send the `/sw.js` header (the GitHub Pages fallback, TQ1) | A worker could be cached by the HTTP cache for a day | Not supported there: registration is skipped when the build says the host lacks the header rule |
@@ -162,7 +162,7 @@ Behind the draft label with the rest of Release A. The worker ships in the first
 
 | Question | Default |
 |---|---|
-| Precache everything at install, or only what a session uses? | Everything in the build except the knowledge chunks, which are fetched for the script in use (saves about 100 KB for the other script) |
+| Precache everything at install, or only what a session uses? | Everything in the build except the Simplified dictionary and catalogue, which are fetched for a person who uses Simplified (saves about 43 KB for everyone else) |
 | Apply updates automatically? | No: the person chooses, or the next visit |
 | A library (Workbox)? | No (PD-03): about 150 lines are enough and the whole worker can be read |
 | Install prompt on first visit? | Never; a button in Settings only |

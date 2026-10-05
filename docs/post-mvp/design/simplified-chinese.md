@@ -1,14 +1,14 @@
-# Design: Simplified Chinese Interface and Knowledge Variants
+# Design: Simplified Chinese Interface and Display Dictionary
 
 | | |
 |---|---|
-| **Version** | 0.1 (draft) |
-| **Status** | Design for Release A (FR-21; tasks PM-01 … PM-03). Nothing is built |
+| **Version** | 0.2 (draft) |
+| **Status** | Design for Release A (FR-21; tasks PM-01 … PM-03). Revised during PM-01: the first version converted the data; that was unsafe (§3) |
 | **Last updated** | 2026-10-05 |
 | **Audience** | Engineers, the Mainland-usage reviewer, whoever checks wording |
 | **Related** | [Requirements FR-21](../requirements.md#fr-21-simplified-chinese-interface--release-a--class-l--refines-fr-2-g4-q6) · [i18n guide](../../i18n-guide.md) · [Tech spec §5, §9](../../tech-spec.md) · [Safety policy](../../safety-policy.md) · [Decisions Q6, P7, PD-01, PD-02](../decisions.md) |
 
-> **Summary.** Simplified Chinese is not translated; it is **derived**. The Traditional text stays the only authored Chinese. A build step converts it — using the Simplified source text where the knowledge base was built from one — through a small, reviewed table of overrides, and the build emits a complete Simplified copy of the interface catalogues and of the knowledge chunks. A person who chooses Simplified downloads *that copy instead of* the Traditional one, so the cost of a session does not grow. Everything a reviewer has to read is a short sheet of the places where the converter's choice is not mechanical.
+> **Summary.** Simplified Chinese is not translated; it is **derived**, and it is derived **only for display**. The Traditional data stays the single source of truth and is what the engine and every safety rule always run on. A build step converts every Chinese string of the knowledge base — using the Simplified source text where the data was built from one — through a reviewed table of overrides, and the web app converts a string **at the moment it is shown**. The converted strings travel as one small lazy file, and the interface catalogues are generated the same way. An identifier is never converted, so the output of the engine cannot depend on the language. Everything a reviewer has to read is a short sheet of the places where the converter's choice is not mechanical.
 
 ---
 
@@ -16,37 +16,39 @@
 
 **Goal.** A reader in Simplified-Chinese usage sees the whole product — interface, questions, results, quotations, printouts — in their script and vocabulary, with exactly the same medical content, the same notices and the same engine output.
 
-**Non-goals.** A second source of truth for Chinese text; runtime conversion in the browser; Mainland-specific *content* (other formulas, other patterns); region-specific regulatory wording (that is a region pack, [FR-29](../requirements.md#fr-29-region-packs--release-a--class-l-and-legal--refines-q1-sq1)); Cantonese or other Chinese varieties.
+**Non-goals.** A second source of truth for Chinese text; runtime conversion by algorithm in the browser; converting the data the engine runs on; Mainland-specific *content*; region-specific regulatory wording (that is a region pack, [FR-29](../requirements.md#fr-29-region-packs--release-a--class-l-and-legal--refines-q1-sq1)); other Chinese varieties.
 
 ## 2. What exists today
 
 | Fact | Consequence |
 |---|---|
-| `Lang = "zh-Hant" \| "en"` in `@tcm/i18n`; 101 files mention `zh-Hant` | Adding a member makes the compiler list every place that must decide; nothing is found by grep alone |
-| UI text is one catalogue per namespace and language (10 namespaces, `apps/web/src/i18n/*`), merged **statically** in `catalogs.ts`: both languages are in the initial bundle (about 19 KB gzip each) | A third static catalogue would cost +19 KB initial JavaScript. Simplified must load lazily, which makes catalogue loading asynchronous for that language |
-| Knowledge-base text appears in several shapes: `{ "zh-Hant", en }` objects, Chinese-only fields with an `_en` twin (`principle`, `principle_en`), `quote_zh_hant`, names in indexes | Any approach that edits fields one by one must know all shapes; the validator already walks every string and knows which keys keep a source script on purpose |
-| Citations keep the **Simplified source quotation** (`quote_source_zh_hans`); the release bundle prunes it. Herbs and formula compositions were also built from Simplified sources | For these records the exact Simplified text exists and should be used rather than re-converted |
-| The pipeline already depends on OpenCC (`opencc-python-reimplemented`: `s2twp` to make Traditional, `t2s` in the formula builder) | No new dependency: the reverse profile `tw2sp` is in the same package |
-| Falls back `en → zh-Hant`, marked in the UI; never the reverse | Simplified falls back to `zh-Hant`, marked; the target is zero fallbacks |
-| `/:lang/…`, host `_redirects` and 404 page, `check-release`, the one-time English offer, a two-way language toggle | Each needs a third language |
-| Emergency numbers come from the region preference; absent a choice, the data's default (Taiwan) is used | A Mainland reader must not be shown Taiwan numbers by default — a safety change (§7) |
+| `Lang = "zh-Hant" \| "en"` in `@tcm/i18n`; 101 files mention `zh-Hant` | Adding a member makes the compiler list every place that must decide |
+| UI text is one catalogue per namespace and language (10 namespaces), merged **statically** in `catalogs.ts`: both languages are in the initial bundle (about 19 KB gzip each) | A third static catalogue would cost +19 KB initial JavaScript. Simplified must load lazily |
+| **Chinese strings in the data are not all prose.** Of 290 distinct data paths that hold Chinese, most of the wuxing tables, the panel schema, the herb records' organs, flavours and natures, the formula roles 君臣佐使, the stems and branches, and the safety rules' herb lists are **identifiers the engine matches by value** (`腎`, `濕`, `君`, the 十八反 and 十九畏 pairs …); code also keys tables by Traditional characters (`ELEMENT_SLUG`, `ORGAN_SLUG`) | A converted copy of the data would change what the engine and the safety rules match. It must never be the input of the engine |
+| Display strings are read in about 100 places of the web app: 46 `localized(…)` calls, about 21 direct `["zh-Hant"]` reads and about 25 reads of Chinese-only prose fields (`principle`, `rationale_zh`, `book`, `chapter`, `quote_zh_hant` …) | The display boundary is a bounded, auditable set of call sites |
+| Citations keep the **Simplified source quotation** (`quote_source_zh_hans`); the release bundle prunes it. Herbs and formula compositions were also built from Simplified sources | The exact Simplified text exists for these and is used rather than re-converted; it is needed at build time only |
+| The pipeline already depends on OpenCC (`opencc-python-reimplemented`: `s2twp` to make Traditional, `t2s` in the formula builder) | No new dependency: `tw2sp` is in the same package |
+| `en` falls back to `zh-Hant`, marked; never the reverse | Simplified falls back to `zh-Hant`, marked; the target is zero fallbacks |
+| The knowledge provider loads one knowledge base for the whole app, above the language routes | It must learn the script and load the display dictionary with it |
+| Emergency numbers come from the region preference; absent a choice, Taiwan's are used | A Mainland reader must not be shown Taiwan's numbers by default: handled by the [region design](tap-tempo-and-regions.md) for every language |
 
 ## 3. Options considered
 
 | Option | For | Against | Verdict |
 |---|---|---|---|
-| **A. Convert in the browser** (a converter library, or a character table) | One build, one set of strings | A library is large and a character table is not enough (see §4); conversions are invisible and unreviewed; runs on every start; a new runtime dependency | Rejected |
-| **B. Hand-translate a parallel catalogue and knowledge base** | Idiomatic text | A second authored copy of ≈ 1,000 UI strings and ≈ 5,000 knowledge strings that drifts from the first; review cost multiplies | Rejected |
-| **C. Derive at build time, review the exceptions** | One authored source; deterministic; reviewers read only exceptions; no runtime cost | Needs the override table and the review sheet | **Chosen** (PD-01) |
+| **A. Convert in the browser** with a library or a character table | One build | Large, or too crude (§4), unreviewed, new runtime dependency | Rejected |
+| **B. Hand-translate a parallel catalogue and knowledge base** | Idiomatic text | A second authored copy that drifts; review cost multiplies | Rejected |
+| **C1. Convert the data at build time and ship variant chunks that the engine reads** | Zero extra bytes (the Simplified chunks replace the Traditional ones) | **Unsafe.** The engine and the safety rules match Chinese identifiers by value; the variant would have to leave the identifiers alone while converting prose, so correctness would rest on a hand-made classification of 290 data paths — and a mistake could silently disable a safety rule in one language. (The first version of this design chose C1; building it showed the data, §2) | **Rejected** |
+| **C2. Derive at build time, convert at display** | The engine and the safety rules always see the canonical data; language cannot change an output; the only risk is a Traditional string left on screen, which is visible and testable | The converted strings are an extra download; about 100 display sites call a function | **Chosen** (PD-01) |
 
-Within C, two ways to ship the derived knowledge text were measured on the release bundle of 2026-10-05:
+Within C2, two encodings of the converted strings were measured on the release bundle of 2026-10-05 (2,660 unique Chinese strings, 1,744 of which change):
 
-| Delivery | Size for a Simplified session | Remarks |
+| Encoding | Size, gzip | Remarks |
 |---|---|---|
-| Overlay: the converted strings as a map that the loader applies over the Traditional chunks | ≈ **+38 KB gzip** on top of the Traditional chunks (core 21, guidance 5, formulas 4, citations 4, cities 3), plus a merge step in the loader | Needs addressing of every string and a merge that must know every field shape |
-| **Variant chunks:** the same chunks with the Chinese strings replaced, selected by language | **≈ 0 extra**: the person downloads the Simplified chunks *instead of* the Traditional ones | No merge logic; the loader only picks a manifest. Costs build output (a second set of hashed files) |
+| Key-value map (`{ traditional: simplified }`) | 40.5 KB | Simple; stores each string twice |
+| **Aligned list** (the Simplified strings, in the sorted order of the unique Traditional strings that the client already holds; unchanged strings as empty lines) | **23.6 KB** | The client rebuilds the same sorted list from the chunks it loaded; a digest in the manifest makes a mismatch fail safe (no conversion, flagged) instead of misaligning |
 
-Variant chunks are chosen: the budget cost is nil and the loader stays trivial.
+The aligned list is chosen. A Simplified session therefore costs the Traditional session plus about **24 KB** (the list) plus about **19 KB** (the catalogue), lazily and only for those who choose Simplified; the library waves grow the list in proportion.
 
 ## 4. Conversion: what a converter gets right and wrong
 
@@ -62,93 +64,99 @@ Measured with the OpenCC profile `tw2sp` (Taiwan Traditional to Simplified with 
 | **離線** | 脱机 | **离线** | Dated |
 | 螢幕 · 軟體 · 程式 | 屏幕 · 软件 · 程序 | the same | Correct |
 
-So the converter is a very good first draft and **not** a finished translation: the override table (§5) is part of the design, and a human reads the exceptions. A bare character table, as a runtime converter would be, cannot get the phrase-level rows right at all.
+The converter is a very good first draft and **not** a finished translation: the override table (§5.2) is part of the design and a human reads the exceptions.
 
 ## 5. Design
 
 ### 5.1 Pipeline
 
 ```
-data/ (Traditional, canonical)  ─┐
-glossary zh-Hans column         ─┤
-source Simplified text          ─┼─▶ scripts/i18n/build_hans.py ─▶ data/i18n/zh-Hans.dictionary.json  (committed, deterministic)
-hans-overrides.json (reviewed)  ─┤                                  apps/web/src/i18n/zh-Hans/*.json   (committed, generated)
-UI catalogues zh-Hant           ─┘                                  review sheet (generated, not committed)
+data/ (Traditional, canonical) ──┐
+source Simplified text           ─┤
+hans-overrides.json (reviewed)   ─┼─▶ scripts/i18n/build_hans.py ─▶ data/i18n/zh-Hans.dictionary.json   (committed, deterministic)
+UI catalogues zh-Hant            ─┘                                  apps/web/src/i18n/zh-Hans/*.json    (committed, generated)
+                                                                      review sheet                       (generated, not committed)
 
-bundle-data.ts: replaces each Chinese string of the pruned chunks by its dictionary entry ─▶ kb/<chunk>.hans.<hash>.json  (+ manifest variant entry)
+bundle-data.ts: for the pruned chunks of a profile, the sorted unique Chinese strings ─▶ kb/hans.<hash>.json  (aligned list)
+                + manifest.variants["zh-Hans"] = { file, sha256, strings, digest }
 ```
 
-1. **Precedence for a string:** record-specific override → glossary term → phrase override → source Simplified text (when the round trip holds, §5.1.2) → `tw2sp`. The first match wins; the review sheet shows which rule produced each non-mechanical result.
-2. **Source text:** where a record carries Simplified source text (citations; herbs and formula compositions from the Pharmacopoeia and the source library), the builder uses it if converting it back with `s2twp` reproduces the committed Traditional string. If it does not, the Traditional string wins, the builder converts it, and the case is logged for the reviewer (the sources differ from what we show).
-3. **The dictionary** `data/i18n/zh-Hans.dictionary.json` maps each Traditional string that contains Chinese and sits outside the keys that keep a source script (the same walker and exemptions `validate_kb` uses) to its Simplified form; strings that do not change are left out. It is **keyed by the string itself, not by its position**, so profile pruning, chunking and re-ordering cannot misalign it, and one string is rendered the same wherever it occurs. It is committed, so a reviewer can diff it, and CI regenerates it and fails on a difference, exactly as for `data/`.
-4. **Variants:** `bundle-data.ts` replaces every Chinese string of the *pruned* data of the profile by its dictionary entry (so a release variant never contains what a release chunk does not) and fails when a remaining Chinese string still contains a character that has a Simplified form — a missing entry cannot ship. It writes `kb/<chunk>.hans.<hash>.json` with the same shape. The manifest lists the variants; the loader receives the script with the language. `_meta.script` (`"Hant"` or `"Hans"`) is written into every chunk. **Field names do not change** (`"zh-Hant"`, `quote_zh_hant`): they name the schema slot, and `_meta.script` says which script the slot holds; code that depends on the script (term linking, search) reads it.
-5. **Keys and references.** Several records are keyed by their Chinese name (foods and acupoints in `guidance.json`), and others refer to them by name (a pattern's diet and points, a formula's herbs, the glossary lookup, the herb index). The builder therefore converts **keys and values by the same dictionary** and then runs the same referential-integrity checks `validate_kb` runs on the Traditional data over the converted tree: a reference that no longer resolves, or two Traditional keys that convert to one Simplified key, fails the build. Pages and routes do not depend on a Chinese key: records addressed in URLs get a stable ASCII id (see the [knowledge-browser design](knowledge-browser.md)).
+1. **Precedence for a string:** exact override → phrase override → source Simplified text (when the round trip holds, step 2) → `tw2sp`. The review sheet shows which rule produced each non-mechanical result.
+2. **Source text:** where a record carries Simplified source text (the citations; herbs and formula compositions from the Pharmacopoeia and the source library), the builder uses it if converting it back with `s2twp` reproduces the committed Traditional string. If not, the Traditional string wins, it is converted, and the case is logged for the reviewer.
+3. **Phrase overrides** are applied by splitting the string on the override keys (longest first), converting the remaining segments and inserting the override values as written.
+4. **The dictionary** `data/i18n/zh-Hans.dictionary.json` maps every Traditional string that contains Chinese anywhere in `data/` — values and keys, prose and identifiers alike (an identifier is only converted if something *displays* it) — to its Simplified form; strings that do not change are left out. It is keyed by the string itself, so profile pruning, chunking and re-ordering cannot misalign it. It is committed, so a reviewer can diff it; CI regenerates it and fails on a difference, exactly as for `data/`.
+5. **The aligned list** is built by the bundler from the chunks of the profile it is bundling: it collects the unique Chinese strings (values and keys), sorts them with one shared function (UTF-16 code-unit order, implemented once in `@tcm/kb` and used by both sides), writes the Simplified form of each (empty when unchanged) one per line, and records the string count and a SHA-256 of the sorted Traditional list in the manifest. A string absent from the dictionary and not unchanged-by-design is a **build error**: a Chinese string with a Simplified form that the dictionary lacks cannot ship.
 6. **UI catalogues:** the builder writes `apps/web/src/i18n/zh-Hans/<namespace>.json` from the Traditional catalogues with the same precedence. Parameters (`{name}`), tags (`<b>…</b>`) and plural objects are carried over unchanged and checked.
 
-### 5.2 Override table and glossary
+### 5.2 Override table
 
-`scripts/i18n/hans-overrides.json` has three sections, each entry with a reason:
+`scripts/i18n/hans-overrides.json`, each entry with a reason:
 
 | Section | Holds | Example |
 |---|---|---|
 | `phrases` | Replacements applied before conversion, longest first | 介面 → 界面; 預設 → 默认; 離線 → 离线 |
-| `keys` | Exact results for a catalogue key or a knowledge pointer | a title where Mainland usage prefers another word |
-| `keep` | Strings or characters that must stay as written | 乾 in a hexagram quotation |
+| `exact` | The exact result for a whole string | A title where Mainland usage prefers another word |
+| `keep` | Strings that must stay as written | 乾 in a hexagram quotation |
 
-The glossary (`data/glossary.json`) gets a `zh-Hans` column, generated by the same pipeline and then governed like the other columns (`status`, `source`, `note`); the glossary-conformance check of `check-i18n` is extended to it, so a term is rendered the same way everywhere.
+**The review sheet** (`pnpm i18n:review-hans`, generated, not committed) lists, for the Mainland-usage reviewer: every string whose `tw2sp` result differs from plain character conversion (the vocabulary-level changes — a few hundred, not thousands), every override with its reason, every source-text mismatch, and every glossary term with its Simplified form. That sheet, not the whole text, is what is reviewed ([content review](../../content-review.md) class L). The glossary conformance check of `check-i18n` is extended: a glossary term appears in Simplified text only in the form the dictionary gives it.
 
-**The review sheet** (`pnpm i18n:review-hans`, generated, not committed) lists, for the Mainland-usage reviewer: every string whose `tw2sp` result differs from plain character conversion (the vocabulary-level changes — a few hundred, not thousands), every override with its reason, every source-text mismatch, and every glossary term with its Simplified form. That sheet, not the whole text, is what is reviewed ([content review](../../content-review.md) class L).
-
-### 5.3 Language model and routing
+### 5.3 Language model and routes
 
 | Piece | Change |
 |---|---|
-| `@tcm/i18n` | `Lang` gains `"zh-Hans"`; a helper `scriptOf(lang)` (`Hant` for `zh-Hant`, `Hans` for `zh-Hans`, `en` has none); fallback chain `zh-Hans → zh-Hant`, never to `en`, always reported; `Intl` locale `zh-Hans` |
-| Routes | `/zh-Hans/…`; aliases `zh-cn`, `zh-hans`, `zh-sg` redirect to it; **`zh` stays `zh-Hant`** (PD-02) so existing links keep their meaning |
-| Host files | `LANGUAGE_SEGMENTS` and the redirects gain the segments; the 404 page gets a third link; `check-release` knows them; the pseudo-locales are unaffected |
-| `<html lang>` | `zh-Hans`; the document title and the manifest name come from the catalogue |
-| Offer | The English offer becomes one **language offer**: first browser language `en…` offers English; `zh-CN`, `zh-SG`, `zh-Hans…` offers Simplified; bare `zh`, `zh-TW`, `zh-HK`, `zh-MO` offer nothing (the default is already right). Shown once, dismissible, never switches silently |
-| Language toggle | Three choices in one segmented control, labelled in their own language and script: 繁體中文 · 简体中文 · English; `aria-label`s likewise |
+| `@tcm/i18n` | `Lang` gains `"zh-Hans"`; `scriptOf(lang)` (`Hant` for `zh-Hant` and `en`, `Hans` for `zh-Hans`); fallback chain `zh-Hans → zh-Hant`, never to `en`, always reported; `Intl` locale `zh-Hans`. The instance gets **`t.zh(text)`**: the identity for `zh-Hant` and `en` (the English interface shows Chinese terms in Traditional), the dictionary lookup for `zh-Hans`; `localized(v)` applies it |
+| Routes | `/zh-Hans/…`; aliases `zh-cn`, `zh-hans`, `zh-sg` redirect to it; **`zh` stays `zh-Hant`** (PD-02) |
+| Host files | `LANGUAGE_SEGMENTS` and the redirects gain the segments; the 404 page gets a third link; `check-release` knows them |
+| `<html lang>` | `zh-Hans` |
+| Offer | The English offer becomes one **language offer**: first browser language `en…` offers English; `zh-CN`, `zh-SG`, `zh-Hans…` offers Simplified; bare `zh`, `zh-TW`, `zh-HK`, `zh-MO` offer nothing. Once, dismissible, never switches silently |
+| Language toggle | Three choices, each labelled in its own script: 繁體中文 · 简体中文 · English |
 
 ### 5.4 Loading
 
 | Resource | Behaviour |
 |---|---|
-| Catalogue | `zh-Hant` and `en` stay in the initial bundle as today. `zh-Hans` is a dynamic import of one chunk per language (≈ 19 KB gzip) fetched only when needed; the provider shows the loading state that already exists for the knowledge base until it arrives. Initial JavaScript changes by at most 1 KB (the loader and the tag) |
-| Knowledge | The manifest has a `variants["zh-Hans"]` set; `loadKnowledgeBase({ script })` chooses it. Hash verification, caching headers and the lazy chunks are unchanged. Cities and acupoint labels follow the same rule |
-| Switching language | Fetches the other variant on demand; the page shows the existing loading state; the draft is untouched (a draft stores ids, not text) |
-| Saved results | Store ids and the language they were made in; a result saved in one language opens in each other language (a test), because text is rendered from the knowledge base at view time |
-| Offline | The worker precaches the variant of the language in use and fetches the other one when the person switches ([offline design](offline-and-install.md)) |
+| Catalogue | `zh-Hant` and `en` stay in the initial bundle. `zh-Hans` is a dynamic import (≈ 19 KB gzip) fetched only when needed, behind the loading state that exists for the knowledge base. Initial JavaScript changes by at most 1 KB |
+| Knowledge | **Unchanged for every language**: the same chunks, the same engine input. For `zh-Hans` the loader additionally fetches the aligned list named in the manifest, verifies its hash, rebuilds the sorted Traditional list from the loaded chunks, checks its digest and builds the lookup. A failure of any step leaves `t.zh` as the identity and **reports the fallback**; the person sees Traditional text, never a broken page |
+| Switching language | Fetches what the new language needs on demand; the draft is untouched (it stores ids) |
+| Saved results | Store ids and the language they were made in; a result opens in every language, because text is rendered from the knowledge base at view time |
+| Offline | The worker precaches the list with the other knowledge files when the person uses Simplified ([offline design](offline-and-install.md)) |
 
-### 5.5 Search and term linking
+### 5.5 Display sites
 
-Names are indexed in **both scripts**: the builder writes each record's Traditional and Simplified names (and aliases) into the search index, so a query in either script finds the record without a converter in the browser. Term linking in running text (`Term.tsx`) uses the script of the loaded data. Pinyin and English are unchanged.
+Every place that shows a Chinese string from the data calls `t.zh` (or `localized`, which does): the result sections, the inquiry and observation screens, the citations and sources, the formula, point and food pages, the history and compare screens, the practitioner summary, the print view. Strings built from several data strings convert **each piece**, never the joined text. Identifiers that are also shown (a food name that keys the guidance table) are converted for display only; the identifier stays what it was. The set of sites is audited once, and the checks of §6 keep it honest.
 
-### 5.6 Typography
+### 5.6 Search and term linking
 
-`:lang(zh-Hans)` selects a Simplified system font stack (PingFang SC, Hiragino Sans GB, Microsoft YaHei, Noto Sans SC, then `sans-serif`); no web fonts, as decided in TQ8. The `lang` attribute also makes the browser choose the regional glyph forms of characters that differ (for example 骨, 直, 刃). The glyph audit of PF-02 is re-run on the Simplified text.
+The glossary lookup, the herb index and the city list keep their Traditional keys (they are identifiers); the city list's `alt_hans` already carries Simplified spellings for search. Names are searched in both scripts without a converter: where a Simplified form is needed as a key it comes from the dictionary the session already holds, and the [knowledge-browser design](knowledge-browser.md) builds its index with both forms.
+
+### 5.7 Typography
+
+`:lang(zh-Hans)` selects a Simplified system font stack (PingFang SC, Hiragino Sans GB, Microsoft YaHei, Noto Sans SC, then `sans-serif`); no web fonts (TQ8). The `lang` attribute also makes the browser choose regional glyph forms (骨, 直, 刃). Elements that show converted text carry `lang="zh-Hans"`. The glyph audit of PF-02 is re-run on the Simplified text.
 
 ## 6. Checks
 
-| Check | Fails the build when |
+| Check | Fails the build or the test when |
 |---|---|
-| Key coverage and parameters | A key, placeholder, tag or plural form of `zh-Hant` is missing or different in `zh-Hans` |
-| No fallback | Any message or knowledge string would fall back |
-| **Purity** | A character that has a Simplified form (`t2s(c) ≠ c`) appears in Simplified text outside the `keep` list — the mirror of the existing rule that Simplified forms must not appear in Traditional fields |
-| Glossary | A glossary term appears in Simplified text in a form other than the glossary's `zh-Hans` |
-| Forbidden wording | The forbidden-wording list is converted by the same pipeline and applied to the Simplified text |
+| Key coverage and parameters | A key, placeholder, tag or plural form of `zh-Hant` is missing or different in the `zh-Hans` catalogue |
+| Dictionary coverage | A Chinese string of a profile's chunks contains a character with a Simplified form and has no dictionary entry |
+| **Purity of the catalogue and of the dictionary** | A character that has a Simplified form (`t2s(c) ≠ c`) appears in a Simplified value outside the `keep` list — the mirror of the existing rule that Simplified forms must not appear in Traditional fields |
+| **Purity on screen** | The text rendered by any screen in `zh-Hans` (the jsdom sweep over the routes, and the real-browser scenarios) contains a Traditional-only character outside `keep` and outside the quoted source script: this is the check that finds a display site that forgot `t.zh` |
+| No fallback | A message or a knowledge string falls back in a scenario that completes |
+| Glossary | A glossary term appears in Simplified text in a form other than the dictionary's |
+| Forbidden wording | The forbidden-wording list is converted by the same pipeline and applied to the Simplified catalogue |
 | Freshness | The committed dictionary or catalogues differ from what the builder produces |
-| Equality | The engine output (patterns, formulas, notices, levels) differs between languages for the typical patients and the vignettes |
-| Known answers | A table of conversions with their expected results (§4, the 乾薑/乾坤 cases) changes |
+| Equality | The engine output differs between languages for the typical patients and the vignettes — **true by construction** (the engine's input is the same), and kept as a test so that it stays true |
+| Known answers | A table of conversions with their expected results (§4, 乾薑 and 乾坤) changes; the alignment round trip (every Chinese string of the chunks maps to the converter's result) breaks |
 
-End-to-end: scenarios E1 and E5 and the cross-browser set run in `zh-Hans`; visual baselines for the 14 key screens are made on CI like the others; axe runs in `zh-Hans` in light and dark.
+End to end: scenarios E1 and E5 and the cross-browser set run in `zh-Hans`; visual baselines for the 14 key screens are made on CI like the others; axe runs in `zh-Hans` in light and dark.
 
 ## 7. Safety, review and rollout
 
-- **The language never selects emergency numbers.** The MVP shows Taiwan's numbers to anyone who has not chosen a region; for a Simplified-Chinese reader that would be wrong more often than right. The [region-pack design](tap-tempo-and-regions.md) removes the silent default for every language: numbers appear for a region the person chose or whose time zone matches, otherwise the generic line ("call your local emergency number") and a region choice. The safety policy (§ emergency resources) is amended in that task.
-- **The notices are the highest-risk text.** Their Simplified form goes through the legal review that the Traditional form needs (SQ6) and the linguistic review (class L). Until both are recorded, a build offering `zh-Hans` carries the draft label, like every other draft content.
-- **Mainland regulation differs.** Nothing in the interface or the knowledge base changes by language, and the product claims no clinical function; whether offering it to the Mainland is acceptable is a legal question, not an engineering one (roadmap §9).
-- **Rollout:** build and test behind the existing draft label; add the language to the toggle only when the checks are green; the public offer waits for the reviews.
+- **The engine never sees Simplified.** This is the central safety property: language cannot change a notice, a level, a pattern, a formula or a suppressed item, because none of them is computed from converted text.
+- **The language never selects emergency numbers.** The [region-pack design](tap-tempo-and-regions.md) removes the silent default for every language.
+- **The notices are the highest-risk text.** Their Simplified form goes through the legal review that the Traditional form needs (SQ6) and the linguistic review (class L). Until both are recorded, a build offering `zh-Hans` carries the draft label.
+- **Mainland regulation differs.** Nothing in the interface or the knowledge base changes by language, and the product claims no clinical function; whether offering it to the Mainland is acceptable is a legal question (roadmap §9).
+- **Rollout:** build and test behind the draft label; add the language to the toggle when the checks are green; the public offer waits for the reviews.
 
 ## 8. Decided defaults
 
@@ -160,14 +168,16 @@ End-to-end: scenarios E1 and E5 and the cross-browser set run in `zh-Hans`; visu
 | Quotations in the Simplified interface | Shown in Simplified, taken from the Simplified source text; the citation sheet still says which source text it is |
 | Register | 您, as in Traditional |
 | Does the language imply a region? | No (PD-02, FR-29) |
-| Where the converter and a Mainland reviewer disagree | The reviewer's form goes into `hans-overrides.json` with a reason; the sheet shows it from then on |
+| English interface and Chinese terms | Traditional, as today |
+| Where the converter and a Mainland reviewer disagree | The reviewer's form goes into `hans-overrides.json` with a reason |
 
 ## 9. Tasks
 
-PM-01 (pipeline, dictionary, variants, glossary column, review sheet), PM-02 (language model, routes, host files, offer, toggle, fonts, region behaviour), PM-03 (checks, equality test, visual and axe) — [`TASKS.md`](../../../TASKS.md).
+PM-01 (converter, overrides, dictionary, generated catalogues, aligned list in the bundler and loader, review sheet), PM-02 (language model, `t.zh` at the display sites, routes, host files, offer, toggle, fonts), PM-03 (checks, purity sweep, equality test, end-to-end, visual and axe) — [`TASKS.md`](../../../TASKS.md).
 
 ## 10. Changelog
 
 | Version | Date | Change |
 |---|---|---|
-| 0.1 | 2026-10-05 | Initial design; delivery by variant chunks chosen over an overlay on measured sizes |
+| 0.1 | 2026-10-05 | Initial design; delivery by Simplified variants of the knowledge chunks |
+| 0.2 | 2026-10-05 | Revised while building PM-01: variants of the data rejected because the engine and the safety rules match Chinese identifiers by value (290 data paths hold Chinese; most tables are identifiers); the strings are now converted at display, delivered as an aligned list (23.6 KB gzip, measured) with a digest check |

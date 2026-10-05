@@ -103,7 +103,7 @@ A release is ticked item by item as features ship; a feature ships when the gate
 - [ ] Backup: round trip, encrypted round trip and fuzz tests green; a release build refuses dev-profile records; storage health shown
 - [ ] Tap-tempo estimator tests green; the control works with the keyboard and a screen reader
 - [ ] Region packs: only verified rows are listed and bundled; the generic text covers the rest
-- [ ] Budgets: initial JavaScript ≤ 200 KB gzip, a Simplified session ≤ +25 KB over a Traditional one, worker ≤ 10 KB
+- [ ] Budgets: initial JavaScript ≤ 200 KB gzip, a Simplified session ≤ +50 KB over a Traditional one, worker ≤ 10 KB
 - [ ] Privacy inventory and statement updated; no request carries user data; Cache Storage holds nothing personal
 - [ ] Folded into the PRD and specs; `CHANGELOG.md` updated
 

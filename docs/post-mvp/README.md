@@ -27,7 +27,7 @@ Design documents (one per feature area, tasks A-20 … A-28 in [`TASKS.md`](../.
 
 | Design | Release | Task |
 |---|---|---|
-| [Simplified Chinese interface and knowledge variants](design/simplified-chinese.md) | A | A-20 |
+| [Simplified Chinese interface and display dictionary](design/simplified-chinese.md) | A | A-20 |
 | [Offline use and installation (service worker)](design/offline-and-install.md) | A | A-21 |
 | [Backup, restore, storage health and the local data lock](design/backup-and-data-lock.md) | A, B | A-22 |
 | [Tap-tempo pulse and region packs](design/tap-tempo-and-regions.md) | A | A-23 |

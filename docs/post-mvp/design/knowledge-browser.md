@@ -107,7 +107,7 @@ The name **Compare patterns** (比較證型) is deliberately different from the 
 - A page has one `h1`, a *Sources* section, a *Related* section and a short on-page index; focus moves to the heading on navigation (the existing `RouteFocus`).
 - Lists are real lists with headings per group; filters are native controls; a filter change announces the count.
 - Terms in running text open the existing popover; the popover is also reachable by keyboard.
-- Language switch keeps the route (ids are language-neutral); Simplified pages use the Simplified variant of the data.
+- Language switch keeps the route (ids are language-neutral); Simplified pages convert what they show with the display dictionary, and the page text never contains a converted identifier.
 - Lists use the data's own group order; English lists sort alphabetically with `Intl.Collator`. Chinese alphabetical sorting is not offered: its conventions (pinyin, strokes, zhuyin) differ by reader.
 
 ## 9. Safety, review and rollout
