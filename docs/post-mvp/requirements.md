@@ -104,7 +104,7 @@ Looking again later, and seeing change over time.
 Acceptance:
 1. **Nudge:** after saving, the person may choose *look again in 2, 4 or 8 weeks* (default none); a dismissible card appears on later visits. No push message: it would need a server.
 2. **Calendar file:** an `.ics` entry with the date and a link to the app root and **no health content** (title "TCM Self-Check — time to look again"); the dialog says the entry will live in their calendar.
-3. **Trends** appear with three or more assessments of one profile: a timeline of bands per five-phase organ, six qi and eight principles, and of the pattern hypotheses, with the season at each point. A change of engine major version or parameter fingerprint shows a "measured with a different version" mark; nothing is compared silently across them.
+3. **Trends** appear with three or more assessments in one *series* (same parameter fingerprint and engine major version): a timeline of bands per five-phase element and the two eight-principle axes, and of the pattern hypotheses, with the season at each point and a table twin. A change of version starts a new segment, drawn after a gap and labelled "measured with a different version"; nothing is compared silently across it. A change in the person's own situation between points (pregnancy status, a long-term condition) is marked.
 4. Wording never says *better*, *worse*, *improved* or gives a score; it says what changed ("Dampness is now in the *mild* band"); the wording is reviewed (class L).
 
 ### FR-24 Local data lock — Release B · Class N (security review) · refines PQ2, PQ3
