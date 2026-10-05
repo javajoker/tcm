@@ -1,6 +1,6 @@
 # Release-candidate dry run — 2026-10-04
 
-A pass over the [go / no-go checklist](../CHECKLIST.md) §5 on commit `2ba117b` (the end-to-end scenarios of Q-04 were added afterwards: 87 runs green locally on Chrome), run on a developer machine (task R-07). It records what the automated gates say today and what is still
+A pass over the [go / no-go checklist](../CHECKLIST.md) §5 first on commit `2ba117b` and refreshed on `e1f28f4` (2026-10-05) after the city list, the discriminating questions and the end-to-end scenarios of Q-04 were added: 87 runs green locally on Chrome, and 12 on Safari's engine and Firefox, run on a developer machine (task R-07). It records what the automated gates say today and what is still
 open, so that the first real release candidate starts from facts. **It is not the signed checklist:** nothing here was run on CI (no push has happened yet) or on a deployment, and the
 human items are untouched. The verdict is **no-go for a public release; the closed-beta path (draft label on) is technically ready** once an owner has set up hosting.
 
@@ -12,9 +12,9 @@ Legend: ✔ done and evidenced · ◐ automated part done, rest open · ○ not 
 |---|---|---|
 | Tag build from `main`; CI fully green | ○ | The workflows (`ci.yml` with its `e2e` job, `nightly.yml`, `visual.yml`, `deploy.yml`, `rollback.yml`) are written and SHA-pinned but have never run: nothing is pushed. First push will show whether they pass; the owner must set the Cloudflare secrets, variables and environments ([release process §6](release-process.md)). |
 | `check-release` passes; profile = `release` | ◐ | With the closed-beta exception (`APP_DRAFT_LABEL=on`, `--draft-label`): passes (rules 0–11, incl. `noindex`, `NOTICE.txt`, host files). Without it: **fails rule 8** — the content is `draft`, which is the honest state until the review records exist. |
-| Budgets; Lighthouse mobile Performance ≥ 90, Accessibility ≥ 95 | ◐ | `check-budgets`: initial JS 120.4 / 200 KB gz · all JS 223.1 / 260 · CSS 5.5 / 20 · knowledge base per session 84.3 / 100. Lighthouse CI is configured (`lighthouserc.json`) but needs Chrome and a runner: not run. |
+| Budgets; Lighthouse mobile Performance ≥ 90, Accessibility ≥ 95 | ◐ | `check-budgets`: initial JS 121.7 / 200 KB gz · all JS 226.1 / 260 · CSS 5.9 / 20 · knowledge base per session 84.3 / 100 (the city list is a lazy 25 KB chunk, not counted in the session figure). Lighthouse CI is configured (`lighthouserc.json`) but needs Chrome and a runner: not run. |
 | No open S1/S2 defects | ◐ | None known; there is no tracker yet, and no usability round (Q-09) or beta has produced defects. |
-| SBOM, licence report, `pnpm audit`, pinned actions | ◐ | `pnpm check:licenses`: 9 shipped and 358 build-time packages within the allow-list; the CycloneDX SBOM is generated; actions are pinned (a test checks it). `pnpm audit` needs the registry and is run by the CI `deps` job: not run. |
+| SBOM, licence report, `pnpm audit`, pinned actions | ◐ | `pnpm check:licenses`: 9 shipped and 362 build-time packages within the allow-list; the CycloneDX SBOM is generated; actions are pinned (a test checks it). `pnpm audit` needs the registry and is run by the CI `deps` job: not run. |
 
 ## 5.2 Safety
 
@@ -38,7 +38,7 @@ Legend: ✔ done and evidenced · ◐ automated part done, rest open · ○ not 
 
 | Item | | Evidence / what is left |
 |---|---|---|
-| axe clean across the route × language × theme matrix | ✔ | The jsdom accessibility sweep passes (491 web tests), and so does axe in a real browser, colour contrast included, on every screen of the flow in light and dark (`e2e/e21-axe.spec.ts`, Chrome, 2026-10-05). |
+| axe clean across the route × language × theme matrix | ✔ | The jsdom accessibility sweep passes (502 web tests), and so does axe in a real browser, colour contrast included, on every screen of the flow in light and dark (`e2e/e21-axe.spec.ts`, Chrome, 2026-10-05). |
 | Manual pass (§6) on this build | ○ | Needs people with VoiceOver, TalkBack and NVDA ([accessibility protocol](accessibility-protocol.md), template in `docs/a11y-records/`). |
 | Reduced motion, 200 % zoom, text-size presets | ◐ | Covered by tests and CSS; not verified on a device. |
 
@@ -48,7 +48,7 @@ Legend: ✔ done and evidenced · ◐ automated part done, rest open · ○ not 
 |---|---|---|
 | Privacy tests green; hosting log behaviour; privacy statement matches the build | ◐ | The privacy tests pass (they found and fixed a birth-moment leak in saved results). The hosting log behaviour can only be confirmed on the real host. |
 | Legal sign-off | ⛔ | V-07. |
-| Attribution and licence screen; `NOTICE` current | ◐ | Sources screen and `NOTICE.txt` ship (checked by rule 10); the city list (K-10, CC BY 4.0) is not added, so no attribution for it is needed yet. |
+| Attribution and licence screen; `NOTICE` current | ◐ | Sources screen and `NOTICE.txt` ship (checked by rule 10); the city list (K-10, GeoNames, CC BY 4.0) is in, with its attribution in `NOTICE`, in the data file and on the Sources screen; rule 10 now fails the build if the attribution is missing. |
 
 ## 5.6 Operations
 

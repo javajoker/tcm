@@ -46,31 +46,33 @@ Sections: **1** Definition of done (every task) · **2** Per-PR · **3** Milesto
 - [x] CONTRIBUTING · documentation index
 - [x] Task list ([`TASKS.md`](TASKS.md))
 - [x] This checklist
-- [ ] README and PRD roadmap updated to link the new documents (A-17)
-- [ ] Open decisions DEC-01…DEC-03 answered by the project owner (needed before M1 can finish)
+- [x] README and PRD roadmap updated to link the new documents (A-17)
+- [x] Open decisions DEC-01…DEC-03 answered (decided with the MVP defaults; revisit after the MVP)
 
 ### M1 — Knowledge base complete
 - [x] First-pass `data/` builds deterministically; 127/127 citations verified; pattern self-test green
-- [ ] `scoring-params.json` in data and used by the oracle (K-01)
-- [ ] JSON Schemas for every file; validation in the build (K-02); extra integrity checks (K-03)
-- [ ] Orthography normalised, no `溼` in non-quotation fields (K-04)
-- [ ] Question bank covers all 12 dimensions and 8 modules; every non-tongue/pulse symptom is reachable (K-05); exclusions (K-06)
-- [ ] Constitution items and scoring (K-08); emergency numbers (K-09); city list (K-10)
-- [ ] Treatment guidance complete for every acupoint/diet item referenced (K-11)
-- [ ] Glossary upgraded (K-12); English draft for L0–L1 content (K-13)
-- [ ] Parity fixtures exported (K-15)
-- [ ] Wording lint clean on all display strings
+- [x] `scoring-params.json` in data and used by the oracle (K-01)
+- [x] JSON Schemas for every file; validation in the build (K-02); extra integrity checks (K-03)
+- [x] Orthography normalised, no `溼` in non-quotation fields (K-04)
+- [x] Question bank covers all 12 dimensions and 8 modules; every non-tongue/pulse symptom is reachable (K-05); exclusions (K-06)
+- [x] Constitution items and scoring (K-08); emergency numbers (K-09); city list (K-10)
+- [x] Treatment guidance complete for every acupoint/diet item referenced (K-11)
+- [x] Glossary upgraded (K-12); English draft for L0–L1 content (K-13)
+- [x] Parity fixtures exported (K-15)
+- [x] Wording lint clean on all display strings
 
 ### M2 — MVP app (dev builds)
-- [ ] `@tcm/kb`, `@tcm/engine`, `@tcm/i18n` implemented with the tests of [test plan §3](docs/test-plan.md); properties P1–P12 green
-- [ ] Parity with the Python oracle (1e-9) and fixture-freshness job in CI
-- [ ] Safety vignette suite 100 % green (every red flag, every population/condition/state × both profiles)
-- [ ] Screens S01–S19 implemented per [UX spec](docs/ux-spec.md); dev inspector (S20) in dev builds only
-- [ ] E1–E20 green on desktop and mobile, `zh-Hant` and `en`
-- [ ] axe: zero violations on every route × language × theme
-- [ ] Budgets met: initial JS ≤ 200 KB gzip; KB chunks within budget; Lighthouse ≥ 90 / ≥ 95 (mobile)
-- [ ] Dev and release builds produced; `check-release.ts` green on the release build
-- [ ] Privacy tests green (no network after load, no sensitive data in URLs/logs, erase, birth data not persisted by default)
+_Ticked on 2026-10-05 from local runs (see the [dry run](docs/release-dry-run.md)); nothing has run on CI yet, because nothing is pushed. Open: Lighthouse (needs a runner) and the public-release gate._
+
+- [x] `@tcm/kb`, `@tcm/engine`, `@tcm/i18n` implemented with the tests of [test plan §3](docs/test-plan.md); properties P1–P12 green
+- [x] Parity with the Python oracle (1e-9) and fixture-freshness job in CI
+- [x] Safety vignette suite 100 % green (every red flag, every population/condition/state × both profiles)
+- [x] Screens S01–S19 implemented per [UX spec](docs/ux-spec.md); dev inspector (S20) in dev builds only
+- [x] E1–E20 green on desktop and mobile, `zh-Hant` and `en`
+- [x] axe: zero violations on every route × language × theme
+- [ ] Budgets met: initial JS ≤ 200 KB gzip; KB chunks within budget; Lighthouse ≥ 90 / ≥ 95 (mobile) — size budgets are met; Lighthouse has not run
+- [x] Dev and release builds produced; `check-release.ts` green on the release build (with the closed-beta draft label; without it rule 8 fails by design)
+- [x] Privacy tests green (no network after load, no sensitive data in URLs/logs, erase, birth data not persisted by default)
 - [ ] **No public release** (clinical content is still unreviewed)
 
 ### M3 — Review and hardening

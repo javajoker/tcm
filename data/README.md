@@ -83,7 +83,7 @@ most restrictive of all matched dimensions. `safety_enforcement`: `suppress_hard
 | 《中華人民共和國藥典》 facts via TCM-Library | official publication | properties, functions, cautions as structured facts only | yes, as `derived` facts |
 | Classical texts (素問, 傷寒論, …) | public domain | the 127 quotations | yes |
 | `packages/wuxing`, `scripts/kb/curated`, `diagnosis/constitution-items.json`, UI and English text | Apache-2.0 (project) | everything original | yes |
-| GeoNames `cities15000` (planned, K-10) | CC BY 4.0 — attribution required | city → coordinates and time zone for the birth card | not yet; added with its attribution in `NOTICE` and on the Sources screen |
+| GeoNames `cities15000` (K-10) | CC BY 4.0 — attribution required | city → coordinates and time zone for the birth card | yes — `geo/cities.json` (484 places, a reduced extract); attribution in `NOTICE`, in the file's `_meta` and on the Sources screen |
 
 Every herb carries `source.path` and the submodule commit; every formula carries its verification record.
 
