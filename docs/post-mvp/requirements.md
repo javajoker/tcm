@@ -27,7 +27,7 @@ Acceptance:
 5. A one-time, dismissible offer appears for browsers whose first language is `zh-CN`, `zh-Hans` or `zh-SG`, as for English today; the language is never switched silently.
 6. Layout holds at 320 px and 200 % zoom; Simplified glyphs use a Simplified font stack (`lang` attribute set); visual baselines exist.
 7. Lazy cost only: initial JavaScript changes by at most 1 KB; a Simplified session downloads the Simplified catalogue and the Simplified variants of the knowledge chunks *instead of* the Traditional knowledge chunks, so it costs no more than a Traditional one plus the catalogue (≈ 19 KB gzip); other sessions add nothing.
-8. The emergency numbers do not depend on the language; a person who chooses Simplified Chinese is asked for a region and sees the generic "use your local emergency number" text until a verified region is chosen (FR-29).
+8. The emergency numbers do not depend on the language: they follow the region rules of FR-29 (a chosen region or a time-zone match, never the language), so a Simplified-Chinese reader sees the generic "use your local emergency number" text until a region applies.
 9. The build carries the draft label until the linguistic review (Mainland usage) and the legal review of the notices are recorded.
 
 ### FR-22 Offline use and installation — Release A · Class N · refines TQ6, [E15](../test-plan.md#5-application-tests)
@@ -60,13 +60,13 @@ Acceptance:
 
 An alternative to the 30-second timer: tap in time with the felt pulse; the app derives the rate and an irregularity hint.
 
-Acceptance: the estimate comes from the median of the intervals with outlier rejection and needs at least 12 taps; a known set of sequences is estimated within ±2 beats per minute; fewer taps or a spread above a stated limit gives "not enough to tell" and nothing is entered; irregular timing suggests, never decides, the *irregular* rhythm; the same fields are filled as by the timer and marked self-measured; the control works with the keyboard (Space), a screen reader and reduced motion; the educational note and the "stop if you feel unwell" line are unchanged.
+Acceptance: the estimate comes from the median of the intervals with outlier rejection and needs at least 12 taps; simulated steady taps with up to 30 ms of jitter are estimated within ±3 beats per minute in at least 95 % of runs; fewer taps or a spread above a stated limit gives "not enough to tell" and nothing is entered; a result within 3 beats per minute of a rapid or slow band edge says so and leaves the choice to the person; irregular timing suggests, never decides, the *irregular* rhythm; the same fields are filled as by the timer and the method (tap) is recorded beside the rate and shown in the review and the practitioner summary; the control works with the keyboard (Space), a screen reader and reduced motion; the educational note and the "stop if you feel unwell" line are unchanged.
 
 ### FR-29 Region packs — Release A · Class L (and legal) · refines Q1, SQ1
 
 A region is data: emergency and crisis numbers, region-specific notices, the suggested language and, optionally, city extras. Adding one needs no code.
 
-Acceptance: `emergency.json` rows carry a verification record (who, when, source); only verified rows are listed in the region choice and reach a release bundle (a `check-release` rule); the rest of the world is covered by the generic "use your local emergency number" text; the notice wording comes from the safety-policy tables, not from region code. Hong Kong is the first candidate; no row is added without a regional verifier.
+Acceptance: numbers are shown only for a region the person chose or whose declared time zone matches the device's — there is no silent default, and the Taiwan default of the MVP becomes a time-zone match; `emergency.json` rows carry a verification record (who, when, source) no older than 24 months; in a build **without the draft label** only verified rows reach the bundle and a draft row fails `check-release`; everyone else sees the generic "use your local emergency number" text with the region selector; the notice wording comes from the safety-policy tables, not from region code. Hong Kong is the first candidate; no row is added without a regional verifier.
 
 ---
 

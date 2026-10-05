@@ -114,7 +114,7 @@ Rules:
 - **Manifest:** `display: "standalone"`, `id` and `start_url` `"/"` (the app redirects to the saved or default language), `scope: "/"`, the existing icons, theme and background colours; no `shortcuts`, no `categories`.
 - **Install affordance:** Chromium-family browsers fire `beforeinstallprompt`; the app keeps the event and shows an *Install* button in Settings — never a pop-up and never on the first visit. Every browser gets the same one-paragraph explanation of "Add to Home Screen" in words (no user-agent sniffing).
 - **Standalone has no browser chrome:** every screen already offers a way back and the header links home; the design adds a test that no screen is a dead end, and an item to verify printing from an installed app on iOS (the fallback is the share sheet).
-- **Why encourage installing:** a browser is likelier to keep an installed app's storage, which bears on backup and storage health (design A-22).
+- **Why encourage installing:** a browser is likelier to keep an installed app's storage, which bears on [backup and storage health](backup-and-data-lock.md).
 
 ### 3.7 Privacy and security
 
