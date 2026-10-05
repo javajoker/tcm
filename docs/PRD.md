@@ -103,7 +103,7 @@ Planned in the [post-MVP document set](post-mvp/README.md): the [roadmap](post-m
 |---|---|---|
 | **A** | Reach and resilience | Simplified Chinese UI · offline use and installation (PWA) · backup and restore, optional encryption, storage health · tap-tempo pulse · region packs |
 | **B** | Learn and follow up | Knowledge browser (FR-14) and pattern comparison · structured practitioner export · follow-up reminders and trends · local data lock |
-| **C** | Breadth | More complaint modules and patterns (衛氣營血 as red flags, 三焦-located damp-heat and others, in waves) · herb browser · five-phase extensions |
+| **C** | Breadth | More complaint modules and patterns in reviewed waves (acute febrile stages stay red flags; 三焦 is considered as a location axis later) · herb browser · five-phase extensions |
 | **D** | Research | On-device tongue-photo assistance · camera pulse · file-based sync — each an evaluated spike first |
 
 Not planned: accounts or server-side sync (portability is by backup file), LLM-generated diagnosis, e-commerce, automatic telemetry.

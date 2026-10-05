@@ -80,7 +80,7 @@ Versions are assigned when a release is tagged ([release process §1](../release
 
 | Feature | Outcome | Notes |
 |---|---|---|
-| Library expansion (FR-30) | Wave A: the everyday gaps (a respiratory module, damp-heat and lower-burner patterns, qi-and-yin deficiency, cold-damp pain); Wave B follows evidence from the first waves | Acute febrile stages (營分, 血分) are **not** added as self-assessment patterns: they belong to red flags |
+| Library expansion (FR-30) | Wave A, proposed to the clinical reviewer: a respiratory module and four everyday gaps (qi-and-yin deficiency, food stagnation, aching from cold and damp, period pain from cold); Wave B follows the first wave's evidence and the physician's view on lower-burner damp-heat | Acute febrile stages (營分, 血分, high-fever 氣分) are **not** self-assessment patterns: they belong to red flags. The knowledge budget fits one wave, so Wave B starts with chunking the question bank by module |
 | Herb browser | The 609 derived herbs become browsable with a delivery that respects the budget | Needs the sample review of derived herbs (V-04) first |
 | Five-phase extensions (FR-31) | Southern-hemisphere seasons; both hour pillars near a boundary; astronomy tables regenerated in-repo; the 長夏 model as a declared choice | Calendar changes alter outputs, so each is a parameter or engine version change with parity cases |
 
