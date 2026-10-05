@@ -8,6 +8,7 @@ import { useApp } from "../../app/store.tsx";
 import { randomId } from "../../storage/ids.ts";
 import type { SavedAssessment } from "../../storage/types.ts";
 import { Button, Card } from "../../ui/index.ts";
+import { BackupLine } from "../../backup/Reminder.tsx";
 
 /** ⑦ When to see a practitioner. */
 export function Practitioner(): ReactNode {
@@ -36,6 +37,7 @@ export function YourData({ saved }: { saved: SavedAssessment }): ReactNode {
     <Card title={t.t("report.data.title")} id="sec-data">
       <p>{t.plural("report.data.summary", n)}</p>
       <Button variant="primary" onClick={rerun}>{t.t("report.data.rerun")}</Button>
+      <BackupLine />
     </Card>
   );
 }

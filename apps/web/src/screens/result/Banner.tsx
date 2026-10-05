@@ -47,6 +47,7 @@ export function Banner({ saved }: { saved: SavedAssessment }): ReactNode {
       <h2 id="sec-banner-title" className="visually-hidden">{t.t("report.banner.title")}</h2>
       {IS_DEV_PROFILE ? <p style={{ margin: 0 }}><Chip tone="notice">{t.t("report.dev.level", { level: a.policy.level })}</Chip></p> : null}
       {older ? <Notice kind="info" kindLabel={t.t("common.notice.info")}>{t.t("report.version.older")}</Notice> : null}
+      {saved.imported ? <Notice kind="info" kindLabel={t.t("common.notice.info")}>{t.t("common.backup.imported.notice", { version: saved.imported.from.appVersion })}</Notice> : null}
       {items.map((i) => (
         i.title !== null ? (
           <details key={i.key}>

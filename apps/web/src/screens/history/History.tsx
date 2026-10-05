@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { ENGINE_VERSION } from "@tcm/engine";
+import { BackupLine, BackupReminder } from "../../backup/Reminder.tsx";
 import { useI18n } from "../../i18n/I18nProvider.tsx";
 import type { MessageKey } from "../../i18n/catalogs.ts";
 import { formatLocal } from "../../app/format.ts";
@@ -52,6 +53,8 @@ function Body({ items, reload }: { items: SavedAssessment[]; reload: () => void 
     <>
       <h1>{t.t("report.history.title")}</h1>
       <p>{t.t("report.history.intro")}</p>
+      <BackupReminder />
+      <BackupLine />
       {undo !== null ? (
         <p role="status"><span>{t.t("report.history.deleted")}</span> <Button variant="ghost" onClick={restore}>{t.t("report.history.undo")}</Button></p>
       ) : <p role="status" />}
@@ -73,6 +76,7 @@ function Body({ items, reload }: { items: SavedAssessment[]; reload: () => void 
                   <Chip>{t.t("report.summary.confidence")}: {t.t(`report.confidence.${s.result.verdict.confidence}` as MessageKey)}</Chip>
                   {IS_DEV_PROFILE ? <Chip tone="notice">{t.t("report.dev.level", { level: s.result.policy.level })}</Chip> : null}
                   {older ? <Chip tone="notice">{t.t("report.history.older")}</Chip> : null}
+                  {s.imported ? <Chip tone="notice">{t.t("common.backup.imported")}</Chip> : null}
                 </p>
                 <div style={{ display: "flex", flexWrap: "wrap", gap: "var(--space-3)" }}>
                   <LinkButton href={`/result/${s.id}`}>{t.t("report.history.open")}</LinkButton>

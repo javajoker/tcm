@@ -10,6 +10,7 @@ import { usePageTitle } from "../../app/usePageTitle.ts";
 import { TEXT_SCALES, THEMES } from "../../storage/types.ts";
 import { Button, Card, ConfirmDialog, LinkButton, SegmentedControl, Tile } from "../../ui/index.ts";
 import { DataTable } from "../result/Panel.tsx";
+import { DataCard } from "./DataCard.tsx";
 import { InstallCard } from "./InstallCard.tsx";
 import { OfflineCard } from "./OfflineCard.tsx";
 
@@ -26,7 +27,7 @@ export function Settings(): ReactNode {
   const [confirm, setConfirm] = useState(false);
   const k = (key: string): string => t.t(key as MessageKey);
 
-  const rows = (IS_DEV_PROFILE ? (["prefs", "draft", "results", "birth"] as const) : (["prefs", "draft", "results", "birth", "offline"] as const)).map((r) => [k(`common.settings.privacy.${r}`), k(`common.settings.privacy.${r}.where`), k(`common.settings.privacy.${r}.until`), k(`common.settings.privacy.${r}.remove`)]);
+  const rows = (IS_DEV_PROFILE ? (["prefs", "draft", "results", "birth", "backup"] as const) : (["prefs", "draft", "results", "birth", "backup", "offline"] as const)).map((r) => [k(`common.settings.privacy.${r}`), k(`common.settings.privacy.${r}.where`), k(`common.settings.privacy.${r}.until`), k(`common.settings.privacy.${r}.remove`)]);
   return (
     <>
       <h1>{t.t("common.settings.title")}</h1>
@@ -52,6 +53,8 @@ export function Settings(): ReactNode {
         </Card>
 
         {IS_DEV_PROFILE ? null : <><OfflineCard /><InstallCard /></>}
+
+        <DataCard />
 
         <Card title={t.t("common.settings.privacy.title")} headingLevel={2} id="privacy">
           <p>{t.t("common.settings.privacy.intro")}</p>

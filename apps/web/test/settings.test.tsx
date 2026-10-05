@@ -90,7 +90,8 @@ describe("Settings and privacy (S17)", () => {
   it("says what is stored, where, for how long and how to remove it — and what is never collected", async () => {
     await open("/en/settings");
     const table = within(screen.getByRole("table", { name: "What this app stores on this device" }));
-    expect(table.getAllByRole("row")).toHaveLength(5);                        // header + preferences, draft, results, birth data
+    expect(table.getAllByRole("row")).toHaveLength(6);                        // header + preferences, draft, results, birth data, backup files (a release build adds the offline copy)
+    expect(table.getByText("Backup files you make")).toBeInTheDocument();
     expect(table.getByText(/Preferences \(language, appearance, text size/)).toBeInTheDocument();
     expect(table.getByText(/stored in IndexedDB only if you tick “Remember on this device”/)).toBeInTheDocument();
     expect(screen.getByText(/no accounts, no server that receives your answers, no analytics and no cookies/)).toBeInTheDocument();

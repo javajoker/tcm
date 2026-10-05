@@ -119,7 +119,7 @@ describe("History (S16)", () => {
     await userEvent.click(await screen.findByRole("button", { name: /^Delete the result of .*Sep/ }));
     await waitFor(async () => expect((await persistence.listAssessments()).map((s) => s.id)).toEqual([B.id]));
     await waitFor(() => expect(screen.getAllByRole("listitem")).toHaveLength(1));
-    expect(screen.getByRole("status")).toHaveTextContent("Deleted.");
+    expect(screen.getAllByRole("status").some((s) => /Deleted\./.test(s.textContent ?? ""))).toBe(true);          // (the backup reminder is a status too)
     await userEvent.click(screen.getByRole("button", { name: "Undo" }));
     await waitFor(async () => expect((await persistence.listAssessments()).map((s) => s.id).sort()).toEqual([A.id, B.id].sort()));
     await waitFor(() => expect(screen.getAllByRole("listitem")).toHaveLength(2));

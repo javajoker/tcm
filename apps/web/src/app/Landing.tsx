@@ -4,6 +4,7 @@ import { useI18n } from "../i18n/I18nProvider.tsx";
 import type { MessageKey } from "../i18n/catalogs.ts";
 import { Button, Card, Chip, ConfirmDialog, Dialog, DialogActions } from "../ui/index.ts";
 import { DISCLAIMER_VERSION } from "./disclaimer.ts";
+import { BackupReminder } from "../backup/Reminder.tsx";
 import { UpdateLine } from "../offline/UpdateBanner.tsx";
 import { relativeTime } from "./format.ts";
 import { useApp } from "./store.tsx";
@@ -72,6 +73,7 @@ export function Landing(): ReactNode {
           <h1>{t.t("intake.landing.title")}</h1>
           <p className={styles.lead}>{t.t("intake.landing.lead")}</p>
           <UpdateLine />
+          <BackupReminder />
 
           {draftLoaded && draft !== null && stageKey !== null ? (
             <Card title={t.t("intake.landing.resume.title")} headingLevel={2}>

@@ -10,6 +10,7 @@ import { Landing } from "./Landing.tsx";
 import { DocumentMeta } from "./DocumentMeta.tsx";
 import { NotFound } from "./NotFound.tsx";
 import { PrefsEffects } from "./PrefsEffects.tsx";
+import { BackupProvider } from "../backup/BackupContext.tsx";
 import { OfflineEffects } from "../offline/OfflineEffects.tsx";
 import { RouteFocus } from "./RouteFocus.tsx";
 import { useI18n } from "../i18n/I18nProvider.tsx";
@@ -108,9 +109,11 @@ function LanguageRoutes(): ReactNode {
         <OfflineEffects />
         <DocumentMeta />
         <Router base={parsed.segment === null ? "" : `/${parsed.segment}`}>
-          <AppShell>
-            {parsed.lang === null ? <NotFound /> : <Screens />}
-          </AppShell>
+          <BackupProvider>
+            <AppShell>
+              {parsed.lang === null ? <NotFound /> : <Screens />}
+            </AppShell>
+          </BackupProvider>
         </Router>
       </CitationsProvider>
     </I18nProvider>

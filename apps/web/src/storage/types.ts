@@ -20,6 +20,12 @@ export interface Prefs {
   readonly autoAdvance: boolean;
   /** Start every new assessment with "remember my birth data on this device" ticked (off unless the person turned it on; privacy §3). */
   readonly rememberBirthDefault?: boolean;
+  /** When the person last made a backup (ms); a low-sensitivity preference that drives the reminder (backup design §3.6). */
+  readonly lastBackupAt?: number;
+  /** The reminder to make a backup is hidden until this time ("Not now" snoozes it for 14 days). */
+  readonly backupSnoozeUntil?: number;
+  /** Remind me to make a backup (on unless the person turned it off in Settings). */
+  readonly backupReminder?: boolean;
 }
 
 export const TEXT_SCALES = [0.9, 1, 1.15, 1.3] as const;

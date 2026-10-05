@@ -4,6 +4,7 @@ import { createContext, useContext, useEffect, type ReactNode } from "react";
 import { createStore, useStore, type StoreApi } from "zustand";
 import type { Lang } from "@tcm/i18n";
 import { createAutosaver, type Autosaver } from "../storage/autosave.ts";
+import type { BackupPrefs, Source as BackupSource, Write } from "../storage/backup/index.ts";
 import { newDraft } from "../storage/draft.ts";
 import { randomId } from "../storage/ids.ts";
 import type { Persistence } from "../storage/persistence.ts";
@@ -34,6 +35,10 @@ export interface AppState {
   discardDraft(): Promise<void>;
   /** Erase everything on this device, then reload. */
   eraseAll(): Promise<void>;
+  /** Everything a backup can hold, as stored (the unfinished assessment is written first, so it is the latest). */
+  backupSource(): Promise<BackupSource>;
+  /** Apply an import's writes in ONE transaction, then bring what the screens hold up to date; the preferences of the file (if chosen) are applied after, one by one. `false`: nothing changed. */
+  applyImport(writes: readonly Write[], prefs: BackupPrefs | null): Promise<boolean>;
 }
 
 export interface StoreDeps {
@@ -98,6 +103,17 @@ export function createAppStore({ persistence, now = () => Date.now(), newId = ra
       saver.cancel();
       set({ draft: null });
       await persistence.clearDraft();
+    },
+    async backupSource() {
+      await saver.flush();
+      return { assessments: await persistence.listAssessments(), draft: await persistence.loadDraft(), prefs: get().prefs };
+    },
+    async applyImport(writes, prefs) {
+      const ok = await persistence.applyWrites(writes);
+      if (!ok) return false;
+      if (writes.some((w) => w.store === "drafts")) set({ draft: await persistence.loadDraft() });
+      if (prefs !== null) get().setPrefs(prefs);
+      return true;
     },
     async eraseAll() {
       saver.cancel();

@@ -1,0 +1,101 @@
+import { useEffect, useId, useState, type ReactNode } from "react";
+import { ENGINE_VERSION } from "@tcm/engine";
+import { useI18n } from "../i18n/I18nProvider.tsx";
+import { useLoadedOptional } from "../app/knowledge.tsx";
+import { formatLocal } from "../app/format.ts";
+import { APP_BUILD, APP_PROFILE } from "../app/profile.ts";
+import { useApp } from "../app/store.tsx";
+import { backupFileName, buildBackup, serializeBackup, type Source } from "../storage/backup/index.ts";
+import { Button, Dialog, DialogActions, Notice, Tile } from "../ui/index.ts";
+import { downloadText, shareableFile, shareFile } from "./files.ts";
+
+type Phase = { readonly kind: "choose" } | { readonly kind: "done"; readonly name: string; readonly n: number } | { readonly kind: "failed" };
+
+/**
+ * Make a backup (docs/post-mvp/design/backup-and-data-lock.md §3.3): what will be included, a plain warning that the file holds health information and that where it is kept is the person's choice,
+ * then a download — or the system share sheet where the browser offers one. The file is built in memory; nothing is uploaded.
+ */
+export function BackupDialog({ onClose }: { onClose: () => void }): ReactNode {
+  const { t, lang } = useI18n();
+  const titleId = useId();
+  const loaded = useLoadedOptional();
+  const backupSource = useApp((s) => s.backupSource);
+  const setPrefs = useApp((s) => s.setPrefs);
+  const [source, setSource] = useState<Source | null>(null);
+  const [chosen, setChosen] = useState<ReadonlySet<string>>(new Set());
+  const [prefsOn, setPrefsOn] = useState(true);
+  const [draftOn, setDraftOn] = useState(false);
+  const [phase, setPhase] = useState<Phase>({ kind: "choose" });
+  const [busy, setBusy] = useState(false);
+
+  useEffect(() => {
+    let alive = true;
+    void backupSource().then((s) => { if (alive) { setSource(s); setChosen(new Set(s.assessments.map((a) => a.id))); } });
+    return () => { alive = false; };
+  }, [backupSource]);
+
+  const results = source?.assessments ?? [];
+  const hasDraft = source?.draft != null;
+  const nothing = chosen.size === 0 && !prefsOn && !(draftOn && hasDraft);
+
+  const make = async (share: boolean): Promise<void> => {
+    if (source === null || busy) return;
+    setBusy(true);
+    try {
+      const now = Date.now();
+      const doc = await buildBackup(source, { assessments: [...chosen], draft: draftOn && hasDraft, prefs: prefsOn },
+        { appVersion: APP_BUILD, kbVersion: loaded?.kb.version ?? "unknown", engineVersion: ENGINE_VERSION, profile: loaded?.kb.profile ?? APP_PROFILE }, now);
+      const text = serializeBackup(doc);
+      const name = backupFileName(now);
+      if (share) { const file = shareableFile(name, text); if (file !== null) await shareFile(file); else downloadText(name, text); } else downloadText(name, text);
+      setPrefs({ lastBackupAt: now });
+      setPhase({ kind: "done", name, n: doc.contents.assessments });
+    } catch {
+      setPhase({ kind: "failed" });
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const allOn = results.length > 0 && chosen.size === results.length;
+  const canShare = source !== null && shareableFile("probe.json", "{}") !== null;
+  return (
+    <Dialog open onClose={onClose} labelledBy={titleId}>
+      <h2 id={titleId}>{t.t("common.backup.make.title")}</h2>
+      {phase.kind === "done" ? (
+        <>
+          <p role="status">{phase.n > 0 ? t.plural("common.backup.make.done", phase.n, { name: phase.name }) : t.t("common.backup.make.done.noResults", { name: phase.name })}</p>
+          <DialogActions><Button variant="primary" onClick={onClose}>{t.t("common.backup.close")}</Button></DialogActions>
+        </>
+      ) : (
+        <>
+          <p>{t.t("common.backup.make.intro")}</p>
+          <fieldset style={{ border: "none", padding: 0, margin: "0 0 var(--space-3)" }}>
+            <legend style={{ fontWeight: 600 }}>{t.t("common.backup.make.results")}</legend>
+            {source === null ? <p role="status" aria-busy="true"><span className="visually-hidden">{t.t("common.loading")}</span></p> : results.length === 0 ? <p className="muted">{t.t("common.backup.make.results.none")}</p> : (
+              <>
+                <Tile type="checkbox" name="all" value="all" checked={allOn} onChange={(on) => setChosen(on ? new Set(results.map((a) => a.id)) : new Set())} label={t.t("common.backup.make.results.all", { n: results.length })} />
+                <div style={{ maxHeight: "12rem", overflowY: "auto", display: "grid", gap: "var(--space-1)", paddingInlineStart: "var(--space-4)" }} role="group" aria-label={t.t("common.backup.make.results")}>
+                  {results.map((a) => (
+                    <Tile key={a.id} type="checkbox" name="result" value={a.id} checked={chosen.has(a.id)} label={formatLocal(lang, a.createdAt)}
+                      onChange={(on) => setChosen((c) => { const next = new Set(c); if (on) next.add(a.id); else next.delete(a.id); return next; })} />
+                  ))}
+                </div>
+              </>
+            )}
+          </fieldset>
+          <Tile type="checkbox" name="prefs" value="prefs" checked={prefsOn} onChange={setPrefsOn} label={t.t("common.backup.make.prefs")} description={t.t("common.backup.make.prefs.hint")} />
+          {hasDraft ? <Tile type="checkbox" name="draft" value="draft" checked={draftOn} onChange={setDraftOn} label={t.t("common.backup.make.draft")} description={t.t("common.backup.make.draft.hint")} /> : null}
+          <Notice kind="info" kindLabel={t.t("common.notice.info")}>{t.t("common.backup.make.warning")}</Notice>
+          {phase.kind === "failed" ? <p role="alert">{t.t("common.backup.make.failed")}</p> : null}
+          {nothing ? <p className="muted">{t.t("common.backup.make.nothing")}</p> : null}
+          <DialogActions>
+            <Button onClick={onClose}>{t.t("common.action.cancel")}</Button>
+            {canShare ? <Button disabled={nothing || busy || source === null} onClick={() => { void make(true); }}>{t.t("common.backup.make.share")}</Button> : null}
+            <Button variant="primary" disabled={nothing || busy || source === null} onClick={() => { void make(false); }}>{t.t("common.backup.make.action")}</Button>
+          </DialogActions>
+        </>
+      )}
+    </Dialog>
+  );
+}
