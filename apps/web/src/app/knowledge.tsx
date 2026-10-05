@@ -4,6 +4,8 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 import type * as EngineModule from "@tcm/engine";
 import type { KbErrorCode, KnowledgeBase } from "@tcm/kb";
+import type { Script } from "@tcm/i18n";
+import { DisplayContext, identity } from "../i18n/display.ts";
 import { useI18n } from "../i18n/I18nProvider.tsx";
 import { IS_DEV_PROFILE } from "./profile.ts";
 import { Button, Notice, Skeleton } from "../ui/index.ts";
@@ -15,11 +17,15 @@ export type KnowledgeState =
   | { readonly status: "ready"; readonly loaded: Loaded }
   | { readonly status: "error"; readonly code: KbErrorCode | "unknown"; readonly offline: boolean };
 
-export type Loader = () => Promise<Loaded>;
+/** `script` is the script Chinese text is shown in; the data and the engine are the same for both (docs/post-mvp/design/simplified-chinese.md). */
+const LOADING: KnowledgeState = { status: "loading" };
 
-export const defaultLoader: Loader = async () => {
+export type Loader = (script: Script) => Promise<Loaded>;
+
+export const defaultLoader: Loader = async (script) => {
   const [{ loadKnowledgeBase }, engine] = await Promise.all([import("@tcm/kb"), import("@tcm/engine")]);
-  const kb = await loadKnowledgeBase({ baseUrl: `${import.meta.env.BASE_URL}kb` });
+  // a display list that cannot be used leaves Chinese text in the data's own script (`kb.script` says `Hant`): a reader sees Traditional text, never a broken page
+  const kb = await loadKnowledgeBase({ baseUrl: `${import.meta.env.BASE_URL}kb`, script });
   return { kb, engine };
 };
 
@@ -30,24 +36,27 @@ const isOffline = (): boolean => typeof navigator !== "undefined" && navigator.o
 const failure = (e: unknown): KnowledgeState => ({ status: "error", code: typeof e === "object" && e !== null && "code" in e && typeof (e as { code: unknown }).code === "string" ? ((e as { code: KbErrorCode }).code) : "unknown", offline: isOffline() });
 
 /** One fetch per (loader, attempt), even when StrictMode runs the effect twice. */
-const inflight = new WeakMap<Loader, Map<number, Promise<Loaded>>>();
-function loadOnce(load: Loader, attempt: number): Promise<Loaded> {
+const inflight = new WeakMap<Loader, Map<string, Promise<Loaded>>>();
+function loadOnce(load: Loader, attempt: number, script: Script): Promise<Loaded> {
   let attempts = inflight.get(load);
   if (attempts === undefined) { attempts = new Map(); inflight.set(load, attempts); }
-  let p = attempts.get(attempt);
-  if (p === undefined) { p = load(); attempts.set(attempt, p); }
+  const key = `${attempt}:${script}`;
+  let p = attempts.get(key);
+  if (p === undefined) { p = load(script); attempts.set(key, p); }
   return p;
 }
 
-export function KnowledgeProvider({ load = defaultLoader, children }: { load?: Loader; children: ReactNode }): ReactNode {
-  const [state, setState] = useState<KnowledgeState>({ status: "loading" });
+export function KnowledgeProvider({ load = defaultLoader, script = "Hant", children }: { load?: Loader; /** The script of Chinese text in the page language; a change loads the knowledge base again with the other display list. */ script?: Script; children: ReactNode }): ReactNode {
+  // what was loaded or what failed, and for which script: a state for another script than the page's is "loading" (derived, so no state is set from an effect before the fetch settles)
+  const [settled, setSettled] = useState<{ readonly state: KnowledgeState; readonly script: Script; readonly attempt: number } | null>(null);
   const [attempt, setAttempt] = useState(0);
+  const state: KnowledgeState = settled !== null && settled.script === script && settled.attempt === attempt ? settled.state : LOADING;
   useEffect(() => {
     let cancelled = false;
-    loadOnce(load, attempt).then((loaded) => { if (!cancelled) setState({ status: "ready", loaded }); }, (e: unknown) => { if (!cancelled) setState(failure(e)); });
+    loadOnce(load, attempt, script).then((loaded) => { if (!cancelled) setSettled({ state: { status: "ready", loaded }, script, attempt }); }, (e: unknown) => { if (!cancelled) setSettled({ state: failure(e), script, attempt }); });
     return () => { cancelled = true; };
-  }, [attempt, load]);
-  const retry = useCallback(() => { setState({ status: "loading" }); setAttempt((a) => a + 1); }, []);
+  }, [attempt, load, script]);
+  const retry = useCallback(() => { setAttempt((a) => a + 1); }, []);
   // coming back online after a failure: try again without making the user find the button
   useEffect(() => {
     if (state.status !== "error") return;
@@ -55,7 +64,8 @@ export function KnowledgeProvider({ load = defaultLoader, children }: { load?: L
     return () => window.removeEventListener("online", retry);
   }, [state.status, retry]);
   const value = useMemo<Value>(() => ({ state, retry }), [state, retry]);
-  return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
+  const zh = state.status === "ready" ? state.loaded.kb.zh : identity;
+  return <Ctx.Provider value={value}><DisplayContext.Provider value={zh}>{children}</DisplayContext.Provider></Ctx.Provider>;
 }
 
 export function useKnowledge(): Value {

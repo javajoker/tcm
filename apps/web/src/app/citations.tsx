@@ -33,10 +33,10 @@ function CitationSheet({ current, onClose }: { current: Open | null; onClose: ()
       {c !== undefined && current !== null ? (
         <article>
           <p className="muted" style={{ margin: 0 }}>{t.t("report.citation.title")}</p>
-          <h2 id={id} lang="zh-Hant" style={{ margin: "0 0 var(--space-2)" }}>《{c.book}》{c.chapter}</h2>
+          <h2 id={id} lang={t.zhLang} style={{ margin: "0 0 var(--space-2)" }}>《{t.zh(c.book)}》{t.zh(c.chapter)}</h2>
           {c.clause_no !== undefined ? <p className="muted">{t.t("report.citation.clause", { n: c.clause_no })}{c.clause_no_verified === false ? " *" : ""}</p> : null}
           <h3>{t.t("report.citation.original")}</h3>
-          <blockquote lang="zh-Hant" className={`quote ${styles.quote}`}>{c.quote_zh_hant}</blockquote>
+          <blockquote lang={t.zhLang} className={`quote ${styles.quote}`}>{t.zh(c.quote_zh_hant)}</blockquote>
           <p><strong>{c.verified ? "✓ " : "○ "}{c.verified ? t.t("report.citation.verified") : t.t("report.citation.unverified")}</strong></p>
           <h3>{t.t("report.citation.translation")}</h3>
           <p className="muted">{t.t("report.citation.noTranslation")}</p>
@@ -57,10 +57,10 @@ export function CitationChip({ id, usedFor, mark }: { id: string; usedFor?: stri
   const ctx = useContext(Ctx);
   const c = loaded?.kb.citation(id);
   if (!c || ctx === null) return null;
-  const name = `《${c.book}》${c.chapter}`;
+  const name = `《${t.zh(c.book)}》${t.zh(c.chapter)}`;
   const shown = mark === undefined ? name : `${name}（${mark}）`;
   return (
-    <button type="button" className={styles.chip} lang="zh-Hant" aria-label={t.t("report.citation.open", { name: shown })} onClick={() => ctx.open(id, usedFor)}>{shown}</button>
+    <button type="button" className={styles.chip} lang={t.zhLang} aria-label={t.t("report.citation.open", { name: shown })} onClick={() => ctx.open(id, usedFor)}>{shown}</button>
   );
 }
 

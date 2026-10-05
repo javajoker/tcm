@@ -10,7 +10,7 @@ export function allergenSuggestions(kb: KnowledgeBase, lang: Lang): string[] {
   for (const id of ids) {
     const n = kb.herbName(id)?.name;
     if (!n) continue;
-    names.add(lang === "en" ? (n.en ?? n["zh-Hant"]) : n["zh-Hant"]);
+    names.add(lang === "en" ? (n.en ?? n["zh-Hant"]) : kb.zh(n["zh-Hant"]));
   }
-  return [...names].sort((a, b) => a.localeCompare(b, lang === "en" ? "en" : "zh-Hant"));
+  return [...names].sort((a, b) => a.localeCompare(b, lang === "en" ? "en" : lang));
 }

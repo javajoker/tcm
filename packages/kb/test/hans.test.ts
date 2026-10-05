@@ -51,6 +51,16 @@ test("parseAligned pairs the lists and an empty line is the string itself; a dif
   assert.throws(() => parseAligned(["腎", "脾"], "肾"), /1 lines for 2 strings/);
 });
 
+test("traditional() turns what was typed in the display script back into the data's own strings", () => {
+  const d = newDisplay();
+  d.add(["人參", "乾薑", "幹薑", "脾"], "人参\n干姜\n干姜\n");
+  assert.deepEqual(d.traditional("人参"), ["人參"]);
+  assert.deepEqual(d.traditional("干姜"), ["乾薑", "幹薑"], "two strings of the data share a Simplified form: both are candidates");
+  assert.deepEqual(d.traditional("人參"), ["人參"], "text already in the data's script stays");
+  assert.deepEqual(d.traditional("脾"), ["脾"]);
+  assert.deepEqual(d.traditional("never seen"), ["never seen"]);
+});
+
 test("newDisplay converts what it knows and reports Chinese it does not, never non-Chinese text", () => {
   const seen: string[] = [];
   const d = newDisplay((t) => seen.push(t));
@@ -110,6 +120,9 @@ test("a Simplified load gives the same data and a display function; the Traditio
   assert.equal(hans.zh("腎"), "肾");
   assert.equal(hans.zh("脾"), "脾");
   assert.equal(hans.zh("ascii"), "ascii");
+  // a herb a person names in Simplified is the herb the safety rules know by its own name
+  assert.deepEqual(hans.traditional("人参"), ["人參"]);
+  assert.deepEqual(hant.traditional("人参"), ["人参"], "a Traditional session has no reverse lookup");
   // the engine's input is untouched: identical data, Traditional identifiers included
   assert.deepEqual(hans.patterns, hant.patterns);
   assert.deepEqual([...hans.formulas.keys()], [...hant.formulas.keys()]);

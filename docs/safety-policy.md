@@ -55,7 +55,7 @@ Output levels: **L0** education only · **L1** + diet, safe acupressure points, 
 | Age | ★ | Drives minor/elderly |
 | Sex at birth, pregnancy status (female of child-bearing age), breastfeeding | ★ | "Possibly pregnant" is treated as pregnant |
 | Medications | ★ (may answer "none") | Picked by **class** with examples (below); free text is allowed but only classes are checked |
-| Allergies | ★ (may answer "none") | Picker over the herbs/foods the KB can output + free text; free text is matched against names and aliases |
+| Allergies | ★ (may answer "none") | Picker over the herbs/foods the KB can output + free text; free text is matched against names and aliases **in the data's own script** (Traditional, English, Latin). In a Simplified-Chinese session what is picked or typed is turned back into the data's string before it is stored when it names exactly one thing the data knows (so 人参 is stored as 人參 and still matches); other text is kept as typed and reported as unmatched. In a Traditional session a name typed in Simplified is not matched — an open limitation, listed in the post-MVP quality debt |
 | Chronic conditions | ★ (may answer "none") | The "serious" group maps to `serious_chronic_disease` |
 | Red-flag answers | ★ | Yes / No for every item; "not sure" is treated as **yes** for A and B (shown as "unsure" in the notice) |
 

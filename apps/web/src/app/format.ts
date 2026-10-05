@@ -1,6 +1,6 @@
 import type { Lang } from "@tcm/i18n";
 
-const LOCALE: Record<Lang, string> = { "zh-Hant": "zh-Hant-TW", en: "en" };
+const LOCALE: Record<Lang, string> = { "zh-Hant": "zh-Hant-TW", "zh-Hans": "zh-Hans-CN", en: "en" };
 
 /** "8 minutes ago" / "8 分鐘前": coarse, for the Resume card. */
 export function relativeTime(lang: Lang, then: number, now: number): string {

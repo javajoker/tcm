@@ -25,7 +25,7 @@ function kbPlugin(profile: "release" | "dev"): Plugin {
         const file = join(dir, (req.url ?? "/").split("?")[0]!.replace(/^\/+/, ""));
         try {
           if (!file.startsWith(dir) || !statSync(file).isFile()) return next();
-          res.setHeader("Content-Type", "application/json; charset=utf-8");
+          res.setHeader("Content-Type", file.endsWith(".txt") ? "text/plain; charset=utf-8" : "application/json; charset=utf-8");
           res.setHeader("Cache-Control", "no-cache");
           res.end(readFileSync(file));
         } catch { next(); }

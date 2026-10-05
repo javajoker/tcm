@@ -65,7 +65,7 @@ export function QuestionCard({ kb, question, initial, reason, modules, left, cov
 
   const graded = selected.flatMap(gradedOf);
   const submit = (): void => onSubmit({ kind: "answered", options: selected, severities: Object.fromEntries(graded.map((s) => [s, severities[s] ?? DEFAULT_SEVERITY])) });
-  const symptomName = (id: string): string => kb.symptoms.get(id)?.["zh-Hant"] ?? id;
+  const symptomName = (id: string): string => { const s = kb.symptoms.get(id); return s ? kb.zh(s["zh-Hant"]) : id; };
   const whyText = reason === null ? null : reason.kind === "module"
     ? t.t("intake.inquiry.why.module", { module: t.localized(kb.modules.find((m) => m.id === reason.module)?.name ?? { "zh-Hant": reason.module, en: reason.module }).text })
     : t.t(`intake.inquiry.why.${reason.kind}`);

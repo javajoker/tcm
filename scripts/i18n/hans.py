@@ -142,10 +142,25 @@ def build_dictionary(conv: Converter, strings: dict[str, bool], sources: dict[st
     return entries, rules
 
 
+def traditional_only_chars(texts) -> str:
+    """The characters of `texts` that have a different Simplified form (OpenCC's own character table), sorted. The purity checks of the web app's tests read this list: it is authoritative, where
+    a guess from the dictionary's entries would take the characters of a changed word (專案 → 项目) for changed characters."""
+    return "".join(sorted({c for t in texts for c in t if CJK.match(c) and is_traditional_only(c)}))
+
+
+def catalog_texts() -> list[str]:
+    out: list[str] = []
+    for f in sorted((CATALOGS / "zh-Hant").glob("*.json")):
+        for msg in json.loads(f.read_text(encoding="utf-8")).values():
+            out += [msg] if isinstance(msg, str) else list(msg.values())
+    return out
+
+
 def serialize_dictionary(entries: dict[str, str], rules: dict[str, str]) -> str:
     """One entry per line, sorted by the Traditional string: a diff reads as the list of changed words."""
     changed = sum(1 for k, v in entries.items() if k != v)
-    meta = {"schema": SCHEMA, "converter": "OpenCC tw2sp", "overrides": overrides_digest(), "strings": len(entries), "changed": changed}
+    meta = {"schema": SCHEMA, "converter": "OpenCC tw2sp", "overrides": overrides_digest(), "strings": len(entries), "changed": changed,
+            "traditionalOnly": traditional_only_chars([*entries, *catalog_texts()])}
     lines = [f"    {json.dumps(k, ensure_ascii=False)}: {json.dumps(v, ensure_ascii=False)}" for k, v in entries.items()]
     return "{\n  \"_meta\": " + json.dumps(meta, ensure_ascii=False) + ",\n  \"entries\": {\n" + ",\n".join(lines) + "\n  }\n}\n"
 

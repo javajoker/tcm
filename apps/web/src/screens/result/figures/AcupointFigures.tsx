@@ -97,6 +97,7 @@ const ART: Readonly<Record<ViewId, () => ReactNode>> = {
 
 /** One marked point: a ring-and-dot marker (shape, not colour alone), a thin line to its label, and the label as live text (name and WHO code). */
 function Marker({ name, code, spot, mark }: { name: string; code: string; spot: Spot; mark: number }): ReactNode {
+  const { t } = useI18n();
   const { x, y, label } = spot;
   const tx = label.anchor === "start" ? label.x - 4 : label.x + 4;
   return (
@@ -105,7 +106,7 @@ function Marker({ name, code, spot, mark }: { name: string; code: string; spot: 
       <circle cx={x} cy={y} r={8 * mark} fill="none" stroke="var(--primary)" strokeWidth={1.6} />
       <circle cx={x} cy={y} r={3.6 * mark} fill="var(--primary)" />
       <text x={label.x} y={label.y} textAnchor={label.anchor} fontSize={13} fill="var(--ink)" stroke="var(--surface)" strokeWidth={3} paintOrder="stroke">
-        <tspan lang="zh-Hant" fontWeight={600}>{name}</tspan><tspan dx={4} fill="var(--ink-muted)">{code}</tspan>
+        <tspan lang={t.zhLang} fontWeight={600}>{t.zh(name)}</tspan><tspan dx={4} fill="var(--ink-muted)">{code}</tspan>
       </text>
     </g>
   );
@@ -127,7 +128,7 @@ export function AcupointFigures({ points }: { points: readonly AcupointRecommend
           const title = t.t(`report.points.view.${view}` as MessageKey);
           return (
             <figure key={view} style={{ margin: 0, flex: "0 1 auto", width: `min(100%, ${Math.round(w * 1.2)}px)` }}>
-              <svg viewBox={`${minX} ${minY} ${w} ${h}`} role="img" aria-label={t.t("report.points.figure.label", { view: title, points: marked.map((p) => `${p.name} ${p.code}`).join("、") })} style={{ width: "100%", height: "auto", display: "block" }}>
+              <svg viewBox={`${minX} ${minY} ${w} ${h}`} role="img" aria-label={t.t("report.points.figure.label", { view: title, points: marked.map((p) => `${t.zh(p.name)} ${p.code}`).join("、") })} style={{ width: "100%", height: "auto", display: "block" }}>
                 {ART[view]()}
                 {marked.map((p) => <Marker key={p.name} name={p.name} code={p.code} spot={SPOTS[p.name]!} mark={MARK_SCALE[view] ?? 1} />)}
               </svg>

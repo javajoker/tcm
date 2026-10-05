@@ -33,7 +33,7 @@ export function Banner({ saved }: { saved: SavedAssessment }): ReactNode {
   }
   // notices the engine does not request but the policy requires from what was entered
   for (const med of saved.input.profile.medicationText) items.push({ key: `N-MED-UNKNOWN|${med}`, kind: "info", title: null, body: text("medicationUnknown", "text", { text: med }) });
-  for (const al of a.quality.unmatchedAllergies) items.push({ key: `N-ALLERGY-UNKNOWN|${al}`, kind: "info", title: null, body: text("allergyUnknown", "text", { text: al }) });
+  for (const al of a.quality.unmatchedAllergies) items.push({ key: `N-ALLERGY-UNKNOWN|${al}`, kind: "info", title: null, body: text("allergyUnknown", "text", { text: t.zh(al) }) });
   if (Object.entries(saved.input.findings).some(([id, f]) => f.state === "present" && (kb.symptoms.get(id)?.kind ?? "symptom") !== "symptom")) items.push({ key: "N-SELFOBS", kind: "info", title: null, body: text("selfObserved", "text", {}) });
   if (kb.params._meta.status !== "reviewed") items.push({ key: "N-DRAFT", kind: "caution", title: null, body: text("draft", "text", {}) });
 

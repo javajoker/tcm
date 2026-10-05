@@ -27,7 +27,7 @@ function About({ draft }: { draft: Draft }): ReactNode {
   const v = (k: string): string => t.t(`intake.review.value.${k}` as MessageKey);
   const meds = draft.profile.medications === "unsure" ? v("unsure") : medicationClasses(draft).length === 0 ? v("none")
     : [...new Set(medicationClasses(draft))].map((c) => t.t(`intake.profile.meds.${c}` as MessageKey)).concat(draft.profile.medicationText.length > 0 ? [t.t("intake.review.value.otherNamed", { names: draft.profile.medicationText.join("、") })] : []).join("、");
-  const allergies = draft.profile.allergies === "some" && (s.allergies ?? []).length > 0 ? (s.allergies ?? []).join("、") : v("none");
+  const allergies = draft.profile.allergies === "some" && (s.allergies ?? []).length > 0 ? (s.allergies ?? []).map((a) => t.zh(a)).join("、") : v("none");
   const conditions = seriousIn(draft).length === 0 ? v("none") : seriousIn(draft).map((id) => t.t(`intake.profile.conditions.${id}` as MessageKey)).join("、");
   return (
     <Card title={t.t("intake.review.about.title")} id="review-about">

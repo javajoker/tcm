@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { createI18n, parseRich, placeholdersOf, type Message } from "../src/index.ts";
+import { createI18n, LANGS, parseRich, placeholdersOf, scriptOf, zhLangOf, type Message } from "../src/index.ts";
 
 const zh = {
   "common.app.name": "中醫自我評估",
@@ -118,4 +118,53 @@ test("a transform is applied to the template before parameters, plurals and tags
   assert.equal(t.plural("items", 1), "⟦1 îîţééɱ⟧");
   assert.equal(t.plural("items", 3), "⟦3 îîţééɱš⟧");
   assert.equal(createI18n(catalogs, "zh-Hant", { transform: (s) => pseudoize("xl", s) }).t("greet", { name: "A" }), "你好 A · 你好 A");
+});
+
+// ── Simplified Chinese (post-MVP, docs/post-mvp/design/simplified-chinese.md) ──
+
+const hans = { "common.app.name": "中医自我评估", "intake.age.label": "年龄" } as const satisfies Partial<Record<keyof typeof zh, Message>>;
+const catalogs3 = { "zh-Hant": zh, "zh-Hans": hans, en } as const;
+const dictionary: Record<string, string> = { 脾氣虛: "脾气虚", 腎: "肾" };
+
+test("three languages, two scripts: Simplified for zh-Hans, Traditional for zh-Hant and for English", () => {
+  assert.deepEqual([...LANGS], ["zh-Hant", "zh-Hans", "en"]);
+  assert.deepEqual(LANGS.map(scriptOf), ["Hant", "Hans", "Hant"]);
+  assert.deepEqual(LANGS.map(zhLangOf), ["zh-Hant", "zh-Hans", "zh-Hant"]);
+  const t = createI18n(catalogs3, "zh-Hans");
+  assert.equal(t.script, "Hans");
+  assert.equal(t.zhLang, "zh-Hans");
+});
+
+test("zh-Hans reads its own catalogue and falls back to zh-Hant — never to English — and says so", () => {
+  const fell: string[] = [];
+  const t = createI18n(catalogs3, "zh-Hans", { onFallback: (k) => fell.push(k) });
+  assert.equal(t.t("common.app.name"), "中医自我评估");
+  assert.equal(t.t("only.zh"), "只有中文");
+  assert.deepEqual(fell, ["only.zh"]);
+  assert.equal(createI18n({ "zh-Hant": zh, en }, "zh-Hans").t("common.app.name"), "中醫自我評估", "no Simplified catalogue yet: the source language, reported");
+});
+
+test("zh() and localized() convert for display in zh-Hans only", () => {
+  const options = { zh: (s: string) => dictionary[s] ?? s };
+  assert.equal(createI18n(catalogs3, "zh-Hans", options).zh("腎"), "肾");
+  assert.equal(createI18n(catalogs3, "zh-Hans", options).zh("心"), "心", "unknown strings pass through");
+  assert.equal(createI18n(catalogs3, "zh-Hant", options).zh("腎"), "腎");
+  assert.equal(createI18n(catalogs3, "en", options).zh("腎"), "腎", "English shows Chinese terms as the data has them");
+  assert.deepEqual(createI18n(catalogs3, "zh-Hans", options).localized({ "zh-Hant": "脾氣虛", en: "Spleen qi deficiency" }), { text: "脾气虚", fellBack: false });
+  assert.deepEqual(createI18n(catalogs3, "en", options).localized({ "zh-Hant": "脾氣虛", en: null }), { text: "脾氣虛", fellBack: true });
+  assert.equal(createI18n(catalogs3, "zh-Hans").zh("腎"), "腎", "without a display function: the identity");
+});
+
+test("the display function is read at use, so it can arrive after the formatter is made", () => {
+  let fn: (s: string) => string = (s) => s;
+  const t = createI18n(catalogs3, "zh-Hans", { zh: (s) => fn(s) });
+  assert.equal(t.zh("腎"), "腎");
+  fn = (s) => dictionary[s] ?? s;
+  assert.equal(t.zh("腎"), "肾");
+});
+
+test("numbers and dates follow the mainland locale in zh-Hans", () => {
+  const t = createI18n(catalogs3, "zh-Hans");
+  assert.equal(t.number(1234.5), "1,234.5");
+  assert.match(t.date(Date.UTC(2026, 9, 4, 12), { year: "numeric", month: "long", day: "numeric" }), /2026年10月4日/);
 });

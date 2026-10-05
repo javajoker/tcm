@@ -5,6 +5,7 @@ import type { MessageKey } from "../../i18n/catalogs.ts";
 import { useLoadedOptional } from "../../app/knowledge.tsx";
 import { APP_BUILD, APP_PROFILE } from "../../app/profile.ts";
 import { useApp } from "../../app/store.tsx";
+import { LANGS } from "../../app/routing.ts";
 import { usePageTitle } from "../../app/usePageTitle.ts";
 import { TEXT_SCALES, THEMES } from "../../storage/types.ts";
 import { Button, Card, ConfirmDialog, LinkButton, SegmentedControl, Tile } from "../../ui/index.ts";
@@ -30,7 +31,7 @@ export function Settings(): ReactNode {
       <div style={{ display: "grid", gap: "var(--space-4)" }}>
         <Card title={t.t("common.settings.language")} headingLevel={2} id="settings-language">
           <SegmentedControl legend={t.t("common.settings.language")} hideLegend value={lang} onChange={setLang}
-            options={[{ value: "zh-Hant", label: <span lang="zh-Hant">{t.t("common.lang.name.zh-Hant")}</span> }, { value: "en", label: <span lang="en">{t.t("common.lang.name.en")}</span> }]} />
+            options={LANGS.map((l) => ({ value: l, label: <span lang={l}>{t.t(`common.lang.name.${l}`)}</span> }))} />
         </Card>
         <Card title={t.t("common.settings.theme")} headingLevel={2} id="settings-theme">
           <SegmentedControl legend={t.t("common.settings.theme")} hideLegend value={prefs.theme} onChange={(theme) => setPrefs({ theme })}

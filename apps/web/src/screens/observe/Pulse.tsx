@@ -89,7 +89,7 @@ function Form({ draft }: { draft: Draft }): ReactNode {
           <p className="muted">{t.t("observe.pulse.qualities.hint")}</p>
           {byGroup.map(({ group, items }) => (
             <CheckGroup key={group} legend={t.t(`observe.pulse.group.${group}` as MessageKey)} values={qualities} onChange={(next) => chooseQuality([...qualities.filter((q) => !items.some((p) => p.id === q)), ...next.filter((q) => items.some((p) => p.id === q))])}
-              options={items.map((p) => ({ value: p.id, label: <><span>{t.localized(p.name).text}</span> <span className="muted" lang="zh-Hant">{p.name["zh-Hant"]}</span></>, description: <span lang="zh-Hant">{p.feature}</span> }))} />
+              options={items.map((p) => ({ value: p.id, label: <><span>{t.localized(p.name).text}</span> <span className="muted" lang={t.zhLang}>{t.zh(p.name["zh-Hant"])}</span></>, description: <span lang={t.zhLang}>{t.zh(p.feature)}</span> }))} />
           ))}
           <p role="status" className="muted">{note}</p>
           {qualities.length > 0 ? <p>{t.t("safety.notice.pulseEducation.text")}</p> : null}

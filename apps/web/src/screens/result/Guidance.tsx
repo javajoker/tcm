@@ -10,7 +10,7 @@ import type { AcupointRecommendation, FoodRecommendation } from "@tcm/engine";
 /** A bilingual text of the knowledge base in the page language. */
 function useText(): (v: { readonly "zh-Hant": string; readonly en: string }) => ReactNode {
   const { t } = useI18n();
-  return (v) => { const l = t.localized(v); return <span lang={t.lang === "en" && !l.fellBack ? "en" : "zh-Hant"}>{l.text}</span>; };
+  return (v) => { const l = t.localized(v); return <span lang={t.lang === "en" && !l.fellBack ? "en" : t.zhLang}>{l.text}</span>; };
 }
 
 /** One diet entry: the food, its nature and flavours, a flag for pregnancy, and — folded — why it is suggested, with its basis, cautions and citations. */
@@ -24,7 +24,7 @@ export function FoodItem({ food }: { food: FoodRecommendation }): ReactNode {
       <Term zh={food.name} />
       {entry ? (
         <>
-          {" "}<Chip><span className="visually-hidden">{t.t("report.diet.nature")}: </span><span lang="zh-Hant">{entry.nature}{entry.flavors.length > 0 ? ` · ${entry.flavors.join("")}` : ""}</span></Chip>
+          {" "}<Chip><span className="visually-hidden">{t.t("report.diet.nature")}: </span><span lang={t.zhLang}>{t.zh(entry.nature)}{entry.flavors.length > 0 ? ` · ${entry.flavors.map((f) => t.zh(f)).join("")}` : ""}</span></Chip>
           {entry.pregnancy_caution ? <>{" "}<Chip tone="notice">{t.t("report.diet.pregnancy")}</Chip></> : null}
         </>
       ) : null}
@@ -35,7 +35,7 @@ export function FoodItem({ food }: { food: FoodRecommendation }): ReactNode {
           <p>{text(entry.rationale)}</p>
           {entry.cautions.length > 0 ? <><h5 style={{ margin: "var(--space-2) 0 var(--space-1)" }}>{t.t("report.diet.cautions")}</h5><ul>{entry.cautions.map((c, i) => <li key={i}>{text(c)}</li>)}</ul></> : null}
           <p className="muted">{t.t(`report.diet.basis.${entry.basis}` as MessageKey)}</p>
-          <p><CitationChips ids={entry.citations} usedFor={food.name} /></p>
+          <p><CitationChips ids={entry.citations} usedFor={t.zh(food.name)} /></p>
         </details>
       ) : null}
     </li>
@@ -50,7 +50,7 @@ export function PointItem({ point }: { point: AcupointRecommendation }): ReactNo
   const entry = kb.treatment.acupoints[point.name];
   return (
     <li>
-      <Term zh={point.name} /> <span className="muted">{t.t("report.points.meridian", { code: point.code, meridian: point.meridian })}</span>
+      <Term zh={point.name} /> <span className="muted">{t.t("report.points.meridian", { code: point.code, meridian: t.zh(point.meridian) })}</span>
       {entry?.pregnancy_avoid ? <>{" "}<Chip tone="notice">{t.t("report.points.pregnancy")}</Chip></> : null}
       {point.annotations.map((n) => <span key={n.ruleId} className="muted"> — {t.localized(n.message).text}</span>)}
       {entry ? (

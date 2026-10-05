@@ -90,6 +90,14 @@ function Allergies({ draft, change }: CardProps): ReactNode {
   const loaded = useLoadedOptional();
   const answer = draft.profile.allergies ?? null;
   const suggestions = loaded ? allergenSuggestions(loaded.kb, lang) : [];
+  // An allergy is matched by the safety rules against the names in the data, which are in the data's own script. What a person types or picks in the Simplified display script is turned back into
+  // that script before it is stored (when it names exactly one thing the data knows); what is stored is shown through `t.zh` again. Text that names nothing is kept as it was typed.
+  const toStored = (values: readonly string[], previous: readonly string[]): string[] => values.map((v) => {
+    const kept = previous.find((p) => t.zh(p) === v);
+    if (kept !== undefined) return kept;
+    const forms = loaded?.kb.traditional(v) ?? [v];
+    return forms.length === 1 ? forms[0]! : v;
+  });
   return (
     <>
       <ChoiceGroup legend={t.t("intake.profile.allergy.legend")} required inline value={answer}
@@ -97,8 +105,8 @@ function Allergies({ draft, change }: CardProps): ReactNode {
         onChange={(v) => change((d) => ({ ...d, subject: v === "some" ? d.subject : withoutKey(d.subject, "allergies"), profile: { ...d.profile, allergies: v as "none" | "some" } }))} />
       {answer === "some" ? (
         <TagInput label={t.t("intake.profile.allergy.label")} hint={t.t("intake.profile.allergy.hint")} addLabel={t.t("intake.profile.tag.add")}
-          removeLabel={(name) => t.t("intake.profile.tag.remove", { name })} values={draft.subject.allergies ?? []} suggestions={suggestions}
-          onChange={(values) => change((d) => ({ ...d, subject: { ...d.subject, allergies: values } }))} />
+          removeLabel={(name) => t.t("intake.profile.tag.remove", { name })} values={(draft.subject.allergies ?? []).map((a) => t.zh(a))} suggestions={suggestions}
+          onChange={(values) => change((d) => ({ ...d, subject: { ...d.subject, allergies: toStored(values, d.subject.allergies ?? []) } }))} />
       ) : null}
     </>
   );

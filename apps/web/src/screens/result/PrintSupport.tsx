@@ -38,7 +38,7 @@ export function PrintExtras({ saved }: { saved: SavedAssessment }): ReactNode {
       {cites.length > 0 ? (
         <section hidden className={styles.printOnly} aria-label={t.t("report.print.sources")}>
           <h2>{t.t("report.print.sources")}</h2>
-          <ol>{cites.map((c) => <li key={c.id} lang="zh-Hant">《{c.book}》{c.chapter}：{c.quote_zh_hant}</li>)}</ol>
+          <ol>{cites.map((c) => <li key={c.id} lang={t.zhLang}>《{t.zh(c.book)}》{t.zh(c.chapter)}：{t.zh(c.quote_zh_hant)}</li>)}</ol>
         </section>
       ) : null}
       <div className={styles.printFooter} aria-hidden="true">{t.t("report.print.footer")}</div>

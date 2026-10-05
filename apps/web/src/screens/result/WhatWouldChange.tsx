@@ -11,7 +11,7 @@ export function WhatWouldChange({ saved }: { saved: SavedAssessment }): ReactNod
   const { kb } = useLoaded();
   const items = saved.result.trace.filter((x): x is Extract<TraceItem, { kind: "whatWouldChange" }> => x.kind === "whatWouldChange");
   const name = (id: string): string => t.localized(kb.patternById.get(id)?.name ?? { "zh-Hant": id, en: null }).text;
-  const symptom = (id: string): string => { const s = kb.symptoms.get(id); return s ? (t.lang === "en" ? s.en : s["zh-Hant"]) : id; };
+  const symptom = (id: string): string => { const s = kb.symptoms.get(id); return s ? (t.lang === "en" ? s.en : t.zh(s["zh-Hant"])) : id; };
   return (
     <Card title={t.t("report.change.title")} id="sec-change">
       {items.length === 0 ? <p className="muted">{t.t("report.change.none")}</p> : (

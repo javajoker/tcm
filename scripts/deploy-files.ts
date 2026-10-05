@@ -9,7 +9,7 @@ export const cspHeader = (): string => [...CSP_DIRECTIVES, "frame-ancestors 'non
 
 export const IMMUTABLE = "public, max-age=31536000, immutable";
 /** Every language segment the host passes to the app: the canonical tags and the lower-case aliases the app redirects to the canonical form (app/routing.ts). Anything else is a 404. */
-export const LANGUAGE_SEGMENTS = ["zh-Hant", "en", "zh", "zh-tw", "zh-hk", "zh-hant", "en-us", "en-gb"] as const;
+export const LANGUAGE_SEGMENTS = ["zh-Hant", "zh-Hans", "en", "zh", "zh-tw", "zh-hk", "zh-hant", "zh-hans", "zh-cn", "zh-sg", "en-us", "en-gb"] as const;
 
 export interface HeadersInput {
   /** A dev build or a closed beta must not be indexed (check-release rule 8). */
@@ -63,6 +63,8 @@ export function notFoundPage(): string {
     <main>
       <h1>找不到這個頁面</h1>
       <p>網址可能有誤。<a href="/zh-Hant/">回到首頁</a></p>
+      <h1 lang="zh-Hans">找不到这个页面</h1>
+      <p lang="zh-Hans">网址可能有误。<a href="/zh-Hans/">回到首页</a></p>
       <h1 lang="en">We couldn't find that page</h1>
       <p lang="en">The address may be wrong. <a href="/en/">Back to the start</a></p>
     </main>

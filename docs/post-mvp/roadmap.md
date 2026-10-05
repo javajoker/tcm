@@ -156,6 +156,7 @@ Known and recorded, not new. Items that need people stay with the review track a
 | Hand-made Chinese city names, acupoint drawing placements and Wikisource second-source quotations are unreviewed | Review track |
 | English prose is a machine draft; classical-quotation translations are still to do | Review track (I-06, V-06) |
 | The astronomy tables were taken over from the source engine; regenerating them from the archive is open | PM-28 (needs a download approval) |
+| In a Traditional session, an allergy typed in Simplified (人参) is not matched, because the allergy rule matches names in the data's script; a Simplified session normalises on entry (built in PM-02) | PM-33 (Simplified aliases for the names an allergy can match) |
 | Offline retry in Safari's engine: a failed lazy-chunk fetch is remembered until reload, so the retry button does not recover there | Fixed by PM-04/PM-05 (precache removes the case) |
 
 ## 7. Risks specific to this period

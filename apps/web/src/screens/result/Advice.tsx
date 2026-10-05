@@ -23,7 +23,7 @@ function FormulaCard({ f, savedId, study }: { f: FormulaRecommendation; savedId:
   const { kb } = useLoaded();
   const rec = kb.formulas.get(f.id);
   if (!rec) return null;
-  const symptom = (id: string): string => { const s = kb.symptoms.get(id); return s ? (t.lang === "en" ? s.en : s["zh-Hant"]) : id; };
+  const symptom = (id: string): string => { const s = kb.symptoms.get(id); return s ? (t.lang === "en" ? s.en : t.zh(s["zh-Hant"])) : id; };
   const word = matchWord(f.fit.explained);
   const name = rec.name;
   return (
@@ -31,13 +31,13 @@ function FormulaCard({ f, savedId, study }: { f: FormulaRecommendation; savedId:
       <p style={{ margin: "0 0 var(--space-2)" }}>
         <Chip tone={study ? "notice" : "primary"}>{t.t("report.formula.tier", { tier: f.tier })}</Chip>{" "}
         <Chip>{t.t("report.formula.match")}: {t.t(`report.match.${word}` as MessageKey)}</Chip>{" "}
-        <span className="muted">{t.t("report.formula.source", { book: rec.source.book })}</span>
+        <span className="muted">{t.t("report.formula.source", { book: t.zh(rec.source.book) })}</span>
       </p>
       <p><Prose zh={rec.rationale_zh} en={rec.rationale_en} status={rec.en_status} /></p>
       <details>
         <summary style={{ minHeight: 44, display: "flex", alignItems: "center", cursor: "pointer" }}>{t.t("report.formula.composition")}</summary>
         <ul style={{ display: "flex", flexWrap: "wrap", gap: "var(--space-2)", listStyle: "none", padding: 0 }}>
-          {f.composition.map((r) => <li key={r.herb}><Chip><span lang="zh-Hant" title={t.t(`report.role.${ROLE_SLUG[r.role]}` as MessageKey)}>{r.role}</span> {t.localized(r.name).text}</Chip></li>)}
+          {f.composition.map((r) => <li key={r.herb}><Chip><span lang={t.zhLang} title={t.t(`report.role.${ROLE_SLUG[r.role]}` as MessageKey)}>{t.zh(r.role)}</span> {t.localized(r.name).text}</Chip></li>)}
         </ul>
         <p className="muted">{t.t("report.formula.explained", { pct: t.number(f.fit.explained, { style: "percent", maximumFractionDigits: 0 }) })}</p>
       </details>

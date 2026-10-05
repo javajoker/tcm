@@ -81,9 +81,9 @@ describe("language routing", () => {
     expect(document.title).toBe("We couldn't find that page · TCM Self-Check");
     expect(screen.getByRole("group", { name: "Language" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "EN" })).toHaveAttribute("aria-pressed", "true");
-    expect(screen.getByRole("button", { name: "中文" })).toHaveAttribute("aria-pressed", "false");
+    expect(screen.getByRole("button", { name: "繁體" })).toHaveAttribute("aria-pressed", "false");
     expect(document.activeElement).toBe(screen.getByRole("button", { name: "EN" }));          // language switch does not steal focus
-    await userEvent.click(screen.getByRole("button", { name: "中文" }));
+    await userEvent.click(screen.getByRole("button", { name: "繁體" }));
     expect(window.location.pathname).toBe("/zh-Hant/nothing");
     expect(document.documentElement.lang).toBe("zh-Hant");
   });

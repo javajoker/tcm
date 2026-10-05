@@ -183,4 +183,6 @@ export interface KnowledgeBase {
   readonly script: "Hant" | "Hans";
   /** A Chinese string of the data, for display: the identity in `Hant`, the Simplified form in `Hans`. Never use its result as an identifier. */
   zh(text: string): string;
+  /** What a person typed or picked in the display script, as the strings of the data it can stand for (the data's own script: the string itself). Use it before text meets a rule that matches by name. */
+  traditional(text: string): readonly string[];
 }

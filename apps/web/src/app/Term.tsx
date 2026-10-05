@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { useI18n } from "../i18n/I18nProvider.tsx";
 import { Tooltip } from "../ui/index.ts";
 import { useLoadedOptional } from "./knowledge.tsx";
 
@@ -8,13 +9,14 @@ import { useLoadedOptional } from "./knowledge.tsx";
  * `children` is the text to show (defaults to the Chinese term; pass the English rendering on English pages).
  */
 export function Term({ zh, children }: { zh: string; children?: ReactNode }): ReactNode {
+  const { t } = useI18n();
   const loaded = useLoadedOptional();
   const entry = loaded?.kb.term(zh);
-  const shown = children ?? <span lang="zh-Hant">{zh}</span>;
+  const shown = children ?? <span lang={t.zhLang}>{t.zh(zh)}</span>;
   if (!entry) return shown;
   return (
     <Tooltip trigger={shown}>
-      <span lang="zh-Hant">{entry["zh-Hant"]}</span>{" · "}<i>{entry.pinyin}</i>{" · "}<span lang="en">{entry.en}</span>
+      <span lang={t.zhLang}>{t.zh(entry["zh-Hant"])}</span>{" · "}<i>{entry.pinyin}</i>{" · "}<span lang="en">{entry.en}</span>
       {entry.note ? <><br /><span lang="en">{entry.note}</span></> : null}
     </Tooltip>
   );

@@ -21,7 +21,7 @@ export function Why({ saved }: { saved: SavedAssessment }): ReactNode {
   const symptom = (id: string): ReactNode => {
     const s = kb.symptoms.get(id);
     if (!s) return id;
-    return t.lang === "en" ? <>{s.en} <span className="muted" lang="zh-Hant">（{s["zh-Hant"]}）</span></> : <span lang="zh-Hant">{s["zh-Hant"]}</span>;
+    return t.lang === "en" ? <>{s.en} <span className="muted" lang={t.zhLang}>（{t.zh(s["zh-Hant"])}）</span></> : <span lang={t.zhLang}>{t.zh(s["zh-Hant"])}</span>;
   };
   const sev = (id: string): string | null => { const v = saved.input.findings[id]?.severity; return v ? t.t(`intake.severity.${v}` as MessageKey) : null; };
   const num = (n: number): string => t.number(n, { maximumFractionDigits: 2 });

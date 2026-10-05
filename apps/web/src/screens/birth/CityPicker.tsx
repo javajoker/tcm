@@ -7,7 +7,7 @@ import { namesOf, searchCities } from "./cities.ts";
 
 function Name({ city }: { city: City }): ReactNode {
   const { t } = useI18n();
-  const n = namesOf(city, t.lang);
+  const n = namesOf(city, t.lang, t.zh);
   return <><span lang={n.primaryLang}>{n.primary}</span>{n.secondary ? <span className="muted" lang={n.secondaryLang}> · {n.secondary}</span> : null}<span className="muted"> · {city.cc}</span></>;
 }
 
@@ -21,9 +21,9 @@ export function CityPicker({ cities, onChoose }: { cities: readonly City[]; onCh
   const [query, setQuery] = useState("");
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState(0);
-  const hits = useMemo(() => searchCities(cities, query), [cities, query]);
+  const hits = useMemo(() => searchCities(cities, query, 8, t.zh), [cities, query, t]);
   const shown = open && query.trim() !== "";
-  const choose = (c: City): void => { onChoose(c); const n = namesOf(c, t.lang); setQuery(n.primary); setOpen(false); };
+  const choose = (c: City): void => { onChoose(c); const n = namesOf(c, t.lang, t.zh); setQuery(n.primary); setOpen(false); };
   const onKey = (e: KeyboardEvent<HTMLInputElement>): void => {
     if (e.key === "ArrowDown") { e.preventDefault(); if (!shown) { setOpen(true); setActive(0); } else if (hits.length > 0) setActive((a) => (a + 1) % hits.length); }
     else if (e.key === "ArrowUp") { e.preventDefault(); setActive((a) => (hits.length === 0 ? 0 : (a + hits.length - 1) % hits.length)); }

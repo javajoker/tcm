@@ -34,7 +34,7 @@ function Body(): ReactNode {
     if (c.source_repo) e.sources.add(c.source_repo);
     books.set(c.book, e);
   }
-  const bookRows = [...books.entries()].sort(([a], [b]) => a.localeCompare(b, "zh-Hant")).map(([book, e]) => [<span key="b" lang="zh-Hant">《{book}》</span>, String(e.passages), String(e.verified), e.sources.size > 0 ? [...e.sources].join("; ") : t.t("common.sources.books.unknown")]);
+  const bookRows = [...books.entries()].sort(([a], [b]) => a.localeCompare(b, "zh-Hant")).map(([book, e]) => [<span key="b" lang={t.zhLang}>《{t.zh(book)}》</span>, String(e.passages), String(e.verified), e.sources.size > 0 ? [...e.sources].join("; ") : t.t("common.sources.books.unknown")]);
 
   return (
     <>

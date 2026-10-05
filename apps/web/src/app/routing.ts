@@ -2,11 +2,13 @@
 // and the switch keeps the route. Pure functions only; the React glue is in App.tsx.
 import type { Lang, PseudoMode } from "@tcm/i18n";
 
-export const LANGS: readonly Lang[] = ["zh-Hant", "en"];
+export const LANGS: readonly Lang[] = ["zh-Hant", "zh-Hans", "en"];
 export const DEFAULT_LANG: Lang = "zh-Hant";
 
+// `zh` stays Traditional (existing links keep their meaning, docs/post-mvp/design/simplified-chinese.md §5.3); the Simplified aliases are new.
 const ALIASES: Readonly<Record<string, Lang>> = {
   "zh-hant": "zh-Hant", "zh": "zh-Hant", "zh-tw": "zh-Hant", "zh-hk": "zh-Hant",
+  "zh-hans": "zh-Hans", "zh-cn": "zh-Hans", "zh-sg": "zh-Hans",
   "en": "en", "en-us": "en", "en-gb": "en",
 };
 
@@ -50,8 +52,16 @@ export function pathForLang(path: string, lang: Lang, search = "", hash = ""): s
   return `/${lang}${rest}${search === "" ? "" : search.startsWith("?") ? search : `?${search}`}${hash}`;
 }
 
-/** The language a browser prefers, for the one-time "View in English" offer only — never used to choose the language silently (i18n guide §1). */
-export function browserPrefersEnglish(languages: readonly string[]): boolean {
+/**
+ * The language worth offering to a browser, for the one-time offer only — never used to choose the language silently (i18n guide §1): English for a browser whose first language is English,
+ * Simplified Chinese for `zh-CN`, `zh-SG` and `zh-Hans…`. A bare `zh` and the Traditional regions need no offer: the app already opens in Traditional.
+ */
+export function languageOffer(languages: readonly string[]): "en" | "zh-Hans" | null {
   const first = languages[0]?.toLowerCase() ?? "";
-  return first.startsWith("en");
+  if (first.startsWith("en")) return "en";
+  if (first === "zh-cn" || first === "zh-sg" || first.startsWith("zh-hans")) return "zh-Hans";
+  return null;
 }
+
+/** Kept for callers that only ask about English. */
+export const browserPrefersEnglish = (languages: readonly string[]): boolean => languageOffer(languages) === "en";

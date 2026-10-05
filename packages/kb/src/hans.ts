@@ -44,16 +44,37 @@ export function parseAligned(list: readonly string[], text: string): Map<string,
   return new Map(list.map((s, i) => [s, lines[i] === "" ? s : lines[i]!]));
 }
 
+export interface Display {
+  add(list: readonly string[], text: string): void;
+  /** Traditional → Simplified, for display. */
+  zh(text: string): string;
+  /**
+   * The strings of the data whose Simplified form is `text`, for turning what a person typed or picked back into the data's own script (an allergy, which the safety rules match by name). `text` itself
+   * is returned when nothing matches, and always comes last when it also names something: a string the person typed in Traditional stays what it is.
+   */
+  traditional(text: string): readonly string[];
+}
+
 /** The display function of a session: Traditional → Simplified through the verified lists added so far; anything else is returned as it is (and reported when it is Chinese). */
-export function newDisplay(report?: (text: string) => void): { add(list: readonly string[], text: string): void; zh(text: string): string } {
+export function newDisplay(report?: (text: string) => void): Display {
   const map = new Map<string, string>();
+  const back = new Map<string, string[]>();
   return {
-    add(list, text) { for (const [k, v] of parseAligned(list, text)) map.set(k, v); },
+    add(list, text) {
+      for (const [k, v] of parseAligned(list, text)) {
+        map.set(k, v);
+        if (v !== k) { const forms = back.get(v); if (forms === undefined) back.set(v, [k]); else if (!forms.includes(k)) forms.push(k); }
+      }
+    },
     zh(text) {
       const t = map.get(text);
       if (t !== undefined) return t;
       if (report !== undefined && CJK.test(text)) report(text);
       return text;
+    },
+    traditional(text) {
+      const forms = back.get(text);
+      return forms === undefined ? [text] : map.has(text) && !forms.includes(text) ? [...forms, text] : forms;
     },
   };
 }

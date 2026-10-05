@@ -29,4 +29,7 @@ const en = { ...enCommon, ...enIntake, ...enInquiry, ...enObserve, ...enConstitu
 
 export type MessageKey = keyof typeof zhHant;
 
+/** The generated Simplified catalogue, fetched on demand (its own chunk). */
+export const loadHansCatalog = (): Promise<Readonly<Partial<Record<MessageKey, Message>>>> => import("./hans.ts").then((m) => m.default);
+
 export const catalogs: { readonly "zh-Hant": Readonly<Record<MessageKey, Message>>; readonly en: Readonly<Partial<Record<MessageKey, Message>>> } = { "zh-Hant": zhHant as Record<MessageKey, Message>, en };

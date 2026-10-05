@@ -9,7 +9,7 @@ export function ConflictCard({ kb, conflict, onResolve }: { kb: KnowledgeBase; c
   const { t } = useI18n();
   const [keep, setKeep] = useState<string | null>(null);
   const group = kb.exclusions.groups.find((g) => g.id === conflict.group);
-  const name = (id: string): string => kb.symptoms.get(id)?.["zh-Hant"] ?? id;
+  const name = (id: string): string => { const s = kb.symptoms.get(id); return s ? kb.zh(s["zh-Hant"]) : id; };
   const choices = [...conflict.symptoms.map((s) => ({ value: s, label: t.t("intake.inquiry.conflict.only", { symptom: name(s) }) })), ...(conflict.kind === "conflict" ? [{ value: "both", label: t.t("intake.inquiry.conflict.both") }] : [])];
   return (
     <Card title={t.t("intake.inquiry.conflict.title")} headingLevel={2}>

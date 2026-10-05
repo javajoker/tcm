@@ -106,6 +106,7 @@ describe("the generators", () => {
     assert.ok(!/<script|style=|<style/.test(page), "the CSP allows neither inline script nor style");
     assert.match(page, /找不到這個頁面/);
     assert.match(page, /We couldn't find that page/);
+    assert.match(page, /找不到这个页面/);
   });
 
   test("the pseudo-locales fall back to the app in the dev build only", () => {

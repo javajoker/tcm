@@ -68,6 +68,14 @@
   },
   "exact": {},
   "keys": {
+    "common.lang.zh-Hant": {
+      "to": "繁體",
+      "reason": "each language is named in its own script in the language switch"
+    },
+    "common.lang.zh-Hans": {
+      "to": "简体",
+      "reason": "each language is named in its own script in the language switch"
+    },
     "common.lang.name.zh-Hant": {
       "to": "繁體中文",
       "reason": "each language is named in its own script in the language switch"

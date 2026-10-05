@@ -7,7 +7,9 @@ body {
 }
 :lang(en) { font-family: var(--font-sans-en); line-height: 1.5; }
 :lang(zh-Hant) { font-family: var(--font-sans-zh); line-height: 1.75; }
+:lang(zh-Hans) { font-family: var(--font-sans-hans); line-height: 1.75; }   /* Simplified system fonts; the lang attribute also selects the regional glyph forms (docs/post-mvp/design/simplified-chinese.md §5.7) */
 [lang="zh-Hant"].quote, .quote { font-family: var(--font-serif-zh); font-size: 1.05em; line-height: 1.9; }
+[lang="zh-Hans"].quote { font-family: var(--font-serif-hans); }
 h1, h2, h3 { line-height: 1.3; margin: 0 0 var(--space-3); font-weight: 650; }
 h1 { font-size: 1.75rem; } h2 { font-size: 1.375rem; } h3 { font-size: 1.125rem; }
 p { margin: 0 0 var(--space-3); max-width: var(--measure); }

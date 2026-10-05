@@ -1,6 +1,6 @@
 import { lazy, Suspense, useCallback, type ReactNode } from "react";
 import { Redirect, Route, Router, Switch, useLocation, useSearch } from "wouter";
-import type { Lang } from "@tcm/i18n";
+import { scriptOf, type Lang } from "@tcm/i18n";
 import { I18nProvider } from "../i18n/I18nProvider.tsx";
 import { AppShell } from "./AppShell.tsx";
 import { ErrorBoundary } from "./ErrorBoundary.tsx";
@@ -82,7 +82,9 @@ function Screens(): ReactNode {
  * `/zh`, `/en-US`… are redirected to the canonical tag; anything else is a not-found screen in the default language.
  */
 export function App({ load }: { load?: Loader }): ReactNode {
-  return <KnowledgeProvider {...(load ? { load } : {})}><LanguageRoutes /></KnowledgeProvider>;
+  const [location] = useLocation();
+  const script = scriptOf(splitLangPath(location).lang ?? DEFAULT_LANG);
+  return <KnowledgeProvider script={script} {...(load ? { load } : {})}><LanguageRoutes /></KnowledgeProvider>;
 }
 
 function LanguageRoutes(): ReactNode {

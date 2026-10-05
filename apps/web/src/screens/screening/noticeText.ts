@@ -38,6 +38,6 @@ export function noticeParams(c: NoticeContext, n: Pick<NoticeRequest, "id" | "re
     emergency_number: emergencyNumberText(kb, c.region, t.t("safety.emergency.local")),
     class: list(t, n.reasons.map((m) => t.t(`intake.profile.meds.${m}` as MessageKey))),
     removed_or_marked: t.t(c.enforcement === "suppress_hard" ? "safety.value.removed" : "safety.value.marked"),
-    allergen: list(t, c.allergies),
+    allergen: list(t, c.allergies.map((a) => t.zh(a))),
   };
 }

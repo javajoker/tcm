@@ -43,7 +43,7 @@ export function buildSummary(saved: SavedAssessment, kb: KnowledgeBase, t: T): S
   const meds = i.profile.medications === "unsure" ? k("intake.review.value.unsure") : classes.length === 0 ? none
     : [...new Set(classes)].map((c) => k(`intake.profile.meds.${c}`)).concat(i.profile.medicationText.length > 0 ? [k("intake.review.value.otherNamed", { names: i.profile.medicationText.join(listSep) })] : []).join(listSep);
   void MED_CLASSES;
-  const allergies = i.profile.allergies === "some" && (s.allergies ?? []).length > 0 ? (s.allergies ?? []).join(listSep) : none;
+  const allergies = i.profile.allergies === "some" && (s.allergies ?? []).length > 0 ? (s.allergies ?? []).map((a) => t.zh(a)).join(listSep) : none;
   out.push({ id: "meds", title: k("report.pract.medsAllergies"), prominent: true, facts: [[k("intake.review.about.medications"), meds], [k("intake.review.about.allergies"), allergies]] });
 
   // reported symptoms (inquiry) and observations (tongue, pulse), with quality classes
@@ -54,7 +54,7 @@ export function buildSummary(saved: SavedAssessment, kb: KnowledgeBase, t: T): S
     if (f.state !== "present") continue;
     const sym = kb.symptoms.get(id);
     if (!sym) continue;
-    const name = t.lang === "en" ? sym.en : sym["zh-Hant"];
+    const name = t.lang === "en" ? sym.en : t.zh(sym["zh-Hant"]);
     const sev = f.severity ? ` — ${k(`intake.severity.${f.severity}`)}` : "";
     const src = sourceOf(kb, id, f.source);
     const line = `${name}${sev}${src === "inquiry" ? "" : ` [${k(`report.pract.quality.${src}`)}]`}`;
@@ -81,7 +81,7 @@ export function buildSummary(saved: SavedAssessment, kb: KnowledgeBase, t: T): S
   out.push({ id: "hypotheses", title: k("report.pract.hypotheses"), items: hypotheses });
   const change = a.trace.filter((x): x is Extract<TraceItem, { kind: "whatWouldChange" }> => x.kind === "whatWouldChange");
   const pname = (id: string): string => t.localized(kb.patternById.get(id)?.name ?? { "zh-Hant": id, en: null }).text;
-  const sname = (id: string): string => { const x = kb.symptoms.get(id); return x ? (t.lang === "en" ? x.en : x["zh-Hant"]) : id; };
+  const sname = (id: string): string => { const x = kb.symptoms.get(id); return x ? (t.lang === "en" ? x.en : t.zh(x["zh-Hant"])) : id; };
   if (change.length > 0) out.push({ id: "change", title: k("report.pract.change"), items: change.map((c) => k("report.change.item", { symptoms: c.ifSymptoms.map(sname).join(listSep), lean: pname(c.shiftsTo), over: pname(c.over) })) });
 
   // acknowledged notices (titles only)

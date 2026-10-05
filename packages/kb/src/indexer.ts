@@ -18,7 +18,7 @@ function toMap<T extends { readonly id: string }>(items: readonly T[], what: str
  * feeds it what the loader fetched. It checks only what the app depends on at run time (identity, a few references); the full validation
  * is done by the Python build (`scripts/kb/validate_kb.py`) and the bundler.
  */
-export function indexKnowledgeBase(raw: RawKbChunks, display?: { zh(text: string): string }): KnowledgeBase {
+export function indexKnowledgeBase(raw: RawKbChunks, display?: { zh(text: string): string; traditional(text: string): readonly string[] }): KnowledgeBase {
   if (raw.schemaVersion !== SUPPORTED_SCHEMA_VERSION || raw.core.params._meta.schema !== SUPPORTED_SCHEMA_VERSION) {
     throw new KbError("schema-mismatch", `knowledge base schema ${raw.schemaVersion} is not supported (expected ${SUPPORTED_SCHEMA_VERSION})`);
   }
@@ -97,5 +97,6 @@ export function indexKnowledgeBase(raw: RawKbChunks, display?: { zh(text: string
     term: (zh) => terms.get(zh),
     script: display ? "Hans" : "Hant",
     zh: display ? (text) => display.zh(text) : (text) => text,
+    traditional: display ? (text) => display.traditional(text) : (text) => [text],
   };
 }

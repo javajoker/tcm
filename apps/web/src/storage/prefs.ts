@@ -12,7 +12,7 @@ export function parsePrefs(raw: string | null): Prefs {
   if (!isRecord(x)) return DEFAULT_PREFS;
   const ack = x["disclaimerAck"];
   return {
-    ...(x["lang"] === "zh-Hant" || x["lang"] === "en" ? { lang: x["lang"] } : {}),
+    ...(x["lang"] === "zh-Hant" || x["lang"] === "zh-Hans" || x["lang"] === "en" ? { lang: x["lang"] } : {}),
     theme: (THEMES as readonly unknown[]).includes(x["theme"]) ? (x["theme"] as Prefs["theme"]) : DEFAULT_PREFS.theme,
     textScale: (TEXT_SCALES as readonly unknown[]).includes(x["textScale"]) ? (x["textScale"] as Prefs["textScale"]) : DEFAULT_PREFS.textScale,
     ...(isRecord(ack) && typeof ack["version"] === "string" && typeof ack["at"] === "number" ? { disclaimerAck: { version: ack["version"], at: ack["at"] } } : {}),

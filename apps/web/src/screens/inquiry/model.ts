@@ -119,7 +119,7 @@ export function recorded(kb: KnowledgeBase, d: Draft): { dimension: string; symp
     const sym = kb.symptoms.get(id);
     if (!sym) continue;
     const list = byDim.get(sym.dimension) ?? [];
-    list.push({ id, text: sym["zh-Hant"], ...(f.severity ? { severity: f.severity } : {}) });
+    list.push({ id, text: kb.zh(sym["zh-Hant"]), ...(f.severity ? { severity: f.severity } : {}) });
     byDim.set(sym.dimension, list);
   }
   return [...byDim.entries()].sort(([a], [b]) => a.localeCompare(b)).map(([dimension, symptoms]) => ({ dimension, symptoms }));

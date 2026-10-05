@@ -29,6 +29,7 @@ Acceptance:
 7. Lazy cost only: initial JavaScript changes by at most 1 KB; a Simplified session downloads, besides what a Traditional one does, the Simplified catalogue (≈ 19 KB gzip) and the display dictionary (≈ 24 KB gzip, a budget of 30), so it costs at most about 50 KB more; other sessions add nothing.
 8. The emergency numbers do not depend on the language: they follow the region rules of FR-29 (a chosen region or a time-zone match, never the language), so a Simplified-Chinese reader sees the generic "use your local emergency number" text until a region applies.
 9. The build carries the draft label until the linguistic review (Mainland usage) and the legal review of the notices are recorded.
+10. **An allergy is matched whichever script it was typed in.** In a Simplified session what is picked or typed is turned back into the data's own string before it is stored (built), and the names an allergy can match also carry their Simplified forms as aliases so that the rule matches in every session (PM-33).
 
 ### FR-22 Offline use and installation — Release A · Class N · refines TQ6, [E15](../test-plan.md#5-application-tests)
 

@@ -37,7 +37,7 @@ Landing ─► Start (profile, birth*) ─► Safety screening ─► Inquiry �
                                                                              * optional, skippable as a whole
 ```
 
-- **Top bar** (all screens): app name / home · progress label (during the flow) · **language toggle** (中文 / EN) · menu (History, Sources, Settings).
+- **Top bar** (all screens): app name / home · progress label (during the flow) · **language toggle** (繁體 / 简体 / EN, each in its own script) · menu (History, Sources, Settings).
 - **Progress**: phones show a compact label "3 / 6 · Inquiry" with a thin bar; tablet/desktop show a stepper with the six stages. Inquiry progress is **coverage-based** (the number of questions is adaptive): "about N questions left", never a fixed percentage that moves backwards.
 - **Footer** (all screens): a permanent one-line disclaimer ("Educational reference — not a medical diagnosis") and links (Privacy, Sources, Version).
 - **Back** always works and never loses an answer; **Save & exit** is available in the flow and returns to the Landing with a "Resume" card.
@@ -342,7 +342,7 @@ List of books used with licence and review status; per-record provenance for pat
 | Component | Responsibility | Key states / a11y |
 |---|---|---|
 | `AppShell` | Top bar, progress, footer, landmarks, skip link | `header/main/footer`, skip to content, focus to `h1` on route change |
-| `LanguageToggle` | zh-Hant ⇄ en, keeps route/state | `lang` update, `aria-pressed`, 44 px target |
+| `LanguageToggle` | zh-Hant ⇄ zh-Hans ⇄ en, keeps route/state | `lang` update, `aria-pressed`, 44 px target |
 | `Stepper` / `ProgressLabel` | Stage and coverage progress | `aria-current="step"`; text label always |
 | `NoticeScreen` | Blocking notice, focus trap, one acknowledge action | `role="alertdialog"`; initial focus on the heading; Esc does **not** dismiss |
 | `InlineNotice` | Banner kinds: emergency / caution / info | Icon + text + colour; dismissible only for info |

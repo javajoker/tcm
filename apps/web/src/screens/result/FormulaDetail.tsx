@@ -41,7 +41,7 @@ function Detail({ saved, rec, formula, kb }: { saved: SavedAssessment; rec: Form
   const { t } = useI18n();
   const policy = saved.result.policy;
   const herb = (id: string): string => { const n = kb.herbName(id)?.name; return n ? t.localized(n).text : id; };
-  const symptom = (id: string): string => { const s = kb.symptoms.get(id); return s ? (t.lang === "en" ? s.en : s["zh-Hant"]) : id; };
+  const symptom = (id: string): string => { const s = kb.symptoms.get(id); return s ? (t.lang === "en" ? s.en : t.zh(s["zh-Hant"])) : id; };
   const word = t.t(`report.match.${matchWord(rec.fit.explained)}` as MessageKey);
   const showAmounts = policy.features.dosage && rec.composition.some((r) => r.typicalG !== undefined || r.classicalAmount !== undefined);
   const pct = (v: number): string => t.number(v, { style: "percent", maximumFractionDigits: 0 });
@@ -57,7 +57,7 @@ function Detail({ saved, rec, formula, kb }: { saved: SavedAssessment; rec: Form
         <Chip tone={rec.studyOnly ? "notice" : "primary"}>{t.t("formula.tier.title", { tier: rec.tier })}</Chip>{" "}
         <span>{t.t(`formula.tier.${rec.tier}` as MessageKey)}</span>
       </p>
-      <p className="muted">{t.t("formula.source", { book: formula.source.book, school: t.t(`formula.school.${SCHOOL_SLUG[formula.school as keyof typeof SCHOOL_SLUG] ?? "shifang"}` as MessageKey) })} <CitationChip id={formula.source.ref} usedFor={t.localized(formula.name).text} /></p>
+      <p className="muted">{t.t("formula.source", { book: t.zh(formula.source.book), school: t.t(`formula.school.${SCHOOL_SLUG[formula.school as keyof typeof SCHOOL_SLUG] ?? "shifang"}` as MessageKey) })} <CitationChip id={formula.source.ref} usedFor={t.localized(formula.name).text} /></p>
       <Card title={t.t("formula.verification.title")} headingLevel={2} id="formula-verification">
         <p>✓ {t.t(`formula.verification.${verification}` as MessageKey)}</p>
         <p className="muted">{t.t("formula.verification.proportion")}</p>
@@ -68,7 +68,7 @@ function Detail({ saved, rec, formula, kb }: { saved: SavedAssessment; rec: Form
         <Card title={t.t("formula.composition.title")} headingLevel={2} id="formula-composition">
           <DataTable caption={t.t("formula.composition.caption")} head={[t.t("formula.composition.col.role"), t.t("formula.composition.col.herb"), t.t("formula.composition.col.share"), ...(showAmounts ? [t.t("formula.composition.col.amount")] : [])]}
             rows={rec.composition.map((r) => [
-              <span key="r"><span lang="zh-Hant">{r.role}</span> <span className="muted">{t.t(`report.role.${ROLE_SLUG[r.role]}` as MessageKey)}</span></span>,
+              <span key="r"><span lang={t.zhLang}>{t.zh(r.role)}</span> <span className="muted">{t.t(`report.role.${ROLE_SLUG[r.role]}` as MessageKey)}</span></span>,
               <BilingualName key="h" v={r.name} />,
               <span key="s" style={{ display: "inline-flex", alignItems: "center", gap: "var(--space-2)" }}><span aria-hidden="true" style={{ display: "inline-block", width: `${Math.round(r.proportion * 120)}px`, height: 8, background: "var(--scale-6)", borderRadius: 4 }} />{pct(r.proportion)}</span>,
               ...(showAmounts ? [r.typicalG !== undefined ? t.t("formula.composition.amount.g", { g: r.typicalG }) : r.classicalAmount ? t.t("formula.composition.amount.classical", { value: r.classicalAmount.value, unit: t.t(`formula.composition.unit.${UNIT_ID[r.classicalAmount.unit]}` as MessageKey) }) : "—"] : []),
@@ -109,7 +109,7 @@ function Detail({ saved, rec, formula, kb }: { saved: SavedAssessment; rec: Form
                     <li key={m.id}>{t.t("formula.modification.classicalItem", {
                       symptoms: m.matched.map(symptom).join(t.lang === "en" ? ", " : "、"),
                       change: [m.add.length > 0 ? t.t("formula.modification.add", { herbs: m.add.map((a) => herb(a.herb)).join("、") }) : "", m.remove.length > 0 ? t.t("formula.modification.remove", { herbs: m.remove.map((a) => herb(a.herb)).join("、") }) : ""].filter(Boolean).join("; "),
-                      name: m.resultName, book: m.source.book })}</li>
+                      name: t.zh(m.resultName), book: t.zh(m.source.book) })}</li>
                   ))}
                 </ul>
               </section>

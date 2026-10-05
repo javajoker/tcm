@@ -21,7 +21,7 @@ export function reviewGroups(kb: KnowledgeBase, d: Draft): ReviewGroup[] {
     if (!sym) continue;
     const src = sourceOf(kb, id, f.source);
     const list = by.get(sym.dimension) ?? [];
-    list.push({ symptomId: id, text: sym["zh-Hant"], ...(f.severity ? { severity: f.severity } : {}), selfObserved: src === "guided" || src === "pulse", questionId: questionOf(kb, id)?.id ?? null });
+    list.push({ symptomId: id, text: kb.zh(sym["zh-Hant"]), ...(f.severity ? { severity: f.severity } : {}), selfObserved: src === "guided" || src === "pulse", questionId: questionOf(kb, id)?.id ?? null });
     by.set(sym.dimension, list);
   }
   const rank = (dim: string): number => { const i = (DIMENSION_ORDER as readonly string[]).indexOf(dim); return i < 0 ? 99 : i; };

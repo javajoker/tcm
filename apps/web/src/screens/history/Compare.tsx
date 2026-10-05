@@ -19,7 +19,7 @@ export function CompareView({ a, b, onBack }: { a: SavedAssessment; b: SavedAsse
   const c = compare(a, b);
   const num = (v: number): string => signed(v, (n) => t.number(n, { maximumFractionDigits: 1, minimumFractionDigits: 1 }));
   const pattern = (id: string | null): ReactNode => { const p = id ? kb.patternById.get(id) : undefined; return p ? <BilingualName v={p.name} /> : "—"; };
-  const symptom = (id: string): string => { const s = kb.symptoms.get(id); return s ? (lang === "en" ? s.en : s["zh-Hant"]) : id; };
+  const symptom = (id: string): string => { const s = kb.symptoms.get(id); return s ? (lang === "en" ? s.en : kb.zh(s["zh-Hant"])) : id; };
   const sev = (v: string | null): string => (v ? t.t(`intake.severity.${v}` as MessageKey) : "—");
   const list = (ids: readonly string[]): string => ids.map(symptom).join(lang === "en" ? ", " : "、");
   const head = (which: "earlier" | "later"): string => `${t.t(`report.compare.${which}`)}: ${formatLocal(lang, c[which].createdAt)}`;

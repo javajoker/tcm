@@ -14,13 +14,13 @@
 
 | Item | Decision |
 |---|---|
-| UI languages | **Traditional Chinese (`zh-Hant`, Taiwan wording) — default**; **English (`en`)** |
-| Not in MVP | Simplified Chinese UI (data is converted *from* Simplified sources; no Simplified output), other languages |
-| Fallback | `en` → `zh-Hant` (never the reverse); a fall-back is **marked** in the UI (UX spec §9 rule 7) |
-| Default language | `zh-Hant` for everyone, regardless of browser settings. If the browser language is English and the user has not chosen, show a one-time, dismissible "View in English" offer |
+| UI languages | **Traditional Chinese (`zh-Hant`, Taiwan wording) — default**; **English (`en`)**; **Simplified Chinese (`zh-Hans`, Mainland usage)** — post-MVP, *derived* from `zh-Hant` ([design](post-mvp/design/simplified-chinese.md)) and offered only under the draft label until the linguistic and legal reviews are recorded |
+| Not planned | Other languages. The English interface shows Chinese terms in Traditional script |
+| Fallback | `en` → `zh-Hant` and `zh-Hans` → `zh-Hant` (never to English, never the reverse); a fall-back is **marked** in the UI (UX spec §9 rule 7) |
+| Default language | `zh-Hant` for everyone, regardless of browser settings. If the browser language is English (or `zh-CN`, `zh-SG`, `zh-Hans`) and the user has not chosen, show a one-time, dismissible offer in that language; a bare `zh` and the Traditional regions get none |
 | What is localised | UI strings · knowledge-base display text (names, rationale, cautions, messages) · notices (safety policy) · numbers, dates, units |
 | What is *not* translated | Classical quotations (shown in original Traditional script; an English rendering is attached and labelled as a translation) · herb Latin names · acupoint WHO codes · Pinyin |
-| URL | Language is the first path segment (`/zh-Hant/…`, `/en/…`); `<html lang>` follows it |
+| URL | Language is the first path segment (`/zh-Hant/…`, `/zh-Hans/…`, `/en/…`); `<html lang>` follows it. `zh` is an alias of `zh-Hant`; `zh-cn`, `zh-hans` and `zh-sg` are aliases of `zh-Hans` |
 
 ---
 

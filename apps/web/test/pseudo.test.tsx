@@ -42,7 +42,7 @@ describe.runIf(IS_DEV_PROFILE)("pseudo-locales (dev profile only)", () => {
   it("navigation keeps the pseudo-locale, and a plain language switch leaves it", async () => {
     start("/en-XA/");
     await screen.findByRole("heading", { level: 1 });
-    await userEvent.click(screen.getByRole("button", { name: /中文/ }));
+    await userEvent.click(screen.getByRole("button", { name: /繁體/ }));
     expect(window.location.pathname).toBe("/zh-Hant/");
     expect(document.documentElement.dataset.pseudo).toBeUndefined();
   });

@@ -33,7 +33,7 @@ function CategoryStep({ category, draft, multi, swatches }: { category: TongueCa
   const groups = kb.exclusions.groups.filter((g) => g.kind === "exclusive" && g.symptoms.some((s) => features.some((f) => f.id === s))).map((g) => g.symptoms as readonly string[]);
   const value = state.answered === "normal" ? [NORMAL] : state.answered === "unsure" ? [UNSURE] : state.chosen;
   const options = [
-    ...features.map((f) => ({ value: f.id, label: <>{swatches && SWATCH[f.id] ? <Swatch color={SWATCH[f.id]!} /> : null}<span>{t.localized(f.name).text}</span> <span className="muted" lang="zh-Hant">{f.name["zh-Hant"]}</span></> })),
+    ...features.map((f) => ({ value: f.id, label: <>{swatches && SWATCH[f.id] ? <Swatch color={SWATCH[f.id]!} /> : null}<span>{t.localized(f.name).text}</span> <span className="muted" lang={t.zhLang}>{t.zh(f.name["zh-Hant"])}</span></> })),
     { value: NORMAL, label: t.t(`observe.tongue.${category}.normal` as MessageKey) },
     { value: UNSURE, label: t.t("observe.notSure") },
   ];
@@ -75,7 +75,7 @@ function ZonesStep({ draft }: { draft: Draft }): ReactNode {
     if (feats.length === 0) return null;
     return (
       <CheckGroup key={zone} legend={t.t(`observe.tongue.zone.${zone}` as MessageKey)} values={chosen(zone)}
-        options={feats.map((f) => ({ value: f.id, label: <><span>{t.localized(f.name).text}</span> <span className="muted" lang="zh-Hant">{f.name["zh-Hant"]}</span></> }))}
+        options={feats.map((f) => ({ value: f.id, label: <><span>{t.localized(f.name).text}</span> <span className="muted" lang={t.zhLang}>{t.zh(f.name["zh-Hant"])}</span></> }))}
         onChange={(next) => { const cur = chosen(zone); for (const id of next.filter((x) => !cur.includes(x))) updateDraft((d) => setSign(d, id, true)); for (const id of cur.filter((x) => !next.includes(x))) updateDraft((d) => setSign(d, id, false)); }} />
     );
   };

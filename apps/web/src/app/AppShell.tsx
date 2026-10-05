@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import { Link } from "wouter";
 import { useI18n } from "../i18n/I18nProvider.tsx";
 import { APP_BUILD, APP_PROFILE, IS_DEV_PROFILE } from "./profile.ts";
-import { EnglishOffer } from "./EnglishOffer.tsx";
+import { LanguageOffer } from "./LanguageOffer.tsx";
 import { LanguageToggle } from "./LanguageToggle.tsx";
 import { NotSavedChip } from "./NotSavedChip.tsx";
 import styles from "./AppShell.module.css";
@@ -27,7 +27,7 @@ export function AppShell({ children }: { children: ReactNode }): ReactNode {
           </nav>
           <LanguageToggle />
         </div>
-        <EnglishOffer />
+        <LanguageOffer />
       </header>
       <main id="main" className={styles.main} tabIndex={-1}>{children}</main>
       <footer className={styles.footer}>
