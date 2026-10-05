@@ -66,7 +66,13 @@ export async function smoke(baseUrl: string, opts: SmokeOptions = {}): Promise<s
     need(r.headers.get("cache-control") === IMMUTABLE, `/kb/${ref.file}: cache-control ${r.headers.get("cache-control")}, expected ${IMMUTABLE}`);
   }
 
-  // 5. hashed assets are immutable; the root files exist
+  // 5. the service worker is served as a script and never cached by the host or the browser's HTTP cache: a worker that is cached is a worker that cannot be replaced
+  const worker = await get("/sw.js");
+  need(worker.status === 200 && /javascript/.test(worker.headers.get("content-type") ?? ""), `/sw.js: status ${worker.status}, content-type ${worker.headers.get("content-type")} (expected 200 and a script)`);
+  need(worker.headers.get("cache-control") === "no-cache", `/sw.js: cache-control ${worker.headers.get("cache-control")}, expected no-cache`);
+  need(/worker-src 'self'/.test(worker.headers.get("content-security-policy") ?? ""), "/sw.js: the Content-Security-Policy does not name worker-src");
+
+  // 6. hashed assets are immutable; the root files exist
   const html = await (await get("/en/")).text();
   const asset = /(?:src|href)="(\/assets\/[^"]+)"/.exec(html)?.[1];
   if (asset === undefined) out.push("/en/: no hashed asset is referenced");

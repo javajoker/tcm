@@ -77,6 +77,10 @@ describe("the smoke test fails on damage, with the reason", () => {
     assert.match((await run(mutable, { noindex: true })).join("\n"), /\/kb\/core\.[0-9a-f]+\.json: cache-control no-cache/);
     const tampered = damaged(beta, (d) => { const f = readdirSync(join(d, "kb")).find((x) => x.startsWith("citations."))!; writeFileSync(join(d, "kb", f), "{}"); });
     assert.match((await run(tampered, { noindex: true })).join("\n"), /\(citations\): the content does not match the manifest hash/);
+    const cachedWorker = damaged(beta, (d) => edit(d, "_headers", (s) => s.replace("/sw.js\n  Cache-Control: no-cache", "/sw.js\n  Cache-Control: public, max-age=86400")));
+    assert.match((await run(cachedWorker, { noindex: true })).join("\n"), /\/sw\.js: cache-control public, max-age=86400, expected no-cache/);
+    const noWorker = damaged(beta, (d) => rmSync(join(d, "sw.js")));
+    assert.match((await run(noWorker, { noindex: true })).join("\n"), /\/sw\.js: status 404/);
     const stale = damaged(beta, (d) => edit(d, ".well-known/security.txt", (s) => s.replace(/Expires:.*/, "Expires: 2020-01-01T00:00:00Z")));
     assert.match((await run(stale, { noindex: true })).join("\n"), /security\.txt has expired/);
   });
@@ -95,7 +99,8 @@ describe("the generators", () => {
     assert.ok(!star.headers.some(([k]) => k.toLowerCase() === "cache-control"));
     assert.ok(!star.headers.some(([k]) => k === "X-Robots-Tag"));
     const cached = rules.filter((r) => r.headers.some(([k]) => k === "Cache-Control")).map((r) => r.pattern);
-    assert.deepEqual(cached, ["/assets/*", "/kb/core.aaaa.json", "/kb/formulas.bbbb.json", "/kb/manifest.json"]);
+    assert.deepEqual(cached, ["/assets/*", "/sw.js", "/kb/core.aaaa.json", "/kb/formulas.bbbb.json", "/kb/manifest.json"]);
+    assert.deepEqual(rules.find((r) => r.pattern === "/sw.js")!.headers, [["Cache-Control", "no-cache"]]);
     assert.ok(parseHeaders(headersFile({ noindex: true, kbChunks: [] })).find((r) => r.pattern === "/*")!.headers.some(([k]) => k === "X-Robots-Tag"));
   });
 

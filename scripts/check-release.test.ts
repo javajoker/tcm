@@ -7,6 +7,8 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { after, before, describe, test } from "node:test";
 import { checkRelease, type Failure } from "./check-release.ts";
+import { LANGUAGE_SEGMENTS } from "./deploy-files.ts";
+import { buildFacts, workerSource } from "./sw-build.ts";
 
 const root = join(import.meta.dirname, "..");
 let base = "";          // a closed-beta build: draft label on, so noindex
@@ -28,8 +30,16 @@ function copy(from: string = base): string {
   copies.push(dir);
   return dir;
 }
+/**
+ * Make the worker describe the files the build now has. A test that damages a file of the build means to break one rule; the worker's own description of the build (rule 13) must
+ * not also fail, so every helper that writes into a copy calls this afterwards.
+ */
+function resync(dir: string): void {
+  const source = readFileSync(join(dir, "sw.js"), "utf8");
+  writeFileSync(join(dir, "sw.js"), workerSource(buildFacts(dir, LANGUAGE_SEGMENTS), source.slice(source.indexOf(";\n") + 2)));
+}
 const manifest = (dir: string): { chunks: Record<string, { file: string; sha256: string }>; schema: number } => JSON.parse(readFileSync(join(dir, "kb", "manifest.json"), "utf8"));
-const saveManifest = (dir: string, m: unknown): void => writeFileSync(join(dir, "kb", "manifest.json"), JSON.stringify(m));
+const saveManifest = (dir: string, m: unknown): void => { writeFileSync(join(dir, "kb", "manifest.json"), JSON.stringify(m)); resync(dir); };
 
 /** Rewrite a knowledge-base chunk and keep the manifest hash right, so only the intended rule can fail. */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any -- the tests damage arbitrary JSON shapes
@@ -41,9 +51,9 @@ function edit(dir: string, name: string, fn: (data: any) => void): void {
   const text = JSON.stringify(data);
   writeFileSync(file, text);
   m.chunks[name]!.sha256 = createHash("sha256").update(text).digest("hex");
-  saveManifest(dir, m);
+  saveManifest(dir, m);          // (also describes the changed files to the worker)
 }
-const html = (dir: string, fn: (s: string) => string): void => writeFileSync(join(dir, "index.html"), fn(readFileSync(join(dir, "index.html"), "utf8")));
+const html = (dir: string, fn: (s: string) => string): void => { writeFileSync(join(dir, "index.html"), fn(readFileSync(join(dir, "index.html"), "utf8"))); resync(dir); };
 const entryJs = (dir: string): string => join(dir, readdirSync(join(dir, "assets")).filter((f) => f.endsWith(".js")).map((f) => `assets/${f}`).sort()[0]!);
 const rules = (f: Failure[]): number[] => [...new Set(f.map((x) => x.rule))].sort();
 const messages = (f: Failure[]): string => f.map((x) => x.message).join("\n");
@@ -74,16 +84,16 @@ describe("check-release", () => {
 
   test("2: dev-only text in the app or the knowledge base", () => {
     const a = copy();
-    writeFileSync(entryJs(a), `${readFileSync(entryJs(a), "utf8")}\n;"DEV · release";`);
+    writeFileSync(entryJs(a), `${readFileSync(entryJs(a), "utf8")}\n;"DEV · release";`); resync(a);
     assert.deepEqual(rules(checkRelease(a, { draftLabel: true })), [2]);
     const b = copy();
     edit(b, "core", (c) => { c.config.note = "annotate_only"; });
     assert.deepEqual(rules(checkRelease(b, { draftLabel: true })), [2]);
     const pseudo = copy();
-    writeFileSync(entryJs(pseudo), `${readFileSync(entryJs(pseudo), "utf8")}\n;({"en-xa":1});`);
+    writeFileSync(entryJs(pseudo), `${readFileSync(entryJs(pseudo), "utf8")}\n;({"en-xa":1});`); resync(pseudo);
     assert.deepEqual(rules(checkRelease(pseudo, { draftLabel: true })), [2], "a pseudo-locale in a release build");
     const c2 = copy();
-    writeFileSync(entryJs(c2), `${readFileSync(entryJs(c2), "utf8")}\n;"Component catalogue";`);
+    writeFileSync(entryJs(c2), `${readFileSync(entryJs(c2), "utf8")}\n;"Component catalogue";`); resync(c2);
     assert.deepEqual(rules(checkRelease(c2, { draftLabel: true })), [2]);
   });
 
@@ -267,6 +277,7 @@ describe("check-release", () => {
     assert.match(messages(checkRelease(missing, { draftLabel: true })), /NOTICE\.txt is missing/);
     const gutted = copy();
     writeFileSync(join(gutted, "NOTICE.txt"), "TCM Self-Check");
+    resync(gutted);
     const m = messages(checkRelease(gutted, { draftLabel: true }));
     assert.match(m, /does not contain "TCM-Library"/);
     assert.match(m, /does not contain "Permission is hereby granted"/);
@@ -287,6 +298,9 @@ describe("check-release", () => {
     assert.match(headers((s) => s.replace(/(\/assets\/\*\n {2}Cache-Control: )[^\n]*/, "$1no-store")).join("\n"), /\/assets\/\* must be cached as immutable/);
     assert.match(headers((s) => s.replace(/(\/kb\/manifest\.json\n {2}Cache-Control: )[^\n]*/, "$1public, max-age=31536000, immutable")).join("\n"), /manifest\.json must be revalidated/);
     assert.match(headers((s) => s.replace(/(\/kb\/core\.[0-9a-f]+\.json\n {2}Cache-Control: )[^\n]*/, "$1no-cache")).join("\n"), /the core chunk .* must be cached as immutable/);
+    assert.match(headers((s) => s.replace(/(\/sw\.js\n {2}Cache-Control: )[^\n]*/, "$1public, max-age=86400")).join("\n"), /\/sw\.js must be revalidated/);
+    assert.match(headers((s) => s.replace("/sw.js\n  Cache-Control: no-cache\n", "")).join("\n"), /\/sw\.js must be revalidated/);
+    assert.match(headers((s) => s.replace("worker-src 'self'; ", "")).join("\n"), /Content-Security-Policy is missing or is not the policy/);
     const r = copy();
     writeFileSync(join(r, "_redirects"), "/en/*  /index.html  200\n/*  /index.html  200\n");
     const m = messages(checkRelease(r, { draftLabel: true }));
@@ -305,5 +319,50 @@ describe("check-release", () => {
     const comment = copy();
     writeFileSync(entryJs(comment), `${readFileSync(entryJs(comment), "utf8")}\n//# sourceMappingURL=index.js.map`);
     assert.match(messages(checkRelease(comment, { draftLabel: true })), /points to a source map/);
+  });
+
+  test("13: the service worker is present and describes exactly this build", () => {
+    const worker = (d: string): string => readFileSync(join(d, "sw.js"), "utf8");
+    const withWorker = (fn: (source: string) => string): Failure[] => { const d = copy(); writeFileSync(join(d, "sw.js"), fn(worker(d))); return checkRelease(d, { draftLabel: true }); };
+    const only13 = (f: Failure[]): string => f.filter((x) => x.rule === 13).map((x) => x.message).join("\n");
+    const facts = (source: string): { id: string; shell: string[]; knowledge: { common: string[]; hans: string[] }; languages: string[] } => JSON.parse(source.slice("self.__TCM_BUILD__=".length, source.indexOf(";\n")));
+    const rewrite = (source: string, fn: (f: ReturnType<typeof facts>) => void): string => { const f = facts(source); fn(f); return `self.__TCM_BUILD__=${JSON.stringify(f)};\n${source.slice(source.indexOf(";\n") + 2)}`; };
+
+    assert.deepEqual(checkRelease(base, { draftLabel: true }).filter((x) => x.rule === 13), []);
+
+    const missing = copy();
+    rmSync(join(missing, "sw.js"));
+    assert.match(only13(checkRelease(missing, { draftLabel: true })), /sw\.js is missing/);
+    assert.match(only13(withWorker(() => "console.log(1)")), /does not start with the facts of the build/);
+
+    // a file the worker does not list, a file it lists that is not there, a file in the wrong list
+    const added = copy();
+    writeFileSync(join(added, "assets", "late-abcdef123.js"), "export {}");
+    assert.match(only13(checkRelease(added, { draftLabel: true })), /its shell list is not the build's.*not listed: \/assets\/late-abcdef123\.js/);
+    const removed = copy();
+    const gone = facts(worker(removed)).shell.find((p) => p.startsWith("/assets/Advice-"))!;
+    rmSync(join(removed, gone.slice(1)));
+    assert.match(only13(checkRelease(removed, { draftLabel: true })), new RegExp(`listed but not in the build: ${gone.replace(/[.]/g, "\\.")}`));
+    assert.match(only13(withWorker((src) => rewrite(src, (f) => { f.knowledge.common.pop(); }))), /its knowledge list is not the build's/);
+    assert.match(only13(withWorker((src) => rewrite(src, (f) => { f.languages.push("fr"); }))), /language segments list is not the build's/);
+    const hansChunk = (src: string): string => facts(src).knowledge.hans.find((p) => p.startsWith("/assets/hans-"))!;
+    const moved = only13(withWorker((src) => rewrite(src, (f) => { const c = f.knowledge.hans.find((p) => p.startsWith("/assets/hans-"))!; f.knowledge.hans = f.knowledge.hans.filter((p) => p !== c); f.shell.push(c); })));
+    assert.match(moved, /its shell list is not the build's/);
+    assert.match(moved, /Simplified list must hold exactly one lazy script/);
+    assert.ok(hansChunk(worker(copy())).startsWith("/assets/hans-"));
+
+    // a stale id: a file changed after the worker was written, so the browser would see the same worker and keep the old file
+    const stale = copy();
+    writeFileSync(join(stale, "NOTICE.txt"), `${readFileSync(join(stale, "NOTICE.txt"), "utf8")}\nchanged`);
+    assert.match(only13(checkRelease(stale, { draftLabel: true })), /the build id is not the hash of the build's files/);
+    assert.match(only13(withWorker((src) => rewrite(src, (f) => { f.shell = f.shell.filter((p) => p !== "/index.html"); }))), /does not hold \/index\.html/);
+    assert.match(only13(withWorker((src) => rewrite(src, (f) => { f.shell.push("/sw.js"); }))), /sw\.js lists itself/);
+
+    // an external address, and a worker too big to read in one sitting
+    assert.match(only13(withWorker((src) => `${src}\nfetch("https://example.com/track");`)), /names an external address/);
+    let noise = "";
+    let x = 12345;
+    for (let i = 0; i < 12000; i++) { x = (x * 1103515245 + 12345) & 0x7fffffff; noise += x.toString(36); }
+    assert.match(only13(withWorker((src) => `${src}\n/*${noise}*/`)), /over the 10240 B budget/);
   });
 });

@@ -606,7 +606,7 @@ Colour: one sequential hue per quantity family, never red/green as good/bad; sig
 | Topic | Design |
 |---|---|
 | Network | After the app and the KB are loaded the app makes **no requests**. CSP `connect-src 'self'` enforces it. No third-party scripts, fonts or analytics in MVP |
-| CSP | `default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'; object-src 'none'`. No inline scripts (Vite built with `build.modulePreload.polyfill: false` as needed). Served via headers; when the host cannot set headers, an equivalent `<meta http-equiv>` is added (minus `frame-ancestors`) |
+| CSP | `default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; worker-src 'self'; manifest-src 'self'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'; object-src 'none'`. No inline scripts (Vite built with `build.modulePreload.polyfill: false` as needed). Served via headers; when the host cannot set headers, an equivalent `<meta http-equiv>` is added (minus `frame-ancestors`) |
 | Data classes | Health answers, medications, birth moment: **sensitive**. Stored only in IndexedDB on the device (§8.3); never in URLs, logs, error messages or analytics; never sent anywhere |
 | Logging | `console` output in release contains no inputs; the error boundary logs error class and component only; dev builds may log more |
 | Birth data | Optional, opt-in in release, processed locally, "remember" default off, one-click erase (see [privacy](privacy.md)) |

@@ -61,7 +61,7 @@ jobs:
       - run: pnpm --filter @tcm/web exec playwright install --with-deps webkit firefox
       - run: pnpm --filter @tcm/web build:e2e
       - name: The scenarios of the cross-browser list (test plan §5.3)
-        run: pnpm --filter @tcm/web exec playwright test --project=cross-webkit-desktop --project=cross-webkit-iphone --project=cross-firefox-desktop
+        run: pnpm --filter @tcm/web exec playwright test --project=cross-webkit-desktop --project=cross-webkit-iphone --project=cross-firefox-desktop --project=offline-webkit --project=offline-firefox
         env:
           E2E_CROSS: "1"
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2

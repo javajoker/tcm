@@ -18,6 +18,9 @@ const sizes = {
 const langs: readonly [string, Lang][] = [["en", "en"], ["zh", "zh-Hant"], ["hans", "zh-Hans"]];
 // Simplified Chinese is derived from the Traditional text (docs/post-mvp/design/simplified-chinese.md): the release build, desktop and mobile, with the scenarios that walk the whole flow and every screen.
 const HANS_SCENARIOS = /E1:|E2:|E5:|E9:|E10:|E11:|axe, /;
+// The release scenarios. E22 (offline) has projects of its own: it starts its own server, so that it can stop it, and it needs the service worker that every other scenario keeps out (below).
+const RELEASE_SPECS = /^(?!.*\/(dev\.|visual\.|e22-)).*\.spec\.ts$/;
+const OFFLINE_SPEC = /e22-offline\.spec\.ts$/;
 
 const projects = (["release", "dev"] as const).flatMap((profile) =>
   (["desktop", "mobile"] as const).flatMap((size) =>
@@ -27,7 +30,7 @@ const projects = (["release", "dev"] as const).flatMap((profile) =>
       .map(([short, lang]) => ({
         name: `${profile}-${size}-${short}`,
         ...(short === "hans" ? { grep: HANS_SCENARIOS } : {}),
-        testMatch: profile === "dev" ? /dev\..*\.spec\.ts$/ : /^(?!.*\/(dev\.|visual\.)).*\.spec\.ts$/,
+        testMatch: profile === "dev" ? /dev\..*\.spec\.ts$/ : RELEASE_SPECS,
         use: { ...sizes[size], baseURL: profile === "dev" ? DEV : RELEASE, lang, locale: lang === "en" ? "en-US" : lang === "zh-Hans" ? "zh-CN" : "zh-TW", timezoneId: "Asia/Taipei" },
       }))));
 
@@ -39,13 +42,24 @@ const visual = ([320, 1280] as const).map((width) => ({
   use: { ...browser({ viewport: { width, height: width === 320 ? 640 : 800 } }), baseURL: DEV, lang: "en" as Lang, locale: "en-US", timezoneId: "Asia/Taipei", colorScheme: "light" as const, reducedMotion: "reduce" as const },
 }));
 
+// Offline (docs/post-mvp/design/offline-and-install.md §6): after one visit the whole product works with the server gone. Each project has its own port, because the scenario starts the server itself.
+const offline = ([["en", "en", 4175], ["hans", "zh-Hans", 4176]] as const).map(([short, lang, port]) => ({
+  name: `offline-${short}`,
+  testMatch: OFFLINE_SPEC,
+  use: { ...sizes.desktop, baseURL: `http://localhost:${port}`, lang: lang as Lang, locale: lang === "en" ? "en-US" : "zh-CN", timezoneId: "Asia/Taipei", serviceWorkers: "allow" as const },
+}));
+
 // Cross-browser (test plan §5.3): E1, E2, E9 and E10 in Safari's engine (desktop and an iPhone) and in Firefox. They need those browsers installed (`playwright install webkit firefox`), so they only
 // run when E2E_CROSS=1 (the nightly workflow sets it).
 const cross = process.env.E2E_CROSS === "1" ? [
   { name: "cross-webkit-desktop", use: { ...devices["Desktop Safari"], viewport: { width: 1280, height: 800 }, lang: "en" as Lang, locale: "en-US", timezoneId: "Asia/Taipei" } },
   { name: "cross-webkit-iphone", use: { ...devices["iPhone 13"], lang: "zh-Hant" as Lang, locale: "zh-TW", timezoneId: "Asia/Taipei" } },
   { name: "cross-firefox-desktop", use: { ...devices["Desktop Firefox"], viewport: { width: 1280, height: 800 }, lang: "en" as Lang, locale: "en-US", timezoneId: "Asia/Taipei" } },
-].map((p) => ({ ...p, ...(process.env.E2E_CROSS_ALL === "1" ? {} : { grep: /E1:|E2:|E9:|E10:/ }), testMatch: /^(?!.*\/(dev\.|visual\.)).*\.spec\.ts$/, use: { ...p.use, baseURL: RELEASE } })) : [];
+].map((p) => ({ ...p, ...(process.env.E2E_CROSS_ALL === "1" ? {} : { grep: /E1:|E2:|E9:|E10:/ }), testMatch: RELEASE_SPECS, use: { ...p.use, baseURL: RELEASE } })) : [];
+const crossOffline = process.env.E2E_CROSS === "1" ? [
+  { name: "offline-webkit", use: { ...devices["Desktop Safari"], viewport: { width: 1280, height: 800 }, baseURL: "http://localhost:4177", lang: "en" as Lang, locale: "en-US", timezoneId: "Asia/Taipei", serviceWorkers: "allow" as const } },
+  { name: "offline-firefox", use: { ...devices["Desktop Firefox"], viewport: { width: 1280, height: 800 }, baseURL: "http://localhost:4178", lang: "en" as Lang, locale: "en-US", timezoneId: "Asia/Taipei", serviceWorkers: "allow" as const } },
+].map((p) => ({ ...p, testMatch: OFFLINE_SPEC })) : [];
 
 export default defineConfig<Options>({
   testDir: "./e2e",
@@ -58,10 +72,11 @@ export default defineConfig<Options>({
   timeout: 90_000,
   expect: { timeout: 10_000, toHaveScreenshot: { maxDiffPixelRatio: 0.01, animations: "disabled" } },
   reporter: process.env.CI ? [["github"], ["html", { open: "never", outputFolder: "e2e/.report" }]] : [["list"]],
-  use: { trace: "retain-on-failure", screenshot: "only-on-failure" },
+  // A service worker answers the page's requests itself, where Playwright's request interception cannot reach them: every scenario runs without one, and only E22 turns it on.
+  use: { trace: "retain-on-failure", screenshot: "only-on-failure", serviceWorkers: "block" },
   webServer: [
     { command: "node ../../scripts/serve-dist.ts dist 4173", url: `${RELEASE}/en/`, reuseExistingServer: !process.env.CI, timeout: 60_000 },
     { command: "node ../../scripts/serve-dist.ts dist-dev 4174", url: `${DEV}/en/`, reuseExistingServer: !process.env.CI, timeout: 60_000 },
   ],
-  projects: [...projects, ...visual, ...cross],
+  projects: [...projects, ...visual, ...offline, ...cross, ...crossOffline],
 });

@@ -212,11 +212,16 @@ const sources = ["apps/web/src", "packages/kb/src", "packages/engine/src", "pack
 const offenders = (re: RegExp, allowed: (path: string) => boolean = () => false): string[] => sources.filter((s) => !allowed(s.path) && re.test(s.text)).map((s) => s.path);
 
 describe("the source cannot leak (test plan §5.6)", () => {
-  it("browser storage is used only by the storage layer", () => {
-    expect(offenders(/\b(localStorage|sessionStorage|indexedDB|document\.cookie|caches\.(open|keys|match))\b/, (p) => p.startsWith("apps/web/src/storage/"))).toEqual([]);
+  it("browser storage is used only by the storage layer — and Cache Storage only by the service worker, for the files of the build", () => {
+    expect(offenders(/\b(localStorage|sessionStorage|indexedDB|document\.cookie|caches\.(open|keys|match))\b/, (p) => p.startsWith("apps/web/src/storage/") || p.startsWith("apps/web/src/sw/"))).toEqual([]);
+    expect(offenders(/\b(localStorage|sessionStorage|indexedDB|document\.cookie)\b/, (p) => p.startsWith("apps/web/src/storage/"))).toEqual([]);
   });
-  it("the only network access is the knowledge-base loader", () => {
-    expect(offenders(/\b(fetch\s*\(|XMLHttpRequest|sendBeacon|new\s+WebSocket|EventSource|importScripts|navigator\.geolocation|new\s+Image\s*\()/, (p) => p === "packages/kb/src/loader.ts")).toEqual([]);
+  it("the only network access is the knowledge-base loader — and the service worker, which fetches the files of its own build", () => {
+    expect(offenders(/\b(fetch\s*\(|XMLHttpRequest|sendBeacon|new\s+WebSocket|EventSource|importScripts|navigator\.geolocation|new\s+Image\s*\()/, (p) => p === "packages/kb/src/loader.ts" || p.startsWith("apps/web/src/sw/"))).toEqual([]);
+    // the worker names no address and no cross-origin API, and takes no part of a request but its method, mode and path
+    const worker = sources.filter((s) => s.path.startsWith("apps/web/src/sw/"));
+    expect(worker.length).toBeGreaterThanOrEqual(3);
+    for (const s of worker) expect(/https?:\/\/|XMLHttpRequest|sendBeacon|WebSocket|importScripts|\.cookies?\b|\.headers\b|\.text\(\)|\.json\(\)|\.formData\(\)|\.clone\(\)/.test(s.text.replace(/\/\/[^\n]*/g, "")), s.path).toBe(false);
   });
   it("no raw HTML injection, eval or document.write, and no absolute web address in code", () => {
     expect(offenders(/\b(dangerouslySetInnerHTML|innerHTML|outerHTML|insertAdjacentHTML|document\.write|eval\s*\(|new\s+Function\s*\()/)).toEqual([]);

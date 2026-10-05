@@ -1,12 +1,14 @@
 // Vite configuration. The application PROFILE is a build-time constant (tech spec §6.1): `vite build` defaults to release, the dev server to dev;
 // APP_PROFILE overrides both. The knowledge-base chunks are built by the same code as scripts/bundle-data.ts, served in dev and emitted into dist/kb.
-import { readFileSync, readdirSync, statSync } from "node:fs";
+import { readFileSync, readdirSync, statSync, writeFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import react from "@vitejs/plugin-react";
+import { build as viteBuild } from "vite";
 import { defineConfig, type Plugin } from "vitest/config";
 import { writeBundle } from "../../scripts/bundle-data.ts";
-import { cspMeta, headersFile, notFoundPage, redirectsFile, securityTxt } from "../../scripts/deploy-files.ts";
+import { cspMeta, headersFile, LANGUAGE_SEGMENTS, notFoundPage, redirectsFile, securityTxt } from "../../scripts/deploy-files.ts";
+import { buildFacts, killWorkerSource, workerSource } from "../../scripts/sw-build.ts";
 
 const here = dirname(fileURLToPath(import.meta.url));
 
@@ -85,11 +87,37 @@ function deployPlugin(profile: "release" | "dev", noindex: boolean): Plugin {
   };
 }
 
+/**
+ * `sw.js` (docs/post-mvp/design/offline-and-install.md §3.4), written last, from the files the build has just written: the release build gets the worker with the build's lists in front of
+ * it; the development build gets the kill worker, so a reviewer who once visited a release build never sees a stale preview. A separate, unhashed file at the site root; no library.
+ */
+function workerPlugin(profile: "release" | "dev"): Plugin {
+  let outDir = "";
+  return {
+    name: "tcm-worker",
+    apply: "build",
+    enforce: "post",
+    configResolved(config) { outDir = resolve(config.root, config.build.outDir); },
+    async closeBundle() {
+      if (profile === "dev") { writeFileSync(join(outDir, "sw.js"), killWorkerSource()); return; }
+      const facts = buildFacts(outDir, LANGUAGE_SEGMENTS);
+      const result = await viteBuild({
+        configFile: false, logLevel: "silent",
+        build: { write: false, minify: true, target: "es2022", lib: { entry: resolve(here, "src/sw/sw.ts"), formats: ["iife"], name: "tcmWorker" } },
+      });
+      const output = (Array.isArray(result) ? result : [result]).flatMap((r) => ("output" in r ? r.output : []));
+      const chunk = output.find((o) => o.type === "chunk");
+      if (chunk === undefined || chunk.type !== "chunk") throw new Error("the service worker was not bundled");
+      writeFileSync(join(outDir, "sw.js"), workerSource(facts, chunk.code));
+    },
+  };
+}
+
 export default defineConfig(({ command }) => {
   const profile = (process.env.APP_PROFILE ?? (command === "serve" ? "dev" : "release")) as "release" | "dev";
   if (profile !== "release" && profile !== "dev") throw new Error(`unknown APP_PROFILE ${profile}`);
   return {
-    plugins: [react(), kbPlugin(profile), cspPlugin(), noticePlugin(), robotsPlugin(profile === "dev" || process.env.APP_DRAFT_LABEL === "on"), deployPlugin(profile, profile === "dev" || process.env.APP_DRAFT_LABEL === "on")],
+    plugins: [react(), kbPlugin(profile), cspPlugin(), noticePlugin(), robotsPlugin(profile === "dev" || process.env.APP_DRAFT_LABEL === "on"), deployPlugin(profile, profile === "dev" || process.env.APP_DRAFT_LABEL === "on"), workerPlugin(profile)],
     define: { __APP_PROFILE__: JSON.stringify(profile), __APP_BUILD__: JSON.stringify(process.env.APP_BUILD_ID ?? "local") },
     build: { target: "es2022", modulePreload: { polyfill: false }, sourcemap: false },
     css: { modules: { localsConvention: "camelCaseOnly" } },

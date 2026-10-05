@@ -13,6 +13,7 @@ import type { CoreChunk, FormulasChunk, Manifest } from "../packages/kb/src/type
 import { BUDGET_GZ } from "./bundle-data.ts";
 import { cspHeader, IMMUTABLE, LANGUAGE_SEGMENTS } from "./deploy-files.ts";
 import { parseHeaders, parseRedirects } from "./serve-dist.ts";
+import { buildFacts, parseWorker } from "./sw-build.ts";
 
 export interface Failure { readonly rule: number; readonly message: string }
 export interface CheckOptions {
@@ -24,6 +25,8 @@ export interface CheckOptions {
   readonly now?: Date;
 }
 
+/** The service worker is hand-written and small (offline design §3.4). */
+export const SW_BUDGET_GZ = 10 * 1024;
 const read = (p: string): string => readFileSync(p, "utf8");
 const walk = (dir: string): string[] => readdirSync(dir).flatMap((n) => { const p = join(dir, n); return statSync(p).isDirectory() ? walk(p) : [p]; });
 const rel = (dist: string, p: string): string => p.slice(dist.length + 1);
@@ -126,7 +129,7 @@ export function checkRelease(distDir: string, opts: CheckOptions = {}): Failure[
   const csp = /<meta[^>]+http-equiv="Content-Security-Policy"[^>]+content="([^"]*)"/i.exec(html)?.[1];
   if (csp === undefined) fail(5, "index.html has no Content-Security-Policy");
   else {
-    for (const d of ["default-src 'self'", "script-src 'self'", "connect-src 'self'", "object-src 'none'", "base-uri 'none'", "form-action 'none'"]) if (!csp.includes(d)) fail(5, `the CSP lacks "${d}"`);
+    for (const d of ["default-src 'self'", "script-src 'self'", "connect-src 'self'", "worker-src 'self'", "manifest-src 'self'", "object-src 'none'", "base-uri 'none'", "form-action 'none'"]) if (!csp.includes(d)) fail(5, `the CSP lacks "${d}"`);
     if (/unsafe-inline|unsafe-eval|\*/.test(csp)) fail(5, "the CSP allows inline or eval code or a wildcard");
   }
   for (const m of html.matchAll(/<script\b([^>]*)>/gi)) if (!/\bsrc=/.test(m[1]!)) fail(5, "index.html has an inline <script>");
@@ -190,6 +193,29 @@ export function checkRelease(distDir: string, opts: CheckOptions = {}): Failure[
     }
   }
 
+  // 13 — the service worker (docs/post-mvp/design/offline-and-install.md §3.4): present, carrying exactly this build's files — none missing, none extra, none in the wrong list — and nothing external,
+  // small, and not listing itself. Everything is recomputed here from the files of the output (scripts/sw-build.ts), never read back from the worker.
+  if (!existsSync(join(dist, "sw.js"))) fail(13, "sw.js is missing: a release carries the service worker (pnpm build writes it)");
+  else {
+    const source = read(join(dist, "sw.js"));
+    const carried = parseWorker(source);
+    if (carried === null) fail(13, "sw.js does not start with the facts of the build (scripts/sw-build.ts)");
+    else {
+      const expected = buildFacts(dist, LANGUAGE_SEGMENTS);
+      const lists: [string, readonly string[], readonly string[]][] = [["shell", carried.shell, expected.shell], ["knowledge", carried.knowledge.common, expected.knowledge.common], ["Simplified", carried.knowledge.hans, expected.knowledge.hans], ["language segments", carried.languages, expected.languages]];
+      for (const [name, got, want] of lists) {
+        const missing = want.filter((p) => !got.includes(p)), extra = got.filter((p) => !want.includes(p));
+        if (missing.length > 0 || extra.length > 0 || got.length !== want.length) fail(13, `sw.js: its ${name} list is not the build's${missing.length > 0 ? ` (not listed: ${missing.slice(0, 3).join(", ")}${missing.length > 3 ? ", …" : ""})` : ""}${extra.length > 0 ? ` (listed but not in the build: ${extra.slice(0, 3).join(", ")}${extra.length > 3 ? ", …" : ""})` : ""}`);
+      }
+      if (carried.id !== expected.id) fail(13, "sw.js: the build id is not the hash of the build's files, so a changed file would not change the cache");
+      if (!carried.shell.includes("/index.html")) fail(13, "sw.js: the shell does not hold /index.html, so the app could not start offline");
+      if (carried.knowledge.hans.filter((p) => /^\/assets\/hans-[^/]+\.js$/.test(p)).length !== 1) fail(13, "sw.js: the Simplified list must hold exactly one lazy script, the Simplified catalogue (assets/hans-<hash>.js)");
+      if ([...carried.shell, ...carried.knowledge.common, ...carried.knowledge.hans].includes("/sw.js")) fail(13, "sw.js lists itself");
+    }
+    if (/https?:\/\//i.test(source)) fail(13, "sw.js names an external address: the worker may touch only this origin");
+    if (gzipSync(source).length > SW_BUDGET_GZ) fail(13, `sw.js is ${gzipSync(source).length} B gzip, over the ${SW_BUDGET_GZ} B budget: it is meant to be read in one sitting`);
+  }
+
   // 10 — the attribution notice travels with the app: MIT-licensed material derived into the knowledge base requires its copyright and permission notice to be kept
   if (!existsSync(join(dist, "NOTICE.txt"))) fail(10, "NOTICE.txt is missing: the attribution notice must be shipped with the app");
   else {
@@ -210,6 +236,7 @@ export function checkRelease(distDir: string, opts: CheckOptions = {}): Failure[
     const cache = (path: string): string | undefined => rules.find((r) => r.pattern === path)?.headers.find(([k]) => k.toLowerCase() === "cache-control")?.[1];
     if (cache("/assets/*") !== IMMUTABLE) fail(11, "_headers: /assets/* must be cached as immutable");
     if (cache("/kb/manifest.json") !== "no-cache") fail(11, "_headers: /kb/manifest.json must be revalidated (no-cache)");
+    if (cache("/sw.js") !== "no-cache") fail(11, "_headers: /sw.js must be revalidated (no-cache): a worker the HTTP cache keeps is a worker that cannot be replaced");
     for (const [name, ref] of Object.entries(manifest.chunks)) if (ref && cache(`/kb/${ref.file}`) !== IMMUTABLE) fail(11, `_headers: the ${name} chunk /kb/${ref.file} must be cached as immutable`);
     for (const f of hansFiles) if (cache(`/kb/${f}`) !== IMMUTABLE) fail(11, `_headers: the Simplified display list /kb/${f} must be cached as immutable`);
   }

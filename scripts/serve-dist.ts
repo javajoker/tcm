@@ -58,7 +58,7 @@ export async function servePages(distDir: string, port = 0): Promise<Pages> {
     res.end(req.method === "HEAD" ? undefined : readFileSync(file));
   });
   await new Promise<void>((ok) => server.listen(port, "127.0.0.1", ok));
-  return { url: `http://127.0.0.1:${(server.address() as AddressInfo).port}`, close: () => new Promise((ok) => server.close(() => ok())) };
+  return { url: `http://127.0.0.1:${(server.address() as AddressInfo).port}`, close: () => new Promise((ok) => { server.close(() => ok()); server.closeAllConnections(); }) };
 }
 
 if (import.meta.main) {
