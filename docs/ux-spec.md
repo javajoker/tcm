@@ -319,7 +319,7 @@ Cards: date, leading pattern, confidence, level (dev: profile), "computed with a
 
 ### 4.14 S17 Settings and privacy
 
-Language · theme (system/light/dark) · text size (4 presets) · "Move on automatically after I answer" · "Erase everything on this device" (one explicit dialog stating exactly what will be deleted) · "Remember birth data" default · a plain-language **what is stored** table · version stamps (app, knowledge base, engine, parameters) · links to Sources and the project licence.
+Language · theme (system/light/dark) · text size (4 presets) · *Offline use* (the state of the offline copy in words, *Reload to update* when a newer build waits, *Remove offline copy*) and *Install this app* (the browser's offer as a button once it has made one, and the same few words about "Add to Home Screen" for everyone) — release builds only · "Move on automatically after I answer" · "Erase everything on this device" (one explicit dialog stating exactly what will be deleted) · "Remember birth data" default · a plain-language **what is stored** table · version stamps (app, knowledge base, engine, parameters) · links to Sources and the project licence.
 
 ### 4.15 S18 Sources
 

@@ -386,4 +386,37 @@ describe("check-release", () => {
     assert.match(only13(withWorker((src) => `${src}\nfetch("https://example.com/track");`)), /names an external address/);
     assert.match(only13(withWorker((src) => `${src}\n/*${noiseOf(12000)}*/`)), /over the 10240 B budget/);
   });
+
+  test("14: the manifest makes the app installable — standalone, at its root, with the icons browsers ask for — and asks for nothing else", () => {
+    const only14 = (d: string): string => checkRelease(d, { draftLabel: true }).filter((x) => x.rule === 14).map((x) => x.message).join("\n");
+    const manifestOf = (d: string): { [k: string]: unknown; icons: { src: string; sizes: string; type: string; purpose?: string }[] } => JSON.parse(readFileSync(join(d, "manifest.webmanifest"), "utf8"));
+    const withManifest = (change: (m: ReturnType<typeof manifestOf>) => void): string => { const d = copy(); const m = manifestOf(d); change(m); writeFileSync(join(d, "manifest.webmanifest"), JSON.stringify(m)); resync(d); return only14(d); };
+    assert.equal(only14(base), "");
+
+    assert.match(withManifest((m) => { m.display = "browser"; }), /display is "browser", expected "standalone"/);
+    assert.match(withManifest((m) => { m.start_url = "/en/"; }), /start_url is "\/en\/"/);
+    assert.match(withManifest((m) => { m.scope = "/app/"; }), /scope is "\/app\/"/);
+    assert.match(withManifest((m) => { delete m.id; }), /id is undefined/);
+    assert.match(withManifest((m) => { delete m.short_name; }), /no short_name/);
+    assert.match(withManifest((m) => { m.theme_color = "teal"; }), /theme_color is not a #rrggbb colour/);
+    for (const key of ["shortcuts", "categories", "related_applications", "screenshots"]) assert.match(withManifest((m) => { m[key] = []; }), new RegExp(`the manifest has ${key}`), key);
+    assert.match(withManifest((m) => { m.icons = m.icons.filter((i) => i.purpose !== "maskable"); }), /no maskable PNG icon of 512x512/);
+    assert.match(withManifest((m) => { m.icons = m.icons.filter((i) => i.sizes !== "192x192"); }), /no any PNG icon of 192x192/);
+    assert.match(withManifest((m) => { m.icons.find((i) => i.sizes === "192x192")!.sizes = "512x512"; }), /icon-192\.png is 192x192, the manifest says 512x512/);
+    assert.match(withManifest((m) => { m.icons.push({ src: "/icon-1024.png", sizes: "1024x1024", type: "image/png" }); }), /icon-1024\.png, which is not in the output/);
+
+    const noLink = copy();
+    html(noLink, (s) => s.replace(/<link[^>]+rel="manifest"[^>]*>/, ""));
+    assert.match(only14(noLink), /does not link a web-app manifest/);
+    const noTouch = copy();
+    html(noTouch, (s) => s.replace(/<link[^>]+rel="apple-touch-icon"[^>]*>/, ""));
+    assert.match(only14(noTouch), /no apple-touch-icon/);
+    const small = copy();
+    const tiny = Buffer.from(readFileSync(join(small, "apple-touch-icon.png")));
+    tiny.writeUInt32BE(100, 16);
+    tiny.writeUInt32BE(100, 20);
+    writeFileSync(join(small, "apple-touch-icon.png"), tiny);
+    resync(small);
+    assert.match(only14(small), /apple-touch-icon is not a square PNG of at least 180 px/);
+  });
 });

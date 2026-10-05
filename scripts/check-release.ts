@@ -226,6 +226,32 @@ export function checkRelease(distDir: string, opts: CheckOptions = {}): Failure[
     if (gzipSync(source).length > SW_BUDGET_GZ) fail(13, `sw.js is ${gzipSync(source).length} B gzip, over the ${SW_BUDGET_GZ} B budget: it is meant to be read in one sitting`);
   }
 
+  // 14 — installability (offline design §3.6): a standalone manifest that opens the app at its root, with the icons a browser asks for — each there, of the size it says — and nothing that sends the person
+  // elsewhere (no shortcuts, categories or related applications); an icon for iOS's Home Screen. Everything is read from the output.
+  const manifestLink = /<link[^>]+rel="manifest"[^>]+href="([^"]+)"/i.exec(html)?.[1];
+  if (manifestLink === undefined || !existsSync(join(dist, manifestLink.replace(/^\//, "")))) fail(14, "index.html does not link a web-app manifest that is in the output");
+  else {
+    type Icon = { src?: string; sizes?: string; type?: string; purpose?: string };
+    let wm: { [k: string]: unknown; icons?: Icon[] } = {};
+    try { wm = JSON.parse(read(join(dist, manifestLink.replace(/^\//, "")))); } catch { fail(14, `${manifestLink} is not valid JSON`); }
+    for (const [key, want] of [["display", "standalone"], ["start_url", "/"], ["scope", "/"], ["id", "/"]] as const) if (wm[key] !== want) fail(14, `the manifest's ${key} is ${JSON.stringify(wm[key])}, expected ${JSON.stringify(want)}`);
+    for (const key of ["name", "short_name", "lang"]) if (typeof wm[key] !== "string" || (wm[key] as string).length === 0) fail(14, `the manifest has no ${key}`);
+    for (const key of ["theme_color", "background_color"]) if (typeof wm[key] !== "string" || !/^#[0-9a-f]{6}$/i.test(wm[key] as string)) fail(14, `the manifest's ${key} is not a #rrggbb colour`);
+    for (const key of ["shortcuts", "categories", "related_applications", "prefer_related_applications", "screenshots", "protocol_handlers", "file_handlers", "share_target"]) if (key in wm) fail(14, `the manifest has ${key}: the app asks for nothing beyond its icon and its window`);
+    const icons = wm.icons ?? [];
+    const pngSize = (file: string): string | null => { const b = readFileSync(file); return b.length >= 24 && b.subarray(1, 4).toString("latin1") === "PNG" ? `${b.readUInt32BE(16)}x${b.readUInt32BE(20)}` : null; };
+    for (const icon of icons) {
+      const file = join(dist, (icon.src ?? "").replace(/^\//, ""));
+      if (!existsSync(file)) { fail(14, `the manifest lists the icon ${icon.src}, which is not in the output`); continue; }
+      if (icon.type === "image/png" && pngSize(file) !== icon.sizes) fail(14, `the icon ${icon.src} is ${pngSize(file) ?? "not a PNG"}, the manifest says ${icon.sizes}`);
+    }
+    const has = (size: string, purpose: string): boolean => icons.some((i) => i.sizes === size && i.type === "image/png" && (i.purpose ?? "any") === purpose);
+    for (const [size, purpose] of [["192x192", "any"], ["512x512", "any"], ["512x512", "maskable"]] as const) if (!has(size, purpose)) fail(14, `the manifest has no ${purpose} PNG icon of ${size}, which browsers ask for before they offer to install`);
+  }
+  const touch = /<link[^>]+rel="apple-touch-icon"[^>]+href="([^"]+)"/i.exec(html)?.[1];
+  if (touch === undefined || !existsSync(join(dist, touch.replace(/^\//, "")))) fail(14, "index.html has no apple-touch-icon in the output: iOS needs one for \"Add to Home Screen\"");
+  else { const b = readFileSync(join(dist, touch.replace(/^\//, ""))); if (b.length < 24 || b.readUInt32BE(16) < 180 || b.readUInt32BE(16) !== b.readUInt32BE(20)) fail(14, "the apple-touch-icon is not a square PNG of at least 180 px"); }
+
   // 10 — the attribution notice travels with the app: MIT-licensed material derived into the knowledge base requires its copyright and permission notice to be kept
   if (!existsSync(join(dist, "NOTICE.txt"))) fail(10, "NOTICE.txt is missing: the attribution notice must be shipped with the app");
   else {

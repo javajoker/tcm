@@ -10,6 +10,7 @@ import { usePageTitle } from "../../app/usePageTitle.ts";
 import { TEXT_SCALES, THEMES } from "../../storage/types.ts";
 import { Button, Card, ConfirmDialog, LinkButton, SegmentedControl, Tile } from "../../ui/index.ts";
 import { DataTable } from "../result/Panel.tsx";
+import { InstallCard } from "./InstallCard.tsx";
 import { OfflineCard } from "./OfflineCard.tsx";
 
 const SIZE_SLUG = { 0.9: "small", 1: "standard", 1.15: "large", 1.3: "xlarge" } as const;
@@ -50,7 +51,7 @@ export function Settings(): ReactNode {
           <Tile type="checkbox" name="rememberBirthDefault" value="on" checked={prefs.rememberBirthDefault === true} onChange={(on) => setPrefs({ rememberBirthDefault: on })} label={t.t("common.settings.rememberBirth")} description={t.t("common.settings.rememberBirth.hint")} />
         </Card>
 
-        {IS_DEV_PROFILE ? null : <OfflineCard />}
+        {IS_DEV_PROFILE ? null : <><OfflineCard /><InstallCard /></>}
 
         <Card title={t.t("common.settings.privacy.title")} headingLevel={2} id="privacy">
           <p>{t.t("common.settings.privacy.intro")}</p>
