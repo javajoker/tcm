@@ -3,7 +3,7 @@
 | | |
 |---|---|
 | **Version** | 0.1 (draft) |
-| **Status** | Every item the MVP documents recorded as "to be revisited after the MVP" is answered here with the recommended default; new decisions that came out of the post-MVP design are PD-01 … PD-11 |
+| **Status** | Every item the MVP documents recorded as "to be revisited after the MVP" is answered here with the recommended default; new decisions that came out of the post-MVP design are PD-01 … PD-12 |
 | **Last updated** | 2026-10-05 |
 | **Audience** | Project owner, maintainers, reviewers |
 | **Related** | [Roadmap](roadmap.md) · [Requirements](requirements.md) · [PRD §14](../PRD.md#14-decisions-and-open-questions) · [Tech spec §13](../tech-spec.md#13-open-technical-questions) · [UX spec §15](../ux-spec.md#15-open-design-questions) · [Safety policy §10](../safety-policy.md#10-open-questions) · [Privacy §9](../privacy.md#9-open-questions) · [Release process §13](../release-process.md#13-open-questions) |
@@ -124,9 +124,10 @@ An *unchanged* decision means the MVP answer still holds and the reason is state
 | PD-09 | Releases are named A–D by theme; version numbers are assigned when tagged; a feature ships when its class gates are met | The review track sets the pace, not this plan |
 | PD-10 | Research items begin as spikes with a written protocol and stop conditions; shipping is a separate decision | Unknown accuracy must be measured before it is offered |
 | PD-11 | Any new download — dataset, model, archive, tool, browser — is approved by the owner first, with filename, source and size | Standing safety rule |
+| PD-12 | The all-JavaScript budget rises with each release by the lazy budgets that release declares (260 KB for the MVP → 300 KB for Release A: Simplified catalogue ≈ 20, service worker ≤ 10, backup ≈ 10); the initial 200 KB and the 50 KB per lazy chunk do not change | The figure bounds growth, not a visit: nobody downloads every lazy feature. Release A already uses 21 of the 37 KB the MVP left, so keeping 260 would have meant refusing the language |
 
 ## 3. Changelog
 
 | Version | Date | Change |
 |---|---|---|
-| 0.1 | 2026-10-05 | Initial register: all "revisit after the MVP" items answered; PD-01 … PD-11 |
+| 0.1 | 2026-10-05 | Initial register: all "revisit after the MVP" items answered; PD-01 … PD-12 |

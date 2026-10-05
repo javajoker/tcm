@@ -1,16 +1,16 @@
-// Visual regression (docs/test-plan.md §1, Q-07): the key screens in zh-Hant, en and the pseudo-locale en-XA, at 320 and 1280 px (the two projects `visual-320` and `visual-1280`, dev build).
-// One walk through the flow in English builds the state; each screen is then shown in the three languages by changing the language segment of its URL (the draft and the saved result are on the
+// Visual regression (docs/test-plan.md §1, Q-07): the key screens in zh-Hant, zh-Hans, en and the pseudo-locale en-XA, at 320 and 1280 px (the two projects `visual-320` and `visual-1280`, dev build).
+// One walk through the flow in English builds the state; each screen is then shown in the four languages by changing the language segment of its URL (the draft and the saved result are on the
 // device, so the same data is behind every picture). The clock is fixed so dates are the same on every run. Baselines: `pnpm --filter @tcm/web e2e:visual --update-snapshots`, see docs/test-plan.md.
 import { expect, type Page } from "@playwright/test";
 import { ADULT_WOMAN, App } from "./support/app.ts";
 import { test } from "./support/fixtures.ts";
 import { typicalSymptoms } from "./support/knowledge.ts";
 
-const LANGS = ["zh-Hant", "en", "en-XA"] as const;
+const LANGS = ["zh-Hant", "zh-Hans", "en", "en-XA"] as const;
 const NOW = new Date("2026-10-04T12:00:00+08:00");
 
 /** The route of the current page without its language segment. */
-const routeOf = (page: Page): string => new URL(page.url()).pathname.replace(/^\/(zh-Hant|en-XA|en)/, "") || "/";
+const routeOf = (page: Page): string => new URL(page.url()).pathname.replace(/^\/(zh-Hant|zh-Hans|en-XA|en)/, "") || "/";
 
 async function shoot(page: Page, name: string, opts: { fullPage?: boolean } = {}): Promise<void> {
   const route = routeOf(page);
@@ -28,14 +28,17 @@ async function shoot(page: Page, name: string, opts: { fullPage?: boolean } = {}
 /** A screen whose state lives in the page (a wizard step): shown in English and, with the language toggle, in Chinese; the pseudo-locale has no toggle. */
 async function shootStateful(page: Page, name: string): Promise<void> {
   await expect(page, `${name} (en)`).toHaveScreenshot(`${name}-en.png`, { fullPage: true });
-  await page.getByRole("button", { name: "中文", exact: true }).click();
+  await page.getByRole("button", { name: "繁體", exact: true }).click();
   await expect(page.locator("html")).toHaveAttribute("lang", "zh-Hant");
   await expect(page, `${name} (zh-Hant)`).toHaveScreenshot(`${name}-zh-Hant.png`, { fullPage: true });
+  await page.getByRole("button", { name: "简体", exact: true }).click();
+  await expect(page.locator("html")).toHaveAttribute("lang", "zh-Hans");
+  await expect(page, `${name} (zh-Hans)`).toHaveScreenshot(`${name}-zh-Hans.png`, { fullPage: true });
   await page.getByRole("button", { name: "EN", exact: true }).click();
   await expect(page.locator("html")).toHaveAttribute("lang", "en");
 }
 
-test("the key screens, in three languages", async ({ page, lang }) => {
+test("the key screens, in four languages", async ({ page, lang }) => {
   test.setTimeout(300_000);
   await page.clock.setFixedTime(NOW);
   const app = new App(page, lang);

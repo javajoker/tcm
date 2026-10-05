@@ -4,7 +4,8 @@ import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { msg, plural, type Lang } from "./i18n.ts";
-import { optionsFor, questionByPrompt } from "./knowledge.ts";
+import { traditionalOnPage } from "./hans.ts";
+import { optionsFor, questionByPrompt, shown } from "./knowledge.ts";
 
 const REPO = join(dirname(fileURLToPath(import.meta.url)), "..", "..", "..", "..");
 const RED_FLAGS = (JSON.parse(readFileSync(join(REPO, "data/diagnosis/red-flags.json"), "utf8")) as { items: { id: string; text: Record<string, string> }[] }).items;
@@ -41,6 +42,12 @@ export class App {
   readonly link = (key: string): Locator => this.page.getByRole("link", { name: this.t(key), exact: true });
   readonly heading = (key: string, level = 1): Locator => this.page.getByRole("heading", { level, name: this.t(key), exact: true });
   readonly group = (key: string): Locator => this.page.getByRole("group", { name: new RegExp(`^${this.t(key).replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}`) });
+
+  /** In a Simplified page: nothing on screen is in the data's own (Traditional) script — text, accessible names, title. A no-op in the other languages. */
+  async simplified(where: string): Promise<void> {
+    if (this.lang !== "zh-Hans") return;
+    expect(await traditionalOnPage(this.page), `Traditional text on the ${where}`).toEqual([]);
+  }
 
   async goto(path = "/"): Promise<void> { await this.page.goto(`/${this.lang}${path === "/" ? "/" : path}`); }
   path(): string { return new URL(this.page.url()).pathname.replace(new RegExp(`^/${this.lang}`), "") || "/"; }
@@ -107,10 +114,11 @@ export class App {
       for (const id of ids) {
         const f = RED_FLAGS.find((x) => x.id === id);
         if (!f) throw new Error(`no red flag ${id}`);
-        await this.page.getByRole("radiogroup", { name: f.text[this.lang]! }).or(this.page.getByRole("group", { name: f.text[this.lang]! })).getByRole("radio", { name: this.t(`intake.screen.answer.${answer}`), exact: true }).check({ force: true });
+        await this.page.getByRole("radiogroup", { name: shown(f.text, this.lang) }).or(this.page.getByRole("group", { name: shown(f.text, this.lang) })).getByRole("radio", { name: this.t(`intake.screen.answer.${answer}`), exact: true }).check({ force: true });
       }
     }
     for (const b of await this.button("intake.screen.noneOfThese").all()) await b.click();
+    await this.simplified("screening");
   }
 
   async continueScreening(): Promise<void> { await this.page.getByRole("button", { name: this.t("intake.profile.continue"), exact: true }).last().click(); }
@@ -139,12 +147,13 @@ export class App {
       await expect(finish.or(legend).first()).toBeVisible();
       if (await finish.isVisible()) { await finish.click(); return asked; }
       const prompt = (await legend.textContent())?.trim() ?? "";
+      await this.simplified(`question "${prompt}"`);
       const q = questionByPrompt(prompt, this.lang);
       if (!q) throw new Error(`unknown question "${prompt}"`);
       const ticks = opts.skip?.includes(q.id) ? [] : optionsFor(q, symptoms);
       if (ticks.length === 0) await this.button("intake.inquiry.skip").click();          // a look-in-the-mirror question this person has no sign for
       else {
-        for (const o of ticks) await page.locator("label").filter({ has: page.getByText(o.label[this.lang]!, { exact: true }) }).first().click();
+        for (const o of ticks) await page.locator("label").filter({ has: page.getByText(shown(o.label, this.lang), { exact: true }) }).first().click();
         // a single choice moves on by itself (unless it asks how strong); several choices need Next
         const graded = ticks.some((o) => o.symptoms.some((sym) => q.graded.includes(sym)));
         if (q.select === "many" || graded) {
@@ -178,8 +187,10 @@ export class App {
     await expect(this.page).toHaveURL(new RegExp(`/${this.lang}/observe$`));
     await this.button("observe.hub.skip").or(this.link("observe.hub.skip")).first().click();
     await expect(this.heading("intake.review.title")).toBeVisible();
+    await this.simplified("review");
     await this.button("intake.review.run").click();
     await expect(this.heading("report.title")).toBeVisible({ timeout: 30_000 });
+    await this.simplified("result");
   }
 
   /** From the landing page to the observation hub (profile, screening, inquiry), without looking at the tongue or the pulse. */
@@ -198,8 +209,10 @@ export class App {
     const { page } = this;
     await page.getByRole("button", { name: new RegExp(`^(${this.t("observe.hub.skip")}|${this.t("observe.hub.continue")})$`) }).click();
     await expect(this.heading("intake.review.title")).toBeVisible();
+    await this.simplified("review");
     await this.button("intake.review.run").click();
     await expect(this.heading("report.title")).toBeVisible({ timeout: 30_000 });
+    await this.simplified("result");
   }
 
   /** The whole way, from the landing page to the result. */

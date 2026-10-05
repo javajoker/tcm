@@ -15,17 +15,20 @@ const sizes = {
   desktop: browser({ viewport: { width: 1280, height: 800 } }),
   mobile: browser({ viewport: { width: 375, height: 812 }, isMobile: true, hasTouch: true, deviceScaleFactor: 2 }),
 } as const;
-const langs: readonly [string, Lang][] = [["en", "en"], ["zh", "zh-Hant"]];
+const langs: readonly [string, Lang][] = [["en", "en"], ["zh", "zh-Hant"], ["hans", "zh-Hans"]];
+// Simplified Chinese is derived from the Traditional text (docs/post-mvp/design/simplified-chinese.md): the release build, desktop and mobile, with the scenarios that walk the whole flow and every screen.
+const HANS_SCENARIOS = /E1:|E2:|E5:|E9:|E10:|E11:|axe, /;
 
 const projects = (["release", "dev"] as const).flatMap((profile) =>
   (["desktop", "mobile"] as const).flatMap((size) =>
     langs
       // the dev profile is exercised on desktop in both languages and on mobile in Chinese only: the same code, a smaller matrix
-      .filter(([short]) => profile === "release" || size === "desktop" || short === "zh")
+      .filter(([short]) => (short !== "hans" || profile === "release") && (profile === "release" || size === "desktop" || short === "zh"))
       .map(([short, lang]) => ({
         name: `${profile}-${size}-${short}`,
+        ...(short === "hans" ? { grep: HANS_SCENARIOS } : {}),
         testMatch: profile === "dev" ? /dev\..*\.spec\.ts$/ : /^(?!.*\/(dev\.|visual\.)).*\.spec\.ts$/,
-        use: { ...sizes[size], baseURL: profile === "dev" ? DEV : RELEASE, lang, locale: lang === "en" ? "en-US" : "zh-TW", timezoneId: "Asia/Taipei" },
+        use: { ...sizes[size], baseURL: profile === "dev" ? DEV : RELEASE, lang, locale: lang === "en" ? "en-US" : lang === "zh-Hans" ? "zh-CN" : "zh-TW", timezoneId: "Asia/Taipei" },
       }))));
 
 // Visual regression (Q-07): the key screens in zh-Hant, en and the pseudo-locale en-XA (dev build only) at 320 and 1280 px. The baselines are platform-specific (fonts), so they are made by the

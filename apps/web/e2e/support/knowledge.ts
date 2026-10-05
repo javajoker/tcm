@@ -2,6 +2,7 @@
 import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { toHans } from "./hans.ts";
 import type { Lang } from "./i18n.ts";
 
 const REPO = join(dirname(fileURLToPath(import.meta.url)), "..", "..", "..", "..");
@@ -13,7 +14,10 @@ export interface Question { readonly id: string; readonly prompt: Record<string,
 const QUESTIONS = read<{ items: Question[] }>("data/diagnosis/questions.json").items;
 const PARITY = read<{ cases: { id: string; findings: Record<string, unknown> }[] }>("packages/engine/test/fixtures/parity.json").cases;
 
-export const questionByPrompt = (prompt: string, lang: Lang): Question | undefined => QUESTIONS.find((q) => q.prompt[lang] === prompt);
+/** The text of a bilingual record of the data as the interface shows it in this language: Simplified is the Traditional text through the dictionary. */
+export const shown = (record: Readonly<Record<string, string>>, lang: Lang): string => (lang === "zh-Hans" ? toHans(record["zh-Hant"]!) : record[lang]!);
+
+export const questionByPrompt = (prompt: string, lang: Lang): Question | undefined => QUESTIONS.find((q) => shown(q.prompt, lang) === prompt);
 
 /** The inquiry symptoms of a pattern's typical patient (the person every pattern's golden seed is made from). */
 export function typicalSymptoms(patternId: string): ReadonlySet<string> {

@@ -622,6 +622,7 @@ Colour: one sequential hue per quantity family, never red/green as good/bad; sig
 | Budget | Value | How it is met / checked |
 |---|---|---|
 | Initial JS (gzip) | ≤ 200 KB | React + router + store + shell only; every screen but the landing page is a lazy route; engine and `@tcm/wuxing` load with the first inquiry; asserted by `scripts/check-budgets.ts` in CI (≈ 120 KB today); any lazy chunk ≤ 50 KB, all JS ≤ 260 KB, CSS ≤ 20 KB |
+| All JS (gzip) | ≤ 300 KB (260 for the MVP, +40 for Release A's lazy features) | A bound on growth, not on a visit: nobody downloads it all. Each post-MVP release declares the lazy budgets of its features and raises this figure by that sum ([decision PD-12](post-mvp/decisions.md)); the initial 200 KB and the 50 KB per lazy chunk do not move |
 | LCP / INP (mobile 4G) | ≤ 2.5 s / ≤ 200 ms | Lighthouse CI on the landing and result routes, throttled |
 | KB per session (release) | ≈ 82 KB gz today (budget 100 KB) | §5.2; per-chunk budgets enforced in `bundle-data.ts` (dev: 1.5×), the session total in `check-budgets.ts` |
 | Engine time | `assess` ≤ 50 ms p95 on a mid-range phone | micro-benchmarks in `packages/engine/bench`, tracked per release; no allocation in inner loops of noisy-OR and greedy 加減 |

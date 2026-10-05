@@ -3,7 +3,7 @@ import { readdirSync, readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
-export type Lang = "en" | "zh-Hant";
+export type Lang = "en" | "zh-Hant" | "zh-Hans";
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..", "..", "src", "i18n");
 type Entry = string | Readonly<Record<string, string>>;
 const cache = new Map<Lang, Readonly<Record<string, Entry>>>();

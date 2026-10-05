@@ -189,11 +189,13 @@ Viewports 320, 375, 600, 900, 1200, 1920; landscape phone; touch targets ≥ 44 
 
 `check-i18n.ts` (key/placeholder parity, glossary, wording); pseudo-locale (`en-XA`) screenshots for truncation; `zh-Hant` long-text mode; `lang` attribute audit; font fallback check for rare characters in classical quotations (reports glyphs rendered from fallback).
 
+**Simplified Chinese** ([design](post-mvp/design/simplified-chinese.md) §6; Simplified is derived, so the checks are about the derivation): `check-i18n.ts` — key coverage, parameters, tags and plural forms of the generated `zh-Hans` catalogue against `zh-Hant`, no character that has another Simplified form, a glossary term rendered as the dictionary renders it; the Python tests of `scripts/i18n` — known answers (the table of the design and the exceptions the review sheet found), freshness and determinism of the dictionary and catalogues, a dictionary entry for every Chinese string of `data/`, quotations equal to their Simplified source text, forbidden-wording rules converted by the same pipeline finding exactly the same messages in both scripts; the bundler and `check-release` — every Chinese string of a profile's chunks aligned with its display list; `packages/kb` — loader behaviour for a missing, damaged or misaligned list; `packages/engine/test/language.test.ts` — the same assessments and vignette views whichever script is shown, and a knowledge base whose display function throws proves that the engine and the safety rules never read display text; the **purity sweep** (`hans-sweep.test.tsx`) — every route, every typical patient's result and every formula page rendered in Simplified shows no Traditional-only character, and `lang="zh-Hant"` does not excuse one; the real-browser scenarios E1, E2, E5, E9, E10, E11 and the axe sweep run in `zh-Hans` (desktop and mobile) and scan the page after each screen; visual baselines for the 14 key screens in `zh-Hans` are made on CI with the others.
+
 ### 5.5 Performance
 
 | Test | Budget |
 |---|---|
-| `scripts/check-budgets.ts` | Initial JS ≤ 200 KB gzip; any lazy chunk ≤ 50 KB; all JS ≤ 260 KB; all CSS ≤ 20 KB; knowledge base per session ≤ 100 KB (the per-chunk KB budgets are in `bundle-data.ts`) |
+| `scripts/check-budgets.ts` | Initial JS ≤ 200 KB gzip; any lazy chunk ≤ 50 KB; all JS ≤ 300 KB (260 for the MVP plus what each post-MVP release declares for its lazy features); all CSS ≤ 20 KB; knowledge base per session ≤ 100 KB (the per-chunk KB budgets are in `bundle-data.ts`) |
 | Lighthouse CI (mobile, throttled) | Performance ≥ 90, Accessibility ≥ 95, LCP ≤ 2.5 s, INP ≤ 200 ms on landing and result routes |
 | Engine bench | `assess` ≤ 50 ms p95 (reference mid-range device profile, CPU throttled); regression > 20 % fails |
 

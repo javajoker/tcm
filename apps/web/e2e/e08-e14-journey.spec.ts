@@ -2,7 +2,8 @@
 import { expect, type Page } from "@playwright/test";
 import { ADULT_MAN, ADULT_WOMAN } from "./support/app.ts";
 import { test } from "./support/fixtures.ts";
-import { optionsFor, questionByPrompt, typicalSymptoms } from "./support/knowledge.ts";
+import { traditionalOnPage } from "./support/hans.ts";
+import { optionsFor, questionByPrompt, shown, typicalSymptoms } from "./support/knowledge.ts";
 import { deviceState, idbPut, idbRecords } from "./support/storage.ts";
 
 const BIRTH = { date: "1990-05-12", time: "14:30", city: "Taipei" } as const;
@@ -37,12 +38,16 @@ test("E11: switching the language mid-flow keeps the route and every answer, and
   await expect(first).toBeVisible();
   // answer one question, then switch
   await page.getByRole("checkbox").or(page.getByRole("radio")).first().check({ force: true });
-  const other = app.lang === "en" ? "zh-Hant" : "en";
   await expect(page.locator("html")).toHaveAttribute("lang", app.lang);
-  await page.getByRole("button", { name: app.lang === "en" ? "中文" : "EN", exact: true }).click();
-  await expect(page).toHaveURL(new RegExp(`/${other}/inquiry$`));
-  await expect(page.locator("html")).toHaveAttribute("lang", other);
-  await expect(page.locator("fieldset > legend[tabindex]").first()).toBeVisible();
+  // each language names itself in its own script; walk through the other two, answers and route kept
+  const label = { en: "EN", "zh-Hant": "繁體", "zh-Hans": "简体" } as const;
+  for (const other of (["en", "zh-Hant", "zh-Hans"] as const).filter((l) => l !== app.lang)) {
+    await page.getByRole("button", { name: label[other], exact: true }).click();
+    await expect(page).toHaveURL(new RegExp(`/${other}/inquiry$`));
+    await expect(page.locator("html")).toHaveAttribute("lang", other);
+    await expect(page.locator("fieldset > legend[tabindex]").first()).toBeVisible();
+    if (other === "zh-Hans") expect(await traditionalOnPage(page), "Traditional text after switching to Simplified").toEqual([]);
+  }
   await page.goBack();                                                                                    // history stays usable
 });
 
@@ -67,7 +72,7 @@ test("E12: reloading in the middle of the inquiry offers to resume, and the answ
   const q = questionByPrompt(((await legend.textContent()) ?? "").trim(), app.lang)!;
   const ticked = optionsFor(q, symptoms);
   expect(ticked.length).toBeGreaterThan(0);
-  for (const o of ticked) await expect(page.getByRole("checkbox", { name: new RegExp(`^✓?\\s*${o.label[app.lang]!.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}`) }).or(page.getByRole("radio", { name: new RegExp(`^✓?\\s*${o.label[app.lang]!.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}`) })).first()).toBeChecked();
+  for (const o of ticked) await expect(page.getByRole("checkbox", { name: new RegExp(`^✓?\\s*${shown(o.label, app.lang).replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}`) }).or(page.getByRole("radio", { name: new RegExp(`^✓?\\s*${o.label[app.lang]!.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}`) })).first()).toBeChecked();
 });
 
 test("E13: two results are saved, listed and compared; a result from an older knowledge base says so", async ({ app, page }) => {

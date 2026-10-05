@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, test } from "node:test";
-import { checkGlossary, checkParity, checkStyle, checkUse, checkWording, englishForms, loadCatalogs, runChecks, usedKeys, usesEnglishForm, visualWidth, type GlossaryTerm } from "./check-i18n.ts";
+import { checkGlossary, checkHans, checkParity, checkStyle, checkUse, checkWording, englishForms, loadCatalogs, runChecks, usedKeys, usesEnglishForm, visualWidth, type GlossaryTerm } from "./check-i18n.ts";
 
 const wording = JSON.parse(readFileSync(join(import.meta.dirname, "i18n-wording.json"), "utf8"));
 const ns = (zh: string[], en: string[]): Record<string, { zh: string[]; en: string[] }> => ({ common: { zh, en } });
@@ -150,5 +150,38 @@ describe("check-i18n: glossary conformance (i18n guide §2.1 rule 5, §8.2)", ()
       assert.ok(a.reason.length > 20, a.terms.join());
       for (const k of a.keys) assert.ok(k in zh || Object.keys(zh).some((z) => z.startsWith(k)), `${k} matches no key`);
     }
+  });
+});
+
+describe("the generated Simplified catalogue", () => {
+  const dictionary = { _meta: { traditionalOnly: "腎陰陽" }, entries: { 陰陽: "阴阳" } };
+  const term: GlossaryTerm = { "zh-Hant": "陰陽", en: "yin and yang", alt: [], domain: "theory" };
+  const run = (zh: Record<string, unknown>, hans: Record<string, unknown>, overrides = {}): ReturnType<typeof checkHans> => checkHans(zh as never, hans as never, dictionary, overrides, [term]);
+
+  test("a message missing or extra in either catalogue", () => {
+    assert.deepEqual(rules(run({ a: "甲" }, {})), ["hans-coverage"]);
+    assert.deepEqual(rules(run({}, { a: "甲" })), ["hans-coverage"]);
+    assert.deepEqual(run({ a: "甲" }, { a: "甲" }), []);
+  });
+
+  test("parameters, tags and plural forms must be those of the source", () => {
+    assert.deepEqual(rules(run({ a: "共 {n} 題" }, { a: "共 {m} 题" })), ["hans-placeholders"]);
+    assert.deepEqual(rules(run({ a: "<b>好</b>" }, { a: "好" })), ["hans-placeholders"]);
+    assert.deepEqual(rules(run({ a: { other: "{n} 個" } }, { a: "个" })), ["hans-placeholders"]);
+    assert.deepEqual(run({ a: "共 {n} 題" }, { a: "共 {n} 题" }), []);
+  });
+
+  test("a Traditional-only character is an error — unless the key is pinned or the text is on the keep list", () => {
+    assert.deepEqual(rules(run({ a: "腎" }, { a: "腎" })), ["hans-purity"]);
+    assert.match(run({ a: "腎" }, { a: "腎" })[0]!.message, /腎/);
+    assert.deepEqual(run({ a: "腎" }, { a: "腎" }, { keys: { a: {} } }), []);
+    assert.deepEqual(run({ a: "腎" }, { a: "腎" }, { keep: { 腎: {} } }), []);
+    assert.deepEqual(run({ a: "肾" }, { a: "肾" }), []);
+  });
+
+  test("a glossary term must be rendered the way the dictionary renders it", () => {
+    assert.deepEqual(rules(run({ a: "調和陰陽" }, { a: "调和阴阳" }).concat(run({ a: "調和陰陽" }, { a: "调和阴陽" }))), ["hans-glossary", "hans-purity"].sort());
+    assert.deepEqual(rules(run({ a: "調和陰陽" }, { a: "调和阴阳" })), []);
+    assert.deepEqual(rules(run({ a: "調和陰陽" }, { a: "调和阴阳" }, { keys: { a: {} } })), []);
   });
 });

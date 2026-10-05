@@ -10,7 +10,7 @@ import { placeholdersOf, type Message } from "../packages/i18n/src/index.ts";
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const catalogDir = join(root, "apps", "web", "src", "i18n");
 const srcDir = join(root, "apps", "web", "src");
-const NAMESPACES = ["common", "intake", "inquiry", "observe", "constitution", "report", "formula", "safety", "errors"] as const;
+const NAMESPACES = ["common", "intake", "inquiry", "observe", "constitution", "report", "feedback", "formula", "safety", "errors"] as const;
 
 export type Severity = "error" | "warning";
 export interface Issue { readonly severity: Severity; readonly rule: string; readonly key?: string; readonly message: string }
@@ -37,6 +37,52 @@ export const textsOf = (m: Message): string[] => (typeof m === "string" ? [m] : 
 
 /** Visual width: a full-width (CJK) character takes two columns, anything else one. */
 export const visualWidth = (s: string): number => [...s.replace(/\{[A-Za-z0-9_]+\}|<\/?[a-z]+>/g, "")].reduce((n, c) => n + (/[⺀-鿿＀-￯　-〿]/.test(c) ? 2 : 1), 0);
+
+/** The generated Simplified catalogues (`pnpm i18n:hans`), merged like the others. */
+export function loadHans(): Catalog {
+  const out: Catalog = {};
+  for (const ns of NAMESPACES) Object.assign(out, readJson<Catalog>(join(catalogDir, "zh-Hans", `${ns}.json`)));
+  return out;
+}
+
+export interface HansDictionary { readonly _meta: { readonly traditionalOnly: string }; readonly entries: Readonly<Record<string, string>> }
+export interface HansOverrides { readonly keys?: Readonly<Record<string, unknown>>; readonly keep?: Readonly<Record<string, unknown>> }
+
+/**
+ * The generated Simplified catalogue against its source (docs/post-mvp/design/simplified-chinese.md §6): every key, the same parameters, tags and plural forms; no character that has a different
+ * Simplified form (the list comes from the generated dictionary: OpenCC's own table); and a glossary term rendered the way the dictionary renders it. Messages the overrides pin by key, and text
+ * on the keep list (the name of the Traditional option), are exempt from purity and glossary form. Freshness is checked by `pnpm check:hans`.
+ */
+export function checkHans(zh: Catalog, hans: Catalog, dictionary: HansDictionary, overrides: HansOverrides, glossary: readonly GlossaryTerm[]): Issue[] {
+  const out: Issue[] = [];
+  const traditional = new Set([...dictionary._meta.traditionalOnly]);
+  const pinned = (key: string): boolean => overrides.keys !== undefined && key in overrides.keys;
+  const terms = [...glossary].filter((g) => [...g["zh-Hant"]].length >= 2).sort((a, b) => [...b["zh-Hant"]].length - [...a["zh-Hant"]].length);
+  for (const key of Object.keys(zh)) if (!(key in hans)) out.push({ severity: "error", rule: "hans-coverage", key, message: `"${key}" has no Simplified message (run pnpm i18n:hans)` });
+  for (const key of Object.keys(hans)) if (!(key in zh)) out.push({ severity: "error", rule: "hans-coverage", key, message: `"${key}" is in the Simplified catalogue but not in zh-Hant (run pnpm i18n:hans)` });
+  for (const [key, z] of Object.entries(zh)) {
+    const h = hans[key];
+    if (h === undefined) continue;
+    const pz = placeholdersOf(z), ph = placeholdersOf(h);
+    const same = (a: readonly string[], b: readonly string[]): boolean => JSON.stringify([...a].sort()) === JSON.stringify([...b].sort());
+    if (!same(pz.params, ph.params) || !same(pz.tags, ph.tags) || !same(pz.forms, ph.forms)) out.push({ severity: "error", rule: "hans-placeholders", key, message: `"${key}": the Simplified message has other parameters, tags or plural forms than zh-Hant` });
+    if (pinned(key)) continue;
+    const zTexts = textsOf(z), hTexts = textsOf(h);
+    hTexts.forEach((text, i) => {
+      if (overrides.keep !== undefined && text in overrides.keep) return;
+      const bad = [...new Set([...text].filter((c) => traditional.has(c)))];
+      if (bad.length > 0) out.push({ severity: "error", rule: "hans-purity", key, message: `"${key}": the Simplified message contains Traditional-only characters ${bad.join("")} — "${text.slice(0, 40)}"` });
+      let rest = zTexts[i] ?? "";
+      for (const t of terms) {
+        if (!rest.includes(t["zh-Hant"])) continue;
+        rest = rest.split(t["zh-Hant"]).join(" ");
+        const expected = dictionary.entries[t["zh-Hant"]] ?? t["zh-Hant"];
+        if (!text.includes(expected)) out.push({ severity: "error", rule: "hans-glossary", key, message: `"${key}": the zh-Hant text uses the glossary term ${t["zh-Hant"]}, which the Simplified text must render as ${expected}` });
+      }
+    });
+  }
+  return out;
+}
 
 export function checkParity(zh: Catalog, en: Catalog, perNamespace: Record<string, { zh: string[]; en: string[] }>): Issue[] {
   const out: Issue[] = [];
@@ -186,7 +232,9 @@ export function runChecks(opts: { kb?: boolean } = {}): Issue[] {
   const { zh, en, perNamespace } = loadCatalogs();
   const wording = readJson<Wording>(join(root, "scripts", "i18n-wording.json"));
   const glossary = readJson<{ items: GlossaryTerm[] }>(join(root, "data", "glossary.json")).items;
-  return [...checkParity(zh, en, perNamespace), ...checkWording(zh, en, wording), ...checkGlossary(zh, en, glossary, wording), ...checkStyle(zh, en), ...checkUse(zh, usedKeys()), ...(opts.kb ? checkKbWording(wording) : [])];
+  const hansDictionary = readJson<HansDictionary>(join(root, "scripts", "i18n", "zh-Hans.dictionary.json"));
+  const hansOverrides = readJson<HansOverrides>(join(root, "scripts", "i18n", "hans-overrides.json"));
+  return [...checkParity(zh, en, perNamespace), ...checkHans(zh, loadHans(), hansDictionary, hansOverrides, glossary), ...checkWording(zh, en, wording), ...checkGlossary(zh, en, glossary, wording), ...checkStyle(zh, en), ...checkUse(zh, usedKeys()), ...(opts.kb ? checkKbWording(wording) : [])];
 }
 
 if (import.meta.main) {

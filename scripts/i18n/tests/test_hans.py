@@ -110,6 +110,59 @@ class TheBuild(unittest.TestCase):
                         bad.append(key)
         self.assertEqual(bad, [])
 
+    def test_forbidden_wording_is_the_same_in_both_scripts(self):
+        """The Traditional wording rules, converted by the same pipeline, find exactly the same messages and data strings in Simplified: the conversion neither hides nor creates a claim."""
+        wording = json.loads((hans.ROOT / "scripts" / "i18n-wording.json").read_text(encoding="utf-8"))
+        rules = [(r["id"], re.compile(r["pattern"], re.I), re.compile(CONV.convert(r["pattern"]).text, re.I)) for r in wording["rules"] if r["lang"] == "zh-Hant"]
+        self.assertGreaterEqual(len(rules), 8)
+
+        def hits(text: str, which: int) -> set[str]:
+            return {rid for rid, *res in rules if res[which].search(text)}
+
+        checked = 0
+        for name in sorted(p.name for p in (hans.CATALOGS / "zh-Hant").glob("*.json")):
+            src = json.loads((hans.CATALOGS / "zh-Hant" / name).read_text(encoding="utf-8"))
+            dst = json.loads(self.files[hans.CATALOGS / "zh-Hans" / name])
+            for key, msg in src.items():
+                for a, b in ([(msg, dst[key])] if isinstance(msg, str) else [(msg[f], dst[key][f]) for f in msg]):
+                    self.assertEqual(hits(a, 0), hits(b, 1), f"{key}: {a} / {b}")
+                    checked += 1
+        for k, v in self.dictionary.items():
+            if not self.strings.get(k, False):
+                self.assertEqual(hits(k, 0), hits(v, 1), f"{k} / {v}")
+                checked += 1
+        self.assertGreater(checked, 5000)
+
+    def test_a_glossary_term_is_rendered_the_same_way_wherever_it_is_used(self):
+        """A term of the glossary has one Simplified form (the dictionary's); every catalogue message that uses the term contains it."""
+        glossary = json.loads((hans.DATA / "glossary.json").read_text(encoding="utf-8"))["items"]
+        terms = sorted((g["zh-Hant"] for g in glossary if len(g["zh-Hant"]) >= 2), key=lambda t: -len(t))
+        bad = []
+        for name in sorted(p.name for p in (hans.CATALOGS / "zh-Hant").glob("*.json")):
+            src = json.loads((hans.CATALOGS / "zh-Hant" / name).read_text(encoding="utf-8"))
+            dst = json.loads(self.files[hans.CATALOGS / "zh-Hans" / name])
+            for key, msg in src.items():
+                if key in CONV.keys:
+                    continue
+                for a, b in ([(msg, dst[key])] if isinstance(msg, str) else [(msg[f], dst[key][f]) for f in msg]):
+                    rest = a
+                    for t in terms:
+                        if t in rest:
+                            rest = rest.replace(t, " ")
+                            if self.dictionary[t] not in b:
+                                bad.append((key, t, self.dictionary[t]))
+        self.assertEqual(bad, [])
+
+    def test_the_dictionary_publishes_the_traditional_only_characters_for_the_checks(self):
+        meta = json.loads(hans.DICTIONARY.read_text(encoding="utf-8"))["_meta"]
+        chars = meta["traditionalOnly"]
+        self.assertGreater(len(chars), 500)
+        for c in "腎濕脈氣陰陽藥臟":
+            self.assertIn(c, chars)
+        for c in "脾肝心肺案答":
+            self.assertNotIn(c, chars, c)
+        self.assertTrue(all(hans.is_traditional_only(c) for c in chars))
+
     def test_the_review_sheet_can_be_made(self):
         from scripts.i18n import review_hans
         sheet = review_hans.sheet()

@@ -68,8 +68,8 @@ test("E5: an anticoagulant gives an inline notice and the formulas with activati
   await app.toResult();
   await expect(page.locator("#sec-banner")).toContainText(app.t("safety.notice.medication.text", { class: app.t("intake.profile.meds.anticoagulant"), removed_or_marked: app.t("safety.value.removed") }));
   await page.locator("#sec-banner").getByRole("button", { name: app.t("report.banner.why") }).click();
-  await expect(page.locator("#sec-banner").getByRole("listitem").filter({ hasText: /Shen Ling|參苓白朮散|Sijunzi|四君子湯/ }).first()).toBeVisible();
-  await expect(page.locator("#sec-advice").getByRole("heading", { name: /Shen Ling|參苓白朮散/ })).toHaveCount(0);
+  await expect(page.locator("#sec-banner").getByRole("listitem").filter({ hasText: /Shen Ling|參苓白朮散|参苓白术散|Sijunzi|四君子湯|四君子汤/ }).first()).toBeVisible();      // the formula names in either script
+  await expect(page.locator("#sec-advice").getByRole("heading", { name: /Shen Ling|參苓白朮散|参苓白术散/ })).toHaveCount(0);
 });
 
 test("E6: an allergy that matches suppresses the item with its reason; one we do not know shows the cannot-confirm notice", async ({ app, page }) => {
