@@ -164,6 +164,22 @@ describe("practitioner summary (UX spec §12)", () => {
     expect(sections.find((s) => s.id === "hypotheses")!.items![0]).toContain(kb.patternById.get("SP1")!.name.en!);
   });
 
+  it("the resting pulse rate leads the observations, with how it was obtained — and is absent when none was recorded", () => {
+    const withPulse = (method?: "typed" | "timer" | "tap"): SavedAssessment => ({ ...saved, input: { ...saved.input, observe: { pulse: { rate: 76, rhythm: "regular", ...(method ? { method } : {}) } } } });
+    const items = (s: SavedAssessment, lang: "en" | "zh-Hant" = "en"): readonly string[] => buildSummary(s, kb, createI18n<MessageKey>(catalogs, lang)).find((x) => x.id === "observations")!.items!;
+    expect(items(withPulse("tap"))[0]).toBe("Resting pulse rate: 76 beats per minute (tapped along with the beat)");
+    expect(items(withPulse("timer"))[0]).toBe("Resting pulse rate: 76 beats per minute (counted for 30 seconds)");
+    expect(items(withPulse("typed"))[0]).toBe("Resting pulse rate: 76 beats per minute (typed in)");
+    expect(items(withPulse())[0]).toBe("Resting pulse rate: 76 beats per minute");
+    expect(items(withPulse("tap"), "zh-Hant")[0]).toBe("靜息脈搏：每分鐘 76 次（跟著心跳點擊）");
+    expect(items(saved).some((x) => x.startsWith("Resting pulse rate"))).toBe(false);
+    expect(items({ ...saved, input: { ...saved.input, observe: { pulse: { rate: null, rhythm: "regular" } } } }).some((x) => x.startsWith("Resting pulse rate"))).toBe(false);
+    // only a pulse rate and no other observation still reads as an observation, not as "none recorded"
+    const onlyRate: SavedAssessment = { ...withPulse("tap"), input: { ...withPulse("tap").input, findings: Object.fromEntries(Object.entries(saved.input.findings).filter(([id]) => id !== tongue && id !== pulse)) } };
+    expect(items(onlyRate)).toEqual(expect.arrayContaining(["Resting pulse rate: 76 beats per minute (tapped along with the beat)"]));
+    expect(items(onlyRate)).not.toContain("No tongue or pulse findings were recorded.");
+  });
+
   it("the text version holds every section and fact of the model, in order", () => {
     const sections = buildSummary(saved, kb, t);
     const text = summaryToText("TITLE", "INTRO", sections, "FOOTER");

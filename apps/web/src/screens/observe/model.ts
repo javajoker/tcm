@@ -3,7 +3,7 @@
 // only ever present or not recorded; skipping a step records nothing.
 import type { Finding, FindingSource } from "@tcm/engine";
 import type { KnowledgeBase } from "@tcm/kb";
-import type { Draft } from "../../storage/types.ts";
+import type { Draft, PulseMethod } from "../../storage/types.ts";
 import { withAnswer } from "../screening/model.ts";
 
 export type TongueCategory = "body" | "shape" | "coat";
@@ -58,7 +58,7 @@ export const SIGN_ZONES = ["tip", "center", "root", "edge", "border", "all"] as 
 // ── pulse ───────────────────────────────────────────────────────────────────────────────────────────────
 
 export type Rhythm = "regular" | "skips" | "irregular";
-export interface PulseInput { readonly rate: number | null; readonly rhythm: Rhythm | null; readonly qualities: readonly string[]; readonly position: string | null }
+export interface PulseInput { readonly rate: number | null; readonly rhythm: Rhythm | null; readonly qualities: readonly string[]; readonly position: string | null; readonly method?: PulseMethod | null }
 /** Rate-group pulses are derived from the measured rate, never chosen by hand. */
 export const RATE_GROUP = "rate";
 export const IRREGULAR_FLAG = "RF_B_IRREGULAR_PULSE";
@@ -83,7 +83,7 @@ export function applyPulse(d: Draft, kb: KnowledgeBase, input: PulseInput): Draf
     findings["P_SLOW"] = { state: slow ? "present" : "absent", source: "measured" };
   }
   for (const id of input.qualities) findings[id] = { state: "present", source: "pulse", ...(input.position ? { position: input.position as never } : {}) };
-  let next: Draft = { ...d, findings, observe: { ...d.observe, pulse: { rate: input.rate, rhythm: input.rhythm } } };
+  let next: Draft = { ...d, findings, observe: { ...d.observe, pulse: { rate: input.rate, rhythm: input.rhythm, ...(input.rate !== null && input.method ? { method: input.method } : {}) } } };
   if (input.rhythm === "irregular") next = withAnswer(next, IRREGULAR_FLAG, "yes");
   return next;
 }

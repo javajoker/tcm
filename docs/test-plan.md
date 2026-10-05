@@ -157,7 +157,7 @@ Blinded vignettes (written, synthetic) are given to ≥ 3 practitioners **and** 
 | E7 | Insufficient information | Result shows what is missing and top questions; no formula |
 | E8 | Birth module on (dev) / opt-in (release) | Echo of longitude/time zone; panel shows three blocks; the **diagnosis is unchanged** vs module off |
 | E9 | Tongue zones and signs | Zone selection and checklist twin stay in sync (keyboard and touch); selections reach the trace as *self-observed* |
-| E10 | Optional pulse | Rate, rhythm, exclusive groups enforced; irregular rhythm → B notice; educational note present |
+| E10 | Optional pulse | Rate, rhythm, exclusive groups enforced; irregular rhythm → B notice; educational note present. E10b: tapping along with the beat fills the rate (shown only after Done), and the review says how it was obtained |
 | E11 | Language switch mid-flow | Route and all answers preserved; `lang` attributes update |
 | E12 | Resume | Reload mid-inquiry → Resume card; answers intact |
 | E13 | Save, history, compare | Two assessments compare; "computed with an older version" label after a simulated KB bump |

@@ -282,6 +282,8 @@
   "report.pract.panel": "盤面（相對一般健康人）",
   "report.pract.pattern": "{name}（{band}）",
   "report.pract.person": "基本資料",
+  "report.pract.pulseRate": "靜息脈搏：每分鐘 {rate} 次",
+  "report.pract.pulseRateMethod": "靜息脈搏：每分鐘 {rate} 次（{method}）",
   "report.pract.quality.guided": "自我觀察",
   "report.pract.quality.inquiry": "自述",
   "report.pract.quality.measured": "量測",

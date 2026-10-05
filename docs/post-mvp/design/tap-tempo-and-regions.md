@@ -2,8 +2,8 @@
 
 | | |
 |---|---|
-| **Version** | 0.1 (draft) |
-| **Status** | Design for Release A (FR-28 and FR-29; tasks PM-11 and PM-12). Nothing is built |
+| **Version** | 0.3 |
+| **Status** | Built for Release A (FR-28 and FR-29; tasks PM-11 and PM-12). The estimator departs from v0.1 in one respect, recorded in §1.2 |
 | **Last updated** | 2026-10-05 |
 | **Audience** | Engineers, the safety content owner, regional verifiers |
 | **Related** | [Requirements FR-28, FR-29](../requirements.md#fr-28-tap-tempo-pulse--release-a--class-n--refines-fr-6-uq3) · [Safety policy §5](../../safety-policy.md) · [UX spec §4.7](../../ux-spec.md) · [Decisions Q1, SQ1, UQ3](../decisions.md) |
@@ -20,22 +20,24 @@ The pulse screen takes a typed rate or a 30-second timer after which the person 
 
 ### 1.2 Estimator
 
-A pure module (`apps/web/src/screens/observe/tapTempo.ts`, no DOM) takes the tap times in milliseconds (`event.timeStamp`; the constant input latency of a device cancels in the intervals) and returns a result. Constants are exported and tested.
+A pure module (`apps/web/src/screens/observe/tapTempo.ts`, no DOM) takes the tap times in milliseconds (`event.timeStamp`; the constant input latency of a device cancels in the intervals) and the rate bands of the pulse data (`rapid_gt` 90, `slow_lt` 60 today) and returns a result. Constants are exported (`TAP`) and tested.
 
 | Step | Rule |
 |---|---|
-| Intervals | Differences between consecutive taps |
-| Plausible range | Keep 250–2 000 ms (240 down to 30 beats per minute); drop the rest |
-| Outliers | Drop an interval below 0.4 or above 2.5 times the median of the plausible ones (a double tap, a missed beat) |
-| Enough? | At least **12 taps** and at least **8 valid intervals**, else `too-few` |
-| Rate | `60 000 / median(valid intervals)`, rounded to a whole number |
-| Steady? | Spread = standard deviation ÷ mean of the valid intervals. Above **0.25**: `too-uneven`, no number is produced |
+| Typical interval | The median of the intervals between consecutive taps that lie in 250–2 000 ms (240 down to 30 beats per minute) |
+| Bounces | A tap closer than **0.4 ×** the typical interval to the last kept tap is a double tap and is ignored: the beat is timed from the first tap of the pair |
+| Beats | Each interval between kept taps is a **beat** if it is within 40 % of the typical one, **two or three beats** with a tap missed if within 20 % of twice or three times it, and otherwise discarded |
+| Enough? | At least **12 taps** and at least **8 usable intervals**, else `too-few` (or `too-uneven` when most of what was tapped was discarded) |
+| Rate | **60 000 × beats ÷ time** over the usable intervals, rounded to a whole number. With nothing discarded this is the span between the first and the last tap divided by the number of beats |
+| Steady? | Spread = standard deviation ÷ mean of the beat intervals. Above **0.25**, or more than **30 %** of the intervals discarded: `too-uneven`, no number is produced |
 | Near an edge | Within **3 beats per minute** of a band edge (`rapid_gt`, `slow_lt`): `near-edge` — the screen says the result is close to the line and suggests another try or the 30-second count; the person decides |
 | Uneven hint | Spread above **0.12** (and a number was produced): a hint, never a decision — "your taps were uneven; if you also feel beats skip, choose that below" |
 
 Result: `{ status, rate | null, valid, spread, unevenHint }`. The thresholds are provisional constants of the interface, with the same standing as other `[calibrate]` values: they are tested against simulated taps and revisited with usability evidence (round R2).
 
-**Why the tolerance is ±3, not ±2:** a person tapping to a felt beat jitters by roughly 20–40 ms per tap; the median of eleven intervals at 75 beats per minute then errs by about 2–3 beats per minute. Claiming better would be false precision next to a band edge, which is why `near-edge` exists.
+**What changed from v0.1 (found by simulating before building).** v0.1 took the rate from the *median* of the valid intervals. A median is robust but noisy: with 12 taps and normally distributed jitter of σ = 30 ms the median misses ±3 beats per minute in about 8 % of runs (92 % within, against the 95 % required), because a person's taps err by tens of milliseconds each and the median of eleven differences keeps most of that. The rate over the whole span depends on the jitter of only the first and the last tap and lands within ±3 in every simulated run, but it is not robust to a missed beat or a double tap — so those two are handled explicitly (bounces ignored, an interval that holds two beats counted as two) before the span is taken. Both jitter models (normal σ = 30 ms and uniform ± 30 ms) at both run lengths (12 and 30 taps) now pass the 95 % target, and a double tap or a missed beat anywhere in a steady run moves the rate by at most 3.
+
+**Why the tolerance is ±3, not ±2:** a person tapping to a felt beat jitters by roughly 20–40 ms per tap and a real hand drifts; claiming better would be false precision next to a band edge, which is why `near-edge` exists.
 
 ### 1.3 Screen
 
@@ -130,3 +132,5 @@ PM-11 (estimator, screen, method field, tests), PM-12 (row fields, `resolveRegio
 | Version | Date | Change |
 |---|---|---|
 | 0.1 | 2026-10-05 | Initial design |
+| 0.2 | 2026-10-05 | Region packs built (PM-12) |
+| 0.3 | 2026-10-05 | Tap-tempo built (PM-11); the rate is taken over the beats the estimator could time (bounces ignored, missed taps counted), not as the median of the intervals, which did not reach the 95 % target at 12 taps |

@@ -283,6 +283,8 @@
   "report.pract.panel": "Panel (versus a typical healthy person)",
   "report.pract.pattern": "{name} ({band})",
   "report.pract.person": "About the person",
+  "report.pract.pulseRate": "Resting pulse rate: {rate} beats per minute",
+  "report.pract.pulseRateMethod": "Resting pulse rate: {rate} beats per minute ({method})",
   "report.pract.quality.guided": "self-observed",
   "report.pract.quality.inquiry": "reported",
   "report.pract.quality.measured": "measured",

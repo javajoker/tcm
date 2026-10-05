@@ -36,7 +36,8 @@ function parseObserve(x: unknown): Draft["observe"] {
   const p = x["pulse"];
   const rate = typeof p["rate"] === "number" && Number.isFinite(p["rate"]) ? p["rate"] : null;
   const rhythm = p["rhythm"] === "regular" || p["rhythm"] === "skips" || p["rhythm"] === "irregular" ? p["rhythm"] : null;
-  return { pulse: { rate, rhythm } };
+  const method = p["method"] === "typed" || p["method"] === "timer" || p["method"] === "tap" ? p["method"] : undefined;
+  return { pulse: { rate, rhythm, ...(method !== undefined && rate !== null ? { method } : {}) } };
 }
 
 function parseInquiry(x: unknown): Draft["inquiry"] {

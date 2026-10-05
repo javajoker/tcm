@@ -71,6 +71,7 @@ function Body({ draft, onFinishing, onUnfinish }: { draft: Draft; onFinishing: (
   const [failed, setFailed] = useState(false);
 
   const groups = reviewGroups(kb, draft);
+  const pulse = draft.observe.pulse;
   const unsure = unsureQuestions(kb, draft);
   const noCount = absentCount(draft);
   const selfObserved = selfObservedCount(groups);
@@ -117,6 +118,12 @@ function Body({ draft, onFinishing, onUnfinish }: { draft: Draft; onFinishing: (
             </section>
           ))}
           {noCount > 0 ? <p className="muted">{t.plural("intake.review.groups.noCount", noCount)}</p> : null}
+          {pulse?.rate != null ? (
+            <p>
+              {pulse.method ? t.t("intake.review.pulse.rateMethod", { rate: pulse.rate, method: t.t(`observe.pulse.method.${pulse.method}` as MessageKey) }) : t.t("intake.review.pulse.rate", { rate: pulse.rate })}
+              {" "}<LinkButton href="/observe/pulse" variant="ghost">{t.t("intake.review.edit")}</LinkButton>
+            </p>
+          ) : null}
         </Card>
         <Card title={t.t("intake.review.constitution.title")} headingLevel={2} id="review-constitution">
           <p>{answeredCount(draft) > 0 ? t.plural("intake.review.constitution.answered", answeredCount(draft)) : t.t("intake.review.constitution.skipped")}</p>

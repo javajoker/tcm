@@ -224,6 +224,7 @@ Short selection cards: complexion (pale · sallow · red · bluish · dark; lust
  Pulse (optional)                       ← collapsed card; "Skip — I can't feel it"
  ┌ Measure ────────────────────────┐
  │ Resting rate  [ 72 ] beats/min   │   plus a 30-second helper timer (count × 2)
+ │ [Tap with each beat instead]     │   opens a large tap button, a tap count, Done (from 12 taps), Start over
  │ Rhythm  (•) regular ( ) occasional skips ( ) clearly irregular │
  └──────────────────────────────────┘
  ┌ If you can tell (advanced) ─────┐

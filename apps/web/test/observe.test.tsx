@@ -1,4 +1,4 @@
-import { act, fireEvent, screen, waitFor, within } from "@testing-library/react";
+import { act, cleanup, fireEvent, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import * as engine from "@tcm/engine";
 import { indexKnowledgeBase } from "@tcm/kb";
@@ -258,7 +258,7 @@ describe("Pulse (S10, E10)", () => {
 
   it("the rate is validated, and the 30-second helper turns a count into a rate", async () => {
     vi.useFakeTimers({ shouldAdvanceTime: true });
-    await open("/observe/pulse");
+    const { store } = await open("/observe/pulse");
     const rate = await screen.findByLabelText("Resting pulse (beats per minute)");
     await userEvent.type(rate, "7");
     await userEvent.tab();
@@ -271,6 +271,9 @@ describe("Pulse (S10, E10)", () => {
     await userEvent.type(screen.getByLabelText("Beats counted in 30 seconds"), "41");
     await userEvent.click(screen.getByRole("button", { name: "Use the ×2 result" }));
     expect(screen.getByLabelText("Resting pulse (beats per minute)")).toHaveValue("82");
+    vi.useRealTimers();
+    await userEvent.click(screen.getByRole("button", { name: "Save the pulse" }));
+    expect(draftOf(store).observe.pulse).toEqual({ rate: 82, rhythm: null, method: "timer" });
   });
 
   it("saves the rate, the qualities and the position as findings and returns to the hub", async () => {
@@ -284,7 +287,158 @@ describe("Pulse (S10, E10)", () => {
     const f = draftOf(store).findings;
     expect(f["P_RAPID"]).toEqual({ state: "present", source: "measured" });
     expect(f["P_FLOAT"]).toEqual({ state: "present", source: "pulse", position: "R-guan" });
-    expect(draftOf(store).observe.pulse).toEqual({ rate: 104, rhythm: "regular" });
+    expect(draftOf(store).observe.pulse).toEqual({ rate: 104, rhythm: "regular", method: "typed" });
+  });
+
+  describe("tap along with the beat (PM-11)", () => {
+    /** A click whose `timeStamp` is the given millisecond: what the estimator reads (jsdom's own stamps are real time). */
+    const tapAt = (button: HTMLElement, ms: number): void => {
+      const ev = new MouseEvent("click", { bubbles: true, cancelable: true });
+      Object.defineProperty(ev, "timeStamp", { value: ms });
+      act(() => { button.dispatchEvent(ev); });
+    };
+    const taps = (button: HTMLElement, intervals: readonly number[], from = 1000): void => { let t = from; tapAt(button, t); for (const d of intervals) { t += d; tapAt(button, t); } };
+    const steady = (n: number, ms: number): number[] => Array.from({ length: n - 1 }, () => ms);
+    const openTap = async (draft?: Draft) => {
+      const o = await open("/observe/pulse", draft);
+      await userEvent.click(await screen.findByRole("button", { name: "Tap with each beat instead" }));
+      return { ...o, button: screen.getByRole("button", { name: "Tap with each beat" }) };
+    };
+    const rateField = (): HTMLElement => screen.getByLabelText("Resting pulse (beats per minute)");
+
+    it("is closed until asked for; the typed rate and the 30-second timer are still there", async () => {
+      await open("/observe/pulse");
+      expect(await screen.findByRole("button", { name: "Tap with each beat instead" })).toBeInTheDocument();
+      expect(screen.queryByRole("button", { name: "Tap with each beat" })).toBeNull();
+      expect(screen.getByRole("button", { name: "Start the 30-second timer" })).toBeInTheDocument();
+      expect(rateField()).toBeInTheDocument();
+    });
+
+    it("counts the taps in view, shows no number until Done, and announces the result once", async () => {
+      const { button } = await openTap();
+      expect(screen.getByText("0 taps so far")).toHaveAttribute("aria-live", "off");
+      expect(screen.getByRole("button", { name: "Done" })).toBeDisabled();
+      expect(screen.getByText("Keep going: at least 12 taps are needed.")).toBeInTheDocument();
+      taps(button, steady(11, 800));
+      expect(screen.getByText("11 taps so far")).toBeInTheDocument();
+      expect(screen.getByRole("button", { name: "Done" })).toBeDisabled();
+      tapAt(button, 1000 + 11 * 800);
+      expect(screen.getByRole("button", { name: "Done" })).toBeEnabled();
+      expect(screen.queryByText(/at least 12 taps/)).toBeNull();
+      // nothing about a rate yet, and no live region says anything about the taps
+      expect(screen.queryByText(/beats per minute\./)).toBeNull();
+      for (const status of screen.getAllByRole("status")) expect(status.textContent).not.toMatch(/tap/i);
+      await userEvent.click(screen.getByRole("button", { name: "Done" }));
+      const status = screen.getAllByRole("status").find((s) => /beats per minute/.test(s.textContent ?? ""))!;
+      expect(status).toHaveTextContent("About 75 beats per minute.");
+      expect(screen.getAllByRole("status").filter((s) => /beats per minute/.test(s.textContent ?? ""))).toHaveLength(1);
+      expect(screen.queryByRole("button", { name: "Tap with each beat" })).toBeNull();
+    });
+
+    it("Use this rate fills the field, closes the panel and records the method; typing over it records 'typed'", async () => {
+      const { button, store } = await openTap();
+      taps(button, steady(14, 800));
+      await userEvent.click(screen.getByRole("button", { name: "Done" }));
+      await userEvent.click(screen.getByRole("button", { name: "Use this rate" }));
+      expect(rateField()).toHaveValue("75");
+      expect(screen.getByRole("button", { name: "Tap with each beat instead" })).toBeInTheDocument();
+      await userEvent.click(screen.getByRole("button", { name: "Save the pulse" }));
+      expect(draftOf(store).observe.pulse).toEqual({ rate: 75, rhythm: null, method: "tap" });
+      expect(draftOf(store).findings["P_RAPID"]).toEqual({ state: "absent", source: "measured" });          // the same finding the timer gives
+
+      cleanup();
+      go("/en/observe/pulse");
+      const again = await open("/observe/pulse", draftOf(store));
+      expect(await screen.findByLabelText("Resting pulse (beats per minute)")).toHaveValue("75");
+      await userEvent.clear(rateField());
+      await userEvent.type(rateField(), "78");
+      await userEvent.click(screen.getByRole("button", { name: "Save the pulse" }));
+      expect(draftOf(again.store).observe.pulse).toEqual({ rate: 78, rhythm: null, method: "typed" });
+    });
+
+    it("the run ends by itself at 30 taps", async () => {
+      const { button } = await openTap();
+      taps(button, steady(30, 700));
+      expect(screen.getAllByRole("status").some((s) => /About 86 beats per minute\./.test(s.textContent ?? ""))).toBe(true);
+      expect(screen.queryByRole("button", { name: "Tap with each beat" })).toBeNull();
+    });
+
+    it("taps too uneven give no number and no way to use one; Try again starts a fresh count", async () => {
+      const { button } = await openTap();
+      taps(button, [500, 900, 600, 1100, 450, 1000, 700, 1200, 550, 950, 650, 1150]);
+      await userEvent.click(screen.getByRole("button", { name: "Done" }));
+      expect(screen.getByText(/The taps were too uneven to give a number/)).toBeInTheDocument();
+      expect(screen.queryByRole("button", { name: "Use this rate" })).toBeNull();
+      expect(rateField()).toHaveValue("");
+      await userEvent.click(screen.getByRole("button", { name: "Try again" }));
+      expect(screen.getByText("0 taps so far")).toBeInTheDocument();
+    });
+
+    it("a result close to the line says so, and the person still decides", async () => {
+      const { button } = await openTap();
+      taps(button, steady(14, 667));
+      await userEvent.click(screen.getByRole("button", { name: "Done" }));
+      expect(screen.getByText(/About 90 beats per minute, which is close to the point where a pulse counts as rapid/)).toBeInTheDocument();
+      expect(screen.getByRole("button", { name: "Use this rate" })).toBeEnabled();
+    });
+
+    it("uneven but usable taps give the number with a hint about the rhythm", async () => {
+      const { button } = await openTap();
+      taps(button, [680, 920, 680, 920, 680, 920, 680, 920, 680, 920, 680, 920]);
+      await userEvent.click(screen.getByRole("button", { name: "Done" }));
+      expect(screen.getByText("About 75 beats per minute.")).toBeInTheDocument();
+      expect(screen.getByText("Your taps were uneven. If you also feel beats skip, choose that under Rhythm.")).toBeInTheDocument();
+    });
+
+    it("Start over and Cancel discard the taps", async () => {
+      const { button } = await openTap();
+      taps(button, steady(5, 800));
+      expect(screen.getByText("5 taps so far")).toBeInTheDocument();
+      await userEvent.click(screen.getByRole("button", { name: "Start over" }));
+      expect(screen.getByText("0 taps so far")).toBeInTheDocument();
+      expect(screen.getByRole("button", { name: "Start over" })).toBeDisabled();
+      taps(button, steady(3, 800));
+      await userEvent.click(screen.getByRole("button", { name: "Cancel" }));
+      await userEvent.click(screen.getByRole("button", { name: "Tap with each beat instead" }));
+      expect(screen.getByText("0 taps so far")).toBeInTheDocument();
+    });
+
+    it("works from the keyboard, and a held key is one tap", async () => {
+      const { button } = await openTap();
+      button.focus();
+      await userEvent.keyboard("{Enter}");
+      await userEvent.keyboard(" ");
+      expect(screen.getByText("2 taps so far")).toBeInTheDocument();
+      expect(fireEvent.keyDown(button, { key: "Enter", repeat: true })).toBe(false);          // the repeat is cancelled, so it cannot click
+      expect(fireEvent.keyDown(button, { key: "Enter", repeat: false })).toBe(true);
+      expect(screen.getByText("2 taps so far")).toBeInTheDocument();
+    });
+
+    it("a rate that predates the record keeps no method when it is saved unchanged", async () => {
+      const d = applyPulse(base(), kb, { rate: 70, rhythm: "regular", qualities: [], position: null });
+      const { store } = await open("/observe/pulse", d);
+      expect(await screen.findByLabelText("Resting pulse (beats per minute)")).toHaveValue("70");
+      await userEvent.click(screen.getByRole("button", { name: "Save the pulse" }));
+      expect(draftOf(store).observe.pulse).toEqual({ rate: 70, rhythm: "regular" });
+    });
+
+    it("has no accessibility violations while tapping and with a result", async () => {
+      const { button, container } = await openTap();
+      const check = async (): Promise<string[]> => (await axe(container, { rules: { "color-contrast": { enabled: false } } })).violations.map((v) => `${v.id}: ${v.help}`);
+      expect(await check()).toEqual([]);
+      taps(button, steady(13, 800));
+      await userEvent.click(screen.getByRole("button", { name: "Done" }));
+      expect(await check()).toEqual([]);
+    });
+
+    it("is in Traditional Chinese too", async () => {
+      await open("/observe/pulse", base(), "zh-Hant");
+      await userEvent.click(await screen.findByRole("button", { name: "改為跟著心跳點擊" }));
+      const button = screen.getByRole("button", { name: "每一下心跳點一次" });
+      taps(button, steady(13, 800));
+      await userEvent.click(screen.getByRole("button", { name: "完成" }));
+      expect(screen.getByText("約每分鐘 75 次。")).toBeInTheDocument();
+    });
   });
 
   it("shows where the three positions are on each wrist, and the figure follows the chosen position", async () => {

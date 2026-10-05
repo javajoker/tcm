@@ -79,3 +79,25 @@ test("E10: the pulse: a rate, a rhythm, qualities that exclude each other; an ir
   await app.acknowledgeNotice();
   await expect(page).toHaveURL(new RegExp(`/${app.lang}/observe$`));
 });
+
+test("E10b: tapping along with the beat fills the pulse rate, the rate is shown only after Done, and the review says how it was obtained", async ({ app, page }) => {
+  await app.toObserve(ADULT_MAN, typicalSymptoms("SP1"));
+  await page.locator("#observe-pulse").getByRole("link", { name: app.t("observe.hub.start") }).click();
+  await app.button("observe.pulse.tap.open").click();
+  const tap = app.button("observe.pulse.tap.button");
+  await expect(app.button("observe.pulse.tap.done")).toBeDisabled();
+  for (let i = 0; i < 13; i++) { await tap.click(); await page.waitForTimeout(450); }            // about 125 beats per minute, however the machine's clock jitters
+  await expect(page.getByText(app.plural("observe.pulse.tap.count", 13))).toBeVisible();
+  await expect(page.getByRole("status").filter({ hasText: /\d{2,3}/ })).toHaveCount(0);            // no number while tapping
+  await app.button("observe.pulse.tap.done").click();
+  await expect(page.getByRole("status").filter({ hasText: /\d{2,3}/ })).toHaveCount(1);
+  await app.button("observe.pulse.tap.use").click();
+  const field = page.getByLabel(app.t("observe.pulse.rate.label"));
+  const rate = Number(await field.inputValue());
+  expect(rate).toBeGreaterThan(90);
+  expect(rate).toBeLessThan(160);
+  await app.button("observe.pulse.save").click();
+  await page.getByRole("button", { name: app.t("observe.hub.continue"), exact: true }).click();
+  await expect(app.heading("intake.review.title")).toBeVisible();
+  await expect(page.getByText(new RegExp(`${rate}.*${app.t("observe.pulse.method.tap")}`))).toBeVisible();
+});

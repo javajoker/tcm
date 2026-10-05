@@ -59,10 +59,13 @@ export interface InquiryProgress {
   readonly resolved: readonly string[];
 }
 
+/** How the resting pulse rate was obtained: typed in, counted with the 30-second timer, or tapped along with the beat. */
+export type PulseMethod = "typed" | "timer" | "tap";
+
 /** What the observation screens keep besides the findings: the form values that cannot be read back from them. */
 export interface ObserveProgress {
-  /** Resting pulse rate (beats per minute) and the rhythm the user chose; `null` = not entered. */
-  readonly pulse?: { readonly rate: number | null; readonly rhythm: "regular" | "skips" | "irregular" | null };
+  /** Resting pulse rate (beats per minute) and the rhythm the user chose; `null` = not entered. `method` is absent when the rate predates it or none was entered. */
+  readonly pulse?: { readonly rate: number | null; readonly rhythm: "regular" | "skips" | "irregular" | null; readonly method?: PulseMethod };
 }
 
 /** IndexedDB `drafts/current`: the in-progress assessment, persisted after every answer. JSON-serialisable (no Set/Map/undefined holes). */
@@ -100,7 +103,7 @@ export interface SavedAssessment {
   readonly lang: Lang;
   readonly seasonModel: string;
   /** The inputs; `birth` only when the user chose to remember it. */
-  readonly input: { readonly subject: Draft["subject"]; readonly profile: ProfileAnswers; readonly screening: Screening; readonly redFlags: readonly string[]; readonly findings: Draft["findings"]; readonly context: AssessContext; readonly constitutionAnswers?: Readonly<Record<string, number>>; readonly birth?: BirthInput };
+  readonly input: { readonly subject: Draft["subject"]; readonly profile: ProfileAnswers; readonly screening: Screening; readonly redFlags: readonly string[]; readonly findings: Draft["findings"]; readonly context: AssessContext; readonly constitutionAnswers?: Readonly<Record<string, number>>; readonly birth?: BirthInput; readonly observe?: ObserveProgress };
   readonly result: Assessment;
   readonly userNote?: string;
   readonly feedback?: Readonly<Record<string, "match" | "partial" | "no">>;

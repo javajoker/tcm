@@ -75,6 +75,36 @@ describe("assessment helpers", () => {
   });
 });
 
+describe("the pulse rate and how it was obtained (PM-11)", () => {
+  const pulse = (method?: "typed" | "timer" | "tap"): Draft => ({ ...rich(), observe: { pulse: { rate: 76, rhythm: "regular", ...(method ? { method } : {}) } } });
+
+  it("a saved result keeps it, and 'edit and re-run' brings it back", () => {
+    const d = pulse("tap");
+    const saved = toSaved(d, engine.assess(kb, assessInputOf(d, 9)!), { id: "r4", lang: "en" });
+    expect(saved.input.observe).toEqual({ pulse: { rate: 76, rhythm: "regular", method: "tap" } });
+    expect(draftFromSaved(kb, saved, "n3", 1).observe).toEqual({ pulse: { rate: 76, rhythm: "regular", method: "tap" } });
+    expect(toSaved(rich(), engine.assess(kb, assessInputOf(rich(), 9)!), { id: "r5", lang: "en" }).input.observe).toBeUndefined();
+    expect(draftFromSaved(kb, toSaved(rich(), engine.assess(kb, assessInputOf(rich(), 9)!), { id: "r5", lang: "en" }), "n4", 1).observe).toEqual({});
+  });
+
+  it("the review says the rate and the method, with a way back to the pulse", async () => {
+    await open(pulse("tap"));
+    expect(await screen.findByText(/Resting pulse: 76 beats per minute \(tapped along with the beat\)\./)).toBeInTheDocument();
+    const line = screen.getByText(/Resting pulse: 76/).closest("p")!;
+    expect(within(line).getByRole("link", { name: "Edit" })).toHaveAttribute("href", "/en/observe/pulse");
+  });
+
+  it("says the rate alone when it predates the record of the method, and nothing when there is no rate", async () => {
+    const { unmount } = await open(pulse());
+    expect(await screen.findByText(/Resting pulse: 76 beats per minute\./)).toBeInTheDocument();
+    expect(screen.queryByText(/tapped along|counted for 30 seconds|typed in/)).toBeNull();
+    unmount();
+    await open(rich());
+    await screen.findByRole("heading", { level: 1, name: "Review your answers" });
+    expect(screen.queryByText(/Resting pulse:/)).toBeNull();
+  });
+});
+
 describe("review model", () => {
   it("groups present findings by dimension in the SOP order, flags self-observed ones and lists skipped questions", () => {
     const d = rich();

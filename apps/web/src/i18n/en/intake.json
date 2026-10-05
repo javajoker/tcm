@@ -230,6 +230,8 @@
   "intake.review.groups.none": "No symptoms have been recorded.",
   "intake.review.groups.title": "Your symptoms and feelings",
   "intake.review.intro": "Please check what follows; you can change any item, then get your result.",
+  "intake.review.pulse.rate": "Resting pulse: {rate} beats per minute.",
+  "intake.review.pulse.rateMethod": "Resting pulse: {rate} beats per minute ({method}).",
   "intake.review.quality.selfObserved": {
     "one": "{n} item is self-observed and counts for less in the calculation.",
     "other": "{n} items are self-observed and count for less in the calculation."

@@ -64,6 +64,17 @@ describe("draft", () => {
     expect(toStored(draftWithBirth(true)).birth).toEqual(birth);
     expect(JSON.stringify(toStored(draftWithBirth(false)))).not.toContain("1990");
   });
+  it("parseDraft keeps the pulse method when it is one of the three, drops anything else, and drops it with the rate", () => {
+    const d = newDraft("d", 1);
+    const parse = (pulse: unknown) => parseDraft({ ...JSON.parse(JSON.stringify(d)), observe: { pulse } })?.observe.pulse;
+    expect(parse({ rate: 72, rhythm: "regular", method: "tap" })).toEqual({ rate: 72, rhythm: "regular", method: "tap" });
+    expect(parse({ rate: 72, rhythm: null, method: "timer" })).toEqual({ rate: 72, rhythm: null, method: "timer" });
+    expect(parse({ rate: 72, rhythm: null, method: "typed" })).toEqual({ rate: 72, rhythm: null, method: "typed" });
+    expect(parse({ rate: 72, rhythm: null })).toEqual({ rate: 72, rhythm: null });                       // a draft from before the record
+    expect(parse({ rate: 72, rhythm: null, method: "guess" })).toEqual({ rate: 72, rhythm: null });
+    expect(parse({ rate: null, rhythm: "skips", method: "tap" })).toEqual({ rate: null, rhythm: "skips" });
+  });
+
   it("parseDraft accepts a stored draft and rejects malformed ones", () => {
     const d = draftWithBirth(true);
     expect(parseDraft(JSON.parse(JSON.stringify(d)))).toEqual(d);

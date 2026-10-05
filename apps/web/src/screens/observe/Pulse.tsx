@@ -7,13 +7,14 @@ import { NeedsKnowledge, useLoaded } from "../../app/knowledge.tsx";
 import { useApp } from "../../app/store.tsx";
 import { useDraft } from "../../app/useDraft.ts";
 import { usePageTitle } from "../../app/usePageTitle.ts";
-import type { Draft } from "../../storage/types.ts";
+import type { Draft, PulseMethod } from "../../storage/types.ts";
 import { Button, Card, CheckGroup, ChoiceGroup, Field, LinkButton, Skeleton, TextInput } from "../../ui/index.ts";
 import { pendingNotices, withAcknowledged } from "../screening/model.ts";
 import { NoticeScreen } from "../screening/NoticeScreen.tsx";
 import { toggleExclusive } from "./exclusive.ts";
 import { applyPulse, clearPulse, parseRate, RATE_GROUP, type Rhythm } from "./model.ts";
 import { PulsePositions } from "./PulsePositions.tsx";
+import { TapTempo } from "./TapTempo.tsx";
 
 const TIMER_SECONDS = 30;
 const GROUP_ORDER = ["depth", "flow", "strength", "length", "tension", "rhythm", "width"];
@@ -27,6 +28,7 @@ function Form({ draft }: { draft: Draft }): ReactNode {
   const positionOf = Object.values(draft.findings).find((f) => f.position !== undefined)?.position ?? null;
   const [rateText, setRateText] = useState(stored?.rate != null ? String(stored.rate) : "");
   const [rateTouched, setRateTouched] = useState(false);
+  const [method, setMethod] = useState<PulseMethod | null>(stored?.method ?? null);          // how the number in the field got there; a rate that predates the record keeps none
   const [rhythm, setRhythm] = useState<Rhythm | null>(stored?.rhythm ?? null);
   const [qualities, setQualities] = useState<string[]>(Object.keys(draft.findings).filter((id) => id.startsWith("P_") && draft.findings[id]!.state === "present" && kb.pulse.pulses.find((p) => p.id === id)?.group !== RATE_GROUP));
   const [position, setPosition] = useState<string | null>(positionOf);
@@ -51,7 +53,7 @@ function Form({ draft }: { draft: Draft }): ReactNode {
 
   const save = (): void => {
     if (rateInvalid) { setRateTouched(true); return; }
-    updateDraft((d) => applyPulse(d, kb, { rate, rhythm, qualities, position }));
+    updateDraft((d) => applyPulse(d, kb, { rate, rhythm, qualities, position, method }));
     if (rhythm === "irregular") setShowNotice(true); else navigate("/observe");
   };
   const clear = (): void => { updateDraft(clearPulse); navigate("/observe"); };
@@ -70,7 +72,7 @@ function Form({ draft }: { draft: Draft }): ReactNode {
       <div style={{ display: "grid", gap: "var(--space-4)" }}>
         <Card title={t.t("observe.pulse.measure.title")} headingLevel={2} id="pulse-measure">
           <Field label={t.t("observe.pulse.rate.label")} hint={t.t("observe.pulse.rate.hint")} error={rateInvalid && rateTouched ? t.t("observe.pulse.rate.invalid") : null}>
-            <TextInput inputMode="numeric" maxLength={3} value={rateText} onChange={(e) => setRateText(e.currentTarget.value)} onBlur={() => setRateTouched(true)} />
+            <TextInput inputMode="numeric" maxLength={3} value={rateText} onChange={(e) => { setRateText(e.currentTarget.value); setMethod("typed"); }} onBlur={() => setRateTouched(true)} />
           </Field>
           {seconds === null ? <Button onClick={() => setSeconds(TIMER_SECONDS)}>{t.t("observe.pulse.timer.start")}</Button>
             : seconds > 0 ? <p role="timer" aria-live="off">{t.t("observe.pulse.timer.running", { s: seconds })}</p>
@@ -78,9 +80,10 @@ function Form({ draft }: { draft: Draft }): ReactNode {
               <div>
                 <p role="status">{t.t("observe.pulse.timer.done")}</p>
                 <Field label={t.t("observe.pulse.timer.count")}><TextInput inputMode="numeric" maxLength={3} value={count} onChange={(e) => setCount(e.currentTarget.value)} /></Field>
-                <Button disabled={!/^\d{1,3}$/.test(count)} onClick={() => { setRateText(String(Number(count) * 2)); setSeconds(null); setCount(""); }}>{t.t("observe.pulse.timer.use")}</Button>
+                <Button disabled={!/^\d{1,3}$/.test(count)} onClick={() => { setRateText(String(Number(count) * 2)); setMethod("timer"); setSeconds(null); setCount(""); }}>{t.t("observe.pulse.timer.use")}</Button>
               </div>
             )}
+          <TapTempo bands={kb.pulse._meta.guidance.rate_bands} onUse={(r) => { setRateText(String(r)); setMethod("tap"); setRateTouched(false); }} />
           <ChoiceGroup legend={t.t("observe.pulse.rhythm.legend")} inline value={rhythm} onChange={(v) => setRhythm(v as Rhythm)}
             options={(["regular", "skips", "irregular"] as const).map((v) => ({ value: v, label: t.t(`observe.pulse.rhythm.${v}` as MessageKey) }))} />
         </Card>

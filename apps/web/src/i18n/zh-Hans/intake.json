@@ -227,6 +227,8 @@
   "intake.review.groups.none": "目前没有记录到任何症状。",
   "intake.review.groups.title": "您的症状与感受",
   "intake.review.intro": "请确认以下内容；任何一项都可以修改，确认后再取得结果。",
+  "intake.review.pulse.rate": "静息脉搏：每分钟 {rate} 次。",
+  "intake.review.pulse.rateMethod": "静息脉搏：每分钟 {rate} 次（{method}）。",
   "intake.review.quality.selfObserved": {
     "other": "有 {n} 项属于自我观察，在计算中的权重较低。"
   },

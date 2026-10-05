@@ -61,7 +61,9 @@ export function buildSummary(saved: SavedAssessment, kb: KnowledgeBase, t: T): S
     if (sym.kind === "symptom") { const l = lines.get(sym.dimension) ?? []; l.push(line); lines.set(sym.dimension, l); } else obs.push(line);
   }
   out.push({ id: "symptoms", title: k("report.pract.symptoms"), items: [...lines.entries()].sort(([x], [y]) => rank(x) - rank(y)).map(([dim, ls]) => `${k(`intake.inquiry.dimension.${dim}`)}: ${ls.sort().join(listSep)}`) });
-  out.push({ id: "observations", title: k("report.pract.observations"), items: obs.length > 0 ? obs.sort() : [k("report.pract.observations.none")] });
+  const pulse = i.observe?.pulse;
+  const pulseLine = pulse?.rate == null ? [] : [pulse.method ? k("report.pract.pulseRateMethod", { rate: pulse.rate, method: k(`observe.pulse.method.${pulse.method}`) }) : k("report.pract.pulseRate", { rate: pulse.rate })];
+  out.push({ id: "observations", title: k("report.pract.observations"), items: obs.length > 0 || pulseLine.length > 0 ? [...pulseLine, ...obs.sort()] : [k("report.pract.observations.none")] });
 
   // panel, hypotheses
   const p = a.panel;
