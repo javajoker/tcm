@@ -28,6 +28,10 @@ _cc = OpenCC("s2twp")
 _POST = [
     ("裏", "裡"),   # 表裡 (Taiwan orthography)
     ("于", "於"),   # classical 於 (no surnames occur in the quoted passages)
+    # OpenCC's Taiwan *phrase* table is made for modern software text and rewrites ordinary TCM words: 运行 (motion of the five periods, 《素問·五運行大論》) becomes
+    # 執行 ("execute") and 循环 (circulation) becomes 迴圈 ("loop"). Both are wrong in every source this project reads.
+    ("執行", "運行"),
+    ("迴圈", "循環"),
 ]
 
 
