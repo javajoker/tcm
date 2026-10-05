@@ -6,11 +6,15 @@ export const DB_VERSION = 1;
 export const STORES = ["drafts", "assessments", "meta"] as const;
 export type StoreName = (typeof STORES)[number];
 
+export type BatchWrite = { readonly store: StoreName; readonly key: string; readonly value: unknown } | { readonly store: StoreName; readonly key: string; readonly delete: true };
+
 export interface Db {
   get<T>(store: StoreName, key: string): Promise<T | undefined>;
   put(store: StoreName, key: string, value: unknown): Promise<void>;
   delete(store: StoreName, key: string): Promise<void>;
   getAll<T>(store: StoreName): Promise<T[]>;
+  /** Several writes in ONE transaction (across stores): all of them or none. */
+  batch(writes: readonly BatchWrite[]): Promise<void>;
   /** Closes the connection (so a delete can proceed); the Db is unusable afterwards. */
   close(): void;
 }
@@ -36,6 +40,14 @@ export function openIndexedDb(factory: IDBFactory): Promise<Db> {
         async put(store, key, value) { const t = db.transaction(store, "readwrite"); t.objectStore(store).put(value, key); await done(t); },
         async delete(store, key) { const t = db.transaction(store, "readwrite"); t.objectStore(store).delete(key); await done(t); },
         async getAll<T>(store: StoreName) { return (await request(db.transaction(store, "readonly").objectStore(store).getAll())) as T[]; },
+        async batch(writes) {
+          if (writes.length === 0) return;
+          const t = db.transaction([...new Set(writes.map((w) => w.store))], "readwrite");
+          try {
+            for (const w of writes) { if ("delete" in w) t.objectStore(w.store).delete(w.key); else t.objectStore(w.store).put(w.value, w.key); }
+          } catch (e) { try { t.abort(); } catch { /* already finished */ } throw e; }
+          await done(t);
+        },
         close() { db.close(); },
       });
     };
@@ -60,6 +72,12 @@ export function createMemoryDb(): Db {
     async put(s, key, value) { store(s).set(key, structuredClone(value)); },
     async delete(s, key) { store(s).delete(key); },
     async getAll<T>(s: StoreName) { return [...store(s).values()].map((v) => structuredClone(v) as T); },
+    async batch(writes) {
+      // all or nothing, as a transaction is: build the result on copies, and only if every write succeeded swap them in
+      const next = new Map<StoreName, Map<string, unknown>>(STORES.map((st) => [st, new Map(store(st))]));
+      for (const w of writes) { const m = next.get(w.store)!; if ("delete" in w) m.delete(w.key); else m.set(w.key, structuredClone(w.value)); }
+      for (const st of STORES) data.set(st, next.get(st)!);
+    },
     close() { /* nothing to release */ },
   };
 }

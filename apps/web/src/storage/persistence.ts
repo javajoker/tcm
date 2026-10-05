@@ -24,6 +24,11 @@ export interface Persistence {
   getAssessment(id: string): Promise<SavedAssessment | null>;
   listAssessments(): Promise<SavedAssessment[]>;
   deleteAssessment(id: string): Promise<void>;
+  /**
+   * Apply writes (an import's) in ONE transaction: all of them or none. `true` when they were committed; `false` — and nothing changed — when storage could not take them (it is then marked not
+   * durable, as for any failed write). The records are written as given: they have been validated by the importer, and are read back through the same migrations as any other.
+   */
+  applyWrites(writes: readonly { readonly store: "assessments" | "drafts"; readonly key: string; readonly value: unknown }[]): Promise<boolean>;
   /** Deletes IndexedDB, localStorage and Cache Storage. Resolves with what was cleared; the caller reloads. */
   eraseAll(): Promise<EraseReport>;
 }
@@ -73,6 +78,9 @@ export function createPersistence(env: Environment): Persistence {
       return all.map((raw) => migrate(raw, ASSESSMENT_VERSION, ASSESSMENT_MIGRATIONS) as SavedAssessment | null).filter((a): a is SavedAssessment => a !== null).sort((x, y) => y.createdAt - x.createdAt);
     },
     deleteAssessment: (id) => guarded((d) => d.delete("assessments", id), undefined),
+    async applyWrites(writes) {
+      try { await (await open()).batch(writes.map((w) => ({ store: w.store, key: w.key, value: w.value }))); return true; } catch { setStatus("memory"); return false; }
+    },
     async eraseAll() {
       let indexedDb = true;
       let cacheStorage = true;

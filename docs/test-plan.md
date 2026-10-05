@@ -208,7 +208,7 @@ Viewports 320, 375, 600, 900, 1200, 1920; landscape phone; touch targets ≥ 44 
 
 ### 5.6 Security
 
-CSP present and strict in the built output; no inline scripts; dependency audit; license check; no `dangerouslySetInnerHTML`; `console.*` stripped in release; static scan for `localStorage`/`indexedDB` use outside `storage.ts`.
+CSP present and strict in the built output; no inline scripts; dependency audit; license check; no way to render a string as markup or to run one — `dangerouslySetInnerHTML`, `innerHTML`/`outerHTML`, `insertAdjacentHTML`, `document.write`, `DOMParser`, `eval`, `new Function` are refused by the lint configuration (`tools/eslint/raw-html.test.js` runs the real configuration over samples); `console.*` stripped in release; static scan for `localStorage`/`indexedDB` use outside `storage.ts`.
 
 ---
 

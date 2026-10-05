@@ -81,6 +81,23 @@ export default tseslint.config(
       "no-restricted-properties": ["error", ...["localStorage", "sessionStorage", "indexedDB", "caches"].map((property) => ({ object: "window", property, message: "Use apps/web/src/storage (persistence.ts) — the only module allowed to touch browser storage." }))],
     },
   },
+  // Nothing is rendered as markup (docs/post-mvp/design/backup-and-data-lock.md §3.4): what a backup file or a typed note holds is always text, so the code base has no way to write HTML or run a string.
+  // The importer treats a file as untrusted; this keeps the page from ever being the place where that would matter.
+  {
+    files: ["apps/web/src/**/*.{ts,tsx}"],
+    rules: {
+      "no-eval": "error",
+      "no-implied-eval": "error",
+      "no-new-func": "error",
+      "no-restricted-syntax": ["error",
+        { selector: "JSXAttribute[name.name='dangerouslySetInnerHTML']", message: "Never render a string as HTML: show it as text (docs/post-mvp/design/backup-and-data-lock.md §3.4)." },
+        { selector: "AssignmentExpression[left.type='MemberExpression'][left.property.name=/^(innerHTML|outerHTML)$/]", message: "Never assign markup: set `textContent`, or render text through React." },
+        { selector: "CallExpression[callee.property.name=/^(insertAdjacentHTML|insertAdjacentText)$/]", message: "Never insert markup: render text through React." },
+        { selector: "CallExpression[callee.object.name='document'][callee.property.name=/^(write|writeln)$/]", message: "Never write to the document: render through React." },
+        { selector: "NewExpression[callee.name='DOMParser'], CallExpression[callee.property.name='createContextualFragment']", message: "Never parse markup from a string." },
+      ],
+    },
+  },
   // End-to-end scenarios (Playwright): a fixture's `use` is not a React hook, and the scenarios may use Node and the console.
   {
     files: ["apps/web/e2e/**/*.ts"],

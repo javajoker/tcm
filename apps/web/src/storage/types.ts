@@ -107,6 +107,8 @@ export interface SavedAssessment {
   readonly result: Assessment;
   readonly userNote?: string;
   readonly feedback?: Readonly<Record<string, "match" | "partial" | "no">>;
+  /** Present on a record that came from a backup and could not be checked against its answers (made by another version): shown as saved, marked *Imported* (backup design §3.4 stage 8). */
+  readonly imported?: { readonly at: number; readonly from: { readonly appVersion: string; readonly kbVersion: string; readonly engineVersion: string; readonly profile: string } };
 }
 
 /** "persistent": answers are kept on this device. "memory": storage is blocked or failed — the app works but nothing survives a reload ("Not saved" chip). */

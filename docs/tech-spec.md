@@ -539,6 +539,7 @@ interface SavedAssessment {
   input: Omit<AssessInput, "options"> & { birth?: BirthInput };   // birth present only if rememberBirth = true
   result: Assessment;                                              // snapshot as shown; re-running produces a new one
   userNote?: string; feedback?: Record<string, "match" | "partial" | "no">;     // FR-16
+  imported?: { at: number; from: { appVersion; kbVersion; engineVersion; profile } };   // PM-07: came from a backup and could not be replayed; shown as saved, marked Imported
 }
 ```
 
@@ -546,6 +547,7 @@ interface SavedAssessment {
 - Free-text notes are stored locally and never interpreted (PRD FR-3).
 - **Erase everything** deletes IndexedDB, `localStorage`, and Cache Storage (if a service worker is added later), then reloads; it works with no confirmation round-trip beyond one explicit dialog.
 - All storage access goes through `storage.ts` which catches every error (private windows, blocked storage, quota) and degrades to an in-memory store with a visible "not saved" indicator.
+- **Backup and restore** (`storage/backup/`, [design](post-mvp/design/backup-and-data-lock.md)): a versioned JSON file with a checksum; the importer treats it as untrusted — size and depth bounds, allow-list validators that build fresh plain objects, the profile rule, a replay check that proves a record genuine by re-running the engine on its answers when the versions match — and applies the person's choice in **one transaction** (`Db.batch`, `Persistence.applyWrites`: all or nothing).
 - **Migrations:** each schema bump ships a forward migration with a fixture test; saved results keep their own version stamps and are displayed as saved (with a "computed with an older version" label) rather than silently recomputed.
 
 ### 8.4 Result report assembly
@@ -613,7 +615,7 @@ Colour: one sequential hue per quantity family, never red/green as good/bad; sig
 | Supply chain | Lockfile, `pnpm audit` in CI, Dependabot/Renovate, `--ignore-scripts` installs, minimal runtime dependencies (React, wouter, Zustand); the engine, wuxing and i18n have **zero** runtime dependencies |
 | Integrity | Content-hashed assets; KB `manifest.json` lists chunk hashes; the loader verifies the version it expects; SRI on the entry assets if the host rewrites nothing |
 | Clipboard / export | Only on explicit user action, with a warning that the content is health data |
-| Threats considered | Shared-device exposure (mitigated by erase, no auto-restore of birth data); XSS (no HTML injection: all KB text rendered as text; no `dangerouslySetInnerHTML`; markdown not used); tampered KB (hash + CSP same-origin); stale cache (versioned URLs); mis-served wrong profile (`check-release.ts`) |
+| Threats considered | Shared-device exposure (mitigated by erase, no auto-restore of birth data); XSS (no HTML injection: all KB text and everything from a backup file rendered as text; `dangerouslySetInnerHTML`, `innerHTML`, `insertAdjacentHTML`, `document.write`, `DOMParser`, `eval` and `new Function` are refused by the lint configuration; markdown not used); tampered KB (hash + CSP same-origin); stale cache (versioned URLs); mis-served wrong profile (`check-release.ts`) |
 
 ---
 

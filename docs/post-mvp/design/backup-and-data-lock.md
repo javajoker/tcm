@@ -2,8 +2,8 @@
 
 | | |
 |---|---|
-| **Version** | 0.1 (draft) |
-| **Status** | Design for Release A (FR-23; tasks PM-07 … PM-10) and Release B (FR-24; PM-20). Nothing is built |
+| **Version** | 0.2 |
+| **Status** | Release A (FR-23; tasks PM-07 … PM-10) and Release B (FR-24; PM-20). PM-07 is built: the file format, the validating importer with the replay check, the plan and the one-transaction write, and the lint rule against raw markup. The screens (PM-08), the encrypted envelope (PM-09), storage health (PM-10) and the lock (PM-20) are not |
 | **Last updated** | 2026-10-05 |
 | **Audience** | Engineers, whoever reviews security and privacy |
 | **Related** | [Requirements FR-23, FR-24](../requirements.md#fr-23-backup-restore-and-data-portability--release-a--class-n--refines-fr-12-fr-13-pq5) · [Privacy §2, §3, §6](../../privacy.md) · [Tech spec §8.3, §11](../../tech-spec.md) · [Decisions PQ2, PQ3, PQ5, PD-04, PD-05](../decisions.md) |
@@ -236,3 +236,4 @@ PM-07 (format, importer, replay check), PM-08 (screens, reminder), PM-09 (encryp
 | Version | Date | Change |
 |---|---|---|
 | 0.1 | 2026-10-05 | Initial design |
+| 0.2 | 2026-10-05 | PM-07 built (`apps/web/src/storage/backup/`, `app/backupReplay.ts`). Found while building: a result has no non-finite numbers, so a JSON file loses nothing; "the answers do not suffice to replay" is exactly *the result requested birth data and the record did not keep it* (the reference block is always present, so its presence says nothing); the parameter fingerprint and the season model are not known before a run (the fingerprint depends on whether the birth module was used), so the importer replays every record stamped with the current engine, knowledge base and profile and tells *altered* from *made with other parameters* by comparing the run's own stamps with the record's; the importer lists a record as *duplicate* when a file holds an id twice; a record's result must carry the stamps of its record; the importer drops unknown keys and refuses a known key with a wrong value; `Persistence.applyWrites` is the one place that writes an import (one transaction across stores; `false` and nothing changed when storage cannot take it); a record imported before and the same record in a file are *identical* (the mark is ignored when comparing) |

@@ -8,6 +8,7 @@ const stub = (over: Partial<Persistence> = {}): Persistence => ({
   status: "persistent", subscribe: () => () => undefined, loadPrefs: () => ({ theme: "system", textScale: 1, langOfferDismissed: false, autoAdvance: true }), savePrefs: () => undefined,
   loadDraft: async () => null, saveDraft: async () => undefined, clearDraft: async () => undefined,
   putAssessment: async () => undefined, getAssessment: async () => null, listAssessments: async () => [], deleteAssessment: async () => undefined,
+  applyWrites: async () => true,
   eraseAll: async () => ({ indexedDb: true, localStorage: true, cacheStorage: true }), ...over,
 });
 
