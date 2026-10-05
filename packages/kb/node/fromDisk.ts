@@ -23,10 +23,11 @@ export function readDataFiles(): DataFiles {
   };
 }
 
-export function buildFromDisk(profile: ProfileName = "dev", overrides?: unknown): BuildResult {
-  return buildChunks(readDataFiles(), { profile, overrides, version: `test-${profile}` });
+/** The knowledge base as the closed beta ships it (draft label on): tests use it unless they are about the public build. */
+export function buildFromDisk(profile: ProfileName = "dev", overrides?: unknown, draftLabel = true): BuildResult {
+  return buildChunks(readDataFiles(), { profile, overrides, version: `test-${profile}`, draftLabel });
 }
 
-export function rawChunksFromDisk(profile: ProfileName = "dev", overrides?: unknown): RawKbChunks {
-  return buildFromDisk(profile, overrides).chunks;
+export function rawChunksFromDisk(profile: ProfileName = "dev", overrides?: unknown, draftLabel = true): RawKbChunks {
+  return buildFromDisk(profile, overrides, draftLabel).chunks;
 }

@@ -66,7 +66,7 @@ Result: `{ status, rate | null, valid, spread, unevenHint }`. The thresholds are
 
 Why: Taiwan-first stays true in effect (a device in `Asia/Taipei` gets Taiwan's numbers with no click), a person elsewhere is never shown a foreign number as if it were theirs, and the Simplified-Chinese interface needs no special case ([design](simplified-chinese.md)): the language implies nothing (PD-02). The time zone is read locally and used only to preselect; the region name is always shown above the numbers with a *Change* control, because a traveller's device can lag.
 
-`resolveRegion(pref, timeZone, rows)` is a pure function with a table test: preference wins; else the first row whose `timezones` list contains the zone; else the generic row. The `default_region` field is removed from the data and its schema.
+`resolveRegion(pref, timeZone, rows)` is a pure function with a table test: preference wins; else the first row whose `timezones` list contains the zone; else the generic row. The `default_region` field is removed from the data, its schema and its checks.
 
 ### 2.3 A region pack is a row
 
@@ -77,7 +77,6 @@ No new file. A row of `emergency.json` gains:
 | `status` | `draft` or `verified` (as today, now enforced) |
 | `verification` | `{ by, at, source, scope }`: the role of the verifier (a name is optional in a public repository), the date, where the numbers were checked, and whether it covers emergency numbers, crisis lines or both |
 | `timezones` | IANA zones that select the region (`Asia/Taipei` for TW; several for CN, US, AU …) |
-| `languages` | Interface languages usually used there (a hint for the language offer; never a switch) |
 
 The notice wording stays in the [safety policy](../../safety-policy.md) tables and the `safety` catalogue; a pack carries numbers and labels only.
 
@@ -85,11 +84,12 @@ The notice wording stays in the [safety policy](../../safety-policy.md) tables a
 
 | Rule | Where |
 |---|---|
-| A `verified` row has a complete `verification` record with a date no older than 24 months; older than 18 months is a warning | `validate_kb` |
+| A row with a `verification` has a verifier, a source and a real date that is not in the future; the build warns when the date is 18 months old; `status` stays the content-review status that only review records can set | `validate_kb`, `build_emergency` |
+| Every zone is a real IANA zone and selects one region only; every region but `OTHER` has a zone; `OTHER` lists no number, zone or verification | `validate_kb` |
 | In a build **with the draft label**, draft rows may ship, with the existing *unverified* note | `bundle-data` |
-| In a build **without** the draft label, only verified rows ship (plus `OTHER`, which has no numbers); a draft row in the bundle fails the build | `bundle-data` prunes; `check-release` fails if one is present |
+| In a build **without** the draft label, only verified rows ship (plus `OTHER`, which has no numbers); a draft row in the bundle, or a verification older than 24 months, fails the build (rule 12) | `bundle-data` prunes; `check-release` fails |
 | The region list in the interface is built from the bundle | web app |
-| The numbers' staleness is visible: *Last verified: <month year>* in the sources screen | web app |
+| The numbers' age is visible: under a verified region's numbers the screen says *These numbers were last verified <date>*; an unverified row says it awaits verification | web app |
 
 ### 2.5 Verification workflow
 

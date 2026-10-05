@@ -30,6 +30,9 @@ Pre-release. The web app, the diagnosis engine and the knowledge base exist; not
 - **Simplified Chinese interface** (draft, closed beta only): `/zh-Hans/…` with its aliases, a three-way language switch (繁體 · 简体 · EN, each in its own script), a one-time offer to `zh-CN`/`zh-SG`/`zh-Hans` browsers, Simplified catalogues (a lazy 19 KB chunk) and Simplified display of every knowledge-base text, quotations from the Simplified source text. The engine and the safety rules still run on the Traditional data; an allergy typed in Simplified is turned back into the data's string before it is stored. A purity sweep fails when any screen shows a Traditional-only character in Simplified; the same scan runs in the real browser after every screen of the end-to-end scenarios E1, E2, E5, E9, E10, E11 and the axe sweep, which now also run in Simplified (103 runs, up from 87).
 - **Checks for the derivation**: `check-i18n` covers the generated catalogue (keys, parameters, no Traditional-only character, glossary form) and now also the `feedback` namespace it had skipped; the converter's forbidden-wording results equal the Traditional ones; the engine gives identical assessments and vignette views whichever script is shown, and fails if it reads display text.
 
+### Safety
+- **No silent default region for the emergency numbers.** The MVP showed Taiwan's numbers to anyone who had not chosen a region, wherever they were. Numbers now appear for the region the person chose or whose time zone the device is in (named on screen, changeable); anyone else sees "call your local emergency number" and a request to choose. Each region row carries the time zones that preselect it and an optional dated verification record; a public build (no draft label) ships only verified rows no older than 24 months (`check-release` rule 12).
+
 ### Fixed
 - A citation chapter read 五執行大論 instead of 五運行大論 (an OpenCC phrase rewrite of 运行); the converter now post-fixes 運行 and 循環.
 

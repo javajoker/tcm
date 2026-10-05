@@ -2,12 +2,13 @@ import { useId, type ReactNode } from "react";
 import type { KnowledgeBase } from "@tcm/kb";
 import { useI18n } from "../../i18n/I18nProvider.tsx";
 import { Field, Select } from "../../ui/index.ts";
+import type { RegionSource } from "./region.ts";
 
 /** The regional emergency (and, where asked, crisis) numbers as tap-to-call links, with a region selector. The list is data (`emergency.json`). */
-export function EmergencyNumbers({ kb, region, onRegion, crisis }: { kb: KnowledgeBase; region: string; onRegion: (id: string) => void; crisis: boolean }): ReactNode {
+export function EmergencyNumbers({ kb, region, source, onRegion, crisis }: { kb: KnowledgeBase; region: string; source: RegionSource; onRegion: (id: string) => void; crisis: boolean }): ReactNode {
   const { t } = useI18n();
   const headingId = useId();
-  const current = kb.emergency.regions.find((r) => r.id === region) ?? kb.emergency.regions[0]!;
+  const current = kb.emergency.regions.find((r) => r.id === region) ?? kb.emergency.regions.find((r) => r.id === "OTHER") ?? kb.emergency.regions[0]!;
   const call = (n: { number: string; label: { "zh-Hant": string; en: string } }): ReactNode => (
     <li key={n.number}><a href={`tel:${n.number}`} aria-label={`${t.t("safety.emergency.call", { number: n.number })} — ${t.localized(n.label).text}`}><strong>{n.number}</strong></a> {t.localized(n.label).text}</li>
   );
@@ -19,9 +20,11 @@ export function EmergencyNumbers({ kb, region, onRegion, crisis }: { kb: Knowled
           {kb.emergency.regions.map((r) => <option key={r.id} value={r.id}>{t.localized(r.name).text}</option>)}
         </Select>
       </Field>
+      {source === "time-zone" ? <p className="muted">{t.t("safety.emergency.fromZone")}</p> : null}
+      {source === "none" ? <p className="muted">{t.t("safety.emergency.choose")}</p> : null}
       {current.emergency.length > 0 ? <ul>{current.emergency.map(call)}</ul> : <p>{t.t("safety.emergency.local")}</p>}
       {crisis && current.crisis.length > 0 ? (<><h4>{t.t("safety.emergency.crisis")}</h4><ul>{current.crisis.map(call)}</ul></>) : null}
-      <p className="muted">{t.t("safety.emergency.unverified")}</p>
+      {current.emergency.length === 0 ? null : <p className="muted">{current.verification !== undefined ? t.t("safety.emergency.verified", { date: current.verification.at }) : t.t("safety.emergency.unverified")}</p>}
     </section>
   );
 }

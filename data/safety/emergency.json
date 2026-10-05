@@ -1,6 +1,5 @@
 {
   "_meta": {
-    "default_region": "TW",
     "description": "Emergency and crisis numbers by region (safety policy §5). Every row awaits verification by the regional owner before release; a wrong number is a safety incident, so correct this file rather than the app.",
     "schema": 1,
     "status": "draft"
@@ -30,7 +29,10 @@
         "en": "Taiwan",
         "zh-Hant": "台灣"
       },
-      "status": "draft"
+      "status": "draft",
+      "timezones": [
+        "Asia/Taipei"
+      ]
     },
     {
       "crisis": [],
@@ -48,7 +50,10 @@
         "en": "Hong Kong",
         "zh-Hant": "香港"
       },
-      "status": "draft"
+      "status": "draft",
+      "timezones": [
+        "Asia/Hong_Kong"
+      ]
     },
     {
       "crisis": [],
@@ -66,7 +71,10 @@
         "en": "Macau",
         "zh-Hant": "澳門"
       },
-      "status": "draft"
+      "status": "draft",
+      "timezones": [
+        "Asia/Macau"
+      ]
     },
     {
       "crisis": [],
@@ -91,7 +99,13 @@
         "en": "Mainland China",
         "zh-Hant": "中國大陸"
       },
-      "status": "draft"
+      "status": "draft",
+      "timezones": [
+        "Asia/Shanghai",
+        "Asia/Urumqi",
+        "Asia/Chongqing",
+        "Asia/Harbin"
+      ]
     },
     {
       "crisis": [],
@@ -109,7 +123,10 @@
         "en": "Japan",
         "zh-Hant": "日本"
       },
-      "status": "draft"
+      "status": "draft",
+      "timezones": [
+        "Asia/Tokyo"
+      ]
     },
     {
       "crisis": [],
@@ -127,7 +144,10 @@
         "en": "Singapore",
         "zh-Hant": "新加坡"
       },
-      "status": "draft"
+      "status": "draft",
+      "timezones": [
+        "Asia/Singapore"
+      ]
     },
     {
       "crisis": [
@@ -153,7 +173,22 @@
         "en": "United States",
         "zh-Hant": "美國"
       },
-      "status": "draft"
+      "status": "draft",
+      "timezones": [
+        "America/New_York",
+        "America/Chicago",
+        "America/Denver",
+        "America/Los_Angeles",
+        "America/Phoenix",
+        "America/Anchorage",
+        "America/Detroit",
+        "America/Boise",
+        "America/Juneau",
+        "America/Adak",
+        "America/Indiana/Indianapolis",
+        "America/Kentucky/Louisville",
+        "Pacific/Honolulu"
+      ]
     },
     {
       "crisis": [],
@@ -171,7 +206,17 @@
         "en": "Canada",
         "zh-Hant": "加拿大"
       },
-      "status": "draft"
+      "status": "draft",
+      "timezones": [
+        "America/Toronto",
+        "America/Vancouver",
+        "America/Edmonton",
+        "America/Winnipeg",
+        "America/Halifax",
+        "America/St_Johns",
+        "America/Regina",
+        "America/Montreal"
+      ]
     },
     {
       "crisis": [],
@@ -189,7 +234,10 @@
         "en": "United Kingdom",
         "zh-Hant": "英國"
       },
-      "status": "draft"
+      "status": "draft",
+      "timezones": [
+        "Europe/London"
+      ]
     },
     {
       "crisis": [],
@@ -207,7 +255,36 @@
         "en": "European Union",
         "zh-Hant": "歐盟"
       },
-      "status": "draft"
+      "status": "draft",
+      "timezones": [
+        "Europe/Paris",
+        "Europe/Berlin",
+        "Europe/Madrid",
+        "Europe/Rome",
+        "Europe/Amsterdam",
+        "Europe/Brussels",
+        "Europe/Vienna",
+        "Europe/Stockholm",
+        "Europe/Copenhagen",
+        "Europe/Warsaw",
+        "Europe/Prague",
+        "Europe/Budapest",
+        "Europe/Athens",
+        "Europe/Helsinki",
+        "Europe/Dublin",
+        "Europe/Lisbon",
+        "Europe/Luxembourg",
+        "Europe/Bucharest",
+        "Europe/Sofia",
+        "Europe/Zagreb",
+        "Europe/Ljubljana",
+        "Europe/Bratislava",
+        "Europe/Vilnius",
+        "Europe/Riga",
+        "Europe/Tallinn",
+        "Europe/Malta",
+        "Asia/Nicosia"
+      ]
     },
     {
       "crisis": [],
@@ -225,7 +302,17 @@
         "en": "Australia",
         "zh-Hant": "澳洲"
       },
-      "status": "draft"
+      "status": "draft",
+      "timezones": [
+        "Australia/Sydney",
+        "Australia/Melbourne",
+        "Australia/Brisbane",
+        "Australia/Perth",
+        "Australia/Adelaide",
+        "Australia/Darwin",
+        "Australia/Hobart",
+        "Australia/Canberra"
+      ]
     },
     {
       "crisis": [],
@@ -235,7 +322,8 @@
         "en": "Other or not sure",
         "zh-Hant": "其他或不確定"
       },
-      "status": "draft"
+      "status": "draft",
+      "timezones": []
     }
   ]
 }

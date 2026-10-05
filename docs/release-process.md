@@ -87,6 +87,7 @@ Jobs and blocking rules are in the [test plan §6](test-plan.md). The pipeline p
 8. Review gates ([content review §7](content-review.md)) satisfied for the enabled levels — or `APP_DRAFT_LABEL=on` with a recorded beta exception — and then the build must be non-indexable (a `noindex` robots meta in `index.html` and `Disallow: /` in `robots.txt`; the dev profile gets the same).
 9. `console.*` calls are stripped from app code; no source maps with sources in production (or they are not publicly served).
 10. `NOTICE.txt` is shipped and carries the attributions (the MIT permission notice of TCM-Library, the Apache licence statement): material derived from MIT-licensed sources requires its notice to travel with the app.
+12. **Emergency numbers:** a build without the draft label ships only regions whose numbers a regional owner has verified (a dated `verification` record no older than 24 months) and the generic `OTHER` row that lists none; the closed beta may carry the draft rows ([design](post-mvp/design/tap-tempo-and-regions.md)).
 11. The host files are present and right: `_headers` (the CSP with `frame-ancestors`, `nosniff`, referrer policy, immutable caching for `/assets/*` and for each chunk of this build, `no-cache` for the manifest, no `Cache-Control` on `/*`), `_redirects` (every language falls back to the app, no catch-all), `404.html`, and an unexpired `security.txt` ([§6](#6-deployment)).
 
 ---

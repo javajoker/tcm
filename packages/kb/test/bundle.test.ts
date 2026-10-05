@@ -122,13 +122,25 @@ test("an overridden release build is smaller still", () => {
   assert.ok(strict.chunks.formulas.items.every((f) => f.tier === "A"));
 });
 
-test("every profile carries the regional emergency numbers (a blocking notice must always be able to name one)", () => {
+test("the closed beta and the dev profile carry every regional emergency row; there is no default region", () => {
   for (const { chunks } of [release, dev]) {
     const kb = indexKnowledgeBase(chunks);
     assert.equal(kb.emergency.regions.length, files.emergency.regions.length);
-    assert.equal(kb.emergency._meta.default_region, "TW");
+    assert.ok(!("default_region" in kb.emergency._meta));
     const tw = kb.emergency.regions.find((r) => r.id === "TW")!;
     assert.deepEqual(tw.emergency.map((n) => n.number), ["119"]);
+    assert.deepEqual(tw.timezones, ["Asia/Taipei"]);
     assert.ok(kb.emergency.regions.some((r) => r.id === "OTHER" && r.emergency.length === 0), "the fallback region exists");
   }
+});
+
+test("a public build (no draft label) ships only verified emergency rows, and always the generic one", () => {
+  const publicRelease = buildFromDisk("release", undefined, false);
+  assert.deepEqual(publicRelease.chunks.core.emergency.regions.map((r) => r.id), ["OTHER"], "nothing is verified yet: the generic line is all a public build says");
+  assert.equal(buildFromDisk("dev", undefined, false).chunks.core.emergency.regions.length, files.emergency.regions.length, "the dev profile is never a public build");
+  // once a regional owner has verified a row it ships, and only that row
+  const verified = structuredClone(files);
+  verified.emergency.regions.find((r) => r.id === "HK")!.verification = { at: "2026-09-01", by: "regional owner", scope: "both", source: "an official page" };
+  const built = buildChunks(verified, { profile: "release", version: "t", draftLabel: false });
+  assert.deepEqual(built.chunks.core.emergency.regions.map((r) => r.id), ["HK", "OTHER"]);
 });

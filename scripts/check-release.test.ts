@@ -52,12 +52,12 @@ describe("check-release", () => {
   test("a real release build passes with the closed-beta exception and fails only the review gate without it", () => {
     assert.deepEqual(checkRelease(base, { draftLabel: true }), []);
     const f = checkRelease(base);
-    assert.deepEqual(rules(f), [8]);
+    assert.deepEqual(rules(f), [12, 8]);          // the review gate, and the draft emergency rows (a public build ships only verified ones)
     assert.match(messages(f), /not reviewed/);
   });
 
   test("reviewed content needs no exception", () => {
-    const d = copy();
+    const d = copy(publicBase);          // a public build: only verified emergency rows ship (none yet), so only the review gate stands in the way
     edit(d, "core", (c) => { c.params._meta.status = "reviewed"; });
     assert.deepEqual(checkRelease(d), []);
   });
@@ -232,6 +232,33 @@ describe("check-release", () => {
     edit(pub, "core", (c) => { c.params._meta.status = "reviewed"; });
     assert.deepEqual(checkRelease(pub), []);
     assert.match(messages(checkRelease(publicBase, { draftLabel: true })), /must not be indexable/);
+  });
+
+  test("12: a public build ships only verified, current emergency numbers and always the generic line", () => {
+    const core = (d: string): { emergency: { regions: { id: string; verification?: unknown; emergency: unknown[] }[] } } => JSON.parse(readFileSync(join(d, "kb", manifest(d).chunks.core!.file), "utf8"));
+    // as built, the public build says only "call your local emergency number": nothing is verified yet
+    assert.deepEqual(core(publicBase).emergency.regions.map((r) => r.id), ["OTHER"]);
+    assert.equal(core(base).emergency.regions.length, 12, "the closed beta carries the draft rows");
+    // the other cases start from the closed-beta build, which has every row; only rule 12 is looked at (editing a chunk also unaligns the display list)
+    const rule12 = (d: string, o: { now?: Date; draftLabel?: boolean } = {}): string => messages(checkRelease(d, o).filter((f) => f.rule === 12));
+    const verification = (at: string) => ({ at, by: "regional owner", scope: "both", source: "an official page" });
+    const draftRows = copy(base);
+    assert.match(rule12(draftRows), /ships the emergency numbers of TW without a verification/);
+    assert.equal(rule12(draftRows, { draftLabel: true }), "", "the closed beta may carry draft rows");
+    const only = (keep: string[], at?: string) => (c: { emergency: { regions: { id: string; verification?: unknown }[] } }): void => {
+      c.emergency.regions = c.emergency.regions.filter((r) => keep.includes(r.id));
+      if (at !== undefined) c.emergency.regions.find((r) => r.id === "TW")!.verification = verification(at);
+    };
+    const fresh = copy(base);
+    edit(fresh, "core", only(["TW", "OTHER"], "2026-09-01"));
+    assert.equal(rule12(fresh, { now: new Date("2026-10-05") }), "");
+    assert.match(rule12(fresh, { now: new Date("2029-01-01") }), /verified \d+ months ago: a public build needs a verification no older than 24 months/);
+    const noOther = copy(base);
+    edit(noOther, "core", only(["TW"], "2026-09-01"));
+    assert.match(rule12(noOther, { now: new Date("2026-10-05") }), /no generic emergency region/);
+    const numbered = copy(base);
+    edit(numbered, "core", (c) => { only(["TW", "OTHER"], "2026-09-01")(c); c.emergency.regions.find((r: { id: string }) => r.id === "OTHER")!.emergency = [{ number: "119", label: { "zh-Hant": "x", en: "x" } }]; });
+    assert.match(rule12(numbered, { now: new Date("2026-10-05") }), /OTHER lists numbers/);
   });
 
   test("10: the attribution notice is shipped and complete", () => {

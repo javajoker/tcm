@@ -2,6 +2,9 @@ import "@testing-library/jest-dom/vitest";
 import { cleanup, configure } from "@testing-library/react";
 import { afterEach, vi } from "vitest";
 
+// The device's time zone preselects the region of the emergency numbers (docs/post-mvp/design/tap-tempo-and-regions.md §2): tests run as a device in Taiwan unless they say otherwise.
+process.env.TZ = "Asia/Taipei";
+
 // the default 1 s for findBy*/waitFor is too tight when several jsdom + axe suites run in parallel
 configure({ asyncUtilTimeout: 4000 });
 

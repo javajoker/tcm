@@ -4,7 +4,6 @@ export type ReviewStatus = "derived" | "curated-draft" | "draft" | "reviewed";
 
 export interface Emergency {
   _meta: {
-    default_region: string;
     description: string;
     schema: number;
     status: ReviewStatus;
@@ -22,6 +21,13 @@ export interface Emergency {
     id: string;
     name: BilingualNamed;
     status: ReviewStatus;
+    timezones: string[];
+    verification?: {
+      at: string;
+      by: string;
+      scope: "emergency" | "crisis" | "both";
+      source: string;
+    };
   }[];
 }
 export interface BilingualNamed {

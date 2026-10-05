@@ -131,7 +131,7 @@ def red_flags(ctx: Context) -> Pack:
 
     em = ctx.data["safety/emergency.json"]
     rows = [[f"`{r['id']}`", both(r["name"]), ", ".join(f"{n['number']} ({n['label']['en']})" for n in r["emergency"]) or "—", ", ".join(f"{n['number']} ({n['label']['en']})" for n in r["crisis"]) or "—", r["status"]] for r in em["regions"]]
-    md += "\n## Emergency numbers (`safety/emergency.json`)\n\nDefault region: **" + em["_meta"]["default_region"] + "**. A wrong number is a safety incident; every row awaits verification by the regional owner.\n\n" + table(["Region", "Name", "Emergency", "Crisis support", "Status"], rows)
+    md += "\n## Emergency numbers (`safety/emergency.json`)\n\nThere is no default region: numbers are shown for a region the person chose or whose time zone matches, otherwise \"call your local emergency number\". A wrong number is a safety incident; a row is verified only when a regional owner has checked it against an official source (the `verification` record), and a public build ships only verified rows.\n\n" + table(["Region", "Name", "Emergency", "Crisis support", "Status"], rows)
     scope = [(rel, ctx.units(rel)), ("config/scope-profiles.json", ctx.units("config/scope-profiles.json", "*")), ("safety/emergency.json", ctx.units("safety/emergency.json"))]
     return Pack("red-flags", "red flags and scope", "physician + a second reviewer", md, scope)
 

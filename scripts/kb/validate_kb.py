@@ -10,6 +10,7 @@ import json
 import re
 import sys
 from collections import Counter
+from datetime import date
 from typing import Callable
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
@@ -247,15 +248,41 @@ def validate(load: Loader = load, check_sources: bool = True) -> list[str]:
     region_ids = [r["id"] for r in emergency["regions"]]
     for d in duplicates(region_ids):
         err(f"duplicate emergency region {d}")
-    if emergency["_meta"]["default_region"] not in region_ids:
-        err(f"emergency default_region {emergency['_meta']['default_region']} is not a listed region")
     if "OTHER" not in region_ids:
         err("emergency regions must include OTHER (the fallback 'call your local emergency number')")
     for r in emergency["regions"]:
         if r["id"] != "OTHER" and not r["emergency"]:
             err(f"emergency region {r['id']} has no emergency number")
-        if r["id"] == "OTHER" and (r["emergency"] or r["crisis"]):
-            err("emergency region OTHER must not list numbers")
+        if r["id"] == "OTHER" and (r["emergency"] or r["crisis"] or r["timezones"] or r.get("verification")):
+            err("emergency region OTHER must not list numbers, zones or a verification: it is the generic \"call your local emergency number\"")
+    # the time zones that preselect a region: real IANA zones, each in one region only (a device must not match two)
+    zone_owner: dict[str, str] = {}
+    for r in emergency["regions"]:
+        for z in r["timezones"]:
+            try:
+                ZoneInfo(z)
+            except (ZoneInfoNotFoundError, ValueError):
+                err(f"emergency region {r['id']}: {z!r} is not an IANA time zone")
+            if z in zone_owner and zone_owner[z] != r["id"]:
+                err(f"emergency: time zone {z} selects both {zone_owner[z]} and {r['id']}")
+            zone_owner.setdefault(z, r["id"])
+        if r["id"] != "OTHER" and not r["timezones"]:
+            err(f"emergency region {r['id']} has no time zone, so it can never be preselected")
+        v = r.get("verification")
+        if v is not None:
+            # a verification is a dated record of a person checking an official source. How OLD it may be is decided where it matters — the build warns at 18 months and check-release refuses a public
+            # build at 24 (docs/post-mvp/design/tap-tempo-and-regions.md §2.4) — so that the knowledge base itself keeps building while a renewal is awaited
+            # `status` is the content-review status (set from review/records by the build); a verification is a different, narrower fact and does not change it
+            if not v["by"].strip() or not v["source"].strip():
+                err(f"emergency region {r['id']}: the verification names no verifier or no source")
+            try:
+                when = date.fromisoformat(v["at"])
+            except ValueError:
+                err(f"emergency region {r['id']}: verification date {v['at']!r} is not a date")
+            else:
+                if when > date.today():
+                    err(f"emergency region {r['id']}: the verification is dated in the future")
+
     for d in duplicates(h["name"]["zh-Hant"] for h in herbs):
         err(f"duplicate herb name {d}")
     herb_ids = {h["id"] for h in herbs}

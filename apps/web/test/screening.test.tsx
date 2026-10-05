@@ -1,4 +1,4 @@
-import { screen, within, fireEvent } from "@testing-library/react";
+import { cleanup, screen, within, fireEvent } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import * as engine from "@tcm/engine";
 import { indexKnowledgeBase } from "@tcm/kb";
@@ -16,7 +16,7 @@ import { fakeEnvironment, renderApp, testStore } from "./helpers.tsx";
 const kb = indexKnowledgeBase(rawChunksFromDisk("release"));
 const loaded: Loaded = { kb, engine };
 const go = (path: string): void => { window.history.pushState({}, "", path); };
-afterEach(() => { go("/"); });
+afterEach(() => { go("/"); process.env.TZ = "Asia/Taipei"; });
 
 const adult = (over: Partial<Draft> = {}): Draft => ({
   ...newDraft("d", 1), subject: { ageYears: 40, sex: "male" }, profile: { medications: "none", medicationText: [], allergies: "none", conditions: "none" }, ...over,
@@ -100,14 +100,14 @@ describe("screening model", () => {
 
 // ── the screens ──────────────────────────────────────────────────────────────
 
-async function open(lang: "en" | "zh-Hant" = "en", draft: Draft = adult()): Promise<ReturnType<typeof renderApp>> {
+async function open(lang: "en" | "zh-Hant" = "en", draft: Draft = adult(), extra: { prefs?: Record<string, unknown>; loaded?: Loaded } = {}): Promise<ReturnType<typeof renderApp>> {
   go(`/${lang}/screen`);
   const env = fakeEnvironment();
-  env.localStorage.setItem("tcm.prefs", JSON.stringify({ disclaimerAck: { version: DISCLAIMER_VERSION, at: 1 }, lang }));
+  env.localStorage.setItem("tcm.prefs", JSON.stringify({ disclaimerAck: { version: DISCLAIMER_VERSION, at: 1 }, lang, ...extra.prefs }));
   const { store } = testStore(env);
   store.getState().startDraft();
   store.getState().updateDraft((d) => ({ ...draft, id: d.id, startedAt: d.startedAt, position: { route: "/screen" } }));
-  const view = renderApp(store, () => Promise.resolve(loaded));
+  const view = renderApp(store, () => Promise.resolve(extra.loaded ?? loaded));
   await screen.findByRole("heading", { level: 1, name: lang === "en" ? "Safety screening" : "安全篩檢" });
   await screen.findByRole("group", { name: text("RF_A_CHEST_PAIN", lang) });
   return view;
@@ -261,5 +261,62 @@ describe("Screening screen (S04)", () => {
     await screen.findByRole("alertdialog");
     const results = await axe(container, { rules: { "color-contrast": { enabled: false } } });
     expect(results.violations.map((v) => `${v.id}: ${v.nodes.map((n) => n.target.join(" ")).join(", ")}`)).toEqual([]);
+  });
+});
+
+describe("the region of the emergency numbers (no silent default)", () => {
+  const emergency = async (setup: () => void, extra: Parameters<typeof open>[2] = {}): Promise<HTMLElement> => {
+    setup();
+    await open("en", adult(), extra);
+    await allNo();
+    await answer("RF_A_CHEST_PAIN", "Yes");
+    await userEvent.click(screen.getByRole("button", { name: "Continue" }));
+    return screen.findByRole("alertdialog", { name: "Please get emergency help now" });
+  };
+  const zone = (tz: string) => (): void => { process.env.TZ = tz; };
+
+  it("a device in a listed region gets that region's numbers, and is told where the region came from", async () => {
+    const dialog = await emergency(zone("America/New_York"));
+    expect(dialog).toHaveTextContent("Please call 911 now");
+    await userEvent.click(within(dialog).getByRole("button", { name: "Show emergency numbers" }));
+    expect(within(dialog).getByRole("combobox", { name: "Region" })).toHaveValue("US");
+    expect(within(dialog).getByText("Chosen from your device's time zone; change it if it is not right.")).toBeInTheDocument();
+  });
+
+  it("a device in no listed region gets the generic line, not Taiwan's numbers, and is asked to choose", async () => {
+    const dialog = await emergency(zone("Atlantic/Reykjavik"));
+    expect(dialog).toHaveTextContent("Please call your local emergency number now");
+    expect(dialog).not.toHaveTextContent("119");
+    await userEvent.click(within(dialog).getByRole("button", { name: "Show emergency numbers" }));
+    expect(within(dialog).getByRole("combobox", { name: "Region" })).toHaveValue("OTHER");
+    expect(within(dialog).getByText("Choose your region to see its emergency numbers.")).toBeInTheDocument();
+    expect(within(dialog).queryAllByRole("link", { name: /Call/ })).toHaveLength(0);
+    await userEvent.selectOptions(within(dialog).getByRole("combobox", { name: "Region" }), "JP");
+    expect(within(dialog).getByRole("link", { name: /Call 119/ })).toBeInTheDocument();
+    expect(within(dialog).queryByText("Choose your region to see its emergency numbers.")).toBeNull();
+  });
+
+  it("a saved choice beats the time zone; a saved choice this build does not carry is not a choice", async () => {
+    expect(await emergency(zone("Asia/Taipei"), { prefs: { region: "HK" } })).toHaveTextContent("Please call 999 now");
+  });
+
+  it("an old choice that the build no longer lists falls back to the time zone", async () => {
+    expect(await emergency(zone("Asia/Taipei"), { prefs: { region: "ZZ" } })).toHaveTextContent("Please call 119 now");
+  });
+
+  it("an unverified row says so; a verified row says when it was verified", async () => {
+    const dialog = await emergency(zone("Asia/Taipei"));
+    await userEvent.click(within(dialog).getByRole("button", { name: "Show emergency numbers" }));
+    expect(within(dialog).getByText(/awaiting verification/i)).toBeInTheDocument();
+    cleanup();
+    const raw = rawChunksFromDisk("release");
+    const verified = indexKnowledgeBase({ ...raw, core: { ...raw.core, emergency: { ...raw.core.emergency, regions: raw.core.emergency.regions.map((r) => (r.id === "TW" ? { ...r, verification: { at: "2026-09-01", by: "regional owner", scope: "both" as const, source: "an official page" } } : r)) } } });
+    const again = await emergency(zone("Asia/Taipei"), { loaded: { kb: verified, engine } });
+    await userEvent.click(within(again).getByRole("button", { name: "Show emergency numbers" }));
+    expect(within(again).getByText("These numbers were last verified 2026-09-01.")).toBeInTheDocument();
+  });
+
+  it("a Mainland device gets the Mainland row — by its time zone, never by the language of the page", async () => {
+    expect(await emergency(zone("Asia/Shanghai"))).toHaveTextContent("Please call 120 / 110 now");
   });
 });

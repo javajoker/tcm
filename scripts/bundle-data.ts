@@ -28,6 +28,8 @@ export interface WriteBundleOptions {
   readonly out: string;
   /** Path of a build-time override file (restrict only). */
   readonly overridesPath?: string | undefined;
+  /** The closed-beta draft label is on (default: APP_DRAFT_LABEL=on): draft emergency rows may ship; a public build ships only verified ones. */
+  readonly draftLabel?: boolean | undefined;
   /** Path of the Simplified dictionary (default: the committed one). */
   readonly dictionaryPath?: string | undefined;
 }
@@ -46,7 +48,7 @@ export function writeBundle(opts: WriteBundleOptions): WriteBundleResult {
   const { profile } = opts;
   const out = resolve(opts.out);
   const overrides = opts.overridesPath ? (JSON.parse(readFileSync(resolve(opts.overridesPath), "utf8")) as unknown) : undefined;
-  const { chunks, reach } = buildChunks(readDataFiles(), { profile, overrides, version: "pending" });
+  const { chunks, reach } = buildChunks(readDataFiles(), { profile, overrides, version: "pending", draftLabel: opts.draftLabel ?? process.env.APP_DRAFT_LABEL === "on" });
 
   const serialized: Record<string, string> = {
     core: JSON.stringify(chunks.core),

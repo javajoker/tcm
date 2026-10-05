@@ -7,6 +7,7 @@ import { useApp } from "../../app/store.tsx";
 import { Button, Dialog, DialogActions, Notice } from "../../ui/index.ts";
 import type { Draft } from "../../storage/types.ts";
 import { EmergencyNumbers } from "./EmergencyNumbers.tsx";
+import { deviceTimeZone, resolveRegion } from "./region.ts";
 import { NOTICE_STYLE } from "./model.ts";
 import { NOTICE_SLUG as SLUG, noticeParams } from "./noticeText.ts";
 
@@ -21,7 +22,7 @@ export function NoticeScreen({ kb, draft, notices, onAcknowledge }: { kb: Knowle
   const prefs = useApp((s) => s.prefs);
   const setPrefs = useApp((s) => s.setPrefs);
   const [showNumbers, setShowNumbers] = useState(false);
-  const region = prefs.region ?? kb.emergency._meta.default_region;
+  const { id: region, source: regionSource } = resolveRegion(kb.emergency.regions, prefs.region, deviceTimeZone());
   const open = notices.length > 0;
   const withNumbers = notices.some((n) => n.id === "N-A" || n.id === "N-B");
   const selfHarm = notices.some((n) => n.reasons.includes(SELF_HARM));
@@ -49,7 +50,7 @@ export function NoticeScreen({ kb, draft, notices, onAcknowledge }: { kb: Knowle
         <div style={{ maxWidth: "40rem", margin: "0 auto", display: "grid", gap: "var(--space-4)" }}>
           {block(first, 2)}
           {rest.length > 0 ? (<><p className="muted" style={{ margin: 0 }}>{t.t("intake.notice.also")}</p>{rest.map((n) => block(n, 3))}</>) : null}
-          {withNumbers && (showNumbers || selfHarm) ? <EmergencyNumbers kb={kb} region={region} onRegion={(id) => setPrefs({ region: id })} crisis={selfHarm} /> : null}
+          {withNumbers && (showNumbers || selfHarm) ? <EmergencyNumbers kb={kb} region={region} source={regionSource} onRegion={(id) => setPrefs({ region: id })} crisis={selfHarm} /> : null}
           <DialogActions>
             <Button variant="primary" onClick={onAcknowledge}>{t.t("safety.action.acknowledge")}</Button>
             {withNumbers && !selfHarm ? <Button aria-expanded={showNumbers} onClick={() => setShowNumbers((v) => !v)}>{t.t("safety.action.showNumbers")}</Button> : null}

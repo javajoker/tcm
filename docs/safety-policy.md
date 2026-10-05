@@ -127,7 +127,7 @@ Buttons: **我已了解，繼續** / *I understand — continue* (primary, one d
 
 ## 5. Emergency resources (draft — regional owner and physician to verify)
 
-Shown on N-A / N-B and the self-harm item; chosen by the user's region (Q1). **Default Taiwan.** Numbers must be verified for the target region before release, and the list is stored as data (`data/safety/emergency.json`, built from `scripts/kb/curated/emergency.py`; every row is `draft` until the regional owner verifies it) so it can be corrected without a release of the app.
+Shown on N-A / N-B and the self-harm item; chosen by the user's region (Q1): the region the person chose, else the one whose IANA time zone the device is in (it only *preselects*: the region is named on the screen and can be changed), else the generic "call your local emergency number" with a request to choose. **There is no default region** — the MVP showed Taiwan's numbers to anyone who had not chosen, wherever they were; a device in Taiwan now gets them by its time zone, as it should, and nobody else gets them unasked. Numbers must be verified for the target region before release (a dated `verification` record in the data: who, when, where; a public build ships only verified rows no older than 24 months, the closed beta may carry the draft rows with their own note on screen), and the list is stored as data (`data/safety/emergency.json`, built from `scripts/kb/curated/emergency.py`; every row is `draft` until the regional owner verifies it) so it can be corrected without a release of the app.
 
 | Region | Emergency / ambulance | Crisis support |
 |---|---|---|

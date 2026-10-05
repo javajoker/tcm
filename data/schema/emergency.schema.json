@@ -158,9 +158,6 @@
     "_meta": {
       "additionalProperties": true,
       "properties": {
-        "default_region": {
-          "type": "string"
-        },
         "description": {
           "type": "string"
         },
@@ -172,7 +169,6 @@
         }
       },
       "required": [
-        "default_region",
         "description",
         "schema",
         "status"
@@ -232,6 +228,42 @@
           },
           "status": {
             "$ref": "#/$defs/reviewStatus"
+          },
+          "timezones": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "uniqueItems": true
+          },
+          "verification": {
+            "additionalProperties": false,
+            "properties": {
+              "at": {
+                "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$",
+                "type": "string"
+              },
+              "by": {
+                "type": "string"
+              },
+              "scope": {
+                "enum": [
+                  "emergency",
+                  "crisis",
+                  "both"
+                ]
+              },
+              "source": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "at",
+              "by",
+              "scope",
+              "source"
+            ],
+            "type": "object"
           }
         },
         "required": [
@@ -239,7 +271,8 @@
           "emergency",
           "id",
           "name",
-          "status"
+          "status",
+          "timezones"
         ],
         "type": "object"
       },

@@ -12,7 +12,7 @@ test("E2: an emergency sign gets a blocking notice, the flow continues, the resu
   await expect(title).toHaveText(app.t("safety.notice.a.title"));
   await expect(title).toBeFocused();                                                  // a blocking notice takes focus (UX spec §8)
   await app.button("safety.action.showNumbers").click();
-  await expect(page.getByText(/119/).first()).toBeVisible();                          // the default region's emergency number
+  await expect(page.getByText(/119/).first()).toBeVisible();                          // the device is in Taiwan: its time zone selects Taiwan's number
   await app.acknowledgeNotice();
   await expect(page).toHaveURL(new RegExp(`/${app.lang}/inquiry$`));
   await app.inquiry(typicalSymptoms("SP1"));
@@ -23,6 +23,38 @@ test("E2: an emergency sign gets a blocking notice, the flow continues, the resu
   await expect(page.getByRole("heading", { name: app.t("report.advice.diet") })).toHaveCount(0);
   await expect(page.getByRole("heading", { name: app.t("report.advice.points") })).toHaveCount(0);
   await expect(page.locator("#sec-advice")).toContainText(app.t("report.advice.lifestyle"));
+});
+
+test.describe("E2 (region): there is no default region", () => {
+  test.describe("a device in New York", () => {
+    test.use({ timezoneId: "America/New_York" });
+    test("E2b: the time zone selects the region, and the page says so", async ({ app, page }) => {
+      await app.start();
+      await app.fillProfile(ADULT_MAN);
+      await app.screen(["RF_A_CHEST_PAIN"]);
+      await app.continueScreening();
+      await app.button("safety.action.showNumbers").click();
+      await expect(page.getByRole("link", { name: /911/ }).first()).toBeVisible();
+      await expect(page.getByText(app.t("safety.emergency.fromZone"))).toBeVisible();
+      await expect(page.getByText(/\b119\b/)).toHaveCount(0);
+    });
+  });
+
+  test.describe("a device in Iceland", () => {
+    test.use({ timezoneId: "Atlantic/Reykjavik" });
+    test("E2c: no listed region: the generic line, a prompt to choose, and no number until the person chooses", async ({ app, page }) => {
+      await app.start();
+      await app.fillProfile(ADULT_MAN);
+      await app.screen(["RF_A_CHEST_PAIN"]);
+      await app.continueScreening();
+      await expect(page.locator("#notice-title")).toBeVisible();
+      await app.button("safety.action.showNumbers").click();
+      await expect(page.getByText(app.t("safety.emergency.choose"))).toBeVisible();
+      await expect(page.getByRole("link", { name: /^(Call|撥打|拨打)/ })).toHaveCount(0);
+      await page.getByRole("combobox", { name: app.t("safety.emergency.region") }).selectOption("JP");
+      await expect(page.getByRole("link", { name: /119/ }).first()).toBeVisible();
+    });
+  });
 });
 
 test("E3: a doctor-soon sign and a minor give one merged notice, the more severe first, and L0", async ({ app, page }) => {

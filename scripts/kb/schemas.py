@@ -392,9 +392,12 @@ def constitution_items() -> dict:
 
 def emergency() -> dict:
     number = obj({"label": ref("bilingualNamed"), "number": pattern(r"^[0-9]{2,4}$")})
-    region = obj({"crisis": arr(number), "emergency": arr(number), "id": pattern(r"^[A-Z]{2,5}$"), "name": ref("bilingualNamed"), "status": ref("reviewStatus")})
+    # `verification`: who checked the numbers against an official source, when and for what (docs/post-mvp/design/tap-tempo-and-regions.md §2.3). Absent = a draft row.
+    verification = obj({"at": pattern(r"^[0-9]{4}-[0-9]{2}-[0-9]{2}$"), "by": STR, "scope": enum("emergency", "crisis", "both"), "source": STR})
+    region = obj({"crisis": arr(number), "emergency": arr(number), "id": pattern(r"^[A-Z]{2,5}$"), "name": ref("bilingualNamed"), "status": ref("reviewStatus"),
+                  "timezones": arr(STR, unique=True), "verification": verification}, ["crisis", "emergency", "id", "name", "status", "timezones"])
     return {"type": "object", "properties": {
-        "_meta": meta({"default_region": STR, "status": ref("reviewStatus")}, ["default_region", "status"]),
+        "_meta": meta({"status": ref("reviewStatus")}, ["status"]),
         "regions": arr(region, 1)},
         "required": ["_meta", "regions"], "additionalProperties": False}
 

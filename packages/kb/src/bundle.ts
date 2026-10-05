@@ -154,6 +154,11 @@ export interface BuildOptions {
   /** Build-time override file contents (APP_OVERRIDES); may only restrict. */
   readonly overrides?: unknown;
   readonly version: string;
+  /**
+   * The closed-beta draft label is on (APP_DRAFT_LABEL), so draft content may ship. Without it — a public build — only emergency-number rows that a regional owner has verified are bundled (and the
+   * generic `OTHER`), because a wrong number is a safety incident (docs/post-mvp/design/tap-tempo-and-regions.md §2.4). The dev profile carries every row.
+   */
+  readonly draftLabel?: boolean;
 }
 
 export interface BuildResult { readonly chunks: RawKbChunks; readonly reach: Reach; readonly profile: ScopeProfile }
@@ -199,13 +204,15 @@ export function buildChunks(files: DataFiles, opts: BuildOptions): BuildResult {
   const patterns: Patterns = { ...files.patterns, items: files.patterns.items.map((p) => ({ ...p, formulas: p.formulas.filter((id) => keptIds.has(id)) })) };
   const formulas: FormulasChunk = { items: kept, herbNames };
 
+  const emergency: Emergency = dev || opts.draftLabel === true ? files.emergency : { ...files.emergency, regions: files.emergency.regions.filter((r) => r.id === "OTHER" || r.verification !== undefined) };
+
   const chunks: RawKbChunks = {
     version: opts.version,
     schemaVersion: files.params._meta.schema,
     core: {
       config, symptoms: files.symptoms, questions: files.questions, exclusions: files.exclusions, orientation: files.orientation, patterns, elements: files.elements, constitutions: files.constitutions,
       redFlags: files.redFlags, tongue: files.tongue, pulse: files.pulse, panelSchema: files.panelSchema, params: files.params, safety, treatment,
-      wuxing: { correspondences: files.correspondences, susceptibility: files.susceptibility, yunqi: files.yunqi }, glossary: files.glossary, emergency: files.emergency, constitutionItems: files.constitutionItems,
+      wuxing: { correspondences: files.correspondences, susceptibility: files.susceptibility, yunqi: files.yunqi }, glossary: files.glossary, emergency, constitutionItems: files.constitutionItems,
     },
     formulas,
     guidance,

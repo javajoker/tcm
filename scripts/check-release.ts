@@ -20,6 +20,8 @@ export interface CheckOptions {
   readonly draftLabel?: boolean;
   /** Gzip budget of the initial JavaScript (release process §5). */
   readonly initialJsBudgetGz?: number;
+  /** The date the build is checked on (default: today); the age of an emergency-number verification is measured against it. */
+  readonly now?: Date;
 }
 
 const read = (p: string): string => readFileSync(p, "utf8");
@@ -172,6 +174,20 @@ export function checkRelease(distDir: string, opts: CheckOptions = {}): Failure[
       if (!/^Disallow:\s*\/\s*$/m.test(robots)) fail(8, "a closed beta (draft label on) must not be indexable: robots.txt does not disallow everything");
     }
     if (unreviewed && !opts.draftLabel) fail(8, `the content is "${core.params._meta.status}" (not reviewed): a release needs the review records, or a recorded closed-beta exception with the draft label on (--draft-label / APP_DRAFT_LABEL=on)`);
+  }
+
+  // 12 — emergency numbers: a wrong number is a safety incident, so a public build ships only numbers a regional owner has verified, no older than 24 months, and the generic line for everyone else
+  // (the closed beta may carry the draft rows, with the draft label and its own note on screen; docs/post-mvp/design/tap-tempo-and-regions.md §2.4)
+  if (core !== null && !opts.draftLabel) {
+    const now = (opts.now ?? new Date()).getTime();
+    const regions = core.emergency.regions;
+    if (!regions.some((r) => r.id === "OTHER")) fail(12, "the public build has no generic emergency region (OTHER): a person outside every listed region would be shown nothing");
+    for (const r of regions) {
+      if (r.id === "OTHER") { if (r.emergency.length > 0 || r.crisis.length > 0) fail(12, "the generic emergency region OTHER lists numbers"); continue; }
+      if (r.verification === undefined) { fail(12, `the public build ships the emergency numbers of ${r.id} without a verification by a regional owner`); continue; }
+      const months = Math.floor((now - Date.parse(r.verification.at)) / 86_400_000 / 30);
+      if (!(months <= 24)) fail(12, `the emergency numbers of ${r.id} were verified ${Number.isFinite(months) ? `${months} months ago` : "on an unreadable date"}: a public build needs a verification no older than 24 months`);
+    }
   }
 
   // 10 — the attribution notice travels with the app: MIT-licensed material derived into the knowledge base requires its copyright and permission notice to be kept

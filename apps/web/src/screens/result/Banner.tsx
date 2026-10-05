@@ -1,4 +1,5 @@
 import { useState, type ReactNode } from "react";
+import { deviceTimeZone, resolveRegion } from "../screening/region.ts";
 import type { Assessment } from "@tcm/engine";
 import { ENGINE_VERSION } from "@tcm/engine";
 import { useI18n } from "../../i18n/I18nProvider.tsx";
@@ -20,7 +21,7 @@ export function Banner({ saved }: { saved: SavedAssessment }): ReactNode {
   const prefs = useApp((s) => s.prefs);
   const [whyOpen, setWhyOpen] = useState(false);
   const a: Assessment = saved.result;
-  const ctx = { kb, t, region: prefs.region ?? kb.emergency._meta.default_region, answers: saved.input.screening.answers, allergies: saved.input.subject.allergies ?? [], enforcement: a.policy.safetyEnforcement };
+  const ctx = { kb, t, region: resolveRegion(kb.emergency.regions, prefs.region, deviceTimeZone()).id, answers: saved.input.screening.answers, allergies: saved.input.subject.allergies ?? [], enforcement: a.policy.safetyEnforcement };
   const text = (slug: string, part: "title" | "body" | "text", params: Record<string, string>): string => t.t(`safety.notice.${slug}.${part}` as MessageKey, params);
 
   const items: Item[] = [];
