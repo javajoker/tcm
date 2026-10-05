@@ -42,12 +42,14 @@ export interface StoreDeps {
   readonly newId?: () => string;
   /** Called after an erase; the browser default navigates to `/`. */
   readonly reload?: () => void;
+  /** Removes the offline copy and the service worker, so that an erased device does not keep an empty-cache worker (default: nothing to remove). */
+  readonly removeOfflineCopy?: () => Promise<void>;
   readonly autosaveMs?: number;
 }
 
 export type AppStore = StoreApi<AppState> & { readonly flush: () => Promise<void> };
 
-export function createAppStore({ persistence, now = () => Date.now(), newId = randomId, reload = () => { window.location.assign("/"); }, autosaveMs = 250 }: StoreDeps): AppStore {
+export function createAppStore({ persistence, now = () => Date.now(), newId = randomId, reload = () => { window.location.assign("/"); }, removeOfflineCopy = () => Promise.resolve(), autosaveMs = 250 }: StoreDeps): AppStore {
   const saver: Autosaver<Draft> = createAutosaver((d) => persistence.saveDraft(d), autosaveMs);
   const store = createStore<AppState>()((set, get) => ({
     prefs: persistence.loadPrefs(),
@@ -100,6 +102,7 @@ export function createAppStore({ persistence, now = () => Date.now(), newId = ra
     async eraseAll() {
       saver.cancel();
       await persistence.eraseAll();
+      try { await removeOfflineCopy(); } catch { /* the rest is erased; a worker left behind has an empty cache and is removed with the next visit's "Remove offline copy" or erase */ }
       set({ draft: null });
       reload();
     },

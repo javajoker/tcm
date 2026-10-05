@@ -1,7 +1,7 @@
 // @vitest-environment node
 // The service worker's decisions and cache operations (docs/post-mvp/design/offline-and-install.md §3, §6), with a fake cache and a fake network.
 import { describe, expect, it } from "vitest";
-import { activate, answer, cacheKnowledge, cacheName, decide, install, requestFor, scriptsCachedBefore, type Build, type CacheLike, type CacheStorageLike, type Env, type RequestFacts } from "../src/sw/core.ts";
+import { activate, answer, cacheKnowledge, cacheName, decide, install, requestFor, scriptsCached, scriptsCachedBefore, type Build, type CacheLike, type CacheStorageLike, type Env, type RequestFacts } from "../src/sw/core.ts";
 
 const ORIGIN = "https://app.example";
 const build = (id = "b1"): Build => ({
@@ -30,6 +30,7 @@ class FakeCaches {
   private readonly network: Network;
   constructor(network: Network) { this.network = network; }
   async open(name: string): Promise<CacheLike> { if (!this.map.has(name)) this.map.set(name, new FakeCache(this.network)); return this.map.get(name) as unknown as CacheLike; }
+  async has(name: string): Promise<boolean> { return this.map.has(name); }
   async keys(): Promise<string[]> { return [...this.map.keys()]; }
   async delete(name: string): Promise<boolean> { return this.map.delete(name); }
 }
@@ -143,6 +144,32 @@ describe("cacheKnowledge", () => {
   });
 });
 
+describe("a removed cache stays removed", () => {
+  it("neither caching knowledge nor asking what is cached makes it again", async () => {
+    const w = world(), b = build();
+    await install(b, w.env);
+    await w.env.caches.delete(cacheName(b));
+    expect(await cacheKnowledge(b, w.env, "Hant")).toBe(false);
+    expect(await scriptsCached(b, w.env)).toEqual([]);
+    expect(await w.env.caches.keys()).toEqual([]);
+  });
+});
+
+describe("scriptsCached", () => {
+  it("names the scripts whose knowledge files are all there — Simplified only on top of the common ones", async () => {
+    const w = world(), b = build();
+    await install(b, w.env);
+    expect(await scriptsCached(b, w.env)).toEqual([]);
+    await cacheKnowledge(b, w.env, "Hant");
+    expect(await scriptsCached(b, w.env)).toEqual(["Hant"]);
+    await cacheKnowledge(b, w.env, "Hans");
+    expect(await scriptsCached(b, w.env)).toEqual(["Hant", "Hans"]);
+    // one file gone (the browser trimmed the cache): the script is no longer complete
+    cacheOf(w, b).entries.delete(new URL("/kb/cities.0123456789.json", ORIGIN).href);
+    expect(await scriptsCached(b, w.env)).toEqual([]);
+  });
+});
+
 describe("activate", () => {
   it("removes the caches of earlier builds and nothing else", async () => {
     const w = world();
@@ -166,12 +193,21 @@ describe("answer", () => {
     expect(w.net.requested).toEqual([]);
   });
 
+  it("a cache that was removed is not made again by a request: the network answers, and no empty cache is left behind", async () => {
+    const w = world(), b = build();
+    await install(b, w.env);
+    await w.env.caches.delete(cacheName(b));
+    const res = await answer({ kind: "file", path: "/icon.svg" }, new Request(`${ORIGIN}/icon.svg`), b, w.env);
+    expect(await res.text()).toBe("body of /icon.svg");
+    expect(await w.env.caches.keys()).toEqual([]);
+  });
+
   it("falls back to the network for what the cache does not hold (it was cleared, or never filled) and stores nothing", async () => {
     const w = world(), b = build();
     const res = await answer({ kind: "file", path: "/kb/manifest.json" }, new Request(`${ORIGIN}/kb/manifest.json`), b, w.env);
     expect(await res.text()).toBe("body of /kb/manifest.json");
     expect(w.net.requested.map((r) => r.url)).toEqual(["/kb/manifest.json"]);
-    expect(cacheOf(w, b).entries.size).toBe(0);
+    expect(await w.env.caches.keys()).toEqual([]);                                                       // nothing was stored, not even an empty cache
   });
 });
 

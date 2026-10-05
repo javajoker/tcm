@@ -55,7 +55,7 @@ Legend: ✔ done and evidenced · ◐ automated part done, rest open · ○ not 
 | Item | | Evidence / what is left |
 |---|---|---|
 | Headers verified on staging; smoke tests on staging and after promotion | ◐ | `scripts/smoke.ts` passes against the Cloudflare-Pages emulator serving this build (`--noindex`). Real staging does not exist yet. |
-| Previous artifact retained; rollback rehearsed | ○ | The *Rollback* workflow is written; it needs a first deployment to rehearse. |
+| Previous artifact retained; rollback rehearsed | ◐ | The *Rollback* workflow is written; it needs a first deployment to retain an artifact. The rollback of the service worker is rehearsed end to end with two real builds served in turn (scenario E22b: B over A, A over B, the draft kept, the notice offered, nothing applied by itself) and the by-hand rehearsal on staging is in [release process §7](release-process.md). |
 | Changelog and release notes | ◐ | `CHANGELOG.md` is current under *Unreleased*; version numbers and the release notes are written at tagging. |
 | Issue templates and the safety-report channel live | ◐ | Templates and `SECURITY.md` exist; the repository and the channel are not live. |
 

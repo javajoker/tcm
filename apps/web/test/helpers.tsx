@@ -4,6 +4,8 @@ import type { ReactNode } from "react";
 import { App } from "../src/app/App.tsx";
 import type { Loader } from "../src/app/knowledge.tsx";
 import { createAppStore, StoreProvider, type AppStore, type StoreDeps } from "../src/app/store.tsx";
+import { OfflineProvider } from "../src/offline/OfflineEffects.tsx";
+import type { Offline } from "../src/offline/worker.ts";
 import { createPersistence, type Environment, type Persistence } from "../src/storage/persistence.ts";
 
 let seq = 0;      // draft ids are unique across the stores of one test run
@@ -36,7 +38,8 @@ export function testStore(env: Environment = fakeEnvironment(), deps: Partial<St
   return { store, persistence, env };
 }
 
-export function renderApp(store: AppStore = testStore().store, load?: Loader): ReturnType<typeof render> & { store: AppStore } {
-  const ui: ReactNode = <StoreProvider store={store}><App {...(load ? { load } : {})} /></StoreProvider>;
-  return { ...render(ui), store };
+/** The app, rendered; `offline` stands in for the connection to the service worker (the default is the real one, which is `unsupported` outside a release build). */
+export function renderApp(store: AppStore = testStore().store, load?: Loader, offline?: Offline): ReturnType<typeof render> & { store: AppStore } {
+  const app: ReactNode = <StoreProvider store={store}><App {...(load ? { load } : {})} /></StoreProvider>;
+  return { ...render(offline ? <OfflineProvider value={offline}>{app}</OfflineProvider> : app), store };
 }

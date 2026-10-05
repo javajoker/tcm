@@ -27,6 +27,8 @@ export interface CheckOptions {
 
 /** The service worker is hand-written and small (offline design §3.4). */
 export const SW_BUDGET_GZ = 10 * 1024;
+/** The boot script is a few hundred bytes of logic; anything much bigger has pulled the application in. */
+export const BOOT_BUDGET_GZ = 2 * 1024;
 const read = (p: string): string => readFileSync(p, "utf8");
 const walk = (dir: string): string[] => readdirSync(dir).flatMap((n) => { const p = join(dir, n); return statSync(p).isDirectory() ? walk(p) : [p]; });
 const rel = (dist: string, p: string): string => p.slice(dist.length + 1);
@@ -213,6 +215,14 @@ export function checkRelease(distDir: string, opts: CheckOptions = {}): Failure[
       if ([...carried.shell, ...carried.knowledge.common, ...carried.knowledge.hans].includes("/sw.js")) fail(13, "sw.js lists itself");
     }
     if (/https?:\/\//i.test(source)) fail(13, "sw.js names an external address: the worker may touch only this origin");
+    // the boot script (offline design §3.5): a file of its own that the page loads as a classic script, so that a start is counted even when the application's script cannot load
+    if (!existsSync(join(dist, "boot.js"))) fail(13, "boot.js is missing: the boot guard counts failed starts and must not depend on the application's own script");
+    else {
+      if (!/<script src="\/boot\.js"><\/script>/.test(html)) fail(13, "index.html does not load /boot.js as a classic script");
+      const boot = read(join(dist, "boot.js"));
+      if (/https?:\/\//i.test(boot) || /\bimport\s*\(|\bfetch\s*\(/.test(boot)) fail(13, "boot.js reaches out: it must be self-contained");
+      if (gzipSync(boot).length > BOOT_BUDGET_GZ) fail(13, `boot.js is ${gzipSync(boot).length} B gzip, over the ${BOOT_BUDGET_GZ} B budget`);
+    }
     if (gzipSync(source).length > SW_BUDGET_GZ) fail(13, `sw.js is ${gzipSync(source).length} B gzip, over the ${SW_BUDGET_GZ} B budget: it is meant to be read in one sitting`);
   }
 
@@ -237,6 +247,7 @@ export function checkRelease(distDir: string, opts: CheckOptions = {}): Failure[
     if (cache("/assets/*") !== IMMUTABLE) fail(11, "_headers: /assets/* must be cached as immutable");
     if (cache("/kb/manifest.json") !== "no-cache") fail(11, "_headers: /kb/manifest.json must be revalidated (no-cache)");
     if (cache("/sw.js") !== "no-cache") fail(11, "_headers: /sw.js must be revalidated (no-cache): a worker the HTTP cache keeps is a worker that cannot be replaced");
+    if (cache("/boot.js") !== "no-cache") fail(11, "_headers: /boot.js must be revalidated (no-cache): its name carries no hash");
     for (const [name, ref] of Object.entries(manifest.chunks)) if (ref && cache(`/kb/${ref.file}`) !== IMMUTABLE) fail(11, `_headers: the ${name} chunk /kb/${ref.file} must be cached as immutable`);
     for (const f of hansFiles) if (cache(`/kb/${f}`) !== IMMUTABLE) fail(11, `_headers: the Simplified display list /kb/${f} must be cached as immutable`);
   }

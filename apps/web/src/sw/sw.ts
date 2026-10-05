@@ -1,6 +1,6 @@
 // The service worker (docs/post-mvp/design/offline-and-install.md). Only the wiring: the build's script (scripts/sw-build.ts) puts the build's facts in front of this code as
 // `self.__TCM_BUILD__`, and every decision is made by the pure functions of core.ts. No dependency, no library.
-import { activate, answer, cacheKnowledge, decide, install, SCRIPTS, type Build, type Env, type Script } from "./core.ts";
+import { activate, answer, cacheKnowledge, decide, install, SCRIPTS, scriptsCached, type Build, type Env, type Script } from "./core.ts";
 
 /** The few parts of the worker scope this file uses (the project's type library is the page's, not the worker's). */
 interface Scope {
@@ -37,6 +37,7 @@ scope.addEventListener("message", (event) => {
   if (data?.type === "SKIP_WAITING") { event.waitUntil(scope.skipWaiting()); return; }
   if (data?.type === "CACHE_KB" && SCRIPTS.includes(data.script as Script)) {
     const script = data.script as Script;
-    event.waitUntil(cacheKnowledge(build, env(), script).then((ok) => event.source?.postMessage({ type: "KB_READY", script, ok, build: build.id })));
+    // the answer says whether this script is cached and which scripts are, so that the page knows what it can switch to without a connection
+    event.waitUntil(cacheKnowledge(build, env(), script).then(async (ok) => event.source?.postMessage({ type: "KB_READY", script, ok, scripts: await scriptsCached(build, env()), build: build.id })));
   }
 });

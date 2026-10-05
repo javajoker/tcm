@@ -87,9 +87,18 @@ function deployPlugin(profile: "release" | "dev", noindex: boolean): Plugin {
   };
 }
 
+/** One entry bundled as a classic script (an IIFE, minified): the worker and the boot script are files of their own, not part of the application's chunks. */
+async function bundleScript(entry: string, name: string): Promise<string> {
+  const result = await viteBuild({ configFile: false, logLevel: "silent", build: { write: false, minify: true, target: "es2022", lib: { entry: resolve(here, entry), formats: ["iife"], name } } });
+  const chunk = (Array.isArray(result) ? result : [result]).flatMap((r) => ("output" in r ? r.output : [])).find((o) => o.type === "chunk");
+  if (chunk === undefined || chunk.type !== "chunk") throw new Error(`${entry} was not bundled`);
+  return chunk.code;
+}
+
 /**
- * `sw.js` (docs/post-mvp/design/offline-and-install.md §3.4), written last, from the files the build has just written: the release build gets the worker with the build's lists in front of
- * it; the development build gets the kill worker, so a reviewer who once visited a release build never sees a stale preview. A separate, unhashed file at the site root; no library.
+ * The offline files (docs/post-mvp/design/offline-and-install.md §3.4, §3.5), written last, from the files the build has just written. The release build gets `boot.js` — the boot guard, a classic
+ * script of its own that the page loads first, so that it counts a start even when the application's own script cannot be loaded — and `sw.js`, the worker with the build's lists in front of it. The
+ * development build gets the kill worker as its `sw.js`, so a reviewer who once visited a release build never sees a stale preview. Unhashed files at the site root; no library.
  */
 function workerPlugin(profile: "release" | "dev"): Plugin {
   let outDir = "";
@@ -97,18 +106,13 @@ function workerPlugin(profile: "release" | "dev"): Plugin {
     name: "tcm-worker",
     apply: "build",
     enforce: "post",
+    // before </head>, so after the Content-Security-Policy; a classic script, so it runs before the application's module script
+    transformIndexHtml: (html) => (profile === "release" ? html.replace("</head>", `  <script src="/boot.js"></script>\n  </head>`) : html),
     configResolved(config) { outDir = resolve(config.root, config.build.outDir); },
     async closeBundle() {
       if (profile === "dev") { writeFileSync(join(outDir, "sw.js"), killWorkerSource()); return; }
-      const facts = buildFacts(outDir, LANGUAGE_SEGMENTS);
-      const result = await viteBuild({
-        configFile: false, logLevel: "silent",
-        build: { write: false, minify: true, target: "es2022", lib: { entry: resolve(here, "src/sw/sw.ts"), formats: ["iife"], name: "tcmWorker" } },
-      });
-      const output = (Array.isArray(result) ? result : [result]).flatMap((r) => ("output" in r ? r.output : []));
-      const chunk = output.find((o) => o.type === "chunk");
-      if (chunk === undefined || chunk.type !== "chunk") throw new Error("the service worker was not bundled");
-      writeFileSync(join(outDir, "sw.js"), workerSource(facts, chunk.code));
+      writeFileSync(join(outDir, "boot.js"), await bundleScript("src/boot.ts", "tcmBoot"));
+      writeFileSync(join(outDir, "sw.js"), workerSource(buildFacts(outDir, LANGUAGE_SEGMENTS), await bundleScript("src/sw/sw.ts", "tcmWorker")));
     },
   };
 }

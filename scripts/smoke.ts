@@ -71,6 +71,8 @@ export async function smoke(baseUrl: string, opts: SmokeOptions = {}): Promise<s
   need(worker.status === 200 && /javascript/.test(worker.headers.get("content-type") ?? ""), `/sw.js: status ${worker.status}, content-type ${worker.headers.get("content-type")} (expected 200 and a script)`);
   need(worker.headers.get("cache-control") === "no-cache", `/sw.js: cache-control ${worker.headers.get("cache-control")}, expected no-cache`);
   need(/worker-src 'self'/.test(worker.headers.get("content-security-policy") ?? ""), "/sw.js: the Content-Security-Policy does not name worker-src");
+  const boot = await get("/boot.js");
+  need(boot.status === 200 && /javascript/.test(boot.headers.get("content-type") ?? "") && boot.headers.get("cache-control") === "no-cache", `/boot.js: status ${boot.status}, content-type ${boot.headers.get("content-type")}, cache-control ${boot.headers.get("cache-control")} (expected a script that is never cached)`);
 
   // 6. hashed assets are immutable; the root files exist
   const html = await (await get("/en/")).text();

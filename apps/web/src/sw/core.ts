@@ -46,6 +46,7 @@ export function decide(req: RequestFacts, build: Build): Decision | null {
 export type CacheLike = Pick<Cache, "addAll" | "match" | "keys">;
 export interface CacheStorageLike {
   open(name: string): Promise<CacheLike>;
+  has(name: string): Promise<boolean>;
   keys(): Promise<string[]>;
   delete(name: string): Promise<boolean>;
 }
@@ -98,6 +99,7 @@ export async function scriptsCachedBefore(build: Build, env: Env): Promise<Set<S
  * failure leaves the script uncached rather than partly cached: a knowledge base with a missing chunk is an error screen, not a degraded one.
  */
 export async function cacheKnowledge(build: Build, env: Env, script: Script): Promise<boolean> {
+  if (!(await env.caches.has(cacheName(build)))) return false;          // removed meanwhile (the person chose to): `open` would make an empty one
   const cache = await env.caches.open(cacheName(build));
   const wanted = [...build.knowledge.common, ...(script === "Hans" ? build.knowledge.hans : [])];
   const missing: string[] = [];
@@ -111,6 +113,15 @@ export async function cacheKnowledge(build: Build, env: Env, script: Script): Pr
   }
 }
 
+/** The scripts whose knowledge files this build's cache holds completely (what the page may switch to without a connection). */
+export async function scriptsCached(build: Build, env: Env): Promise<Script[]> {
+  if (!(await env.caches.has(cacheName(build)))) return [];
+  const cache = await env.caches.open(cacheName(build));
+  const has = async (paths: readonly string[]): Promise<boolean> => { for (const p of paths) if (await cache.match(new URL(p, env.origin).href) === undefined) return false; return true; };
+  const common = await has(build.knowledge.common);
+  return [...(common ? ["Hant" as const] : []), ...(common && await has(build.knowledge.hans) ? ["Hans" as const] : [])];
+}
+
 /** Remove every cache of an earlier build (everything named `tcm-app-*` but this build's). Returns the names it removed. */
 export async function activate(build: Build, env: Env): Promise<string[]> {
   const old = (await env.caches.keys()).filter((k) => k.startsWith(CACHE_PREFIX) && k !== cacheName(build));
@@ -120,8 +131,12 @@ export async function activate(build: Build, env: Env): Promise<string[]> {
 
 // ── answering ───────────────────────────────────────────────────────────────
 
-/** The cached copy of what `decide` chose; the network if the cache does not hold it (it was cleared, or never filled). Nothing is ever stored here. */
+/**
+ * The cached copy of what `decide` chose; the network if the cache does not hold it (it was cleared, or never filled). Nothing is ever stored here — and a cache that was removed (by the person, or by the
+ * browser) is not made again by being asked: `open` would create an empty one.
+ */
 export async function answer(decision: Decision, request: Request, build: Build, env: Env): Promise<Response> {
+  if (!(await env.caches.has(cacheName(build)))) return env.fetch(request);
   const cache = await env.caches.open(cacheName(build));
   const hit = await cache.match(new URL(decision.kind === "shell" ? INDEX : decision.path, env.origin).href);
   return hit ?? env.fetch(request);

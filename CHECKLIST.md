@@ -98,7 +98,7 @@ A release is ticked item by item as features ship; a feature ships when the gate
 
 **Release A — Reach and resilience** (FR-21, FR-22, FR-23, FR-28, FR-29)
 - [ ] `zh-Hans`: key coverage, no fallback, no Traditional-only character, glossary column, engine output equal in every language, visual baselines and axe green; Mainland linguistic review and legal review of the notices recorded, or the draft label shown
-- [ ] Offline: a whole assessment works with the network off in Chromium, WebKit and Firefox; the cache holds only files of the build; the update flow never interrupts an answer; the kill switch works; the rollback is rehearsed
+- [ ] Offline: a whole assessment works with the network off in Chromium, WebKit and Firefox; the cache holds only files of the build; the update flow never interrupts an answer; the kill switch works; the rollback is rehearsed (automated: E22, E22b–d pass in all three engines; still to do by hand: the rehearsal on staging at the first deployment, [release process §7](docs/release-process.md))
 - [ ] Installable: manifest valid, no prompt on the first visit; `check-release` rules for the worker (list equals the build, no external URL, ≤ 10 KB gzip) and the manifest green
 - [ ] Backup: round trip, encrypted round trip and fuzz tests green; a release build refuses dev-profile records; storage health shown
 - [ ] Tap-tempo estimator tests green; the control works with the keyboard and a screen reader

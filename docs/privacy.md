@@ -29,6 +29,7 @@
 | Data | Examples | Sensitivity | Purpose | Stored where | Default retention | User control |
 |---|---|---|---|---|---|---|
 | Disclaimer acknowledgement | version, time | Low | Re-prompt when wording changes | `localStorage` | Until erased | Settings → Erase |
+| Boot counter | a number (`tcm.boot`) raised when the page starts and cleared after its first render, and the time of the last recovery (`tcm.boot.recovered`) | None | The boot guard: two starts in a row that never rendered drop the offline copy ([offline design](post-mvp/design/offline-and-install.md) §3.5) | `localStorage` | Cleared by the next successful start | Settings → Erase |
 | Preferences | language (only once the user has chosen one), theme, text size, emergency-number region, "move on automatically" switch, "English offer dismissed" flag | Low | Personalisation; the one-time English offer is shown only while no language has been chosen | `localStorage` key `tcm.prefs` | Until erased | Settings |
 | Basic profile | age, sex at birth, pregnancy/lactation, region, lifestyle | **Sensitive (health)** | Safety scope and context | IndexedDB (draft, history) | Until the user deletes the assessment | Edit, delete |
 | Medications, allergies, chronic conditions | classes, allergens, listed conditions, free-text medicine names the user types (never interpreted) | **Sensitive (health)** | Safety filter | IndexedDB | Same | Same |

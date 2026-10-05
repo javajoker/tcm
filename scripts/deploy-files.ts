@@ -35,6 +35,7 @@ export function headersFile(input: HeadersInput): string {
     rule("/*", security),
     rule("/assets/*", [`Cache-Control: ${IMMUTABLE}`]),
     rule("/sw.js", ["Cache-Control: no-cache"]),                     // a worker the HTTP cache keeps is a worker that cannot be replaced (offline design §3.4)
+    rule("/boot.js", ["Cache-Control: no-cache"]),                   // the boot guard has no hash in its name either
     ...[...input.kbChunks].sort().map((f) => rule(`/kb/${f}`, [`Cache-Control: ${IMMUTABLE}`])),
     rule("/kb/manifest.json", ["Cache-Control: no-cache"]),
     "",

@@ -5,6 +5,7 @@ import { APP_BUILD, APP_PROFILE, IS_DEV_PROFILE } from "./profile.ts";
 import { LanguageOffer } from "./LanguageOffer.tsx";
 import { LanguageToggle } from "./LanguageToggle.tsx";
 import { NotSavedChip } from "./NotSavedChip.tsx";
+import { UpdateBanner } from "../offline/UpdateBanner.tsx";
 import styles from "./AppShell.module.css";
 
 const DEV_BADGE = `DEV · ${APP_PROFILE}`;        // developer-facing text, present only in dev builds
@@ -28,6 +29,7 @@ export function AppShell({ children }: { children: ReactNode }): ReactNode {
           <LanguageToggle />
         </div>
         <LanguageOffer />
+        <UpdateBanner />
       </header>
       <main id="main" className={styles.main} tabIndex={-1}>{children}</main>
       <footer className={styles.footer}>

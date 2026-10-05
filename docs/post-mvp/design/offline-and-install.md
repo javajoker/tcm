@@ -2,8 +2,8 @@
 
 | | |
 |---|---|
-| **Version** | 0.2 |
-| **Status** | Release A (FR-22; tasks PM-04 … PM-06). PM-04 is built: the worker, its build integration, the kill worker and the page's registration; the update flow and the offline screens (PM-05) and installability (PM-06) are not |
+| **Version** | 0.3 |
+| **Status** | Release A (FR-22; tasks PM-04 … PM-06). PM-04 and PM-05 are built: the worker, its build integration, the kill worker, the page's registration, the update flow, the offline screens, the boot guard and the rollback rehearsal; installability (PM-06) is not |
 | **Last updated** | 2026-10-05 |
 | **Audience** | Engineers, whoever deploys and rolls back |
 | **Related** | [Requirements FR-22](../requirements.md#fr-22-offline-use-and-installation--release-a--class-n--refines-tq6-e15) · [Tech spec §5, §11, §12](../../tech-spec.md) · [Release process §6, §7](../../release-process.md) · [Privacy §2](../../privacy.md) · [Decisions TQ6, PD-03](../decisions.md) |
@@ -178,4 +178,5 @@ PM-04 (worker, build integration, headers, kill worker), PM-05 (update flow, sta
 | Version | Date | Change |
 |---|---|---|
 | 0.1 | 2026-10-05 | Initial design |
+| 0.3 | 2026-10-05 | PM-05 built. The boot guard is a **classic script of its own** (`/boot.js`, about 0.6 KB gzip, `no-cache`, injected into the release page): found by the two-build rehearsal, Vite merges every module script of a page into one chunk, so a guard inside the application could not count a start in which the application's own script is missing or unparsable — the commonest failure of a faulty worker. A `removed` status joins the others (the person removed the copy; it is installed again next visit). The worker answers `CACHE_KB` with the scripts it holds, so the language switch can say that Simplified needs a connection the first time. A cache that was removed is never made again by a request (`open` creates an empty one): the worker checks `has` first. The quiet line on the landing page appears only after the strip is dismissed (one prompt at a time). A newer build that takes over on its own (another tab closed) does not reload the page: the page says a new version is ready. The recovery is rate-limited by a timestamp in `localStorage` (ten minutes), where the design said once per visit |
 | 0.2 | 2026-10-05 | PM-04 built. Changes found while building: the worker's facts travel on its first line (`self.__TCM_BUILD__=…`) so that `check-release` can read them back and recompute them; the build id is a hash of the names **and contents** of every cached file (the page is not content-hashed, so its content must count); the page-side controller (`apps/web/src/offline/`) is written with the browser's container injected and tested with fakes; every end-to-end scenario but E22 runs with `serviceWorkers: "block"`, because a worker answers requests that Playwright's interception cannot reach; whether a request carries a body is read as `(request.body ?? null) !== null`, because Firefox has no `Request.body` (found by the Firefox run of E22) |

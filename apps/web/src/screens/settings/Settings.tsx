@@ -3,13 +3,14 @@ import { ENGINE_VERSION } from "@tcm/engine";
 import { useI18n } from "../../i18n/I18nProvider.tsx";
 import type { MessageKey } from "../../i18n/catalogs.ts";
 import { useLoadedOptional } from "../../app/knowledge.tsx";
-import { APP_BUILD, APP_PROFILE } from "../../app/profile.ts";
+import { APP_BUILD, APP_PROFILE, IS_DEV_PROFILE } from "../../app/profile.ts";
 import { useApp } from "../../app/store.tsx";
 import { LANGS } from "../../app/routing.ts";
 import { usePageTitle } from "../../app/usePageTitle.ts";
 import { TEXT_SCALES, THEMES } from "../../storage/types.ts";
 import { Button, Card, ConfirmDialog, LinkButton, SegmentedControl, Tile } from "../../ui/index.ts";
 import { DataTable } from "../result/Panel.tsx";
+import { OfflineCard } from "./OfflineCard.tsx";
 
 const SIZE_SLUG = { 0.9: "small", 1: "standard", 1.15: "large", 1.3: "xlarge" } as const;
 
@@ -24,7 +25,7 @@ export function Settings(): ReactNode {
   const [confirm, setConfirm] = useState(false);
   const k = (key: string): string => t.t(key as MessageKey);
 
-  const rows = (["prefs", "draft", "results", "birth"] as const).map((r) => [k(`common.settings.privacy.${r}`), k(`common.settings.privacy.${r}.where`), k(`common.settings.privacy.${r}.until`), k(`common.settings.privacy.${r}.remove`)]);
+  const rows = (IS_DEV_PROFILE ? (["prefs", "draft", "results", "birth"] as const) : (["prefs", "draft", "results", "birth", "offline"] as const)).map((r) => [k(`common.settings.privacy.${r}`), k(`common.settings.privacy.${r}.where`), k(`common.settings.privacy.${r}.until`), k(`common.settings.privacy.${r}.remove`)]);
   return (
     <>
       <h1>{t.t("common.settings.title")}</h1>
@@ -48,6 +49,8 @@ export function Settings(): ReactNode {
         <Card title={t.t("common.settings.rememberBirth")} headingLevel={2} id="settings-birth">
           <Tile type="checkbox" name="rememberBirthDefault" value="on" checked={prefs.rememberBirthDefault === true} onChange={(on) => setPrefs({ rememberBirthDefault: on })} label={t.t("common.settings.rememberBirth")} description={t.t("common.settings.rememberBirth.hint")} />
         </Card>
+
+        {IS_DEV_PROFILE ? null : <OfflineCard />}
 
         <Card title={t.t("common.settings.privacy.title")} headingLevel={2} id="privacy">
           <p>{t.t("common.settings.privacy.intro")}</p>

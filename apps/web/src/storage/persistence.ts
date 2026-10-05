@@ -1,5 +1,6 @@
 // The ONE module that touches browser storage (docs/privacy.md §6 rule 4; enforced by an ESLint rule). Every call is wrapped: storage that is missing,
 // blocked or full degrades to memory and flips `status` to "memory", which the UI shows as a "Not saved" chip. Nothing here ever throws to a caller.
+import type { Environment } from "./browser.ts";
 import { createKV, type KV } from "./kv.ts";
 import { createMemoryDb, deleteIndexedDb, openIndexedDb, type Db } from "./db.ts";
 import { parseDraft, toStored } from "./draft.ts";
@@ -7,11 +8,7 @@ import { ASSESSMENT_MIGRATIONS, ASSESSMENT_VERSION, DRAFT_MIGRATIONS, DRAFT_VERS
 import { parsePrefs, PREFS_KEY, serializePrefs } from "./prefs.ts";
 import type { Draft, Prefs, SavedAssessment, StorageStatus } from "./types.ts";
 
-export interface Environment {
-  readonly localStorage?: Storage | null;
-  readonly indexedDB?: IDBFactory | null;
-  readonly caches?: CacheStorage | null;
-}
+export { browserEnvironment, type Environment } from "./browser.ts";
 
 export interface EraseReport { readonly indexedDb: boolean; readonly localStorage: boolean; readonly cacheStorage: boolean }
 
@@ -89,9 +86,4 @@ export function createPersistence(env: Environment): Persistence {
       return { indexedDb, localStorage: ls, cacheStorage };
     },
   };
-}
-
-export function browserEnvironment(): Environment {
-  const pick = <T,>(get: () => T): T | null => { try { return get() ?? null; } catch { return null; } };     // reading `localStorage` itself can throw when blocked
-  return { localStorage: pick(() => window.localStorage), indexedDB: pick(() => window.indexedDB), caches: pick(() => window.caches) };
 }

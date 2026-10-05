@@ -99,7 +99,7 @@ describe("the generators", () => {
     assert.ok(!star.headers.some(([k]) => k.toLowerCase() === "cache-control"));
     assert.ok(!star.headers.some(([k]) => k === "X-Robots-Tag"));
     const cached = rules.filter((r) => r.headers.some(([k]) => k === "Cache-Control")).map((r) => r.pattern);
-    assert.deepEqual(cached, ["/assets/*", "/sw.js", "/kb/core.aaaa.json", "/kb/formulas.bbbb.json", "/kb/manifest.json"]);
+    assert.deepEqual(cached, ["/assets/*", "/sw.js", "/boot.js", "/kb/core.aaaa.json", "/kb/formulas.bbbb.json", "/kb/manifest.json"]);
     assert.deepEqual(rules.find((r) => r.pattern === "/sw.js")!.headers, [["Cache-Control", "no-cache"]]);
     assert.ok(parseHeaders(headersFile({ noindex: true, kbChunks: [] })).find((r) => r.pattern === "/*")!.headers.some(([k]) => k === "X-Robots-Tag"));
   });

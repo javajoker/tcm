@@ -55,6 +55,13 @@ function edit(dir: string, name: string, fn: (data: any) => void): void {
 }
 const html = (dir: string, fn: (s: string) => string): void => { writeFileSync(join(dir, "index.html"), fn(readFileSync(join(dir, "index.html"), "utf8"))); resync(dir); };
 const entryJs = (dir: string): string => join(dir, readdirSync(join(dir, "assets")).filter((f) => f.endsWith(".js")).map((f) => `assets/${f}`).sort()[0]!);
+/** Text that does not compress, for a file that is meant to be too big. */
+function noiseOf(words: number): string {
+  let noise = "";
+  let x = 12345;
+  for (let i = 0; i < words; i++) { x = (x * 1103515245 + 12345) & 0x7fffffff; noise += x.toString(36); }
+  return noise;
+}
 const rules = (f: Failure[]): number[] => [...new Set(f.map((x) => x.rule))].sort();
 const messages = (f: Failure[]): string => f.map((x) => x.message).join("\n");
 
@@ -300,6 +307,7 @@ describe("check-release", () => {
     assert.match(headers((s) => s.replace(/(\/kb\/core\.[0-9a-f]+\.json\n {2}Cache-Control: )[^\n]*/, "$1no-cache")).join("\n"), /the core chunk .* must be cached as immutable/);
     assert.match(headers((s) => s.replace(/(\/sw\.js\n {2}Cache-Control: )[^\n]*/, "$1public, max-age=86400")).join("\n"), /\/sw\.js must be revalidated/);
     assert.match(headers((s) => s.replace("/sw.js\n  Cache-Control: no-cache\n", "")).join("\n"), /\/sw\.js must be revalidated/);
+    assert.match(headers((s) => s.replace("/boot.js\n  Cache-Control: no-cache\n", "")).join("\n"), /\/boot\.js must be revalidated/);
     assert.match(headers((s) => s.replace("worker-src 'self'; ", "")).join("\n"), /Content-Security-Policy is missing or is not the policy/);
     const r = copy();
     writeFileSync(join(r, "_redirects"), "/en/*  /index.html  200\n/*  /index.html  200\n");
@@ -358,11 +366,24 @@ describe("check-release", () => {
     assert.match(only13(withWorker((src) => rewrite(src, (f) => { f.shell = f.shell.filter((p) => p !== "/index.html"); }))), /does not hold \/index\.html/);
     assert.match(only13(withWorker((src) => rewrite(src, (f) => { f.shell.push("/sw.js"); }))), /sw\.js lists itself/);
 
+    // the boot script: present, loaded by the page as a classic script, self-contained and small; and the host serves it fresh
+    const noBoot = copy();
+    rmSync(join(noBoot, "boot.js"));
+    assert.match(only13(checkRelease(noBoot, { draftLabel: true })), /boot\.js is missing/);
+    const unlinked = copy();
+    html(unlinked, (s) => s.replace('<script src="/boot.js"></script>', ""));
+    assert.match(only13(checkRelease(unlinked, { draftLabel: true })), /index\.html does not load \/boot\.js as a classic script/);
+    const reaching = copy();
+    writeFileSync(join(reaching, "boot.js"), `${readFileSync(join(reaching, "boot.js"), "utf8")}\nfetch("/x");`);
+    resync(reaching);
+    assert.match(only13(checkRelease(reaching, { draftLabel: true })), /boot\.js reaches out/);
+    const bloated = copy();
+    writeFileSync(join(bloated, "boot.js"), `${readFileSync(join(bloated, "boot.js"), "utf8")}\n/*${noiseOf(8000)}*/`);
+    resync(bloated);
+    assert.match(only13(checkRelease(bloated, { draftLabel: true })), /boot\.js is \d+ B gzip, over the 2048 B budget/);
+
     // an external address, and a worker too big to read in one sitting
     assert.match(only13(withWorker((src) => `${src}\nfetch("https://example.com/track");`)), /names an external address/);
-    let noise = "";
-    let x = 12345;
-    for (let i = 0; i < 12000; i++) { x = (x * 1103515245 + 12345) & 0x7fffffff; noise += x.toString(36); }
-    assert.match(only13(withWorker((src) => `${src}\n/*${noise}*/`)), /over the 10240 B budget/);
+    assert.match(only13(withWorker((src) => `${src}\n/*${noiseOf(12000)}*/`)), /over the 10240 B budget/);
   });
 });
