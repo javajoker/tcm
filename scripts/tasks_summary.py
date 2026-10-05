@@ -15,7 +15,7 @@ TASKS = Path(__file__).resolve().parents[1] / "TASKS.md"
 ROW = re.compile(r"^\|\s*\[(?P<done>[ x])\]\s*\|\s*(?P<id>[A-Z]+-\d+)\s*\|(?P<rest>.*?)\|?\s*$")
 SECTION = re.compile(r"^## (?P<key>[A-Z]+)\. (?P<title>.+)$")
 TITLES = {"A": "Documentation", "DEC": "Decisions", "K": "Knowledge base", "E": "Engine and packages", "I": "Internationalisation",
-          "U": "Web application", "Q": "Quality assurance", "R": "Release and operations", "V": "Review (non-code)", "PF": "Performance (P2)"}
+          "U": "Web application", "Q": "Quality assurance", "R": "Release and operations", "V": "Review (non-code)", "PF": "Performance (P2)", "PM": "Post-MVP releases"}
 
 
 def collect(text: str):

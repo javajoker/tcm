@@ -11,7 +11,8 @@ conclusion with citations to classical texts (《黃帝內經》《傷寒論》�
 
 | Path | What | Status |
 |---|---|---|
-| [`docs/PRD.md`](docs/PRD.md) | Product requirements | v0.4 draft |
+| [`docs/PRD.md`](docs/PRD.md) | Product requirements | v0.6 draft |
+| [`docs/post-mvp/`](docs/post-mvp/README.md) | What comes after the MVP: roadmap (releases A–D), requirements, decision register, design documents | v0.1 draft |
 | [`docs/diagnosis-sop.zh-TW.md`](docs/diagnosis-sop.zh-TW.md) | 辨證論治作業流程 — the diagnosis logic (繁體中文) | v0.2 draft |
 | [`docs/wuxing-algorithm.md`](docs/wuxing-algorithm.md) · [`.zh-TW`](docs/wuxing-algorithm.zh-TW.md) | Yin-yang / five-phase algorithm specification (English; 繁體中文版) | v0.1, implemented |
 | [`docs/tech-spec.md`](docs/tech-spec.md) · [`docs/ux-spec.md`](docs/ux-spec.md) | Technical specification · UI/UX specification | v0.1 drafts |

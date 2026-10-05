@@ -26,6 +26,7 @@ Sections: **1** Definition of done (every task) · **2** Per-PR · **3** Milesto
 - [ ] **Accessibility impact** checked for UI work (keyboard, labels, contrast, text equivalent)
 - [ ] Nothing restricted by the `release` profile can reach a release build (pruning test or `check-release.ts` still green)
 - [ ] Synthetic data only in fixtures, tests and screenshots
+- [ ] **Post-MVP feature** (section PM): its review class ([post-MVP index §3](docs/post-mvp/README.md#3-review-classes)) and the gates of that class are named; when it ships, its requirement is folded into the [PRD](docs/PRD.md), its design into the specs and its stored data into the [privacy inventory](docs/privacy.md)
 
 ## 2. Per-PR checklist
 
@@ -90,6 +91,41 @@ _Ticked on 2026-10-05 from local runs (see the [dry run](docs/release-dry-run.md
 - [ ] Legal sign-off on disclaimers, claims, privacy statement
 - [ ] Usability R3 done; participants informed (consent text)
 - [ ] Release checklist (§5) complete; hosting and headers verified; rollback tested
+
+
+### Post-MVP releases (section PM; [roadmap](docs/post-mvp/roadmap.md))
+A release is ticked item by item as features ship; a feature ships when the gates of its review class are met, whichever version is current. Lighthouse and manual assistive-technology passes apply to each release as to the MVP.
+
+**Release A — Reach and resilience** (FR-21, FR-22, FR-23, FR-28, FR-29)
+- [ ] `zh-Hans`: key coverage, no fallback, no Traditional-only character, glossary column, engine output equal in every language, visual baselines and axe green; Mainland linguistic review and legal review of the notices recorded, or the draft label shown
+- [ ] Offline: a whole assessment works with the network off in Chromium, WebKit and Firefox; the cache holds only files of the build; the update flow never interrupts an answer; the kill switch works; the rollback is rehearsed
+- [ ] Installable: manifest valid, no prompt on the first visit; `check-release` rules for the worker (list equals the build, no external URL, ≤ 10 KB gzip) and the manifest green
+- [ ] Backup: round trip, encrypted round trip and fuzz tests green; a release build refuses dev-profile records; storage health shown
+- [ ] Tap-tempo estimator tests green; the control works with the keyboard and a screen reader
+- [ ] Region packs: only verified rows are listed and bundled; the generic text covers the rest
+- [ ] Budgets: initial JavaScript ≤ 200 KB gzip, a Simplified session ≤ +70 KB, worker ≤ 10 KB
+- [ ] Privacy inventory and statement updated; no request carries user data; Cache Storage holds nothing personal
+- [ ] Folded into the PRD and specs; `CHANGELOG.md` updated
+
+**Release B — Learn and follow up** (FR-14, FR-24, FR-25, FR-26, FR-27)
+- [ ] Every knowledge page names its sources or says "no source" and carries its cautions (test over all pages); axe-clean in light and dark; a release build shows only its bundle
+- [ ] Comparison uses the question bank and adds no score
+- [ ] Practitioner export: schema published, preview toggles work, fields within the privacy inventory, wording lint clean
+- [ ] Follow-up: the calendar file carries no health content; trends never mix parameter fingerprints silently; wording passes the forbidden-wording lint and is reviewed
+- [ ] Lock: a scan of the raw stored bytes finds no plaintext of sensitive fields; an interrupted change keeps the old data valid; security review recorded
+- [ ] Usability round includes the learner and the practitioner tasks
+- [ ] Folded into the PRD and specs; `CHANGELOG.md` updated
+
+**Release C — Breadth** (FR-30, FR-31, herb browser)
+- [ ] Every new pattern or module passes the admission checks in the build and has vignettes and golden seeds; self-test and margin rule green
+- [ ] Review records valid for each area added; golden concordance re-reported; no area ships on an exception without the draft label
+- [ ] Herb browser: per-session budget holds; only herbs covered by the sample review lose the draft label; every page carries its flags and sources
+- [ ] Five-phase extensions: parity cases pass; each change is a recorded parameter or engine version change; the astronomy tables regenerate from the pinned archive
+- [ ] Folded into the PRD, the SOP (owner of the logic) and specs; `CHANGELOG.md` updated
+
+**Release D — Research** (FR-32 … FR-34; nothing ships by default)
+- [ ] Each spike has a report against its written protocol and a recorded go or no-go
+- [ ] A go decision names the review class, the privacy and legal review, and the new requirement before any code ships
 
 ---
 

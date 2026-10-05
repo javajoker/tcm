@@ -3,10 +3,10 @@
 | | |
 |---|---|
 | **Working title** | TCM Self-Assessment App (name TBD) |
-| **Version** | 0.5 (draft) |
-| **Status** | Draft — documentation set complete (M0); open questions resolved with MVP defaults (§14.2), supporting-document proposals confirmed (§14.3); all to be revisited after the MVP |
-| **Last updated** | 2026-10-04 |
-| **Related docs** | [Documentation index](README.md) · [Diagnosis SOP v0.2 (繁體中文)](diagnosis-sop.zh-TW.md) · [Algorithm spec](wuxing-algorithm.md) ([繁中](wuxing-algorithm.zh-TW.md)) · [Tech spec](tech-spec.md) · [UI/UX spec](ux-spec.md) · [KB schema](kb-schema.md) · [i18n guide](i18n-guide.md) · [Content review](content-review.md) · [Safety policy](safety-policy.md) · [Privacy](privacy.md) · [Test plan](test-plan.md) · [Release process](release-process.md) · [Tasks](../TASKS.md) · [Checklist](../CHECKLIST.md) · [Knowledge base (`data/`)](../data/README.md) · [Reference sources](../reference/README.md) |
+| **Version** | 0.6 (draft) |
+| **Status** | Draft — documentation set complete (M0); open questions resolved with MVP defaults (§14.2), supporting-document proposals confirmed (§14.3); all to be revisited after the MVP — the post-MVP answers are in the [decision register](post-mvp/decisions.md) |
+| **Last updated** | 2026-10-05 |
+| **Related docs** | [Documentation index](README.md) · [Post-MVP set](post-mvp/README.md) · [Diagnosis SOP v0.2 (繁體中文)](diagnosis-sop.zh-TW.md) · [Algorithm spec](wuxing-algorithm.md) ([繁中](wuxing-algorithm.zh-TW.md)) · [Tech spec](tech-spec.md) · [UI/UX spec](ux-spec.md) · [KB schema](kb-schema.md) · [i18n guide](i18n-guide.md) · [Content review](content-review.md) · [Safety policy](safety-policy.md) · [Privacy](privacy.md) · [Test plan](test-plan.md) · [Release process](release-process.md) · [Tasks](../TASKS.md) · [Checklist](../CHECKLIST.md) · [Knowledge base (`data/`)](../data/README.md) · [Reference sources](../reference/README.md) |
 
 > **Source-of-truth rule.** The diagnosis logic (what is asked, how answers become a pattern and a body panel, how that becomes a
 > recommendation) is owned by the [Diagnosis SOP](diagnosis-sop.zh-TW.md); the yin-yang / five-phase mathematics by the
@@ -97,8 +97,16 @@ Everything open for every population, condition and state (L3): tier-C formulas 
 
 ### 4.3 Later (post-MVP)
 
-- Additional complaint modules, 衛氣營血 / 三焦 patterns; on-device tongue photo assistance; knowledge-base browser; practitioner summary export.
-- Optional accounts / cloud sync; Simplified Chinese UI; PWA / offline.
+Planned in the [post-MVP document set](post-mvp/README.md): the [roadmap](post-mvp/roadmap.md), the [requirements](post-mvp/requirements.md) (FR-21 …) and the [decision register](post-mvp/decisions.md).
+
+| Release | Theme | Contents |
+|---|---|---|
+| **A** | Reach and resilience | Simplified Chinese UI · offline use and installation (PWA) · backup and restore, optional encryption, storage health · tap-tempo pulse · region packs |
+| **B** | Learn and follow up | Knowledge browser (FR-14) and pattern comparison · structured practitioner export · follow-up reminders and trends · local data lock |
+| **C** | Breadth | More complaint modules and patterns (衛氣營血 as red flags, 三焦-located damp-heat and others, in waves) · herb browser · five-phase extensions |
+| **D** | Research | On-device tongue-photo assistance · camera pulse · file-based sync — each an evaluated spike first |
+
+Not planned: accounts or server-side sync (portability is by backup file), LLM-generated diagnosis, e-commerce, automatic telemetry.
 
 ---
 
@@ -190,7 +198,7 @@ Sections in order: safety/scope banner and acknowledged notices · summary (cons
 ### FR-13 Export — P1
 - Print-optimised stylesheet and PDF export; "practitioner summary" view (complaints, 四診 findings, panel, pattern hypotheses).
 
-### FR-14 Knowledge browser — P2
+### FR-14 Knowledge browser — P2 (refined for Release B in the [post-MVP requirements](post-mvp/requirements.md#fr-14-knowledge-browser--release-b--class-n-herbs-c-release-c--refines-fr-14))
 - Browse patterns, formulas, herbs (with benefit/burden weights), acupoints and classical passages, each with provenance.
 
 ### FR-15 Content pipeline (internal) — P0 (implemented)
@@ -344,10 +352,11 @@ Design consequences: the questionnaire is adaptive; the engine exposes per-evide
 | Milestone | Content | Status |
 |---|---|---|
 | **M0 — Docs** | PRD ✔ · Diagnosis SOP ✔ (v0.2) · algorithm spec ✔ · **tech spec ✔ · UI/UX spec ✔ · KB schema ✔ · i18n guide ✔ · content review ✔ · safety policy ✔ · privacy ✔ · test plan ✔ · release process ✔ · contributing ✔ · task list ✔ · checklist ✔** | done — decisions recorded in §14.2–§14.3 |
-| **M1 — Knowledge base** | Reference ingestion, Traditional conversion, **built and validated first data set ✔** (127 quotes, 703 herbs, 33 formulas, 23 patterns, policy) | first pass done; review pending |
-| **M2 — MVP app** | Responsive UI, bilingual, intake → engine → panel/report (dev builds; no public release) | not started (`packages/wuxing` ✔); see [`TASKS.md`](../TASKS.md) |
-| **M3 — Review & hardening** | Practitioner review ([process](content-review.md)), golden-case calibration, a11y/perf passes | blocked on Q8 |
+| **M1 — Knowledge base** | Reference ingestion, Traditional conversion, **built and validated data set ✔** (127 quotes, 703 herbs, 33 formulas, 23 patterns, 36 questions, 31 acupoints, 484 cities, policy) | built and validated; **all content `draft`, review pending** |
+| **M2 — MVP app** | Responsive UI, bilingual, intake → engine → panel/report (dev builds; no public release) | **technically complete** (2026-10-05): every build task of [`TASKS.md`](../TASKS.md) done; the CI, Lighthouse and deploy workflows are written and have not run |
+| **M3 — Review & hardening** | Practitioner review ([process](content-review.md)), golden-case calibration, a11y/perf passes | not started — needs people (Q8) |
 | **M4 — Beta** | Limited release, feedback loop, weight calibration | — |
+| **Post-MVP A–D** | [Roadmap](post-mvp/roadmap.md): reach and resilience · learn and follow up · breadth · research | planned; designed in [`docs/post-mvp/design/`](post-mvp/README.md); runs in parallel with M3 and never lowers a gate |
 
 Implementation proceeds from [`TASKS.md`](../TASKS.md) with acceptance in [`CHECKLIST.md`](../CHECKLIST.md). One commit per finished task.
 
@@ -437,3 +446,4 @@ The project owner confirmed P1–P10 on 2026-10-04 (to be revisited after the MV
 | 0.3 | 2026-10-03 | Scope configuration with dev/release profiles and "notice then continue" (FR-4, FR-17); birth-based five-phase module and personal reference panel (FR-18); body panel and offsets (FR-19); tongue zones and special signs, optional pulse (FR-6); herb and formula knowledge with 君臣佐使 and benefit–burden weights, matching, modification and proportions (FR-10, FR-20); implemented KB pipeline and `packages/wuxing`; decisions log; aligned with SOP v0.2 |
 | 0.4 | 2026-10-04 | Documentation set completed (tech spec, UX spec, KB schema, i18n guide, content review, safety policy, privacy, test plan, release process, contributing, task list, checklist); related-docs header, M0–M3 status, performance NFR and FR-4 cross-references updated; new §14.3 lists the decisions proposed by those documents for confirmation |
 | 0.5 | 2026-10-04 | Owner decisions recorded: P1–P10 of §14.3 confirmed; §14.2 questions resolved with the recommended MVP defaults (Q1 Taiwan-first; Q8 reviewers appointed before M3, MVP runs as dev builds); all to be revisited after the MVP |
+| 0.6 | 2026-10-05 | Post-MVP document set linked: §4.3 rewritten as releases A–D, §13 milestone statuses brought up to date (M1, M2) with the post-MVP row, FR-14 points to its refinement; the post-MVP answers to the §14.2 questions are in the decision register |

@@ -4,7 +4,7 @@ Reading order for a new contributor: **PRD → Diagnosis SOP → Tech spec → U
 
 | Document | Language | What it answers | Owner of … | Version |
 |---|---|---|---|---|
-| [PRD](PRD.md) | English | Why the product exists, who it is for, requirements (FR/NFR), scope, risks, decisions | Product requirements and priorities | 0.4 |
+| [PRD](PRD.md) | English | Why the product exists, who it is for, requirements (FR/NFR), scope, risks, decisions | Product requirements and priorities | 0.6 |
 | [Diagnosis SOP](diagnosis-sop.zh-TW.md) | **繁體中文** | What is asked, how answers become a pattern, a body panel and a formula suggestion, with classical sources | **The diagnosis logic** (source of truth) | 0.2 |
 | [Yin-yang / five-phase algorithm](wuxing-algorithm.md) · [繁體中文版](wuxing-algorithm.zh-TW.md) | English · **繁體中文** | The birth + annual + seasonal five-phase mathematics; extraction from the source engine; parameters; verification | The five-phase mathematics | 0.1 |
 | [Technical specification](tech-spec.md) | English | Architecture, packages, data delivery, profiles, engine contract, state, storage, security, performance | Technical decisions and contracts | 0.1 |
@@ -17,7 +17,8 @@ Reading order for a new contributor: **PRD → Diagnosis SOP → Tech spec → U
 | [Test plan](test-plan.md) | English | Test layers, properties, safety vignettes, golden cases, E2E, usability | Quality strategy | 0.1 |
 | [Accessibility protocol](accessibility-protocol.md) | English | What is automated, the manual assistive-technology pass per release, findings and severity, the record template | Accessibility acceptance | 0.1 |
 | [Release process](release-process.md) | English | Versions, environments, gates, deployment, rollback | Release rules | 0.1 |
-| [`TASKS.md`](../TASKS.md) | English | The implementation task list (one commit per task) | Work breakdown | 0.1 |
+| [Post-MVP set](post-mvp/README.md): [roadmap](post-mvp/roadmap.md) · [requirements](post-mvp/requirements.md) · [decision register](post-mvp/decisions.md) · design documents | English | What is built after the MVP, in which order, under which review class; every "revisit after the MVP" decision answered; how each feature is designed | Post-MVP plan and designs (until a feature is folded into the PRD and specs) | 0.1 |
+| [`TASKS.md`](../TASKS.md) | English | The implementation task list (one commit per task), including the post-MVP releases (section PM) | Work breakdown | 0.1 |
 | [`CHECKLIST.md`](../CHECKLIST.md) | English | Definition of done and milestone/release checklists | Acceptance | 0.1 |
 | [`CONTRIBUTING.md`](../CONTRIBUTING.md) | English | How to work on the project | Contribution rules | 0.1 |
 | [`data/README.md`](../data/README.md) | English | What the knowledge base contains, provenance, verification, gaps | Data provenance | — |
