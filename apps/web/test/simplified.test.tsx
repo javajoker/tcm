@@ -50,7 +50,7 @@ describe("the route and its aliases", () => {
     go("/zh-Hans/nothing");
     renderApp();
     expect(await screen.findByRole("heading", { level: 1 })).toHaveTextContent("找不到这个页面");
-    expect(document.title).toBe("找不到这个页面 · 中医自我评估");
+    await waitFor(() => expect(document.title).toBe("找不到这个页面 · 中医自我评估"));          // set by an effect after the heading appears
     expect(screen.getByRole("link", { name: "回到首页" })).toBeInTheDocument();
   });
 });

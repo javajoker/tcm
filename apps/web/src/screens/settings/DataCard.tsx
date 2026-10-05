@@ -4,6 +4,7 @@ import { formatLocal } from "../../app/format.ts";
 import { useApp } from "../../app/store.tsx";
 import { useBackupDialogs } from "../../backup/BackupContext.tsx";
 import { Button, Card, Tile } from "../../ui/index.ts";
+import { StorageHealth } from "./StorageHealth.tsx";
 
 /** Settings → Your data (docs/post-mvp/design/backup-and-data-lock.md §3.5): make a backup, restore from a file, when the last backup was, and the reminder switch. */
 export function DataCard(): ReactNode {
@@ -21,6 +22,7 @@ export function DataCard(): ReactNode {
         <Button onClick={openRestore} disabled={storage === "memory"}>{t.t("common.backup.card.restore")}</Button>
       </div>
       {storage === "memory" ? <p className="muted">{t.t("common.backup.card.restore.blocked")}</p> : null}
+      <StorageHealth />
       <Tile type="checkbox" name="backupReminder" value="on" checked={prefs.backupReminder !== false} onChange={(on) => setPrefs(on ? { backupReminder: true } : { backupReminder: false })}
         label={t.t("common.backup.card.reminder")} description={t.t("common.backup.card.reminder.hint")} />
     </Card>

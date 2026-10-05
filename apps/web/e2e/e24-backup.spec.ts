@@ -76,6 +76,7 @@ test("E24b: a backup protected with a passphrase shows nothing inside, needs the
   const PASS = "correct horse 9 battery";
   await app.flow(ADULT_MAN, typicalSymptoms("SP1"));
   await app.goto("/history");
+  await expect(page.getByRole("checkbox")).toHaveCount(1);
   const [id] = await resultIds(page, lang);
   await app.goto(`/result/${id}`);
   await expect(app.heading("report.title")).toBeVisible();

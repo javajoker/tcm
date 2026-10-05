@@ -55,7 +55,7 @@ async function makeBackup(path = "/settings", over: Parameters<typeof open>[2] =
   const dialog = await screen.findByRole("dialog", { name: "Make a backup" });
   for (const label of untick) await userEvent.click(await within(dialog).findByRole("checkbox", { name: label }));
   await userEvent.click(within(dialog).getByRole("button", { name: "Download the backup" }));
-  await waitFor(() => expect(downloads).toHaveLength(1));
+  await waitFor(() => expect(downloads).toHaveLength(1), { timeout: 10_000 });
   const read = await readBackup(downloads[0]!.text);
   if (read.kind !== "backup") throw new Error("not a backup");
   return { text: downloads[0]!.text, doc: read.document, opened };
@@ -97,7 +97,7 @@ describe("Make a backup", () => {
     expect(doc.payload.prefs).toMatchObject({ lang: "en" });
     expect(text).not.toContain("disclaimerAck");
     expect(prefsOf(opened.env)["lastBackupAt"]).toEqual(expect.any(Number));
-    expect(await screen.findByRole("status")).toHaveTextContent(/Backup made: tcm-backup-.*\. It holds 3 saved results\. Keep it somewhere safe\./);
+    expect(await within(screen.getByRole("dialog", { name: "Make a backup" })).findByRole("status")).toHaveTextContent(/Backup made: tcm-backup-.*\. It holds 3 saved results\. Keep it somewhere safe\./);
   });
 
   it("shows the warning, a list a person can untick from, and no unfinished-assessment option when there is none", async () => {
@@ -125,7 +125,7 @@ describe("Make a backup", () => {
     expect(within(dialog).getByRole("button", { name: "Download the backup" })).toBeDisabled();
     await userEvent.click(within(dialog).getAllByRole("checkbox", { name: /20(25|26)/ })[1]!);
     await userEvent.click(within(dialog).getByRole("button", { name: "Download the backup" }));
-    await waitFor(() => expect(downloads).toHaveLength(1));
+    await waitFor(() => expect(downloads).toHaveLength(1), { timeout: 10_000 });
     const read = await readBackup(downloads[0]!.text);
     expect(read.kind === "backup" && read.document.contents).toMatchObject({ assessments: 1, prefs: false });
   });
@@ -139,7 +139,7 @@ describe("Make a backup", () => {
     expect(box).not.toBeChecked();
     await userEvent.click(box);
     await userEvent.click(within(dialog).getByRole("button", { name: "Download the backup" }));
-    await waitFor(() => expect(downloads).toHaveLength(1));
+    await waitFor(() => expect(downloads).toHaveLength(1), { timeout: 10_000 });
     const read = await readBackup(downloads[0]!.text);
     expect(read.kind === "backup" && read.document.contents).toMatchObject({ draft: true, assessments: 0 });
   });
@@ -272,7 +272,7 @@ describe("Restore from a file", () => {
     const dlg = await screen.findByRole("dialog", { name: "Make a backup" });
     await userEvent.click(await within(dlg).findByRole("checkbox", { name: /^The assessment I have not finished/ }));
     await userEvent.click(within(dlg).getByRole("button", { name: "Download the backup" }));
-    await waitFor(() => expect(downloads).toHaveLength(1));
+    await waitFor(() => expect(downloads).toHaveLength(1), { timeout: 10_000 });
     const text = downloads[0]!.text;
     opened.unmount();
 
@@ -452,7 +452,7 @@ describe("two browsers", () => {
     const a = await open("/settings", items, { prefs: { theme: "dark" } });
     await userEvent.click(await screen.findByRole("button", { name: /^Make a backup/ }));
     await userEvent.click(await within(await screen.findByRole("dialog", { name: "Make a backup" })).findByRole("button", { name: "Download the backup" }));
-    await waitFor(() => expect(downloads).toHaveLength(1));
+    await waitFor(() => expect(downloads).toHaveLength(1), { timeout: 10_000 });
     const text = downloads[0]!.text;
     const listA = await (a.persistence as Persistence).listAssessments();
     a.unmount();

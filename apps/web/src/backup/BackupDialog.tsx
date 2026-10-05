@@ -8,6 +8,7 @@ import { APP_BUILD, APP_PROFILE } from "../app/profile.ts";
 import { useApp } from "../app/store.tsx";
 import { backupFileName, buildBackup, encryptBackup, serializeBackup, serializeEncrypted, type Source } from "../storage/backup/index.ts";
 import { checkPassphrase, MIN_PASSPHRASE } from "../storage/passphrase.ts";
+import { StorageHealth } from "../screens/settings/StorageHealth.tsx";
 import { Button, Dialog, DialogActions, Field, Notice, TextInput, Tile } from "../ui/index.ts";
 import { downloadText, shareableFile, shareFile } from "./files.ts";
 
@@ -112,6 +113,7 @@ export function BackupDialog({ onClose }: { onClose: () => void }): ReactNode {
               <Notice kind="caution" kindLabel={t.t("common.notice.caution")}>{t.t("common.backup.passphrase.warning")}</Notice>
             </div>
           ) : null}
+          <StorageHealth compact />
           {busy && protect ? <p role="status" aria-busy="true">{t.t("common.backup.make.working")}</p> : null}
           {phase.kind === "failed" ? <p role="alert">{t.t("common.backup.make.failed")}</p> : null}
           {nothing ? <p className="muted">{t.t("common.backup.make.nothing")}</p> : null}
