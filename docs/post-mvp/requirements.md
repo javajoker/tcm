@@ -127,7 +127,7 @@ Acceptance:
 
 More patterns and complaint modules, added by one repeatable process.
 
-Acceptance: a pattern or module is admitted only if it passes the admission checklist (library-expansion design, A-26): at least two independent sources cited and verified; at least three discriminating questions against each confusable neighbour (or a recorded reason there are none); tongue and pulse features; a verified tier-A formula or an explicit "no formula"; safety rules and the red-flag mapping; golden seed and vignettes; review records for its area. The checks a machine can make run in `validate_kb`. The pattern self-test, the margin rule (≥ 20 points to the nearest neighbour), the property suite, the vignettes and parity all stay green. Acute febrile stages beyond the early exterior (營分, 血分, and high-fever 氣分) are mapped to red flags, not to patterns. The per-session knowledge budget is checked before a wave is written; past 90 KB the question and symptom data are split by module.
+Acceptance: a pattern or module is admitted only if it passes the admission checklist ([library-expansion design](design/library-expansion.md)): at least two independent sources cited and verified; at least three discriminating questions against each confusable neighbour (or a recorded reason there are none); tongue and pulse features; a verified tier-A formula or an explicit "no formula"; safety rules and the red-flag mapping; golden seed and vignettes; review records for its area. The checks a machine can make run in `validate_kb`. The pattern self-test, the margin rule (≥ 20 points to the nearest neighbour), the property suite, the vignettes and parity all stay green. Acute febrile stages beyond the early exterior (營分, 血分, and high-fever 氣分) are mapped to red flags, not to patterns. The per-session knowledge budget is checked before a wave is written; past 90 KB the question and symptom data are split by module.
 
 ### Herb browser — Release C · Class C · refines FR-14
 
@@ -143,11 +143,11 @@ Acceptance, per item: (a) **Southern hemisphere** — the season follows a `seas
 
 | ID | Feature | Entry criteria | Stop conditions |
 |---|---|---|---|
-| FR-32 | **Tongue-photo assistance**, on the device only | A written evaluation protocol; datasets with a clear licence and consent; a clinical advisor to label; a privacy and legal review; no upload and no stored image by default | Accuracy below the protocol threshold on any lighting, camera or skin-tone stratum; a licence or consent gap; assistance that would be read as diagnosis |
+| FR-32 | **Tongue-photo assistance**, on the device only | A written evaluation protocol; datasets with a clear licence and consent; a clinical advisor to label; a **legal view on regulation**, a privacy review and ethics approval for any new images; a reviewed CSP and Permissions-Policy change (camera, WebAssembly); no upload and no stored image | Accuracy below the protocol threshold on any lighting, camera or skin-tone stratum; a licence or consent gap; assistance that would be read as diagnosis |
 | FR-33 | **Camera pulse** (fingertip) and heart-rate-strap prefill | A protocol against a reference device; the output limited to rate and rhythm hints | Error above the stated bound; unsafe or confusing instructions; any new diagnostic claim |
 | FR-34 | **File-based sync**: automatic saving of an encrypted backup to a file or folder the person chooses | Release A backup and installed app; browser support for choosing a file | Any need for a server; data loss in the interruption tests |
 
-The designs, protocols and stop conditions are in the research-tracks design (A-28). Shipping any of them is a separate decision with its own review class and gates.
+The designs, protocols and stop conditions are in the [research-tracks design](design/research-tracks.md). Shipping any of them is a separate decision with its own review class and gates.
 
 ## 5. Not planned
 
@@ -169,18 +169,18 @@ Accounts and server-side sync · e-commerce, herb sales, practitioner marketplac
 
 | Requirement | Release | Class | Design (task) | Implementation tasks |
 |---|---|---|---|---|
-| FR-21 | A | L | Simplified Chinese (A-20) | PM-01 … PM-03 |
-| FR-22 | A | N | Offline use (A-21) | PM-04 … PM-06 |
-| FR-23 | A | N | Backup (A-22) | PM-07 … PM-10 |
-| FR-28 | A | N | Tap-tempo and regions (A-23) | PM-11 |
-| FR-29 | A | L | Tap-tempo and regions (A-23) | PM-12 |
-| FR-14, FR-25 | B | N | Knowledge browser (A-24) | PM-13 … PM-16 |
-| FR-26, FR-27 | B | N, L | Export, follow-up, trends (A-25) | PM-17 … PM-19 |
-| FR-24 | B | N | Backup and lock (A-22) | PM-20 |
-| FR-30 | C | C | Library expansion (A-26) | PM-21 … PM-23 |
-| Herb browser | C | C | Knowledge browser (A-24) | PM-24, PM-25 |
-| FR-31 | C | N, C | Five-phase extensions (A-27) | PM-26 … PM-29 |
-| FR-32 … FR-34 | D | R | Research tracks (A-28) | PM-30 … PM-32 |
+| FR-21 | A | L | [Simplified Chinese](design/simplified-chinese.md) | PM-01 … PM-03 |
+| FR-22 | A | N | [Offline use](design/offline-and-install.md) | PM-04 … PM-06 |
+| FR-23 | A | N | [Backup](design/backup-and-data-lock.md) | PM-07 … PM-10 |
+| FR-28 | A | N | [Tap-tempo and regions](design/tap-tempo-and-regions.md) | PM-11 |
+| FR-29 | A | L | [Tap-tempo and regions](design/tap-tempo-and-regions.md) | PM-12 |
+| FR-14, FR-25 | B | N | [Knowledge browser](design/knowledge-browser.md) | PM-13 … PM-16 |
+| FR-26, FR-27 | B | N, L | [Export, follow-up, trends](design/export-follow-up-trends.md) | PM-17 … PM-19 |
+| FR-24 | B | N | [Backup and lock](design/backup-and-data-lock.md) | PM-20 |
+| FR-30 | C | C | [Library expansion](design/library-expansion.md) | PM-21 … PM-23 |
+| Herb browser | C | C | [Knowledge browser](design/knowledge-browser.md) | PM-24, PM-25 |
+| FR-31 | C | N, C | [Five-phase extensions](design/five-phase-extensions.md) | PM-26 … PM-29 |
+| FR-32 … FR-34 | D | R | [Research tracks](design/research-tracks.md) | PM-30 … PM-32 |
 
 ## 8. Changelog
 

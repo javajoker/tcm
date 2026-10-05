@@ -3,7 +3,7 @@
 | | |
 |---|---|
 | **Version** | 0.1 (draft) |
-| **Status** | Product documents complete (A-19); design documents in progress (A-20 … A-28) |
+| **Status** | Complete as a plan: product documents (A-19) and nine design documents (A-20 … A-28). No feature is built; the implementation tasks are section PM of `TASKS.md` |
 | **Last updated** | 2026-10-05 |
 | **Audience** | Maintainers, reviewers, whoever plans the next releases |
 | **Related** | [PRD](../PRD.md) · [Release process](../release-process.md) · [Content review](../content-review.md) · [`TASKS.md`](../../TASKS.md) §PM · [`CHECKLIST.md`](../../CHECKLIST.md) §3 |
@@ -23,19 +23,19 @@
 | [Decision register](decisions.md) | Every decision the MVP recorded as "revisit after the MVP", with the recommended post-MVP answer and what would change it |
 | Design documents (below) | How each feature is built: data, storage, privacy, safety, tests, budgets, rollout |
 
-Design documents (one per feature area; planned in [`TASKS.md`](../../TASKS.md) A-20 … A-28):
+Design documents (one per feature area, tasks A-20 … A-28 in [`TASKS.md`](../../TASKS.md)):
 
 | Design | Release | Task |
 |---|---|---|
-| Simplified Chinese interface and knowledge variants | A | A-20 |
-| Offline use and installation (service worker) | A | A-21 |
-| Backup, restore, storage health and the local data lock | A, B | A-22 |
-| Tap-tempo pulse and region packs | A | A-23 |
-| Knowledge browser and pattern comparison | B | A-24 |
-| Practitioner export, follow-up and trends | B | A-25 |
-| Library expansion (patterns and complaint modules) | C | A-26 |
-| Five-phase extensions (hemisphere, hour boundary, astronomy data, season model) | C | A-27 |
-| Research tracks (tongue photo, camera pulse, file-based sync, and what is not planned) | D | A-28 |
+| [Simplified Chinese interface and knowledge variants](design/simplified-chinese.md) | A | A-20 |
+| [Offline use and installation (service worker)](design/offline-and-install.md) | A | A-21 |
+| [Backup, restore, storage health and the local data lock](design/backup-and-data-lock.md) | A, B | A-22 |
+| [Tap-tempo pulse and region packs](design/tap-tempo-and-regions.md) | A | A-23 |
+| [Knowledge browser and pattern comparison](design/knowledge-browser.md) | B | A-24 |
+| [Practitioner export, follow-up and trends](design/export-follow-up-trends.md) | B | A-25 |
+| [Library expansion (patterns and complaint modules)](design/library-expansion.md) | C | A-26 |
+| [Five-phase extensions (hemisphere, hour boundary, astronomy data, season model)](design/five-phase-extensions.md) | C | A-27 |
+| [Research tracks (tongue photo, camera pulse, file-based sync, and what is not planned)](design/research-tracks.md) | D | A-28 |
 
 ## 2. Standing constraints
 
@@ -74,4 +74,4 @@ A feature of class N can still contain a class-C part (a knowledge page that sho
 
 | Version | Date | Change |
 |---|---|---|
-| 0.1 | 2026-10-05 | Roadmap, requirements and decision register; design documents planned |
+| 0.1 | 2026-10-05 | Roadmap, requirements and decision register; nine design documents |

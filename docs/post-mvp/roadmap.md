@@ -88,7 +88,7 @@ Versions are assigned when a release is tagged ([release process §1](../release
 
 ### 3.4 Release D — Research
 
-Each item starts as a time-boxed spike with a written evaluation protocol and stop conditions (the research-tracks design, A-28). A spike that fails its protocol is closed, not extended. A spike that passes becomes a requirement with its own review and legal gates; nothing in this release ships by default.
+Each item starts as a time-boxed spike with a written evaluation protocol and stop conditions ([research-tracks design](design/research-tracks.md)). A spike that fails its protocol is closed, not extended. A spike that passes becomes a requirement with its own review and legal gates; nothing in this release ships by default.
 
 ### 3.5 Not planned
 
