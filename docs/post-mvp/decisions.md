@@ -113,7 +113,7 @@ An *unchanged* decision means the MVP answer still holds and the reason is state
 
 | ID | Decision | Why |
 |---|---|---|
-| PD-01 | Simplified Chinese is a **build-time derivative** of the Traditional source and of the Simplified source texts, through a reviewed override table; no runtime conversion, no separately hand-translated catalogue | One source of truth; conversion errors are reviewed once, in a file, not hidden in code or scattered over strings |
+| PD-01 | Simplified Chinese is a **build-time derivative** of the Traditional source and of the Simplified source texts, through a committed dictionary and a reviewed override table, shipped as variant chunks; no runtime conversion, no separately hand-translated catalogue | One source of truth; conversion errors are reviewed once, in a file, not hidden in code or scattered over strings |
 | PD-02 | `zh` stays an alias of `zh-Hant`; `zh-cn`, `zh-hans`, `zh-sg` map to `zh-Hans` | Existing links keep their meaning |
 | PD-03 | The service worker is hand-written: it precaches the build and serves the app shell for navigations; it caches nothing else and handles no request with a body; no Workbox | Small, auditable, nothing personal can be cached |
 | PD-04 | The backup is a versioned JSON file with an optional AES-GCM envelope; the practitioner export reuses the envelope code but has its own schema and is not an import format | One restore path to secure; summaries stay readable by other tools |

@@ -26,7 +26,7 @@ Acceptance:
 4. The engine's output is identical whatever the language (a test over the typical patients and the vignettes); language changes presentation only.
 5. A one-time, dismissible offer appears for browsers whose first language is `zh-CN`, `zh-Hans` or `zh-SG`, as for English today; the language is never switched silently.
 6. Layout holds at 320 px and 200 % zoom; Simplified glyphs use a Simplified font stack (`lang` attribute set); visual baselines exist.
-7. Lazy cost only: initial JavaScript changes by at most 1 KB; a Simplified session adds at most 70 KB gzip (catalogue plus knowledge overlay); other sessions add nothing.
+7. Lazy cost only: initial JavaScript changes by at most 1 KB; a Simplified session downloads the Simplified catalogue and the Simplified variants of the knowledge chunks *instead of* the Traditional knowledge chunks, so it costs no more than a Traditional one plus the catalogue (≈ 19 KB gzip); other sessions add nothing.
 8. The emergency numbers do not depend on the language; a person who chooses Simplified Chinese is asked for a region and sees the generic "use your local emergency number" text until a verified region is chosen (FR-29).
 9. The build carries the draft label until the linguistic review (Mainland usage) and the legal review of the notices are recorded.
 
@@ -157,7 +157,7 @@ Accounts and server-side sync · e-commerce, herb sales, practitioner marketplac
 
 | Area | Change |
 |---|---|
-| Performance | Unchanged targets. New: service worker ≤ 10 KB gzip; Simplified session ≤ +70 KB gzip; learn routes ≤ +40 KB gzip of JavaScript; herb shards fetched on demand |
+| Performance | Unchanged targets. New: service worker ≤ 10 KB gzip; Simplified session ≤ +25 KB gzip over a Traditional one; learn routes ≤ +40 KB gzip of JavaScript; herb shards fetched on demand |
 | Privacy | New stored data (backup files the person holds, lock metadata, follow-up date, region choice) enters [privacy §2](../privacy.md) in the commit that adds it; the list of "never collected" is unchanged; no new network request carries user data; `connect-src` stays `'self'` |
 | Security | WebCrypto only for cryptography; no new runtime dependency without the licence allow-list and an approval to download; `worker-src 'self'` and `manifest-src 'self'` added to the policy; imported files are untrusted input |
 | Accessibility | WCAG 2.1 AA as before; every new screen is in the axe sweep (jsdom and real browser) and the keyboard end-to-end tests |
