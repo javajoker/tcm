@@ -210,7 +210,6 @@ describe("Restore from a file", () => {
       [JSON.stringify({ ...doc, version: 9 }), /made by a newer version of the app/],
       [JSON.stringify({ ...doc, payload: { ...doc.payload, assessments: doc.payload.assessments.slice(1) } }), /damaged: it was cut short, or changed/],
       [text.slice(0, 40), /This is not a backup file\./],
-      [JSON.stringify({ format: "tcm-backup-encrypted", version: 1 }), /protected with a passphrase/],
     ];
     for (const [file, message] of cases) {
       const { dialog, persistence, unmount } = await restoreFrom(file);
@@ -300,6 +299,101 @@ describe("Restore from a file", () => {
     const { text } = await makeBackup();
     const { dialog } = await restoreFrom(text);
     await within(dialog).findByText("What this file holds");
+    expect((await axe(dialog, { rules: { "color-contrast": { enabled: false } } })).violations.map((v) => `${v.id}: ${v.help}`)).toEqual([]);
+  });
+});
+
+describe("a passphrase-protected backup", () => {
+  const PASS = "correct horse 9 battery";
+  async function protectedBackup(): Promise<string> {
+    await open("/settings");
+    await userEvent.click(await screen.findByRole("button", { name: /^Make a backup/ }));
+    const dialog = await screen.findByRole("dialog", { name: "Make a backup" });
+    await userEvent.click(within(dialog).getByRole("checkbox", { name: /^Protect the file with a passphrase/ }));
+    await userEvent.type(within(dialog).getByLabelText("Passphrase"), PASS);
+    await userEvent.type(within(dialog).getByLabelText("Type it again"), PASS);
+    await userEvent.click(within(dialog).getByRole("button", { name: "Download the backup" }));
+    await waitFor(() => expect(downloads).toHaveLength(1), { timeout: 20_000 });
+    return downloads[0]!.text;
+  }
+
+  it("asks for the passphrase twice, wants ten characters, rates it, and says there is no recovery — and the button waits for all of it", async () => {
+    await open("/settings");
+    await userEvent.click(await screen.findByRole("button", { name: /^Make a backup/ }));
+    const dialog = await screen.findByRole("dialog", { name: "Make a backup" });
+    expect(within(dialog).queryByLabelText("Passphrase")).toBeNull();
+    await userEvent.click(within(dialog).getByRole("checkbox", { name: /^Protect the file with a passphrase/ }));
+    expect(within(dialog).getByText(/There is no way to recover a forgotten passphrase/)).toBeInTheDocument();
+    const button = within(dialog).getByRole("button", { name: "Download the backup" });
+    expect(button).toBeDisabled();
+    await userEvent.type(within(dialog).getByLabelText("Passphrase"), "short");
+    expect(within(dialog).getByText("Use at least 10 characters.")).toBeInTheDocument();
+    await userEvent.clear(within(dialog).getByLabelText("Passphrase"));
+    await userEvent.type(within(dialog).getByLabelText("Passphrase"), "password1234");
+    expect(within(dialog).getByText(/^Weak: short or common choices/)).toBeInTheDocument();
+    await userEvent.clear(within(dialog).getByLabelText("Passphrase"));
+    await userEvent.type(within(dialog).getByLabelText("Passphrase"), PASS);
+    expect(within(dialog).getByText("Good.")).toBeInTheDocument();
+    await userEvent.type(within(dialog).getByLabelText("Type it again"), "correct horse 9 batter");
+    expect(within(dialog).getByText("The two passphrases are not the same.")).toBeInTheDocument();
+    expect(button).toBeDisabled();
+    await userEvent.type(within(dialog).getByLabelText("Type it again"), "y");
+    expect(button).toBeEnabled();
+  });
+
+  it("makes an .encrypted.json file that shows nothing of what is inside, and says it is protected", async () => {
+    const text = await protectedBackup();
+    expect(downloads[0]!.name).toMatch(/^tcm-backup-\d{4}-\d{2}-\d{2}\.encrypted\.json$/);
+    expect(JSON.parse(text)).toMatchObject({ format: "tcm-backup-encrypted", compression: "gzip", kdf: { name: "PBKDF2-SHA-256", iterations: 600_000 }, cipher: { name: "AES-256-GCM" } });
+    for (const word of ["felt tired", "assessments", "a000000000000001", "payload", PASS]) expect(text.includes(word), word).toBe(false);
+    expect(await screen.findByText(/Backup made and protected with your passphrase: tcm-backup-.*\.encrypted\.json\. It holds 3 saved results\./)).toBeInTheDocument();
+  }, 30_000);
+
+  it("is restored with the passphrase: a wrong one changes nothing and says one thing, the right one shows what the file holds", async () => {
+    const text = await protectedBackup();
+    const { dialog, persistence } = await restoreFrom(text);
+    expect(await within(dialog).findByText("This backup is protected with a passphrase.")).toBeInTheDocument();
+    const field = within(dialog).getByLabelText("Passphrase");
+    await userEvent.type(field, "not the passphrase");
+    await userEvent.click(within(dialog).getByRole("button", { name: "Open the backup" }));
+    expect(await within(dialog).findByText("Wrong passphrase, or the file is damaged. Nothing was changed.", undefined, { timeout: 20_000 })).toBeInTheDocument();
+    expect(await persistence.listAssessments()).toEqual([]);
+    expect(within(dialog).getByLabelText("Passphrase")).toHaveValue("");                                    // the wrong try is not kept in the field
+    await userEvent.type(within(dialog).getByLabelText("Passphrase"), PASS);
+    await userEvent.click(within(dialog).getByRole("button", { name: "Open the backup" }));
+    expect(await within(dialog).findByText("3 saved results: 3 new, 0 already here, 0 different.", undefined, { timeout: 20_000 })).toBeInTheDocument();
+    await userEvent.click(within(dialog).getByRole("button", { name: "Restore" }));
+    await within(dialog).findByText(/3 added/);
+    expect(await persistence.listAssessments()).toEqual(sorted(history()));
+  }, 60_000);
+
+  it("a protected file that asks for absurd settings is refused without a long wait", async () => {
+    const text = await protectedBackup();
+    const file = JSON.parse(text);
+    file.kdf.iterations = 1_000_000_000;
+    const { dialog } = await restoreFrom(JSON.stringify(file));
+    await userEvent.type(await within(dialog).findByLabelText("Passphrase"), PASS);
+    const t0 = performance.now();
+    await userEvent.click(within(dialog).getByRole("button", { name: "Open the backup" }));
+    expect(await within(dialog).findByText("This backup asks for settings this app does not accept, so it was not opened.")).toBeInTheDocument();
+    expect(performance.now() - t0).toBeLessThan(2_000);
+  }, 60_000);
+
+  it("is in Traditional Chinese too", async () => {
+    await open("/settings", history(), { lang: "zh-Hant" });
+    await userEvent.click(await screen.findByRole("button", { name: /^製作備份/ }));
+    const dialog = await screen.findByRole("dialog", { name: "製作備份" });
+    await userEvent.click(within(dialog).getByRole("checkbox", { name: /^以通行密語保護檔案/ }));
+    expect(within(dialog).getByText(/忘記通行密語無法找回/)).toBeInTheDocument();
+    expect(within(dialog).getByLabelText("通行密語")).toBeInTheDocument();
+  });
+
+  it("has no accessibility violations with the passphrase fields open", async () => {
+    await open("/settings");
+    await userEvent.click(await screen.findByRole("button", { name: /^Make a backup/ }));
+    const dialog = await screen.findByRole("dialog", { name: "Make a backup" });
+    await userEvent.click(within(dialog).getByRole("checkbox", { name: /^Protect the file with a passphrase/ }));
+    await userEvent.type(within(dialog).getByLabelText("Passphrase"), "short");
     expect((await axe(dialog, { rules: { "color-contrast": { enabled: false } } })).violations.map((v) => `${v.id}: ${v.help}`)).toEqual([]);
   });
 });

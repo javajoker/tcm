@@ -8,12 +8,13 @@ import { NeedsKnowledge, useLoaded } from "../app/knowledge.tsx";
 import { APP_PROFILE } from "../app/profile.ts";
 import { randomId } from "../storage/ids.ts";
 import { useApp } from "../app/store.tsx";
-import { applyPlan, planImport, prepareImport, readBackup, type BackupDocument, type Conflict, type Plan, type Prepared } from "../storage/backup/index.ts";
-import { Button, ChoiceGroup, Dialog, DialogActions, LinkButton, Tile } from "../ui/index.ts";
+import { applyPlan, openEncrypted, planImport, prepareImport, readBackup, type BackupDocument, type Conflict, type Plan, type Prepared } from "../storage/backup/index.ts";
+import { Button, ChoiceGroup, Dialog, DialogActions, Field, LinkButton, TextInput, Tile } from "../ui/index.ts";
 
 type Phase =
   | { readonly kind: "pick" }
   | { readonly kind: "reading" }
+  | { readonly kind: "locked"; readonly raw: Readonly<Record<string, unknown>>; readonly failure: MessageKey | null }
   | { readonly kind: "error"; readonly message: MessageKey }
   | { readonly kind: "preview"; readonly document: BackupDocument; readonly prepared: Prepared; readonly plan: Plan }
   | { readonly kind: "done"; readonly added: number; readonly replaced: number; readonly both: number; readonly skipped: number };
@@ -39,7 +40,20 @@ function Body({ onClose }: { onClose: () => void }): ReactNode {
   const [draftOn, setDraftOn] = useState(false);
   const [busy, setBusy] = useState(false);
   const [hasDraft, setHasDraft] = useState(false);
+  const [passphrase, setPassphrase] = useState("");
+  const [opening, setOpening] = useState(false);
   const context = useMemo(() => ({ profile: APP_PROFILE, current: currentOf(kb, ENGINE_VERSION), replay: makeReplay(kb, engine) }), [kb, engine]);
+
+  /** The file is a readable backup: check it and show what it holds. */
+  const preview = async (document: BackupDocument): Promise<void> => {
+    const source = await backupSource();
+    const prepared = prepareImport(document, { ...context, now: Date.now() });
+    setHasDraft(source.draft !== null);
+    setConflict("skip");
+    setPrefsOn(true);
+    setDraftOn(false);
+    setPhase({ kind: "preview", document, prepared, plan: planImport(prepared, source.assessments) });
+  };
 
   const choose = async (e: ChangeEvent<HTMLInputElement>): Promise<void> => {
     const file = e.currentTarget.files?.[0];
@@ -48,16 +62,29 @@ function Body({ onClose }: { onClose: () => void }): ReactNode {
     try {
       const read = await readBackup(await file.text(), file.size);
       if (read.kind === "error") { setPhase({ kind: "error", message: `common.backup.error.${read.error.code}` as MessageKey }); return; }
-      if (read.kind === "encrypted") { setPhase({ kind: "error", message: "common.backup.error.encrypted" }); return; }
-      const source = await backupSource();
-      const prepared = prepareImport(read.document, { ...context, now: Date.now() });
-      setHasDraft(source.draft !== null);
-      setConflict("skip");
-      setPrefsOn(true);
-      setDraftOn(false);
-      setPhase({ kind: "preview", document: read.document, prepared, plan: planImport(prepared, source.assessments) });
+      if (read.kind === "encrypted") { setPassphrase(""); setPhase({ kind: "locked", raw: read.raw, failure: null }); return; }
+      await preview(read.document);
     } catch {
       setPhase({ kind: "error", message: "common.backup.error.malformed" });
+    }
+  };
+
+  /** A protected file: the passphrase is used once and dropped, whatever the answer. A wrong passphrase and a damaged file are one message. */
+  const unlock = async (raw: Readonly<Record<string, unknown>>): Promise<void> => {
+    if (opening) return;
+    setOpening(true);
+    try {
+      const opened = await openEncrypted(raw, passphrase);
+      setPassphrase("");
+      if (opened.kind === "locked") { setPhase({ kind: "locked", raw, failure: `common.backup.error.${opened.error}` as MessageKey }); return; }
+      if (opened.kind === "error") { setPhase({ kind: "error", message: `common.backup.error.${opened.error.code}` as MessageKey }); return; }
+      if (opened.kind === "encrypted") { setPhase({ kind: "error", message: "common.backup.error.malformed" }); return; }
+      await preview(opened.document);
+    } catch {
+      setPassphrase("");
+      setPhase({ kind: "error", message: "common.backup.error.malformed" });
+    } finally {
+      setOpening(false);
     }
   };
 
@@ -94,6 +121,22 @@ function Body({ onClose }: { onClose: () => void }): ReactNode {
   );
   if (phase.kind === "pick") return <><p>{t.t("common.backup.restore.intro")}</p>{file}<DialogActions><Button onClick={onClose}>{t.t("common.action.cancel")}</Button></DialogActions></>;
   if (phase.kind === "reading") return <p role="status" aria-busy="true">{t.t("common.backup.restore.reading")}</p>;
+  if (phase.kind === "locked") {
+    const raw = phase.raw;
+    return (
+      <form onSubmit={(e) => { e.preventDefault(); void unlock(raw); }} style={{ display: "grid", gap: "var(--space-3)" }}>
+        <p>{t.t("common.backup.unlock.intro")}</p>
+        <Field label={t.t("common.backup.passphrase.label")} error={phase.failure !== null ? t.t(phase.failure) : null}>
+          <TextInput type="password" autoComplete="current-password" autoCapitalize="none" spellCheck={false} value={passphrase} onChange={(e) => setPassphrase(e.currentTarget.value)} />
+        </Field>
+        {opening ? <p role="status" aria-busy="true">{t.t("common.backup.unlock.working")}</p> : null}
+        <DialogActions>
+          <Button onClick={() => { setPassphrase(""); setPhase({ kind: "pick" }); }}>{t.t("common.backup.preview.another")}</Button>
+          <Button variant="primary" type="submit" disabled={passphrase.length === 0 || opening}>{t.t("common.backup.unlock.action")}</Button>
+        </DialogActions>
+      </form>
+    );
+  }
   if (phase.kind === "error") return <><p role="alert">{t.t(phase.message)}</p>{file}<DialogActions><Button onClick={onClose}>{t.t("common.backup.close")}</Button></DialogActions></>;
 
   const { document, prepared, plan } = phase;

@@ -71,3 +71,54 @@ test("E24: export in one browser, import in another: an equal history", async ({
     await other.close();
   }
 });
+
+test("E24b: a backup protected with a passphrase shows nothing inside, needs the passphrase, and restores to an equal history", async ({ app, page, browser, lang }, testInfo) => {
+  const PASS = "correct horse 9 battery";
+  await app.flow(ADULT_MAN, typicalSymptoms("SP1"));
+  await app.goto("/history");
+  const [id] = await resultIds(page, lang);
+  await app.goto(`/result/${id}`);
+  await expect(app.heading("report.title")).toBeVisible();
+  const summary = await summaryOf(page);
+
+  await app.goto("/settings");
+  await app.button("common.backup.card.make").click();
+  const dialog = page.getByRole("dialog", { name: app.t("common.backup.make.title") });
+  await dialog.getByRole("checkbox", { name: new RegExp(`^${app.t("common.backup.passphrase.toggle")}`) }).check({ force: true });
+  await expect(dialog.getByText(app.t("common.backup.passphrase.warning"))).toBeVisible();
+  const download = dialog.getByRole("button", { name: app.t("common.backup.make.action"), exact: true });
+  await expect(download).toBeDisabled();
+  await dialog.getByLabel(app.t("common.backup.passphrase.label"), { exact: true }).fill(PASS);
+  await dialog.getByLabel(app.t("common.backup.passphrase.again"), { exact: true }).fill(PASS);
+  const [saved] = await Promise.all([page.waitForEvent("download"), download.click()]);
+  expect(saved.suggestedFilename()).toMatch(/\.encrypted\.json$/);
+  const file = await saved.path();
+  const text = readFileSync(file, "utf8");
+  expect(JSON.parse(text)).toMatchObject({ format: "tcm-backup-encrypted", kdf: { name: "PBKDF2-SHA-256", iterations: 600000 }, cipher: { name: "AES-256-GCM" } });
+  for (const word of [id!, "assessments", "payload", "exportedFrom"]) expect(text.includes(word), word).toBe(false);
+
+  const use = testInfo.project.use;
+  const other = await browser.newContext({ baseURL: use.baseURL ?? "", locale: use.locale ?? "en-US", timezoneId: use.timezoneId ?? "Asia/Taipei", viewport: use.viewport ?? null, isMobile: use.isMobile ?? false, hasTouch: use.hasTouch ?? false, serviceWorkers: "block" });
+  try {
+    const page2 = await other.newPage();
+    const app2 = new App(page2, lang);
+    await app2.goto("/settings");
+    await app2.button("common.backup.card.restore").click();
+    const restore = page2.getByRole("dialog", { name: app2.t("common.backup.restore.title") });
+    await restore.getByLabel(app2.t("common.backup.restore.file")).setInputFiles(file);
+    await expect(restore.getByText(app2.t("common.backup.unlock.intro"))).toBeVisible();
+    await restore.getByLabel(app2.t("common.backup.passphrase.label"), { exact: true }).fill("not the passphrase");
+    await restore.getByRole("button", { name: app2.t("common.backup.unlock.action"), exact: true }).click();
+    await expect(restore.getByRole("alert")).toContainText(app2.t("common.backup.error.wrong-passphrase"));
+    await restore.getByLabel(app2.t("common.backup.passphrase.label"), { exact: true }).fill(PASS);
+    await restore.getByRole("button", { name: app2.t("common.backup.unlock.action"), exact: true }).click();
+    await expect(restore.getByRole("button", { name: app2.t("common.backup.preview.action"), exact: true })).toBeVisible();
+    await restore.getByRole("button", { name: app2.t("common.backup.preview.action"), exact: true }).click();
+    await expect(restore.getByRole("status")).toContainText(app2.t("common.backup.done.text", { added: 1, replaced: 0, both: 0, skipped: 0 }));
+    await app2.goto(`/result/${id}`);
+    await expect(app2.heading("report.title")).toBeVisible();
+    expect(await summaryOf(page2)).toBe(summary);
+  } finally {
+    await other.close();
+  }
+});
