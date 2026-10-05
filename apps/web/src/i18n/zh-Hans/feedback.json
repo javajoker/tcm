@@ -1,0 +1,19 @@
+{
+  "feedback.card.body": "你的标记只保存在这个设备上，不会发送到任何地方。若你愿意，可以导出成文件并寄给维护者，帮助改进本应用。",
+  "feedback.card.count": {
+    "other": "目前已标记 {n} 项。"
+  },
+  "feedback.card.title": "你的反馈",
+  "feedback.clear": "清除我的选择",
+  "feedback.export": "导出反馈",
+  "feedback.export.answers": "同时包含我的作答（症状与基本资料）",
+  "feedback.export.answers.hint": "默认不勾选。这有助于维护者理解你的标记，但属于健康信息。",
+  "feedback.export.confirm": "下载文件",
+  "feedback.export.title": "导出反馈",
+  "feedback.export.warning": "文件包含你的标记与所对应结果的摘要，只会存到你的设备，不会上传；是否寄给他人由你决定。",
+  "feedback.mark.match": "相符",
+  "feedback.mark.no": "不相符",
+  "feedback.mark.partial": "部分相符",
+  "feedback.question": "这和你的实际情况相符吗？",
+  "feedback.result": "整体结果"
+}

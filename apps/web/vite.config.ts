@@ -74,7 +74,7 @@ function deployPlugin(profile: "release" | "dev", noindex: boolean): Plugin {
     name: "tcm-deploy",
     apply: "build",
     generateBundle() {
-      const kbChunks = readdirSync(kbDir).filter((f) => f !== "manifest.json" && f.endsWith(".json"));
+      const kbChunks = readdirSync(kbDir).filter((f) => f !== "manifest.json" && (f.endsWith(".json") || f.endsWith(".txt")));
       const advisory = /https:\/\/github\.com\/[^\s)>]+\/security\/advisories\/new/.exec(readFileSync(resolve(here, "../../SECURITY.md"), "utf8"))?.[0];
       if (advisory === undefined) throw new Error("SECURITY.md does not give the private vulnerability-reporting address");
       this.emitFile({ type: "asset", fileName: "_headers", source: headersFile({ noindex, kbChunks }) });

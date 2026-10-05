@@ -1,0 +1,21 @@
+{
+  "constitution.answered": {
+    "other": "已回答 {n} / {total} 题"
+  },
+  "constitution.clear": "清除我的回答",
+  "constitution.done": "完成",
+  "constitution.edit": "修改",
+  "constitution.hub": "体质问卷",
+  "constitution.intro": "这份问卷了解您长期的体质倾向，而不是现在的症状。结果只是「倾向」，不是给您贴的标签。可以略过，但结果会比较不个人化。",
+  "constitution.next": "下一页",
+  "constitution.page": "第 {n} 页，共 {total} 页",
+  "constitution.prev": "上一页",
+  "constitution.skip": "略过整份问卷",
+  "constitution.skipHelp": "略过后，结果会比较不个人化；其他部分不受影响。",
+  "constitution.start": "开始",
+  "constitution.status.none": "尚未填写",
+  "constitution.status.some": {
+    "other": "已回答 {n} 题"
+  },
+  "constitution.title": "体质问卷（选填）"
+}

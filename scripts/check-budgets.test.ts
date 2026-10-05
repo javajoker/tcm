@@ -13,7 +13,7 @@ const KB = 1024;
 const blob = (kb: number): Buffer => randomBytes(kb * KB);
 
 /** A synthetic output: an entry that imports a vendor chunk statically, lazy chunks, css, knowledge-base chunks. */
-function dist(sizes: { entry?: number; vendor?: number; lazy?: number[]; css?: number; kb?: number[] } = {}): string {
+function dist(sizes: { entry?: number; vendor?: number; lazy?: number[]; css?: number; kb?: number[]; hans?: number } = {}): string {
   const d = mkdtempSync(join(tmpdir(), "tcm-budget-"));
   dirs.push(d);
   mkdirSync(join(d, "assets"), { recursive: true });
@@ -25,6 +25,7 @@ function dist(sizes: { entry?: number; vendor?: number; lazy?: number[]; css?: n
   writeFileSync(join(d, "assets", "index-aaaa1111.css"), blob(sizes.css ?? 4));
   (sizes.kb ?? [30, 10]).forEach((k, i) => writeFileSync(join(d, "kb", `chunk${i}.abc.json`), blob(k)));
   writeFileSync(join(d, "kb", "manifest.json"), "{}");
+  if (sizes.hans !== undefined) writeFileSync(join(d, "kb", "hans-main.0123456789.txt"), blob(sizes.hans));
   return d;
 }
 const within = (b: number, target: number, tol = 0.1): boolean => Math.abs(b - target * KB) < target * KB * tol + 200;
@@ -34,6 +35,9 @@ test("the initial load is the entry plus what it imports; the lazy chunks are th
   assert.ok(within(m.initialJs, 70), `initial ${m.initialJs}`);
   assert.deepEqual(m.lazy.map((c) => c.file), ["assets/Screen1-cccc1.js", "assets/Screen0-cccc0.js"], "largest first, and the vendor chunk is not lazy");
   assert.ok(within(m.totalJs, 83) && within(m.totalCss, 4) && within(m.kbSession, 40));
+  assert.equal(m.hansList, 0);
+  assert.ok(within(measure(dist({ hans: 20 })).hansList, 20), "the display list is measured apart from the session figure");
+  assert.ok(within(measure(dist({ hans: 20 })).kbSession, 40), "and is not part of it");
 });
 
 test("a build inside the budgets passes and says the numbers", () => {
@@ -49,12 +53,13 @@ test("each budget fails on its own, naming what is over", () => {
     [{ lazy: [45, 45, 45, 45, 45, 45] }, /all JavaScript: .* over the 260\.0 KB budget/],
     [{ css: 25 }, /all CSS: .* over the 20\.0 KB budget/],
     [{ kb: [60, 60] }, /knowledge base per session: .* over the 100\.0 KB budget/],
+    [{ hans: 35 }, /Simplified display list: .* over the 30\.0 KB budget/],
   ];
   for (const [sizes, re] of cases) assert.match(checkBudgets(dist(sizes)).failures.join("\n"), re);
 });
 
 test("the budgets are the ones of the tech spec, and a custom budget is honoured", () => {
-  assert.deepEqual([BUDGETS.initialJs, BUDGETS.lazyJsChunk, BUDGETS.totalJs, BUDGETS.totalCss, BUDGETS.kbSession], [200 * KB, 50 * KB, 260 * KB, 20 * KB, 100 * KB]);
+  assert.deepEqual([BUDGETS.initialJs, BUDGETS.lazyJsChunk, BUDGETS.totalJs, BUDGETS.totalCss, BUDGETS.kbSession, BUDGETS.hansList], [200 * KB, 50 * KB, 260 * KB, 20 * KB, 100 * KB, 30 * KB]);
   const tight: Budgets = { ...BUDGETS, initialJs: 10 * KB };
   assert.equal(checkBudgets(dist(), tight).failures.length, 1);
 });

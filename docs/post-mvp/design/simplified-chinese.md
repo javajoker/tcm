@@ -73,7 +73,7 @@ The converter is a very good first draft and **not** a finished translation: the
 ```
 data/ (Traditional, canonical) ──┐
 source Simplified text           ─┤
-hans-overrides.json (reviewed)   ─┼─▶ scripts/i18n/build_hans.py ─▶ data/i18n/zh-Hans.dictionary.json   (committed, deterministic)
+hans-overrides.json (reviewed)   ─┼─▶ scripts/i18n/build_hans.py ─▶ scripts/i18n/zh-Hans.dictionary.json (committed, deterministic)
 UI catalogues zh-Hant            ─┘                                  apps/web/src/i18n/zh-Hans/*.json    (committed, generated)
                                                                       review sheet                       (generated, not committed)
 
@@ -84,7 +84,7 @@ bundle-data.ts: for the pruned chunks of a profile, the sorted unique Chinese st
 1. **Precedence for a string:** exact override → phrase override → source Simplified text (when the round trip holds, step 2) → `tw2sp`. The review sheet shows which rule produced each non-mechanical result.
 2. **Source text:** where a record carries Simplified source text (the citations; herbs and formula compositions from the Pharmacopoeia and the source library), the builder uses it if converting it back with `s2twp` reproduces the committed Traditional string. If not, the Traditional string wins, it is converted, and the case is logged for the reviewer.
 3. **Phrase overrides** are applied by splitting the string on the override keys (longest first), converting the remaining segments and inserting the override values as written.
-4. **The dictionary** `data/i18n/zh-Hans.dictionary.json` maps every Traditional string that contains Chinese anywhere in `data/` — values and keys, prose and identifiers alike (an identifier is only converted if something *displays* it) — to its Simplified form; strings that do not change are left out. It is keyed by the string itself, so profile pruning, chunking and re-ordering cannot misalign it. It is committed, so a reviewer can diff it; CI regenerates it and fails on a difference, exactly as for `data/`.
+4. **The dictionary** `scripts/i18n/zh-Hans.dictionary.json` maps every Traditional string that contains Chinese anywhere in `data/` — values and keys, prose and identifiers alike (an identifier is only converted if something *displays* it) — to its Simplified form; strings that do not change are left out. It is keyed by the string itself, so profile pruning, chunking and re-ordering cannot misalign it. It lives next to its builder, not under `data/` (which is the schema-governed knowledge base the engine reads), is committed so a reviewer can diff it, and CI regenerates it and fails on a difference, exactly as for `data/`. Every Chinese string of `data/` has an entry, with the identity as the value where nothing changes or the field keeps a source script, so the bundler can require complete coverage.
 5. **The aligned list** is built by the bundler from the chunks of the profile it is bundling: it collects the unique Chinese strings (values and keys), sorts them with one shared function (UTF-16 code-unit order, implemented once in `@tcm/kb` and used by both sides), writes the Simplified form of each (empty when unchanged) one per line, and records the string count and a SHA-256 of the sorted Traditional list in the manifest. A string absent from the dictionary and not unchanged-by-design is a **build error**: a Chinese string with a Simplified form that the dictionary lacks cannot ship.
 6. **UI catalogues:** the builder writes `apps/web/src/i18n/zh-Hans/<namespace>.json` from the Traditional catalogues with the same precedence. Parameters (`{name}`), tags (`<b>…</b>`) and plural objects are carried over unchanged and checked.
 
@@ -94,9 +94,10 @@ bundle-data.ts: for the pruned chunks of a profile, the sorted unique Chinese st
 
 | Section | Holds | Example |
 |---|---|---|
-| `phrases` | Replacements applied before conversion, longest first | 介面 → 界面; 預設 → 默认; 離線 → 离线 |
+| `phrases` | Replacements applied before conversion, longest first | 介面 → 界面; 預設 → 默认; 離線 → 离线; 資料 → 资料 |
 | `exact` | The exact result for a whole string | A title where Mainland usage prefers another word |
-| `keep` | Strings that must stay as written | 乾 in a hexagram quotation |
+| `keys` | The exact value of one interface message, by key | `common.lang.name.zh-Hant` stays 繁體中文 in every language |
+| `keep` | Strings that must stay as written | The name of the Traditional option |
 
 **The review sheet** (`pnpm i18n:review-hans`, generated, not committed) lists, for the Mainland-usage reviewer: every string whose `tw2sp` result differs from plain character conversion (the vocabulary-level changes — a few hundred, not thousands), every override with its reason, every source-text mismatch, and every glossary term with its Simplified form. That sheet, not the whole text, is what is reviewed ([content review](../../content-review.md) class L). The glossary conformance check of `check-i18n` is extended: a glossary term appears in Simplified text only in the form the dictionary gives it.
 

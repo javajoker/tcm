@@ -25,6 +25,12 @@ Pre-release. The web app, the diagnosis engine and the knowledge base exist; not
 ### Documentation
 - **Post-MVP plan** (`docs/post-mvp/`): roadmap with releases A–D, requirements FR-21 … FR-34, a register that answers every "revisit after the MVP" decision, nine design documents (Simplified Chinese, offline use, backup and lock, tap-tempo and regions, knowledge browser, export and trends, library expansion, five-phase extensions, research tracks), post-MVP tasks (section PM) and release checklists. The CI `kb` job now also checks that the committed parity fixtures equal what the Python oracle exports. The task summary no longer drops rows whose notes follow the last pipe.
 
+### Simplified Chinese (in progress, Release A)
+- The pipeline that derives Simplified Chinese from the Traditional text exists: a reviewed override table, a committed display dictionary for every Chinese string of the knowledge base (the exact Simplified source text for the 127 quotations), generated interface catalogues, a review sheet for a Mainland-usage reviewer (`pnpm i18n:review-hans`), and display lists written by the bundler and verified by the loader. The engine and the safety rules still read only the Traditional data. The interface does not offer the language yet.
+
+### Fixed
+- A citation chapter read 五執行大論 instead of 五運行大論 (an OpenCC phrase rewrite of 运行); the converter now post-fixes 運行 and 循環.
+
 ### Security and privacy
 - A saved result no longer keeps the birth moment (the four pillars and the true solar time) unless the person chose to remember their birth data.
 

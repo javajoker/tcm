@@ -82,7 +82,7 @@ Jobs and blocking rules are in the [test plan §6](test-plan.md). The pipeline p
 3. No dose or amount fields (`classical_amounts`, `typical_g`, `dose_g_reference`, `dose_references`) anywhere in `kb/`.
 4. No tier-C formulas, no formula `modifications`, no herb effect/burden data, when the profile's maximum reachable level does not allow them ([tech spec §5.3](tech-spec.md)).
 5. CSP present with the required directives; no inline `<script>`; all assets content-hashed; every file the page points to (scripts, styles, icons, the web-app manifest and its icons) is in the output and none lives on another host.
-6. `manifest.json` hashes match the files; KB schema version equals the app's.
+6. `manifest.json` hashes match the files; KB schema version equals the app's; the Simplified-Chinese display lists are present, hashed, within budget and **aligned with the Chinese strings of the chunks they ship with** ([design](post-mvp/design/simplified-chinese.md)).
 7. Every `blocking_ack` population/condition of the release config is still blocking (config sanity) and `flow` = `continue`.
 8. Review gates ([content review §7](content-review.md)) satisfied for the enabled levels — or `APP_DRAFT_LABEL=on` with a recorded beta exception — and then the build must be non-indexable (a `noindex` robots meta in `index.html` and `Disallow: /` in `robots.txt`; the dev profile gets the same).
 9. `console.*` calls are stripped from app code; no source maps with sources in production (or they are not publicly served).

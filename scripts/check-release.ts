@@ -7,6 +7,7 @@ import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { gzipSync } from "node:zlib";
 import { reachOf } from "../packages/kb/src/bundle.ts";
+import { chineseStrings, digestInput } from "../packages/kb/src/hans.ts";
 import { SUPPORTED_SCHEMA_VERSION } from "../packages/kb/src/indexer.ts";
 import type { CoreChunk, FormulasChunk, Manifest } from "../packages/kb/src/types.ts";
 import { BUDGET_GZ } from "./bundle-data.ts";
@@ -61,6 +62,27 @@ export function checkRelease(distDir: string, opts: CheckOptions = {}): Failure[
     chunkFiles.set(name, p);
   }
   if (manifest.schema !== SUPPORTED_SCHEMA_VERSION) fail(6, `the knowledge-base schema is ${manifest.schema}; this app supports ${SUPPORTED_SCHEMA_VERSION}`);
+
+  // the Simplified-Chinese display lists (docs/post-mvp/design/simplified-chinese.md §5.1): present, hashed, within budget, and aligned with the chunks they ship with
+  const hansLists = manifest.variants?.["zh-Hans"];
+  if (hansLists === undefined) fail(6, "the manifest has no Simplified-Chinese display lists");
+  const hansFiles: string[] = [];
+  for (const name of ["main", "cities"] as const) {
+    const ref = hansLists?.[name];
+    if (ref === undefined) { if (hansLists !== undefined) fail(6, `the manifest has no Simplified display list "${name}"`); continue; }
+    const p = join(dist, "kb", ref.file);
+    hansFiles.push(ref.file);
+    if (!existsSync(p)) { fail(6, `manifest lists the Simplified display list ${name} → ${ref.file}, which is not in the output`); continue; }
+    const bytes = readFileSync(p);
+    if (createHash("sha256").update(bytes).digest("hex") !== ref.sha256) fail(6, `kb/${ref.file}: the SHA-256 differs from the manifest`);
+    if (!new RegExp(`^hans-${name}\\.[0-9a-f]{8,}\\.txt$`).test(ref.file)) fail(5, `kb/${ref.file} is not a content-hashed display list`);
+    const budget = BUDGET_GZ[name === "main" ? "hansMain" : "hansCities"];
+    if (gzipSync(bytes).length > budget) fail(6, `kb/${ref.file}: ${gzipSync(bytes).length} B gzip exceeds the ${budget} B budget of the Simplified ${name} list`);
+    const roots = (names: string[]): unknown[] => names.filter((n) => chunkFiles.has(n)).map((n) => JSON.parse(read(chunkFiles.get(n)!)) as unknown);
+    const list = chineseStrings(...(name === "main" ? roots(["core", "formulas", "citations", "guidance", "herbs"]) : roots(["cities"])));
+    if (list.length !== ref.strings || createHash("sha256").update(digestInput(list)).digest("hex") !== ref.digest) fail(6, `kb/${ref.file}: the Simplified display list is not aligned with the Chinese strings of the chunks it ships with`);
+    if (bytes.toString("utf8").split("\n").length !== ref.strings) fail(6, `kb/${ref.file}: the display list does not have ${ref.strings} lines`);
+  }
 
   const corePath = chunkFiles.get("core");
   const core = corePath ? (JSON.parse(read(corePath)) as CoreChunk) : null;
@@ -173,6 +195,7 @@ export function checkRelease(distDir: string, opts: CheckOptions = {}): Failure[
     if (cache("/assets/*") !== IMMUTABLE) fail(11, "_headers: /assets/* must be cached as immutable");
     if (cache("/kb/manifest.json") !== "no-cache") fail(11, "_headers: /kb/manifest.json must be revalidated (no-cache)");
     for (const [name, ref] of Object.entries(manifest.chunks)) if (ref && cache(`/kb/${ref.file}`) !== IMMUTABLE) fail(11, `_headers: the ${name} chunk /kb/${ref.file} must be cached as immutable`);
+    for (const f of hansFiles) if (cache(`/kb/${f}`) !== IMMUTABLE) fail(11, `_headers: the Simplified display list /kb/${f} must be cached as immutable`);
   }
   if (existsSync(join(dist, "_redirects"))) {
     const redirects = parseRedirects(read(join(dist, "_redirects")));

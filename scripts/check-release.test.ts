@@ -161,6 +161,31 @@ describe("check-release", () => {
     assert.match(messages(checkRelease(base, { draftLabel: true, initialJsBudgetGz: 1000 })), /initial JavaScript is \d+ B gzip/);
   });
 
+  test("6: the Simplified-Chinese display lists — absent, missing, damaged, or not aligned with the chunks; and cached as immutable", () => {
+    type Lists = { main: { file: string; sha256: string; strings: number; digest: string }; cities: { file: string } };
+    const lists = (d: string): Lists => (manifest(d) as unknown as { variants: { "zh-Hans": Lists } }).variants["zh-Hans"];
+    const none = copy();
+    const nm = manifest(none) as { variants?: unknown };
+    delete nm.variants;
+    saveManifest(none, nm);
+    assert.match(messages(checkRelease(none, { draftLabel: true })), /no Simplified-Chinese display lists/);
+    const missing = copy();
+    rmSync(join(missing, "kb", lists(missing).main.file));
+    assert.match(messages(checkRelease(missing, { draftLabel: true })), /display list main → hans-main\.[0-9a-f]+\.txt, which is not in the output/);
+    const damaged = copy();
+    const f = join(damaged, "kb", lists(damaged).cities.file);
+    writeFileSync(f, `${readFileSync(f, "utf8")}x`);
+    assert.match(messages(checkRelease(damaged, { draftLabel: true })), /hans-cities\.[0-9a-f]+\.txt: the SHA-256 differs/);
+    // a chunk that gained a Chinese string the list does not know: the list is no longer aligned
+    const stale = copy();
+    edit(stale, "citations", (c) => { c.items[0].book += "測"; });
+    assert.match(messages(checkRelease(stale, { draftLabel: true })), /display list is not aligned with the Chinese strings of the chunks/);
+    const uncached = copy();
+    const name = lists(uncached).main.file.replace(/[.]/g, "\\.");
+    writeFileSync(join(uncached, "_headers"), readFileSync(join(uncached, "_headers"), "utf8").replace(new RegExp(`(/kb/${name}\\n {2}Cache-Control: )[^\\n]*`), "$1no-cache"));
+    assert.match(messages(checkRelease(uncached, { draftLabel: true })), /Simplified display list \/kb\/hans-main\.[0-9a-f]+\.txt must be cached as immutable/);
+  });
+
   test("7: a blocking notice that is no longer blocking, a dead-end flow, a profile that does not suppress", () => {
     const preg = copy();
     edit(preg, "core", (c) => { c.config.profile.population.pregnant.notice = "inline"; });

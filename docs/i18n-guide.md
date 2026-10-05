@@ -187,6 +187,7 @@ See [UX spec §6.3](ux-spec.md) for fonts. i18n-specific requirements:
 1. Write the `zh-Hant` message (source) and its key; add the `en` message in the same change (a PR may not leave `en` empty).
 2. Run `pnpm check:i18n` — fails on: missing/extra keys, placeholder or tag mismatch, plural-form mismatch, forbidden wording, glossary violations (a term whose zh form appears with a non-glossary English form and vice versa), hard-coded strings in components (via the ESLint rule `no-literal-strings`), unused keys.
 3. Medical wording changes (anything in `report`, `formula`, `safety`) need a content reviewer ([content review](content-review.md)).
+4. **Simplified Chinese is generated, never edited by hand** (post-MVP, [design](post-mvp/design/simplified-chinese.md)): after changing a `zh-Hant` message or any Chinese in `data/`, run `pnpm i18n:hans`; it rewrites `apps/web/src/i18n/zh-Hans/*.json` and `scripts/i18n/zh-Hans.dictionary.json` (CI fails when they are stale). A wrong or unidiomatic Simplified form is fixed in `scripts/i18n/hans-overrides.json` with a reason, and `pnpm i18n:review-hans` prints the sheet a Mainland-usage reviewer reads.
 
 ### 8.2 `check-i18n.ts` rules (specification)
 

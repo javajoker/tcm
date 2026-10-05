@@ -123,11 +123,15 @@ export interface RawKbChunks {
 
 // ── manifest ────────────────────────────────────────────────────────────────
 export interface ChunkRef { readonly file: string; readonly sha256: string; readonly bytes: number }
+/** A Simplified display list (docs/post-mvp/design/simplified-chinese.md): `strings` lines and the SHA-256 (`digest`) of the sorted Traditional strings it is aligned to. */
+export interface HansRef extends ChunkRef { readonly strings: number; readonly digest: string }
 export interface Manifest {
   readonly schema: number;
   readonly version: string;
   readonly profile: ProfileName;
   readonly chunks: { readonly core: ChunkRef; readonly formulas: ChunkRef; readonly herbs?: ChunkRef; readonly citations: ChunkRef; readonly guidance: ChunkRef; readonly cities: ChunkRef };
+  /** Display lists for Simplified Chinese: one for the chunks loaded with the knowledge base, one for the lazy city list. The data itself is never converted. */
+  readonly variants?: { readonly "zh-Hans"?: { readonly main: HansRef; readonly cities: HansRef } };
 }
 
 // ── runtime view ────────────────────────────────────────────────────────────
@@ -175,4 +179,8 @@ export interface KnowledgeBase {
   citation(id: string): Citation | undefined;
   /** zh-Hant term → glossary entry (first match). */
   term(zhHant: string): GlossaryTerm | undefined;
+  /** The script the Chinese text is shown in: `Hans` only when the Simplified display list was loaded and verified, else `Hant` (the data's own script). */
+  readonly script: "Hant" | "Hans";
+  /** A Chinese string of the data, for display: the identity in `Hant`, the Simplified form in `Hans`. Never use its result as an identifier. */
+  zh(text: string): string;
 }

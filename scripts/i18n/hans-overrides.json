@@ -1,0 +1,85 @@
+{
+  "_readme": "Reviewed exceptions to the OpenCC tw2sp conversion used for the Simplified Chinese display dictionary and catalogues (docs/post-mvp/design/simplified-chinese.md §5.2). Every entry has a reason. A Mainland-usage reviewer edits this file; scripts/i18n/build_hans.py applies it and `pnpm i18n:review-hans` lists the effect.",
+  "phrases": {
+    "文字大小": {
+      "to": "文字大小",
+      "reason": "protected: tw2sp gives 文本大小; the text-size setting is 文字大小"
+    },
+    "資料品質": {
+      "to": "数据质量",
+      "reason": "the quality of the data (a coefficient in the computation), not of a person's information"
+    },
+    "文字檔": {
+      "to": "文本文件",
+      "reason": "tw2sp gives 文本档; a plain-text file is 文本文件"
+    },
+    "介面": {
+      "to": "界面",
+      "reason": "tw2sp gives 接口, which means an API; a user interface is 界面"
+    },
+    "回饋": {
+      "to": "反馈",
+      "reason": "tw2sp gives 回馈 ('to repay'); feedback is 反馈 in Mainland usage"
+    },
+    "帳號": {
+      "to": "账号",
+      "reason": "Mainland usage writes 账号, not 帐号"
+    },
+    "益著": {
+      "to": "益著",
+      "reason": "protected: tw2sp gives 益着; 著 here is zhù ('conspicuous'), as in 功益著 'the effect is the more marked'"
+    },
+    "紀錄": {
+      "to": "记录",
+      "reason": "tw2sp gives 纪录, which means a (sports) record; a saved entry is 记录"
+    },
+    "線上": {
+      "to": "线上",
+      "reason": "tw2sp gives 在线 (online); in the point locations it is anatomical: 正中線上 is 'on the midline', so 正中线上"
+    },
+    "複製": {
+      "to": "复制",
+      "reason": "tw2sp gives 拷贝; the Mainland interface word for copy is 复制"
+    },
+    "資料": {
+      "to": "资料",
+      "reason": "tw2sp gives 数据; here 資料 mostly means a person's own information or reference material (基本资料, 资料来源), which Mainland usage keeps as 资料"
+    },
+    "連線": {
+      "to": "连线",
+      "reason": "tw2sp gives 连接 ('connect'); the line joining two landmarks is 连线 in Mainland anatomy texts"
+    },
+    "進階": {
+      "to": "进阶",
+      "reason": "tw2sp gives 高端 ('high-end'); an advanced level is 进阶"
+    },
+    "闢著": {
+      "to": "辟著",
+      "reason": "tw2sp gives 辟着; in the 《素問》 passage (則剛木辟著) 著 is zhù and stays 著"
+    },
+    "離線": {
+      "to": "离线",
+      "reason": "tw2sp gives 脱机, which is dated; Mainland applications say 离线"
+    },
+    "預設": {
+      "to": "默认",
+      "reason": "tw2sp gives 缺省, which is unusual in an application; Mainland interfaces say 默认"
+    }
+  },
+  "exact": {},
+  "keys": {
+    "common.lang.name.zh-Hant": {
+      "to": "繁體中文",
+      "reason": "each language is named in its own script in the language switch"
+    },
+    "common.lang.name.zh-Hans": {
+      "to": "简体中文",
+      "reason": "each language is named in its own script in the language switch"
+    }
+  },
+  "keep": {
+    "繁體中文": {
+      "reason": "the name of the Traditional language option stays in Traditional script"
+    }
+  }
+}

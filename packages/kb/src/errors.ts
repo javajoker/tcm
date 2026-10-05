@@ -1,4 +1,4 @@
-export type KbErrorCode = "schema-mismatch" | "manifest-invalid" | "chunk-missing" | "chunk-hash-mismatch" | "chunk-invalid" | "index-invalid";
+export type KbErrorCode = "schema-mismatch" | "manifest-invalid" | "chunk-missing" | "chunk-hash-mismatch" | "chunk-invalid" | "index-invalid" | "display-missing" | "display-mismatch";
 
 /** Thrown by the loader and the indexer. The app shows a generic "could not load the knowledge base" screen; the code is for developers. */
 export class KbError extends Error {

@@ -1,0 +1,14 @@
+{
+  "errors.crash.body": "很抱歉，这个页面无法正常显示，因此不会显示任何评估结果。",
+  "errors.crash.copied": "已复制。",
+  "errors.crash.copy": "复制我填写的内容",
+  "errors.crash.copyFailed": "无法复制，请自行记下您的答案。",
+  "errors.crash.restart": "重新开始",
+  "errors.crash.retry": "再试一次",
+  "errors.crash.seekCare": "如果您感到严重不适——例如胸痛、呼吸困难、大量出血、突然无力或意识不清——请立即就医或拨打当地紧急电话，不要等待本工具。",
+  "errors.crash.title": "发生了问题",
+  "errors.kb.body": "请检查网络连线后再试一次。您目前填写的答案仍然保留。",
+  "errors.kb.offline": "您目前似乎已离线。",
+  "errors.kb.retry": "重试",
+  "errors.kb.title": "无法加载知识库"
+}
