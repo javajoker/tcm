@@ -402,6 +402,14 @@ def emergency() -> dict:
         "required": ["_meta", "regions"], "additionalProperties": False}
 
 
+def name_fold() -> dict:
+    # `FROM:TO` code points in hex (no Chinese text in the file: the Simplified display dictionary has nothing to do with the safety rules' table)
+    return {"type": "object", "properties": {
+        "_meta": meta({"count": INT, "format": STR, "status": ref("reviewStatus")}, ["count", "format", "status"]),
+        "fold": arr(pattern(r"^[0-9A-F]{4,6}:[0-9A-F]{4,6}$"), None, True)},
+        "required": ["_meta", "fold"], "additionalProperties": False}
+
+
 def glossary() -> dict:
     item = obj({"alt": arr(STR, None, True), "domain": STR, "en": STR, "note": {"oneOf": [{"type": "null"}, STR]}, "pinyin": STR, "source": enum("who-istm-2007", "textbook", "project"),
                 "status": enum("needs-review", "reviewed"), "zh-Hant": STR})
@@ -459,6 +467,7 @@ SCHEMAS = {
     "config/scope-profiles.json": ("scope-profiles", scope_profiles, "Application configuration (profiles)"),
     "safety/rules.json": ("safety-rules", safety_rules, "Safety rules"),
     "safety/emergency.json": ("emergency", emergency, "Emergency and crisis numbers"),
+    "safety/name-fold.json": ("name-fold", name_fold, "Character fold of the names an allergy can match"),
     "treatment/guidance.json": ("treatment-guidance", treatment_guidance, "Treatment guidance"),
     "review/records.json": ("review-records", review_records, "Review records and what they cover"),
 }

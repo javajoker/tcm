@@ -1,5 +1,5 @@
 {
-  "_comment": "Allergies against herbs and foods (matched by name, ignoring case and blanks); an unmatched free-text entry is reported as unconfirmed.",
+  "_comment": "Allergies against herbs and foods (matched by name, ignoring case and blanks, and whichever script — Traditional or Simplified — the entry was typed in); an unmatched free-text entry is reported as unconfirmed.",
   "vignettes": [
     {
       "id": "ALG-HERB",
@@ -176,6 +176,175 @@
         "both": {
           "notices": [
             "N-ALLERGY"
+          ]
+        }
+      }
+    },
+    {
+      "id": "ALG-HERB-HANS",
+      "title": "a herb allergy typed in Simplified (人参) acts exactly as the Traditional entry does",
+      "ref": "safety policy §2.2 (PM-33)",
+      "input": {
+        "interview": "SP1",
+        "subject": {
+          "allergies": [
+            "人参"
+          ]
+        }
+      },
+      "expect": {
+        "release": {
+          "level": "L1",
+          "notices": [
+            "N-ALLERGY"
+          ],
+          "noFormulas": true,
+          "suppressed": [
+            {
+              "kind": "formula",
+              "id": "F_SHENLING",
+              "reason": "rule",
+              "ruleId": "R_ALLERGY"
+            },
+            {
+              "kind": "formula",
+              "id": "F_SIJUNZI",
+              "reason": "rule",
+              "ruleId": "R_ALLERGY"
+            }
+          ]
+        },
+        "dev": {
+          "level": "L3",
+          "notices": [
+            "N-ALLERGY"
+          ],
+          "annotated": {
+            "F_SHENLING": [
+              "R_ALLERGY"
+            ],
+            "F_SIJUNZI": [
+              "R_ALLERGY"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "ALG-FOOD-HANS",
+      "title": "a food allergy typed in Simplified (山药) removes the same food",
+      "ref": "safety policy §2.2 (PM-33)",
+      "input": {
+        "interview": "SP1",
+        "subject": {
+          "allergies": [
+            "山药"
+          ]
+        }
+      },
+      "expect": {
+        "release": {
+          "level": "L1",
+          "notices": [
+            "N-ALLERGY"
+          ],
+          "hide": [
+            "山藥"
+          ],
+          "suppressed": [
+            {
+              "kind": "food",
+              "id": "山藥",
+              "reason": "rule",
+              "ruleId": "R_ALLERGY"
+            }
+          ]
+        },
+        "dev": {
+          "level": "L3",
+          "notices": [
+            "N-ALLERGY"
+          ],
+          "annotated": {
+            "山藥": [
+              "R_ALLERGY"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "ALG-MIXED-HANS",
+      "title": "a Simplified entry that matches acts, and one that matches nothing is still reported",
+      "ref": "safety policy §2.2 (PM-33)",
+      "input": {
+        "interview": "SP1",
+        "subject": {
+          "allergies": [
+            "人参",
+            "xyzzy-nut"
+          ]
+        }
+      },
+      "expect": {
+        "both": {
+          "notices": [
+            "N-ALLERGY"
+          ],
+          "unmatchedAllergies": [
+            "xyzzy-nut"
+          ]
+        },
+        "release": {
+          "noFormulas": true
+        }
+      }
+    },
+    {
+      "id": "ALG-HANS-KNOWN",
+      "title": "a Simplified entry for a name the data knows is not reported as unconfirmed",
+      "ref": "safety policy §2.2 (PM-33)",
+      "input": {
+        "interview": "SP1",
+        "subject": {
+          "allergies": [
+            "人参"
+          ]
+        }
+      },
+      "expect": {
+        "both": {
+          "notices": [
+            "N-ALLERGY"
+          ],
+          "unmatchedAllergies": []
+        }
+      }
+    },
+    {
+      "id": "ALG-MIXED-SCRIPTS",
+      "title": "one entry in each script: both match, nothing is reported as unconfirmed",
+      "ref": "safety policy §2.2 (PM-33)",
+      "input": {
+        "interview": "SP1",
+        "subject": {
+          "allergies": [
+            "人参",
+            "山藥"
+          ]
+        }
+      },
+      "expect": {
+        "both": {
+          "notices": [
+            "N-ALLERGY"
+          ],
+          "unmatchedAllergies": []
+        },
+        "release": {
+          "noFormulas": true,
+          "hide": [
+            "山藥"
           ]
         }
       }

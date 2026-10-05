@@ -122,6 +122,23 @@ test("an overridden release build is smaller still", () => {
   assert.ok(strict.chunks.formulas.items.every((f) => f.tier === "A"));
 });
 
+test("every build carries the name fold, character for character, so the allergy rule never depends on a display list (PM-33)", () => {
+  const pairs = files.nameFold.fold.map((p) => p.split(":").map((h) => String.fromCodePoint(parseInt(h, 16))) as [string, string]);
+  const from = pairs.map(([a]) => a).join(""), to = pairs.map(([, b]) => b).join("");
+  assert.equal(files.nameFold._meta.count, pairs.length);
+  assert.ok(pairs.length > 100);
+  assert.ok(pairs.every(([a, b]) => a !== b && [...a].length === 1 && [...b].length === 1));
+  for (const built of [release, dev, buildFromDisk("release", undefined, false)]) {
+    assert.deepEqual(built.chunks.core.nameFold, files.nameFold);
+    const kb = indexKnowledgeBase(built.chunks);
+    assert.equal(kb.foldName(from), to, "the table folds itself");
+    assert.equal(kb.foldName(to), to, "folding is idempotent");
+    assert.equal(kb.foldName("人參 ginseng, 乾薑 (dry) 123"), "人参 ginseng, 干姜 (dry) 123");
+    assert.equal(kb.foldName("𠮷檵"), "𠮷𪲛", "code points, not code units");
+    assert.equal(kb.foldName(""), "");
+  }
+});
+
 test("the closed beta and the dev profile carry every regional emergency row; there is no default region", () => {
   for (const { chunks } of [release, dev]) {
     const kb = indexKnowledgeBase(chunks);

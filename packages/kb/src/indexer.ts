@@ -62,6 +62,15 @@ export function indexKnowledgeBase(raw: RawKbChunks, display?: { zh(text: string
   const terms = new Map<string, GlossaryTerm>();
   for (const t of core.glossary.items) if (!terms.has(t["zh-Hant"])) terms.set(t["zh-Hant"], t);
 
+  // the fold the safety rules compare names with: a character of the data's script → its other-script form ("53C3:53C2", code points in hex)
+  const fold = new Map(core.nameFold.fold.map((pair) => { const [a, b] = pair.split(":").map((h) => String.fromCodePoint(parseInt(h, 16))); return [a!, b!] as const; }));
+  const folded = new Map<string, string>();
+  const foldName = (text: string): string => {
+    let out = folded.get(text);
+    if (out === undefined) { out = [...text].map((c) => fold.get(c) ?? c).join(""); folded.set(text, out); }
+    return out;
+  };
+
   return {
     version: raw.version,
     profile: core.config.profileName,
@@ -90,6 +99,7 @@ export function indexKnowledgeBase(raw: RawKbChunks, display?: { zh(text: string
     wuxing: core.wuxing,
     glossary: core.glossary.items,
     emergency: core.emergency,
+    foldName,
     constitutionItems: core.constitutionItems,
     herbName: (id) => raw.formulas.herbNames[id],
     cities: (() => { let loaded: Promise<Cities> | null = null; return () => (loaded ??= Promise.resolve(typeof raw.cities === "function" ? raw.cities() : raw.cities)); })(),

@@ -3,7 +3,7 @@
 // content even if the UI is bypassed. Doses, tier-C formulas, herb weights, internal provenance and the other profile never reach a
 // bundle that cannot use them.
 import type {
-  Citations, Cities, ConstitutionItems, Constitutions, Correspondences, Emergency, Exclusions, Formula, Formulas, Glossary, Herb, Herbs, Level, Orientation, PanelSchema, PatternElements, Patterns, ProfileName, Pulse, Questions,
+  Citations, Cities, ConstitutionItems, Constitutions, Correspondences, Emergency, Exclusions, NameFold, Formula, Formulas, Glossary, Herb, Herbs, Level, Orientation, PanelSchema, PatternElements, Patterns, ProfileName, Pulse, Questions,
   RawKbChunks, RedFlags, SafetyRules, ScopeConfig, ScopeProfile, ScopeProfiles, ScoringParams, Susceptibility, Symptoms, Tongue, TreatmentGuidance, Yunqi, FormulasChunk, GuidanceChunk, HerbName, TreatmentCore,
 } from "./types.ts";
 
@@ -29,6 +29,7 @@ export interface DataFiles {
   readonly yunqi: Yunqi;
   readonly glossary: Glossary;
   readonly emergency: Emergency;
+  readonly nameFold: NameFold;
   readonly constitutionItems: ConstitutionItems;
   readonly formulas: Formulas;
   readonly herbs: Herbs;
@@ -212,7 +213,7 @@ export function buildChunks(files: DataFiles, opts: BuildOptions): BuildResult {
     core: {
       config, symptoms: files.symptoms, questions: files.questions, exclusions: files.exclusions, orientation: files.orientation, patterns, elements: files.elements, constitutions: files.constitutions,
       redFlags: files.redFlags, tongue: files.tongue, pulse: files.pulse, panelSchema: files.panelSchema, params: files.params, safety, treatment,
-      wuxing: { correspondences: files.correspondences, susceptibility: files.susceptibility, yunqi: files.yunqi }, glossary: files.glossary, emergency, constitutionItems: files.constitutionItems,
+      wuxing: { correspondences: files.correspondences, susceptibility: files.susceptibility, yunqi: files.yunqi }, glossary: files.glossary, emergency, nameFold: files.nameFold, constitutionItems: files.constitutionItems,
     },
     formulas,
     guidance,

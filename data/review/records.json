@@ -231,6 +231,16 @@
       "units": 12,
       "whole_file_reviewed": false
     },
+    "safety/name-fold.json": {
+      "required_roles": [
+        [
+          "tcm-clinical"
+        ]
+      ],
+      "reviewed": 0,
+      "units": 0,
+      "whole_file_reviewed": false
+    },
     "safety/rules.json": {
       "required_roles": [
         [

@@ -51,6 +51,7 @@ packages/wuxing (export tables) ─────┘
 | `build_policy.py` | `config/scope-profiles.json`, `safety/rules.json`, `treatment/guidance.json`, `glossary.json` | `curated/{policy,glossary,treatment}.py` |
 | `build_constitution_items.py` | `diagnosis/constitution-items.json` (own-written questionnaire: nine types, 1–5 frequency scale, a description per type; scoring rule of the national standard, wording ours; draft) | `curated/constitution_items.py` |
 | `build_emergency.py` | `safety/emergency.json` (regional emergency and crisis numbers; default TW; every row `draft` until verified) | `curated/emergency.py` |
+| `build_name_fold.py` | `safety/name-fold.json` (the characters of the herb, formula-herb and food names that have another Simplified form, as `FROM:TO` code points in hex; the allergy rule folds both sides with it — PM-33; `derived`, checked by the build against the names) | the names in `herbs/`, `formulas/`, `diagnosis/patterns.json`, `treatment/guidance.json`; OpenCC `t2s` |
 
 ---
 

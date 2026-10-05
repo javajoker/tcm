@@ -46,6 +46,7 @@ Needs Node ≥ 22.18 for the one TypeScript export step (`scripts/kb/export_wuxi
 | `schema/*.schema.json` | 22 | **JSON Schemas** (draft 2020-12) for every data file; the contract validated in the build and the source of the TypeScript types | `scripts/kb/schemas.py` |
 | `diagnosis/constitution-items.json` | 37 items | own-written constitution questionnaire (K-08; draft) | curated |
 | `geo/cities.json` | 484 cities | birth-place picker: English and Traditional-Chinese names, latitude, longitude, IANA time zone; **GeoNames `cities15000`, CC BY 4.0** (K-10), built from `reference/geonames/cities-extract.tsv` | derived |
+| `safety/name-fold.json` | 182 characters | the characters of the herb and food names that have another Simplified form (`FROM:TO` code points in hex), so an allergy typed in either script is matched (PM-33) | derived from the names |
 | `safety/emergency.json` | 12 regions | regional emergency / crisis numbers (safety policy §5; unverified) | curated |
 | `glossary.json` | 161 | zh-Hant ⇄ English ⇄ pinyin with `source` (`who-istm-2007` = the WHO standard term, known with confidence; `textbook` = an established rendering not confirmed as the WHO term; `project` = a gloss coined for this app), accepted alternative English (`alt`) and a `note`; all needs-review until the linguistic review (V-06) checks them against the standard | curated |
 

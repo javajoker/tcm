@@ -1,5 +1,6 @@
 // Simplified Chinese in the shell (docs/post-mvp/design/simplified-chinese.md §5.3–§5.5): the route and its aliases, the three-way switch, the one-time offer, which knowledge base is loaded for
-// which page language, and the one place where the display script meets a safety rule — an allergy typed in Simplified must still be matched by name.
+// which page language, and the one place where the display script meets a safety rule — an allergy typed in either script must be matched by name (stored in the
+// data's own script, and folded by the rule itself as a second line).
 import { act, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import * as engine from "@tcm/engine";
@@ -159,7 +160,7 @@ describe("which knowledge base is loaded for which page language", () => {
   });
 });
 
-describe("an allergy meets the safety rules in the data's own script", () => {
+describe("an allergy meets the safety rules in either script", () => {
   it("typed in Simplified, 人参 is stored as 人參, shown as 人参, and the formula that contains 人參 is suppressed", async () => {
     const env = fakeEnvironment();
     env.localStorage.setItem("tcm.prefs", JSON.stringify({ disclaimerAck: { version: DISCLAIMER_VERSION, at: 1 }, lang: "zh-Hans" }));
@@ -185,10 +186,13 @@ describe("an allergy meets the safety rules in the data's own script", () => {
     expect(ids(stored2)).not.toContain("F_SIJUNZI");
     expect(stored2.suppressed.some((x) => x.id === "F_SIJUNZI")).toBe(true);
     expect(stored2.quality.unmatchedAllergies).toEqual([]);
-    // what storing the Simplified text as typed would have done: nothing matched, and the formula stayed
+    // the second line (PM-33): the rule folds both scripts to one, so the text as typed would have matched too
     const typed = engine.assess(rel, input(["人参"]));
-    expect(ids(typed)).toContain("F_SIJUNZI");
-    expect(typed.quality.unmatchedAllergies).toEqual(["人参"]);
+    expect(ids(typed)).not.toContain("F_SIJUNZI");
+    expect(typed.suppressed.some((x) => x.id === "F_SIJUNZI")).toBe(true);
+    expect(typed.quality.unmatchedAllergies).toEqual([]);
+    expect(ids(typed)).toEqual(ids(stored2));
+    expect(ids(engine.assess(rel, input(["人參"])))).toEqual(ids(stored2));
   });
 
   it("text that names nothing the data knows is kept as it was typed, and picking an entry again does not turn it back", async () => {

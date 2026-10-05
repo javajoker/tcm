@@ -6,6 +6,7 @@ import type { ConstitutionItems } from "./generated/constitution-items.ts";
 import type { Constitutions } from "./generated/constitutions.ts";
 import type { Correspondences } from "./generated/correspondences.ts";
 import type { Emergency } from "./generated/emergency.ts";
+import type { NameFold } from "./generated/name-fold.ts";
 import type { Exclusions } from "./generated/exclusions.ts";
 import type { Formulas } from "./generated/formulas.ts";
 import type { Glossary } from "./generated/glossary.ts";
@@ -53,7 +54,7 @@ export type SafetyRule = SafetyRules["rules"][number];
 export type ScopeProfile = ScopeProfiles["profiles"]["release"];
 export type Bilingual = Herb["name"];
 
-export type { Citations, Cities, ConstitutionItems, Constitutions, Correspondences, Emergency, Exclusions, Formulas, Glossary, Herbs, Orientation, PanelSchema, PatternElements, Patterns, Pulse, Questions, RedFlags, SafetyRules };
+export type { Citations, Cities, ConstitutionItems, Constitutions, Correspondences, Emergency, Exclusions, Formulas, Glossary, NameFold, Herbs, Orientation, PanelSchema, PatternElements, Patterns, Pulse, Questions, RedFlags, SafetyRules };
 export type { ScopeProfiles, ScoringParams, Susceptibility, Symptoms, Tongue, TreatmentGuidance, Yunqi };
 
 // ── chunks (what the bundler writes and the loader reads; tech spec §5) ─────
@@ -86,6 +87,8 @@ export interface CoreChunk {
   readonly wuxing: { readonly correspondences: Correspondences; readonly susceptibility: Susceptibility; readonly yunqi: Yunqi };
   readonly glossary: Glossary;
   readonly emergency: Emergency;
+  /** The characters of the names an allergy can match that have another Simplified form (the safety rules fold both sides with it). */
+  readonly nameFold: NameFold;
   readonly constitutionItems: ConstitutionItems;
 }
 /** What the engine needs of the treatment guidance: the core chunk carries it without the texts (the points' locations and cautions, the diet entries, the lifestyle lines are in the guidance chunk). */
@@ -171,6 +174,8 @@ export interface KnowledgeBase {
   readonly glossary: readonly GlossaryTerm[];
   /** Emergency and crisis numbers by region (the safety policy §5); every build carries them. */
   readonly emergency: Emergency;
+  /** A name in one script made comparable with the same name in the other (Traditional characters → their Simplified forms; the engine folds an allergy and a name with it before it compares them). */
+  foldName(text: string): string;
   /** The own-written constitution questionnaire (K-08): items, scale and a description of each type. */
   readonly constitutionItems: ConstitutionItems;
 

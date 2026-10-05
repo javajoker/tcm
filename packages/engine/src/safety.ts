@@ -83,7 +83,8 @@ function describe(kb: KnowledgeBase, c: Candidate): Descriptor {
   switch (c.kind) {
     case "formula": {
       const herbs = c.formula.composition.map((x) => x.herb);
-      const hn = herbs.flatMap((id) => herbNameSet(kb, id));
+      // the herb records' names and the names the formula itself uses (芍藥 where the record says 白芍): both are names the person can see and type
+      const hn = [...herbs.flatMap((id) => herbNameSet(kb, id)), ...c.formula.composition.map((x) => x.name)];
       return { id: c.formula.id, formula: c.formula, pregnancy: c.formula.pregnancy, interactions: c.formula.interactions, names: hn, herbNames: c.formula.composition.map((x) => kb.herbName(x.herb)?.name["zh-Hant"] ?? x.name) };
     }
     case "herb": {
@@ -132,12 +133,16 @@ export function incompatiblePairs(kb: KnowledgeBase, herbNames: readonly string[
 
 const norm = (s: string): string => s.trim().toLowerCase();
 
-/** An allergy entry matches a name when it is equal to it or (for Chinese names of two or more characters) contained in it. */
-export function allergyMatches(allergy: string, names: readonly string[]): boolean {
-  const a = norm(allergy);
+/**
+ * An allergy entry matches a name when it is equal to it or (for Chinese names of two or more characters) contained in it. `fold` (the knowledge base's
+ * `foldName`) is applied to both sides first, so 人参 and 人參 are the same name whichever script the allergy was typed in; without it the comparison is
+ * by the characters as they are.
+ */
+export function allergyMatches(allergy: string, names: readonly string[], fold: (text: string) => string = (t) => t): boolean {
+  const a = norm(fold(allergy));
   if (a.length === 0) return false;
   return names.some((n) => {
-    const m = norm(n);
+    const m = norm(fold(n));
     return m === a || (/[一-鿿]/.test(a) && a.length >= 2 && m.includes(a));
   });
 }
@@ -172,7 +177,7 @@ export function evaluateSafety(kb: KnowledgeBase, input: SafetyInput): SafetyRep
 
   for (const c of gated) {
     const d = describe(kb, c);
-    const allergyHit = subject.allergies.some((a) => allergyMatches(a, d.names));
+    const allergyHit = subject.allergies.some((a) => allergyMatches(a, d.names, kb.foldName));
     if (allergyHit) allergyMatch = true;
     const nature = d.formula ? formulaNature(d.formula) : null;
     const fired: FiredRule[] = [];
@@ -192,7 +197,7 @@ export function evaluateSafety(kb: KnowledgeBase, input: SafetyInput): SafetyRep
   }
 
   const known = knownNames(kb);
-  const unmatched = subject.allergies.filter((a) => a.trim().length > 0 && !known.some((n) => allergyMatches(a, [n])));
+  const unmatched = subject.allergies.filter((a) => a.trim().length > 0 && !known.some((n) => allergyMatches(a, [n], kb.foldName)));
   return { items, kept: items.filter((i) => !i.removed), suppressed, allergyMatch, unmatchedAllergies: unmatched };
 }
 
@@ -247,6 +252,7 @@ function targetHits(kb: KnowledgeBase, rule: SafetyRule, c: Candidate, d: Descri
 function knownNames(kb: KnowledgeBase): string[] {
   const names = new Set<string>();
   for (const id of new Set([...kb.formulas.values()].flatMap((f) => f.composition.map((c) => c.herb)))) for (const n of herbNameSet(kb, id)) names.add(n);
+  for (const f of kb.formulas.values()) for (const c of f.composition) names.add(c.name);
   for (const h of kb.herbs?.values() ?? []) for (const n of herbNameSet(kb, h.id)) names.add(n);
   for (const p of kb.patterns) for (const f of p.treatment.foods) names.add(f.replace(/（.*?）/g, ""));
   return [...names];

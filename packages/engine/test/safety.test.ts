@@ -1,4 +1,6 @@
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 import { test } from "node:test";
 import { indexKnowledgeBase, type Formula, type KnowledgeBase } from "@tcm/kb";
 import { rawChunksFromDisk } from "@tcm/kb/node";
@@ -7,6 +9,9 @@ import type { Candidate, MedicationClass, PolicyFacts, SafetySubject } from "../
 import { forAll } from "./gen.ts";
 import { dev, release } from "./kbs.ts";
 import { PARITY } from "./parity.ts";
+
+/** What a Simplified session shows for a Traditional string: the display dictionary of the pipeline, independent of the name fold the safety rules use. */
+const hans = (JSON.parse(readFileSync(join(import.meta.dirname, "..", "..", "..", "scripts", "i18n", "zh-Hans.dictionary.json"), "utf8")) as { entries: Record<string, string> }).entries;
 
 const subject = (over: Partial<SafetySubject> = {}): SafetySubject => ({ ageYears: 35, pregnant: false, lactating: false, medications: [], allergies: [], constitution: null, ...over });
 const neutral = { coldHeat: 0, deficiencyExcess: 0 };
@@ -174,6 +179,48 @@ test("flavour excess is a soft annotation; 十八反/十九畏 pairs are detecte
   const add = run(kb2, subject(), [{ kind: "herb", herbId: "herb-haizao", formula: licorice }, { kind: "herb", herbId: "herb-dazao", formula: licorice }]);
   assert.deepEqual(add.report.items.map((i) => [i.id, i.fired.some((f) => f.ruleId === "R_SHIBAFAN")]), [["herb-haizao", true], ["herb-dazao", false]]);
 });
+
+test("allergy in either script (PM-33): the Simplified form of a name acts exactly as the Traditional one, for every herb and food of the data", () => {
+  const removed = (allergy: string): string[] => run(release, subject({ allergies: [allergy] }), formulas(release)).report.suppressed.filter((x) => x.ruleId === "R_ALLERGY").map((x) => x.id).sort();
+  const names = new Set([...release.formulas.values()].flatMap((f) => f.composition.map((c) => c.name)));
+  assert.ok(names.size > 50);
+  let changed = 0;
+  for (const name of names) {
+    const simplified = hans[name];
+    assert.ok(simplified !== undefined, `the display dictionary has no entry for ${name}`);
+    if (simplified !== name) changed++;
+    const expected = removed(name);
+    assert.ok(expected.length > 0, `${name} is in a formula, so the allergy removes it`);
+    assert.deepEqual(removed(simplified), expected, `${simplified} (the Simplified display of ${name})`);
+    assert.deepEqual(run(release, subject({ allergies: [simplified] }), formulas(release)).report.unmatchedAllergies, [], `${simplified} is a name the data knows`);
+  }
+  assert.ok(changed > 20, "many names change script, so the check is not vacuous");
+
+  const foods = [...new Set(release.patterns.flatMap((p) => p.treatment.foods))];
+  assert.ok(foods.length > 20);
+  for (const food of foods) {
+    const candidates: Candidate[] = [{ kind: "food", name: food }];
+    for (const typed of [food, hans[food]!]) {
+      const r = run(release, subject({ allergies: [typed] }), candidates);
+      assert.equal(r.report.allergyMatch, true, `${typed} matches the food ${food}`);
+      assert.deepEqual(r.report.suppressed.map((x) => x.ruleId), ["R_ALLERGY"], `${typed} removes the food ${food}`);
+    }
+  }
+});
+
+test("allergyMatches folds both sides only when it is given the fold; the knowledge base's fold changes script, nothing else", () => {
+  assert.equal(allergyMatches("人参", ["人參"]), false, "without the fold the characters are compared as they are");
+  const fold = release.foldName;
+  assert.ok(allergyMatches("人参", ["人參"], fold) && allergyMatches("人參", ["人参"], fold) && allergyMatches("干姜", ["乾薑"], fold) && allergyMatches("乾薑", ["干姜"], fold));
+  assert.ok(allergyMatches("白术", ["炒白朮"], fold), "contained in a longer name");
+  assert.ok(!allergyMatches("参", ["人參"], fold) && !allergyMatches("", ["人參"], fold), "one character and blanks still match nothing");
+  assert.ok(!allergyMatches("人参", ["當歸"], fold) && !allergyMatches("当归", ["人參"], fold), "a fold never joins two different names");
+  assert.equal(fold("人參 ginseng 123"), "人参 ginseng 123");
+  assert.equal(fold("檵木"), "𪲛木", "a character outside the basic plane folds as one character");
+  assert.equal(fold("脾"), "脾", "a character that is the same in both scripts stays");
+  assert.equal(fold(""), "");
+});
+
 
 test("a tonic formula is annotated for the allergic constitution (特稟質)", () => {
   const r = run(dev, subject({ constitution: "C_TEBING" }), [{ kind: "formula", formula: dev.formulas.get("F_SIJUNZI")! }, { kind: "formula", formula: dev.formulas.get("F_ERCHEN")! }]);

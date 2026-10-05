@@ -33,6 +33,8 @@ Pre-release. The web app, the diagnosis engine and the knowledge base exist; not
 ### Safety
 - **No silent default region for the emergency numbers.** The MVP showed Taiwan's numbers to anyone who had not chosen a region, wherever they were. Numbers now appear for the region the person chose or whose time zone the device is in (named on screen, changeable); anyone else sees "call your local emergency number" and a request to choose. Each region row carries the time zones that preselect it and an optional dated verification record; a public build (no draft label) ships only verified rows no older than 24 months (`check-release` rule 12).
 
+- **An allergy is matched whichever script it was typed in** (PM-33). The rule used to compare characters as they are, so in a Traditional session 人参 matched nothing and was reported as unconfirmed; it now folds the entry and the names to one script with a table generated from the names (`data/safety/name-fold.json`, 182 characters) and a vignette suite entry for each script. Found on the way: a formula's own name for a herb (芍藥, 龍膽草, 白豆蔻) was not among the names an allergy could match when the herb record says 白芍, 龍膽, 豆蔻; it is now.
+
 ### Fixed
 - A citation chapter read 五執行大論 instead of 五運行大論 (an OpenCC phrase rewrite of 运行); the converter now post-fixes 運行 and 循環.
 

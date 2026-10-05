@@ -16,6 +16,7 @@ from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 from jsonschema import Draft202012Validator
 
+from . import build_name_fold
 from .common import DATA, ROOT, submodule_commits
 from .curated import panel as panel_cfg
 from .schemas import SCHEMAS, SCHEMA_VERSION
@@ -282,6 +283,20 @@ def validate(load: Loader = load, check_sources: bool = True) -> list[str]:
             else:
                 if when > date.today():
                     err(f"emergency region {r['id']}: the verification is dated in the future")
+
+    # the name fold (PM-33): the allergy rule folds both sides with it, so a name whose character is missing from it is a name an allergy typed in the other script cannot match
+    fold = load("safety/name-fold.json")
+    pairs = [p.split(":") for p in fold["fold"]]
+    src = [chr(int(a, 16)) for a, _ in pairs]
+    if fold["_meta"]["count"] != len(src):
+        err(f"name fold: _meta.count {fold['_meta']['count']} is not {len(src)}")
+    for d in duplicates(src):
+        err(f"name fold: {d!r} is folded twice")
+    for a, b in pairs:
+        if a == b:
+            err(f"name fold: U+{a} folds to itself")
+    if fold["fold"] != build_name_fold.encode(build_name_fold.fold_table(build_name_fold.names(load))):
+        err("name fold: not what the names of the herbs, formulas and foods need (run scripts.kb.build_name_fold)")
 
     for d in duplicates(h["name"]["zh-Hant"] for h in herbs):
         err(f"duplicate herb name {d}")

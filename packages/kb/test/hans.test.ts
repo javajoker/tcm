@@ -164,6 +164,7 @@ test("a missing, damaged or misaligned display list leaves the data's own script
   let kb = await loadKnowledgeBase({ baseUrl: "/kb", fetch: noVariants, script: "Hans", onDisplayError: note });
   assert.equal(kb.script, "Hant");
   assert.equal(kb.zh("腎"), "腎");
+  assert.equal(kb.foldName("人參"), "人参", "the allergy rule's fold is in the core chunk, not in the display list");
 
   // the list is damaged: its hash no longer matches
   const damaged = fsFetch(dir, (name, body) => name.startsWith("hans-main") ? Buffer.from(body.toString("utf8") + "x") : body);
