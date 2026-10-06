@@ -8,7 +8,7 @@ import { allowedAt, createLock, failed, forgiven, isSealed, openLock, openRecord
 import { KDF_ITERATIONS } from "./crypto.ts";
 import { ASSESSMENT_MIGRATIONS, ASSESSMENT_VERSION, DRAFT_MIGRATIONS, DRAFT_VERSION, migrate, wrap } from "./migrations.ts";
 import { parsePrefs, PREFS_KEY, serializePrefs } from "./prefs.ts";
-import type { Draft, Prefs, SavedAssessment, StorageStatus } from "./types.ts";
+import type { Draft, Prefs, SavedAssessment, StorageStatus, SyncRecord } from "./types.ts";
 
 export { browserEnvironment, type Environment } from "./browser.ts";
 
@@ -67,11 +67,17 @@ export interface Persistence {
    * durable, as for any failed write). The records are written as given: they have been validated by the importer, and are read back through the same migrations as any other.
    */
   applyWrites(writes: readonly { readonly store: "assessments" | "drafts"; readonly key: string; readonly value: unknown }[]): Promise<boolean>;
+  /** The file the person chose to keep an encrypted backup in (PM-32). `save` is `false` where the browser cannot keep it. Never the passphrase. */
+  readonly syncFile: { load(): Promise<SyncRecord | null>; save(record: SyncRecord): Promise<boolean>; clear(): Promise<void> };
+  /** Called after a saved result was written, changed, deleted or imported: what the file sync watches. */
+  onAssessmentsChanged(listener: () => void): () => void;
   /** Deletes IndexedDB, localStorage and Cache Storage. Resolves with what was cleared; the caller reloads. */
   eraseAll(): Promise<EraseReport>;
 }
 
 const CURRENT = "current";
+/** The key of the file-sync record in the `meta` store (PM-32). */
+const SYNC_KEY = "sync";
 
 export interface PersistenceOptions {
   readonly now?: () => number;
@@ -127,6 +133,8 @@ export function createPersistence(env: Environment, options: PersistenceOptions 
   const believed = (): string | null => lockState.dek?.keyId ?? null;
 
   const changed = new Set<() => void>();
+  const assessmentListeners = new Set<() => void>();
+  const assessmentsChanged = (): void => { for (const l of [...assessmentListeners]) { try { l(); } catch { /* a listener must not break a save */ } } };
   let channel: BroadcastChannel | null | undefined;
   const talk = (): BroadcastChannel | null => {
     if (channel === undefined) {
@@ -287,7 +295,7 @@ export function createPersistence(env: Environment, options: PersistenceOptions 
     },
     async saveDraft(draft) { await writeRecords([{ store: "drafts", key: CURRENT, value: wrap(DRAFT_VERSION, toStored(draft)) }]); },
     async clearDraft() { await deleteRecord("drafts", CURRENT); },
-    async putAssessment(a) { await writeRecords([{ store: "assessments", key: a.id, value: wrap(ASSESSMENT_VERSION, a) }]); },
+    async putAssessment(a) { await writeRecords([{ store: "assessments", key: a.id, value: wrap(ASSESSMENT_VERSION, a) }]); assessmentsChanged(); },
     async getAssessment(id) {
       await ready();
       const raw = await guarded((d) => d.get<unknown>("assessments", id), undefined);
@@ -299,10 +307,26 @@ export function createPersistence(env: Environment, options: PersistenceOptions 
       const opened = await Promise.all(all.map(async ([key, raw]) => migrate(await unseal("assessments", key, raw), ASSESSMENT_VERSION, ASSESSMENT_MIGRATIONS) as SavedAssessment | null));
       return opened.filter((a): a is SavedAssessment => a !== null).sort((x, y) => y.createdAt - x.createdAt);
     },
-    async deleteAssessment(id) { await deleteRecord("assessments", id); },
+    async deleteAssessment(id) { await deleteRecord("assessments", id); assessmentsChanged(); },
     async applyWrites(writes) {
-      try { return await underLock(() => Promise.all(writes.map(async (w) => ({ store: w.store, key: w.key, value: await seal(w.store, w.key, w.value) })))); } catch { setStatus("memory"); return false; }
+      try {
+        const ok = await underLock(() => Promise.all(writes.map(async (w) => ({ store: w.store, key: w.key, value: await seal(w.store, w.key, w.value) }))));
+        if (ok && writes.some((w) => w.store === "assessments")) assessmentsChanged();
+        return ok;
+      } catch { setStatus("memory"); return false; }
     },
+    syncFile: {
+      async load() {
+        const raw = await guarded((d) => d.get<unknown>("meta", SYNC_KEY), undefined);
+        const r = raw as Partial<SyncRecord> | undefined;
+        return r !== undefined && r !== null && r.v === 1 && r.handle !== undefined && typeof r.name === "string" && (r.seen === null || typeof r.seen === "string") && (r.writtenAt === null || typeof r.writtenAt === "number")
+          ? { v: 1, handle: r.handle, name: r.name, seen: r.seen ?? null, writtenAt: r.writtenAt ?? null } : null;
+      },
+      // a record that cannot be kept (the browser cannot store the handle) is not a reason to call the whole storage not durable: the sync simply does not outlive the session
+      async save(record) { try { await (await open()).put("meta", SYNC_KEY, record); return true; } catch { return false; } },
+      async clear() { try { await (await open()).delete("meta", SYNC_KEY); } catch { /* nothing to forget */ } },
+    },
+    onAssessmentsChanged(l) { assessmentListeners.add(l); return () => { assessmentListeners.delete(l); }; },
     async eraseAll() {
       let indexedDb = true;
       let cacheStorage = true;

@@ -149,5 +149,19 @@ export interface SavedAssessment {
   readonly imported?: { readonly at: number; readonly from: { readonly appVersion: string; readonly kbVersion: string; readonly engineVersion: string; readonly profile: string } };
 }
 
+/**
+ * `meta/sync` (docs/post-mvp/design/research-tracks.md §4; task PM-32): the file the person chose to keep an encrypted backup in — the handle the browser gave, which survives a reload in IndexedDB, and what this
+ * device has seen of the file: the SHA-256 of its text as this device last wrote it or merged it, and when. **Never the passphrase**: it is asked for in each session and lives in memory only.
+ */
+export interface SyncRecord {
+  readonly v: 1;
+  /** A `FileSystemFileHandle`; opaque here. */
+  readonly handle: unknown;
+  readonly name: string;
+  /** The hash of the file's text as last written or merged here; `null` before the first of either. A file whose text hashes to anything else was changed by someone else. */
+  readonly seen: string | null;
+  readonly writtenAt: number | null;
+}
+
 /** "persistent": answers are kept on this device. "memory": storage is blocked or failed — the app works but nothing survives a reload ("Not saved" chip). */
 export type StorageStatus = "persistent" | "memory";

@@ -1,4 +1,4 @@
-import { useId, useMemo, useState, type ChangeEvent, type ReactNode } from "react";
+import { useEffect, useId, useMemo, useRef, useState, type ChangeEvent, type ReactNode } from "react";
 import { ENGINE_VERSION } from "@tcm/engine";
 import { useI18n } from "../i18n/I18nProvider.tsx";
 import type { MessageKey } from "../i18n/catalogs.ts";
@@ -19,6 +19,12 @@ type Phase =
   | { readonly kind: "preview"; readonly document: BackupDocument; readonly prepared: Prepared; readonly plan: Plan }
   | { readonly kind: "done"; readonly added: number; readonly replaced: number; readonly both: number; readonly skipped: number };
 
+/**
+ * A file already in hand, to be merged rather than chosen (the file sync, docs/post-mvp/design/research-tracks.md §4): its text and the passphrase it was opened with. `onMerged` is called once what the person
+ * chose has been done — or there was nothing to do — and the sync then carries on, and writes the merged history back.
+ */
+export interface Preloaded { readonly name: string; readonly text: string; readonly passphrase: string; readonly onMerged: () => void | Promise<void> }
+
 const REASON = { invalid: "common.backup.preview.reason.invalid", altered: "common.backup.preview.reason.altered", "development-build": "common.backup.preview.reason.development-build", duplicate: "common.backup.preview.reason.duplicate" } as const;
 const CONFLICTS: readonly Conflict[] = ["skip", "keep-both", "replace-newer"];
 
@@ -26,7 +32,7 @@ const CONFLICTS: readonly Conflict[] = ["skip", "keep-both", "replace-newer"];
  * Restore from a file (docs/post-mvp/design/backup-and-data-lock.md §3.4): the file is untrusted, so it is read, checked and shown — what it holds, what is new, what differs, what is left out and why —
  * before anything is written; the person chooses what happens to the results that differ, and only then are the changes made, all together or not at all.
  */
-function Body({ onClose }: { onClose: () => void }): ReactNode {
+function Body({ onClose, preloaded }: { onClose: () => void; preloaded?: Preloaded }): ReactNode {
   const { t, lang } = useI18n();
   const { kb, engine } = useLoaded();
   const store = useApp;
@@ -34,7 +40,7 @@ function Body({ onClose }: { onClose: () => void }): ReactNode {
   const backupSource = store((s) => s.backupSource);
   const storage = store((s) => s.storage);
   const currentPrefs = store((s) => s.prefs);
-  const [phase, setPhase] = useState<Phase>({ kind: "pick" });
+  const [phase, setPhase] = useState<Phase>(preloaded === undefined ? { kind: "pick" } : { kind: "reading" });
   const [conflict, setConflict] = useState<Conflict>("skip");
   const [prefsOn, setPrefsOn] = useState(true);
   const [draftOn, setDraftOn] = useState(false);
@@ -55,19 +61,42 @@ function Body({ onClose }: { onClose: () => void }): ReactNode {
     setPhase({ kind: "preview", document, prepared, plan: planImport(prepared, source.assessments) });
   };
 
-  const choose = async (e: ChangeEvent<HTMLInputElement>): Promise<void> => {
-    const file = e.currentTarget.files?.[0];
-    if (file === undefined) return;
+  /** The text of a file: check it and show what it holds; an encrypted one is opened with `known` where there is one, and otherwise asks for its passphrase. */
+  const load = async (text: string, size: number, known?: string): Promise<void> => {
     setPhase({ kind: "reading" });
     try {
-      const read = await readBackup(await file.text(), file.size);
+      const read = await readBackup(text, size);
       if (read.kind === "error") { setPhase({ kind: "error", message: `common.backup.error.${read.error.code}` as MessageKey }); return; }
-      if (read.kind === "encrypted") { setPassphrase(""); setPhase({ kind: "locked", raw: read.raw, failure: null }); return; }
+      if (read.kind === "encrypted") {
+        if (known !== undefined) {
+          const opened = await openEncrypted(read.raw, known);
+          if (opened.kind === "backup") { await preview(opened.document); return; }
+          if (opened.kind === "error") { setPhase({ kind: "error", message: `common.backup.error.${opened.error.code}` as MessageKey }); return; }
+        }
+        setPassphrase("");
+        setPhase({ kind: "locked", raw: read.raw, failure: null });
+        return;
+      }
       await preview(read.document);
     } catch {
       setPhase({ kind: "error", message: "common.backup.error.malformed" });
     }
   };
+
+  const choose = async (e: ChangeEvent<HTMLInputElement>): Promise<void> => {
+    const file = e.currentTarget.files?.[0];
+    if (file === undefined) return;
+    await load(await file.text(), file.size);
+  };
+
+  // a file already in hand (the sync's): read once, as soon as the dialog opens
+  const started = useRef(false);
+  useEffect(() => {
+    if (preloaded === undefined || started.current) return;
+    started.current = true;
+    void load(preloaded.text, preloaded.text.length, preloaded.passphrase);
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- once: the file in hand does not change while the dialog is open
+  }, []);
 
   /** A protected file: the passphrase is used once and dropped, whatever the answer. A wrong passphrase and a damaged file are one message. */
   const unlock = async (raw: Readonly<Record<string, unknown>>): Promise<void> => {
@@ -94,7 +123,9 @@ function Body({ onClose }: { onClose: () => void }): ReactNode {
     try {
       const source = await backupSource();
       const applied = applyPlan(planImport(phase.prepared, source.assessments), phase.prepared, { conflict, includeDraft: draftOn, includePrefs: prefsOn }, randomId, new Set(source.assessments.map((a) => a.id)));
-      const ok = await applyImport(applied.writes, applied.prefs);
+      // with a file in hand and nothing to bring in there is nothing to apply: the file is as this device now knows it
+      const ok = preloaded !== undefined && applied.writes.length === 0 && applied.prefs === null ? true : await applyImport(applied.writes, applied.prefs);
+      if (ok && preloaded !== undefined) await preloaded.onMerged();
       setPhase(ok ? { kind: "done", added: applied.added, replaced: applied.replaced, both: applied.keptBoth, skipped: applied.skipped } : { kind: "error", message: "common.backup.error.storage" });
     } finally {
       setBusy(false);
@@ -131,13 +162,13 @@ function Body({ onClose }: { onClose: () => void }): ReactNode {
         </Field>
         {opening ? <p role="status" aria-busy="true">{t.t("common.backup.unlock.working")}</p> : null}
         <DialogActions>
-          <Button onClick={() => { setPassphrase(""); setPhase({ kind: "pick" }); }}>{t.t("common.backup.preview.another")}</Button>
+          {preloaded === undefined ? <Button onClick={() => { setPassphrase(""); setPhase({ kind: "pick" }); }}>{t.t("common.backup.preview.another")}</Button> : <Button onClick={onClose}>{t.t("common.sync.merge.later")}</Button>}
           <Button variant="primary" type="submit" disabled={passphrase.length === 0 || opening}>{t.t("common.backup.unlock.action")}</Button>
         </DialogActions>
       </form>
     );
   }
-  if (phase.kind === "error") return <><p role="alert">{t.t(phase.message)}</p>{file}<DialogActions><Button onClick={onClose}>{t.t("common.backup.close")}</Button></DialogActions></>;
+  if (phase.kind === "error") return <><p role="alert">{t.t(phase.message)}</p>{preloaded === undefined ? file : null}<DialogActions><Button onClick={onClose}>{t.t("common.backup.close")}</Button></DialogActions></>;
 
   const { document, prepared, plan } = phase;
   const unchecked = prepared.records.filter((r) => r.checked === "unchecked").length;
@@ -166,20 +197,21 @@ function Body({ onClose }: { onClose: () => void }): ReactNode {
       {prepared.draft !== null ? <Tile type="checkbox" name="draft" value="draft" checked={draftOn} onChange={setDraftOn} label={t.t("common.backup.preview.draft")} {...(hasDraft ? { description: t.t("common.backup.preview.draft.hint") } : {})} /> : null}
       {nothingToDo ? <p className="muted">{t.t("common.backup.preview.nothing")}</p> : null}
       <DialogActions>
-        <Button onClick={() => setPhase({ kind: "pick" })}>{t.t("common.backup.preview.another")}</Button>
-        <Button variant="primary" disabled={nothingToDo || busy} onClick={() => { void restore(); }}>{t.t("common.backup.preview.action")}</Button>
+        {preloaded === undefined ? <Button onClick={() => setPhase({ kind: "pick" })}>{t.t("common.backup.preview.another")}</Button> : <Button onClick={onClose}>{t.t("common.sync.merge.later")}</Button>}
+        <Button variant="primary" disabled={(nothingToDo && preloaded === undefined) || busy} onClick={() => { void restore(); }}>{preloaded === undefined ? t.t("common.backup.preview.action") : t.t("common.sync.merge.action")}</Button>
       </DialogActions>
     </>
   );
 }
 
-export function RestoreDialog({ onClose }: { onClose: () => void }): ReactNode {
+export function RestoreDialog({ onClose, preloaded }: { onClose: () => void; preloaded?: Preloaded }): ReactNode {
   const { t } = useI18n();
   const titleId = useId();
   return (
     <Dialog open onClose={onClose} labelledBy={titleId}>
-      <h2 id={titleId}>{t.t("common.backup.restore.title")}</h2>
-      <NeedsKnowledge><Body onClose={onClose} /></NeedsKnowledge>
+      <h2 id={titleId}>{preloaded === undefined ? t.t("common.backup.restore.title") : t.t("common.sync.merge.title")}</h2>
+      {preloaded === undefined ? null : <p>{t.t("common.sync.merge.intro", { name: preloaded.name })}</p>}
+      <NeedsKnowledge><Body onClose={onClose} {...(preloaded === undefined ? {} : { preloaded })} /></NeedsKnowledge>
     </Dialog>
   );
 }

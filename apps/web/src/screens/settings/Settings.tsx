@@ -12,6 +12,8 @@ import { Button, Card, ConfirmDialog, LinkButton, SegmentedControl, Tile } from 
 import { DataTable } from "../result/Panel.tsx";
 import { LockCard } from "../../lock/LockCard.tsx";
 import { SeasonsCard } from "./SeasonsCard.tsx";
+import { SyncCard } from "./SyncCard.tsx";
+import { useSync } from "../../sync/SyncContext.tsx";
 import { DataCard } from "./DataCard.tsx";
 import { InstallCard } from "./InstallCard.tsx";
 import { OfflineCard } from "./OfflineCard.tsx";
@@ -29,7 +31,10 @@ export function Settings(): ReactNode {
   const [confirm, setConfirm] = useState(false);
   const k = (key: string): string => t.t(key as MessageKey);
 
-  const rows = (IS_DEV_PROFILE ? (["prefs", "draft", "results", "birth", "backup", "lock"] as const) : (["prefs", "draft", "results", "birth", "backup", "lock", "offline"] as const)).map((r) => [k(`common.settings.privacy.${r}`), k(`common.settings.privacy.${r}.where`), k(`common.settings.privacy.${r}.until`), k(`common.settings.privacy.${r}.remove`)]);
+  const syncOffered = useSync().supported;
+  const stored = IS_DEV_PROFILE ? (["prefs", "draft", "results", "birth", "backup", "lock"] as const) : (["prefs", "draft", "results", "birth", "backup", "lock", "offline"] as const);
+  // the file of the sync is listed where the browser can keep one
+  const rows = (syncOffered ? ([...stored, "sync"] as const) : stored).map((r) => [k(`common.settings.privacy.${r}`), k(`common.settings.privacy.${r}.where`), k(`common.settings.privacy.${r}.until`), k(`common.settings.privacy.${r}.remove`)]);
   return (
     <>
       <h1>{t.t("common.settings.title")}</h1>
@@ -59,6 +64,7 @@ export function Settings(): ReactNode {
         {IS_DEV_PROFILE ? null : <><OfflineCard /><InstallCard /></>}
 
         <DataCard />
+        <SyncCard />
 
         <LockCard />
 
@@ -85,6 +91,7 @@ export function Settings(): ReactNode {
       <ConfirmDialog open={confirm} title={t.t("common.settings.erase.title")} confirmLabel={t.t("common.settings.erase.confirm")} cancelLabel={t.t("common.action.cancel")}
         onCancel={() => setConfirm(false)} onConfirm={() => { setConfirm(false); void eraseAll(); }}>
         <p>{t.t("common.settings.erase.body")}</p>
+        {syncOffered ? <p>{t.t("common.settings.erase.sync")}</p> : null}
       </ConfirmDialog>
     </>
   );

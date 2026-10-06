@@ -65,7 +65,12 @@ export interface StoreDeps {
   readonly autosaveMs?: number;
 }
 
-export type AppStore = StoreApi<AppState> & { readonly flush: () => Promise<void> };
+export type AppStore = StoreApi<AppState> & {
+  readonly flush: () => Promise<void>;
+  /** The file the person chose to keep a backup in, and what tells the file sync that the saved results changed (PM-32). Outside the state: the screens never render from them. */
+  readonly syncFile: Persistence["syncFile"];
+  readonly onAssessmentsChanged: Persistence["onAssessmentsChanged"];
+};
 
 export function createAppStore({ persistence, now = () => Date.now(), newId = randomId, reload = () => { window.location.assign("/"); }, refresh = () => { window.location.reload(); }, removeOfflineCopy = () => Promise.resolve(), autosaveMs = 250 }: StoreDeps): AppStore {
   const saver: Autosaver<Draft> = createAutosaver((d) => persistence.saveDraft(d), autosaveMs);
@@ -174,7 +179,7 @@ export function createAppStore({ persistence, now = () => Date.now(), newId = ra
   let reloading = false;
   persistence.lock.onChanged(() => { saver.cancel(); if (!reloading) { reloading = true; refresh(); } });      // another tab turned the lock on, off or changed it: load again, once, and find the lock as it now is
   const flush = (): Promise<void> => saver.flush();
-  return Object.assign(store, { flush });
+  return Object.assign(store, { flush, syncFile: persistence.syncFile, onAssessmentsChanged: persistence.onAssessmentsChanged });
 }
 
 const Ctx = createContext<AppStore | null>(null);
@@ -190,6 +195,13 @@ export function StoreProvider({ store, children }: { store: AppStore; children: 
   }, [store]);
   useEffect(() => { void store.getState().init(); }, [store]);
   return <Ctx.Provider value={store}>{children}</Ctx.Provider>;
+}
+
+/** The store itself, for what must read or write it outside a render (the file sync). */
+export function useAppStore(): AppStore {
+  const store = useContext(Ctx);
+  if (store === null) throw new Error("useAppStore must be used inside <StoreProvider>");
+  return store;
 }
 
 export function useApp<T>(selector: (s: AppState) => T): T {

@@ -124,7 +124,7 @@ A release is ticked item by item as features ship; a feature ships when the gate
 - [ ] Folded into the PRD, the SOP (owner of the logic) and specs; `CHANGELOG.md` updated
 
 **Release D — Research** (FR-32 … FR-34; nothing ships by default)
-- [ ] Each spike has a report against its written protocol and a recorded go or no-go
+- [ ] Each spike has a report against its written protocol and a recorded go or no-go *(PM-32 file sync: the protocol was run and no stop condition was met — [research tracks §4.1](docs/post-mvp/design/research-tracks.md#41-as-built-pm-32), a feature behind the draft label; the check with a real cloud client in the folder is the owner's. PM-30 and PM-31 are not started: they need datasets, an advisor, volunteers, reference devices and legal and ethics approvals, none of which is in place)*
 - [ ] A go decision names the review class, the privacy and legal review, and the new requirement before any code ships
 
 ---

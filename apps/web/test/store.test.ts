@@ -10,6 +10,7 @@ const stub = (over: Partial<Persistence> = {}): Persistence => ({
   loadDraft: async () => null, saveDraft: async () => undefined, clearDraft: async () => undefined,
   putAssessment: async () => undefined, getAssessment: async () => null, listAssessments: async () => [], deleteAssessment: async () => undefined,
   applyWrites: async () => true,
+  syncFile: { load: async () => null, save: async () => true, clear: async () => undefined }, onAssessmentsChanged: () => () => undefined,
   eraseAll: async () => ({ indexedDb: true, localStorage: true, cacheStorage: true }), ...over,
 });
 

@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 0.5 (draft) |
+| **Version** | 0.6 (draft) |
 | **Status** | Every item the MVP documents recorded as "to be revisited after the MVP" is answered here with the recommended default; new decisions that came out of the post-MVP design are PD-01 … PD-12 |
 | **Last updated** | 2026-10-06 |
 | **Audience** | Project owner, maintainers, reviewers |
@@ -26,7 +26,7 @@ An *unchanged* decision means the MVP answer still holds and the reason is state
 | Q2 | Modules and patterns | 23 patterns, 8 modules | Grow in waves through one admission process (FR-30); Wave A fills everyday gaps | Reviewer capacity (⚑); first-wave feedback |
 | Q3 | LLM involvement | None in the core; optional rewording later | **Not planned.** If ever revisited: on-device only, after the fact, opt-in, passed through the same wording lint, never touching a recommendation | Small accurate on-device models, reviewer capacity, and usability evidence that templated text fails comprehension |
 | Q4 | Tongue photo, pulse devices | Not in MVP | Research spikes in Release D (FR-32, FR-33) with protocols and stop conditions | ⚑ datasets, advisor, approval to download |
-| Q5 | Accounts and cloud sync | Purely local | **No accounts.** Portability by backup (FR-23) and file-based sync (FR-34). Server-side sync only with demand, a security and privacy review and a legal view | A study showing multi-device need that files do not meet |
+| Q5 | Accounts and cloud sync | Purely local | **No accounts.** Portability by backup (FR-23) and file-based sync (FR-34, **built — PM-32**, Chromium only: an encrypted backup kept in a file the person chooses, never overwriting a file another device changed). Server-side sync only with demand, a security and privacy review and a legal view | A study showing multi-device need that files do not meet |
 | Q6 | Simplified Chinese | Post-MVP | **Release A** (FR-21), derived from Traditional and the Simplified sources (PD-01) | ⚑ Mainland linguistic reviewer; legal view on notices |
 | Q7 | Commercial or not | Assume commercial; exclude NC data | Unchanged. Monetisation is the owner's choice and needs no data change | Only if non-commercial material would add real value and the project is firmly non-commercial |
 | Q8 | Who reviews content | Not appointed | Unchanged; owned by the review track | — |
@@ -135,3 +135,4 @@ An *unchanged* decision means the MVP answer still holds and the reason is state
 | 0.3 | 2026-10-06 | W-4 built (PM-26): the southern hemisphere as a person's choice, additive to every saved result |
 | 0.4 | 2026-10-06 | W-5 built (PM-27): the hour near a boundary as a person's choice, kept with the draft and the saved result and never in the engine's result |
 | 0.5 | 2026-10-06 | W-3 built (PM-29): the season model declared on every result; Q11's 長夏 item is a declared parameter, the school decision stays open |
+| 0.6 | 2026-10-06 | Q5: file-based sync built (PM-32) — the spike's stop conditions were not met |

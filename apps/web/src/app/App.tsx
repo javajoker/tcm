@@ -11,6 +11,7 @@ import { DocumentMeta } from "./DocumentMeta.tsx";
 import { NotFound } from "./NotFound.tsx";
 import { PrefsEffects } from "./PrefsEffects.tsx";
 import { BackupProvider } from "../backup/BackupContext.tsx";
+import { SyncProvider } from "../sync/SyncContext.tsx";
 import { IdleLock } from "../lock/IdleLock.tsx";
 import { LockScreen } from "../lock/LockScreen.tsx";
 import { OfflineEffects } from "../offline/OfflineEffects.tsx";
@@ -121,9 +122,11 @@ function LanguageRoutes(): ReactNode {
           {/* while the lock is being read, and while it is on, nothing of the app — and so of the history — is shown (docs/post-mvp/design/backup-and-data-lock.md §5.4) */}
           {lock === "unknown" ? <LoadingScreen /> : lock === "locked" ? <LockScreen /> : (
             <BackupProvider>
-              <AppShell>
-                {parsed.lang === null ? <NotFound /> : <Screens />}
-              </AppShell>
+              <SyncProvider>
+                <AppShell>
+                  {parsed.lang === null ? <NotFound /> : <Screens />}
+                </AppShell>
+              </SyncProvider>
             </BackupProvider>
           )}
         </Router>

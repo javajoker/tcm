@@ -2,9 +2,9 @@
 
 | | |
 |---|---|
-| **Version** | 0.1 (draft) |
-| **Status** | Design for Release D (FR-32 … FR-34; tasks PM-30 … PM-32). Every track begins as a spike; nothing here is promised to ship |
-| **Last updated** | 2026-10-05 |
+| **Version** | 0.2 (draft) |
+| **Status** | Design for Release D (FR-32 … FR-34; tasks PM-30 … PM-32). Every track begins as a spike; nothing here is promised to ship. **PM-32 (file-based sync) is built** ([§4.1](#41-as-built-pm-32)): its stop conditions were not met, so it is a feature behind the draft label like the rest; PM-30 and PM-31 are not started |
+| **Last updated** | 2026-10-06 |
 | **Audience** | Maintainers, the owner (approvals), reviewers, a legal adviser |
 | **Related** | [Requirements §4, §5](../requirements.md#4-release-d--research-each-is-a-spike-first) · [Roadmap §3.4, §3.5](../roadmap.md) · [Privacy](../../privacy.md) · [Safety policy §9](../../safety-policy.md) · [Decisions Q3, Q4, Q5, PD-10, PD-11](../decisions.md) |
 
@@ -96,6 +96,27 @@ A person photographs their tongue; the app **suggests** which tongue features fr
 
 **Protocol and stop.** Interruption tests (closing the tab mid-write, a full disk, a permission revoked, a file locked by the cloud client) must show no data loss in either the file or the store; any scenario that needs a server, that loses data, or that works only in a browser family too small to justify the interface stops the track.
 
+### 4.1 As built (PM-32)
+
+The spike's protocol was run as written, against a fake of the file API that has the browser's one property that matters — *the content is replaced only when a writable is closed* — and then in Chrome against a real file handle. **No stop condition was met**: nothing needs a server; no interruption lost data in the file or in the store; Chromium (desktop and Android) is a large enough family for a feature that is hidden everywhere else. So the track became a feature.
+
+| Piece | What was built |
+|---|---|
+| Where | `apps/web/src/sync/` — `file.ts` (the file handle behind a small interface, the one place that names what can go wrong at a file, the picker and the feature test), `session.ts` (the state machine: pure of the DOM, with the timers, the store and the clock injected), `deps.ts` (what the app gives it; a lazy chunk with the backup engine), `SyncContext.tsx` (the provider and `useSync`); the card and its setup dialog in `screens/settings/`; the restore dialog gained a mode for a file already in hand. The storage layer gained `meta/sync` (the handle and what this device has seen) and `onAssessmentsChanged` |
+| Offered | Only where `window.showSaveFilePicker` exists and this device can remember the file (storage persistent): Chromium. Elsewhere there is **no card, no row in what is stored and no word in Erase**, and the manual backup and the share sheet remain. In a Chrome the card is a Card of Settings (S17) after *Your data* |
+| Setting it up | A dialog: a passphrase typed twice, with the checks and the strength note of a protected backup; then *Choose the file…*, which opens the browser's own save picker — the picker is the first thing awaited after the click, so the browser's need for a click is met. A closed picker changes nothing. The file is always the passphrase-protected format |
+| The first write | An **empty** file gets the first backup. A file with something in it must be an encrypted backup of this app that **the passphrase opens**; anything else — a note, a plain backup, a backup under another passphrase — is refused in words and **left alone**, and nothing is remembered. A file that is a backup is **not written over**: it is merged first (below) |
+| What is written | The whole backup: every saved result and the preferences (the same as a protected backup's default, without the unfinished assessment), serialised, encrypted with a fresh salt and iv, written with `createWritable()`, `write()`, `close()`; the browser swaps the content in on close. The reminder's clock counts it as a backup. The file is written about four seconds after the last change — several changes make one write, and a change during a write makes exactly one more after it — and **only while the app is open and the history is not locked** |
+| Never overwriting | Before every write the file is **read**; if it is not empty and its SHA-256 is not the one this device last wrote or merged, it was changed by someone else: nothing is written, the card says so, and the person **merges** with the restore dialog opened on the file's text and the passphrase (its own choices: skip, keep both, replace if newer; nothing to bring in is accepted as it is). Only then is the merged history written back. A file that changes again during the merge is found changed again. The honest limit stays: between the read and the write another device can still write; the next write finds it |
+| The passphrase | Asked for in each session, in the card, never in the background; held in memory only; **never stored** (not in the record, not in a preference, not in the page); dropped when the lock engages, when the file is stopped and with the page. A passphrase typed in a later session is **checked against the file** (one decrypt) — so a slip of the keyboard cannot change the passphrase the other devices read: the file is left alone and the card says it is not the passphrase of the file |
+| A later visit | The record's handle survives in IndexedDB (a handle is structured-cloneable). The card says what is needed: *allow it again* (a click; the browser asks, and a refusal is said), then *the passphrase*, then the file is brought up to date with what was saved meanwhile — or offered for the merge if it changed |
+| Failures | Each is a word, the file is as it was, and the next change or *Try again* writes once more: `permission` (the person took it back → the card asks to be allowed again), `locked` (another program holds the file — a cloud client mid-upload; `NoModificationAllowedError`, `InvalidStateError`, `NotReadableError`), `full` (`QuotaExceededError`), `gone` (`NotFoundError`), `failed`. A write that fails abandons its writable (`abort`) |
+| Stopping | *Stop keeping it up to date* forgets the record and the passphrase; **the file stays where it is**. *Erase everything* forgets it too, and says that the file is not deleted |
+| Budget | +7.4 KB gzip of JavaScript over the declared-model state (all JavaScript 347.0 of 350 KB; the start page 162.2 of 200 KB: the provider, the file layer and the wording are in it, the session and the backup engine are a lazy chunk). **3 KB of headroom remain**: the next feature must make room or revisit PD-12 |
+| Tests | `sync-session.test.ts` (29): the first write and what it holds, the debounce, a change during a write, deletion, the lock, the passphrase going; **the interruptions** — the tab closed in the middle (the file as it was, the next session carries on), no room, the file held by a cloud client at close and at open, moved or deleted, an unforeseen error, the permission taken back (and refused); **never overwriting** — another device's write found before ours, nothing written while a merge waits, a file that changes again during the merge, another device's file at the start, a file that is not a backup, another passphrase; a later session (a slip of the passphrase, a file changed meanwhile, a file replaced); stopping; **a property over 12 sequences of 24 random steps** (saves, other devices' writes, failures, restarts, merges, retries): the file is always a whole encrypted backup, is never replaced while it holds what this device has not seen, and holds every result once the failures clear; three mutations of the code (the conflict check, the abandoned writable, the passphrase check) were each caught. `sync-ui.test.tsx` (17): where it is offered, the setup, every state of the card in words, a merge through the restore dialog, a later visit, a failed write and Try again, Traditional Chinese, axe. **E35** in Chrome (desktop English, mobile Traditional, desktop Simplified) against the browser's real file-handle API — the native picker, which a test cannot press, is replaced by one that opens a file of the private file system, and a second browser context is the second device — and in Safari's engine and Firefox, where the card is absent |
+
+**What the protocol could not show.** The file was never in a folder that a real cloud client was synchronising; the `locked` failure is the one a cloud client causes on Windows, and it is exercised by the error the browser raises, not by the client. The interruption "close the tab in the middle" is the browser's own guarantee (the swap on close) and is tested as such. Both are the owner's by-hand checks with a real client (a checklist item).
+
 ## 5. Not planned — and what would change that
 
 | Idea | Why not | What would reopen it |
@@ -116,12 +137,25 @@ A person photographs their tongue; the app **suggests** which tongue features fr
 
 | Question | Default |
 |---|---|
-| Order of the spikes | File sync first (smallest, builds on Release A), then camera pulse, then tongue photo (largest, with the hard gates) |
+| Order of the spikes | File sync first (smallest, builds on Release A), then camera pulse, then tongue photo (largest, with the hard gates). **File sync was built first, in that order** |
 | Start of the tongue-photo spike | Not before the legal view and the dataset-licence finding exist; the first step is the desk research |
 | Store a photo | Never |
 | Quality class of an assisted tongue finding | No higher than self-observation until evidence |
 | CSP / Permissions-Policy | Changed only when a track has a "go", for the whole app, with the justification written in the tech spec |
 | New images from volunteers | Only with ethics approval and consent |
+
+**Decided at build time (PM-32, 2026-10-06; same status — revisit at the usability round).**
+
+| Question | Default |
+|---|---|
+| What is written to the file | Every saved result and the preferences — not the unfinished assessment, which is not a saved result and holds answers the person has not finished |
+| When | About four seconds after the last change, only while the app is open and the history is not locked; never in the background of a closed page |
+| A chosen file that is not a backup of this app | Refused and left alone; nothing is remembered. A backup under another passphrase is refused as the wrong passphrase |
+| A chosen file that is a backup | Merged first, with the restore dialog; never written over |
+| A passphrase typed in a later session | Checked against the file; a mismatch changes nothing |
+| Does a write count as a backup for the reminder | Yes: it is an encrypted backup of every result |
+| Where the feature is | Settings, a card after *Your data*; Chromium only, hidden elsewhere |
+| A second tab | Each tab has its own session; a write by one makes the other find the file changed and ask — never an overwrite |
 
 ## 7. Tasks
 
@@ -132,3 +166,4 @@ PM-30 (tongue-photo spike), PM-31 (camera-pulse spike), PM-32 (file-based sync, 
 | Version | Date | Change |
 |---|---|---|
 | 0.1 | 2026-10-05 | Initial design |
+| 0.2 | 2026-10-06 | PM-32 built ([§4.1](#41-as-built-pm-32)): the spike's protocol was run and no stop condition was met, so file-based sync is a feature (Chromium only, behind the draft label); the decisions made at build time in §6 |

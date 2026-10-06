@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 0.6 (draft) |
+| **Version** | 0.7 (draft) |
 | **Status** | Draft — implementation not started (only `packages/wuxing`, `data/` and `scripts/kb` exist) |
 | **Last updated** | 2026-10-06 |
 | **Derives from** | [PRD v0.3](PRD.md) · [Diagnosis SOP v0.2](diagnosis-sop.zh-TW.md) · [Algorithm spec](wuxing-algorithm.md) |
@@ -538,6 +538,7 @@ interface AppState {
 | `drafts` | `current` | `AppState.draft` | One draft; deleted when the assessment is saved or discarded |
 | `assessments` | `id` | `SavedAssessment` | Index on `createdAt` |
 | `meta` | `schema` | `{ version, createdAt }` | Migrations run on open |
+| `meta` | `sync` | `SyncRecord` (`storage/types.ts`) | PM-32: `{ v, handle, name, seen, writtenAt }` — the browser's `FileSystemFileHandle` (structured-cloneable) to the file the person chose, its name, the SHA-256 of the file's text as this device last wrote or merged it, and when. Plain (it holds no readable secret and no passphrase); not sealed by the lock |
 | `meta` | `lock` | `LockRecord` (`storage/lock.ts`) | PM-20, only while the lock is on: `{ v, keyId, kdf, iterations, salt, wrapped: { iv, ct }, failures, lastFailureAt }` — no readable secret |
 
 ```ts
@@ -672,3 +673,4 @@ Colour: one sequential hue per quantity family, never red/green as good/bad; sig
 | 0.4 | 2026-10-06 | §7, §8.2: how seasons are counted (PM-26): `options.seasons`, `meta.seasons` and the stamp suffix, the `seasons` preference; a saved result is replayed on the basis in its stamp |
 | 0.5 | 2026-10-06 | §8.2, §8.3: the hour near a change (PM-27): `BirthInput.hourPick`, `Draft.hourChoice`, `SavedAssessment.hour`; the importer keeps `fold` |
 | 0.6 | 2026-10-06 | §7, §8.2: the season model declared (PM-29): the stamp `+tuwang18`, the development-only `seasonModel` preference, replay on the model in the stamp; the summary file's optional `exportedFrom.seasonModel` and `seasons` |
+| 0.7 | 2026-10-06 | §8.3: the file sync (PM-32): `meta/sync`, `Persistence.syncFile` and `onAssessmentsChanged`; `apps/web/src/sync/` (the file layer, the session, the provider); the File System Access save picker needs no Permissions-Policy or CSP entry |
