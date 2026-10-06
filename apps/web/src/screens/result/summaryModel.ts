@@ -1,14 +1,12 @@
 // The practitioner summary (UX spec §12): one structured model feeds both the printable page and the plain-text copy, so they cannot disagree.
-import { ELEMENTS } from "@tcm/wuxing";
-import { sourceOf, type TraceItem } from "@tcm/engine";
 import type { KnowledgeBase } from "@tcm/kb";
 import type { T } from "../../i18n/I18nProvider.tsx";
 import type { MessageKey } from "../../i18n/catalogs.ts";
 import type { SavedAssessment } from "../../storage/types.ts";
 import { NOTICE_SLUG } from "../screening/noticeText.ts";
-import { MED_CLASSES, medicationClasses, seriousIn } from "../profile/model.ts";
 import { DIMENSION_ORDER } from "../review/model.ts";
-import { ELEMENT_SLUG, level5, signed } from "./words.ts";
+import { summaryData, type SummaryData } from "./summaryData.ts";
+import { ELEMENT_SLUG, signed } from "./words.ts";
 
 export interface SummarySection {
   readonly id: string;
@@ -20,77 +18,81 @@ export interface SummarySection {
   readonly table?: { readonly caption: string; readonly head: readonly string[]; readonly rows: readonly (readonly string[])[] };
 }
 
-export function buildSummary(saved: SavedAssessment, kb: KnowledgeBase, t: T): SummarySection[] {
+/** The summary page's sections in the page language: one model of text for the printable page and the plain-text copy, made from the data layer (`summaryData`). */
+export function renderSummary(data: SummaryData, kb: KnowledgeBase, t: T): SummarySection[] {
   const k = (key: string, p?: Record<string, string | number>): string => t.t(key as MessageKey, p);
-  const a = saved.result;
-  const i = saved.input;
-  const s = i.subject;
   const out: SummarySection[] = [];
   const listSep = t.lang === "en" ? ", " : "、";
   const none = k("intake.review.value.none");
 
   // the person
-  const facts: [string, string][] = [[k("intake.review.about.age"), k("intake.review.value.years", { n: s.ageYears ?? "" })], [k("intake.review.about.sex"), s.sex ? k(`intake.review.value.${s.sex}`) : ""]];
-  if (s.pregnancy && s.pregnancy !== "not-applicable") {
-    facts.push([k("intake.review.about.pregnancy"), k(`intake.review.value.${s.pregnancy === "no" ? "no" : s.pregnancy === "yes" ? "yes" : "possible"}`)]);
-    if (s.lactating !== undefined) facts.push([k("intake.review.about.lactating"), k(s.lactating ? "intake.review.value.yes" : "intake.review.value.no")]);
+  const person = data.person;
+  const facts: [string, string][] = [[k("intake.review.about.age"), k("intake.review.value.years", { n: person.ageYears ?? "" })], [k("intake.review.about.sex"), person.sex ? k(`intake.review.value.${person.sex}`) : ""]];
+  if (person.pregnancy !== undefined) {
+    facts.push([k("intake.review.about.pregnancy"), k(`intake.review.value.${person.pregnancy}`)]);
+    if (person.lactating !== undefined) facts.push([k("intake.review.about.lactating"), k(person.lactating ? "intake.review.value.yes" : "intake.review.value.no")]);
   }
-  const serious = seriousIn({ redFlags: i.redFlags } as never);
-  facts.push([k("intake.review.about.conditions"), serious.length === 0 ? none : serious.map((id) => k(`intake.profile.conditions.${id}`)).join(listSep)]);
+  facts.push([k("intake.review.about.conditions"), person.conditions.length === 0 ? none : person.conditions.map((id) => k(`intake.profile.conditions.${id}`)).join(listSep)]);
   out.push({ id: "person", title: k("report.pract.person"), facts });
 
-  const classes = medicationClasses({ subject: s, profile: i.profile } as never);
-  const meds = i.profile.medications === "unsure" ? k("intake.review.value.unsure") : classes.length === 0 ? none
-    : [...new Set(classes)].map((c) => k(`intake.profile.meds.${c}`)).concat(i.profile.medicationText.length > 0 ? [k("intake.review.value.otherNamed", { names: i.profile.medicationText.join(listSep) })] : []).join(listSep);
-  void MED_CLASSES;
-  const allergies = i.profile.allergies === "some" && (s.allergies ?? []).length > 0 ? (s.allergies ?? []).map((a) => t.zh(a)).join(listSep) : none;
+  const m = data.safety.medications;
+  const meds = m.status === "unsure" ? k("intake.review.value.unsure") : m.status === "none" ? none
+    : m.classes.map((c) => k(`intake.profile.meds.${c}`)).concat(m.otherNamed.length > 0 ? [k("intake.review.value.otherNamed", { names: m.otherNamed.join(listSep) })] : []).join(listSep);
+  const allergies = data.safety.allergies.status === "some" ? data.safety.allergies.items.map((x) => t.zh(x)).join(listSep) : none;
   out.push({ id: "meds", title: k("report.pract.medsAllergies"), prominent: true, facts: [[k("intake.review.about.medications"), meds], [k("intake.review.about.allergies"), allergies]] });
 
   // reported symptoms (inquiry) and observations (tongue, pulse), with quality classes
   const rank = (d: string): number => { const x = (DIMENSION_ORDER as readonly string[]).indexOf(d); return x < 0 ? 99 : x; };
+  const nameOf = (id: string): string => { const sym = kb.symptoms.get(id); return sym ? (t.lang === "en" ? sym.en : t.zh(sym["zh-Hant"])) : id; };
+  const qualityTag = (q: string): string => (q === "inquiry" ? "" : ` [${k(`report.pract.quality.${q}`)}]`);
   const lines = new Map<string, string[]>();
-  const obs: string[] = [];
-  for (const [id, f] of Object.entries(i.findings)) {
-    if (f.state !== "present") continue;
-    const sym = kb.symptoms.get(id);
-    if (!sym) continue;
-    const name = t.lang === "en" ? sym.en : t.zh(sym["zh-Hant"]);
-    const sev = f.severity ? ` — ${k(`intake.severity.${f.severity}`)}` : "";
-    const src = sourceOf(kb, id, f.source);
-    const line = `${name}${sev}${src === "inquiry" ? "" : ` [${k(`report.pract.quality.${src}`)}]`}`;
-    if (sym.kind === "symptom") { const l = lines.get(sym.dimension) ?? []; l.push(line); lines.set(sym.dimension, l); } else obs.push(line);
+  for (const f of data.findings) {
+    const dim = kb.symptoms.get(f.id)?.dimension ?? "";
+    const l = lines.get(dim) ?? [];
+    l.push(`${nameOf(f.id)}${f.severity ? ` — ${k(`intake.severity.${f.severity}`)}` : ""}${qualityTag(f.quality)}`);
+    lines.set(dim, l);
   }
   out.push({ id: "symptoms", title: k("report.pract.symptoms"), items: [...lines.entries()].sort(([x], [y]) => rank(x) - rank(y)).map(([dim, ls]) => `${k(`intake.inquiry.dimension.${dim}`)}: ${ls.sort().join(listSep)}`) });
-  const pulse = i.observe?.pulse;
-  const pulseLine = pulse?.rate == null ? [] : [pulse.method ? k("report.pract.pulseRateMethod", { rate: pulse.rate, method: k(`observe.pulse.method.${pulse.method}`) }) : k("report.pract.pulseRate", { rate: pulse.rate })];
+  const pulse = data.observations.pulse;
+  const pulseLine = pulse === null ? [] : [pulse.method ? k("report.pract.pulseRateMethod", { rate: pulse.rate, method: k(`observe.pulse.method.${pulse.method}`) }) : k("report.pract.pulseRate", { rate: pulse.rate })];
+  const obs = data.observations.items.map((o) => `${nameOf(o.id)}${qualityTag(o.quality)}`);
   out.push({ id: "observations", title: k("report.pract.observations"), items: obs.length > 0 || pulseLine.length > 0 ? [...pulseLine, ...obs.sort()] : [k("report.pract.observations.none")] });
 
   // panel, hypotheses
-  const p = a.panel;
+  const num = (n: number): string => signed(n, (x) => t.number(x, { maximumFractionDigits: 1, minimumFractionDigits: 1 }));
+  const pn = data.panel;
   out.push({ id: "panel", title: k("report.pract.panel"), table: { caption: k("report.panel.caption.wuxing"), head: [k("report.panel.col.item"), k("report.panel.col.level"), k("report.panel.col.value")],
-    rows: [...ELEMENTS.map((e) => [k(`report.element.${ELEMENT_SLUG[e]}`), k(`report.level.${level5(p.offsetPopulation[e])}`), signed(p.offsetPopulation[e], (n) => t.number(n, { maximumFractionDigits: 1, minimumFractionDigits: 1 }))]),
-      [k("report.panel.axis.coldHeat"), k(`report.axis.coldHeat.${level5(p.bagang.coldHeat, 1)}`), signed(p.bagang.coldHeat, (n) => t.number(n, { maximumFractionDigits: 1, minimumFractionDigits: 1 }))],
-      [k("report.panel.axis.deficiencyExcess"), k(`report.axis.deficiencyExcess.${level5(p.bagang.deficiencyExcess, 1)}`), signed(p.bagang.deficiencyExcess, (n) => t.number(n, { maximumFractionDigits: 1, minimumFractionDigits: 1 }))]] } });
-  const v = a.verdict;
-  const hypotheses = v.status === "established"
-    ? [...v.patterns.map((pp) => k("report.pract.pattern", { name: t.localized(kb.patternById.get(pp.id)?.name ?? { "zh-Hant": pp.id, en: null }).text, band: k(`report.band.${pp.band}`) })), k("report.pract.confidence", { level: k(`report.confidence.${v.confidence}`) })]
+    rows: [...pn.elements.map((e) => [k(`report.element.${ELEMENT_SLUG[e.element]}`), k(`report.level.${e.band}`), num(e.value)]),
+      [k("report.panel.axis.coldHeat"), k(`report.axis.coldHeat.${pn.coldHeat.band}`), num(pn.coldHeat.value)],
+      [k("report.panel.axis.deficiencyExcess"), k(`report.axis.deficiencyExcess.${pn.deficiencyExcess.band}`), num(pn.deficiencyExcess.value)]] } });
+  const pattern = (id: string): string => t.localized(kb.patternById.get(id)?.name ?? { "zh-Hant": id, en: null }).text;
+  const hypotheses = data.patterns.status === "established"
+    ? [...data.patterns.items.map((pp) => k("report.pract.pattern", { name: pattern(pp.id), band: k(`report.band.${pp.band}`) })), k("report.pract.confidence", { level: k(`report.confidence.${data.patterns.confidence}`) })]
     : [k("report.pract.hypotheses.none")];
-  const cons = a.constitution?.result;
-  if (cons?.primary) {
+  if (data.constitution !== null) {
     const nm = (id: string): string => t.localized(kb.constitutions.find((c) => c.id === id)?.name ?? { "zh-Hant": id, en: null }).text;
-    hypotheses.push(k("report.pract.constitution", { names: [cons.primary, cons.secondary].filter((x): x is string => x !== null).map(nm).join(listSep) }));
+    hypotheses.push(k("report.pract.constitution", { names: [data.constitution.primary, data.constitution.secondary].filter((x): x is string => x !== null).map(nm).join(listSep) }));
   }
   out.push({ id: "hypotheses", title: k("report.pract.hypotheses"), items: hypotheses });
-  const change = a.trace.filter((x): x is Extract<TraceItem, { kind: "whatWouldChange" }> => x.kind === "whatWouldChange");
-  const pname = (id: string): string => t.localized(kb.patternById.get(id)?.name ?? { "zh-Hant": id, en: null }).text;
-  const sname = (id: string): string => { const x = kb.symptoms.get(id); return x ? (t.lang === "en" ? x.en : t.zh(x["zh-Hant"])) : id; };
-  if (change.length > 0) out.push({ id: "change", title: k("report.pract.change"), items: change.map((c) => k("report.change.item", { symptoms: c.ifSymptoms.map(sname).join(listSep), lean: pname(c.shiftsTo), over: pname(c.over) })) });
+  if (data.whatWouldChange.length > 0) out.push({ id: "change", title: k("report.pract.change"), items: data.whatWouldChange.map((c) => k("report.change.item", { symptoms: c.symptoms.map(nameOf).join(listSep), lean: pattern(c.shiftsTo), over: pattern(c.over) })) });
+
+  // what the result showed the person (as shown: the safety filter has already taken out what does not apply)
+  const r = data.recommendations;
+  const shown = [
+    ...r.formulas.map((f) => k("report.pract.rec.formula", { name: t.localized(kb.formulas.get(f.id)?.name ?? { "zh-Hant": f.id, en: null }).text, tier: k(`formula.tier.${f.tier}`) })),
+    ...r.foods.map((name) => k("report.pract.rec.food", { name: t.zh(name) })),
+    ...r.points.map((x) => k("report.pract.rec.point", { name: t.zh(x.name), code: x.code })),
+  ];
+  out.push({ id: "recommendations", title: k("report.pract.rec"), items: shown.length > 0 ? [k("report.pract.rec.intro"), ...shown] : [k("report.pract.rec.none")] });
 
   // acknowledged notices (titles only)
-  const titles = a.policy.notices.map((n) => NOTICE_SLUG[n.id]).filter((slug): slug is string => slug !== undefined && t.has(`safety.notice.${slug}.title`)).map((slug) => k(`safety.notice.${slug}.title`));
+  const titles = data.safety.notices.map((id) => NOTICE_SLUG[id]).filter((slug): slug is string => slug !== undefined && t.has(`safety.notice.${slug}.title`)).map((slug) => k(`safety.notice.${slug}.title`));
   if (titles.length > 0) out.push({ id: "notices", title: k("report.pract.notices"), items: titles });
   return out;
 }
+
+/** The sections of a saved result in the page language. */
+export const buildSummary = (saved: SavedAssessment, kb: KnowledgeBase, t: T): SummarySection[] => renderSummary(summaryData(saved, kb), kb, t);
 
 /** Plain text of the summary (for "Copy as text"): sections separated by blank lines, tables as tab-separated rows. */
 export function summaryToText(title: string, intro: string, sections: readonly SummarySection[], footer: string): string {

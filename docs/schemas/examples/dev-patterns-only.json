@@ -1,0 +1,32 @@
+{
+  "format": "tcm-summary",
+  "version": 1,
+  "createdAt": "2026-10-05T12:00:00.000Z",
+  "exportedFrom": {
+    "appVersion": "example",
+    "kbVersion": "example",
+    "engineVersion": "example",
+    "paramsFingerprint": "example",
+    "profile": "dev"
+  },
+  "language": "en",
+  "notice": {
+    "zh-Hant": "由本人使用「中醫自我評估」，依其輸入內容整理而成。 僅供教育參考，不是醫療診斷或處方。",
+    "en": "Prepared by the person using TCM Self-Check from what they entered. Educational reference — not a medical diagnosis or prescription."
+  },
+  "patterns": {
+    "status": "established",
+    "items": [
+      {
+        "id": "LV1",
+        "label": {
+          "en": "Liver qi stagnation",
+          "zh-Hant": "肝氣鬱結"
+        },
+        "band": "medium"
+      }
+    ],
+    "confidence": "medium",
+    "whatWouldChange": []
+  }
+}

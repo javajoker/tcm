@@ -9,5 +9,9 @@
 @media print {
   .printOnly { display: block !important; margin-top: 1.5rem; font-size: 0.85rem; }   /* `hidden` on screen, shown on paper */
   .printFooter { display: block; position: fixed; bottom: 0; left: 0; right: 0; text-align: center; font-size: 0.75rem; border-top: 1px solid #999; padding-top: 0.25rem; background: #fff; }
-  .chips, .actions { display: none; }
+  .chips, .actions, .screenFooter { display: none; }
+  /* the practitioner summary: room for the page footer, a table's header repeated on each page, no row split across two pages */
+  .practPage { padding-bottom: 1.8cm; }
+  .practPage thead { display: table-header-group; }
+  .practPage tr, .practPage li { break-inside: avoid; }
 }

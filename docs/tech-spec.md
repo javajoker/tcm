@@ -561,7 +561,7 @@ translation) and verification status. "Data summary → edit → re-run" navigat
 ### 8.5 Export and print
 
 - `@media print` stylesheet: single column, black on white, panel as table + figure, full citations footnoted, page breaks before major sections, disclaimer in every page footer.
-- PDF = the browser's print-to-PDF of the print view (no server). A **practitioner summary** view (FR-13) is a second print layout fed from the same `Assessment` (complaints, 四診 findings with quality classes, panel, pattern hypotheses, medications and allergies).
+- PDF = the browser's print-to-PDF of the print view (no server). A **practitioner summary** view (FR-13) is a second print layout fed from the same `Assessment` (complaints, 四診 findings with quality classes, panel, pattern hypotheses, medications and allergies, and what the result showed the person). Since PM-17 it is made from an id-based data layer (`summaryData`) that also feeds the plain-text copy and the structured file `tcm-summary` v1 ([schema](schemas/tcm-summary-1.schema.json), [design](post-mvp/design/export-follow-up-trends.md#35-as-built-pm-17)); the footer of every printed page repeats the notice and the versions.
 - JSON export of the *input* (not the result) for bug reports and golden-case authoring; confirmation shown because it contains health data.
 
 ### 8.6 Developer inspector (dev profile only)

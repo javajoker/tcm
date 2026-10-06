@@ -1,4 +1,4 @@
-import { useEffect, useState, type ReactNode } from "react";
+import { lazy, Suspense, useEffect, useState, type ReactNode } from "react";
 import { useI18n } from "../../i18n/I18nProvider.tsx";
 import { formatLocal } from "../../app/format.ts";
 import { NeedsKnowledge, useLoaded } from "../../app/knowledge.tsx";
@@ -11,10 +11,13 @@ import { usePrintExpand } from "./PrintSupport.tsx";
 import { buildSummary, summaryToText } from "./summaryModel.ts";
 import styles from "./Result.module.css";
 
+const SummaryFileDialog = lazy(() => import("./SummaryFileDialog.tsx").then((m) => ({ default: m.SummaryFileDialog })));
+
 function Page({ saved }: { saved: SavedAssessment }): ReactNode {
   const { t, lang } = useI18n();
   const { kb } = useLoaded();
   const [copy, setCopy] = useState<"idle" | "ok" | "failed">("idle");
+  const [fileOpen, setFileOpen] = useState(false);
   usePrintExpand();
   const sections = buildSummary(saved, kb, t);
   const m = saved.result.meta;
@@ -23,12 +26,13 @@ function Page({ saved }: { saved: SavedAssessment }): ReactNode {
     navigator.clipboard.writeText(summaryToText(t.t("report.pract.title"), t.t("report.pract.intro"), sections, footer)).then(() => setCopy("ok"), () => setCopy("failed"));
   };
   return (
-    <>
+    <div className={styles.practPage}>
       <h1>{t.t("report.pract.title")}</h1>
       <p>{t.t("report.pract.intro")}</p>
       <div className={styles.actions}>
         <Button onClick={() => window.print()}>{t.t("report.actions.print")}</Button>
         <Button onClick={onCopy}>{t.t("report.pract.copy")}</Button>
+        <Button onClick={() => setFileOpen(true)}>{t.t("report.pract.file.make")}</Button>
         <LinkButton href={`/result/${saved.id}`}>{t.t("report.pract.back")}</LinkButton>
       </div>
       <p role="status">{copy === "ok" ? t.t("report.pract.copied") : copy === "failed" ? t.t("report.pract.copyFailed") : null}</p>
@@ -41,11 +45,12 @@ function Page({ saved }: { saved: SavedAssessment }): ReactNode {
           </Card>
         ))}
       </div>
-      <footer style={{ marginTop: "var(--space-5)" }}>
+      <footer className={styles.screenFooter} style={{ marginTop: "var(--space-5)" }}>
         <p className="muted">{footer}</p>
       </footer>
-      <div className={styles.printFooter} aria-hidden="true">{t.t("report.print.footer")}</div>
-    </>
+      <div className={styles.printFooter} aria-hidden="true">{footer}</div>
+      {fileOpen ? <Suspense fallback={null}><SummaryFileDialog saved={saved} onClose={() => setFileOpen(false)} /></Suspense> : null}
+    </div>
   );
 }
 

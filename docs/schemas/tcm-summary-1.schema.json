@@ -1,0 +1,188 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tcm-self-check.invalid/schemas/tcm-summary-1.schema.json",
+  "title": "TCM Self-Check practitioner summary, version 1",
+  "description": "A file the person makes from a saved result to bring to a practitioner (tcm-summary-YYYY-MM-DD.json). It carries what the printed practitioner summary shows and nothing more, as identifiers with labels in Traditional Chinese and English. Every section after the envelope is optional: the person chooses which ones go in. Readers ignore fields they do not know; a field added later without changing `version` is optional.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["format", "version", "createdAt", "exportedFrom", "language", "notice"],
+  "properties": {
+    "format": { "const": "tcm-summary" },
+    "version": { "const": 1 },
+    "createdAt": { "type": "string", "format": "date-time", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]+)?Z$", "description": "When the file was made (UTC, RFC 3339)." },
+    "exportedFrom": {
+      "type": "object",
+      "description": "The versions that produced the result the file describes.",
+      "additionalProperties": false,
+      "required": ["appVersion", "kbVersion", "engineVersion", "paramsFingerprint", "profile"],
+      "properties": {
+        "appVersion": { "type": "string" },
+        "kbVersion": { "type": "string" },
+        "engineVersion": { "type": "string" },
+        "paramsFingerprint": { "type": "string" },
+        "profile": { "enum": ["release", "dev"], "description": "A release file holds only what a release result can show; a development file may hold more." }
+      }
+    },
+    "language": { "enum": ["zh-Hant", "zh-Hans", "en"], "description": "The language the person was using when the file was made. Labels are always given in zh-Hant and en." },
+    "notice": { "$ref": "#/$defs/notice" },
+    "person": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ageYears", "sex", "conditions"],
+      "properties": {
+        "ageYears": { "type": ["integer", "null"], "minimum": 0, "maximum": 130 },
+        "sex": { "enum": ["female", "male", null] },
+        "pregnancy": { "enum": ["no", "possible", "yes"] },
+        "lactating": { "type": "boolean" },
+        "conditions": { "type": "array", "items": { "$ref": "#/$defs/coded" }, "description": "Serious long-term conditions the person reported, by the identifiers of the app's screening list." }
+      }
+    },
+    "safety": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["medications", "allergies", "notices"],
+      "properties": {
+        "medications": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status", "classes"],
+          "properties": {
+            "status": { "enum": ["none", "some", "unsure"] },
+            "classes": { "type": "array", "items": { "$ref": "#/$defs/coded" }, "description": "Classes of medicine, not names." },
+            "otherNamed": { "type": "array", "items": { "type": "string", "maxLength": 200 }, "description": "Medicine names the person typed. Present only when the person switched it on: free text can contain more than intended." }
+          }
+        },
+        "allergies": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status", "items"],
+          "properties": {
+            "status": { "enum": ["none", "some"] },
+            "items": { "type": "array", "items": { "type": "string", "maxLength": 200 }, "description": "The allergies as the person entered them." }
+          }
+        },
+        "notices": { "type": "array", "items": { "$ref": "#/$defs/coded" }, "description": "The notices the result showed (their titles), by id." }
+      }
+    },
+    "findings": {
+      "type": "array",
+      "description": "The symptoms the person reported, in the order of the printed summary.",
+      "items": {
+        "allOf": [{ "$ref": "#/$defs/coded" }],
+        "type": "object",
+        "required": ["id", "label", "quality"],
+        "properties": {
+          "id": true, "label": true,
+          "severity": { "enum": ["light", "moderate", "severe"] },
+          "quality": { "$ref": "#/$defs/quality" }
+        },
+        "unevaluatedProperties": false
+      }
+    },
+    "observations": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["items", "pulse"],
+      "properties": {
+        "items": {
+          "type": "array",
+          "description": "Tongue, pulse and other findings the person observed themselves.",
+          "items": {
+            "allOf": [{ "$ref": "#/$defs/coded" }],
+            "type": "object",
+            "required": ["id", "label", "quality"],
+            "properties": { "id": true, "label": true, "quality": { "$ref": "#/$defs/quality" } },
+            "unevaluatedProperties": false
+          }
+        },
+        "pulse": {
+          "oneOf": [
+            { "type": "null" },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["rate"],
+              "properties": {
+                "rate": { "type": "integer", "minimum": 20, "maximum": 250, "description": "Resting pulse rate, beats per minute." },
+                "method": { "enum": ["typed", "timer", "tap"], "description": "How the rate was obtained." }
+              }
+            }
+          ]
+        }
+      }
+    },
+    "constitution": {
+      "oneOf": [
+        { "type": "null" },
+        { "type": "object", "additionalProperties": false, "required": ["primary", "secondary"], "properties": { "primary": { "$ref": "#/$defs/coded" }, "secondary": { "oneOf": [{ "type": "null" }, { "$ref": "#/$defs/coded" }] } } }
+      ]
+    },
+    "panel": {
+      "type": "object",
+      "description": "The five-phase panel and the two eight-principle axes: a band in words, and the number the page prints beside it (one decimal; a positive value is above a typical healthy person).",
+      "additionalProperties": false,
+      "required": ["elements", "coldHeat", "deficiencyExcess"],
+      "properties": {
+        "elements": {
+          "type": "array", "minItems": 5, "maxItems": 5,
+          "items": { "type": "object", "additionalProperties": false, "required": ["element", "label", "band", "value"], "properties": { "element": { "enum": ["wood", "fire", "earth", "metal", "water"] }, "label": { "$ref": "#/$defs/label" }, "band": { "$ref": "#/$defs/band" }, "value": { "type": "number" } } }
+        },
+        "coldHeat": { "$ref": "#/$defs/axis" },
+        "deficiencyExcess": { "$ref": "#/$defs/axis" }
+      }
+    },
+    "patterns": {
+      "type": "object",
+      "description": "The patterns the result leaned towards, as hypotheses for the practitioner, with the confidence and what would change them.",
+      "additionalProperties": false,
+      "required": ["status", "items", "confidence", "whatWouldChange"],
+      "properties": {
+        "status": { "enum": ["established", "insufficient"] },
+        "items": {
+          "type": "array",
+          "items": { "allOf": [{ "$ref": "#/$defs/coded" }], "type": "object", "required": ["id", "label", "band"], "properties": { "id": true, "label": true, "band": { "enum": ["high", "medium", "weak"] } }, "unevaluatedProperties": false }
+        },
+        "confidence": { "enum": ["high", "medium", "low", "insufficient", null] },
+        "whatWouldChange": {
+          "type": "array",
+          "items": { "type": "object", "additionalProperties": false, "required": ["symptoms", "shiftsTo", "over"], "properties": { "symptoms": { "type": "array", "items": { "$ref": "#/$defs/coded" } }, "shiftsTo": { "$ref": "#/$defs/coded" }, "over": { "$ref": "#/$defs/coded" } } }
+        }
+      }
+    },
+    "recommendations": {
+      "type": "object",
+      "description": "What the result showed the person after its safety checks. A release file holds tier-A formulas only, without amounts.",
+      "additionalProperties": false,
+      "required": ["formulas", "foods", "points"],
+      "properties": {
+        "formulas": { "type": "array", "items": { "allOf": [{ "$ref": "#/$defs/coded" }], "type": "object", "required": ["id", "label", "tier"], "properties": { "id": true, "label": true, "tier": { "enum": ["A", "B", "C"] } }, "unevaluatedProperties": false } },
+        "foods": { "type": "array", "items": { "$ref": "#/$defs/coded" } },
+        "points": { "type": "array", "items": { "$ref": "#/$defs/coded" }, "description": "Acupressure points, by WHO code." }
+      }
+    },
+    "note": { "type": "string", "maxLength": 4000, "description": "The person's own note. Present only when the person switched it on." }
+  },
+  "$defs": {
+    "label": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["zh-Hant", "en"],
+      "properties": { "zh-Hant": { "type": "string", "minLength": 1 }, "en": { "type": ["string", "null"], "description": "Null where the knowledge base has no English text for the item." } }
+    },
+    "coded": {
+      "type": "object",
+      "required": ["id", "label"],
+      "properties": { "id": { "type": "string", "minLength": 1, "maxLength": 80 }, "label": { "$ref": "#/$defs/label" } }
+    },
+    "notice": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["zh-Hant", "en"],
+      "properties": { "zh-Hant": { "type": "string", "minLength": 1 }, "en": { "type": "string", "minLength": 1 } },
+      "description": "The disclaimer travels in the file so that it cannot be detached from the data."
+    },
+    "band": { "enum": ["low", "somewhatLow", "normal", "somewhatHigh", "high"], "description": "The five bands the app uses instead of a bare number." },
+    "axis": { "type": "object", "additionalProperties": false, "required": ["band", "value"], "properties": { "band": { "$ref": "#/$defs/band" }, "value": { "type": "number" } } },
+    "quality": { "enum": ["inquiry", "measured", "guided", "pulse"], "description": "inquiry: reported in answer to a question; guided: the person looked and felt following the app's guide; pulse: a pulse the person took; measured: a measured value." }
+  }
+}

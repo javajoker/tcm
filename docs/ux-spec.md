@@ -508,8 +508,8 @@ Detailed terminology and glossary rules are in the [i18n guide](i18n-guide.md); 
 ## 12. Print and export
 
 - **Print view:** black on white, single column; the panel as figure **and** table; citations as footnotes; the disclaimer repeated in the page footer; "profile · KB · engine" stamp at the end; page breaks before Advice and Data.
-- **Practitioner summary** (separate layout): demographics (age, sex), complaints, 四診 findings with quality classes, medications and allergies (prominent), the panel table, pattern hypotheses with confidence, "what would change this".
-- **Share** is not offered in MVP (no links that carry data).
+- **Practitioner summary** (separate layout): demographics (age, sex), complaints, 四診 findings with quality classes, medications and allergies (prominent), the panel table, pattern hypotheses with confidence, "what would change this", and what the result showed the person (PM-17). **Save as a file…** opens a preview with a switch for each of eight sections (the typed medicine names and the saved note are offered, off) and a plain warning, then *Save the file* or, where the browser has a share sheet, *Share…*. The footer of every printed page carries the notice and the versions.
+- **Share** of a link is not offered (no links that carry data); a file can go to the system share sheet where the browser offers one.
 
 ---
 

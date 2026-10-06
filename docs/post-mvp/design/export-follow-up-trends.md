@@ -2,9 +2,9 @@
 
 | | |
 |---|---|
-| **Version** | 0.1 (draft) |
-| **Status** | Design for Release B (FR-26 and FR-27; tasks PM-17 … PM-19). Nothing is built |
-| **Last updated** | 2026-10-05 |
+| **Version** | 0.2 (draft) |
+| **Status** | Design for Release B (FR-26 and FR-27; tasks PM-17 … PM-19). **PM-17 (the practitioner file) is built**; follow-up and trends are not |
+| **Last updated** | 2026-10-06 |
 | **Audience** | Engineers, the wording reviewer, practitioners who will read the file |
 | **Related** | [Requirements FR-26, FR-27](../requirements.md#fr-26-structured-practitioner-export--release-b--class-n--refines-fr-13) · [PRD FR-12, FR-13](../../PRD.md#fr-12-history-and-follow-up--p1) · [UX spec §4.13, §12](../../ux-spec.md) · [Privacy §2, §3](../../privacy.md) · [Decisions PD-04, PD-06](../decisions.md) |
 
@@ -91,6 +91,26 @@ A short warning states that the file contains health data and that sending it is
 ### 3.4 Sharing
 
 *Download* is always offered. *Share…* appears where `navigator.canShare({ files })` says it can and calls `navigator.share` on a click, so the person picks the recipient in their own system sheet. The app never uploads, never builds a link and never stores who received it. Print gets small refinements (page breaks that keep a table together, the versions in the footer, the notice at the foot of each page); the printed page remains the primary format for most practitioners.
+
+### 3.5 As built (PM-17)
+
+`screens/result/summaryData.ts` is the id-based layer (`summaryData(saved, kb)`: ids, enumerations, numbers); `summaryModel.ts` renders it as the page's sections (`renderSummary`, and `buildSummary` as before); `summaryFile.ts` builds the file; `SummaryFileDialog.tsx` is the preview. The published schema is [`docs/schemas/tcm-summary-1.schema.json`](../../schemas/tcm-summary-1.schema.json) with four generated examples beside it.
+
+Where the file differs from the sketch of §3.2, and why:
+
+| Sketch | As built | Why |
+|---|---|---|
+| `complaints.modules`, `safety.level`, birth data | **Not in the file** | The printed page does not show them, and the rule is that the file holds nothing the person was not shown; the preview therefore has no birth-data switch |
+| `recommendations` in the file but not on the page | The page gained a section **What the result showed the person** (formulas with their tier, foods, acupoints — never the formulas shown for study only) | The file's contents are the page's contents, so the page shows what the file carries; it tells the practitioner what the person was shown |
+| *The person's own note* on the page | The saved note is **not** on the page and is offered in the preview, off, with its text visible | The page is the handout; the note is private. It is the one thing that is in the file and not on the page, and only when switched on |
+| `element: "wood"` with a `value` | `{ element, label, band, value }` with an ASCII id and a two-language label | The data uses Chinese characters for the five phases; a file's ids are plain ASCII |
+| A single `patterns` list | `patterns: { status, items, confidence, whatWouldChange }` | *What would change this* is a section of the page and travels with the patterns |
+| `notice` | The disclaimer of the page footer plus "Prepared by the person using TCM Self-Check from what they entered", in both languages | The notice cannot be detached from the data |
+| `exportedFrom` | The versions of the **result** (the record's stamps), not of the app that makes the file | A reader needs to know what produced the content |
+
+Every fact in the file is on the page: a test builds the file and the page for all 23 typical patients in the development and the release knowledge base, in English and in Traditional Chinese, and checks each label, severity, quality tag, band, number, name, code and tier against the page text. The switches remove exactly their section (tested for each of the eight), the typed medicine names and the note are absent unless asked for, a release file holds only tier-A formulas and no amount, weight or dose, and the schema (checked by the Python `jsonschema`, with the mistakes a reader must refuse) accepts every generated file.
+
+**Print refinements.** The versions line joins the notice in the footer that repeats on every printed page (the line at the end of the page is not printed a second time), a table's header repeats and no row or list item is split across pages, and the controls, including the new button, are not printed. *Share…* is offered only where `navigator.canShare({ files })` says yes and calls the system sheet from a click; *Save the file* is always offered.
 
 ## 4. Follow-up (FR-27 part 1)
 
@@ -196,3 +216,4 @@ PM-17 (data layer split, file, preview, share, schema), PM-18 (follow-up card, p
 | Version | Date | Change |
 |---|---|---|
 | 0.1 | 2026-10-05 | Initial design |
+| 0.2 | 2026-10-06 | PM-17 built: the data layer, the file, the schema and its examples, the preview, sharing and print refinements; the differences from the sketch are listed in §3.5 |

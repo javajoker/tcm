@@ -1,0 +1,243 @@
+{
+  "format": "tcm-summary",
+  "version": 1,
+  "createdAt": "2026-10-05T12:00:00.000Z",
+  "exportedFrom": {
+    "appVersion": "example",
+    "kbVersion": "example",
+    "engineVersion": "example",
+    "paramsFingerprint": "example",
+    "profile": "release"
+  },
+  "language": "zh-Hant",
+  "notice": {
+    "zh-Hant": "由本人使用「中醫自我評估」，依其輸入內容整理而成。 僅供教育參考，不是醫療診斷或處方。",
+    "en": "Prepared by the person using TCM Self-Check from what they entered. Educational reference — not a medical diagnosis or prescription."
+  },
+  "person": {
+    "ageYears": 52,
+    "sex": "female",
+    "pregnancy": "no",
+    "lactating": false,
+    "conditions": []
+  },
+  "safety": {
+    "medications": {
+      "status": "some",
+      "classes": [
+        {
+          "id": "anticoagulant",
+          "label": {
+            "zh-Hant": "抗凝血／抗血小板藥",
+            "en": "Anticoagulant / antiplatelet"
+          }
+        },
+        {
+          "id": "sedative",
+          "label": {
+            "zh-Hant": "鎮靜、安眠或抗焦慮藥",
+            "en": "Sedative, sleep or anti-anxiety medicine"
+          }
+        },
+        {
+          "id": "other",
+          "label": {
+            "zh-Hant": "其他，或不在清單上的藥物",
+            "en": "Other, or not on this list"
+          }
+        }
+      ],
+      "otherNamed": [
+        "Foo Pill"
+      ]
+    },
+    "allergies": {
+      "status": "some",
+      "items": [
+        "花生"
+      ]
+    },
+    "notices": []
+  },
+  "findings": [
+    {
+      "id": "S_AVERSION_COLD",
+      "label": {
+        "zh-Hant": "惡寒（加衣被仍冷）",
+        "en": "aversion to cold (not relieved by clothing)"
+      },
+      "severity": "moderate",
+      "quality": "inquiry"
+    },
+    {
+      "id": "S_FEVER",
+      "label": {
+        "zh-Hant": "發熱",
+        "en": "fever"
+      },
+      "severity": "moderate",
+      "quality": "inquiry"
+    },
+    {
+      "id": "S_NO_SWEAT",
+      "label": {
+        "zh-Hant": "無汗",
+        "en": "absence of sweating"
+      },
+      "quality": "inquiry"
+    },
+    {
+      "id": "S_BODY_ACHE",
+      "label": {
+        "zh-Hant": "身體疼痛",
+        "en": "body aches"
+      },
+      "severity": "moderate",
+      "quality": "inquiry"
+    },
+    {
+      "id": "S_HEADACHE",
+      "label": {
+        "zh-Hant": "頭痛",
+        "en": "headache"
+      },
+      "severity": "moderate",
+      "quality": "inquiry"
+    },
+    {
+      "id": "S_RUNNY_NOSE_CLEAR",
+      "label": {
+        "zh-Hant": "鼻塞流清涕",
+        "en": "nasal congestion with clear discharge"
+      },
+      "quality": "inquiry"
+    }
+  ],
+  "observations": {
+    "items": [],
+    "pulse": null
+  },
+  "constitution": null,
+  "panel": {
+    "elements": [
+      {
+        "element": "wood",
+        "label": {
+          "zh-Hant": "木",
+          "en": "Wood"
+        },
+        "band": "normal",
+        "value": 0
+      },
+      {
+        "element": "fire",
+        "label": {
+          "zh-Hant": "火",
+          "en": "Fire"
+        },
+        "band": "normal",
+        "value": 0
+      },
+      {
+        "element": "earth",
+        "label": {
+          "zh-Hant": "土",
+          "en": "Earth"
+        },
+        "band": "normal",
+        "value": 0
+      },
+      {
+        "element": "metal",
+        "label": {
+          "zh-Hant": "金",
+          "en": "Metal"
+        },
+        "band": "normal",
+        "value": 0
+      },
+      {
+        "element": "water",
+        "label": {
+          "zh-Hant": "水",
+          "en": "Water"
+        },
+        "band": "normal",
+        "value": 0
+      }
+    ],
+    "coldHeat": {
+      "band": "low",
+      "value": -0.6
+    },
+    "deficiencyExcess": {
+      "band": "normal",
+      "value": 0
+    }
+  },
+  "patterns": {
+    "status": "established",
+    "items": [
+      {
+        "id": "EX1",
+        "label": {
+          "en": "Wind-cold fettering the exterior (taiyang cold damage)",
+          "zh-Hant": "風寒束表（太陽傷寒）"
+        },
+        "band": "medium"
+      }
+    ],
+    "confidence": "medium",
+    "whatWouldChange": []
+  },
+  "recommendations": {
+    "formulas": [],
+    "foods": [
+      {
+        "id": "shengjiang",
+        "label": {
+          "zh-Hant": "生薑",
+          "en": null
+        }
+      },
+      {
+        "id": "congbai",
+        "label": {
+          "zh-Hant": "蔥白",
+          "en": null
+        }
+      },
+      {
+        "id": "rexi-zhou",
+        "label": {
+          "zh-Hant": "熱稀粥",
+          "en": null
+        }
+      }
+    ],
+    "points": [
+      {
+        "id": "GB20",
+        "label": {
+          "zh-Hant": "風池",
+          "en": "GB20"
+        }
+      },
+      {
+        "id": "LU7",
+        "label": {
+          "zh-Hant": "列缺",
+          "en": "LU7"
+        }
+      },
+      {
+        "id": "LI4",
+        "label": {
+          "zh-Hant": "合谷",
+          "en": "LI4"
+        }
+      }
+    ]
+  },
+  "note": "Cold since the weekend; no appetite."
+}

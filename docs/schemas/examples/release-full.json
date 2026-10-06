@@ -1,0 +1,225 @@
+{
+  "format": "tcm-summary",
+  "version": 1,
+  "createdAt": "2026-10-05T12:00:00.000Z",
+  "exportedFrom": {
+    "appVersion": "example",
+    "kbVersion": "example",
+    "engineVersion": "example",
+    "paramsFingerprint": "example",
+    "profile": "release"
+  },
+  "language": "en",
+  "notice": {
+    "zh-Hant": "由本人使用「中醫自我評估」，依其輸入內容整理而成。 僅供教育參考，不是醫療診斷或處方。",
+    "en": "Prepared by the person using TCM Self-Check from what they entered. Educational reference — not a medical diagnosis or prescription."
+  },
+  "person": {
+    "ageYears": 40,
+    "sex": "female",
+    "pregnancy": "no",
+    "lactating": false,
+    "conditions": []
+  },
+  "safety": {
+    "medications": {
+      "status": "none",
+      "classes": []
+    },
+    "allergies": {
+      "status": "none",
+      "items": []
+    },
+    "notices": []
+  },
+  "findings": [
+    {
+      "id": "S_LOOSE_STOOL",
+      "label": {
+        "zh-Hant": "大便溏稀",
+        "en": "loose stool"
+      },
+      "severity": "moderate",
+      "quality": "inquiry"
+    },
+    {
+      "id": "S_POOR_APPETITE",
+      "label": {
+        "zh-Hant": "食少納呆",
+        "en": "poor appetite"
+      },
+      "severity": "moderate",
+      "quality": "inquiry"
+    },
+    {
+      "id": "S_POSTPRANDIAL_BLOAT",
+      "label": {
+        "zh-Hant": "食後腹脹",
+        "en": "postprandial distension"
+      },
+      "severity": "moderate",
+      "quality": "inquiry"
+    },
+    {
+      "id": "S_FATIGUE",
+      "label": {
+        "zh-Hant": "神疲乏力",
+        "en": "fatigue and lack of strength"
+      },
+      "severity": "moderate",
+      "quality": "inquiry"
+    },
+    {
+      "id": "S_LAZY_SPEAK",
+      "label": {
+        "zh-Hant": "少氣懶言",
+        "en": "disinclination to speak"
+      },
+      "severity": "moderate",
+      "quality": "inquiry"
+    }
+  ],
+  "observations": {
+    "items": [],
+    "pulse": null
+  },
+  "constitution": null,
+  "panel": {
+    "elements": [
+      {
+        "element": "wood",
+        "label": {
+          "zh-Hant": "木",
+          "en": "Wood"
+        },
+        "band": "normal",
+        "value": 0
+      },
+      {
+        "element": "fire",
+        "label": {
+          "zh-Hant": "火",
+          "en": "Fire"
+        },
+        "band": "normal",
+        "value": 0
+      },
+      {
+        "element": "earth",
+        "label": {
+          "zh-Hant": "土",
+          "en": "Earth"
+        },
+        "band": "normal",
+        "value": -0.5
+      },
+      {
+        "element": "metal",
+        "label": {
+          "zh-Hant": "金",
+          "en": "Metal"
+        },
+        "band": "normal",
+        "value": 0
+      },
+      {
+        "element": "water",
+        "label": {
+          "zh-Hant": "水",
+          "en": "Water"
+        },
+        "band": "normal",
+        "value": 0
+      }
+    ],
+    "coldHeat": {
+      "band": "normal",
+      "value": 0
+    },
+    "deficiencyExcess": {
+      "band": "somewhatLow",
+      "value": -0.2
+    }
+  },
+  "patterns": {
+    "status": "established",
+    "items": [
+      {
+        "id": "SP1",
+        "label": {
+          "en": "Spleen qi deficiency",
+          "zh-Hant": "脾氣虛"
+        },
+        "band": "medium"
+      }
+    ],
+    "confidence": "medium",
+    "whatWouldChange": []
+  },
+  "recommendations": {
+    "formulas": [
+      {
+        "id": "F_SHENLING",
+        "label": {
+          "en": "Shen Ling Bai Zhu San (Ginseng, Poria and White Atractylodes Powder)",
+          "zh-Hant": "參苓白朮散"
+        },
+        "tier": "A"
+      },
+      {
+        "id": "F_SIJUNZI",
+        "label": {
+          "en": "Sijunzi Tang (Four Gentlemen Decoction)",
+          "zh-Hant": "四君子湯"
+        },
+        "tier": "A"
+      }
+    ],
+    "foods": [
+      {
+        "id": "shanyao",
+        "label": {
+          "zh-Hant": "山藥",
+          "en": null
+        }
+      },
+      {
+        "id": "xiaomi",
+        "label": {
+          "zh-Hant": "小米",
+          "en": null
+        }
+      },
+      {
+        "id": "lianzi",
+        "label": {
+          "zh-Hant": "蓮子",
+          "en": null
+        }
+      },
+      {
+        "id": "nangua",
+        "label": {
+          "zh-Hant": "南瓜",
+          "en": null
+        }
+      }
+    ],
+    "points": [
+      {
+        "id": "ST36",
+        "label": {
+          "zh-Hant": "足三里",
+          "en": "ST36"
+        }
+      },
+      {
+        "id": "CV12",
+        "label": {
+          "zh-Hant": "中脘",
+          "en": "CV12"
+        }
+      }
+    ]
+  }
+}

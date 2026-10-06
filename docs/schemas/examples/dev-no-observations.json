@@ -1,0 +1,291 @@
+{
+  "format": "tcm-summary",
+  "version": 1,
+  "createdAt": "2026-10-05T12:00:00.000Z",
+  "exportedFrom": {
+    "appVersion": "example",
+    "kbVersion": "example",
+    "engineVersion": "example",
+    "paramsFingerprint": "example",
+    "profile": "dev"
+  },
+  "language": "en",
+  "notice": {
+    "zh-Hant": "由本人使用「中醫自我評估」，依其輸入內容整理而成。 僅供教育參考，不是醫療診斷或處方。",
+    "en": "Prepared by the person using TCM Self-Check from what they entered. Educational reference — not a medical diagnosis or prescription."
+  },
+  "person": {
+    "ageYears": 40,
+    "sex": "female",
+    "pregnancy": "no",
+    "lactating": false,
+    "conditions": []
+  },
+  "safety": {
+    "medications": {
+      "status": "none",
+      "classes": []
+    },
+    "allergies": {
+      "status": "none",
+      "items": []
+    },
+    "notices": []
+  },
+  "findings": [
+    {
+      "id": "S_HEAT_PALMS_SOLES",
+      "label": {
+        "zh-Hant": "五心煩熱／手足心熱",
+        "en": "heat in the five centres (palms, soles, chest)"
+      },
+      "severity": "moderate",
+      "quality": "inquiry"
+    },
+    {
+      "id": "S_NIGHT_SWEAT",
+      "label": {
+        "zh-Hant": "盜汗",
+        "en": "night sweating"
+      },
+      "severity": "moderate",
+      "quality": "inquiry"
+    },
+    {
+      "id": "S_LOW_BACK_SORE",
+      "label": {
+        "zh-Hant": "腰膝痠軟",
+        "en": "aching and weakness of the lower back and knees"
+      },
+      "severity": "moderate",
+      "quality": "inquiry"
+    },
+    {
+      "id": "S_HEARING_DECLINE",
+      "label": {
+        "zh-Hant": "聽力減退",
+        "en": "declining hearing"
+      },
+      "quality": "inquiry"
+    },
+    {
+      "id": "S_TINNITUS_THIN",
+      "label": {
+        "zh-Hant": "耳鳴如蟬",
+        "en": "tinnitus, thin (like cicadas)"
+      },
+      "quality": "inquiry"
+    },
+    {
+      "id": "S_DRY_MOUTH_THROAT",
+      "label": {
+        "zh-Hant": "口燥咽乾",
+        "en": "dry mouth and throat"
+      },
+      "quality": "inquiry"
+    }
+  ],
+  "constitution": null,
+  "panel": {
+    "elements": [
+      {
+        "element": "wood",
+        "label": {
+          "zh-Hant": "木",
+          "en": "Wood"
+        },
+        "band": "normal",
+        "value": 0
+      },
+      {
+        "element": "fire",
+        "label": {
+          "zh-Hant": "火",
+          "en": "Fire"
+        },
+        "band": "normal",
+        "value": 0.1
+      },
+      {
+        "element": "earth",
+        "label": {
+          "zh-Hant": "土",
+          "en": "Earth"
+        },
+        "band": "normal",
+        "value": 0
+      },
+      {
+        "element": "metal",
+        "label": {
+          "zh-Hant": "金",
+          "en": "Metal"
+        },
+        "band": "normal",
+        "value": 0
+      },
+      {
+        "element": "water",
+        "label": {
+          "zh-Hant": "水",
+          "en": "Water"
+        },
+        "band": "normal",
+        "value": 0
+      }
+    ],
+    "coldHeat": {
+      "band": "high",
+      "value": 0.5
+    },
+    "deficiencyExcess": {
+      "band": "somewhatLow",
+      "value": -0.2
+    }
+  },
+  "patterns": {
+    "status": "established",
+    "items": [
+      {
+        "id": "KD1",
+        "label": {
+          "en": "Kidney yin deficiency",
+          "zh-Hant": "腎陰虛"
+        },
+        "band": "medium"
+      }
+    ],
+    "confidence": "medium",
+    "whatWouldChange": [
+      {
+        "symptoms": [
+          {
+            "id": "T_CRACKS_ALL",
+            "label": {
+              "zh-Hant": "滿舌裂紋",
+              "en": "multiple cracks over the tongue"
+            }
+          }
+        ],
+        "shiftsTo": {
+          "id": "KD1",
+          "label": {
+            "en": "Kidney yin deficiency",
+            "zh-Hant": "腎陰虛"
+          }
+        },
+        "over": {
+          "id": "HT2",
+          "label": {
+            "en": "Disharmony between heart and kidney (yin deficiency with effulgent fire)",
+            "zh-Hant": "心腎不交（陰虛火旺）"
+          }
+        }
+      },
+      {
+        "symptoms": [
+          {
+            "id": "T_TIP_RED",
+            "label": {
+              "zh-Hant": "舌尖紅",
+              "en": "red tongue tip"
+            }
+          },
+          {
+            "id": "S_FORGETFUL",
+            "label": {
+              "zh-Hant": "健忘",
+              "en": "forgetfulness"
+            }
+          }
+        ],
+        "shiftsTo": {
+          "id": "HT2",
+          "label": {
+            "en": "Disharmony between heart and kidney (yin deficiency with effulgent fire)",
+            "zh-Hant": "心腎不交（陰虛火旺）"
+          }
+        },
+        "over": {
+          "id": "KD1",
+          "label": {
+            "en": "Kidney yin deficiency",
+            "zh-Hant": "腎陰虛"
+          }
+        }
+      }
+    ]
+  },
+  "recommendations": {
+    "formulas": [
+      {
+        "id": "F_LIUWEI",
+        "label": {
+          "en": "Liuwei Dihuang Wan (Six-Ingredient Rehmannia Pill)",
+          "zh-Hant": "六味地黃丸"
+        },
+        "tier": "A"
+      }
+    ],
+    "foods": [
+      {
+        "id": "heidou",
+        "label": {
+          "zh-Hant": "黑豆",
+          "en": null
+        }
+      },
+      {
+        "id": "heizhima",
+        "label": {
+          "zh-Hant": "黑芝麻",
+          "en": null
+        }
+      },
+      {
+        "id": "gouqi",
+        "label": {
+          "zh-Hant": "枸杞",
+          "en": null
+        }
+      },
+      {
+        "id": "sangshen",
+        "label": {
+          "zh-Hant": "桑葚",
+          "en": null
+        }
+      },
+      {
+        "id": "shanyao",
+        "label": {
+          "zh-Hant": "山藥",
+          "en": null
+        }
+      }
+    ],
+    "points": [
+      {
+        "id": "KI3",
+        "label": {
+          "zh-Hant": "太溪",
+          "en": "KI3"
+        }
+      },
+      {
+        "id": "KI1",
+        "label": {
+          "zh-Hant": "湧泉",
+          "en": "KI1"
+        }
+      },
+      {
+        "id": "SP6",
+        "label": {
+          "zh-Hant": "三陰交",
+          "en": "SP6"
+        }
+      }
+    ]
+  }
+}
