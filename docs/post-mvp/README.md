@@ -42,6 +42,7 @@ Spike protocols and reports (Release D; [how a spike works](design/research-trac
 | Spike | Task | State |
 |---|---|---|
 | [Camera pulse and heart-rate-strap prefill](spikes/camera-pulse.md) | PM-31 | Protocol fixed; **not run** — needs a reference device, volunteers with consent, phones and an ethics approval |
+| [Tongue-photo assistance](spikes/tongue-photo.md) | PM-30 | Protocol fixed; desk research on datasets done; **stopped at step 1** — the licence and consent gap and the open gates (legal view, advisor, approvals) |
 
 ## 2. Standing constraints
 

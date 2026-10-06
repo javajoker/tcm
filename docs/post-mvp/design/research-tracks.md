@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 0.3 (draft) |
+| **Version** | 0.4 (draft) |
 | **Status** | Design for Release D (FR-32 … FR-34; tasks PM-30 … PM-32). Every track begins as a spike; nothing here is promised to ship. **PM-32 (file-based sync) is built** ([§4.1](#41-as-built-pm-32)): its stop conditions were not met, so it is a feature behind the draft label like the rest; PM-30 and PM-31 are not started |
 | **Last updated** | 2026-10-06 |
 | **Audience** | Maintainers, the owner (approvals), reviewers, a legal adviser |
@@ -58,7 +58,7 @@ A person photographs their tongue; the app **suggests** which tongue features fr
 4. Measure the capture side: guidance for light and distance, a quality gate (exposure, blur, colour cast), and what fraction of casual phone photos pass it.
 5. Report.
 
-### 2.5 Proposed protocol (to be fixed before the spike starts)
+### 2.5 Proposed protocol (fixed in [`spikes/tongue-photo.md`](../spikes/tongue-photo.md))
 
 | Item | Proposal |
 |---|---|
@@ -170,3 +170,4 @@ PM-30 (tongue-photo spike), PM-31 (camera-pulse spike), PM-32 (file-based sync, 
 | 0.1 | 2026-10-05 | Initial design |
 | 0.2 | 2026-10-06 | PM-32 built ([§4.1](#41-as-built-pm-32)): the spike's protocol was run and no stop condition was met, so file-based sync is a feature (Chromium only, behind the draft label); the decisions made at build time in §6 |
 | 0.3 | 2026-10-06 | The camera-pulse spike's protocol is written and fixed ([spikes/camera-pulse.md](../spikes/camera-pulse.md)); the spike is not run |
+| 0.4 | 2026-10-06 | The tongue-photo spike's protocol is fixed and its desk research on datasets done ([spikes/tongue-photo.md](../spikes/tongue-photo.md)); it stops at step 1 on the licence and consent gap and the open gates |
