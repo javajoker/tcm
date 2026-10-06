@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 0.2 (draft) |
+| **Version** | 0.3 (draft) |
 | **Status** | Design for Release D (FR-32 … FR-34; tasks PM-30 … PM-32). Every track begins as a spike; nothing here is promised to ship. **PM-32 (file-based sync) is built** ([§4.1](#41-as-built-pm-32)): its stop conditions were not met, so it is a feature behind the draft label like the rest; PM-30 and PM-31 are not started |
 | **Last updated** | 2026-10-06 |
 | **Audience** | Maintainers, the owner (approvals), reviewers, a legal adviser |
@@ -78,6 +78,8 @@ A person photographs their tongue; the app **suggests** which tongue features fr
 **Method.** Record the camera signal alongside a reference (a chest-strap or a pulse oximeter) for a defined set of volunteers at rest (ethics and consent as above, or use signals the volunteers record themselves under a protocol), on several devices; compute the rate; compare.
 
 **Protocol (fixed before the spike).** Report the error against the reference per device and condition. Proposal: a rate within ±3 beats per minute (the same tolerance as the tap-tempo estimator) in at least 90 % of resting trials on every device tested, and **"not enough to tell"** whenever the signal quality is low, never a guess.
+
+**The protocol is written and fixed in [`spikes/camera-pulse.md`](../spikes/camera-pulse.md)** (accuracy, coverage, strata, an honest-refusal rate, the strap, the estimator and its quality index, the stop conditions and what is needed before it can run); the spike has not been run.
 
 **Stop.** Error above the bound on a common device class; instructions that are unsafe or confusing (pressing hard, covering a hot torch for long); any attempt to read more into the signal than a rate and a regularity hint; a permission or CSP change that cannot be justified.
 
@@ -167,3 +169,4 @@ PM-30 (tongue-photo spike), PM-31 (camera-pulse spike), PM-32 (file-based sync, 
 |---|---|---|
 | 0.1 | 2026-10-05 | Initial design |
 | 0.2 | 2026-10-06 | PM-32 built ([§4.1](#41-as-built-pm-32)): the spike's protocol was run and no stop condition was met, so file-based sync is a feature (Chromium only, behind the draft label); the decisions made at build time in §6 |
+| 0.3 | 2026-10-06 | The camera-pulse spike's protocol is written and fixed ([spikes/camera-pulse.md](../spikes/camera-pulse.md)); the spike is not run |

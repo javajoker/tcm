@@ -37,6 +37,12 @@ Design documents (one per feature area, tasks A-20 … A-28 in [`TASKS.md`](../.
 | [Five-phase extensions (hemisphere, hour boundary, astronomy data, season model)](design/five-phase-extensions.md) | C | A-27 |
 | [Research tracks (tongue photo, camera pulse, file-based sync, and what is not planned)](design/research-tracks.md) | D | A-28 |
 
+Spike protocols and reports (Release D; [how a spike works](design/research-tracks.md#1-how-a-spike-works)):
+
+| Spike | Task | State |
+|---|---|---|
+| [Camera pulse and heart-rate-strap prefill](spikes/camera-pulse.md) | PM-31 | Protocol fixed; **not run** — needs a reference device, volunteers with consent, phones and an ethics approval |
+
 ## 2. Standing constraints
 
 Every post-MVP feature keeps these; a design that needs to break one says so in its first section and needs a recorded decision.

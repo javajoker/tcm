@@ -23,6 +23,7 @@ Pre-release. The web app, the diagnosis engine and the knowledge base exist; not
 - **Developer inspector** (dev profile only).
 
 ### Documentation
+- **Camera-pulse spike protocol** (PM-31, `docs/post-mvp/spikes/camera-pulse.md`): what will be measured, on what, how a trial counts, what passes (±3 beats per minute in 90 % of accepted trials on every device, a coverage floor, no hidden stratum, a cap on unflagged wrong answers, the strap's own checks) and what stops the track — fixed before any measurement. The spike has not been run; the document lists what it needs.
 - **Post-MVP plan** (`docs/post-mvp/`): roadmap with releases A–D, requirements FR-21 … FR-34, a register that answers every "revisit after the MVP" decision, nine design documents (Simplified Chinese, offline use, backup and lock, tap-tempo and regions, knowledge browser, export and trends, library expansion, five-phase extensions, research tracks), post-MVP tasks (section PM) and release checklists. The CI `kb` job now also checks that the committed parity fixtures equal what the Python oracle exports. The task summary no longer drops rows whose notes follow the last pipe.
 
 ### Simplified Chinese (in progress, Release A)
