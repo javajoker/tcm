@@ -2,9 +2,9 @@
 
 | | |
 |---|---|
-| **Version** | 0.1 (draft) |
+| **Version** | 0.2 (draft) |
 | **Status** | Draft — implementation not started (only `packages/wuxing`, `data/` and `scripts/kb` exist) |
-| **Last updated** | 2026-10-04 |
+| **Last updated** | 2026-10-06 |
 | **Derives from** | [PRD v0.3](PRD.md) · [Diagnosis SOP v0.2](diagnosis-sop.zh-TW.md) · [Algorithm spec](wuxing-algorithm.md) |
 | **Sibling docs** | [UI/UX spec](ux-spec.md) · [KB schema](kb-schema.md) · [i18n guide](i18n-guide.md) · [Safety policy](safety-policy.md) · [Privacy](privacy.md) · [Test plan](test-plan.md) · [Release process](release-process.md) |
 
@@ -533,6 +533,7 @@ interface AppState {
 | `drafts` | `current` | `AppState.draft` | One draft; deleted when the assessment is saved or discarded |
 | `assessments` | `id` | `SavedAssessment` | Index on `createdAt` |
 | `meta` | `schema` | `{ version, createdAt }` | Migrations run on open |
+| `meta` | `lock` | `LockRecord` (`storage/lock.ts`) | PM-20, only while the lock is on: `{ v, keyId, kdf, iterations, salt, wrapped: { iv, ct }, failures, lastFailureAt }` — no readable secret |
 
 ```ts
 interface SavedAssessment {
@@ -551,6 +552,7 @@ interface SavedAssessment {
 - **Erase everything** deletes IndexedDB, `localStorage`, and Cache Storage (if a service worker is added later), then reloads; it works with no confirmation round-trip beyond one explicit dialog.
 - All storage access goes through `storage.ts` which catches every error (private windows, blocked storage, quota) and degrades to an in-memory store with a visible "not saved" indicator.
 - **Backup and restore** (`storage/backup/`, [design](post-mvp/design/backup-and-data-lock.md)): a versioned JSON file with a checksum; the importer treats it as untrusted — size and depth bounds, allow-list validators that build fresh plain objects, the profile rule, a replay check that proves a record genuine by re-running the engine on its answers when the versions match — and applies the person's choice in **one transaction** (`Db.batch`, `Persistence.applyWrites`: all or nothing).
+- **Local data lock** (`storage/lock.ts`, the codec in `storage/persistence.ts`, [design §5.6](post-mvp/design/backup-and-data-lock.md#56-as-built-pm-20)): optional, and inside the storage module like everything else that touches a record. A random 256-bit data key encrypts each record of `drafts` and `assessments` — AES-256-GCM, a fresh 12-byte IV for every write, `tcm|<store>|<key>|<v>` as additional data, the record's version left visible: `{ v, enc: { iv, ct } }` instead of `{ v, data }`, so migrations still run after unlocking. The passphrase (normalised NFKC) only wraps that key — PBKDF2-SHA-256, 600 000 iterations, a fresh 16-byte salt — in `meta/lock`, next to a random key id and the throttle counters. The key is imported **non-extractable**, lives in memory only, and is dropped by *Lock now*, the idle time and any reload (`tcm.lockHint` in `localStorage` lets the first render of a locked device wait instead of showing the app). Turning the lock on or off writes every record **and** the lock record in one transaction; `Db.batch(writes, { lock, expect })` refuses, inside that transaction, a batch whose writer holds another key id than the stored one or whose read entries have changed — which also stops a tab that missed a change from writing around the lock. Other tabs hear of a change through a `BroadcastChannel` (`tcm-lock`). After five wrong passphrases each next try waits 2, 4, 8 … up to 300 seconds (the counters are stored; the failure is written before the answer is shown). Preferences, the disclaimer record and `meta/lock` are not encrypted.
 - **Migrations:** each schema bump ships a forward migration with a fixture test; saved results keep their own version stamps and are displayed as saved (with a "computed with an older version" label) rather than silently recomputed.
 
 ### 8.4 Result report assembly
@@ -618,7 +620,8 @@ Colour: one sequential hue per quantity family, never red/green as good/bad; sig
 | Supply chain | Lockfile, `pnpm audit` in CI, Dependabot/Renovate, `--ignore-scripts` installs, minimal runtime dependencies (React, wouter, Zustand); the engine, wuxing and i18n have **zero** runtime dependencies |
 | Integrity | Content-hashed assets; KB `manifest.json` lists chunk hashes; the loader verifies the version it expects; SRI on the entry assets if the host rewrites nothing |
 | Clipboard / export | Only on explicit user action, with a warning that the content is health data |
-| Threats considered | Shared-device exposure (mitigated by erase, no auto-restore of birth data); XSS (no HTML injection: all KB text and everything from a backup file rendered as text; `dangerouslySetInnerHTML`, `innerHTML`, `insertAdjacentHTML`, `document.write`, `DOMParser`, `eval` and `new Function` are refused by the lint configuration; markdown not used); tampered KB (hash + CSP same-origin); stale cache (versioned URLs); mis-served wrong profile (`check-release.ts`) |
+| Local data lock | Optional encryption of the stored history under a passphrase ([§8.3](#83-persistence-indexeddb-tcm-app-schema-version-1), [design](post-mvp/design/backup-and-data-lock.md#5-the-local-data-lock-fr-24-release-b)): WebCrypto only, no dependency; the key never leaves memory; no recovery, by design. It protects a copy of the browser's files, not a running device with malware or a malicious extension, and says so |
+| Threats considered | Shared-device exposure (mitigated by erase, the lock, no auto-restore of birth data); XSS (no HTML injection: all KB text and everything from a backup file rendered as text; `dangerouslySetInnerHTML`, `innerHTML`, `insertAdjacentHTML`, `document.write`, `DOMParser`, `eval` and `new Function` are refused by the lint configuration; markdown not used); tampered KB (hash + CSP same-origin); stale cache (versioned URLs); mis-served wrong profile (`check-release.ts`) |
 
 ---
 
@@ -658,3 +661,4 @@ Colour: one sequential hue per quantity family, never red/green as good/bad; sig
 | Version | Date | Change |
 |---|---|---|
 | 0.1 | 2026-10-04 | Initial technical specification |
+| 0.2 | 2026-10-06 | §8.3: the lock record and the local data lock (PM-20); §11: the lock row |

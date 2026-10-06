@@ -105,7 +105,7 @@ describe("Make a backup", () => {
     await userEvent.click(await screen.findByRole("button", { name: /^Make a backup/ }));
     const dialog = await screen.findByRole("dialog", { name: "Make a backup" });
     expect(within(dialog).getByText(/contains health information/)).toBeInTheDocument();
-    expect(within(dialog).getByRole("checkbox", { name: "All saved results (3)" })).toBeChecked();
+    expect(await within(dialog).findByRole("checkbox", { name: "All saved results (3)" })).toBeChecked();          // the list is read from the device
     expect(within(dialog).getAllByRole("checkbox", { name: /20(25|26)/ })).toHaveLength(3);
     expect(within(dialog).queryByRole("checkbox", { name: /^The assessment I have not finished/ })).toBeNull();
     expect(within(dialog).getByRole("checkbox", { name: /^My settings/ })).toBeChecked();
@@ -118,7 +118,7 @@ describe("Make a backup", () => {
     await open("/settings");
     await userEvent.click(await screen.findByRole("button", { name: /^Make a backup/ }));
     const dialog = await screen.findByRole("dialog", { name: "Make a backup" });
-    const all = within(dialog).getByRole("checkbox", { name: "All saved results (3)" });
+    const all = await within(dialog).findByRole("checkbox", { name: "All saved results (3)" });
     await userEvent.click(all);
     await userEvent.click(within(dialog).getByRole("checkbox", { name: /^My settings/ }));
     expect(within(dialog).getByText("Choose at least one thing to include.")).toBeInTheDocument();
@@ -155,7 +155,7 @@ describe("Make a backup", () => {
     await userEvent.click(await screen.findByRole("button", { name: /^製作備份/ }));
     const dialog = await screen.findByRole("dialog", { name: "製作備份" });
     expect(within(dialog).getByText(/此檔案含有健康資訊/)).toBeInTheDocument();
-    expect(within(dialog).getByRole("button", { name: "下載備份" })).toBeEnabled();
+    await waitFor(() => expect(within(dialog).getByRole("button", { name: "下載備份" })).toBeEnabled());       // once the saved results have been read
   });
 
   it("has no accessibility violations", async () => {

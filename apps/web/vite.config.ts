@@ -125,6 +125,7 @@ export default defineConfig(({ command }) => {
     define: { __APP_PROFILE__: JSON.stringify(profile), __APP_BUILD__: JSON.stringify(process.env.APP_BUILD_ID ?? "local") },
     build: { target: "es2022", modulePreload: { polyfill: false }, sourcemap: false },
     css: { modules: { localsConvention: "camelCaseOnly" } },
-    test: { environment: "jsdom", setupFiles: ["./test/setup.ts"], include: ["test/**/*.test.{ts,tsx}", "src/**/*.test.{ts,tsx}"], css: false },
+    // The whole suite shares the machine with the other packages' tests; a flow that takes half a second alone can take several when 50 workers compete.
+    test: { environment: "jsdom", setupFiles: ["./test/setup.ts"], include: ["test/**/*.test.{ts,tsx}", "src/**/*.test.{ts,tsx}"], css: false, testTimeout: 20_000, hookTimeout: 20_000 },
   };
 });

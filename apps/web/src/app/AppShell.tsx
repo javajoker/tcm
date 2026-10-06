@@ -5,6 +5,7 @@ import { APP_BUILD, APP_PROFILE, IS_DEV_PROFILE } from "./profile.ts";
 import { LanguageOffer } from "./LanguageOffer.tsx";
 import { LanguageToggle } from "./LanguageToggle.tsx";
 import { NotSavedChip } from "./NotSavedChip.tsx";
+import { useApp } from "./store.tsx";
 import { UpdateBanner } from "../offline/UpdateBanner.tsx";
 import styles from "./AppShell.module.css";
 
@@ -13,6 +14,8 @@ const DEV_BADGE = `DEV · ${APP_PROFILE}`;        // developer-facing text, pres
 /** Header, main landmark, permanent disclaimer footer, skip link. The dev badge exists only in dev builds (dead-code eliminated from release). */
 export function AppShell({ children }: { children: ReactNode }): ReactNode {
   const { t } = useI18n();
+  const lock = useApp((s) => s.lock);
+  const lockNow = useApp((s) => s.lockNow);
   return (
     <>
       <a className={styles.skip} href="#main">{t.t("common.nav.skip")}</a>
@@ -26,6 +29,7 @@ export function AppShell({ children }: { children: ReactNode }): ReactNode {
             <Link href="/history">{t.t("common.nav.history")}</Link>
             <Link href="/sources">{t.t("common.nav.sources")}</Link>
             <Link href="/settings">{t.t("common.nav.settings")}</Link>
+            {lock === "unlocked" ? <button type="button" className={styles.menuButton} onClick={() => { void lockNow(); }}>{t.t("lock.menu.lock")}</button> : null}
           </nav>
           <LanguageToggle />
         </div>

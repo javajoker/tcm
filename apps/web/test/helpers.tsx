@@ -6,7 +6,7 @@ import type { Loader } from "../src/app/knowledge.tsx";
 import { createAppStore, StoreProvider, type AppStore, type StoreDeps } from "../src/app/store.tsx";
 import { OfflineProvider } from "../src/offline/OfflineEffects.tsx";
 import type { Offline } from "../src/offline/worker.ts";
-import { createPersistence, type Environment, type Persistence } from "../src/storage/persistence.ts";
+import { createPersistence, type Environment, type Persistence, type PersistenceOptions } from "../src/storage/persistence.ts";
 
 let seq = 0;      // draft ids are unique across the stores of one test run
 
@@ -31,10 +31,13 @@ export const blockedEnvironment = (): Environment & { readonly localStorage: Sto
   caches: null,
 });
 
-export function testStore(env: Environment = fakeEnvironment(), deps: Partial<StoreDeps> = {}): { store: AppStore; persistence: Persistence; env: Environment } {
-  const persistence = createPersistence(env);
+/** The smallest PBKDF2 iteration count a reader accepts: the tests make many locks. */
+export const TEST_ITERATIONS = 100_000;
+
+export function testStore(env: Environment = fakeEnvironment(), deps: Partial<StoreDeps> = {}, options: PersistenceOptions = {}): { store: AppStore; persistence: Persistence; env: Environment } {
+  const persistence = createPersistence(env, { iterations: TEST_ITERATIONS, ...options });
   let n = 0;
-  const store = createAppStore({ persistence, now: () => 1_000 + n++, newId: () => `id${seq++}`, reload: () => undefined, ...deps });
+  const store = createAppStore({ persistence, now: () => 1_000 + n++, newId: () => `id${seq++}`, reload: () => undefined, refresh: () => undefined, ...deps });
   return { store, persistence, env };
 }
 

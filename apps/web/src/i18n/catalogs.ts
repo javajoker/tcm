@@ -9,6 +9,7 @@ import zhFollowup from "./zh-Hant/followup.json";
 import zhFormula from "./zh-Hant/formula.json";
 import zhInquiry from "./zh-Hant/inquiry.json";
 import zhLearn from "./zh-Hant/learn.json";
+import zhLock from "./zh-Hant/lock.json";
 import zhIntake from "./zh-Hant/intake.json";
 import zhObserve from "./zh-Hant/observe.json";
 import zhReport from "./zh-Hant/report.json";
@@ -22,16 +23,17 @@ import enFollowup from "./en/followup.json";
 import enFormula from "./en/formula.json";
 import enInquiry from "./en/inquiry.json";
 import enLearn from "./en/learn.json";
+import enLock from "./en/lock.json";
 import enIntake from "./en/intake.json";
 import enObserve from "./en/observe.json";
 import enReport from "./en/report.json";
 import enSafety from "./en/safety.json";
 import enTrends from "./en/trends.json";
 
-export const NAMESPACES = ["common", "intake", "inquiry", "observe", "constitution", "report", "feedback", "followup", "formula", "learn", "trends", "safety", "errors"] as const;
+export const NAMESPACES = ["common", "intake", "inquiry", "observe", "constitution", "report", "feedback", "followup", "formula", "learn", "lock", "trends", "safety", "errors"] as const;
 
-const zhHant = { ...zhCommon, ...zhIntake, ...zhInquiry, ...zhObserve, ...zhConstitution, ...zhReport, ...zhFeedback, ...zhFollowup, ...zhFormula, ...zhLearn, ...zhTrends, ...zhSafety, ...zhErrors };
-const en = { ...enCommon, ...enIntake, ...enInquiry, ...enObserve, ...enConstitution, ...enReport, ...enFeedback, ...enFollowup, ...enFormula, ...enLearn, ...enTrends, ...enSafety, ...enErrors };
+const zhHant = { ...zhCommon, ...zhIntake, ...zhInquiry, ...zhObserve, ...zhConstitution, ...zhReport, ...zhFeedback, ...zhFollowup, ...zhFormula, ...zhLearn, ...zhLock, ...zhTrends, ...zhSafety, ...zhErrors };
+const en = { ...enCommon, ...enIntake, ...enInquiry, ...enObserve, ...enConstitution, ...enReport, ...enFeedback, ...enFollowup, ...enFormula, ...enLearn, ...enLock, ...enTrends, ...enSafety, ...enErrors };
 
 export type MessageKey = keyof typeof zhHant;
 

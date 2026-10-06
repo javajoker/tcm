@@ -11,6 +11,8 @@ import { DocumentMeta } from "./DocumentMeta.tsx";
 import { NotFound } from "./NotFound.tsx";
 import { PrefsEffects } from "./PrefsEffects.tsx";
 import { BackupProvider } from "../backup/BackupContext.tsx";
+import { IdleLock } from "../lock/IdleLock.tsx";
+import { LockScreen } from "../lock/LockScreen.tsx";
 import { OfflineEffects } from "../offline/OfflineEffects.tsx";
 import { RouteFocus } from "./RouteFocus.tsx";
 import { useI18n } from "../i18n/I18nProvider.tsx";
@@ -96,6 +98,7 @@ export function App({ load }: { load?: Loader }): ReactNode {
 
 function LanguageRoutes(): ReactNode {
   const entryLang = useApp((s) => s.prefs.lang) ?? DEFAULT_LANG;
+  const lock = useApp((s) => s.lock);
   const chooseLang = useApp((s) => s.chooseLang);
   const [location, navigate] = useLocation();
   const search = useSearch();
@@ -113,12 +116,16 @@ function LanguageRoutes(): ReactNode {
         <PrefsEffects />
         <OfflineEffects />
         <DocumentMeta />
+        <IdleLock />
         <Router base={parsed.segment === null ? "" : `/${parsed.segment}`}>
-          <BackupProvider>
-            <AppShell>
-              {parsed.lang === null ? <NotFound /> : <Screens />}
-            </AppShell>
-          </BackupProvider>
+          {/* while the lock is being read, and while it is on, nothing of the app — and so of the history — is shown (docs/post-mvp/design/backup-and-data-lock.md §5.4) */}
+          {lock === "unknown" ? <LoadingScreen /> : lock === "locked" ? <LockScreen /> : (
+            <BackupProvider>
+              <AppShell>
+                {parsed.lang === null ? <NotFound /> : <Screens />}
+              </AppShell>
+            </BackupProvider>
+          )}
         </Router>
       </CitationsProvider>
     </I18nProvider>

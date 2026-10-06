@@ -1,4 +1,4 @@
-import { cloneElement, useId, type InputHTMLAttributes, type ReactElement, type ReactNode, type SelectHTMLAttributes } from "react";
+import { cloneElement, useId, type ComponentProps, type ReactElement, type ReactNode, type SelectHTMLAttributes } from "react";
 import styles from "./ui.module.css";
 
 interface ControlProps { id?: string | undefined; "aria-describedby"?: string | undefined; "aria-invalid"?: boolean | undefined; required?: boolean | undefined }
@@ -17,5 +17,6 @@ export function Field({ label, hint, error, required, children }: { label: React
   );
 }
 
-export function TextInput(props: InputHTMLAttributes<HTMLInputElement>): ReactNode { return <input className={styles.input} {...props} />; }
+/** A text field; `ref` is a prop (React 19), so a screen can move focus to it. */
+export function TextInput(props: ComponentProps<"input">): ReactNode { return <input className={styles.input} {...props} />; }
 export function Select(props: SelectHTMLAttributes<HTMLSelectElement>): ReactNode { return <select className={styles.input} {...props} />; }

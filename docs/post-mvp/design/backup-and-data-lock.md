@@ -2,9 +2,9 @@
 
 | | |
 |---|---|
-| **Version** | 0.5 |
-| **Status** | Release A (FR-23; tasks PM-07 … PM-10) and Release B (FR-24; PM-20). PM-07 to PM-10 are built (Release A's backup work is complete): the file format, the validating importer with the replay check, the plan and the one-transaction write, the lint rule against raw markup, and the screens (Your data, the two dialogs, the reminder, the Imported mark). The encrypted envelope (PM-09) and storage health (PM-10) too. The lock (PM-20, Release B) is not |
-| **Last updated** | 2026-10-05 |
+| **Version** | 0.6 |
+| **Status** | Release A (FR-23; tasks PM-07 … PM-10) and Release B (FR-24; PM-20). PM-07 to PM-10 are built (Release A's backup work is complete): the file format, the validating importer with the replay check, the plan and the one-transaction write, the lint rule against raw markup, and the screens (Your data, the two dialogs, the reminder, the Imported mark). The encrypted envelope (PM-09) and storage health (PM-10) too. The lock (PM-20, Release B) is built ([§5.6](#56-as-built-pm-20)); its security review is a human task that is still to be done |
+| **Last updated** | 2026-10-06 |
 | **Audience** | Engineers, whoever reviews security and privacy |
 | **Related** | [Requirements FR-23, FR-24](../requirements.md#fr-23-backup-restore-and-data-portability--release-a--class-n--refines-fr-12-fr-13-pq5) · [Privacy §2, §3, §6](../../privacy.md) · [Tech spec §8.3, §11](../../tech-spec.md) · [Decisions PQ2, PQ3, PQ5, PD-04, PD-05](../decisions.md) |
 
@@ -164,7 +164,7 @@ records ──AES-256-GCM by DEK (fresh 12-byte IV per write)──▶ { v, enc 
 |---|---|---|
 | **Turn on** | 1. Explain what it does and does not do, and that a lost passphrase loses the data. 2. Require a **fresh backup** in the last few minutes, or an explicit "I understand" after the backup was declined. 3. Passphrase twice, at least 10 characters, a strength hint (length, variety, a short list of common choices). 4. Generate the key, wrap it, re-encrypt every record **and** write `meta/lock` in **one transaction** | The transaction commits as a whole or not at all: after any interruption the store is plain and unlocked, or encrypted with its key present |
 | **Open (locked)** | A lock screen replaces the app: passphrase field, *Unlock*, language and theme choices, and *Forgot it? Erase everything on this device*. Nothing of the health data is rendered or fetched. A wrong passphrase gives a plain error; after five consecutive failures each next attempt waits longer (2, 4, 8 … up to 5 minutes) — an honest note says this slows a person at the keyboard, not an attacker with a copy of the data | — |
-| **While unlocked** | Reads decrypt, writes encrypt; autosave works as now. Idle auto-lock after 10 minutes by default (adjustable); *Lock now* in the header menu | A write while locking is awaited before the key is dropped |
+| **While unlocked** | Reads decrypt, writes encrypt; autosave works as now. Idle auto-lock after 10 minutes by default (5, 10, 30 or 60, chosen in Settings); *Lock now* in the header menu | A write while locking is awaited before the key is dropped |
 | **Change passphrase** | Unlock → new passphrase → re-wrap the data key → one `meta` write | Atomic |
 | **Turn off** | Unlock → decrypt every record and delete `meta/lock` in one transaction | Atomic |
 | **Backup while locked** | Allowed after unlocking; the dialog defaults to a passphrase-protected file | — |
@@ -176,6 +176,39 @@ The lock lives **entirely inside the storage module** as a codec the persistence
 ### 5.5 What the lock does not change
 
 Prefs, language and theme stay readable. The offline worker has no data to protect. Routes and the URL contain only random ids as before. The privacy statement is updated: *"You can lock the history on this device with a passphrase. We cannot recover it."*
+
+### 5.6 As built (PM-20)
+
+The lock is one codec inside the storage module, as designed: `storage/lock.ts` (the record, the key wrap, the throttle, the sealing of a record — nothing in it touches storage), `storage/persistence.ts` (`Persistence.lock`: `status`, `unlock`, `lockNow`, `enable`, `disable`, `change`, `onChanged`, and the `seal` / `open` that every read and write passes through), `storage/db.ts` (`Db.batch(writes, { lock, expect })`, `Db.entries`, `ConflictError`) and `apps/web/src/lock/` (the lock screen, the idle lock, the three dialogs, the Settings card). The store exposes `lock` (`unknown` | `none` | `locked` | `unlocked`) and the actions; no other module sees a key or a ciphertext.
+
+Choices made while building:
+
+| Question | What was done, and why |
+|---|---|
+| How is a write kept from going around the lock? | `meta/lock` carries a random **key id**. A batch names the key id its writer holds (`lock`, or `null` for "there is no lock") and, for turning the lock on or off, the entries it read (`expect`). Both are checked **inside the same IndexedDB transaction** as the writes, so there is no gap between the check and the write, and a refusal writes nothing. No promise other than IndexedDB's is awaited inside a transaction (it would commit early) |
+| Turning on and off | Read every record, seal (or open) them, then write all of them and `meta/lock` in one batch that expects the entries to be as read. A record saved by another tab meanwhile makes the batch refuse; the step is read again and retried (four times at most), so nothing saved in between is lost or left in the clear. A record that does not open when turning off is **not** thrown away: nothing is changed and the dialog says so. Tested with a database that fails at each write in turn |
+| Another tab | A `BroadcastChannel` ("tcm-lock") says that the lock was turned on, off or changed, or that everything was erased; the other tab forgets what it knew and loads the page again. If a message was missed, the tab's next write is refused by the key-id guard, retried once under the lock as it now is — which writes in the clear only when there is no lock, and never while the key is missing — and the page then loads again. Changing the passphrase does not stop other tabs: the data key is the same |
+| Where is the key? | In memory only, imported **non-extractable**. *Lock now* and the idle lock save what is pending, drop the key and load the page again, so no decrypted state stays in the page; a reload locks. The unwrapped key bytes are wiped as soon as the key object exists. A JavaScript string cannot be wiped, so a typed passphrase may stay in memory until the garbage collector takes it; the fields are cleared when the dialog goes |
+| What does the first render of a locked device show? | The app must never flash. A marker in `localStorage` (`tcm.lockHint`, the value `1`, kept in step with the real record by `status()`) tells the first render, synchronously, that there is a lock, and the app waits (`unknown`) for the lock record instead of showing the history. The marker holds nothing but its own existence: it says that a lock exists, which the lock screen says anyway |
+| Idle time | Pointer, key, touch, wheel and focus start the wait again. The check is against the clock, not a count of ticks, so a laptop that slept, or a hidden tab whose timers were slowed, locks as soon as it is looked at. The choices are 5, 10 (default), 30 and 60 minutes (`lockIdleMinutes`, in the preferences: it is not sensitive and the lock screen need not read it) |
+| Wrong passphrases | The counters live in `meta/lock`, so they survive a reload. The failure is written **before** the answer is shown, so closing the tab at the right moment does not skip the count. After five in a row the next attempt waits 2, 4, 8 … seconds, up to five minutes, and an attempt during the wait is not looked at (no key derivation). The same throttle guards *Change the passphrase* and *Turn the lock off*. The lock screen says that the wait slows a person at the keyboard and does not stop someone with a copy of the data |
+| A lock record that cannot be read | It is a lock nothing can open: the lock screen says so and offers only *Erase everything on this device*. Every field of the record is checked and the iteration count is bounded to 100 000–5 000 000 on reading; unknown fields are ignored |
+| A damaged stored record that is not an envelope | Sealed whole and returned whole (`raw`), so nothing stays in the clear |
+| Passphrase | The same rules and normalisation (NFKC) as the encrypted backup: ten characters typed twice, a strength hint, no maximum below 256 |
+| Turning on | The dialog says what the lock does, what it does not do (malware, a malicious extension, the device's own screen lock and disk encryption) and that a lost passphrase loses the history. A backup made in the last 15 minutes counts as fresh; otherwise the person makes one from the dialog or ticks *I understand that without a backup a forgotten passphrase loses my history*. Where storage is blocked or only in memory, the card says why the lock cannot be turned on |
+| Backup and restore with the lock on | *Make a backup* offers the passphrase-protected file by default; a restore is sealed with the data key while unlocked and refused while locked |
+| Iterations | A new lock uses 600 000 (`KDF_ITERATIONS`). The tests use 100 000, the smallest a reader accepts |
+
+**For the security review** (a human task: the review is recorded in [`CHECKLIST.md`](../../../CHECKLIST.md), not by this document). What to look at, and where:
+
+1. **The raw store.** After *Turn the lock on*, every value in `assessments` and `drafts` is `{ v, enc: { iv, ct } }`, `meta/lock` holds no secret, and `localStorage` holds no health data. E30 saves a result with an allergy of its own, first proves that its scan can see the allergy, the names of the saved fields and a symptom id in the plain store, then turns the lock on and searches the raw `drafts`, `assessments` and `meta` stores — read through the page — for all of them, searches `localStorage` for the allergy, and checks that the passphrase appears nowhere.
+2. **Binding and nonces.** The additional data of a record is `tcm|<store>|<key>|<v>` and that of the wrapped key `tcm|lock|<keyId>|<v>`; a ciphertext moved to another id, store or version, or under another key, does not open (unit tests). Every write draws a fresh 12-byte IV from `getRandomValues`; the salt is fresh for every wrap.
+3. **Atomicity.** The fault-injection tests fail the database at every step of turning on, turning off and changing the passphrase, and then check that the store is exactly as it was and still opens with the old passphrase.
+4. **The throttle** is for the person at the keyboard. It is client-side, so someone with a copy of the data does not meet it; their cost is the key derivation, which is why the strength hint and the note matter. Check the claim in the words, not only the code.
+5. **Other tabs.** Read `underLock` and `commit` in `storage/persistence.ts` and `runBatch` in `storage/db.ts` together: a stale writer must be refused or retried under the current lock, never write in the clear around one.
+6. **What is not in the lock.** The preferences, the language, the theme and the disclaimer record (no health data), the lock marker, and the existence of `meta/lock`. The wrapped key's iteration count and salt are public by design.
+7. **Known limits**, all stated in the interface or here: malware and a malicious extension; strings in memory; no memory-hard key derivation (§5.3); a changed system clock shortens a throttle wait; a very large history takes longer to turn on (the dialog says it is working).
+8. **By hand**, on a real phone and a real laptop: turn on with a history of a dozen results, close the window in the middle of the progress, reopen, check that the history is either all plain or all locked; lock, wait, reload, unlock; forget the passphrase on purpose and take the erase-and-restore way out.
 
 ## 6. Cryptography choices
 
@@ -206,7 +239,9 @@ Prefs, language and theme stay readable. The offline worker has no data to prote
 |---|---|
 | `Prefs` | `lastBackupAt?`, `backupSnoozeUntil?`, `backupReminder?` (low sensitivity) |
 | `SavedAssessment` | optional `imported?: { at, from }` (additive: no storage-schema bump) |
-| `meta/lock` | New, Release B: version, KDF name, iterations, salt, wrapped key, throttle counters |
+| `meta/lock` | New, Release B (built): version, key id, KDF name, iterations, salt, wrapped key (`{ iv, ct }`), consecutive failures and the time of the last |
+| `Prefs` | `lockIdleMinutes?` (5, 10, 30 or 60; low sensitivity) |
+| `localStorage` | `tcm.lockHint`: the value `1` while a lock exists, so that the first render can wait for the lock record |
 | [Privacy §2](../../privacy.md) | Rows: backup files (held by the person; leave the device only by their action), lock metadata, the new preferences |
 | [Privacy §3](../../privacy.md) | *Export* row extended; *Device and backups* row points to the lock; *Erase* row notes that it removes lock data |
 | [Privacy §6](../../privacy.md) | Developer rule: nothing is encrypted or decrypted outside the storage module |
@@ -229,13 +264,14 @@ Prefs, language and theme stay readable. The offline worker has no data to prote
 
 ## 10. Tasks
 
-PM-07 (format, importer, replay check), PM-08 (screens, reminder), PM-09 (encrypted envelope and the shared crypto module), PM-10 (storage health), PM-20 (the lock) — [`TASKS.md`](../../../TASKS.md).
+PM-07 (format, importer, replay check), PM-08 (screens, reminder), PM-09 (encrypted envelope and the shared crypto module), PM-10 (storage health), PM-20 (the lock; built, the security review is open) — [`TASKS.md`](../../../TASKS.md).
 
 ## 11. Changelog
 
 | Version | Date | Change |
 |---|---|---|
 | 0.1 | 2026-10-05 | Initial design |
+| 0.6 | 2026-10-06 | PM-20 built ([§5.6](#56-as-built-pm-20)): `storage/lock.ts`, the lock in `storage/persistence.ts`, conditional batches in `storage/db.ts`, the screens in `apps/web/src/lock/`. The record carries a random key id, and a batch is refused **inside its own transaction** when the stored lock is not the one the writer holds or when the entries it read have changed — which is what lets turning the lock on or off, and a write from a tab that missed a change, be correct without a gap between checking and writing. The first render of a locked device waits for the lock record (a marker in `localStorage` says there is one) instead of showing the app. Lock now and the idle lock save what is pending, drop the key and load the page again. The throttle is counted before the answer is shown. A record that does not open is never thrown away when the lock is turned off. Idle time 5, 10, 30 or 60 minutes. Reviewer checklist added; the review itself is not done |
 | 0.5 | 2026-10-05 | PM-10 built (`storage/health.ts`, `screens/settings/StorageHealth.tsx`). The block is in Settings → Your data and, in its short form (the lines and the button, without the explanation), inside the backup dialog. The storage manager is passed in, so every answer a browser can give — and a manager that throws, answers nonsense or does not exist — is tested; where there is no API the fixed explanation stands alone. The request to keep the data is made only by a click on a button that is offered only when the browser has not agreed and at least one result is saved; the end-to-end scenario counts the calls. When storage is blocked the block says the data is not being saved (the "Not saved" chip says the same elsewhere) and offers nothing else. Sizes use `Intl.NumberFormat` unit style, with a plain fallback |
 | 0.4 | 2026-10-05 | PM-09 built (`storage/crypto.ts`, `storage/backup/encrypted.ts`, `storage/passphrase.ts`). The crypto module is the storage layer's, shared with the lock (PM-20): `deriveKey` returns a **non-extractable** AES-GCM key, the passphrase is normalised (NFKC) so the same characters typed another way open the file, and compression uses a plain `ReadableStream` (not `Blob.stream()`, which jsdom lacks). The header is authenticated as the canonical JSON of every field but the ciphertext, so a change to the time, the compression, the iteration count, the salt or the iv fails the same way as a wrong passphrase — one answer, on purpose. The reader bounds the iteration count to 100 000–5 000 000, the salt to 16 bytes and the iv to 12 **before** any key derivation, and bounds the decompressed size (a bomb is refused, not inflated). The export is always at the current minimum (600 000); the tests that make many files use the smallest count a reader accepts. The passphrase must be ten characters typed twice, with a strength hint that says what it cannot know; it lives only in component state and is cleared after use. Known-answer tests use published vectors and are cross-checked against Node's own PBKDF2 and AES-GCM |
 | 0.3 | 2026-10-05 | PM-08 built (`apps/web/src/backup/`, `screens/settings/DataCard.tsx`). Choices made while building: the dialogs live once at the app (a provider inside the router, so a link in a dialog keeps the language), and any screen opens them; the preferences of a file are offered only when they would change something here (otherwise a second restore of the same file would always seem to have something to do); the share sheet is offered only where the browser can share a file, and the download happens either way; the restore dialog loads the knowledge base on demand (the replay needs it); an encrypted file says it cannot be restored yet until PM-09; the reminder is a `role="status"` card computed when the page opens, and *Not now* snoozes it for fourteen days; the Settings "what is stored" table gains a row for backup files |

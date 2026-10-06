@@ -2,9 +2,9 @@
 
 | | |
 |---|---|
-| **Version** | 0.1 (draft) |
+| **Version** | 0.2 (draft) |
 | **Status** | Design document; the user-facing statement (§8) needs legal review before release |
-| **Last updated** | 2026-10-04 |
+| **Last updated** | 2026-10-06 |
 | **Audience** | Developers, reviewers, whoever writes the public privacy statement |
 | **Related** | [PRD G7, NFR Privacy](PRD.md) · [Tech spec §8.3, §11](tech-spec.md) · [UX spec §4.2, §4.14](ux-spec.md) · [Safety policy](safety-policy.md) · [Algorithm spec §15](wuxing-algorithm.md) |
 
@@ -32,6 +32,11 @@
 | Backup passphrase | typed in the backup dialog (or the restore dialog) and used once to derive the key (PBKDF2-SHA-256, 600 000 iterations) that encrypts (AES-256-GCM) or opens the file | **Secret** | Protects a backup file the person chooses to protect; **never stored, never sent, no hint, no recovery** — a forgotten passphrase means the file cannot be opened by anyone | Memory only, cleared as soon as it is used | The moment the dialog finishes | — |
 | Backup files | the person's saved results (with the answers they hold), optionally the settings and the unfinished assessment; a checksum and the versions of the app that made it | **Sensitive (health)** | A copy the person keeps and can move to another device ([backup design](post-mvp/design/backup-and-data-lock.md)) | Wherever the person saves the file; the app keeps no copy | Until the person deletes the file | The person, by deleting the file |
 | Backup reminder | when the last backup was made (`lastBackupAt`), a snooze time (`backupSnoozeUntil`) and a switch (`backupReminder`), in the preferences | Low | The reminder card appears when results are not in a backup | `localStorage` key `tcm.prefs` | Until erased | Settings → Erase |
+| Lock passphrase | typed on the lock screen and in the three lock dialogs (turn on, change, turn off); it makes the key that unwraps the data key (PBKDF2-SHA-256, 600 000 iterations) | **Secret** | Opens the locked history; **never stored, never sent, no hint, no recovery** — a forgotten passphrase loses the history on this device, and the only way forward is *Erase everything* (then a backup made earlier can be restored) | Memory only (the fields are cleared when the dialog goes; a JavaScript string cannot be wiped, so it may stay until the garbage collector takes it) | The moment the dialog or the try finishes | — |
+| Data key | a random 256-bit key (AES-256-GCM) that encrypts the saved results and the unfinished assessment while the lock is on | **Secret** | Lets the page read and write the history while it is unlocked | In memory only, imported as non-extractable, dropped by *Lock now*, the idle time and any reload; on disk only **wrapped** by the passphrase's key, inside the lock record | Until the lock is turned off or everything is erased | Settings → Lock the history |
+| Lock record | a key id, the key-derivation settings and salt, the wrapped data key, the number of wrong passphrases in a row and the time of the last one — stored as `meta/lock` | Low (it holds no readable secret) | Opens the lock, and counts wrong tries so that each next one waits longer after five | IndexedDB `tcm-app`, store `meta` | Until the lock is turned off or everything is erased | Settings → Lock the history; Erase |
+| Lock marker | the value `1` under the key `tcm.lockHint`, present while a lock exists | None | Lets the first page of a locked device wait for the lock record instead of showing the history for a moment | `localStorage` | Removed when the lock is turned off; removed by Erase | Same |
+| Lock idle time | 5, 10, 30 or 60 minutes (`lockIdleMinutes`), in the preferences | Low | The history locks itself after this long without use | `localStorage` key `tcm.prefs` | Until erased | Settings → Lock the history |
 | Boot counter | a number (`tcm.boot`) raised when the page starts and cleared after its first render, and the time of the last recovery (`tcm.boot.recovered`) | None | The boot guard: two starts in a row that never rendered drop the offline copy ([offline design](post-mvp/design/offline-and-install.md) §3.5) | `localStorage` | Cleared by the next successful start | Settings → Erase |
 | Preferences | language (only once the user has chosen one), theme, text size, emergency-number region, "move on automatically" switch, "English offer dismissed" flag | Low | Personalisation; the one-time English offer is shown only while no language has been chosen | `localStorage` key `tcm.prefs` | Until erased | Settings |
 | Basic profile | age, sex at birth, pregnancy/lactation, region, lifestyle | **Sensitive (health)** | Safety scope and context | IndexedDB (draft, history) | Until the user deletes the assessment | Edit, delete |
@@ -44,6 +49,8 @@
 | Feedback marks | match / partly / no, per result, pattern and formula (stored inside the saved result) | Low | Optional calibration export (marks + result summary; the answers only if the user ticks "include my answers") | IndexedDB | Same | Export or delete |
 | Follow-up date | A day the person chose (in 2, 4 or 8 weeks) and, if they said "not now", when — stored inside the saved result | Low | Shows the card on the start page and in History when the day has passed; nothing is sent and no timer runs. A calendar file for that day, if the person asks, holds only a date and the title "time to look again" | IndexedDB | Same | Deleted with the result; included in a backup |
 | Technical | app/KB/engine versions, profile | Low | Reproducibility | Inside saved results | Same | — |
+
+**With the lock on** ([design](post-mvp/design/backup-and-data-lock.md#5-the-local-data-lock-fr-24-release-b)) every row above that is stored in IndexedDB — the profile, medicines and allergies, red-flag answers, findings, birth data if remembered, results, notes, feedback marks, the follow-up date, and the unfinished assessment — is stored **encrypted** (AES-256-GCM, a fresh random IV for every write, the store, key and version of the record bound in as additional data). What is not encrypted: the preferences and the disclaimer record (no health data, and the lock screen needs the language and theme), the lock record and the lock marker. The lock does not protect against malware or a malicious browser extension, and it does not replace the device's own screen lock and disk encryption.
 
 **Never collected:** name, email, phone, account identifiers, device identifiers, precise location, IP addresses by the app, contacts, photos (no photo upload in MVP).
 
@@ -58,14 +65,14 @@
 | **Cookies** | None |
 | **URLs and logs** | Routes contain only a random local assessment id; birth data, answers and notes never appear in URLs, titles, history state or console output in release |
 | **Hosting logs** | The static host may log request metadata (IP, user agent, URL) as web servers do. Choose a host that allows disabling or truncating logs, and state this in the public statement; none of this log data can include answers because answers are never sent |
-| **Storage mechanisms** | `localStorage` (preferences, acknowledgement) · IndexedDB `tcm-app` (drafts, assessments). All access goes through one module that catches errors and falls back to memory with a visible "Not saved" indicator |
+| **Storage mechanisms** | `localStorage` (preferences, acknowledgement) · IndexedDB `tcm-app` (drafts, assessments, and `meta` for the lock record). All access goes through one module that catches errors and falls back to memory with a visible "Not saved" indicator |
 | **Persistence of birth data** | Off by default. When off, the raw birth moment lives only in memory for the session; a saved result keeps the derived panel and a flag *birth data used*, not the birth moment — the four pillars and the true solar time that the engine computes are removed from the result before it is stored (`withoutBirthMoment`; checked by `apps/web/test/privacy.test.tsx`) — and "re-run" asks again |
 | **Offline copy (Cache Storage)** | The service worker ([offline design](post-mvp/design/offline-and-install.md)) keeps the files of the app build — scripts, styles, icons, the knowledge base — so the product works without a connection. Nothing the person produced is stored there (a test lists the cache after a whole assessment), and the worker never sees a request that carries data: it answers only `GET`s for files of its own build. Removed by "Remove offline copy" and by "Erase everything" |
-| **Erase everything** | Settings → one named dialog ("Erase everything on this device"): deletes IndexedDB, `localStorage`, Cache Storage and the service worker, then reloads. Also reachable from the Landing page |
+| **Erase everything** | Settings → one named dialog ("Erase everything on this device"): deletes IndexedDB (and with it the lock record), `localStorage` (and with it the lock marker), Cache Storage and the service worker, then reloads. Also reachable from the Landing page and from the lock screen — which is how a forgotten passphrase is dealt with |
 | **Delete one assessment** | History → Delete, with a short undo window |
 | **Export** | *Export my inputs*, *Export feedback*, *Save as a file…* on the practitioner summary (a structured summary of what that page shows, in sections the person switches on or off — the typed medicine names and the saved note start off — described by a [published schema](schemas/README.md)) and *Make a backup* (Settings → Your data, optionally protected with a passphrase) are explicit user actions with a warning that the file contains health data; there is no automatic upload; there is no "share link". A backup or a summary file is built in memory and handed to the browser as a download (or the system share sheet where the browser offers it); the app keeps no record of where either went. A file chosen for *Restore* is read in the page, checked and shown before anything is written, and is never uploaded |
 | **Print / PDF** | The user's own browser handles it; the print view includes the data the user chose to show |
-| **Device and backups** | Browser storage may be included in device backups or be visible to other people using the same browser profile — the privacy page says so and recommends erasing on shared devices |
+| **Device and backups** | Browser storage may be included in device backups or be visible to other people using the same browser profile — the privacy page says so and recommends erasing on shared devices, or turning on the lock (Settings → Lock the history): *You can lock the history on this device with a passphrase. We cannot recover it.* A backup file is not under the lock; it can be protected with its own passphrase |
 | **Private browsing / blocked storage** | The app works in memory; the "Not saved" chip is shown; nothing is persisted |
 
 ---
@@ -141,6 +148,8 @@ The public text (zh-Hant first, then English) will cover: what the app is; **wha
 | PQ4 | Whether opt-in aggregate counters (no answers) are ever added | Not in MVP |
 | PQ5 | Retention default for history (unlimited vs auto-expire) | Unlimited, with a visible count and delete-all |
 
+Since then (post-MVP, [decisions register](post-mvp/decisions.md)): PQ2 and PQ3 are answered together by one mechanism, the optional passphrase lock, built in PM-20; there is no screen-only PIN.
+
 ---
 
 ## 10. Changelog
@@ -148,3 +157,4 @@ The public text (zh-Hant first, then English) will cover: what the app is; **wha
 | Version | Date | Change |
 |---|---|---|
 | 0.1 | 2026-10-04 | Initial privacy design |
+| 0.2 | 2026-10-06 | The local data lock (PM-20): rows for the passphrase, the data key, the lock record, the lock marker and the idle time; the paragraph on what is encrypted; the storage, erase and device rows |

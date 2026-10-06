@@ -30,7 +30,8 @@ export function BackupDialog({ onClose }: { onClose: () => void }): ReactNode {
   const [draftOn, setDraftOn] = useState(false);
   const [phase, setPhase] = useState<Phase>({ kind: "choose" });
   const [busy, setBusy] = useState(false);
-  const [protect, setProtect] = useState(false);
+  const lockOn = useApp((s) => s.lock === "unlocked");
+  const [protect, setProtect] = useState(lockOn);                 // with the lock on, the file is protected unless the person says otherwise (backup design §9)
   const [passphrase, setPassphrase] = useState("");
   const [again, setAgain] = useState("");
 

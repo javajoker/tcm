@@ -2,9 +2,9 @@
 
 | | |
 |---|---|
-| **Version** | 0.2 (draft) |
+| **Version** | 0.3 (draft) |
 | **Status** | Draft — no UI implemented yet |
-| **Last updated** | 2026-10-04 |
+| **Last updated** | 2026-10-06 |
 | **Derives from** | [PRD v0.3](PRD.md) (FR-1…FR-20, NFRs) · [Diagnosis SOP v0.2](diagnosis-sop.zh-TW.md) (what is asked and shown) · [Tech spec](tech-spec.md) (routes, state, components' data) |
 | **Sibling docs** | [Safety policy](safety-policy.md) owns the **notice wording** · [i18n guide](i18n-guide.md) owns **terminology and copy rules** · [Test plan](test-plan.md) owns usability and accessibility testing |
 
@@ -70,6 +70,7 @@ Landing ─► Start (profile, birth*) ─► Safety screening ─► Inquiry �
 | S19 | Loading, offline, error, 404 | — | Fallback states | — |
 | S21 | Learn: hub, list, page | `/:lang/learn`, `/:lang/learn/:kind`, `/:lang/learn/:kind/:id` | Browse and search the knowledge the app holds without taking an assessment; cautions first on anything a person might use, never "you" ([design](post-mvp/design/knowledge-browser.md)) | `glossary`, `citations`, `patterns`, `constitutions`, `formulas`, `treatment` (points, foods) |
 | S22 | Compare patterns | `/:lang/learn/compare?ids=…` | Two or three patterns side by side: what they share, what tells them apart, and which topics of the assessment bring out the difference; a chooser when fewer than two are named | `patterns`, `symptoms`, `questions` |
+| S23 | Lock screen | any route, while a lock is on and the key is not in memory | Replaces the whole app: a passphrase field, the language and the theme, and the way out (erase) — nothing of the history is rendered or fetched ([design](post-mvp/design/backup-and-data-lock.md#56-as-built-pm-20)) | `meta/lock` |
 | S20 | Developer inspector | `/:lang/_dev` | Dev profile only (see tech spec §8.6) | Everything |
 
 ---
@@ -323,7 +324,11 @@ With three or more results of one version the page has a **Results | Trends** ta
 
 ### 4.14 S17 Settings and privacy
 
-Language · theme (system/light/dark) · text size (4 presets) · *Offline use* (the state of the offline copy in words, *Reload to update* when a newer build waits, *Remove offline copy*) and *Install this app* (the browser's offer as a button once it has made one, and the same few words about "Add to Home Screen" for everyone) — release builds only; and *Your data* (*Make a backup…*, *Restore from a file…*, the date of the last backup, the reminder switch) · "Move on automatically after I answer" · "Erase everything on this device" (one explicit dialog stating exactly what will be deleted) · "Remember birth data" default · a plain-language **what is stored** table · version stamps (app, knowledge base, engine, parameters) · links to Sources and the project licence.
+Language · theme (system/light/dark) · text size (4 presets) · *Offline use* (the state of the offline copy in words, *Reload to update* when a newer build waits, *Remove offline copy*) and *Install this app* (the browser's offer as a button once it has made one, and the same few words about "Add to Home Screen" for everyone) — release builds only; and *Your data* (*Make a backup…*, *Restore from a file…*, the date of the last backup, the reminder switch) · *Lock the history* (below) · "Move on automatically after I answer" · "Erase everything on this device" (one explicit dialog stating exactly what will be deleted) · "Remember birth data" default · a plain-language **what is stored** table · version stamps (app, knowledge base, engine, parameters) · links to Sources and the project licence.
+
+**Lock the history** (Release B, [design §5.6](post-mvp/design/backup-and-data-lock.md#56-as-built-pm-20)). A card that says what the lock does — the saved results and the unfinished assessment are stored encrypted under a passphrase — and what it does not: malware, a malicious browser extension, the device's own screen lock and disk encryption; and that a forgotten passphrase cannot be recovered by anyone. *Turn the lock on…* opens a dialog with the same words, a step **A backup first** (a backup made in the last quarter of an hour counts; otherwise *Make a backup…*, or a box — *I understand that without a backup a forgotten passphrase loses my history*), the passphrase twice with a strength hint, and a button that waits for all of it; while it works the dialog says so and cannot be dismissed. When the lock is on the card says so and offers the idle time (5, 10 — the default — 30 or 60 minutes), *Lock now*, *Change the passphrase…* and *Turn the lock off…*, each of which asks for the passphrase; the header menu has a *Lock* button. Where storage is blocked or only in memory the card says why the lock cannot be turned on.
+
+**S23 Lock screen.** In place of the whole app — header menu and all — while the lock is on and the key is not in memory: after *Lock now*, after the idle time, after any reload, and when the app is opened again. A heading (*The history on this device is locked*), one passphrase field (focused), *Unlock*, the language and theme choices (which stay readable for this reason), and a card *Forgot it?* that says nobody can recover a forgotten passphrase and offers *Erase everything on this device* (the usual one confirm dialog; a backup file made earlier can be restored afterwards). A wrong passphrase says *That passphrase did not open it.* and the field is cleared. After five in a row the button waits: the screen shows the seconds counting down and says that waiting slows down a person at the keyboard and does not stop someone with a copy of the data. A screen reader hears the wait **once**, with its length, and *You can try again now.* when it is over — the countdown is not read out every second. A damaged lock record says that nothing can open it and offers only the erase. A successful unlock returns to the address that was open. The first paint of a locked device is never the app.
 
 ### 4.15 S18 Sources
 
@@ -560,3 +565,4 @@ Testing method and scenarios are in the [test plan](test-plan.md).
 |---|---|---|
 | 0.1 | 2026-10-04 | Initial UI/UX specification |
 | 0.2 | 2026-10-04 | Open design questions UQ1–UQ7 resolved with MVP defaults (working name, bands only, line-art illustrations, history compare in MVP); auto-advance is a Settings option instead of screen-reader detection |
+| 0.3 | 2026-10-06 | The lock (PM-20): the Lock card of Settings (S17) and the lock screen (S23). Other post-MVP screens (S21, S22, the Trends tab, the Offline and Your data cards) are specified in their own design documents |

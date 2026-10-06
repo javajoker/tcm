@@ -1,11 +1,12 @@
 import { describe, expect, it, vi } from "vitest";
 import { createAppStore } from "../src/app/store.tsx";
-import type { Persistence } from "../src/storage/persistence.ts";
+import type { LockApi, Persistence } from "../src/storage/persistence.ts";
 import type { Draft } from "../src/storage/types.ts";
 import { fakeEnvironment, testStore } from "./helpers.tsx";
 
+const noLock: LockApi = { hint: () => false, status: async () => ({ phase: "none", allowedAt: null, failures: 0, broken: false }), unlock: async () => ({ ok: false, reason: "unavailable", allowedAt: null, failures: 0 }), lockNow: () => undefined, enable: async () => "failed", disable: async () => "failed", change: async () => "failed", onChanged: () => () => undefined };
 const stub = (over: Partial<Persistence> = {}): Persistence => ({
-  status: "persistent", subscribe: () => () => undefined, loadPrefs: () => ({ theme: "system", textScale: 1, langOfferDismissed: false, autoAdvance: true }), savePrefs: () => undefined,
+  status: "persistent", lock: noLock, subscribe: () => () => undefined, loadPrefs: () => ({ theme: "system", textScale: 1, langOfferDismissed: false, autoAdvance: true }), savePrefs: () => undefined,
   loadDraft: async () => null, saveDraft: async () => undefined, clearDraft: async () => undefined,
   putAssessment: async () => undefined, getAssessment: async () => null, listAssessments: async () => [], deleteAssessment: async () => undefined,
   applyWrites: async () => true,

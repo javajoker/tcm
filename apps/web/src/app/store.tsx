@@ -7,7 +7,7 @@ import { createAutosaver, type Autosaver } from "../storage/autosave.ts";
 import type { BackupPrefs, Source as BackupSource, Write } from "../storage/backup/index.ts";
 import { newDraft } from "../storage/draft.ts";
 import { randomId } from "../storage/ids.ts";
-import type { Persistence } from "../storage/persistence.ts";
+import type { LockOutcome, LockStatus, Persistence, UnlockResult } from "../storage/persistence.ts";
 import type { Draft, Prefs, SavedAssessment, StorageStatus } from "../storage/types.ts";
 
 export interface AppState {
@@ -16,8 +16,19 @@ export interface AppState {
   /** False until the stored draft has been read; the Resume card must not decide before that. */
   readonly draftLoaded: boolean;
   readonly storage: StorageStatus;
-  /** Reads the stored draft. Call once at start-up. */
+  /** The local data lock (design §5): `unknown` until the lock record has been read; `locked` — nothing of the history is read or shown; `unlocked` — the key is in memory; `none` — there is no lock. */
+  readonly lock: "unknown" | "none" | "locked" | "unlocked";
+  /** What the lock screen needs: how many wrong passphrases in a row, when the next try is allowed, whether the lock record is unreadable. */
+  readonly lockStatus: LockStatus | null;
+  /** Reads the lock and, unless it is locked, the stored draft. Call once at start-up. */
   init(): Promise<void>;
+  /** Try a passphrase; on success the history is read. */
+  unlock(passphrase: string): Promise<UnlockResult>;
+  /** Save what is pending, drop the key and show the lock screen (and reload, so that nothing of the history stays in memory). */
+  lockNow(): Promise<void>;
+  enableLock(passphrase: string): Promise<"ok" | "failed">;
+  disableLock(passphrase: string): Promise<LockOutcome>;
+  changePassphrase(current: string, next: string): Promise<LockOutcome>;
   setPrefs(patch: Partial<Prefs>): void;
   /** The user explicitly chose a language (toggle or the English offer): remember it. */
   chooseLang(lang: Lang): void;
@@ -47,6 +58,8 @@ export interface StoreDeps {
   readonly newId?: () => string;
   /** Called after an erase; the browser default navigates to `/`. */
   readonly reload?: () => void;
+  /** Called after the app locked, or when another tab changed the lock: the page is loaded again where it is, and finds the lock (default: reload the page). */
+  readonly refresh?: () => void;
   /** Removes the offline copy and the service worker, so that an erased device does not keep an empty-cache worker (default: nothing to remove). */
   readonly removeOfflineCopy?: () => Promise<void>;
   readonly autosaveMs?: number;
@@ -54,16 +67,50 @@ export interface StoreDeps {
 
 export type AppStore = StoreApi<AppState> & { readonly flush: () => Promise<void> };
 
-export function createAppStore({ persistence, now = () => Date.now(), newId = randomId, reload = () => { window.location.assign("/"); }, removeOfflineCopy = () => Promise.resolve(), autosaveMs = 250 }: StoreDeps): AppStore {
+export function createAppStore({ persistence, now = () => Date.now(), newId = randomId, reload = () => { window.location.assign("/"); }, refresh = () => { window.location.reload(); }, removeOfflineCopy = () => Promise.resolve(), autosaveMs = 250 }: StoreDeps): AppStore {
   const saver: Autosaver<Draft> = createAutosaver((d) => persistence.saveDraft(d), autosaveMs);
   const store = createStore<AppState>()((set, get) => ({
     prefs: persistence.loadPrefs(),
     draft: null,
     draftLoaded: false,
     storage: persistence.status,
+    lock: persistence.lock.hint() ? "unknown" : "none",           // a device known to have a lock waits for its record; any other shows the app at once, and `init` corrects it if the hint was wrong
+    lockStatus: null,
     async init() {
+      const lockStatus = await persistence.lock.status();
+      if (lockStatus.phase === "locked") { set({ lock: "locked", lockStatus, draft: null, draftLoaded: false, storage: persistence.status }); return; }      // nothing of the history is read while locked
       const draft = await persistence.loadDraft();
-      set((s) => ({ draft: s.draft ?? draft, draftLoaded: true, storage: persistence.status }));
+      set((s) => ({ lock: lockStatus.phase, lockStatus, draft: s.draft ?? draft, draftLoaded: true, storage: persistence.status }));
+    },
+    async unlock(passphrase) {
+      const result = await persistence.lock.unlock(passphrase);
+      if (result.ok) await get().init();
+      else set({ lockStatus: { phase: "locked", allowedAt: result.allowedAt, failures: result.failures, broken: result.reason === "broken" } });
+      return result;
+    },
+    async lockNow() {
+      await saver.flush();                      // a write in flight is awaited before the key is dropped
+      saver.cancel();
+      persistence.lock.lockNow();
+      set({ lock: "locked", lockStatus: await persistence.lock.status(), draft: null, draftLoaded: false });
+      refresh();
+    },
+    async enableLock(passphrase) {
+      await saver.flush();
+      const result = await persistence.lock.enable(passphrase);
+      if (result === "ok") set({ lock: "unlocked", lockStatus: await persistence.lock.status() });
+      return result;
+    },
+    async disableLock(passphrase) {
+      await saver.flush();
+      const result = await persistence.lock.disable(passphrase);
+      set({ lock: result === "ok" ? "none" : get().lock, lockStatus: await persistence.lock.status() });
+      return result;
+    },
+    async changePassphrase(current, next) {
+      const result = await persistence.lock.change(current, next);
+      set({ lockStatus: await persistence.lock.status() });
+      return result;
     },
     setPrefs(patch) {
       const prefs = { ...get().prefs, ...patch };
@@ -124,6 +171,8 @@ export function createAppStore({ persistence, now = () => Date.now(), newId = ra
     },
   }));
   persistence.subscribe((storage) => store.setState({ storage }));
+  let reloading = false;
+  persistence.lock.onChanged(() => { saver.cancel(); if (!reloading) { reloading = true; refresh(); } });      // another tab turned the lock on, off or changed it: load again, once, and find the lock as it now is
   const flush = (): Promise<void> => saver.flush();
   return Object.assign(store, { flush });
 }
