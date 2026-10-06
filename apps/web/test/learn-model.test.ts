@@ -5,6 +5,7 @@ import { rawChunksFromDisk } from "@tcm/kb/node";
 import { createI18n } from "@tcm/i18n";
 import { describe, expect, it } from "vitest";
 import { catalogs, type MessageKey } from "../src/i18n/catalogs.ts";
+import { comparisonPage, compareHref, compareLinks, parseIds } from "../src/learn/compare.ts";
 import { listOf, pageOf } from "../src/learn/pages.ts";
 import { AVAILABLE, hrefOf, infoOf, TYPES, typeOfPath } from "../src/learn/registry.ts";
 import { buildIndex, matching, normalise, PER_TYPE, search } from "../src/learn/search.ts";
@@ -146,7 +147,7 @@ describe.each(["en", "zh-Hant"] as const)("the pages of every available kind · 
       for (const s of Object.keys(p.against)) expect(shown, `${p.id} against ${s}`).toContain(kb.symptoms.get(s)!["zh-Hant"]);
       expect(groups[0]!.label).toBe(t.t("learn.band.key"));
       // R5: a pattern page never addresses the reader, never asks, and never says which pattern a visitor might have
-      const text = JSON.stringify(page.sections);
+      const text = JSON.stringify(page.sections, (k, v) => (k === "href" ? undefined : v));        // the text of the page: an address may carry a query
       expect(text).not.toMatch(/\b(you|your)\b|\?/i);
       for (const r of page.related) expect(kb.patternById.get(r.href.split("/").pop()!)?.group, r.href).toBe(p.group);
       // the treatment lists (points, foods, lifestyle) belong to the pages that carry cautions first, not to this one
@@ -298,5 +299,56 @@ describe.each(["en", "zh-Hant"] as const)("pages about something a person might 
       const links = pageOf(release, "pattern", p.id, t)!.sections.find((s) => s.id === "assoc")?.blocks.flatMap((b) => (b.kind === "links" ? b.groups.flatMap((g) => g.items.map((i) => i.href)) : [])) ?? [];
       for (const href of links.filter((h) => h.startsWith("/learn/formulas/"))) expect(release.formulas.has(href.split("/").pop()!), `${p.id} ${href}`).toBe(true);
     }
+  });
+});
+
+describe("the comparison of patterns", () => {
+  it("reads the patterns of an address: known, different, in order, at most three; an unknown one is reported", () => {
+    expect(parseIds(kb, "?ids=EX1,EX2")).toEqual({ ids: ["EX1", "EX2"], unknown: false });
+    expect(parseIds(kb, "ids=EX2,EX1,SP1,LV1")).toEqual({ ids: ["EX2", "EX1", "SP1"], unknown: false });
+    expect(parseIds(kb, "ids=EX1,EX1,EX2")).toEqual({ ids: ["EX1", "EX2"], unknown: false });
+    expect(parseIds(kb, "ids=EX1,NOPE,EX2")).toEqual({ ids: ["EX1", "EX2"], unknown: true });
+    expect(parseIds(kb, "ids=")).toEqual({ ids: [], unknown: false });
+    expect(parseIds(kb, "")).toEqual({ ids: [], unknown: false });
+    expect(compareHref(["EX1", "EX2"])).toBe("/learn/compare?ids=EX1,EX2");
+    expect(compareHref([])).toBe("/learn/compare");
+  });
+  for (const lang of ["en", "zh-Hant"] as const) {
+    const t = tFor(lang);
+    const SECOND_PERSON = lang === "en" ? /\b(you|your|yours|yourself)\b/i : /[你妳您]/;
+    it(`every pair of the 23 patterns has a comparison in words, with a cell per pattern in every row and no second-person text, no question mark and no number from the records · ${lang}`, () => {
+      const all = kb.patterns.map((p) => p.id);
+      for (const [i, a] of all.entries()) for (const b of all.slice(i + 1)) {
+        const m = comparisonPage(kb, [a, b], t);
+        expect(m.sections.map((s) => s.id), `${a}/${b}`).toEqual(["overview", "shared", "differ", "questions"]);
+        for (const s of m.sections) for (const block of s.blocks) {
+          if (block.kind === "table") for (const row of block.rows) expect(row, `${a}/${b} ${s.id}`).toHaveLength(3);
+          if (block.kind === "table") expect(block.head).toHaveLength(3);
+        }
+        const text = JSON.stringify(m.sections);
+        expect(text.match(SECOND_PERSON)?.[0], `${a}/${b}`).toBeUndefined();
+        expect(text, `${a}/${b}: topics, not questions`).not.toContain("?");
+        expect(text, `${a}/${b}: no question of the bank is quoted`).not.toMatch(/Select all that apply|符合的請全選/);
+      }
+    });
+    it(`bands are words and the K-07 pairs name three topics of the bank · ${lang}`, () => {
+      const m = comparisonPage(kb, ["EX2", "EX4"], t);
+      const differ = m.sections.find((s) => s.id === "differ")!.blocks.find((b) => b.kind === "table")!;
+      if (differ.kind !== "table") throw new Error("no table");
+      const words = new Set([t.t("learn.compare.band.key"), t.t("learn.compare.band.common"), t.t("learn.compare.band.supporting"), t.t("learn.compare.band.against"), t.t("learn.compare.band.none")]);
+      for (const row of differ.rows) for (const cell of row.slice(1)) expect(words.has(cell as string), `${cell}`).toBe(true);
+      const topics = m.sections.find((s) => s.id === "questions")!.blocks.find((b) => b.kind === "groups")!;
+      if (topics.kind !== "groups") throw new Error("no topics");
+      expect(topics.groups).toHaveLength(3);
+      for (const g of topics.groups) { expect(g.label).toBeTruthy(); expect(g.items.length).toBeGreaterThan(0); }
+    });
+  }
+  it("a pattern page links to the comparison with each other pattern of its group, and nowhere else", () => {
+    for (const p of kb.patterns) {
+      const links = compareLinks(kb, p.id);
+      expect(links.map((l) => l.href)).toEqual(kb.patterns.filter((x) => x.group === p.group && x.id !== p.id).map((x) => compareHref([p.id, x.id])));
+      for (const l of links) expect(parseIds(kb, new URL(l.href, "http://x").search).ids[0]).toBe(p.id);
+    }
+    expect(compareLinks(kb, "NOPE")).toEqual([]);
   });
 });

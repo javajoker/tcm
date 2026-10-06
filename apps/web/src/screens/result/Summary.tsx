@@ -1,10 +1,12 @@
 import type { ReactNode } from "react";
+import { Link } from "wouter";
 import { useI18n } from "../../i18n/I18nProvider.tsx";
 import type { MessageKey } from "../../i18n/catalogs.ts";
 import { useLoaded } from "../../app/knowledge.tsx";
 import type { SavedAssessment } from "../../storage/types.ts";
 import { Button, Card, Chip, Progress } from "../../ui/index.ts";
 import { ConstitutionTendency } from "./ConstitutionTendency.tsx";
+import { compareHref } from "../../learn/compare.ts";
 import { BilingualName, Prose } from "./shared.tsx";
 
 const METER = { high: 1, medium: 0.66, low: 0.33, insufficient: 0 } as const;
@@ -71,7 +73,15 @@ export function Summary({ saved, onAnswerMore, onAddObservation }: { saved: Save
         <>
           <h3>{t.t("report.summary.alternatives")}</h3>
           <ul>
-            {alternatives.map((p) => { const r = rec(p.id); return r ? <li key={p.id}><BilingualName v={r.name} /> <Chip>{t.t(`report.band.${p.band}` as MessageKey)}</Chip></li> : null; })}
+            {alternatives.map((p) => {
+              const r = rec(p.id);
+              return r ? (
+                <li key={p.id}>
+                  <BilingualName v={r.name} /> <Chip>{t.t(`report.band.${p.band}` as MessageKey)}</Chip>
+                  {lead && leadRec ? <> <Link href={compareHref([lead.id, p.id])} aria-label={t.t("report.summary.compare.label", { name: t.localized(r.name).text, lead: t.localized(leadRec.name).text })}>{t.t("report.summary.compare")}</Link></> : null}
+                </li>
+              ) : null;
+            })}
           </ul>
         </>
       ) : null}

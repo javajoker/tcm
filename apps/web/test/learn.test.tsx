@@ -11,7 +11,7 @@ import { I18nProvider } from "../src/i18n/I18nProvider.tsx";
 import { Page } from "../src/learn/Page.tsx";
 import type { PageModel } from "../src/learn/types.ts";
 import { fakeEnvironment, renderApp, testStore } from "./helpers.tsx";
-import { kb, loaded, loadedHans } from "./sweep.tsx";
+import { kb, loaded, loadedHans, render as renderRoute, saved } from "./sweep.tsx";
 
 const go = (path: string): void => { window.history.pushState({}, "", path); };
 afterEach(() => { go("/"); });
@@ -33,7 +33,7 @@ describe("the hub", () => {
     await open("/en/learn");
     expect(screen.getByRole("heading", { level: 1, name: "Learn" })).toBeInTheDocument();
     const cards = within(screen.getByRole("region", { name: "Browse by kind" })).getAllByRole("link");
-    expect(cards.map((c) => c.getAttribute("href"))).toEqual(["/en/learn/patterns", "/en/learn/constitutions", "/en/learn/formulas", "/en/learn/points", "/en/learn/foods", "/en/learn/quotations", "/en/learn/terms"]);
+    expect(cards.map((c) => c.getAttribute("href"))).toEqual(["/en/learn/patterns", "/en/learn/constitutions", "/en/learn/formulas", "/en/learn/points", "/en/learn/foods", "/en/learn/quotations", "/en/learn/terms", "/en/learn/compare"]);
     expect(cards[0]).toHaveTextContent(`${kb.patterns.length} entries`);
     expect(cards[6]).toHaveTextContent(`${kb.glossary.length} entries`);
     expect(cards[2]).toHaveTextContent(`${kb.formulas.size} entries`);
@@ -304,6 +304,85 @@ describe("a food page", () => {
     const { user } = await open("/en/learn");
     await user.type(screen.getByRole("combobox"), name);
     expect(within(screen.getByRole("listbox")).getAllByRole("option").some((o) => o.getAttribute("href") === `/en/learn/foods/${food.id}`)).toBe(true);
+  });
+});
+
+describe("comparing patterns", () => {
+  const name = (id: string): string => kb.patternById.get(id)!.name.en!;
+  it("is a card on the hub and a section of every pattern page, and the section links to the comparison with the others of its group", async () => {
+    await open("/en/learn");
+    expect(within(screen.getByRole("region", { name: "Browse by kind" })).getByRole("link", { name: /Compare patterns/ })).toHaveAttribute("href", "/en/learn/compare");
+    document.body.innerHTML = "";
+    await open("/en/learn/patterns/EX1");
+    const section = screen.getByRole("region", { name: "Compare with" });
+    expect(within(section).getAllByRole("link").map((a) => a.getAttribute("href"))).toEqual(kb.patterns.filter((p) => p.group === "external" && p.id !== "EX1").map((p) => `/en/learn/compare?ids=EX1,${p.id}`));
+  });
+  it("puts two patterns side by side as real tables: row headers for the features, column headers for the patterns, bands as words, and topics rather than questions", async () => {
+    await open("/en/learn/compare?ids=EX2,EX4");
+    expect(screen.getByRole("heading", { level: 1, name: "Compare patterns" })).toBeInTheDocument();
+    expect(document.title).toContain("Compare patterns: ");
+    const overview = within(screen.getByRole("region", { name: "The patterns" })).getByRole("table");
+    expect(within(overview).getAllByRole("columnheader").map((h) => h.textContent)).toEqual(["Item", name("EX2"), name("EX4")]);
+    expect(within(overview).getByRole("rowheader", { name: "Direction of care" })).toBeInTheDocument();
+    const differ = within(screen.getByRole("region", { name: "Features that tell them apart" })).getByRole("table");
+    expect(within(differ).getAllByRole("columnheader").map((h) => h.textContent)).toEqual(["Feature", name("EX2"), name("EX4")]);
+    expect(within(differ).getAllByRole("rowheader").length).toBeGreaterThan(2);
+    const cells = within(differ).getAllByRole("cell").map((c) => c.textContent);
+    for (const c of cells) expect(["Key", "Common", "Supporting", "Speaks against", "Not in the record"]).toContain(c);
+    expect(cells.some((c) => c === "Speaks against") || cells.some((c) => c === "Not in the record")).toBe(true);
+    const topics = within(screen.getByRole("region", { name: "What an assessment asks about to tell them apart" })).getAllByRole("heading", { level: 3 });
+    expect(topics).toHaveLength(3);
+    expect(document.querySelector("article, main")!.textContent).not.toMatch(/Select all that apply|\byou\b/i);
+    expect(screen.getByRole("link", { name: new RegExp(name("EX2").slice(0, 10)) })).toHaveAttribute("href", "/en/learn/patterns/EX2");
+  });
+  it("compares three patterns, in the order given", async () => {
+    await open("/en/learn/compare?ids=SP1,EX1,LV1");
+    const overview = within(screen.getByRole("region", { name: "The patterns" })).getByRole("table");
+    expect(within(overview).getAllByRole("columnheader").map((h) => h.textContent)).toEqual(["Item", name("SP1"), name("EX1"), name("LV1")]);
+  });
+  it("asks for the patterns when the address names fewer than two, refuses one pattern twice, and goes to the comparison", async () => {
+    const { user } = await open("/en/learn/compare");
+    expect(screen.getByRole("heading", { level: 2, name: "Choose the patterns to compare" })).toBeInTheDocument();
+    const [first, second] = screen.getAllByRole("combobox");
+    await user.selectOptions(first!, "EX2");
+    await user.click(screen.getByRole("button", { name: "Compare" }));
+    expect(screen.getByRole("alert")).toHaveTextContent("Choose at least two different patterns.");
+    await user.selectOptions(second!, "EX2");
+    await user.click(screen.getByRole("button", { name: "Compare" }));
+    expect(screen.getByRole("alert")).toHaveTextContent("Choose at least two different patterns.");
+    await user.selectOptions(second!, "EX4");
+    await user.click(screen.getByRole("button", { name: "Compare" }));
+    expect(window.location.pathname + window.location.search).toBe("/en/learn/compare?ids=EX2,EX4");
+    expect(await screen.findByRole("region", { name: "Features that tell them apart" })).toBeInTheDocument();
+  });
+  it("says when an address names a pattern the app does not have, and compares the rest or asks", async () => {
+    await open("/en/learn/compare?ids=EX2,NOPE");
+    expect(screen.getByText("Some of the patterns in the address are not in the app; only the others are used.")).toBeInTheDocument();
+    expect(screen.getByRole("heading", { level: 2, name: "Choose the patterns to compare" })).toBeInTheDocument();
+    document.body.innerHTML = "";
+    await open("/en/learn/compare?ids=EX2,NOPE,EX4");
+    expect(screen.getByText("Some of the patterns in the address are not in the app; only the others are used.")).toBeInTheDocument();
+    expect(screen.getByRole("region", { name: "The patterns" })).toBeInTheDocument();
+  });
+  it("is available in Chinese and Simplified", async () => {
+    await open("/zh-Hant/learn/compare?ids=EX2,EX4");
+    expect(screen.getByRole("heading", { level: 1, name: "比較證型" })).toBeInTheDocument();
+    document.body.innerHTML = "";
+    await open("/zh-Hans/learn/compare?ids=EX2,EX4", true);
+    expect(screen.getByRole("heading", { level: 1, name: "比较证型" })).toBeInTheDocument();
+  });
+  it("is linked from a result's other possible patterns, each link naming both patterns", async () => {
+    // a saved result whose verdict lists two alternatives after the leading pattern (the stored shape of an ambiguous result)
+    const verdict = saved.result.verdict;
+    if (verdict.status === "insufficient") throw new Error("the fixture is a result");
+    const [lead] = verdict.patterns;
+    const others = [{ ...lead!, id: "EX2", band: "medium" as const }, { ...lead!, id: "EX4", band: "weak" as const }];
+    const record = { ...saved, id: "r9123456789abcdef", result: { ...saved.result, verdict: { ...verdict, patterns: [lead!, ...others] } } };
+    await renderRoute("en", `/result/${record.id}`, "saved", undefined, [record]);
+    const links = screen.getAllByRole("link", { name: /^Compare .* with / });
+    expect(links).toHaveLength(others.length);
+    links.forEach((a, i) => expect(a).toHaveAttribute("href", `/en/learn/compare?ids=${lead!.id},${others[i]!.id}`));
+    expect(links[0]).toHaveTextContent("Compare with the leading pattern");
   });
 });
 

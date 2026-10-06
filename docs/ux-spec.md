@@ -69,6 +69,7 @@ Landing ─► Start (profile, birth*) ─► Safety screening ─► Inquiry �
 | S18 | Sources / knowledge viewer | `/:lang/sources` | Provenance and review status; P2: browser | KB |
 | S19 | Loading, offline, error, 404 | — | Fallback states | — |
 | S21 | Learn: hub, list, page | `/:lang/learn`, `/:lang/learn/:kind`, `/:lang/learn/:kind/:id` | Browse and search the knowledge the app holds without taking an assessment; cautions first on anything a person might use, never "you" ([design](post-mvp/design/knowledge-browser.md)) | `glossary`, `citations`, `patterns`, `constitutions`, `formulas`, `treatment` (points, foods) |
+| S22 | Compare patterns | `/:lang/learn/compare?ids=…` | Two or three patterns side by side: what they share, what tells them apart, and which topics of the assessment bring out the difference; a chooser when fewer than two are named | `patterns`, `symptoms`, `questions` |
 | S20 | Developer inspector | `/:lang/_dev` | Dev profile only (see tech spec §8.6) | Everything |
 
 ---

@@ -4,6 +4,7 @@ import { Link } from "wouter";
 import { useI18n } from "../i18n/I18nProvider.tsx";
 import { NeedsKnowledge, useLoaded } from "../app/knowledge.tsx";
 import { usePageTitle } from "../app/usePageTitle.ts";
+import { Compare } from "./Compare.tsx";
 import { Hub } from "./Hub.tsx";
 import { List } from "./List.tsx";
 import { Page } from "./Page.tsx";
@@ -33,6 +34,6 @@ function Body({ type, id }: { type?: string | undefined; id?: string | undefined
   return model === null ? <Missing /> : <Page model={model} />;
 }
 
-export function Learn({ type, id }: { type?: string; id?: string }): ReactNode {
-  return <NeedsKnowledge><Body type={type} id={id} /></NeedsKnowledge>;
+export function Learn({ type, id, compare = false }: { type?: string; id?: string; /** The comparison of patterns, which is not a kind of page. */ compare?: boolean }): ReactNode {
+  return <NeedsKnowledge>{compare ? <Compare /> : <Body type={type} id={id} />}</NeedsKnowledge>;
 }

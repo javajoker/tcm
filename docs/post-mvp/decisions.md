@@ -124,10 +124,11 @@ An *unchanged* decision means the MVP answer still holds and the reason is state
 | PD-09 | Releases are named A–D by theme; version numbers are assigned when tagged; a feature ships when its class gates are met | The review track sets the pace, not this plan |
 | PD-10 | Research items begin as spikes with a written protocol and stop conditions; shipping is a separate decision | Unknown accuracy must be measured before it is offered |
 | PD-11 | Any new download — dataset, model, archive, tool, browser — is approved by the owner first, with filename, source and size | Standing safety rule |
-| PD-12 | The all-JavaScript budget rises with each release by the lazy budgets that release declares (260 KB for the MVP → 300 KB for Release A: Simplified catalogue ≈ 20, service worker ≤ 10, backup ≈ 10); the initial 200 KB and the 50 KB per lazy chunk do not change | The figure bounds growth, not a visit: nobody downloads every lazy feature. Release A already uses 21 of the 37 KB the MVP left, so keeping 260 would have meant refusing the language |
+| PD-12 | The all-JavaScript budget rises with each release by the lazy budgets that release declares (260 KB for the MVP → 300 KB for Release A: Simplified catalogue ≈ 20, service worker ≤ 10, backup ≈ 10 → **350 KB for Release B, decided 2026-10-06**: Learn ≈ 12 (measured 9.2 with all seven kinds and the comparison), practitioner export ≈ 10, trends ≈ 13, data lock ≈ 15); the initial 200 KB and the 50 KB per lazy chunk do not change | The figure bounds growth, not a visit: nobody downloads every lazy feature. Release A already uses 21 of the 37 KB the MVP left, so keeping 260 would have meant refusing the language |
 
 ## 3. Changelog
 
 | Version | Date | Change |
 |---|---|---|
 | 0.1 | 2026-10-05 | Initial register: all "revisit after the MVP" items answered; PD-01 … PD-12 |
+| 0.2 | 2026-10-06 | PD-12 extended for Release B: all JavaScript ≤ 350 KB |

@@ -14,4 +14,4 @@ export { nextQuestions, isAsked, type InquiryState, type NextQuestions, type Que
 export { assess, ENGINE_VERSION, type AssessInput, type Assessment } from "./assess.ts";
 export { recommend, MAX_RECOMMENDED_FORMULAS, type Recommendations, type FormulaRecommendation, type FoodRecommendation, type AcupointRecommendation, type RecommendInput, type RecommendResult } from "./recommend.ts";
 export { scoreConstitution, susceptibilityAt, BALANCED, MIN_ANSWERED_SHARE, type ConstitutionResult, type ConstitutionScore, type ConstitutionLevel, type ConstitutionBlock, type SeasonSusceptibility, type SusceptibilityItem } from "./constitution.ts";
-export { featureBand, featuresOf, KEY_SHARE, COMMON_SHARE, type Feature, type FeatureBand } from "./learn.ts";
+export { featureBand, featuresOf, comparePatterns, KEY_SHARE, COMMON_SHARE, DISTINGUISHES, MAX_COMPARED, MAX_QUESTIONS, type Feature, type FeatureBand, type Comparison, type ComparedFeature, type ComparedQuestion } from "./learn.ts";

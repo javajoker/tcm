@@ -313,6 +313,8 @@
   "report.season.summer": "Summer",
   "report.season.winter": "Winter",
   "report.summary.alternatives": "Also possible",
+  "report.summary.compare": "Compare with the leading pattern",
+  "report.summary.compare.label": "Compare {name} with {lead}",
   "report.summary.confidence": "Confidence",
   "report.summary.conflict": "Some answers contradict each other, so the confidence was lowered; please check them under “Your data”.",
   "report.summary.direction": "Direction of care",

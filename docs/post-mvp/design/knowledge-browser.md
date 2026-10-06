@@ -2,8 +2,8 @@
 
 | | |
 |---|---|
-| **Version** | 0.4 (draft) |
-| **Status** | Design for Release B (FR-14, FR-25; tasks PM-13 … PM-16) and Release C (herb browser; PM-24, PM-25). **PM-13 to PM-15 are built** (the shell, the stable ids, search, the page template, and pages for terms, quotations, patterns, constitutions, formulas, acupoints and foods); the comparison follows in PM-16 |
+| **Version** | 0.5 (draft) |
+| **Status** | Design for Release B (FR-14, FR-25; tasks PM-13 … PM-16) and Release C (herb browser; PM-24, PM-25). **PM-13 to PM-16 are built** (the shell, the stable ids, search, the page template, pages for all seven kinds, and the comparison of patterns); herbs wait for Release C |
 | **Last updated** | 2026-10-06 |
 | **Audience** | Engineers, designers, the clinical reviewer |
 | **Related** | [Requirements FR-14, FR-25](../requirements.md#fr-14-knowledge-browser--release-b--class-n-herbs-c-release-c--refines-fr-14) · [PRD §3](../../PRD.md#3-target-users) · [Tech spec §5.3, §8.1](../../tech-spec.md) · [UX spec](../../ux-spec.md) · [Safety policy](../../safety-policy.md) · [i18n guide §5](../../i18n-guide.md) |
@@ -153,6 +153,19 @@ The bands come from one pure function, `featuresOf` in `@tcm/engine` (`learn.ts`
 * **Foods have no English name in the data** (a food is a Chinese name with a curated id), so an English page shows the Chinese name with its id and takes English only from the glossary where there is an entry; adding English names is a data task for the language review.
 * **The result page gained a fix on the way:** a tier reason such as *contains a strong herb: 麻黃* showed the herb unconverted on a Simplified page; each herb is now converted on its own, and the two reasons that were shown in English on a Chinese page (*bitter-cold herbs carry …*, *outside the first release*) have catalogue text.
 
+### 6.1 As built: the comparison (PM-16)
+
+`comparePatterns(kb, ids)` is in `@tcm/engine` (`learn.ts`) and returns ids only, no prose. The page `/learn/compare?ids=EX2,EX4` (two or three patterns; the order of the address is the order of the columns) shows four tables, each a real `<table>` with row and column headers: **the patterns** (group, direction of care, tongue and pulse, copied from the records); **features they share** (weight in every pattern, no real gap); **features that tell them apart**; and **what an assessment asks about to tell them apart**. Without two known patterns in the address the page is the chooser (three native selects, one optional; one pattern twice is refused in words); an unknown id is reported and the rest used.
+
+| Decision | Why |
+|---|---|
+| A feature **tells patterns apart** when the signed weights (weight minus against) differ by at least **two points** — the K-07 criterion — *and* the bands shown differ | One notion of "different" in the bank's check and on the page; a two-point gap the reader cannot see (the same band in every column because the patterns' largest weights differ) is shown as shared instead of as a difference |
+| **Bands, never numbers**, on the page | A weight is not a score a reader can interpret; the band words are *key*, *common*, *supporting*, *speaks against* and *not in the record* |
+| The questions of the bank are shown **by topic and by the features they ask about**, not by their prompt | The prompts are second person ("Do you feel the cold more than usual?") and R2 forbids it on a Learn page; the topic (the question's dimension) and the differing features are what the reader needs, and a test refuses any prompt text on the page. The score of a question is the sum, over the symptoms of its options, of the gap between the patterns' signed weights; the best three are listed |
+| **A pattern of itself** has nothing that tells it apart, and the order of the patterns reorders only the columns | Property tests over every one of the 253 pairs and every pattern |
+| Entry points: a *Compare with* section on each pattern page (the other patterns of its group, the likeliest to be confused), a card on the hub, and a link on each *Also possible* pattern of a result (*Compare with the leading pattern*, naming both patterns) | The three places the design names; the variant that marks which differing features a person answered is not built (it would live under the result route and adds no score) |
+| A table wider than the screen **scrolls inside its own box**, which is focusable and named, and keeps its row headers in view | Keyboard access to a scrollable region (WCAG 2.1.1); a wide table never widens the page |
+
 ### 10.1 As built (PM-13)
 
 | Layer | What exists |
@@ -192,3 +205,4 @@ PM-13 (shell, ids, anonymous-context components, search index, print), PM-14 (pa
 | 0.2 | 2026-10-06 | PM-13 built: stable ids frozen in the data, the in-memory index (replacing the chunk of §5), best-match group order, the standing line's link, the as-built test list (§10.1) and the three defaults it added |
 | 0.3 | 2026-10-06 | PM-14 built: pattern and constitution pages, feature bands from the engine, the treatment lists and the questionnaire items kept off these pages (§9.1) |
 | 0.4 | 2026-10-06 | PM-15 built: formula, acupoint and food pages with the cautions region first (§9.2), the interaction-list rule, second-person wording removed from the data a page shows, links from a pattern to its treatments |
+| 0.5 | 2026-10-06 | PM-16 built: the comparison of patterns, its decisions (§6.1) and entry points |

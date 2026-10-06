@@ -5,6 +5,7 @@ import type { Citation, Constitution, Formula, GlossaryTerm, KnowledgeBase, Patt
 import type { T } from "../i18n/I18nProvider.tsx";
 import type { MessageKey } from "../i18n/catalogs.ts";
 import { COMPOSITION_STATUS, ROLE_SLUG, SCHOOL_SLUG, tierReason, UNIT_ID } from "../screens/result/words.ts";
+import { compareLinks } from "./compare.ts";
 import { hrefOf } from "./registry.ts";
 import type { Block, Caution, LinkGroup, ListGroup, LearnType, Name, PageModel, Related, Review, Section } from "./types.ts";
 
@@ -106,6 +107,8 @@ export function patternPage(kb: KnowledgeBase, id: string, t: T): PageModel | nu
     { id: "features", heading: t.t("learn.pattern.features"), blocks: featureBlocks },
     ...(elements.length > 0 ? [{ id: "elements", heading: t.t("learn.pattern.elements"), blocks: [{ kind: "plain" as const, text: t.t("learn.pattern.elements.intro") }, { kind: "groups" as const, groups: [{ label: null, items: elements }] }] }] : []),
   ];
+  const compare = compareLinks(kb, p.id);
+  if (compare.length > 0) sections.push({ id: "compare", heading: t.t("learn.compare.with"), blocks: [{ kind: "links", groups: [{ label: null, items: compare }] }] });
   const assoc = associatedWith(kb, t, p);
   if (assoc.length > 0) sections.push({ id: "assoc", heading: t.t("learn.page.assoc"), blocks: [{ kind: "plain", text: t.t("learn.page.assoc.intro") }, { kind: "links", groups: assoc }] });
   const same = kb.patterns.filter((x) => x.group === p.group && x.id !== p.id);

@@ -191,7 +191,7 @@ src/
   safety.ts                # step 11  rule evaluation, suppress/annotate
   explain.ts               # step 12  trace items, "what would change this"
   questionnaire.ts         # adaptive next-question selection (information gain)
-  learn.ts                 # not a pipeline step: the features of a pattern in bands (key / common / supporting / against), shared by the Learn pages and the comparison (PM-14, PM-16)
+  learn.ts                 # not a pipeline step: the features of a pattern in bands (key / common / supporting / against) and the comparison of two or three patterns (PM-14, PM-16)
   assess.ts                # orchestration: the one public entry point
   index.ts
 ```
@@ -490,7 +490,7 @@ Language is the first path segment (PRD FR-2); no personal data ever appears in 
 | `/:lang/result/:id/formula/:fid` | Formula detail (composition, 君臣佐使, modification) | Deep-linkable within the device |
 | `/:lang/history` | Saved assessments, compare two | |
 | `/:lang/sources` | Citation and knowledge viewer (P2: browser) | |
-| `/:lang/learn` · `/:lang/learn/:kind` · `/:lang/learn/:kind/:id` | Learn: hub with search · a list with a filter (`?q=`) · a page ([design](post-mvp/design/knowledge-browser.md)) | One lazy chunk (≈ 5 KB gzip); ids are ASCII and language-neutral; `noindex`; an unknown kind or id is the section's own not-found page. Built: terms and quotations (PM-13), patterns and constitutions (PM-14), formulas, acupoints and foods (PM-15) |
+| `/:lang/learn` · `/:lang/learn/compare?ids=…` · `/:lang/learn/:kind` · `/:lang/learn/:kind/:id` | Learn: hub with search · a list with a filter (`?q=`) · a page ([design](post-mvp/design/knowledge-browser.md)) | One lazy chunk (≈ 5 KB gzip); ids are ASCII and language-neutral; `noindex`; an unknown kind or id is the section's own not-found page. Built: terms and quotations (PM-13), patterns and constitutions (PM-14), formulas, acupoints and foods (PM-15) |
 | `/:lang/settings` | Language, text size, theme, erase everything, privacy | |
 | `/:lang/_dev` | Developer inspector (dev profile only) | Tree-shaken from release |
 
@@ -626,7 +626,7 @@ Colour: one sequential hue per quantity family, never red/green as good/bad; sig
 | Budget | Value | How it is met / checked |
 |---|---|---|
 | Initial JS (gzip) | ≤ 200 KB | React + router + store + shell only; every screen but the landing page is a lazy route; engine and `@tcm/wuxing` load with the first inquiry; asserted by `scripts/check-budgets.ts` in CI (≈ 120 KB today); any lazy chunk ≤ 50 KB, all JS ≤ 260 KB, CSS ≤ 20 KB |
-| All JS (gzip) | ≤ 300 KB (260 for the MVP, +40 for Release A's lazy features) | A bound on growth, not on a visit: nobody downloads it all. Each post-MVP release declares the lazy budgets of its features and raises this figure by that sum ([decision PD-12](post-mvp/decisions.md)); the initial 200 KB and the 50 KB per lazy chunk do not move |
+| All JS (gzip) | ≤ 350 KB (260 for the MVP, +40 for Release A's lazy features, +50 for Release B's) | A bound on growth, not on a visit: nobody downloads it all. Each post-MVP release declares the lazy budgets of its features and raises this figure by that sum ([decision PD-12](post-mvp/decisions.md)); the initial 200 KB and the 50 KB per lazy chunk do not move |
 | LCP / INP (mobile 4G) | ≤ 2.5 s / ≤ 200 ms | Lighthouse CI on the landing and result routes, throttled |
 | KB per session (release) | ≈ 82 KB gz today (budget 100 KB) | §5.2; per-chunk budgets enforced in `bundle-data.ts` (dev: 1.5×), the session total in `check-budgets.ts` |
 | Engine time | `assess` ≤ 50 ms p95 on a mid-range phone | micro-benchmarks in `packages/engine/bench`, tracked per release; no allocation in inner loops of noisy-OR and greedy 加減 |

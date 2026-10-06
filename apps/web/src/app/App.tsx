@@ -68,6 +68,7 @@ function Screens(): ReactNode {
           <Route path="/settings"><Settings /></Route>
           <Route path="/sources"><Sources /></Route>
           <Route path="/learn"><Learn /></Route>
+          <Route path="/learn/compare"><Learn compare /></Route>
           <Route path="/learn/:type">{(params) => <Learn type={params.type} />}</Route>
           <Route path="/learn/:type/:id">{(params) => <Learn type={params.type} id={params.id} />}</Route>
           <Route path="/result/:id/summary">{(params) => <PractitionerSummary id={params.id} />}</Route>

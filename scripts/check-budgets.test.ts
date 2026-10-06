@@ -50,7 +50,7 @@ test("each budget fails on its own, naming what is over", () => {
   const cases: [Parameters<typeof dist>[0], RegExp][] = [
     [{ entry: 170, vendor: 60 }, /initial JavaScript: .* is over the 200\.0 KB budget/],
     [{ lazy: [60] }, /lazy chunk assets\/Screen0-cccc0\.js: .* over the 50\.0 KB budget/],
-    [{ lazy: [45, 45, 45, 45, 45, 45] }, /all JavaScript: .* over the 300\.0 KB budget/],
+    [{ lazy: [45, 45, 45, 45, 45, 45, 45] }, /all JavaScript: .* over the 350\.0 KB budget/],
     [{ css: 25 }, /all CSS: .* over the 20\.0 KB budget/],
     [{ kb: [60, 60] }, /knowledge base per session: .* over the 100\.0 KB budget/],
     [{ hans: 35 }, /Simplified display list: .* over the 30\.0 KB budget/],
@@ -59,7 +59,7 @@ test("each budget fails on its own, naming what is over", () => {
 });
 
 test("the budgets are the ones of the tech spec, and a custom budget is honoured", () => {
-  assert.deepEqual([BUDGETS.initialJs, BUDGETS.lazyJsChunk, BUDGETS.totalJs, BUDGETS.totalCss, BUDGETS.kbSession, BUDGETS.hansList], [200 * KB, 50 * KB, 300 * KB, 20 * KB, 100 * KB, 30 * KB]);
+  assert.deepEqual([BUDGETS.initialJs, BUDGETS.lazyJsChunk, BUDGETS.totalJs, BUDGETS.totalCss, BUDGETS.kbSession, BUDGETS.hansList], [200 * KB, 50 * KB, 350 * KB, 20 * KB, 100 * KB, 30 * KB]);
   const tight: Budgets = { ...BUDGETS, initialJs: 10 * KB };
   assert.equal(checkBudgets(dist(), tight).failures.length, 1);
 });

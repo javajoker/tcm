@@ -16,7 +16,7 @@ import { NameLine, nameText } from "./Title.tsx";
 import type { Block, PageModel } from "./types.ts";
 import styles from "./Learn.module.css";
 
-function Blocks({ blocks }: { blocks: readonly Block[] }): ReactNode {
+export function Blocks({ blocks }: { blocks: readonly Block[] }): ReactNode {
   const { t } = useI18n();
   return <>{blocks.map((b, i) => {
     switch (b.kind) {
@@ -34,7 +34,9 @@ function Blocks({ blocks }: { blocks: readonly Block[] }): ReactNode {
         </dl>
       );
       case "table": return (
-        <div key={i} className={styles.tableWrap}>
+        // a table wider than the screen scrolls inside this box; a scrollable region has to be reachable with the keyboard (WCAG 2.1.1), so the box is focusable and named
+        // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
+        <div key={i} className={styles.tableWrap} tabIndex={0} role="region" aria-label={b.caption}>
           <table className={styles.table}>
             <caption>{b.caption}</caption>
             <thead><tr>{b.head.map((h) => <th key={h} scope="col">{h}</th>)}</tr></thead>

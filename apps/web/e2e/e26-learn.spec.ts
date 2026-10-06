@@ -69,6 +69,37 @@ test("E26: a pattern page shows its features in bands, from the list, and the pa
   await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
 });
 
+test("E26: from a pattern page to a comparison and back; a comparison is real tables with topics rather than questions, and the chooser makes the same address", async ({ app, page, lang }) => {
+  await app.goto("/learn/patterns/EX2");
+  await page.locator("main a[href$='/learn/compare?ids=EX2,EX4']").click();
+  await expect(page).toHaveURL(new RegExp(`/${lang}/learn/compare\\?ids=EX2,EX4$`));
+  await expect(app.heading("learn.compare.title")).toBeVisible();
+  const differ = page.getByRole("region", { name: app.t("learn.compare.differ") });
+  await expect(differ.getByRole("table")).toBeVisible();
+  expect(await differ.getByRole("rowheader").count()).toBeGreaterThan(2);
+  expect(await differ.getByRole("columnheader").count()).toBe(3);
+  const topics = page.getByRole("region", { name: app.t("learn.compare.questions") });
+  await expect(topics.getByRole("heading", { level: 3 })).toHaveCount(3);
+  await app.simplified("comparison");
+  // the chooser at the foot: change the second pattern and compare again
+  await page.getByRole("combobox").nth(1).selectOption("LG1");
+  await page.getByRole("button", { name: app.t("learn.compare.go"), exact: true }).click();
+  await expect(page).toHaveURL(new RegExp(`/${lang}/learn/compare\\?ids=EX2,LG1$`));
+  await page.goBack();
+  await expect(page).toHaveURL(new RegExp(`/${lang}/learn/compare\\?ids=EX2,EX4$`));
+  await page.goBack();
+  await expect(page).toHaveURL(new RegExp(`/${lang}/learn/patterns/EX2$`));
+  // from the hub, with nothing chosen, two choices make a comparison
+  await app.goto("/learn");
+  await page.getByRole("link", { name: app.t("learn.compare.title") }).first().click();
+  await page.getByRole("combobox").nth(0).selectOption("SP1");
+  await page.getByRole("button", { name: app.t("learn.compare.go"), exact: true }).click();
+  await expect(page.getByRole("alert")).toContainText(app.t("learn.compare.needTwo"));
+  await page.getByRole("combobox").nth(1).selectOption("SP2");
+  await page.getByRole("button", { name: app.t("learn.compare.go"), exact: true }).click();
+  await expect(page).toHaveURL(new RegExp(`/${lang}/learn/compare\\?ids=SP1,SP2$`));
+});
+
 test("E26: a page about something a person might use puts its cautions first, in the release too, and the release holds only its own formulas", async ({ app, page }) => {
   await app.goto("/learn/formulas/F_GUIZHI");
   const cautions = page.getByRole("region", { name: app.t("learn.page.cautions") });
@@ -110,7 +141,7 @@ for (const scheme of ["light", "dark"] as const) {
       await page.getByRole("combobox", { name: app.t("learn.search.label") }).fill(QUERY[lang]);
       await expect(page.getByRole("listbox").getByRole("option").first()).toBeVisible();
       await clean(page, "hub");
-      for (const path of ["/learn/terms", "/learn/terms/yin-yang", "/learn/quotations", "/learn/quotations/shanghan-035", "/learn/patterns", "/learn/patterns/EX1", "/learn/constitutions", "/learn/constitutions/C_YINXU", "/learn/formulas", "/learn/formulas/F_GUIZHI", "/learn/points", "/learn/points/SP6", "/learn/foods", "/learn/foods/foshou"]) {
+      for (const path of ["/learn/terms", "/learn/terms/yin-yang", "/learn/quotations", "/learn/quotations/shanghan-035", "/learn/patterns", "/learn/patterns/EX1", "/learn/constitutions", "/learn/constitutions/C_YINXU", "/learn/formulas", "/learn/formulas/F_GUIZHI", "/learn/points", "/learn/points/SP6", "/learn/foods", "/learn/foods/foshou", "/learn/compare", "/learn/compare?ids=EX2,EX4", "/learn/compare?ids=EX1,SP1,LV1"]) {
         await app.goto(path);
         await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
         await clean(page, path);

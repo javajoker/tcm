@@ -5,6 +5,7 @@ import type { MessageKey } from "../i18n/catalogs.ts";
 import { useLoaded } from "../app/knowledge.tsx";
 import { usePageTitle } from "../app/usePageTitle.ts";
 import { Notice } from "../ui/index.ts";
+import { compareHref } from "./compare.ts";
 import { listOf } from "./pages.ts";
 import { AVAILABLE, hrefOf } from "./registry.ts";
 import { kindTitle, SearchBox, useIndex } from "./SearchBox.tsx";
@@ -35,6 +36,12 @@ export function Hub(): ReactNode {
               </Link>
             </li>
           ))}
+          <li>
+            <Link className={styles.card} href={compareHref([])}>
+              <span className={styles.cardTitle}>{t.t("learn.compare.title")}</span>
+              <span>{t.t("learn.hub.compare.blurb")}</span>
+            </Link>
+          </li>
         </ul>
       </section>
     </div>

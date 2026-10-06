@@ -28,7 +28,7 @@ describe("axe on every route (WCAG 2.1 A and AA, every language)", () => {
     for (const s of STATES) {
       it(`${s.name} · ${lang}`, async () => {
         const { container } = await render(lang, s.url, "draft", s.draft(finished));
-        expect(window.location.pathname).toBe(`/${lang}${s.url}`);
+        expect(window.location.pathname + window.location.search).toBe(`/${lang}${s.url}`);
         expect(await violations(container)).toEqual([]);
       });
     }

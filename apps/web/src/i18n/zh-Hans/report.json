@@ -312,6 +312,8 @@
   "report.season.summer": "夏",
   "report.season.winter": "冬",
   "report.summary.alternatives": "也有可能",
+  "report.summary.compare": "与主要证型比较",
+  "report.summary.compare.label": "把{name}与{lead}比较",
   "report.summary.confidence": "把握度",
   "report.summary.conflict": "部分回答互相矛盾，把握度因此调低；请在「您的资料」中确认。",
   "report.summary.direction": "调理方向（治则）",

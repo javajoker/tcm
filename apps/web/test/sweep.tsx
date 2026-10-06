@@ -50,6 +50,7 @@ export const ROUTES: { pattern: string; url: string; needs: Needs; dev?: true; s
   { pattern: "/settings", url: "/settings", needs: "nothing" },
   { pattern: "/sources", url: "/sources", needs: "nothing" },
   { pattern: "/learn", url: "/learn", needs: "nothing" },
+  { pattern: "/learn/compare", url: "/learn/compare", needs: "nothing" },
   { pattern: "/learn/:type", url: "/learn/terms", needs: "nothing" },
   { pattern: "/learn/:type/:id", url: "/learn/terms/yin-yang", needs: "nothing" },
   { pattern: "/result/:id/summary", url: `/result/${saved.id}/summary`, needs: "saved" },
@@ -61,6 +62,8 @@ export const ROUTES: { pattern: string; url: string; needs: Needs; dev?: true; s
 ];
 /** Extra states of a route that have their own markup: a blocking notice, an unsure answer. */
 export const STATES: { name: string; url: string; draft: (d: Draft) => Draft }[] = [
+  { name: "a comparison of two patterns of the Learn section", url: "/learn/compare?ids=EX2,EX4", draft: (d) => d },
+  { name: "a comparison of three patterns of the Learn section", url: "/learn/compare?ids=EX1,SP1,LV1", draft: (d) => d },
   { name: "a pattern page of the Learn section", url: "/learn/patterns/EX1", draft: (d) => d },
   { name: "the pattern list of the Learn section", url: "/learn/patterns", draft: (d) => d },
   { name: "a formula page of the Learn section", url: "/learn/formulas/F_MAHUANG", draft: (d) => d },
