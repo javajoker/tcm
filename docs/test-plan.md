@@ -124,6 +124,8 @@ A vignette is `{ input, expect: { level, notice, suppressed[], mustShow[], mustN
 
 Build determinism (build twice → identical bytes) · JSON Schema validation · the integrity rules of [KB schema §8](kb-schema.md) · 127/127 citations verified · pattern self-test (each pattern first for its typical patient; the closest-pair margins reported) · tier recomputation · orthography check (no `溼` in non-quotation fields) · bilingual completeness report · forbidden-wording lint on all display strings · bundle pruning tests (release bundle contains no amounts, no tier-C, no dev profile) · size budgets per chunk.
 
+**Admission checklist (PM-21; [KB schema §8.4](kb-schema.md), [library expansion §9.1](post-mvp/design/library-expansion.md)).** `scripts/kb/tests/test_admission.py` runs each machine row of the checklist with a seeded violation — a pattern with no source, with a pair under the margin and too few separating questions, with an unknown red-flag id, with a tier edited so that no formula is visible in a release, with a declaration that is not true — and checks that a **new pattern is never waived**, that a waiver or a declaration that is no longer needed fails, and that the real library has no failures; the shipped data passes `validate_kb` with the admission section. `test_question_bank.py` holds the K-07 rule for every pair under the margin. `test_dossier.py` makes a dossier for a synthetic candidate (every section of the design, deterministic output, a proposal with unknown ids refused) and `test_new_pattern.py` checks that the scaffold has the shape of the curated table, of a golden case and of the safety vignettes.
+
 ---
 
 ## 4. Product-level validation

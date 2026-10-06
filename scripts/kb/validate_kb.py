@@ -2,7 +2,7 @@
 
 `validate(load)` returns the list of problems (empty = valid) so tests can feed it mutated data; `main()` prints and returns the exit code.
 Checks fall into: 1 schema · 2 parameters · 3 identity and uniqueness · 4 cross-references · 5 formulas (composition, tier recomputation) ·
-6 patterns and elements · 7 examination data · 8 policy and safety · 9 provenance.
+6 patterns and elements · 7 examination data · 8 policy and safety · 9 provenance · 10 admission (the machine rows of the library-expansion checklist, PM-21).
 """
 from __future__ import annotations
 
@@ -16,7 +16,7 @@ from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 from jsonschema import Draft202012Validator
 
-from . import build_name_fold
+from . import admission, build_name_fold
 from .common import DATA, ROOT, submodule_commits
 from .curated import panel as panel_cfg
 from .schemas import SCHEMAS, SCHEMA_VERSION
@@ -727,6 +727,8 @@ def validate(load: Loader = load, check_sources: bool = True) -> list[str]:
         for c in cit["items"]:
             if not (ROOT / c["source_path"]).exists():
                 err(f"citation {c['id']}: source file {c['source_path']} not found (submodules checked out?)")
+    # ── 10. admission (PM-21): every pattern meets each machine row of the checklist in library-expansion.md §4, or is waived by name as a known gap of the original library ──
+    errors += admission.failures(admission.check(admission.library(load, check_sources=check_sources)))
     return errors
 
 

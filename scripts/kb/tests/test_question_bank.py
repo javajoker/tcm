@@ -3,25 +3,9 @@ from __future__ import annotations
 
 import unittest
 
-from scripts.kb import oracle
+from scripts.kb import admission, oracle
+from scripts.kb.admission import reachable
 from scripts.kb.selftest_patterns import typical_patient
-
-
-def reachable(bank: list[dict], present: set[str]) -> set[str]:
-    """Symptoms a patient with `present` symptoms can report through the bank (core questions + follow-ups whose trigger is present)."""
-    sex = "female" if any(s.startswith("S_MENSES") or s in ("S_DYSMENORRHEA", "S_LEUKORRHEA_YELLOW", "S_BREAST_DISTENSION") for s in present) else \
-        "male" if "S_SEMINAL_EMISSION" in present else "female"
-    out: set[str] = set()
-    for q in bank:
-        req = q.get("requires") or {}
-        if req.get("sex") and req["sex"] != sex:
-            continue
-        if "follows" in q and not (set(q["follows"]) & present):
-            continue
-        if not q["core"] and "follows" not in q and "requires" not in q:
-            continue
-        out |= {s for o in q["options"] for s in o["symptoms"]}
-    return out
 
 
 class QuestionBank(unittest.TestCase):
@@ -45,22 +29,21 @@ class QuestionBank(unittest.TestCase):
 
     def test_closest_confusable_pairs_have_discriminating_questions(self):
         """K-07: for each pair the pattern self-test finds closest, at least three questions offer a symptom that weighs at least two points
-        differently for the two patterns, and each is asked when a symptom the pair shares is present (a core question or a follow-up trigger)."""
-        by_id = {p["id"]: p for p in self.patterns}
-
-        def signed(p: dict, s: str) -> float:
-            return p["weights"].get(s, 0) - p["against"].get(s, 0)
-
+        differently for the two patterns, and each is asked when a symptom the pair shares is present (a core question or a follow-up trigger).
+        The first three pairs were the closest when K-07 was written; the others are listed by the next test."""
+        lib = admission.library(oracle.load)
         for a, b in (("EX2", "EX4"), ("LG1", "EX4"), ("HT2", "KD1")):
-            pa, pb = by_id[a], by_id[b]
-            shared = {s for s in set(typical_patient(pa)) & set(typical_patient(pb)) if s.startswith("S_")}
-            discriminating = [
-                q["id"] for q in self.bank
-                if (q["core"] or set(q.get("follows", [])) & shared)
-                and any(abs(signed(pa, s) - signed(pb, s)) >= 2 for o in q["options"] for s in o["symptoms"])
-            ]
+            found = admission.discriminating(lib, a, b)
             with self.subTest(f"{a} vs {b}"):
-                self.assertGreaterEqual(len(discriminating), 3, f"{a} vs {b}: only {discriminating}")
+                self.assertGreaterEqual(len(found), 3, f"{a} vs {b}: only {found}")
+
+    def test_every_pair_under_the_margin_has_discriminating_questions(self):
+        """PM-21: the same rule for every pair the checklist finds under the 20-point margin, not only the closest."""
+        lib = admission.library(oracle.load)
+        for a, b in admission.close_pairs(admission.margins(lib)):
+            found = admission.discriminating(lib, a, b)
+            with self.subTest(f"{a} vs {b}"):
+                self.assertGreaterEqual(len(found), admission.MIN_DISCRIMINATING, f"{a} vs {b}: only {found}")
 
     def test_core_questions_stay_within_the_budget(self):
         core = [q for q in self.bank if q["core"]]

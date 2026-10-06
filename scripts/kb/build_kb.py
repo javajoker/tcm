@@ -8,7 +8,7 @@ from __future__ import annotations
 
 import sys
 
-from . import build_citations, build_constitution_items, build_diagnosis, build_emergency, build_exclusions, build_formulas, build_geo, build_herbs, build_name_fold, build_orientation, build_params, build_policy, build_questions, build_review, build_schemas, build_wuxing, selftest_patterns, validate_kb
+from . import build_admission, build_citations, build_constitution_items, build_diagnosis, build_emergency, build_exclusions, build_formulas, build_geo, build_herbs, build_name_fold, build_orientation, build_params, build_policy, build_questions, build_review, build_schemas, build_wuxing, selftest_patterns, validate_kb
 
 
 def main() -> int:
@@ -26,6 +26,7 @@ def main() -> int:
     build_questions.main()
     build_exclusions.main()
     build_orientation.main()
+    build_admission.main()
     if build_review.main():
         return 1
     build_schemas.main()

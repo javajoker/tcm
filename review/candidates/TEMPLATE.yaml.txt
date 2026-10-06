@@ -1,0 +1,38 @@
+# A proposal for the clinical reviewer — copy to review/candidates/<id>.yaml, fill in, then run `.venv/bin/python -m scripts.review.dossier review/candidates/<id>.yaml`.
+# Nothing here is data of the knowledge base. The weights are the proposal's: the dossier uses them as written to show how the library would receive the pattern.
+
+id: LG3                        # the prefix of the group (EX SP LV HT LG KD QB) and one digit; not an existing pattern
+group: lung                    # external | spleen-stomach | liver | heart | lung | kidney | qi-blood
+module: respiratory            # the complaint module its questions would belong to (an existing one, or the name of a new one) — informational
+name:
+  zh-Hant: 風寒襲肺
+  en: Wind-cold fettering the lung
+principle: 疏風散寒，宣肺止咳     # optional (治則)
+
+sources:
+  citations: [jingui-012-1]    # ids of data/citations.json: each must exist and be verified (A2 needs at least one)
+  textbooks:                   # a textbook or modern source, as a path that exists under reference/ (A2 needs at least one)
+    - path: reference/sources/…
+      note: what it says, and where
+
+key_symptoms:                  # symptom id → PROPOSED weight 1 (minor), 2 (important), 3 (cardinal); S_ = asked, T_ = tongue, P_ = pulse
+  S_COUGH_WHITE_THIN: 3
+  S_RUNNY_NOSE_CLEAR: 3
+  S_AVERSION_COLD: 2
+  T_COAT_THIN_WHITE: 1
+  P_FLOAT: 1
+against:                       # what argues against it, same scale
+  S_THIRST_COLD_DRINK: 2
+required_any: []               # optional; by default the symptoms of weight 3
+new_symptoms:                  # symptoms the registry lacks (they must also appear in key_symptoms or against)
+  S_COUGH_WHITE_THIN:
+    zh-Hant: 咳嗽痰白清稀
+    en: cough with thin white phlegm
+    dimension: voice-breath
+
+formulas: [F_ERCHEN]           # library formulas that could serve it
+new_formulas:                  # formulas that would have to be added to the library
+  - name: 三拗湯
+    source: 太平惠民和劑局方
+red_flags: [RF_A_DYSPNEA, RF_B_HEMOPTYSIS, RF_B_HIGH_FEVER]    # red flags that should stand in front of it (the physician decides)
+notes: ""

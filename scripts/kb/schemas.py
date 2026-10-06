@@ -439,6 +439,21 @@ def review_records() -> dict:
         "required": ["_meta", "coverage", "records", "reviewed", "stale"], "additionalProperties": False}
 
 
+def admission() -> dict:
+    pid = pattern(r"^[A-Z]{2}[0-9]{1,2}$")
+    reason = {"type": "string", "minLength": 1}
+    return {"type": "object", "properties": {
+        "_meta": meta({"waivers": INT}, ["waivers"]),
+        "margin_exceptions": arr(obj({"patterns": {"type": "array", "items": pid, "minItems": 2, "maxItems": 2, "uniqueItems": True}, "reason": reason})),
+        "needs_exam": arr(pid, None, True),
+        "no_release_formula": arr(obj({"pattern": pid, "reason": reason})),
+        "original": arr(pid, 1, True),
+        "red_flag_boundary": arr(obj({"flags": arr(pattern(r"^RF_[A-Z0-9_]+$"), None, True), "pattern": pid, "reason": STR})),
+        "textbook_sources": arr(obj({"note": STR, "path": pattern(r"^reference/.+"), "pattern": pid})),
+        "waivers": arr(obj({"patterns": arr(pid, 1, True), "reason": reason, "row": pattern(r"^A[0-9]{1,2}$")}))},
+        "required": ["_meta", "margin_exceptions", "needs_exam", "no_release_formula", "original", "red_flag_boundary", "textbook_sources", "waivers"], "additionalProperties": False}
+
+
 # file (relative to data/) → (schema file stem, builder, title)
 SCHEMAS = {
     "citations.json": ("citations", citations, "Quotation registry"),
@@ -471,6 +486,7 @@ SCHEMAS = {
     "safety/name-fold.json": ("name-fold", name_fold, "Character fold of the names an allergy can match"),
     "treatment/guidance.json": ("treatment-guidance", treatment_guidance, "Treatment guidance"),
     "review/records.json": ("review-records", review_records, "Review records and what they cover"),
+    "review/admission.json": ("admission", admission, "Admission records of the pattern library"),
 }
 
 

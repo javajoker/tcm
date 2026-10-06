@@ -2,9 +2,9 @@
 
 | | |
 |---|---|
-| **Version** | 0.1 (draft) |
+| **Version** | 0.2 (draft) |
 | **Status** | Documents the first-pass `data/` as generated today, plus the files the engine and UI still need (§9) |
-| **Last updated** | 2026-10-04 |
+| **Last updated** | 2026-10-06 |
 | **Audience** | Engine and UI developers, content reviewers, anyone adding or changing knowledge |
 | **Related** | [`data/README.md`](../data/README.md) (contents, provenance, verification status) · [Tech spec §5](tech-spec.md) (delivery) · [Content review](content-review.md) · [SOP](diagnosis-sop.zh-TW.md) (meaning of the models) |
 
@@ -295,6 +295,8 @@ Ids are **append-only**. A rename needs a new id plus an alias map so old saved 
 8. **Policy and safety** — every profile defines every dimension key with valid levels and notices; `dev` is L3 everywhere, keeps every blocking notice, enables every feature and uses `annotate_only` (release: `suppress_hard`); `flow` = `continue`; rule `applies_to` values exist in the profile dimensions; rule targets use real vocabularies (tiers, pregnancy flags, interaction classes that occur in the herbs, known acupoints, the flavour-excess share equals the parameter); pregnancy acupoints are in the registry **and** flagged, and every flagged point is in the rule list; every citation id used anywhere exists; ten 民病 excerpts.
 9. **Provenance** — formula and herb `kb_commit`/`source.commit` equal the pinned TCM-Library commit; every citation's source file exists.
 
+10. **Admission** (PM-21) — every pattern meets each machine row of the admission checklist (§8.4), or is waived by name as a known gap of the original library; a waiver or declaration that is not true fails.
+
 After validation `selftest_patterns.py` checks that each of the 23 patterns ranks in the top 3 for its own typical patient.
 
 ### 8.2 Still to add
@@ -312,6 +314,34 @@ A **forbidden-wording lint** on all user-visible zh-Hant/en strings ([i18n guide
 
 Nothing is `reviewed` yet; the release gate in the [release process](release-process.md) requires the review records listed there.
 
+### 8.4 The admission checklist (PM-21)
+
+A pattern enters the library only through this checklist ([library expansion design §4](post-mvp/design/library-expansion.md)). `scripts/kb/admission.py` implements every row a machine can check; `validate_kb` runs them, so a pattern that misses one fails the build. The rows that need a person (that a quotation supports the sentence, that the weights are right, the physician's red-flag boundary) are review records, A13.
+
+| Row | The pattern … | Where it is checked |
+|---|---|---|
+| A1 | has an id of two capital letters and a number, a name in both languages, and a valid status | `admission.py`; the schema |
+| A2 | has a **verified classical quotation** and a **textbook or modern source** recorded as a path that exists under `reference/` | `admission.py`; `TEXTBOOK_SOURCES` |
+| A3 | has a sound evidence table: weights 1–3, at least four asked symptoms of weight 2 or 3, required-any, against, a panel projection, elements | `admission.py`; `validate_kb` (references, sums) |
+| A4 | can have every weighted symptom asked by some question | `admission.py`; `test_question_bank` |
+| A5 | ranks first for its own typical patient and is **at least 20 points above every other pattern**, or the pair has a recorded exception with its reason | `admission.py`; `MARGIN_EXCEPTIONS` |
+| A6 | has **at least three discriminating questions** with every pattern it is closer than the margin to — every such pair, not only the closest | `admission.py`; `test_question_bank` |
+| A7 | has tongue and pulse features, declares whether the inquiry alone stays under the 40-point band (`NEEDS_EXAM`, checked against the scores), and then has them in its golden seed | `admission.py` |
+| A8 | has a **tier-A formula that is not only partially verified**, or declares that none is visible in a release with its reason (`NO_RELEASE_FORMULA`, checked against the computed tiers: a declaration that is not true fails) | `admission.py` |
+| A9 | has foods, points and a lifestyle line, each food and point with a basis and a pregnancy flag, the lifestyle in both languages | `admission.py`; `validate_kb` |
+| A10 | has a **red-flag boundary** — the red flags that must stand in front of it (ids that exist) or the reason there are none | `admission.py`; `RED_FLAG_BOUNDARY` (the physician's decision) |
+| A11 | has a **golden seed** (a case titled *typical patient of …* whose first pattern it is) and **two safety vignettes** — one with a red flag, one gated by a population | `admission.py` |
+| A12 | has English marked as a machine draft and a name for every symptom it uses in both languages | `admission.py`; the glossary lint |
+| A13 | has review records for every area it touches | the review gate ([content review](content-review.md)) |
+
+**The original library and the records.** The 23 patterns written before the checklist do not meet every row, and some rows need a decision a machine cannot make. Those gaps are **waived by name** in `data/review/admission.json` (built by `build_admission.py` from `curated/admission.py`), each with its reason: a source per pattern (A2), the four patterns whose golden seeds hold no tongue or pulse finding (A7), the one whose only tier-A formula is partially verified (A8), the red-flag boundary of every pattern (A10) and the vignettes of all but one (A11). A waiver can name only a pattern of the original library and **fails the build as soon as it is no longer needed**, so the list of known gaps can only get shorter; a new pattern is never waived. The same file holds the declarations that are facts about a pattern — `needs_exam`, `no_release_formula`, `margin_exceptions` — and the recorded sources and boundaries; they are checked against the data in the same way. The file is build-time only: it is not in the bundle and does not change the knowledge-base fingerprint.
+
+```bash
+.venv/bin/python -m scripts.kb.admission --pairs      # rows by patterns (. holds, w waived, X fails), the waivers and their reasons, the pairs under the margin and what separates them
+.venv/bin/python -m scripts.review.dossier review/candidates/LG3.yaml   # the page a reviewer decides a candidate on, before any weights exist
+.venv/bin/python -m scripts.kb.new_pattern LG3         # the skeleton of everything an accepted candidate needs, and its checklist
+```
+
 ---
 
 ## 9. Planned additions (needed by the engine and UI)
@@ -322,6 +352,7 @@ Nothing is `reviewed` yet; the release gate in the [release process](release-pro
 | `geo/cities.json` ✔ | `{ id, en, zh?, alt_hans?[≤3], cc, lat, lon, tz }` + `_meta.source` (name, URL, dataset, licence, attribution, extract) | Done (K-10): GeoNames `cities15000`, CC BY 4.0, 484 places (every Taiwan, Hong Kong and Macau place; the largest elsewhere), built by `build_geo.py` from `reference/geonames/cities-extract.tsv`; Chinese names Traditional, hand corrections and additions in `curated/geo.py`; validated for unique ids, coordinate ranges and IANA zones |
 | `treatment/guidance.json` (extend) ✔ | Acupoint location text and cautions, diet entries with rationale and citations, bilingual lifestyle — done (K-11); the drawings are the web app's own (U-25: `acupointSpots.ts` places each point by its Chinese name on seven schematic views — no KB field) | |
 | English prose fields ✔ | English rendering of `rationale_zh`, `principle`, `tongue_pulse_note`, `cautions`, the general regimen (`*_en` fields with `en_status`) — done as a machine draft (K-13); the review (V-06) sets `reviewed` | Machine draft + review |
+| `review/admission.json` ✔ | The admission records of the pattern library: the original 23, the waivers of their known gaps with reasons, declarations checked against the data, recorded sources and red-flag boundaries (PM-21; §8.4). Build-time only | [Library expansion](post-mvp/design/library-expansion.md) |
 | `review/records.json` ✔ | Review records compiled from `review/records/*.yaml` (K-16): the records, the units they cover (`reviewed`, with content hashes), those whose content changed since (`stale`) and per-file coverage with the roles each file needs | [Content review §5](content-review.md) |
 
 ---
@@ -332,7 +363,7 @@ Nothing is `reviewed` yet; the release gate in the [release process](release-pro
 |---|---|
 | A **citation** | Add to `curated/citations.py` with the source path and the exact source-script quote; build verifies it appears in the text |
 | A **symptom** | Add to `curated/symptoms.py` (id, dimension, bilingual names); add it to `questions.json`; use it in at least one pattern or exam rule |
-| A **pattern** | `curated/patterns.py` (weights, against, `required_any`, projection, elements, formulas, citations); rebuild; the self-test must rank it first for its typical patient and report its closest confusable pair; add discriminating questions |
+| A **pattern** | Through the admission checklist (§8.4), in this order: a **proposal** in `review/candidates/<id>.yaml`; its **dossier** (`scripts.review.dossier`) for the clinical reviewer; if accepted, the **scaffold** (`scripts.kb.new_pattern`) writes the skeleton of every piece — the entry for `curated/patterns.py` (weights, against, `required_any`, elements, formulas, citations), the new symptoms, the English and treatment text, the records for `curated/admission.py`, a golden seed and two vignettes; rebuild and run `scripts.kb.admission --pairs` until every row holds. A new pattern is never waived |
 | A **herb** | Curated entry in `curated/herbs.py` (effects/harms, flags) — otherwise it is derived from the Pharmacopoeia rules |
 | A **formula** | `curated/formulas.py` with roles and proportions; composition is verified against the classical text or source book; tier is computed; link patterns both ways |
 | A **safety rule** | `curated/policy.py`; give `applies_to`, `target`, `severity`, bilingual `message`, and a citation if there is one |
@@ -363,3 +394,4 @@ Pharmacopoeia facts are used as structured data. The Sources screen lists each b
 | Version | Date | Change |
 |---|---|---|
 | 0.1 | 2026-10-04 | Initial schema reference for the first-pass `data/` |
+| 0.2 | 2026-10-06 | PM-21: the admission checklist (§8.4) and `review/admission.json`; §8.1 item 10; the extension procedure for a pattern |

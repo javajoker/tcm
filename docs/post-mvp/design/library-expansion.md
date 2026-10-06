@@ -2,9 +2,9 @@
 
 | | |
 |---|---|
-| **Version** | 0.1 (draft) |
-| **Status** | Design for Release C (FR-30; tasks PM-21 … PM-23). Nothing is built. The candidate list is **a proposal for the clinical reviewer**, not a decision |
-| **Last updated** | 2026-10-05 |
+| **Version** | 0.2 (draft) |
+| **Status** | Design for Release C (FR-30; tasks PM-21 … PM-23). The tooling (PM-21: the checks, the dossier, the scaffold) is built ([§9.1](#91-as-built-pm-21)); the waves (PM-22, PM-23) wait for named reviewers and are not started. The candidate list is **a proposal for the clinical reviewer**, not a decision |
+| **Last updated** | 2026-10-06 |
 | **Audience** | Engineers, the clinical and pharmacy reviewers, the content owner |
 | **Related** | [Requirements FR-30](../requirements.md#fr-30-library-expansion--release-c--class-c--refines-q2-k-19) · [Diagnosis SOP §9](../../diagnosis-sop.zh-TW.md) · [Content review](../../content-review.md) · [KB schema](../../kb-schema.md) · [Test plan §3](../../test-plan.md) · [Decisions Q2, PD-08](../decisions.md) |
 
@@ -123,6 +123,35 @@ Seven patterns show no formula in a release. Tier is computed from the herbs (bi
 | Dossier | The review-pack extension of §5 |
 | Docs | `docs/kb-schema.md` gets the checklist; `data/README.md` counts are regenerated; the SOP (owner of the logic) is updated by the clinical content owner in the same change |
 
+### 9.1 As built (PM-21)
+
+| Piece | Where | Notes |
+|---|---|---|
+| The checks | `scripts/kb/admission.py`, run by `validate_kb` (check 10) and by `python -m scripts.kb.admission [--pairs]` | Rows A1 – A12 as functions of the library; each seeded violation of §12 has a test (`test_admission.py`). A5 and A6 are the K-07 rule generalised to **every** pair under the margin (the three pairs K-07 named stay as a watch list in `test_question_bank`) |
+| The records | `scripts/kb/curated/admission.py` → `data/review/admission.json` (+ schema, TypeScript type) | Build-time only: not in the bundle, not in the knowledge-base fingerprint. The original 23 patterns, the **waivers** of their known gaps with reasons, and declarations that are checked against the data |
+| The dossier | `scripts/review/dossier.py`; proposals in `review/candidates/<id>.yaml` (template and README there); output `review/packs/dossiers/<id>.md` | The six sections of §5, measured with the engine's own scoring and the question bank; deterministic; refuses a proposal whose ids do not exist |
+| The scaffold | `scripts/kb/new_pattern.py` → `review/candidates/<id>/` (git-ignored) | The entry for `curated/patterns.py` weighted as proposed, the symptom lines, the prose and treatment places, the records, a golden stub (next free id, the title the checklist follows), two vignette stubs (red flag; pregnancy), and a checklist with where to do each row. Writes nothing into the knowledge base |
+
+**Decisions made while building** (the first two refine §13):
+
+- **Waived by name, never silently.** The 23 original patterns do not meet every row, and no machine can supply a physician's red-flag boundary. Each gap is a named waiver with its reason; a waiver can name only an original pattern and fails as soon as it is not needed, so the list only shrinks and a new pattern cannot hide behind it. A declaration (needs the tongue and the pulse; no formula visible in a release; a margin exception) must be true: it is checked against the scores and the computed tiers.
+- **A2 is read as the design's default says:** one verified classical quotation **and** one textbook or modern source recorded as a path that exists under `reference/`. Two quotations from two books are not a textbook.
+- **The proposal is YAML** (as the design says, and as the review records already are); the admission records are JSON built from a curated Python table, like every other data file.
+- **A naive candidate's required-any is its weight-3 symptoms** unless the proposal names its own: the engine halves a pattern whose required-any is absent, which would flatter every candidate's margins.
+
+**What the checks found in the original library** — findings for the clinical and pharmacy reviewers, recorded as the waivers:
+
+| Row | Finding |
+|---|---|
+| A5 / A6 | One pair is under 20 points: kidney yin deficiency (KD1) and heart–kidney disharmony (HT2) — 15.7 and 20.0 (19.97) points. Four questions separate them. Recorded as a margin exception |
+| A2 | No pattern has a recorded textbook or modern source. Six patterns (SP3, SP6, HT1, LG1, KD1, QB1) have no quotation of their own; only three (SP2, LV3, HT3) cite two books |
+| A7 | Four patterns (EX3, SP6, KD1, HT2) cannot reach the 40-point band from the inquiry alone (32.0, 33.8, 36.1 and 38.8): they need the tongue and the pulse. The golden seeds are the inquiry's answers only, so none holds a tongue or pulse finding |
+| A8 | Seven patterns have no tier-A formula (confirmed: EX1, LV1, LV2, LV4, KD2, QB1, QB2; recorded as declarations). The only tier-A formula of HT1, 歸脾湯, is partially verified |
+| A10 | The red-flag boundary of no pattern exists as data |
+| A11 | Of the safety vignettes that replay a pattern, 74 replay SP1; only SP1 has both a red-flag and a population vignette |
+
+Row A3's structural rules, A4, A9 and A12 hold for all 23. What a wave must still do first is in the §6 table; the tooling does not choose it.
+
 ## 10. Review gating and rollout
 
 - New content is `draft`. A wave may appear in dev builds and in a closed beta under the draft label; a **public** release includes a wave only when its areas have valid review records (A13).
@@ -165,10 +194,11 @@ Seven patterns show no formula in a release. Tier is computed from the herbs (bi
 
 ## 14. Tasks
 
-PM-21 (checks, scaffold, dossier, docs), PM-22 (Wave A, gated on the reviewers and the dossier decisions), PM-23 (Wave B, with module chunking if the trigger has fired) — [`TASKS.md`](../../../TASKS.md).
+PM-21 (checks, scaffold, dossier, docs — built), PM-22 (Wave A, gated on the reviewers and the dossier decisions), PM-23 (Wave B, with module chunking if the trigger has fired) — [`TASKS.md`](../../../TASKS.md).
 
 ## 15. Changelog
 
 | Version | Date | Change |
 |---|---|---|
 | 0.1 | 2026-10-05 | Initial design; Wave A proposed as candidates; seven patterns without a release-visible formula and the budget headroom recorded |
+| 0.2 | 2026-10-06 | PM-21 built ([§9.1](#91-as-built-pm-21)): the admission checks in `validate_kb`, the records and waivers, the dossier generator, the scaffold. What the checks found in the original 23 patterns is recorded; PM-22 and PM-23 are not started — they need named reviewers |
