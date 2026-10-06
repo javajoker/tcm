@@ -19,6 +19,9 @@
 .facts dt { color: var(--ink-muted); }
 .facts dd { margin: 0; }
 .quote { margin: 0 0 var(--space-3); padding: var(--space-3) var(--space-4); border-inline-start: 4px solid var(--primary); background: var(--bg); }
+.bands { display: grid; gap: var(--space-3); }
+.bandHeading { font-size: 1rem; margin: 0 0 var(--space-1); }
+.names { margin: 0; padding-inline-start: 1.2rem; display: grid; gap: 0.15rem; }
 .flags { margin: 0; padding-inline-start: 1.2rem; }
 .index { display: flex; flex-wrap: wrap; gap: var(--space-3); list-style: none; padding: 0; margin: 0; }
 .alias { margin: 0; color: var(--ink-muted); }

@@ -33,8 +33,9 @@ describe("the hub", () => {
     await open("/en/learn");
     expect(screen.getByRole("heading", { level: 1, name: "Learn" })).toBeInTheDocument();
     const cards = within(screen.getByRole("region", { name: "Browse by kind" })).getAllByRole("link");
-    expect(cards.map((c) => c.getAttribute("href"))).toEqual(["/en/learn/quotations", "/en/learn/terms"]);
-    expect(cards[1]).toHaveTextContent(`${kb.glossary.length} entries`);
+    expect(cards.map((c) => c.getAttribute("href"))).toEqual(["/en/learn/patterns", "/en/learn/constitutions", "/en/learn/quotations", "/en/learn/terms"]);
+    expect(cards[0]).toHaveTextContent(`${kb.patterns.length} entries`);
+    expect(cards[3]).toHaveTextContent(`${kb.glossary.length} entries`);
     expect(screen.getByRole("search")).toBeInTheDocument();
     expect(document.title).toBe("Learn · TCM Self-Check");
   });
@@ -99,15 +100,16 @@ describe("the hub", () => {
 describe("a list", () => {
   it("groups the terms by area, with a heading and a list per group, and filters with an announced count", async () => {
     const { user } = await open("/en/learn/terms");
-    expect(screen.getByRole("status")).toHaveTextContent(`${kb.glossary.length} entries shown`);
+    const count = (): HTMLElement => screen.getAllByRole("status").find((s) => /entr/.test(s.textContent ?? ""))!;      // the draft notice is a status too
+    expect(count()).toHaveTextContent(`${kb.glossary.length} entries shown`);
     expect(screen.getAllByRole("heading", { level: 2 }).length).toBeGreaterThan(5);
     await user.type(screen.getByRole("searchbox", { name: "Filter this list" }), "yin yang");
     const n = screen.getAllByRole("link", { name: /yin/i }).filter((l) => l.getAttribute("href")?.startsWith("/en/learn/terms/")).length;
     expect(n).toBeGreaterThan(0);
-    expect(screen.getByRole("status")).toHaveTextContent(/entr(y|ies) shown/);
+    expect(count()).toHaveTextContent(/entr(y|ies) shown/);
     await user.clear(screen.getByRole("searchbox"));
     await user.type(screen.getByRole("searchbox"), "qzxqzx");
-    expect(screen.getByRole("status")).toHaveTextContent("No entry matches the filter.");
+    expect(screen.getAllByRole("status").find((s) => /No entry/.test(s.textContent ?? ""))).toBeDefined();
   });
   it("lists the quotations by book", async () => {
     await open("/zh-Hant/learn/quotations");
@@ -146,6 +148,67 @@ describe("a term page", () => {
   });
 });
 
+describe("a pattern page", () => {
+  it("shows the group, the direction of care, the tongue and pulse, the features in bands, what it is built from and its sources", async () => {
+    const p = kb.patternById.get("EX1")!;
+    await open("/en/learn/patterns/EX1");
+    expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(`${p.name.en} · ${p.name["zh-Hant"]}`);
+    expect(screen.getByRole("region", { name: "Overview" })).toHaveTextContent("External patterns");
+    expect(screen.getByRole("region", { name: "Direction of care" })).toHaveTextContent(p.principle_en);
+    expect(screen.getByRole("region", { name: "Tongue and pulse" })).toHaveTextContent(p.tongue_pulse_note_en);
+    const features = screen.getByRole("region", { name: "Typical features" });
+    expect(within(features).getAllByRole("heading", { level: 3 }).map((h) => h.textContent)).toEqual(["Key features", "Common features", "Features that speak against this pattern", "At least one of these is traditionally needed"]);        // EX1 has no weight below a third of its largest
+    const key = within(features).getAllByRole("list")[0]!;
+    expect(key).toHaveTextContent(kb.symptoms.get("S_AVERSION_COLD")!.en);                     // the heaviest weight is a key feature
+    expect(screen.getByRole("region", { name: "Built from" })).toBeInTheDocument();
+    expect(within(screen.getByRole("region", { name: "Sources" })).getAllByRole("button", { name: /^Open source/ })).toHaveLength(p.citations.length);
+    expect(screen.getByRole("link", { name: "Back to Patterns" })).toHaveAttribute("href", "/en/learn/patterns");
+    expect(screen.getByRole("region", { name: "Related" })).toBeInTheDocument();
+    // R5: no checklist, no question, no treatment (those belong to pages that carry cautions first)
+    const text = document.querySelector("article")!.textContent ?? "";
+    expect(text).not.toMatch(/\?|\byou\b/i);
+    for (const point of p.treatment.acupoints) expect(text).not.toContain(point);
+    expect(screen.queryByText(/not advice for the reader/)).toBeNull();
+  });
+  it("says so when the record has no source", async () => {
+    expect(kb.patternById.get("SP3")!.citations).toEqual([]);
+    await open("/en/learn/patterns/SP3");
+    expect(within(screen.getByRole("region", { name: "Sources" })).getByText("No source is recorded for this entry.")).toBeInTheDocument();
+  });
+  it("is listed by group, with the direction of care under each name", async () => {
+    await open("/en/learn/patterns");
+    expect(screen.getAllByRole("heading", { level: 2 }).map((h) => h.textContent)).toEqual(["External patterns", "Spleen and stomach", "Liver", "Heart", "Lung", "Kidney", "Qi and blood"]);
+    const link = screen.getByRole("link", { name: new RegExp(kb.patternById.get("EX1")!.name.en!.slice(0, 12)) });
+    expect(link).toHaveAttribute("href", "/en/learn/patterns/EX1");
+    expect(link).toHaveTextContent(kb.patternById.get("EX1")!.principle_en);
+  });
+  it("searches by name in either language and by id", async () => {
+    const { user } = await open("/en/learn");
+    await user.type(screen.getByRole("combobox"), "ex1");
+    expect(within(screen.getByRole("listbox")).getAllByRole("option")[0]).toHaveAttribute("href", "/en/learn/patterns/EX1");
+  });
+});
+
+describe("a constitution page", () => {
+  it("describes the type, what is traditionally associated with it and what it is said to be prone to — never as a label for the reader", async () => {
+    await open("/en/learn/constitutions/C_YINXU");
+    expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent("Yin deficiency · 陰虛質");
+    expect(screen.getByRole("region", { name: "Description" })).toHaveTextContent("It is not a label for a person.");
+    expect(screen.getByRole("region", { name: "Features traditionally associated" })).toHaveTextContent(kb.symptoms.get("S_NIGHT_SWEAT")!.en);
+    expect(screen.getByRole("region", { name: "Related" })).toBeInTheDocument();
+    const prone = screen.getByRole("region", { name: "Said to be more prone to" });
+    expect(prone).toHaveTextContent(/summer-heat \(markedly\)/i);
+    expect(screen.getByRole("region", { name: "Sources" })).toHaveTextContent("ZYYXH/T 157-2009");
+    expect(document.querySelector("article")!.textContent).not.toMatch(/\byou\b|\bI have\b/i);
+  });
+  it("the balanced type has a description and nothing else to list", async () => {
+    await open("/en/learn/constitutions/C_PINGHE");
+    expect(screen.getByRole("region", { name: "Description" })).toBeInTheDocument();
+    expect(screen.queryByRole("region", { name: "Said to be more prone to" })).toBeNull();
+    expect(screen.queryByRole("region", { name: "Features traditionally associated" })).toBeNull();
+  });
+});
+
 describe("a quotation page", () => {
   it("shows the passage, where it comes from and how far it was checked", async () => {
     const c = kb.citation("shanghan-035")!;
@@ -158,7 +221,7 @@ describe("a quotation page", () => {
 });
 
 describe("the section's own not-found page", () => {
-  it.each(["/en/learn/terms/no-such-term", "/en/learn/patterns", "/en/learn/quotations/nope"])("%s", async (path) => {
+  it.each(["/en/learn/terms/no-such-term", "/en/learn/formulas", "/en/learn/patterns/NOPE", "/en/learn/constitutions/C_NOPE", "/en/learn/quotations/nope"])("%s", async (path) => {
     await open(path);
     expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent("This page is not in the Learn section");
     expect(screen.getByRole("link", { name: "Back to Learn" })).toHaveAttribute("href", "/en/learn");

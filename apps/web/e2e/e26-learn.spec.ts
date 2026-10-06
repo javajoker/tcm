@@ -52,6 +52,23 @@ test("E26: a deep link opens a page in a fresh browser, and an unknown one says 
   await context.close();
 });
 
+test("E26: a pattern page shows its features in bands, from the list, and the page of another pattern of its group is one link away", async ({ app, page, lang }) => {
+  await app.goto("/learn/patterns");
+  const link = page.locator("main a[href$='/learn/patterns/EX1']");
+  await expect(link).toBeVisible();
+  await link.click();
+  await expect(page).toHaveURL(new RegExp(`/${lang}/learn/patterns/EX1$`));
+  const features = page.getByRole("region", { name: app.t("learn.pattern.features") });
+  await expect(features.getByRole("heading", { level: 3, name: app.t("learn.band.key") })).toBeVisible();
+  await expect(features.getByRole("heading", { level: 3, name: app.t("learn.band.against") })).toBeVisible();
+  await expect(page.getByRole("region", { name: app.t("learn.page.sources") })).toBeVisible();
+  await app.simplified("pattern page");
+  const related = page.getByRole("region", { name: app.t("learn.page.related") }).getByRole("link").first();
+  await related.click();
+  await expect(page).toHaveURL(new RegExp(`/${lang}/learn/patterns/EX[0-9]+$`));
+  await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+});
+
 test("E26: a list filters, announces the count and keeps what the search sent", async ({ app, page, lang }) => {
   await app.goto("/learn/terms?q=" + encodeURIComponent(QUERY[lang]));
   await expect(page.getByRole("searchbox", { name: app.t("learn.list.filter") })).toHaveValue(QUERY[lang]);
@@ -70,7 +87,7 @@ for (const scheme of ["light", "dark"] as const) {
       await page.getByRole("combobox", { name: app.t("learn.search.label") }).fill(QUERY[lang]);
       await expect(page.getByRole("listbox").getByRole("option").first()).toBeVisible();
       await clean(page, "hub");
-      for (const path of ["/learn/terms", "/learn/terms/yin-yang", "/learn/quotations", "/learn/quotations/shanghan-035"]) {
+      for (const path of ["/learn/terms", "/learn/terms/yin-yang", "/learn/quotations", "/learn/quotations/shanghan-035", "/learn/patterns", "/learn/patterns/EX1", "/learn/constitutions", "/learn/constitutions/C_YINXU"]) {
         await app.goto(path);
         await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
         await clean(page, path);

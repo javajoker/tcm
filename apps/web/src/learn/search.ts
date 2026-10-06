@@ -29,6 +29,8 @@ const forms = (...texts: readonly (string | null | undefined)[]): string[] => [.
 export function buildIndex(kb: KnowledgeBase): Index {
   const entries: Entry[] = [];
   const types = new Set(AVAILABLE.map((a) => a.type));
+  if (types.has("pattern")) for (const p of kb.patterns) entries.push({ type: "pattern", id: p.id, name: p.name, forms: forms(p.name["zh-Hant"], kb.zh(p.name["zh-Hant"]), p.name.en, p.id) });
+  if (types.has("constitution")) for (const c of kb.constitutions) entries.push({ type: "constitution", id: c.id, name: c.name, forms: forms(c.name["zh-Hant"], kb.zh(c.name["zh-Hant"]), c.name.en, c.id.replace(/^C_/, ""), c.id) });
   if (types.has("term")) for (const g of kb.glossary) entries.push({ type: "term", id: g.id, name: { "zh-Hant": g["zh-Hant"], en: g.en }, note: g.pinyin, noteLang: "pinyin", forms: forms(g["zh-Hant"], kb.zh(g["zh-Hant"]), g.en, g.pinyin, ...g.alt, g.id.replace(/-/g, " ")) });
   if (types.has("quotation")) for (const c of kb.citations) entries.push({ type: "quotation", id: c.id, name: { "zh-Hant": `《${kb.zh(c.book)}》${kb.zh(c.chapter)}`, en: null }, note: excerpt(kb.zh(c.quote_zh_hant)), noteLang: "zh", forms: forms(c.book, kb.zh(c.book), c.chapter, kb.zh(c.chapter), `${c.book}${c.chapter}`, kb.zh(`${c.book}${c.chapter}`)) });
   return { entries };

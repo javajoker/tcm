@@ -3,7 +3,7 @@ import { Link, useSearch } from "wouter";
 import { useI18n } from "../i18n/I18nProvider.tsx";
 import { useLoaded } from "../app/knowledge.tsx";
 import { useTitleText } from "../app/usePageTitle.ts";
-import { Field, TextInput } from "../ui/index.ts";
+import { Field, Notice, TextInput } from "../ui/index.ts";
 import { listOf } from "./pages.ts";
 import { hrefOf } from "./registry.ts";
 import { kindTitle, readingsOf, useIndex } from "./SearchBox.tsx";
@@ -29,6 +29,7 @@ export function List({ type }: { type: LearnType }): ReactNode {
     <div className={styles.list}>
       <p data-noprint style={{ margin: 0 }}><Link href="/learn">{t.t("learn.back")}</Link></p>
       <h1>{title}</h1>
+      {kb.params._meta.status !== "reviewed" ? <Notice kind="caution" kindLabel={t.t("common.notice.caution")}>{t.t("safety.notice.draft.text")}</Notice> : null}
       <div data-noprint>
         <Field label={t.t("learn.list.filter")} hint={t.t("learn.list.filter.hint")}>
           <TextInput type="search" value={query} autoComplete="off" spellCheck={false} onChange={(e) => setQuery(e.currentTarget.value)} />

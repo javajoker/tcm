@@ -85,7 +85,7 @@ describe("the registry", () => {
   it("has the seven kinds, unique paths, and only the kinds whose pages exist are available", () => {
     expect(TYPES.map((t) => t.type)).toEqual(["pattern", "constitution", "formula", "point", "food", "quotation", "term"]);
     expect(new Set(TYPES.map((t) => t.path)).size).toBe(TYPES.length);
-    expect(AVAILABLE.map((t) => t.type).sort()).toEqual(["quotation", "term"]);
+    expect(AVAILABLE.map((t) => t.type).sort()).toEqual(["constitution", "pattern", "quotation", "term"]);
   });
   it("addresses are ASCII and round-trip", () => {
     for (const { type, path } of AVAILABLE) {
@@ -93,7 +93,7 @@ describe("the registry", () => {
       expect(hrefOf(type)).toBe(`/learn/${path}`);
       expect(hrefOf(type, "x-1")).toBe(`/learn/${path}/x-1`);
     }
-    expect(typeOfPath("patterns")).toBeUndefined();            // not built yet: the route says not found rather than showing an empty list
+    expect(typeOfPath("formulas")).toBeUndefined();            // not built yet: the route says not found rather than showing an empty list
     expect(infoOf("formula").adviceLike).toBe(true);
     expect(infoOf("term").adviceLike).toBe(false);
   });
@@ -125,9 +125,52 @@ describe.each(["en", "zh-Hant"] as const)("the pages of every available kind · 
       for (const r of page.related) expect(kb.citation(r.href.split("/").pop()!), r.href).toBeDefined();
     }
   });
+  it("every pattern has a page: its group, direction of care, tongue and pulse, features in bands, components, and sources or none", () => {
+    expect(kb.patterns).toHaveLength(23);
+    for (const p of kb.patterns) {
+      const page = pageOf(kb, "pattern", p.id, t)!;
+      expect(page, p.id).not.toBeNull();
+      expect(page.title).toEqual(p.name);
+      expect(page.adviceLike).toBe(false);
+      expect(page.cautions).toEqual([]);
+      expect(page.citations).toEqual(p.citations);
+      const ids = page.sections.map((s) => s.id);
+      expect(ids.slice(0, 4)).toEqual(["overview", "principle", "tongue-pulse", "features"]);
+      const features = page.sections.find((s) => s.id === "features")!;
+      const groups = features.blocks.filter((b) => b.kind === "groups").flatMap((b) => (b.kind === "groups" ? b.groups : []));
+      const shown = groups.flatMap((g) => g.items.map((i) => i["zh-Hant"]));
+      for (const s of Object.keys(p.weights)) expect(shown, `${p.id} ${s}`).toContain(kb.symptoms.get(s)!["zh-Hant"]);
+      for (const s of Object.keys(p.against)) expect(shown, `${p.id} against ${s}`).toContain(kb.symptoms.get(s)!["zh-Hant"]);
+      expect(groups[0]!.label).toBe(t.t("learn.band.key"));
+      // R5: a pattern page never addresses the reader, never asks, and never says which pattern a visitor might have
+      const text = JSON.stringify(page.sections);
+      expect(text).not.toMatch(/\b(you|your)\b|\?/i);
+      for (const r of page.related) expect(kb.patternById.get(r.href.split("/").pop()!)?.group, r.href).toBe(p.group);
+      // the treatment lists (points, foods, lifestyle) belong to the pages that carry cautions first, not to this one
+      for (const point of p.treatment.acupoints) expect(text, `${p.id} ${point}`).not.toContain(point);
+      for (const food of p.treatment.foods) expect(text, `${p.id} ${food}`).not.toContain(food);
+    }
+  });
+  it("every constitution has a page: description, features, related nature, tendencies, source", () => {
+    expect(kb.constitutions).toHaveLength(9);
+    for (const c of kb.constitutions) {
+      const page = pageOf(kb, "constitution", c.id, t)!;
+      expect(page, c.id).not.toBeNull();
+      expect(page.title).toEqual(c.name);
+      expect(page.sourceLabel).toBeTruthy();
+      expect(page.sections[0]!.id).toBe("overview");
+      expect(JSON.stringify(page.sections)).not.toMatch(/\b(you|your)\b|\?/i);
+      expect(page.related).toHaveLength(8);
+      // the questionnaire items are first-person statements for a person; the page shows the description only
+      for (const type of kb.constitutionItems.types.filter((x) => x.constitution === c.id)) for (const item of type.items) expect(JSON.stringify(page.sections)).not.toContain(item.text["zh-Hant"]);
+    }
+    expect(JSON.stringify(pageOf(kb, "constitution", "C_YINXU", en)!.sections)).toContain("markedly");
+  });
   it("an unknown id has no page, and a kind that is not built has no list and no page", () => {
     expect(pageOf(kb, "term", "no-such-term", t)).toBeNull();
     expect(pageOf(kb, "quotation", "no-such-quotation", t)).toBeNull();
+    expect(pageOf(kb, "pattern", "NOPE", t)).toBeNull();
+    expect(pageOf(kb, "constitution", "C_NOPE", t)).toBeNull();
     expect(pageOf(kb, "formula", "anything", t)).toBeNull();
     expect(listOf(kb, "formula", t)).toEqual([]);
   });
@@ -135,16 +178,19 @@ describe.each(["en", "zh-Hant"] as const)("the pages of every available kind · 
     const terms = listOf(kb, "term", t);
     expect(terms.flatMap((g) => g.items.map((i) => i.id)).sort()).toEqual(kb.glossary.map((g) => g.id).sort());
     for (const g of terms) expect(g.heading, g.key).toBeTruthy();
+    expect(listOf(kb, "pattern", t).flatMap((g) => g.items.map((i) => i.id)).sort()).toEqual(kb.patterns.map((p) => p.id).sort());
+    expect(listOf(kb, "pattern", t).map((g) => g.key)).toEqual([...new Set(kb.patterns.map((p) => p.group))]);
+    expect(listOf(kb, "constitution", t).flatMap((g) => g.items.map((i) => i.id))).toEqual(kb.constitutions.map((c) => c.id));
     const quotes = listOf(kb, "quotation", t);
     expect(quotes.flatMap((g) => g.items.map((i) => i.id)).sort()).toEqual(kb.citations.map((c) => c.id).sort());
   });
 });
 
 describe("ids", () => {
-  it("terms and quotations have unique ASCII ids, so no route contains a Chinese character", () => {
-    for (const ids of [kb.glossary.map((g) => g.id), kb.citations.map((c) => c.id)]) {
+  it("every kind has unique ASCII ids, so no route contains a Chinese character", () => {
+    for (const ids of [kb.glossary.map((g) => g.id), kb.citations.map((c) => c.id), kb.patterns.map((p) => p.id), kb.constitutions.map((c) => c.id)]) {
       expect(new Set(ids).size).toBe(ids.length);
-      for (const id of ids) expect(id).toMatch(/^[a-z0-9][a-z0-9-]*$/);
+      for (const id of ids) expect(id).toMatch(/^[A-Za-z0-9][A-Za-z0-9_-]*$/);
     }
   });
 });

@@ -28,10 +28,20 @@ function Blocks({ blocks }: { blocks: readonly Block[] }): ReactNode {
           {b.rows.map((r) => (
             <div key={r.label} style={{ display: "contents" }}>
               <dt>{r.label}</dt>
-              <dd>{r.lang === "zh" ? <span lang={t.zhLang}>{r.value}</span> : r.lang === "pinyin" ? <i lang="zh-Latn-pinyin">{r.value}</i> : r.lang === "en" ? <span lang="en">{r.value}</span> : r.value}</dd>
+              <dd>{typeof r.value !== "string" ? <NameLine name={r.value} /> : r.lang === "zh" ? <span lang={t.zhLang}>{r.value}</span> : r.lang === "pinyin" ? <i lang="zh-Latn-pinyin">{r.value}</i> : r.lang === "en" ? <span lang="en">{r.value}</span> : r.value}</dd>
             </div>
           ))}
         </dl>
+      );
+      case "groups": return (
+        <div key={i} className={styles.bands}>
+          {b.groups.map((g, j) => (
+            <div key={j}>
+              {g.label !== null ? <h3 className={styles.bandHeading}>{g.label}</h3> : null}
+              <ul className={styles.names}>{g.items.map((n, k) => <li key={k}><NameLine name={n} /></li>)}</ul>
+            </div>
+          ))}
+        </div>
       );
     }
   })}</>;
@@ -62,7 +72,7 @@ export function Page({ model }: { model: PageModel }): ReactNode {
       <p data-noprint style={{ margin: 0 }}><Link href={hrefOf(model.type)}>{t.t("learn.backTo", { kind: t.t(kindTitle(model.type)) })}</Link></p>
       <header>
         <h1><NameLine name={model.title} /></h1>
-        {model.alias !== undefined ? <p className={styles.alias}><i lang="zh-Latn-pinyin">{model.alias}</i></p> : null}
+        {model.alias !== undefined ? <p className={styles.alias}>{model.aliasLang === "pinyin" ? <i lang="zh-Latn-pinyin">{model.alias}</i> : <code>{model.alias}</code>}</p> : null}
         {model.adviceLike ? <p className="muted" style={{ margin: "var(--space-2) 0 0" }}>{t.t("learn.page.standing")} <Link href="/sources">{t.t("learn.page.standing.link")}</Link></p> : null}
       </header>
       {kb.params._meta.status !== "reviewed" ? <Notice kind="caution" kindLabel={t.t("common.notice.caution")}>{t.t("safety.notice.draft.text")}</Notice> : null}

@@ -61,6 +61,9 @@ export const ROUTES: { pattern: string; url: string; needs: Needs; dev?: true; s
 ];
 /** Extra states of a route that have their own markup: a blocking notice, an unsure answer. */
 export const STATES: { name: string; url: string; draft: (d: Draft) => Draft }[] = [
+  { name: "a pattern page of the Learn section", url: "/learn/patterns/EX1", draft: (d) => d },
+  { name: "the pattern list of the Learn section", url: "/learn/patterns", draft: (d) => d },
+  { name: "a constitution page of the Learn section", url: "/learn/constitutions/C_YINXU", draft: (d) => d },
   { name: "a quotation page of the Learn section", url: "/learn/quotations/shanghan-035", draft: (d) => d },
   { name: "the Learn section's own not-found page", url: "/learn/terms/no-such-term", draft: (d) => d },
   { name: "the screening with an emergency notice", url: "/screen", draft: (d) => withAnswer({ ...d, redFlags: [], inquiry: { modules: null, history: [], resolved: [] }, findings: {} }, "RF_A_CHEST_PAIN", "yes") },

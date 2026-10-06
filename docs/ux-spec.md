@@ -68,7 +68,7 @@ Landing ─► Start (profile, birth*) ─► Safety screening ─► Inquiry �
 | S17 | Settings and privacy | `/:lang/settings` | Language, theme, text size, erase, versions | Prefs |
 | S18 | Sources / knowledge viewer | `/:lang/sources` | Provenance and review status; P2: browser | KB |
 | S19 | Loading, offline, error, 404 | — | Fallback states | — |
-| S21 | Learn: hub, list, page | `/:lang/learn`, `/:lang/learn/:kind`, `/:lang/learn/:kind/:id` | Browse and search the knowledge the app holds without taking an assessment; cautions first on anything a person might use, never "you" ([design](post-mvp/design/knowledge-browser.md)) | `glossary`, `citations` (more kinds follow) |
+| S21 | Learn: hub, list, page | `/:lang/learn`, `/:lang/learn/:kind`, `/:lang/learn/:kind/:id` | Browse and search the knowledge the app holds without taking an assessment; cautions first on anything a person might use, never "you" ([design](post-mvp/design/knowledge-browser.md)) | `glossary`, `citations`, `patterns`, `constitutions` (more kinds follow) |
 | S20 | Developer inspector | `/:lang/_dev` | Dev profile only (see tech spec §8.6) | Everything |
 
 ---

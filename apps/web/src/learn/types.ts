@@ -30,9 +30,12 @@ export type Block =
   | { readonly kind: "text"; readonly zh: string; readonly en?: string | undefined; readonly status?: "machine-draft" | "reviewed" | undefined }
   | { readonly kind: "plain"; readonly text: string }
   | { readonly kind: "quote"; readonly zh: string }
-  | { readonly kind: "facts"; readonly rows: readonly Fact[] };
-/** `value` is already in the page language (and, for Chinese, in the page script); `lang` only marks it for assistive technology. */
-export interface Fact { readonly label: string; readonly value: string; readonly lang?: "zh" | "en" | "pinyin" }
+  | { readonly kind: "facts"; readonly rows: readonly Fact[] }
+  /** Labelled lists of names (the features of a pattern by band, the smaller patterns it is built from). A group without a label is a plain list. */
+  | { readonly kind: "groups"; readonly groups: readonly NameGroup[] };
+export interface NameGroup { readonly label: string | null; readonly items: readonly Name[] }
+/** A string `value` is already in the page language (and, for Chinese, in the page script) and `lang` only marks it for assistive technology; a `Name` is shown in both languages like a title. */
+export interface Fact { readonly label: string; readonly value: string | Name; readonly lang?: "zh" | "en" | "pinyin" }
 
 export interface Section { readonly id: string; readonly heading: string; readonly blocks: readonly Block[] }
 
@@ -47,6 +50,8 @@ export interface PageModel {
   readonly title: Name;
   /** Pinyin or a code that sits beside the title (terms, points). */
   readonly alias?: string;
+  /** `pinyin` when the alias is the pinyin of the title (a term); a code (a pattern's id) has none. */
+  readonly aliasLang?: "pinyin";
   /** The page describes something a person might use (a formula, a food, a point): its cautions come first and the standing line is shown (R1, R3). */
   readonly adviceLike: boolean;
   readonly cautions: readonly Caution[];

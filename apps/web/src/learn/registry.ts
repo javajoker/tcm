@@ -5,8 +5,8 @@ import type { LearnType, TypeInfo } from "./types.ts";
  * shell with the glossary terms and the quotations; the other kinds are switched on by the tasks that build them (patterns and constitutions PM-14; formulas, points and foods PM-15).
  */
 export const TYPES: readonly TypeInfo[] = [
-  { type: "pattern", path: "patterns", adviceLike: false, available: false },
-  { type: "constitution", path: "constitutions", adviceLike: false, available: false },
+  { type: "pattern", path: "patterns", adviceLike: false, available: true },
+  { type: "constitution", path: "constitutions", adviceLike: false, available: true },
   { type: "formula", path: "formulas", adviceLike: true, available: false },
   { type: "point", path: "points", adviceLike: true, available: false },
   { type: "food", path: "foods", adviceLike: true, available: false },

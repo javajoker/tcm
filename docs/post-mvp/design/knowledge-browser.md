@@ -2,8 +2,8 @@
 
 | | |
 |---|---|
-| **Version** | 0.2 (draft) |
-| **Status** | Design for Release B (FR-14, FR-25; tasks PM-13 … PM-16) and Release C (herb browser; PM-24, PM-25). **PM-13 is built** (the shell, the stable ids, search, the page template, terms and quotations); the other page kinds follow in PM-14 and PM-15 |
+| **Version** | 0.3 (draft) |
+| **Status** | Design for Release B (FR-14, FR-25; tasks PM-13 … PM-16) and Release C (herb browser; PM-24, PM-25). **PM-13 and PM-14 are built** (the shell, the stable ids, search, the page template, terms, quotations, patterns and constitutions); formulas, points and foods follow in PM-15 |
 | **Last updated** | 2026-10-06 |
 | **Audience** | Engineers, designers, the clinical reviewer |
 | **Related** | [Requirements FR-14, FR-25](../requirements.md#fr-14-knowledge-browser--release-b--class-n-herbs-c-release-c--refines-fr-14) · [PRD §3](../../PRD.md#3-target-users) · [Tech spec §5.3, §8.1](../../tech-spec.md) · [UX spec](../../ux-spec.md) · [Safety policy](../../safety-policy.md) · [i18n guide §5](../../i18n-guide.md) |
@@ -129,6 +129,15 @@ The name **Compare patterns** (比較證型) is deliberately different from the 
 | End to end | Hub → search → page → compare → back; deep link opens a page in a fresh context; offline after the first visit |
 | Accessibility | Every page type in the jsdom and real-browser axe sweeps (light and dark); keyboard-only run through search and comparison |
 
+### 9.1 As built: pattern and constitution pages (PM-14)
+
+| Page | What it shows | What it deliberately leaves out |
+|---|---|---|
+| **Pattern** (`/learn/patterns/EX1`) | The group; the direction of care and the tongue and pulse (the English is a machine draft and says so beside the text); the **typical features in bands** — *key* (a weight of at least two thirds of the pattern's largest), *common* (at least a third), *supporting*, and *features that speak against it* — with the *traditionally needed* ones named; the smaller patterns it is built from; its sources or "no source" (six of the 23 records cite none); the other patterns of its group | **The treatment lists** (points, foods, lifestyle): they describe something a person might use, so they belong to pages that carry cautions first (PM-15). Likewise the **formulas** — the page links to a formula's page once that kind exists, and names none before. Raw weights and any checklist wording |
+| **Constitution** (`/learn/constitutions/C_YINXU`) | The description (third person), the features traditionally associated with the type, the nature words it relates to (with the glossary's English where there is one), and the external factors it is said to be more prone to, in words (*markedly*, *somewhat*) — and the source standard | The questionnaire's items: they are first-person statements for a person to answer, so they stay in the questionnaire; a page never says "you are this type", and says that a type is a tendency, not a label |
+
+The bands come from one pure function, `featuresOf` in `@tcm/engine` (`learn.ts`), which the comparison of PM-16 reuses, so the two views never disagree about what is key. Tests: the boundaries are exact (2 of 3 is key, 1 of 3 is common, 2 of 6 is common, 1 of 6 is supporting); every pattern has a key feature and no feature twice; every page of both kinds has the required sections; a scan of each page model finds no second-person wording, no question mark and none of the pattern's treatment names.
+
 ### 10.1 As built (PM-13)
 
 | Layer | What exists |
@@ -166,3 +175,4 @@ PM-13 (shell, ids, anonymous-context components, search index, print), PM-14 (pa
 |---|---|---|
 | 0.1 | 2026-10-05 | Initial design |
 | 0.2 | 2026-10-06 | PM-13 built: stable ids frozen in the data, the in-memory index (replacing the chunk of §5), best-match group order, the standing line's link, the as-built test list (§10.1) and the three defaults it added |
+| 0.3 | 2026-10-06 | PM-14 built: pattern and constitution pages, feature bands from the engine, the treatment lists and the questionnaire items kept off these pages (§9.1) |

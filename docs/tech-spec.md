@@ -191,6 +191,7 @@ src/
   safety.ts                # step 11  rule evaluation, suppress/annotate
   explain.ts               # step 12  trace items, "what would change this"
   questionnaire.ts         # adaptive next-question selection (information gain)
+  learn.ts                 # not a pipeline step: the features of a pattern in bands (key / common / supporting / against), shared by the Learn pages and the comparison (PM-14, PM-16)
   assess.ts                # orchestration: the one public entry point
   index.ts
 ```
@@ -489,7 +490,7 @@ Language is the first path segment (PRD FR-2); no personal data ever appears in 
 | `/:lang/result/:id/formula/:fid` | Formula detail (composition, 君臣佐使, modification) | Deep-linkable within the device |
 | `/:lang/history` | Saved assessments, compare two | |
 | `/:lang/sources` | Citation and knowledge viewer (P2: browser) | |
-| `/:lang/learn` · `/:lang/learn/:kind` · `/:lang/learn/:kind/:id` | Learn: hub with search · a list with a filter (`?q=`) · a page ([design](post-mvp/design/knowledge-browser.md)) | One lazy chunk (≈ 5 KB gzip); ids are ASCII and language-neutral; `noindex`; an unknown kind or id is the section's own not-found page. Built: terms and quotations (PM-13) |
+| `/:lang/learn` · `/:lang/learn/:kind` · `/:lang/learn/:kind/:id` | Learn: hub with search · a list with a filter (`?q=`) · a page ([design](post-mvp/design/knowledge-browser.md)) | One lazy chunk (≈ 5 KB gzip); ids are ASCII and language-neutral; `noindex`; an unknown kind or id is the section's own not-found page. Built: terms and quotations (PM-13), patterns and constitutions (PM-14) |
 | `/:lang/settings` | Language, text size, theme, erase everything, privacy | |
 | `/:lang/_dev` | Developer inspector (dev profile only) | Tree-shaken from release |
 
