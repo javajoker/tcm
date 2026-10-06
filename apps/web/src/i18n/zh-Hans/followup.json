@@ -1,0 +1,27 @@
+{
+  "followup.calendar": "加入我的行事历",
+  "followup.card.body": "几周后再做一次评估，可以看出情况有什么变化。请选择本应用何时提出新的评估；不会发送任何东西。",
+  "followup.card.title": "稍后再看一次",
+  "followup.change": "选择其他时间",
+  "followup.ics.body": "一个行事历文件，在 {date} 有一个全天项目。它只说该再看一次了，不含任何健康信息。加入行事历之后，它会留在那里，也可能被该行事历所用的服务复制。本应用无法发送任何东西，所以这个文件只是给自己的一则备忘。",
+  "followup.ics.close": "关闭",
+  "followup.ics.description": "打开应用程序：{url}",
+  "followup.ics.done": "已保存 {name}。",
+  "followup.ics.download": "下载行事历文件",
+  "followup.ics.summary": "中医自我评估——该再看一次了",
+  "followup.ics.title": "加入我的行事历",
+  "followup.interval": {
+    "other": "{n} 周后"
+  },
+  "followup.interval.legend": "提出新的评估",
+  "followup.interval.none": "现在不用",
+  "followup.none.saved": "没有设置任何提醒。",
+  "followup.nudge.later": "现在不用",
+  "followup.nudge.profile": "用上次的个人资料开始",
+  "followup.nudge.profile.hint": "只会带入关于本人的回答：年龄、性别、怀孕、药物、过敏与疾病，以及已保存的出生资料。症状会重新询问。",
+  "followup.nudge.start": "开始新的评估",
+  "followup.nudge.text": "距离上次评估已经大约 {n} 周。要再看一次吗？",
+  "followup.nudge.title": "是时候再看一次了吗？",
+  "followup.set": "从 {date} 起，起始页和历史记录会出现一张提示卡。",
+  "followup.set.dismissed": "{date} 的提示卡已被关闭。"
+}

@@ -189,6 +189,9 @@ describe("validating a record", () => {
     refuse((r) => { r.result.meta.computedAt += 1; }, /does not carry the stamps/);
     refuse((r) => { r.userNote = "n".repeat(LIMITS.note + 1); }, /the note/);
     refuse((r) => { r.feedback = { f: "great" }; }, /feedback mark/);
+    refuse((r) => { r.followUp = { dueAt: "soon" }; }, /follow-up date/);
+    refuse((r) => { r.followUp = { dueAt: 5, dismissedAt: -1 }; }, /dismissal time/);
+    refuse((r) => { r.followUp = "tomorrow"; }, /follow-up/);
     refuse((r) => { r.imported = { at: 1 }; }, /import mark/);
     refuse((r) => { r.input = null; }, /inputs/);
   });
@@ -219,6 +222,19 @@ describe("validating a record", () => {
     expect(validateAssessment(null).ok).toBe(false);
     expect(validateAssessment("string").ok).toBe(false);
     expect(validateAssessment([]).ok).toBe(false);
+  });
+
+  it("a follow-up date and its dismissal travel with the record, as plain numbers and nothing else", () => {
+    const r = JSON.parse(JSON.stringify(clean));
+    r.followUp = { dueAt: NOW + 28 * 86_400_000, dismissedAt: NOW + 30 * 86_400_000, extra: "ignored" };
+    const v = validateAssessment(r);
+    expect(v.ok && v.value.followUp).toEqual({ dueAt: NOW + 28 * 86_400_000, dismissedAt: NOW + 30 * 86_400_000 });
+    delete r.followUp.dismissedAt;
+    const w = validateAssessment(r);
+    expect(w.ok && w.value.followUp).toEqual({ dueAt: NOW + 28 * 86_400_000 });
+    delete r.followUp;
+    const x = validateAssessment(r);
+    expect(x.ok && "followUp" in x.value).toBe(false);
   });
 
   it("a text a person typed stays text: markup in a note or an allergy is kept as the characters it is", () => {

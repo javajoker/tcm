@@ -111,7 +111,7 @@ A release is ticked item by item as features ship; a feature ships when the gate
 - [ ] Every knowledge page names its sources or says "no source" and carries its cautions (test over all pages); axe-clean in light and dark; a release build shows only its bundle *(PM-13 to PM-15: all seven kinds of page are built and tested, including the data-side rules R4 and R7; herbs follow in Release C)*
 - [ ] Comparison uses the question bank and adds no score *(PM-16: built and tested — topics from the bank, bands not numbers, no score)*
 - [ ] Practitioner export: schema published, preview toggles work, fields within the privacy inventory, wording lint clean *(PM-17 built and tested; the wording is class N and the lint is clean)*
-- [ ] Follow-up: the calendar file carries no health content; trends never mix parameter fingerprints silently; wording passes the forbidden-wording lint and is reviewed
+- [ ] Follow-up: the calendar file carries no health content; trends never mix parameter fingerprints silently; wording passes the forbidden-wording lint and is reviewed *(PM-18 built: the calendar file and the follow-up wording; trends follow in PM-19; the wording review is class L and open)*
 - [ ] Lock: a scan of the raw stored bytes finds no plaintext of sensitive fields; an interrupted change keeps the old data valid; security review recorded
 - [ ] Usability round includes the learner and the practitioner tasks
 - [ ] Folded into the PRD and specs; `CHANGELOG.md` updated

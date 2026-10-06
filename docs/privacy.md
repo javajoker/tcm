@@ -42,6 +42,7 @@
 | Results | assessments, reasoning, recommendations (with KB/engine versions) | **Sensitive (health, derived)** | History and compare | IndexedDB | Until the user deletes | Delete one/all |
 | Free-text notes | anything typed | Sensitive | Memo for the user | IndexedDB | Same | Same |
 | Feedback marks | match / partly / no, per result, pattern and formula (stored inside the saved result) | Low | Optional calibration export (marks + result summary; the answers only if the user ticks "include my answers") | IndexedDB | Same | Export or delete |
+| Follow-up date | A day the person chose (in 2, 4 or 8 weeks) and, if they said "not now", when — stored inside the saved result | Low | Shows the card on the start page and in History when the day has passed; nothing is sent and no timer runs. A calendar file for that day, if the person asks, holds only a date and the title "time to look again" | IndexedDB | Same | Deleted with the result; included in a backup |
 | Technical | app/KB/engine versions, profile | Low | Reproducibility | Inside saved results | Same | — |
 
 **Never collected:** name, email, phone, account identifiers, device identifiers, precise location, IP addresses by the app, contacts, photos (no photo upload in MVP).

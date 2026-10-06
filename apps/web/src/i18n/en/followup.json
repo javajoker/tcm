@@ -1,0 +1,28 @@
+{
+  "followup.calendar": "Add to my calendar",
+  "followup.card.body": "An assessment a few weeks from now shows how things have changed. Choose when this app should offer a new one; nothing is sent anywhere.",
+  "followup.card.title": "Look again later",
+  "followup.change": "Choose another time",
+  "followup.ics.body": "A calendar file with one all-day entry on {date}. It says only that it is time to look again and holds no health information. Once it is in a calendar it stays there and may be copied by the services that calendar uses. Nothing can be sent from this app, so the file is a note to yourself.",
+  "followup.ics.close": "Close",
+  "followup.ics.description": "Open the app: {url}",
+  "followup.ics.done": "Saved {name}.",
+  "followup.ics.download": "Download the calendar file",
+  "followup.ics.summary": "TCM Self-Check — time to look again",
+  "followup.ics.title": "Add to my calendar",
+  "followup.interval": {
+    "one": "In {n} week",
+    "other": "In {n} weeks"
+  },
+  "followup.interval.legend": "Offer a new assessment",
+  "followup.interval.none": "Not now",
+  "followup.none.saved": "Nothing was set.",
+  "followup.nudge.later": "Not now",
+  "followup.nudge.profile": "Start with my previous profile",
+  "followup.nudge.profile.hint": "Only the answers about the person are carried over: age, sex, pregnancy, medicines, allergies and conditions, and birth data if it was saved. The symptoms are asked again.",
+  "followup.nudge.start": "Start a new assessment",
+  "followup.nudge.text": "It has been about {n} weeks since the last assessment. Would you like to look again?",
+  "followup.nudge.title": "Time to look again?",
+  "followup.set": "A card will appear on the start page and in History from {date}.",
+  "followup.set.dismissed": "The card for {date} was dismissed."
+}

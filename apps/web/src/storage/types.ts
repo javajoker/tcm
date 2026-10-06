@@ -112,6 +112,8 @@ export interface SavedAssessment {
   readonly input: { readonly subject: Draft["subject"]; readonly profile: ProfileAnswers; readonly screening: Screening; readonly redFlags: readonly string[]; readonly findings: Draft["findings"]; readonly context: AssessContext; readonly constitutionAnswers?: Readonly<Record<string, number>>; readonly birth?: BirthInput; readonly observe?: ObserveProgress };
   readonly result: Assessment;
   readonly userNote?: string;
+  /** A note the person set for themselves (docs/post-mvp/design/export-follow-up-trends.md §4): the date the app offers a new assessment, and when they said "not now". Deleted with the result. */
+  readonly followUp?: { readonly dueAt: number; readonly dismissedAt?: number };
   readonly feedback?: Readonly<Record<string, "match" | "partial" | "no">>;
   /** Present on a record that came from a backup and could not be checked against its answers (made by another version): shown as saved, marked *Imported* (backup design §3.4 stage 8). */
   readonly imported?: { readonly at: number; readonly from: { readonly appVersion: string; readonly kbVersion: string; readonly engineVersion: string; readonly profile: string } };

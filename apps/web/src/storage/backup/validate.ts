@@ -183,6 +183,7 @@ export function validateAssessment(raw: unknown): Valid<SavedAssessment> {
     return { ok: true, value: {
       ...base, input: inputOf(r["input"]), result,
       ...(has(r, "userNote") ? { userNote: text(r["userNote"], "the note", LIMITS.note) } : {}),
+      ...(has(r, "followUp") ? { followUp: ((f) => ({ dueAt: int(f["dueAt"], "the follow-up date", 0, 4_102_444_800_000), ...(has(f, "dismissedAt") ? { dismissedAt: int(f["dismissedAt"], "the dismissal time", 0, 4_102_444_800_000) } : {}) }))(record(r["followUp"], "the follow-up")) } : {}),
       ...(Object.keys(feedback).length > 0 ? { feedback } : {}),
       ...(imported ? { imported } : {}),
     } };

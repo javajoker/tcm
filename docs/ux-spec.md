@@ -250,6 +250,8 @@ Grouped by dimension; each group has an **Edit** link that returns to the exact 
 
 ### 4.10 S13 Result report
 
+> **Follow-up (PM-18).** After *Your data* a card *Look again later* offers *In 2 weeks · In 4 weeks · In 8 weeks · Not now* (none pre-selected; written at once as a date on the result), then says from which date a card will appear on the start page and in History and offers *Add to my calendar* (an `.ics` with no health content). The card on those pages — *Time to look again?* — offers *Start a new assessment*, *Start with my previous profile* and *Not now*; see the [follow-up design](post-mvp/design/export-follow-up-trends.md#44-as-built-pm-18).
+
 Order follows SOP §14.1 / PRD FR-9. Mobile = single column with a **sticky section chip bar**; the panel is a collapsible card near the top. Desktop = two panes.
 
 ```

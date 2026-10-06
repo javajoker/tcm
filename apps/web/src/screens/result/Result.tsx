@@ -19,6 +19,7 @@ import { Summary } from "./Summary.tsx";
 import { Transmission } from "./Transmission.tsx";
 import { WhatWouldChange } from "./WhatWouldChange.tsx";
 import { Why } from "./Why.tsx";
+import { FollowUpCard } from "../../followup/FollowUpCard.tsx";
 import { Practitioner, ReportFooter, YourData } from "./Tail.tsx";
 import styles from "./Result.module.css";
 
@@ -68,6 +69,7 @@ function Report({ saved }: { saved: SavedAssessment }): ReactNode {
         <Advice saved={saved} />
         <Practitioner />
         <YourData saved={saved} />
+        <FollowUpCard saved={saved} />
         <FeedbackCard saved={saved} />
         {established ? <WhatWouldChange saved={saved} /> : null}
       </div>

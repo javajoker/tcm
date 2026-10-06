@@ -541,6 +541,7 @@ interface SavedAssessment {
   input: Omit<AssessInput, "options"> & { birth?: BirthInput };   // birth present only if rememberBirth = true
   result: Assessment;                                              // snapshot as shown; re-running produces a new one
   userNote?: string; feedback?: Record<string, "match" | "partial" | "no">;     // FR-16
+  followUp?: { dueAt: number; dismissedAt?: number };                                // PM-18: when the app offers a new assessment; deleted with the result
   imported?: { at: number; from: { appVersion; kbVersion; engineVersion; profile } };   // PM-07: came from a backup and could not be replayed; shown as saved, marked Imported
 }
 ```

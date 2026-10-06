@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { ENGINE_VERSION } from "@tcm/engine";
 import { BackupLine, BackupReminder } from "../../backup/Reminder.tsx";
+import { FollowUpNudge } from "../../followup/FollowUpNudge.tsx";
 import { useI18n } from "../../i18n/I18nProvider.tsx";
 import type { MessageKey } from "../../i18n/catalogs.ts";
 import { formatLocal } from "../../app/format.ts";
@@ -53,6 +54,7 @@ function Body({ items, reload }: { items: SavedAssessment[]; reload: () => void 
     <>
       <h1>{t.t("report.history.title")}</h1>
       <p>{t.t("report.history.intro")}</p>
+      <FollowUpNudge />
       <BackupReminder />
       <BackupLine />
       {undo !== null ? (

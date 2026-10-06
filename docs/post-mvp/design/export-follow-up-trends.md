@@ -2,8 +2,8 @@
 
 | | |
 |---|---|
-| **Version** | 0.2 (draft) |
-| **Status** | Design for Release B (FR-26 and FR-27; tasks PM-17 … PM-19). **PM-17 (the practitioner file) is built**; follow-up and trends are not |
+| **Version** | 0.3 (draft) |
+| **Status** | Design for Release B (FR-26 and FR-27; tasks PM-17 … PM-19). **PM-17 (the practitioner file) and PM-18 (follow-up) are built**; trends are not |
 | **Last updated** | 2026-10-06 |
 | **Audience** | Engineers, the wording reviewer, practitioners who will read the file |
 | **Related** | [Requirements FR-26, FR-27](../requirements.md#fr-26-structured-practitioner-export--release-b--class-n--refines-fr-13) · [PRD FR-12, FR-13](../../PRD.md#fr-12-history-and-follow-up--p1) · [UX spec §4.13, §12](../../ux-spec.md) · [Privacy §2, §3](../../privacy.md) · [Decisions PD-04, PD-06](../decisions.md) |
@@ -147,6 +147,20 @@ END:VCALENDAR
 
 The entry contains **no health information**: not the pattern, not a symptom, not the word "assessment of …". The dialog says plainly that it will live in the person's calendar and may sync to the services that calendar uses, and that nothing can be sent from this app (nothing leaves the device), so the file is a note to themselves. The writer follows RFC 5545 (CRLF line endings, folding at 75 octets, escaped commas and semicolons) and is tested against a strict parser written for the test, not against a dependency.
 
+### 4.4 As built (PM-18)
+
+`followup/model.ts` (the date, the rule for when the card is due, the previous-profile draft's helper `draftFromProfile` in `app/assessment.ts`), `followup/ics.ts` (the calendar writer), `FollowUpCard.tsx` (the result's tail card) and `FollowUpNudge.tsx` (start page and History). The record gained `followUp?: { dueAt, dismissedAt? }` (additive, no storage-schema bump; the backup importer validates it as two plain numbers and drops anything else).
+
+| Decision | As built |
+|---|---|
+| Where it is set | A card *Look again later* after *Your data* on the result: *In 2 weeks · In 4 weeks · In 8 weeks · Not now*, none pre-selected, written to the record at once; afterwards the card says from which date the nudge will appear, offers *Add to my calendar*, and *Choose another time* (which clears the date and brings the choices back). Hidden on paper |
+| The date | The start of the **local day** that many weeks after the moment of choosing — a date, not a timer; a new choice replaces an earlier date and its dismissal |
+| When the card is due | The date has passed, the person has not dismissed it, **no newer result has been saved**, **no assessment is in progress**, and the disclaimer of the current version has been acknowledged (a person who must re-acknowledge starts from the start page as usual). One card at most: with several due results, the most recent. Computed when the page opens; there is no timer and no background work |
+| What it offers | *Start a new assessment*; *Start with my previous profile*; *Not now* (dismisses it for good — the date stays visible on the result) |
+| The previous profile | A new draft at the profile step holding the subject (age, sex, pregnancy, lactating, medicine classes, allergies), the profile answers (medicines, allergies, conditions) and the serious conditions among the red flags; **never** the findings, the screening answers, the constitution answers, the observations or the acknowledgements; birth data only if it was saved. The symptoms are asked again, and so is the screening |
+| The calendar file | `tcm-follow-up.ics`: one all-day event (with the next day as its end) on the due date, `TRANSP:TRANSPARENT`, a display alarm at 09:00, the title *TCM Self-Check — time to look again* in the person's language and the address of the app. The writer takes a date, a random id, the time, and two strings — nothing from the result — and the dialog says it will live in the person's calendar, may be copied by the services that calendar uses, and that nothing can be sent from this app |
+| Verification | A strict RFC 5545 reader written for the test (CRLF only, folding at 75 octets never inside a character, escaped text, nesting, required properties) refuses a malformed file and accepts the writer's; a scan finds no health word in the file; E28 sets a follow-up, takes the file, moves the browser's clock 16 days on, and finds the card on the start page and in History, brings the profile back and finds no symptom in the stored draft |
+
 ## 5. Trends (FR-27 part 2)
 
 ### 5.1 When it is shown
@@ -217,3 +231,4 @@ PM-17 (data layer split, file, preview, share, schema), PM-18 (follow-up card, p
 |---|---|---|
 | 0.1 | 2026-10-05 | Initial design |
 | 0.2 | 2026-10-06 | PM-17 built: the data layer, the file, the schema and its examples, the preview, sharing and print refinements; the differences from the sketch are listed in §3.5 |
+| 0.3 | 2026-10-06 | PM-18 built: the date, the card, the nudge, the previous-profile draft and the calendar file (§4.4) |
