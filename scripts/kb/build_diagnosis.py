@@ -176,7 +176,7 @@ def build_guidance() -> dict:
             functions = list(h["functions"])
             zh_text = f"味{'、'.join(flavors)}、性{nature}；傳統功效：{'、'.join(functions)}。"
             basis = "pharmacopoeia"
-        foods[name] = {"herb": herb_id, "nature": nature, "flavors": flavors, "functions": functions, "rationale": {"zh-Hant": zh_text, "en": en_text}, "cautions": [pair(c) for c in cautions],
+        foods[name] = {"id": treatment.FOOD_IDS[name], "herb": herb_id, "nature": nature, "flavors": flavors, "functions": functions, "rationale": {"zh-Hant": zh_text, "en": en_text}, "cautions": [pair(c) for c in cautions],
                        "pregnancy_caution": name in treatment.FOOD_PREGNANCY_CAUTION, "basis": basis, "citations": cites, "status": "draft"}
 
     lifestyle = {pid: {"zh-Hant": zh, "en": tt.LIFESTYLE_EN[pid]} for pid, (_f, _a, zh) in sorted(treatment.GUIDANCE.items())}

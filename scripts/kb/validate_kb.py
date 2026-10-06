@@ -300,6 +300,19 @@ def validate(load: Loader = load, check_sources: bool = True) -> list[str]:
 
     for d in duplicates(h["name"]["zh-Hant"] for h in herbs):
         err(f"duplicate herb name {d}")
+
+    # the addresses of the Learn pages (PM-13): every diet entry and every glossary term has a stable ASCII id, unique within its kind
+    foods = load("treatment/guidance.json")["foods"]
+    for d in duplicates(f["id"] for f in foods.values()):
+        err(f"duplicate diet entry id {d}")
+    for name, f in foods.items():
+        if not re.fullmatch(r"[a-z][a-z0-9-]{0,63}", f["id"]):
+            err(f"diet entry {name}: id {f['id']!r} is not a stable ASCII id")
+    for d in duplicates(t["id"] for t in glossary):
+        err(f"duplicate glossary id {d}")
+    for t in glossary:
+        if not re.fullmatch(r"[a-z][a-z0-9-]{0,63}", t["id"]):
+            err(f"glossary term {t['zh-Hant']} ({t['domain']}): id {t['id']!r} is not a stable ASCII id")
     herb_ids = {h["id"] for h in herbs}
     formula_ids = {f["id"] for f in formulas}
     sym_ids = {s["id"] for s in symptoms}

@@ -9,3 +9,11 @@ export function usePageTitle(screen: MessageKey | null): void {
   const title = screen === null ? app : `${t.t(screen)} · ${app}`;
   useEffect(() => { document.title = title; }, [title]);
 }
+
+/** The same for a screen whose name is data (an entry of the Learn section): `text` is already in the page language and the script it is shown in. */
+export function useTitleText(text: string): void {
+  const { t } = useI18n();
+  const app = t.t("common.app.name");
+  const title = `${text} · ${app}`;
+  useEffect(() => { document.title = title; }, [title]);
+}

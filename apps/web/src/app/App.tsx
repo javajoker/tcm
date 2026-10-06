@@ -20,6 +20,7 @@ import { useApp } from "./store.tsx";
 
 // Every screen except the landing page is its own chunk (tech spec §12: the initial JavaScript is the shell and the landing page; the flow loads as the person walks through it).
 const Profile = lazy(() => import("../screens/profile/Profile.tsx").then((m) => ({ default: m.Profile })));
+const Learn = lazy(() => import("../learn/Learn.tsx").then((m) => ({ default: m.Learn })));
 const History = lazy(() => import("../screens/history/History.tsx").then((m) => ({ default: m.History })));
 const Constitution = lazy(() => import("../screens/constitution/Constitution.tsx").then((m) => ({ default: m.Constitution })));
 const Inquiry = lazy(() => import("../screens/inquiry/Inquiry.tsx").then((m) => ({ default: m.Inquiry })));
@@ -66,6 +67,9 @@ function Screens(): ReactNode {
           <Route path="/history"><History /></Route>
           <Route path="/settings"><Settings /></Route>
           <Route path="/sources"><Sources /></Route>
+          <Route path="/learn"><Learn /></Route>
+          <Route path="/learn/:type">{(params) => <Learn type={params.type} />}</Route>
+          <Route path="/learn/:type/:id">{(params) => <Learn type={params.type} id={params.id} />}</Route>
           <Route path="/result/:id/summary">{(params) => <PractitionerSummary id={params.id} />}</Route>
           <Route path="/result/:id/formula/:fid">{(params) => <FormulaDetail id={params.id} fid={params.fid} />}</Route>
           <Route path="/result/:id">{(params) => <Result id={params.id} />}</Route>

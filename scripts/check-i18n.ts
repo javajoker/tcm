@@ -10,7 +10,7 @@ import { placeholdersOf, type Message } from "../packages/i18n/src/index.ts";
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const catalogDir = join(root, "apps", "web", "src", "i18n");
 const srcDir = join(root, "apps", "web", "src");
-const NAMESPACES = ["common", "intake", "inquiry", "observe", "constitution", "report", "feedback", "formula", "safety", "errors"] as const;
+const NAMESPACES = ["common", "intake", "inquiry", "observe", "constitution", "report", "feedback", "formula", "learn", "safety", "errors"] as const;
 
 export type Severity = "error" | "warning";
 export interface Issue { readonly severity: Severity; readonly rule: string; readonly key?: string; readonly message: string }

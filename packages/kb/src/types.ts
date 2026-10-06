@@ -182,6 +182,8 @@ export interface KnowledgeBase {
   /** The city list of the birth-place picker, with its GeoNames attribution (fetched on first use, then kept). */
   cities(): Promise<Cities>;
   citation(id: string): Citation | undefined;
+  /** Every quotation of the bundle, in the data's order (the Learn pages list them). */
+  readonly citations: readonly Citation[];
   /** zh-Hant term → glossary entry (first match). */
   term(zhHant: string): GlossaryTerm | undefined;
   /** The script the Chinese text is shown in: `Hans` only when the Simplified display list was loaded and verified, else `Hant` (the data's own script). */

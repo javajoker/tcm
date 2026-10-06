@@ -80,7 +80,7 @@ apps/web/src/i18n/
   keys.generated.ts          # union type of keys (generated from zh-Hant)
 ```
 
-`zh-Hant` is the **source** catalog (authoring language); `en` mirrors it. Both are flat JSON per namespace: `{ "intake.age.label": "年齡", … }`. `apps/web/src/i18n/catalogs.ts` merges the namespaces; the key union is `keyof` the zh-Hant catalog (no generated file is needed). The ESLint rule `i18n/no-literal-strings` (`tools/eslint/`, tested with `pnpm test:tools`) fails on letters in JSX text and in text-bearing attributes (`aria-label`, `title`, `alt`, `placeholder`, `label`, `summary`); `src/i18n/**`, `src/dev/**` (developer-facing) and tests are exempt.
+`zh-Hant` is the **source** catalog (authoring language); `en` mirrors it. Both are flat JSON per namespace: `{ "intake.age.label": "年齡", … }`. `apps/web/src/i18n/catalogs.ts` merges the namespaces (`common`, `intake`, `inquiry`, `observe`, `constitution`, `report`, `feedback`, `formula`, `learn`, `safety`, `errors`; `learn` is the Learn section, PM-13); the key union is `keyof` the zh-Hant catalog (no generated file is needed). The ESLint rule `i18n/no-literal-strings` (`tools/eslint/`, tested with `pnpm test:tools`) fails on letters in JSX text and in text-bearing attributes (`aria-label`, `title`, `alt`, `placeholder`, `label`, `summary`); `src/i18n/**`, `src/dev/**` (developer-facing) and tests are exempt.
 
 ### 3.2 Keys
 
@@ -138,7 +138,7 @@ Classical quotations: the English rendering is the **project's own translation**
 
 ## 5. Forbidden and preferred wording
 
-Enforced for **all user-visible strings in both languages** (UI catalogs, KB display text, notices, citations' commentary — not the classical quotations themselves). The lint maintains the lists in `scripts/i18n-wording.json`.
+Enforced for **all user-visible strings in both languages** (UI catalogs, KB display text, notices, citations' commentary — not the classical quotations themselves). The lint maintains the lists in `scripts/i18n-wording.json`. One more list is kept as a test rather than in that file because it applies to one namespace only: the **Learn** catalogue (`learn.*`) never addresses the reader — no *you*, *your*, 你, 您, 妳 — because a Learn page is not an assessment and must not read as advice (rule R2 of the [knowledge browser](post-mvp/design/knowledge-browser.md#4-the-anonymous-context-rule); `apps/web/test/learn-model.test.ts`).
 
 | Avoid | Why | Prefer (en) | Prefer (zh-Hant) |
 |---|---|---|---|

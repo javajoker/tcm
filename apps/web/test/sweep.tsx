@@ -49,6 +49,9 @@ export const ROUTES: { pattern: string; url: string; needs: Needs; dev?: true; s
   { pattern: "/history", url: "/history", needs: "saved" },
   { pattern: "/settings", url: "/settings", needs: "nothing" },
   { pattern: "/sources", url: "/sources", needs: "nothing" },
+  { pattern: "/learn", url: "/learn", needs: "nothing" },
+  { pattern: "/learn/:type", url: "/learn/terms", needs: "nothing" },
+  { pattern: "/learn/:type/:id", url: "/learn/terms/yin-yang", needs: "nothing" },
   { pattern: "/result/:id/summary", url: `/result/${saved.id}/summary`, needs: "saved" },
   { pattern: "/result/:id/formula/:fid", url: `/result/${saved.id}/formula/${formulaId}`, needs: "saved" },
   { pattern: "/result/:id", url: `/result/${saved.id}`, needs: "saved" },
@@ -58,6 +61,8 @@ export const ROUTES: { pattern: string; url: string; needs: Needs; dev?: true; s
 ];
 /** Extra states of a route that have their own markup: a blocking notice, an unsure answer. */
 export const STATES: { name: string; url: string; draft: (d: Draft) => Draft }[] = [
+  { name: "a quotation page of the Learn section", url: "/learn/quotations/shanghan-035", draft: (d) => d },
+  { name: "the Learn section's own not-found page", url: "/learn/terms/no-such-term", draft: (d) => d },
   { name: "the screening with an emergency notice", url: "/screen", draft: (d) => withAnswer({ ...d, redFlags: [], inquiry: { modules: null, history: [], resolved: [] }, findings: {} }, "RF_A_CHEST_PAIN", "yes") },
 ];
 

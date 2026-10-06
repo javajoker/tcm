@@ -520,6 +520,7 @@
         "燥濕化痰"
       ],
       "herb": "herb-foshou",
+      "id": "foshou",
       "nature": "溫",
       "pregnancy_caution": false,
       "rationale": {
@@ -545,6 +546,7 @@
       ],
       "functions": [],
       "herb": null,
+      "id": "donggua",
       "nature": "微寒",
       "pregnancy_caution": false,
       "rationale": {
@@ -564,6 +566,7 @@
       ],
       "functions": [],
       "herb": null,
+      "id": "nangua",
       "nature": "溫",
       "pregnancy_caution": false,
       "rationale": {
@@ -584,6 +587,7 @@
       ],
       "functions": [],
       "herb": null,
+      "id": "xiaomi",
       "nature": "涼",
       "pregnancy_caution": false,
       "rationale": {
@@ -606,6 +610,7 @@
         "益腎"
       ],
       "herb": "herb-xiaomai",
+      "id": "xiaomai",
       "nature": "涼",
       "pregnancy_caution": false,
       "rationale": {
@@ -636,6 +641,7 @@
         "溫通經脈"
       ],
       "herb": "herb-rougui",
+      "id": "rougui-shaoliang",
       "nature": "大熱",
       "pregnancy_caution": true,
       "rationale": {
@@ -665,6 +671,7 @@
         "化濁降脂"
       ],
       "herb": "herb-shanzha",
+      "id": "shanzha",
       "nature": "微溫",
       "pregnancy_caution": true,
       "rationale": {
@@ -688,6 +695,7 @@
         "補腎澀精"
       ],
       "herb": "herb-shangyao",
+      "id": "shanyao",
       "nature": "平",
       "pregnancy_caution": false,
       "rationale": {
@@ -715,6 +723,7 @@
         "益精明目"
       ],
       "herb": "herb-gouqizi",
+      "id": "gouqi",
       "nature": "平",
       "pregnancy_caution": false,
       "rationale": {
@@ -739,6 +748,7 @@
       ],
       "functions": [],
       "herb": null,
+      "id": "lizi",
       "nature": "溫",
       "pregnancy_caution": false,
       "rationale": {
@@ -767,6 +777,7 @@
         "潤腸"
       ],
       "herb": "herb-hetaoren",
+      "id": "hetao",
       "nature": "溫",
       "pregnancy_caution": false,
       "rationale": {
@@ -794,6 +805,7 @@
         "養血安神"
       ],
       "herb": "herb-longyanrou",
+      "id": "guiyuan",
       "nature": "溫",
       "pregnancy_caution": true,
       "rationale": {
@@ -822,6 +834,7 @@
         "生津潤燥"
       ],
       "herb": "herb-sangshen",
+      "id": "sangshen",
       "nature": "寒",
       "pregnancy_caution": false,
       "rationale": {
@@ -847,6 +860,7 @@
       ],
       "functions": [],
       "herb": null,
+      "id": "li",
       "nature": "涼",
       "pregnancy_caution": false,
       "rationale": {
@@ -866,6 +880,7 @@
       ],
       "functions": [],
       "herb": null,
+      "id": "wenre-zhou",
       "nature": "溫",
       "pregnancy_caution": false,
       "rationale": {
@@ -885,6 +900,7 @@
       ],
       "functions": [],
       "herb": null,
+      "id": "rexi-zhou",
       "nature": "溫",
       "pregnancy_caution": false,
       "rationale": {
@@ -914,6 +930,7 @@
         "止痛"
       ],
       "herb": "herb-meiguihua",
+      "id": "meigui-hua",
       "nature": "溫",
       "pregnancy_caution": false,
       "rationale": {
@@ -943,6 +960,7 @@
         "止痛"
       ],
       "herb": "herb-meiguihua",
+      "id": "meigui-huacha",
       "nature": "溫",
       "pregnancy_caution": false,
       "rationale": {
@@ -971,6 +989,7 @@
         "化痰止咳"
       ],
       "herb": "herb-shengjiang",
+      "id": "shengjiang",
       "nature": "溫",
       "pregnancy_caution": false,
       "rationale": {
@@ -998,6 +1017,7 @@
         "清心安神"
       ],
       "herb": "herb-baihe",
+      "id": "baihe",
       "nature": "微寒",
       "pregnancy_caution": false,
       "rationale": {
@@ -1025,6 +1045,7 @@
         "除煩止嘔"
       ],
       "herb": "herb-zhuru",
+      "id": "zhuru-cha",
       "nature": "微寒",
       "pregnancy_caution": false,
       "rationale": {
@@ -1052,6 +1073,7 @@
         "養血安神"
       ],
       "herb": "herb-dazao",
+      "id": "hongzao",
       "nature": "溫",
       "pregnancy_caution": false,
       "rationale": {
@@ -1077,6 +1099,7 @@
       ],
       "functions": [],
       "herb": null,
+      "id": "lucha",
       "nature": "涼",
       "pregnancy_caution": false,
       "rationale": {
@@ -1105,6 +1128,7 @@
         "利水"
       ],
       "herb": "herb-lvdou",
+      "id": "lvdou",
       "nature": "寒",
       "pregnancy_caution": false,
       "rationale": {
@@ -1129,6 +1153,7 @@
       ],
       "functions": [],
       "herb": null,
+      "id": "yangrou-dong",
       "nature": "溫",
       "pregnancy_caution": false,
       "rationale": {
@@ -1153,6 +1178,7 @@
       ],
       "functions": [],
       "herb": null,
+      "id": "kugua",
       "nature": "寒",
       "pregnancy_caution": false,
       "rationale": {
@@ -1177,6 +1203,7 @@
         "寧心"
       ],
       "herb": "herb-fuling",
+      "id": "fuling",
       "nature": "平",
       "pregnancy_caution": false,
       "rationale": {
@@ -1207,6 +1234,7 @@
         "清熱解毒"
       ],
       "herb": "herb-juhua",
+      "id": "juhua",
       "nature": "微寒",
       "pregnancy_caution": false,
       "rationale": {
@@ -1237,6 +1265,7 @@
         "清熱解毒"
       ],
       "herb": "herb-juhua",
+      "id": "juhua-cha",
       "nature": "微寒",
       "pregnancy_caution": false,
       "rationale": {
@@ -1267,6 +1296,7 @@
         "養心安神"
       ],
       "herb": "herb-lianzi",
+      "id": "lianzi",
       "nature": "平",
       "pregnancy_caution": false,
       "rationale": {
@@ -1294,6 +1324,7 @@
         "散寒通陽"
       ],
       "herb": "herb-congbai",
+      "id": "congbai",
       "nature": "溫",
       "pregnancy_caution": false,
       "rationale": {
@@ -1324,6 +1355,7 @@
         "疏肝行氣"
       ],
       "herb": "herb-bohe",
+      "id": "bohe",
       "nature": "涼",
       "pregnancy_caution": false,
       "rationale": {
@@ -1355,6 +1387,7 @@
         "解毒散結"
       ],
       "herb": "herb-yiyiren",
+      "id": "yiren",
       "nature": "涼",
       "pregnancy_caution": true,
       "rationale": {
@@ -1385,6 +1418,7 @@
         "利尿"
       ],
       "herb": "herb-lugen",
+      "id": "lugen",
       "nature": "寒",
       "pregnancy_caution": false,
       "rationale": {
@@ -1414,6 +1448,7 @@
         "解毒"
       ],
       "herb": "herb-fengmi",
+      "id": "fengmi",
       "nature": "平",
       "pregnancy_caution": false,
       "rationale": {
@@ -1442,6 +1477,7 @@
         "解毒排膿"
       ],
       "herb": "herb-chixiaodou",
+      "id": "chixiaodou",
       "nature": "平",
       "pregnancy_caution": false,
       "rationale": {
@@ -1472,6 +1508,7 @@
         "生津"
       ],
       "herb": "herb-suanzaoren",
+      "id": "suanzaoren-cha",
       "nature": "平",
       "pregnancy_caution": false,
       "rationale": {
@@ -1492,6 +1529,7 @@
       ],
       "functions": [],
       "herb": null,
+      "id": "yiner",
       "nature": "平",
       "pregnancy_caution": false,
       "rationale": {
@@ -1520,6 +1558,7 @@
         "燥濕化痰"
       ],
       "herb": "herb-chenpi",
+      "id": "chenpi",
       "nature": "溫",
       "pregnancy_caution": false,
       "rationale": {
@@ -1544,6 +1583,7 @@
       ],
       "functions": [],
       "herb": null,
+      "id": "jirou",
       "nature": "溫",
       "pregnancy_caution": false,
       "rationale": {
@@ -1568,6 +1608,7 @@
       ],
       "functions": [],
       "herb": null,
+      "id": "jiucai",
       "nature": "溫",
       "pregnancy_caution": false,
       "rationale": {
@@ -1596,6 +1637,7 @@
         "潤肺清心"
       ],
       "herb": "herb-maidong",
+      "id": "maidong-cha",
       "nature": "微寒",
       "pregnancy_caution": false,
       "rationale": {
@@ -1628,6 +1670,7 @@
         "斂瘡生肌"
       ],
       "herb": "herb-huangqi",
+      "id": "huangqi-dunji-shaoliang",
       "nature": "微溫",
       "pregnancy_caution": false,
       "rationale": {
@@ -1652,6 +1695,7 @@
       ],
       "functions": [],
       "herb": null,
+      "id": "heimuer-shaoliang",
       "nature": "平",
       "pregnancy_caution": true,
       "rationale": {
@@ -1680,6 +1724,7 @@
         "潤腸燥"
       ],
       "herb": "herb-heizhima",
+      "id": "heizhima",
       "nature": "平",
       "pregnancy_caution": false,
       "rationale": {
@@ -1708,6 +1753,7 @@
         "利水解毒"
       ],
       "herb": "herb-heidou",
+      "id": "heidou",
       "nature": "平",
       "pregnancy_caution": false,
       "rationale": {
@@ -1735,6 +1781,7 @@
         "養血安神"
       ],
       "herb": "herb-longyanrou",
+      "id": "longyanrou",
       "nature": "溫",
       "pregnancy_caution": false,
       "rationale": {

@@ -11,6 +11,7 @@ export interface Glossary {
     alt: string[];
     domain: string;
     en: string;
+    id: string;
     note: null | string;
     pinyin: string;
     source: "who-istm-2007" | "textbook" | "project";

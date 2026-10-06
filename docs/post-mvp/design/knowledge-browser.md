@@ -2,9 +2,9 @@
 
 | | |
 |---|---|
-| **Version** | 0.1 (draft) |
-| **Status** | Design for Release B (FR-14, FR-25; tasks PM-13 … PM-16) and Release C (herb browser; PM-24, PM-25). Nothing is built |
-| **Last updated** | 2026-10-05 |
+| **Version** | 0.2 (draft) |
+| **Status** | Design for Release B (FR-14, FR-25; tasks PM-13 … PM-16) and Release C (herb browser; PM-24, PM-25). **PM-13 is built** (the shell, the stable ids, search, the page template, terms and quotations); the other page kinds follow in PM-14 and PM-15 |
+| **Last updated** | 2026-10-06 |
 | **Audience** | Engineers, designers, the clinical reviewer |
 | **Related** | [Requirements FR-14, FR-25](../requirements.md#fr-14-knowledge-browser--release-b--class-n-herbs-c-release-c--refines-fr-14) · [PRD §3](../../PRD.md#3-target-users) · [Tech spec §5.3, §8.1](../../tech-spec.md) · [UX spec](../../ux-spec.md) · [Safety policy](../../safety-policy.md) · [i18n guide §5](../../i18n-guide.md) |
 
@@ -49,6 +49,8 @@ Release C adds `/learn/herbs` and `/learn/herbs/:id`. A result links into the sa
 
 **Stable ids.** Patterns, constitutions, formulas and quotations already have ASCII ids; acupoints use the WHO code; foods are addressed by the id of the herb they name, or by a new stable `id` the builder gives a food without a herb. Terms get an id derived from the glossary entry. No route contains Chinese characters, so links do not depend on the script of the data.
 
+*As built (PM-13).* Every food carries an `id` from a curated table (`FOOD_IDS` in `scripts/kb/curated/treatment.py`) and every glossary term an `id` that is its pinyin as a slug (`yin-yang` from *yīn yáng*; the domain is added on a clash, then a number); both are written to the data, checked unique and ASCII by `validate_kb`, and **frozen**: a regenerated glossary keeps the id it gave a term before, found by the term and its domain (`_previous` in `curated/glossary.py`), so a saved link does not break when a term's wording is corrected. A kind is listed in the registry (`apps/web/src/learn/registry.ts`) as *available* only when its pages exist: the hub, the search and the routes offer those kinds and answer the others with the section's own not-found page.
+
 ## 4. The anonymous-context rule
 
 A learn page is not an assessment. There is no subject, no pregnancy status, no medication list, and the person-based safety filter cannot run. The page must therefore **show every caution instead of applying none**.
@@ -57,7 +59,7 @@ A learn page is not an assessment. There is no subject, no pregnancy status, no 
 |---|---|
 | **R1 Cautions first** | On any page that describes something a person might use (formula, food, point, and later herb), the cautions, pregnancy flag, interaction notes and allergen notes sit in the first section, not behind a toggle or below the fold. The same text and components as the result page |
 | **R2 No "you"** | Page text is descriptive and third-person. A lint over the learn catalogue and the page templates rejects second-person wording ([i18n guide §5](../../i18n-guide.md) forbidden-wording mechanism, one more list) |
-| **R3 Standing line** | Every such page says, under its title, that it is general information and not advice for the reader, and links to the safety page |
+| **R3 Standing line** | Every such page says, under its title, that it is general information and not advice for the reader, and links to the safety page. *As built:* the app has no page of its own about safety; the line links to **Sources** (where the content is sourced and its review state is stated), and the footer disclaimer is on every page |
 | **R4 The profile bounds the content** | A release bundle contains only tier-A formulas without amounts and no herb weights, so the pages cannot show more; a dev build shows everything with the dev banner. Tier, verification state, review state and the draft label appear as in a result |
 | **R5 No nudging** | A pattern page lists *typical features*, never a checklist phrased as a question, and never says which pattern a visitor "might have"; the only link to an assessment is the neutral one at the foot |
 | **R6 Every statement has a source** | A page lists at least one citation or states "no source"; a clinical statement with neither fails the build |
@@ -69,11 +71,11 @@ R7 is a guard rather than new work: the stored fields are the source of truth in
 
 | Aspect | Design |
 |---|---|
-| Index | One lazy chunk `search.<hash>.json` (about 400 entries in a release build: patterns, constitutions, formulas, points, foods, quotation titles, terms), written by the bundler from the pruned data: `{ type, id, names[], aliases[] }`. Entries carry names in **both scripts** (the Simplified design's builder supplies them), English, the pinyin the data has (glossary terms and the pinyin names of formulas), WHO codes and ids. Estimated 8 KB gzip; loaded when the hub or a list opens |
+| Index | One lazy chunk `search.<hash>.json` (about 400 entries in a release build: patterns, constitutions, formulas, points, foods, quotation titles, terms), written by the bundler from the pruned data: `{ type, id, names[], aliases[] }`. Entries carry names in **both scripts** (the Simplified design's builder supplies them), English, the pinyin the data has (glossary terms and the pinyin names of formulas), WHO codes and ids. Estimated 8 KB gzip; loaded when the hub or a list opens. **As built (PM-13): no separate chunk.** The session already holds the knowledge base the pages are made from, so the index is built from it in memory when the hub or a list opens (a few hundred small strings, a millisecond or two): no new data, no new request, nothing more to keep consistent with the manifest and nothing more to cache offline. A form is added for what the page *shows* (the Simplified rendering on a Simplified page), and a Simplified query is also tried in its Traditional readings (`kb.traditional`), so a reader finds a term by what they see and by what they type. A Simplified query on a Traditional page finds only what the small allergy-name fold covers; the page language decides the script of a query |
 | Normalisation | Case, full- and half-width, spaces, and tone marks for pinyin are ignored (so `yin` finds `yīn`) |
-| Matching | Exact, then prefix, then substring, on every name form; results grouped by type, at most eight per type, then *Show all* |
+| Matching | Exact, then prefix, then substring, on every name form; results grouped by type, at most eight per type, then *Show all*. **As built:** the groups are ordered by their best match (an exact term before a chapter that merely begins with it), ties in the hub's order; *Show all* opens the kind's list with the query already in its filter (`?q=`), and a list page filters by the same matcher, uncapped, announcing the count |
 | Pinyin limit | Names without pinyin in the data (patterns, points, foods) are found by their Chinese and English forms; pinyin for everything needs a pinyin library and an approval to download, and is a later data task |
-| Interaction | An ARIA combobox with the keyboard pattern users know (arrows, Enter, Escape); results are links; no search history is kept |
+| Interaction | An ARIA combobox with the keyboard pattern users know (arrows, Enter, Escape); results are links; no search history is kept. **As built:** each result is an `<a role="option" href>` inside a `listbox` of `group`s, so a mouse or a touch gets a real link (open in a new tab, copy the address) and assistive technology gets the combobox pattern; the field's value is state of the page and is never stored |
 | Where | The hub and each list page; a global search is not planned |
 
 ## 6. Pattern comparison
@@ -127,6 +129,16 @@ The name **Compare patterns** (比較證型) is deliberately different from the 
 | End to end | Hub → search → page → compare → back; deep link opens a page in a fresh context; offline after the first visit |
 | Accessibility | Every page type in the jsdom and real-browser axe sweeps (light and dark); keyboard-only run through search and comparison |
 
+### 10.1 As built (PM-13)
+
+| Layer | What exists |
+|---|---|
+| Unit | `learn-model.test.ts`: normalisation; exact, prefix and substring ranking; the cap of eight with the true total; group order; a Simplified query through its readings; the registry; **every glossary term and every quotation** has a page model with a title, a source (or "no source"), a review state and links that resolve; unknown ids and unbuilt kinds have no page; **R2** — a scan of the whole `learn.*` catalogue in both languages for second-person wording |
+| Component | `learn.test.tsx`: the hub, its search (typing, counts, arrows, Enter, Escape, "show all", nothing found), the lists and their filter, the term and quotation pages in every language, the not-found page, and the template's **R1** (cautions in the first section, open, before the description, no toggle), **R3** (the standing line before the cautions, with its link), **R6** ("no source" is stated), the on-page index; axe on each |
+| Sweeps | The route tables of the accessibility sweep and the Simplified-purity sweep list `/learn`, `/learn/:type`, `/learn/:type/:id` and two states (a quotation page, the not-found page); the guard that every route of `App.tsx` is in the table caught the three new ones |
+| End to end | E26 (Traditional, Simplified, English; desktop and phone; Safari's engine and Firefox): hub → search → page → Back; the keyboard alone; a deep link in a fresh browser; the list with `?q=`; axe in both colour schemes with contrast measured. E22 visits the Learn section with the server stopped |
+| Not yet testable | **R4** (the profile bounds the content) and **R7** (a stored flag never disagrees with the herbs) apply to pages about something a person might use; they are tested in PM-15 with the formula, point and food pages, which is where the data they guard is first shown |
+
 ## 11. Decided defaults
 
 **Decided 2026-10-05 — post-MVP default, revisit at the start of Release B.**
@@ -140,6 +152,9 @@ The name **Compare patterns** (比較證型) is deliberately different from the 
 | Pinyin for every name | Not now: needs a pinyin library and an approval to download |
 | Indexable by search engines | No, while any shown content is draft |
 | Cautions behind a toggle | Never |
+| The search index | Built in memory from the loaded knowledge base, not a data chunk (2026-10-06, PM-13) |
+| Where the standing line links | Sources, until the app has a page about safety (2026-10-06, PM-13) |
+| Entry point | A *Learn* link in the header menu on every screen (2026-10-06, PM-13) |
 
 ## 12. Tasks
 
@@ -150,3 +165,4 @@ PM-13 (shell, ids, anonymous-context components, search index, print), PM-14 (pa
 | Version | Date | Change |
 |---|---|---|
 | 0.1 | 2026-10-05 | Initial design |
+| 0.2 | 2026-10-06 | PM-13 built: stable ids frozen in the data, the in-memory index (replacing the chunk of §5), best-match group order, the standing line's link, the as-built test list (§10.1) and the three defaults it added |

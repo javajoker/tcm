@@ -489,6 +489,7 @@ Language is the first path segment (PRD FR-2); no personal data ever appears in 
 | `/:lang/result/:id/formula/:fid` | Formula detail (composition, 君臣佐使, modification) | Deep-linkable within the device |
 | `/:lang/history` | Saved assessments, compare two | |
 | `/:lang/sources` | Citation and knowledge viewer (P2: browser) | |
+| `/:lang/learn` · `/:lang/learn/:kind` · `/:lang/learn/:kind/:id` | Learn: hub with search · a list with a filter (`?q=`) · a page ([design](post-mvp/design/knowledge-browser.md)) | One lazy chunk (≈ 5 KB gzip); ids are ASCII and language-neutral; `noindex`; an unknown kind or id is the section's own not-found page. Built: terms and quotations (PM-13) |
 | `/:lang/settings` | Language, text size, theme, erase everything, privacy | |
 | `/:lang/_dev` | Developer inspector (dev profile only) | Tree-shaken from release |
 

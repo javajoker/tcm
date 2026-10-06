@@ -59,6 +59,13 @@ test("E22: after one visit the whole product works with the server gone, and the
   await expect(app.heading("common.settings.title")).toBeVisible();
   await app.goto("/sources");
   await expect(app.heading("common.sources.title")).toBeVisible();
+  // the Learn section, whose chunk the person never opened while online: its search and a page of it work from the offline copy (PM-13)
+  await app.goto("/learn");
+  await expect(app.heading("learn.title")).toBeVisible();
+  await page.getByRole("combobox", { name: app.t("learn.search.label") }).fill(lang === "en" ? "yin yang" : lang === "zh-Hans" ? "阴阳" : "陰陽");
+  await page.getByRole("listbox").getByRole("option").first().click();
+  await expect(page).toHaveURL(new RegExp(`/${lang}/learn/terms/yin-yang$`));
+  await expect(page.getByRole("region", { name: app.t("learn.term.meaning") })).toContainText("yīn yáng");
 
   // after a whole assessment the offline copy still holds exactly the build's files, nothing the person produced
   expect(await cachedFiles(page)).toEqual(wanted);

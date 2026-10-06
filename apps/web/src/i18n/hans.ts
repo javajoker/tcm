@@ -7,11 +7,12 @@ import errors from "./zh-Hans/errors.json";
 import feedback from "./zh-Hans/feedback.json";
 import formula from "./zh-Hans/formula.json";
 import inquiry from "./zh-Hans/inquiry.json";
+import learn from "./zh-Hans/learn.json";
 import intake from "./zh-Hans/intake.json";
 import observe from "./zh-Hans/observe.json";
 import report from "./zh-Hans/report.json";
 import safety from "./zh-Hans/safety.json";
 import type { MessageKey } from "./catalogs.ts";
 
-const hans = { ...common, ...intake, ...inquiry, ...observe, ...constitution, ...report, ...feedback, ...formula, ...safety, ...errors } as Readonly<Partial<Record<MessageKey, Message>>>;
+const hans = { ...common, ...intake, ...inquiry, ...observe, ...constitution, ...report, ...feedback, ...formula, ...learn, ...safety, ...errors } as Readonly<Partial<Record<MessageKey, Message>>>;
 export default hans;

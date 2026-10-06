@@ -16,6 +16,17 @@ ACUPOINTS = {
     "至陰": ("BL67", "膀胱經", True), "崑崙": ("BL60", "膀胱經", True), "肩井": ("GB21", "膽經", True), "次髎": ("BL32", "膀胱經", True), "石門": ("CV5", "任脈", True),
 }
 
+# A stable ASCII id for every diet entry, for the addresses of the Learn pages (`/learn/foods/<id>`): the pinyin of the name, written by hand and never changed once published (an address is a promise).
+# A diet entry is keyed by its Chinese name — the string the patterns list — so the id is a second key, not a replacement. Every entry of `GUIDANCE` must be here (the build refuses otherwise).
+FOOD_IDS = {
+    "佛手": "foshou", "冬瓜": "donggua", "南瓜": "nangua", "小米": "xiaomi", "小麥": "xiaomai", "少量肉桂": "rougui-shaoliang", "山楂": "shanzha", "山藥": "shanyao", "枸杞": "gouqi",
+    "栗子": "lizi", "核桃": "hetao", "桂圓": "guiyuan", "桑葚": "sangshen", "梨": "li", "溫熱粥": "wenre-zhou", "熱稀粥": "rexi-zhou", "玫瑰花": "meigui-hua", "玫瑰花茶": "meigui-huacha",
+    "生薑": "shengjiang", "百合": "baihe", "竹茹茶": "zhuru-cha", "紅棗": "hongzao", "綠茶": "lucha", "綠豆": "lvdou", "羊肉（冬）": "yangrou-dong", "苦瓜": "kugua", "茯苓": "fuling",
+    "菊花": "juhua", "菊花茶": "juhua-cha", "蓮子": "lianzi", "蔥白": "congbai", "薄荷": "bohe", "薏仁": "yiren", "蘆根": "lugen", "蜂蜜": "fengmi", "赤小豆": "chixiaodou",
+    "酸棗仁茶": "suanzaoren-cha", "銀耳": "yiner", "陳皮": "chenpi", "雞肉": "jirou", "韭菜": "jiucai", "麥冬茶": "maidong-cha", "黃耆燉雞（少量）": "huangqi-dunji-shaoliang",
+    "黑木耳（少量）": "heimuer-shaoliang", "黑芝麻": "heizhima", "黑豆": "heidou", "龍眼肉": "longyanrou",
+}
+
 # pattern id → (foods, acupoints, lifestyle)
 GUIDANCE = {
     "EX1": (["生薑", "蔥白", "熱稀粥"], ["風池", "列缺", "合谷"], "保暖、休息、避風"),

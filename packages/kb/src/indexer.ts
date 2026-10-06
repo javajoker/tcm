@@ -104,6 +104,7 @@ export function indexKnowledgeBase(raw: RawKbChunks, display?: { zh(text: string
     herbName: (id) => raw.formulas.herbNames[id],
     cities: (() => { let loaded: Promise<Cities> | null = null; return () => (loaded ??= Promise.resolve(typeof raw.cities === "function" ? raw.cities() : raw.cities)); })(),
     citation: (id) => citations.get(id),
+    citations: raw.citations.items,
     term: (zh) => terms.get(zh),
     script: display ? "Hans" : "Hant",
     zh: display ? (text) => display.zh(text) : (text) => text,

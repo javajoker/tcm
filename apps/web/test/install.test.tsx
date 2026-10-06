@@ -144,13 +144,13 @@ describe("Settings → Install this app", () => {
 });
 
 describe("a window without browser buttons", () => {
-  it("every screen keeps the header: the way home and the three places to go, so none is a dead end", async () => {
+  it("every screen keeps the header: the way home and the four places to go, so none is a dead end", async () => {
     for (const route of ROUTES.filter((r) => !r.dev)) {
       const { unmount } = await renderRoute("en", route.url, route.needs);
       const brand = screen.getAllByRole("link", { name: "TCM Self-Check" })[0]!;
       expect(brand, route.url).toHaveAttribute("href", "/en/");
       const menu = screen.getByRole("navigation", { name: "Main menu" });
-      expect(within(menu).getAllByRole("link").map((a) => a.getAttribute("href")), route.url).toEqual(["/en/history", "/en/sources", "/en/settings"]);
+      expect(within(menu).getAllByRole("link").map((a) => a.getAttribute("href")), route.url).toEqual(["/en/learn", "/en/history", "/en/sources", "/en/settings"]);
       unmount();
     }
   }, 60_000);

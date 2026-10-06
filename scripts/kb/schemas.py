@@ -367,8 +367,9 @@ def safety_rules() -> dict:
 def treatment_guidance() -> dict:
     cautions = arr(ref("bilingualNamed"))
     acupoint = obj({"basis": STR, "code": STR, "cautions": cautions, "location": ref("bilingualNamed"), "meridian": STR, "pregnancy_avoid": BOOL, "status": ref("reviewStatus")})
+    # `id`: the stable ASCII address of the diet entry on the Learn pages (the entry is keyed by its Chinese name, which patterns list)
     food = obj({"basis": enum("pharmacopoeia", "textbook"), "cautions": cautions, "citations": arr(ref("citationId"), 1), "flavors": arr(STR, 1), "functions": arr(STR), "herb": {"oneOf": [{"type": "null"}, ref("herbId")]},
-                "nature": STR, "pregnancy_caution": BOOL, "rationale": ref("bilingualNamed"), "status": ref("reviewStatus")})
+                "id": pattern(r"^[a-z][a-z0-9-]{0,63}$"), "nature": STR, "pregnancy_caution": BOOL, "rationale": ref("bilingualNamed"), "status": ref("reviewStatus")})
     return {"type": "object", "properties": {
         "_meta": meta({"status": ref("reviewStatus")}, ["status"]),
         "acupoints": dictionary(acupoint, min_props=1),
@@ -411,7 +412,7 @@ def name_fold() -> dict:
 
 
 def glossary() -> dict:
-    item = obj({"alt": arr(STR, None, True), "domain": STR, "en": STR, "note": {"oneOf": [{"type": "null"}, STR]}, "pinyin": STR, "source": enum("who-istm-2007", "textbook", "project"),
+    item = obj({"alt": arr(STR, None, True), "domain": STR, "en": STR, "id": pattern(r"^[a-z][a-z0-9-]{0,63}$"), "note": {"oneOf": [{"type": "null"}, STR]}, "pinyin": STR, "source": enum("who-istm-2007", "textbook", "project"),
                 "status": enum("needs-review", "reviewed"), "zh-Hant": STR})
     return envelope(item, meta({"count": INT}, ["count"]))
 

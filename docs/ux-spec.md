@@ -37,7 +37,7 @@ Landing ─► Start (profile, birth*) ─► Safety screening ─► Inquiry �
                                                                              * optional, skippable as a whole
 ```
 
-- **Top bar** (all screens): app name / home · progress label (during the flow) · **language toggle** (繁體 / 简体 / EN, each in its own script) · menu (History, Sources, Settings).
+- **Top bar** (all screens): app name / home · progress label (during the flow) · **language toggle** (繁體 / 简体 / EN, each in its own script) · menu (Learn, History, Sources, Settings).
 - **Progress**: phones show a compact label "3 / 6 · Inquiry" with a thin bar; tablet/desktop show a stepper with the six stages. Inquiry progress is **coverage-based** (the number of questions is adaptive): "about N questions left", never a fixed percentage that moves backwards.
 - **Footer** (all screens): a permanent one-line disclaimer ("Educational reference — not a medical diagnosis") and links (Privacy, Sources, Version).
 - **Back** always works and never loses an answer; **Save & exit** is available in the flow and returns to the Landing with a "Resume" card.
@@ -68,6 +68,7 @@ Landing ─► Start (profile, birth*) ─► Safety screening ─► Inquiry �
 | S17 | Settings and privacy | `/:lang/settings` | Language, theme, text size, erase, versions | Prefs |
 | S18 | Sources / knowledge viewer | `/:lang/sources` | Provenance and review status; P2: browser | KB |
 | S19 | Loading, offline, error, 404 | — | Fallback states | — |
+| S21 | Learn: hub, list, page | `/:lang/learn`, `/:lang/learn/:kind`, `/:lang/learn/:kind/:id` | Browse and search the knowledge the app holds without taking an assessment; cautions first on anything a person might use, never "you" ([design](post-mvp/design/knowledge-browser.md)) | `glossary`, `citations` (more kinds follow) |
 | S20 | Developer inspector | `/:lang/_dev` | Dev profile only (see tech spec §8.6) | Everything |
 
 ---

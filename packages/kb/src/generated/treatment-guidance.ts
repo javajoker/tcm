@@ -36,6 +36,7 @@ export interface TreatmentGuidance {
       flavors: string[];
       functions: string[];
       herb: null | HerbId;
+      id: string;
       nature: string;
       pregnancy_caution: boolean;
       rationale: BilingualNamed;

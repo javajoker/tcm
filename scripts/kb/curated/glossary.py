@@ -7,6 +7,11 @@ Format of a row: 繁體中文 | English | pinyin | domain [| alt English; alt En
   project        a gloss coined for this app (BaZi, five periods and six qi, and the like), written in the plain WHO style.
 `alt` lists accepted alternative English renderings (the lint accepts them in paired strings); a parenthetical in `en` is also accepted as an alternative."""
 
+import json
+import re
+import unicodedata
+from pathlib import Path
+
 _TABLE = """
 陰陽|yin and yang|yīn yáng|theory|yin-yang|
 五行|five phases (five elements)|wǔ xíng|theory
@@ -199,4 +204,40 @@ def parse() -> list[dict]:
     return out
 
 
+_ID = re.compile(r"^[a-z][a-z0-9-]{0,63}$")
+
+
+def slug(pinyin: str) -> str:
+    """The pinyin without tone marks, lower case, words joined by hyphens (`yīn yáng` → `yin-yang`)."""
+    plain = "".join(c for c in unicodedata.normalize("NFD", pinyin.lower()) if not unicodedata.combining(c))
+    return re.sub(r"[^a-z0-9]+", "-", plain).strip("-")
+
+
+def assign_ids(items: list[dict], previous: dict[tuple[str, str], str]) -> None:
+    """A stable ASCII id for every term, for the addresses of the Learn pages (`/learn/terms/<id>`). An id that has been published is never changed: the terms of the committed file keep theirs, and
+    only a new term gets one — its pinyin slug, then the slug with its domain, then a number. (An address is a promise.)"""
+    used = {i for i in previous.values()}
+    for item in items:
+        key = (item["zh-Hant"], item["domain"])
+        if key in previous:
+            item["id"] = previous[key]
+            continue
+        base = slug(item["pinyin"]) or "term"
+        for candidate in (base, f"{base}-{item['domain']}", *(f"{base}-{item['domain']}-{n}" for n in range(2, 50))):
+            if candidate not in used and _ID.match(candidate):
+                item["id"] = candidate
+                used.add(candidate)
+                break
+        else:
+            raise ValueError(f"no free id for {key}")
+
+
+def _previous() -> dict[tuple[str, str], str]:
+    path = Path(__file__).resolve().parents[3] / "data" / "glossary.json"
+    if not path.exists():
+        return {}
+    return {(t["zh-Hant"], t["domain"]): t["id"] for t in json.loads(path.read_text(encoding="utf-8"))["items"] if "id" in t}
+
+
 GLOSSARY = parse()
+assign_ids(GLOSSARY, _previous())
