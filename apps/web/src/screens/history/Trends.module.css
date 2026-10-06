@@ -1,0 +1,17 @@
+.wrap { display: grid; gap: var(--space-4); }
+.scroll { overflow-x: auto; }
+.mark { cursor: pointer; }
+.mark:focus-visible { outline: none; }
+.mark:focus-visible .hit { stroke: var(--focus); stroke-width: 3; }
+.mark:hover .dot { stroke: var(--link); stroke-width: 2; }
+.table { --cell-bg: var(--bg); width: 100%; min-width: 24rem; border-collapse: collapse; }
+.onCard { --cell-bg: var(--surface); }
+.table caption { text-align: start; font-weight: 600; padding: 0.4rem 0; }
+.table th, .table td { text-align: start; padding: 0.4rem 0.6rem 0.4rem 0; border-bottom: 1px solid var(--border); vertical-align: top; overflow-wrap: normal; }
+.table thead th { color: var(--ink-muted); font-weight: 500; }
+.table tbody th { position: sticky; inset-inline-start: 0; background: var(--cell-bg); box-shadow: 1px 0 0 var(--border); min-width: 6rem; }
+.table td, .table thead th:not(:first-child) { white-space: nowrap; }
+.present { background: var(--bg); font-weight: 600; }
+.list { margin: 0; padding-inline-start: 1.2rem; display: grid; gap: 0.35rem; }
+.gapNote { margin: 0; padding: var(--space-2) var(--space-3); border-inline-start: 4px solid var(--border-strong); background: var(--bg); }
+@media print { .scroll { overflow: visible; } }

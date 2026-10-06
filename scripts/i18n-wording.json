@@ -126,6 +126,28 @@
       "pattern": "很危險|致命",
       "why": "Tone: calm and specific outside emergency notices",
       "prefer": "平靜、具體的說法"
+    },
+    {
+      "id": "judgement",
+      "lang": "en",
+      "scope": [
+        "trends.",
+        "followup."
+      ],
+      "pattern": "\\b(better|worse|worsen(s|ed|ing)?|improv(e|es|ed|ing|ement)|recover(s|ed|y|ing)?|progress(es|ed|ing)?|scores?|scored|healthier|deteriorat\\w*)\\b",
+      "why": "Trends say what changed, never whether it is good (follow-up design §5.3)",
+      "prefer": "moved from the … band to the … band; appeared; no longer reported"
+    },
+    {
+      "id": "judgement",
+      "lang": "zh-Hant",
+      "scope": [
+        "trends.",
+        "followup."
+      ],
+      "pattern": "變好|變差|好轉|惡化|改善|進步|康復|復原|分數|得分|健康多了|進展",
+      "why": "趨勢只說什麼變了，不評價好壞（追蹤設計 §5.3）",
+      "prefer": "從…區間移到…區間；出現；不再回報"
     }
   ],
   "allow": [

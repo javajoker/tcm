@@ -319,7 +319,7 @@ Bottom sheet (phone) / right drawer (desktop). Shows: **original text in Traditi
 
 ### 4.13 S16 History and compare
 
-Cards: date, leading pattern, confidence, level (dev: profile), "computed with an older version" label when applicable. Select two → **Compare**: side-by-side radars (overlay with different dash patterns, plus a table of changes), pattern ranking changes, and what the user changed in the inputs. Delete one / delete all. Empty state explains where results are stored.
+With three or more results of one version the page has a **Results | Trends** tab list; *Trends* shows the five phases and the two axes as band dot-strips with a table twin, what moved between bands in neutral words, the symptoms that appeared or are no longer reported, and the patterns at each result ([design](post-mvp/design/export-follow-up-trends.md#55-as-built-pm-19)). Cards: date, leading pattern, confidence, level (dev: profile), "computed with an older version" label when applicable. Select two → **Compare**: side-by-side radars (overlay with different dash patterns, plus a table of changes), pattern ranking changes, and what the user changed in the inputs. Delete one / delete all. Empty state explains where results are stored.
 
 ### 4.14 S17 Settings and privacy
 

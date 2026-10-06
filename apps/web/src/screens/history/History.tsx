@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { lazy, Suspense, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { ENGINE_VERSION } from "@tcm/engine";
 import { BackupLine, BackupReminder } from "../../backup/Reminder.tsx";
 import { FollowUpNudge } from "../../followup/FollowUpNudge.tsx";
@@ -10,9 +10,12 @@ import { IS_DEV_PROFILE } from "../../app/profile.ts";
 import { useApp } from "../../app/store.tsx";
 import { usePageTitle } from "../../app/usePageTitle.ts";
 import type { SavedAssessment } from "../../storage/types.ts";
-import { Button, Card, Chip, ConfirmDialog, LinkButton, Skeleton } from "../../ui/index.ts";
+import { Button, Card, Chip, ConfirmDialog, LinkButton, Skeleton, Tabs } from "../../ui/index.ts";
 import { BilingualName } from "../result/shared.tsx";
 import { CompareView } from "./Compare.tsx";
+import { trend, trendAvailable } from "./trend.ts";
+
+const Trends = lazy(() => import("./Trends.tsx").then((m) => ({ default: m.Trends })));
 
 const UNDO_MS = 10_000;
 
@@ -25,6 +28,9 @@ function Body({ items, reload }: { items: SavedAssessment[]; reload: () => void 
   const [comparing, setComparing] = useState(false);
   const [undo, setUndo] = useState<SavedAssessment | null>(null);
   const [confirmAll, setConfirmAll] = useState(false);
+  const [view, setView] = useState("results");
+  const showTrends = useMemo(() => trendAvailable(trend(items)), [items]);
+  const longest = useMemo(() => trend(items).longest, [items]);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
   useEffect(() => () => { if (timer.current) clearTimeout(timer.current); }, []);
 
@@ -50,16 +56,8 @@ function Body({ items, reload }: { items: SavedAssessment[]; reload: () => void 
       </>
     );
   }
-  return (
+  const resultsPanel = (
     <>
-      <h1>{t.t("report.history.title")}</h1>
-      <p>{t.t("report.history.intro")}</p>
-      <FollowUpNudge />
-      <BackupReminder />
-      <BackupLine />
-      {undo !== null ? (
-        <p role="status"><span>{t.t("report.history.deleted")}</span> <Button variant="ghost" onClick={restore}>{t.t("report.history.undo")}</Button></p>
-      ) : <p role="status" />}
       <ul aria-label={t.t("report.history.list")} style={{ listStyle: "none", padding: 0, display: "grid", gap: "var(--space-3)" }}>
         {items.map((s) => {
           const lead = s.result.verdict.status === "established" ? kb.patternById.get(s.result.verdict.patterns[0]!.id) : undefined;
@@ -94,6 +92,29 @@ function Body({ items, reload }: { items: SavedAssessment[]; reload: () => void 
         <Button variant="danger" onClick={() => setConfirmAll(true)}>{t.t("report.history.deleteAll")}</Button>
       </div>
       {chosen.length === 2 ? null : <p id="compare-help" className="muted">{t.t("report.history.compareHelp")}</p>}
+    </>
+  );
+  return (
+    <>
+      <h1>{t.t("report.history.title")}</h1>
+      <p>{t.t("report.history.intro")}</p>
+      <FollowUpNudge />
+      <BackupReminder />
+      <BackupLine />
+      {undo !== null ? (
+        <p role="status"><span>{t.t("report.history.deleted")}</span> <Button variant="ghost" onClick={restore}>{t.t("report.history.undo")}</Button></p>
+      ) : <p role="status" />}
+      {showTrends ? (
+        <Tabs label={t.t("trends.tabs.label")} value={view} onChange={setView} tabs={[
+          { id: "results", label: t.t("trends.tabs.results"), panel: <>{resultsPanel}</> },
+          { id: "trends", label: t.t("trends.tabs.trends"), panel: <Suspense fallback={<p role="status" aria-busy="true">{t.t("trends.loading")}</p>}><Trends items={items} /></Suspense> },
+        ]} />
+      ) : (
+        <>
+          {resultsPanel}
+          {items.length >= 3 ? <p className="muted">{t.plural("trends.need", longest)}</p> : null}
+        </>
+      )}
       <ConfirmDialog open={confirmAll} title={t.t("report.history.deleteAll.title")} confirmLabel={t.t("report.history.deleteAll.confirm")} cancelLabel={t.t("common.action.cancel")}
         onCancel={() => setConfirmAll(false)} onConfirm={() => { setConfirmAll(false); setUndo(null); setSelected([]); void Promise.all(items.map((s) => deleteAssessment(s.id))).then(reload); }}>
         <p>{t.t("report.history.deleteAll.body")}</p>

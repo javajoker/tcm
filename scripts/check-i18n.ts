@@ -10,13 +10,13 @@ import { placeholdersOf, type Message } from "../packages/i18n/src/index.ts";
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const catalogDir = join(root, "apps", "web", "src", "i18n");
 const srcDir = join(root, "apps", "web", "src");
-const NAMESPACES = ["common", "intake", "inquiry", "observe", "constitution", "report", "feedback", "followup", "formula", "learn", "safety", "errors"] as const;
+const NAMESPACES = ["common", "intake", "inquiry", "observe", "constitution", "report", "feedback", "followup", "formula", "learn", "trends", "safety", "errors"] as const;
 
 export type Severity = "error" | "warning";
 export interface Issue { readonly severity: Severity; readonly rule: string; readonly key?: string; readonly message: string }
 type Catalog = Record<string, Message>;
 export interface GlossaryTerm { readonly "zh-Hant": string; readonly en: string; readonly alt: readonly string[]; readonly domain: string }
-interface Wording { glossaryAllow?: { keys: string[]; terms: string[]; reason: string }[]; rules: { id: string; lang: "en" | "zh-Hant"; pattern: string; why: string; prefer: string }[]; allow: { keys: string[]; rules: string[]; reason: string }[] }
+interface Wording { glossaryAllow?: { keys: string[]; terms: string[]; reason: string }[]; rules: { id: string; lang: "en" | "zh-Hant"; pattern: string; why: string; prefer: string; /** Only keys that start with one of these prefixes are checked by the rule (the others are not). */ scope?: string[] }[]; allow: { keys: string[]; rules: string[]; reason: string }[] }
 
 const readJson = <T>(p: string): T => JSON.parse(readFileSync(p, "utf8")) as T;
 const walk = (dir: string): string[] => readdirSync(dir).flatMap((n) => { const p = join(dir, n); return statSync(p).isDirectory() ? walk(p) : [p]; });
@@ -110,7 +110,7 @@ export function checkWording(zh: Catalog, en: Catalog, wording: Wording): Issue[
   const allowed = (key: string, rule: string): boolean => wording.allow.some((a) => a.rules.includes(rule) && a.keys.some((k) => (k.endsWith(".") ? key.startsWith(k) : key === k)));
   for (const [lang, cat] of [["zh-Hant", zh], ["en", en]] as const) {
     for (const [key, msg] of Object.entries(cat)) {
-      for (const r of wording.rules.filter((x) => x.lang === lang)) {
+      for (const r of wording.rules.filter((x) => x.lang === lang && (x.scope === undefined || x.scope.some((p) => key.startsWith(p))))) {
         const re = new RegExp(r.pattern, "i");
         for (const text of textsOf(msg)) if (re.test(text) && !allowed(key, r.id)) out.push({ severity: "error", rule: `wording:${r.id}`, key, message: `"${key}" (${lang}): ${r.why}; prefer ${r.prefer} — "${text.slice(0, 80)}"` });
       }

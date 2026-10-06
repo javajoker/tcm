@@ -2,8 +2,8 @@
 
 | | |
 |---|---|
-| **Version** | 0.3 (draft) |
-| **Status** | Design for Release B (FR-26 and FR-27; tasks PM-17 … PM-19). **PM-17 (the practitioner file) and PM-18 (follow-up) are built**; trends are not |
+| **Version** | 0.4 (draft) |
+| **Status** | Design for Release B (FR-26 and FR-27; tasks PM-17 … PM-19). **PM-17 (the practitioner file), PM-18 (follow-up) and PM-19 (trends) are built** |
 | **Last updated** | 2026-10-06 |
 | **Audience** | Engineers, the wording reviewer, practitioners who will read the file |
 | **Related** | [Requirements FR-26, FR-27](../requirements.md#fr-26-structured-practitioner-export--release-b--class-n--refines-fr-13) · [PRD FR-12, FR-13](../../PRD.md#fr-12-history-and-follow-up--p1) · [UX spec §4.13, §12](../../ux-spec.md) · [Privacy §2, §3](../../privacy.md) · [Decisions PD-04, PD-06](../decisions.md) |
@@ -185,6 +185,20 @@ Trend text states *what changed*, never whether it is good: **"Between 3 Sept an
 
 `trend(series)` is a pure function over `SavedAssessment[]`: segments by fingerprint and engine major, per-row band per point, the changes between consecutive points, the profile-change marks. It lives beside `compare` and reuses its helpers; it returns ids, bands and numbers, never prose.
 
+### 5.5 As built (PM-19)
+
+`screens/history/trend.ts` is the model (`trend(results)`, `trendAvailable`, `profileMarks`; ids, bands and numbers, no prose), `trendWords.ts` names the rows and bands from the result page's own catalogue, `TrendFigure.tsx` draws the dot-strips and `Trends.tsx` is the tab's content (loaded only when the tab is opened). History gains a **Results | Trends** tab list when the longest run of results of one version reaches three; below that it says how long the longest run is.
+
+| Decision | As built |
+|---|---|
+| **Series** | The results in time order (ties by id), cut into **segments** wherever the parameter fingerprint or the engine's major version changes; a minor engine version is not a break; two results of one version with a result of another between them are two segments. A segment never spans two versions; nothing is compared across a break — each segment has its own figure columns, its own table and its own steps, and a labelled note says the marks before and after are not compared |
+| **Rows and bands** | The five phases (the result's population-referenced offsets, thresholds ±0.5 and ±1.5 on the −3…+3 scale) and the cold–heat and deficiency–excess axes (the same thresholds on their −1…+1 scale) — exactly the bands the result page prints, so the two never disagree; the number to one decimal is in the table twin |
+| **Changes** | A change is reported only when a row is in **another band** than at the previous result: *Between 3 Sept and 1 Oct, Earth moved from the somewhat high band to the normal band.* A movement inside a band is never reported (property test over 60 generated histories). A step across a boundary is a change however small — the table twin shows the numbers, and no hysteresis is applied |
+| **Context** | The season under each mark is the commanding season at the result's date by the result's own season model (`seasonAt`); a change in pregnancy status, breastfeeding or a long-term condition between two results is noted in words *(Read the comparison with care)*; other profile answers (age, medicines, allergies) are not marks |
+| **Symptoms and patterns** | Symptoms that appeared or are no longer reported between consecutive results, and the leading patterns (at most three) of each result as a table whose rows are patterns, so the same pattern is one row across the columns, its cells shaded |
+| **Figure** | Band dot-strips: one row for each of the seven rows, one mark per result at its band, equally spaced in time order with the date and the season under it, a single neutral colour, **no line between marks**; a different version is a gap with a dashed rule; each mark is a link to its result with a 44-pixel target (the table twin has links too). The SVG is a `group`, not an `img`, because it holds links; the box scrolls and is focusable on a narrow screen |
+| **Wording** | One fixed note (*answers are self-reported and vary with sleep, mood, food and the season; small movements mean little*). The words better, worse, improved, worsened, recovered, progress, score — and 變好, 變差, 好轉, 惡化, 改善, 進步, 康復, 分數 — are refused by a **scoped rule** of the wording lint for the `trends.` and `followup.` catalogues (the rest of the app says "if pain gets worse" where a caution needs it); a browser test scans what the app wrote on the page. The sentences are class L and go through the linguistic review with the rest |
+
 ## 6. Data and privacy changes
 
 | Item | Change |
@@ -232,3 +246,4 @@ PM-17 (data layer split, file, preview, share, schema), PM-18 (follow-up card, p
 | 0.1 | 2026-10-05 | Initial design |
 | 0.2 | 2026-10-06 | PM-17 built: the data layer, the file, the schema and its examples, the preview, sharing and print refinements; the differences from the sketch are listed in §3.5 |
 | 0.3 | 2026-10-06 | PM-18 built: the date, the card, the nudge, the previous-profile draft and the calendar file (§4.4) |
+| 0.4 | 2026-10-06 | PM-19 built: the trend model, the dot-strip figure and its table twin, the changes, the profile marks, the scoped wording rule (§5.5) |

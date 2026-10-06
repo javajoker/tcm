@@ -47,6 +47,15 @@ describe("forbidden wording", () => {
   test("Chinese: each family fires", () => {
     for (const [text, rule] of [["您的診斷結果", "diagnosis"], ["開立處方", "prescription"], ["可以根治", "cure"], ["您是氣虛體質", "label"], ["保證有效", "certainty"], ["您的運勢", "fate"], ["建議劑量", "dose"], ["天然無副作用", "natural"], ["這很危險", "fear"]] as const) assert.ok(hit("fine", text).includes(`wording:${rule}`), text);
   });
+  test("a trend or follow-up text never judges: better, worse, improved, recovered, progress, score (and their Chinese) — and only there", () => {
+    const at = (key: string, en: string, zh = "好"): string[] => rules(checkWording({ [key]: zh }, { [key]: en }, wording));
+    for (const text of ["Your sleep is better", "It got worse", "A clear improvement", "Dampness improved", "You have recovered", "Good progress", "Your score went up", "Healthier than before"]) assert.ok(at("trends.change.x", text).includes("wording:judgement"), text);
+    for (const zh of ["變好了", "惡化", "有改善", "進步很多", "康復", "分數上升", "好轉"]) assert.ok(at("trends.change.x", "fine", zh).includes("wording:judgement"), zh);
+    assert.ok(at("followup.nudge.x", "Things are better").includes("wording:judgement"));
+    // the rule is scoped to the trend and follow-up catalogues: the rest of the app says "if pain gets worse" and "improve" where a caution needs it
+    assert.deepEqual(at("report.points.cautions", "Stop if pain gets worse"), []);
+    assert.deepEqual(at("trends.change.item", "Between 3 Sept and 1 Oct, Dampness moved from the somewhat high band to the normal band.", "從 9 月 3 日到 10 月 1 日，濕從稍高移到正常。"), []);
+  });
   test("acceptable wording passes", () => {
     assert.deepEqual(hit("This pattern is the closest match; it leans towards spleen qi deficiency."), []);
     assert.deepEqual(hit("fine", "傾向於脾氣虛，請與中醫師討論。"), []);

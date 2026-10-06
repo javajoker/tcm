@@ -13,7 +13,8 @@ import intake from "./zh-Hans/intake.json";
 import observe from "./zh-Hans/observe.json";
 import report from "./zh-Hans/report.json";
 import safety from "./zh-Hans/safety.json";
+import trends from "./zh-Hans/trends.json";
 import type { MessageKey } from "./catalogs.ts";
 
-const hans = { ...common, ...intake, ...inquiry, ...observe, ...constitution, ...report, ...feedback, ...followup, ...formula, ...learn, ...safety, ...errors } as Readonly<Partial<Record<MessageKey, Message>>>;
+const hans = { ...common, ...intake, ...inquiry, ...observe, ...constitution, ...report, ...feedback, ...followup, ...formula, ...learn, ...trends, ...safety, ...errors } as Readonly<Partial<Record<MessageKey, Message>>>;
 export default hans;

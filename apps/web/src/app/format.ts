@@ -13,6 +13,11 @@ export function relativeTime(lang: Lang, then: number, now: number): string {
 }
 
 /** A date and time in the viewer's own time zone (history cards, the report footer): "4 Oct 2026, 12:30". */
+/** Month and day only, for a label under a mark. */
+export function formatShortDate(lang: Lang, ms: number): string {
+  return new Intl.DateTimeFormat(LOCALE[lang], { month: "short", day: "numeric" }).format(ms);
+}
+
 /** A date alone, in the language's own form (a follow-up date is a day, not a moment). */
 export function formatDate(lang: Lang, ms: number): string {
   return new Intl.DateTimeFormat(LOCALE[lang], { dateStyle: "medium" }).format(ms);
