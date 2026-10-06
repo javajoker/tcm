@@ -2,8 +2,8 @@
 
 | | |
 |---|---|
-| **版本** | 0.2（與英文版同步） |
-| **狀態** | 已實作並驗證 — [`packages/wuxing`](../packages/wuxing)（88 項測試） |
+| **版本** | 0.3（與英文版同步） |
+| **狀態** | 已實作並驗證 — [`packages/wuxing`](../packages/wuxing)（103 項測試） |
 | **最後更新** | 2026-10-06（英文版 2026-10-06；本文為其繁體中文對照版） |
 | **使用者** | [診斷 SOP](diagnosis-sop.zh-TW.md) §6（先天・流年・時令）與 §10（盤面）、[PRD](PRD.md) FR-18／19、知識庫 [`data/wuxing/`](../data/wuxing) |
 | **來源** | 取自作者先前的八字引擎 *fate4*（私有倉庫，提交 `aba58ee`），並獨立重寫。本專案不依賴該倉庫。 |
@@ -228,6 +228,24 @@ step n (n = 1…12):  [startJd + (n−1)·10 y,  startJd + n·10 y),
 ```
 
 陰陽取的是年**干**，不是年支。只儲存 3:1 這一個換算率，其餘都由它推導（來源先前的文件因保留多個常數，在「一個時辰＝幾天」上自相矛盾）。
+
+### 4.6 出生時間接近時辰交界
+
+出生時間通常只記到 5 或 15 分鐘，所以離單數整點（真太陽時 23、1、3 … 點）只差幾分鐘的時間，無法說明究竟是哪一個時辰：時柱——以及在 `lateZiNextDay` 規則下 23:00 的日柱——可能是另一側的。大約四分之一的出生時間落在十二條界線之一的 15 分鐘內。
+
+`hourAlternatives(input, { marginMinutes, params })` 是純函式。它為所給的時間建立命盤（已作的選擇會被忽略，見下），並回傳：
+
+| 欄位 | 意義 |
+|---|---|
+| `ambiguous` | 真太陽時距最近的時辰界線**不到**容差（15 分鐘，`HOUR_MARGIN_MINUTES`，待校準）。時辰未知時永遠為否：沒有可選的東西 |
+| `minutesFromBoundary`、`side`、`boundaryHour` | 距離（分鐘，含秒）、在界線之前（`before`）或之後（`after`），以及柱改變的整點：23（子時開始）、1（丑）、3 … 21（亥） |
+| `primary` | 命盤算出的日柱與時柱（時辰未知時時柱為 `null`） |
+| `alternative` | 同一時刻越過界線半分鐘後的柱，用命盤自己的規則算出——所以日柱只在規則會讓日換邊的地方不同（`lateZiNextDay` 的 23:00）；不在容差內時為 `null` |
+| `marginMinutes`、`ziHourRule` | 所用的容差與流派規則 |
+
+距離以**真太陽時**計：離界線很遠的時鐘時間可能接近界線（烏魯木齊的時鐘比當地太陽快約 130 分鐘），反之亦然。界線是十二個單數整點；午夜不是。在 `earlyZiSameDay` 與 `split` 之下，*日*在 00:00 換，時支卻不換；應用程式不提供這兩種規則，所以在它們之下接近午夜的時間不在此回報。
+
+**本人的選擇。** `BirthInput.hourPick = "alternative"` 取另一側：命盤改用 `alternative` 的時柱與日柱——年柱、月柱、司令與大運由時刻決定，不變——並記下 `hourChoice: "alternative"`、一則警告，以及針對所用柱的晚子時說明。時間不在容差內、或時辰未知時，它被忽略。沒有它的命盤與這個選擇出現之前完全相同（沒有欄位，也沒有戳記）。容差不改變任何命盤，只決定要不要問人，所以不在被戳記的參數裡，`paramsFingerprint` 不變。*不確定*走上面「不知道時辰」的路徑：省略時柱，也不以任何東西取代。
 
 ---
 
@@ -498,6 +516,7 @@ N(e) = clamp( I(e) + A(e) + Y(e) + S(e),  ±1.5 )
 |---|---|---|---|
 | chart | `ziHourRule` | `lateZiNextDay` | school |
 | chart | `trueSolarTime`, `equationOfTime` | true, true | — |
+| chart | `HOUR_MARGIN_MINUTES`（不被戳記：它不改變任何命盤，只決定要不要問人，§4.6） | 15 | calibrate |
 | weights | `pillarBase`, `stemShare`, `branchShare` | 100, 0.40, 0.60 | — |
 | weights | `hiddenSplit` | [1] · [0.7, 0.3] · [0.65, 0.25, 0.10] | — |
 | weights | `monthCommand.branchMultiplier` / `stemMultiplier` / `silingBoost` | 2.0 / 1.2 / 1.5 | calibrate |
@@ -528,6 +547,7 @@ evaluateYear(base, year)                       → YearEvaluation    // pillar, 
 innateProfile(base, p?)                        → shares, relative, bands, degrees, evenness, missing
 buildReferencePanel(base | null, jdUT, p?)     → components, total, zangfu, climate, trace, notes
 forecastReferencePanels(base | null, jdUT, n)  → panel now + start of each of the next n seasons
+hourAlternatives(input, {marginMinutes?, params?}) → ambiguous, minutesFromBoundary, side, boundaryHour, primary, alternative   (§4.6)
 analyzeOffset(observed, reference)             → offsetPopulation, offsetPersonal, alignment
 transmission(deviation, p?)                    → pressure, ranked rules
 yunqiOfYear / yunqiAt / seasonAt               → classical tables for a year / instant
@@ -588,7 +608,7 @@ yunqiOfYear / yunqiAt / seasonAt               → classical tables for a year /
 2. 與中醫師一起**校準**所有 `[calibrate]` 參數，尤其是各區塊上限；診斷盤面需要真實案例才能看出常模區塊是否有附加價值。
 3. **時令模型**（`changxia` 對 `tuwang18`）與長夏範圍——流派決定待定。
 4. ~~**南半球。**~~ **已決定（PM-26）：** 時令依本人選擇的基準計算——北半球曆法（預設）、南半球基準（以黃經 + 180° 查表）或不使用（§9.3）。來源的「不翻轉」硬性規定針對的是出生盤與曆法構件，它們仍不翻轉。待辦：由臨床內容負責人確認*什麼*會翻轉（只翻轉所經歷的季節）。
-5. **時辰精度：** 出生時間距時辰界線約 15 分鐘內者，應並列兩個時柱作為備選（引擎已暴露所需的修正量）。
+5. ~~**時辰精度。**~~ **已完成（PM-27）：** `hourAlternatives` 對真太陽時距時辰界線 15 分鐘內的時間，列出另一側的柱，`BirthInput.hourPick` 可採用它們（§4.6）。容差是待校準的常數；應用程式會詢問本人，除非另有選擇，否則保留計算所得的時辰。
 6. **儒略曆日期**（1582 年之前）如來源一樣予以拒絕。
 7. 日後選項：把客主加臨作為氣候向量的調節；八字大運／流年與本命地支的*互動*（來源已退役的 L2 結構）。
 
@@ -634,3 +654,4 @@ yunqiOfYear / yunqiAt / seasonAt               → classical tables for a year /
 |---|---|---|
 | 0.1 | 2026-10-04 | 英文版 v0.1 的繁體中文對照版 |
 | 0.2 | 2026-10-06 | 同步英文版 v0.2：§9.3 時令的基準（南半球與不用季節）、§10 參數 `hemisphere`、§14 第 4 項已決定；測試數 88 |
+| 0.3 | 2026-10-06 | 同步英文版 v0.3：新增 §4.6 出生時間接近時辰交界（`hourAlternatives`、`BirthInput.hourPick`）、§10 容差、§11 介面、§14 第 5 項已完成；測試數 103 |

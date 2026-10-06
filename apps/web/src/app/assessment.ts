@@ -38,6 +38,8 @@ export function toSaved(d: Draft, result: Assessment, ctx: { id: string; lang: L
     paramsFingerprint: result.meta.paramsFingerprint, profile: result.meta.profile, lang: ctx.lang, seasonModel: result.meta.seasonModel,
     input: { subject: d.subject, profile: d.profile, screening: d.screening, redFlags: d.redFlags, findings: d.findings, context: d.context, ...(Object.keys(d.constitutionAnswers).length > 0 ? { constitutionAnswers: d.constitutionAnswers } : {}), ...(d.rememberBirth && d.birth !== undefined ? { birth: d.birth } : {}), ...(d.observe.pulse ? { observe: d.observe } : {}) },
     result: d.rememberBirth && d.birth !== undefined ? result : withoutBirthMoment(result),
+    // which hour the birth blocks were made from, when the birth time was near a change of hour: the choice, not the time (five-phase design §5)
+    ...(d.birth !== undefined && d.hourChoice !== undefined ? { hour: d.hourChoice } : {}),
   };
 }
 
@@ -52,6 +54,6 @@ export function draftFromSaved(kb: KnowledgeBase, saved: SavedAssessment, id: st
     constitutionAnswers: { ...(i.constitutionAnswers ?? {}) },
     observe: i.observe ?? {},
     acknowledgements: [...new Set(Object.keys(i.screening.acknowledgedAt).map((k) => k.split("|")[0]!))],
-    ...(i.birth ? { birth: i.birth, rememberBirth: true } : {}),
+    ...(i.birth ? { birth: i.birth, rememberBirth: true, ...(saved.hour !== undefined ? { hourChoice: saved.hour } : {}) } : {}),
   };
 }

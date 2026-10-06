@@ -2,8 +2,8 @@
 
 | | |
 |---|---|
-| **Version** | 0.2 (draft) |
-| **Status** | Design for Release C (FR-31; tasks PM-26 … PM-29). **PM-26 (the southern hemisphere and the person's choice) is built** ([§4.4](#44-as-built-pm-26)); PM-27 … PM-29 are not |
+| **Version** | 0.3 (draft) |
+| **Status** | Design for Release C (FR-31; tasks PM-26 … PM-29). **PM-26 (the southern hemisphere and the person's choice) is built** ([§4.4](#44-as-built-pm-26)) and **PM-27 (the hour near a boundary) is built** ([§5.1](#51-as-built-pm-27)); PM-28 and PM-29 are not |
 | **Last updated** | 2026-10-06 |
 | **Audience** | Engineers, the clinical content owner (school choices) |
 | **Related** | [Requirements FR-31](../requirements.md#fr-31-five-phase-extensions--release-c--class-n-or-c-by-item--refines-algorithm-spec-14) · [Algorithm spec §9, §14](../../wuxing-algorithm.md) · [PRD FR-18](../../PRD.md#fr-18-birth-based-five-phase-module--p1-new) · [Decisions W-1 … W-7, Q11](../decisions.md) |
@@ -92,6 +92,18 @@ Screen: the birth card's echo adds, when ambiguous, the same kind of choice the 
 
 Why keep the computed hour by default: a quarter of birth times fall in a window, and leaving the hour out for all of them would discard information to avoid a risk the note already makes visible; the person can change it in one click. Revisit with the usability round.
 
+### 5.1 As built (PM-27)
+
+| Piece | What was built |
+|---|---|
+| The function | `hourAlternatives(input, { marginMinutes, params })` in `packages/wuxing/src/chart.ts`, beside `dayAndHourPillarOf`, over a core `hourAlternativesAt(trueSolarJd, rule, margin)` that the chart itself uses for the person's choice — what is offered and what is used cannot drift apart. `HOUR_MARGIN_MINUTES = 15` and the test is strict: 14 minutes asks, 15 does not. It is a constant and **not a stamped parameter**: it changes no chart, only whether the person is asked, so the fingerprint of the default parameters (`4c3e3303`) is unchanged and pinned again in the new test. The distance is in true solar time, seconds included (a scan of a day in Ürümqi, Taipei, Sydney and New York agrees with an independent computation from the odd hours). The boundaries are the twelve odd hours; **midnight is not one**, and algorithm spec §4.6 says so. The alternative is the pillars half a minute across the boundary by the chart's own rule, so the day pillar differs only at 23:00 under `lateZiNextDay` — the design said "`lateZiNextDay`, `split`", but under `split` only the hour *stem* moves at 23:00 and the day does not (each of the three rules is tested on a day of known pillars, 2000-01-01 = 戊午) |
+| The choice | `BirthInput.hourPick?: "alternative"` — absent means the computed hour. `buildChart` applies it only when the time is within the margin and the hour is known, and records `hourChoice: "alternative"`, a warning, and the late-子 note for the pillars it used; year, month, 司令 and 大運 do not change. *I am not sure* is the existing unknown-hour path (noon in place of the time; no hour pillar; nothing in its place). **The engine needed no change**: `Subject.birth` already carries a `BirthInput`, and a result made with the choice has the same stamps and fingerprint as one made without it — it is an answer, not a parameter (tested) |
+| The birth card | After the clock-fold choice, when the time as typed is within the margin and the hour is known: *Your birth time is close to a change of hour* — "within about 15 minutes of the change between the 亥 and 子 hours, so the hour pillar could be either [— and at this change the day pillar changes too]. Which is nearer the truth?" — three radio tiles: *The computed hour* (the default; *子 hour*), *The other hour* (*亥 hour*) and *I am not sure — leave the hour out*. It is asked about the time as typed, whatever has been picked, and **an edit to the date, the time, the place or the fold choice puts the answer back to the computed hour** — the person's answer was about the time as it was. While *not sure* is chosen the typed time stays in the field and the question stays, so it can be taken back; after a reload the stored birth data shows as the plain *I don't know the hour of my birth* |
+| What is kept | The birth input holds only what the chart needs (`hourPick`, or `unknownHour`). The answer — `primary`, `alternative` or `unknown` — is `Draft.hourChoice`, present only with the birth data and only while the time is within the margin, written to storage only with it (`toStored`, `parseDraft`), and `SavedAssessment.hour`, copied when the result is saved. **A saved result holds the choice, never the time**: with the birth data not remembered the pillars and the true solar time are still removed from the result, and `hour` says only which hour the chart was made from. The design said a result records *that it was ambiguous* as well; the presence of `hour` is that record — a field in the engine's result would have made every saved result near a boundary fail the proof by replay (the whole result is compared). "Edit and re-run" brings the choice back with the birth data |
+| On the result | One sentence under *What the reference is made of*: *Your birth time was close to a change of hour. The birth chart was made with the computed hour, so it could instead be the other one.* · *… made with the other hour, as you chose.* · *… You were not sure of it, so the hour pillar was left out of the birth chart.* Nothing when the time was not near a change. It is the record's own sentence: it is there after a reload and in a restored backup |
+| Found on the way | The backup importer rebuilt the birth data from the fields it knew and **dropped `fold`**: a result made with the second of two clock times (a daylight-saving overlap) came back with the first, did not come out of the engine as it was written, and was **refused as altered**. `birthOf` now keeps `fold` and `hourPick` (each validated), and a test proves a result made with the second clock time genuine after a round trip through the importer. *The PM-07 tests did not cover `fold`* |
+| Tests | wuxing (15 new, 103 in all): every odd hour × every rule × 13 offsets around the margin; the other side is the neighbouring hour; the day moves only at 23:00 under `lateZiNextDay`, with known pillars at 23:05 and 22:55 under each rule; midnight; an unknown hour; true solar time; the margin; the choice changes the hour and the day and nothing else of the chart; the late-子 note; ignored where there is nothing to choose; three mutations of the code were each caught. Engine (5): the other pillars reach the innate profile and the diagnosis does not move, no trace where the choice was not made, equal stamps. App (25): the form, the three outcomes on the card, the reset, what is kept, the importer (`fold` included), replay in both profiles for each outcome and for the second clock time, the sentence in both languages, axe. **E33** in Chrome (desktop English, mobile Traditional, desktop Simplified), Safari's engine and Firefox, with axe in both colour schemes |
+
 ## 6. Regenerating the astronomy tables (FR-31c, PM-28)
 
 | Aspect | Design |
@@ -142,6 +154,17 @@ All four stay behind the draft label with the rest and respect the additive-para
 | 長夏 switch in release | None; declared only |
 | Regeneration | Numerical comparison first, then replace and pin; needs a download approval |
 
+**Decided at build time (PM-27, 2026-10-06; same status — revisit at the usability round).**
+
+| Question | Default |
+|---|---|
+| At exactly 15 minutes | Not ambiguous (`<`): "under the margin" |
+| Is midnight a boundary | No: only the twelve odd hours (the middle of 子 is not near a change under any rule the app offers) |
+| What *I am not sure* does | The existing unknown-hour path — noon in place of the time, the day pillar from the date as typed, no hour pillar |
+| When the answer is asked again | When the date, the time, the place or the fold choice is edited; the answer goes back to the computed hour |
+| Where the answer is kept | The draft (`hourChoice`, with the birth data only) and the saved result (`hour`, the choice and not the time); never in the engine's result |
+| Is the margin a stamped parameter | No: it changes no chart |
+
 **Decided at build time (PM-26, 2026-10-06; same status — revisit at the usability round).**
 
 | Question | Default |
@@ -162,3 +185,4 @@ PM-26 (hemisphere, preference, labels), PM-27 (hour alternatives and the choice)
 |---|---|---|
 | 0.1 | 2026-10-05 | Initial design |
 | 0.2 | 2026-10-06 | PM-26 built ([§4.4](#44-as-built-pm-26)): the southern basis in `seasonAt` and the forecast, the `seasons` choice and its stamp, the replay on the stamped basis, the Settings card and the season line, the recorded northern results; the decisions made at build time in §10 |
+| 0.3 | 2026-10-06 | PM-27 built ([§5.1](#51-as-built-pm-27)): `hourAlternatives` and `BirthInput.hourPick`, the question on the birth card and its three outcomes, the choice kept with the draft and the saved result, the sentence on the result; the importer no longer drops `fold`; the decisions made at build time in §10 |

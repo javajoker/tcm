@@ -53,6 +53,7 @@ async function makeBackup(path = "/settings", over: Parameters<typeof open>[2] =
   const opened = await open(path, history(), over);
   await userEvent.click(await screen.findByRole("button", { name: /^Make a backup/ }));
   const dialog = await screen.findByRole("dialog", { name: "Make a backup" });
+  await within(dialog).findByRole("checkbox", { name: "All saved results (3)" });          // the list is read from the device: a click before it has arrived would find nothing ticked, and make no backup
   for (const label of untick) await userEvent.click(await within(dialog).findByRole("checkbox", { name: label }));
   await userEvent.click(within(dialog).getByRole("button", { name: "Download the backup" }));
   await waitFor(() => expect(downloads).toHaveLength(1), { timeout: 40_000 });

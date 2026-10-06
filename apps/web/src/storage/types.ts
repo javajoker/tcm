@@ -35,6 +35,10 @@ export interface Prefs {
   readonly seasons?: "north" | "south" | "off";
 }
 
+/** The answer to *which hour is nearer the truth* when the birth time is near a change of hour. */
+export type HourChoice = "primary" | "alternative" | "unknown";
+export const HOUR_CHOICES = ["primary", "alternative", "unknown"] as const satisfies readonly HourChoice[];
+
 export const TEXT_SCALES = [0.9, 1, 1.15, 1.3] as const;
 export const THEMES = ["system", "light", "dark"] as const;
 export const LOCK_IDLE_MINUTES = [5, 10, 30, 60] as const;
@@ -101,6 +105,11 @@ export interface Draft {
   readonly constitutionAnswers: Readonly<Record<string, number>>;
   /** Present in memory for the session; written to storage only when `rememberBirth` is true (privacy §3). */
   readonly birth?: BirthInput;
+  /**
+   * Present only while `birth` is, and only when the birth time is within the margin of an hour boundary (five-phase design §5): which hour the person said is nearer the truth — the computed one, the other, or
+   * neither (the hour is left out). It travels with the birth data and is kept out of storage with it.
+   */
+  readonly hourChoice?: HourChoice;
   readonly rememberBirth: boolean;
   /** Blocking notices the user has acknowledged. */
   readonly acknowledgements: readonly string[];
@@ -122,6 +131,11 @@ export interface SavedAssessment {
   readonly input: { readonly subject: Draft["subject"]; readonly profile: ProfileAnswers; readonly screening: Screening; readonly redFlags: readonly string[]; readonly findings: Draft["findings"]; readonly context: AssessContext; readonly constitutionAnswers?: Readonly<Record<string, number>>; readonly birth?: BirthInput; readonly observe?: ObserveProgress };
   readonly result: Assessment;
   readonly userNote?: string;
+  /**
+   * Present only when the birth time was within the margin of an hour boundary: which hour the birth blocks were made from (five-phase design §5). It records the choice, not the time — and not the
+   * pillars, which are kept out of a result unless the birth data is remembered.
+   */
+  readonly hour?: HourChoice;
   /** A note the person set for themselves (docs/post-mvp/design/export-follow-up-trends.md §4): the date the app offers a new assessment, and when they said "not now". Deleted with the result. */
   readonly followUp?: { readonly dueAt: number; readonly dismissedAt?: number };
   readonly feedback?: Readonly<Record<string, "match" | "partial" | "no">>;

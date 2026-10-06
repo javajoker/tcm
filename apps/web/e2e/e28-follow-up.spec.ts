@@ -82,6 +82,8 @@ test("E28: Not now keeps the card away, and a new assessment started from it is 
   await app.goto("/");
   await page.getByRole("button", { name: app.t("followup.nudge.later"), exact: true }).click();
   await expect(page.getByRole("region", { name: app.t("followup.nudge.title") })).toHaveCount(0);
+  // the dismissal is on the record before the page is left: a full page load would cut a write that is still under way
+  await expect.poll(async () => ((await idbRecords(page, "assessments"))[0]![1] as { data: { followUp?: { dismissedAt?: number } } }).data.followUp?.dismissedAt).toBeDefined();
   await app.goto("/history");
   await expect(page.getByRole("region", { name: app.t("followup.nudge.title") })).toHaveCount(0);
   await page.reload();

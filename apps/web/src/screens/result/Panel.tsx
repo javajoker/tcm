@@ -9,6 +9,7 @@ import { FigureBlock } from "./figures/FigureBlock.tsx";
 import { describeRadar, FivePhaseRadar } from "./figures/FivePhaseRadar.tsx";
 import { OffsetCompare } from "./figures/OffsetCompare.tsx";
 import { OrganHeat } from "./figures/OrganHeat.tsx";
+import { HourNote } from "./HourNote.tsx";
 import { SeasonLine } from "./SeasonLine.tsx";
 import { ELEMENT_SLUG, level5, LIUXIE_SLUG, ORGAN_SLUG, PRODUCT_SLUG, signed } from "./words.ts";
 
@@ -98,6 +99,7 @@ export function Panel({ saved }: { saved: SavedAssessment }): ReactNode {
               return parts.length === 0 ? null : <li key={k}><strong>{t.t(`report.panel.block.${k}` as MessageKey)}</strong>: {parts.join(" · ")}</li>;
             })}
           </ul>
+          <HourNote saved={saved} />
         </section>
       ) : null}
     </Card>

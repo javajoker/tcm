@@ -19,8 +19,8 @@ export interface Profile {
   readonly allergies?: "none" | { readonly names: readonly string[] };
   /** Ids of the conditions (`RF_C_KIDNEY`, …) or "none". */
   readonly conditions?: "none" | readonly string[];
-  /** Birth data (optional, opt-in in release): date, time and a city of the list. */
-  readonly birth?: { readonly date: string; readonly time: string; readonly city: string; readonly remember?: boolean };
+  /** Birth data (optional, opt-in in release): date, time and a city of the list; for a time near a change of hour, the answer to *which hour is nearer the truth* (the computed hour is the default). */
+  readonly birth?: { readonly date: string; readonly time: string; readonly city: string; readonly remember?: boolean; readonly hour?: "computed" | "other" | "unsure" };
 }
 
 export const ADULT_MAN: Profile = { age: 35, sex: "male", medications: "none", allergies: "none", conditions: "none" };
@@ -95,6 +95,11 @@ export class App {
     await expect(this.heading("intake.screen.title")).toBeVisible();
   }
 
+  /** Sex at birth, on its own: the birth card needs it before it uses anything. */
+  async chooseSex(sex: "female" | "male"): Promise<void> {
+    await this.group("intake.profile.sex.legend").getByRole("radio", { name: tile(this.t(`intake.profile.sex.${sex}`)) }).check({ force: true });
+  }
+
   /** The birth card: turned on if it is off, date, time, a city from the list; optionally "remember on this device". */
   async fillBirth(b: NonNullable<Profile["birth"]>): Promise<void> {
     const { page } = this;
@@ -105,6 +110,11 @@ export class App {
     await page.getByRole("combobox", { name: this.t("intake.birth.city.label") }).fill(b.city);
     await page.getByRole("option").first().click();
     await expect(page.getByRole("status").filter({ hasText: /°/ })).toBeVisible();                       // the echo of what will be used: longitude, zone, true solar time
+    if (b.hour !== undefined) {
+      const group = page.getByRole("group", { name: this.t("intake.birth.hour.title") });
+      await expect(group).toBeVisible();
+      await group.getByRole("radio", { name: tile(this.t(`intake.birth.hour.${b.hour}`), false) }).check({ force: true });
+    }
     if (b.remember) await page.getByRole("checkbox", { name: tile(this.t("intake.birth.remember"), false) }).check({ force: true });
   }
 

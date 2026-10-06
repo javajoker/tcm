@@ -3,7 +3,7 @@
 // made by this app pass unchanged, so a round trip gives deep-equal data (tested).
 import type { AssessContext, Finding, Subject } from "@tcm/engine";
 import type { BirthInput } from "@tcm/wuxing";
-import type { Draft, Prefs, SavedAssessment } from "../types.ts";
+import { HOUR_CHOICES, type Draft, type Prefs, type SavedAssessment } from "../types.ts";
 import { LIMITS } from "./limits.ts";
 import { isPlainRecord, plainCopy, Unsafe } from "./plain.ts";
 
@@ -113,6 +113,8 @@ function birthOf(x: unknown): BirthInput {
     timeZone: ((z) => (/^[A-Za-z0-9_+\-/]{1,64}$/.test(z) ? z : bad("the birth time zone is not valid")))(text(r["timeZone"], "the birth time zone", 64)),
     longitude: num(r["longitude"], "birth longitude", -180, 180),
     ...(has(r, "unknownHour") ? { unknownHour: bool(r["unknownHour"], "unknownHour") } : {}),
+    ...(has(r, "fold") ? { fold: oneOf(r["fold"], ["first", "second"] as const, "which of the two times") } : {}),
+    ...(has(r, "hourPick") ? { hourPick: oneOf(r["hourPick"], ["alternative"] as const, "which hour was chosen") } : {}),
   };
 }
 
@@ -184,6 +186,7 @@ export function validateAssessment(raw: unknown): Valid<SavedAssessment> {
     return { ok: true, value: {
       ...base, input: inputOf(r["input"]), result,
       ...(has(r, "userNote") ? { userNote: text(r["userNote"], "the note", LIMITS.note) } : {}),
+      ...(has(r, "hour") ? { hour: oneOf(r["hour"], HOUR_CHOICES, "which hour the birth blocks were made from") } : {}),
       ...(has(r, "followUp") ? { followUp: ((f) => ({ dueAt: int(f["dueAt"], "the follow-up date", 0, 4_102_444_800_000), ...(has(f, "dismissedAt") ? { dismissedAt: int(f["dismissedAt"], "the dismissal time", 0, 4_102_444_800_000) } : {}) }))(record(r["followUp"], "the follow-up")) } : {}),
       ...(Object.keys(feedback).length > 0 ? { feedback } : {}),
       ...(imported ? { imported } : {}),
@@ -211,7 +214,7 @@ export function validateDraft(raw: unknown): Valid<Draft> {
       subject: input.subject, profile: input.profile, screening: input.screening,
       inquiry: { modules: inquiry["modules"] === null ? null : strings(inquiry["modules"], "modules", 100, 80), history: strings(inquiry["history"], "history", 2_000, 80), resolved: strings(inquiry["resolved"], "resolved", 2_000, 400) },
       observe: input.observe ?? {}, redFlags: input.redFlags, findings: input.findings, context: input.context, constitutionAnswers: input.constitutionAnswers ?? {},
-      ...(input.birth ? { birth: input.birth } : {}), rememberBirth, acknowledgements: strings(r["acknowledgements"], "acknowledgements", 500, 80),
+      ...(input.birth ? { birth: input.birth } : {}), ...(input.birth && has(r, "hourChoice") ? { hourChoice: oneOf(r["hourChoice"], HOUR_CHOICES, "which hour was chosen") } : {}), rememberBirth, acknowledgements: strings(r["acknowledgements"], "acknowledgements", 500, 80),
       position: { route, ...(has(position, "questionId") ? { questionId: text(position["questionId"], "the question id", 80) } : {}) },
     } };
   } catch (e) {

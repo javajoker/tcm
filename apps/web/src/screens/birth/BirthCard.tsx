@@ -3,22 +3,31 @@ import { useI18n } from "../../i18n/I18nProvider.tsx";
 import { IS_DEV_PROFILE } from "../../app/profile.ts";
 import { Link } from "wouter";
 import type { City } from "@tcm/kb";
+import type { HourAlternatives } from "@tcm/wuxing";
 import { useLoadedOptional } from "../../app/knowledge.tsx";
 import { useApp } from "../../app/store.tsx";
-import type { Draft } from "../../storage/types.ts";
+import type { Draft, HourChoice } from "../../storage/types.ts";
 import { Button, Card, ChoiceGroup, Field, Notice, Select, Tile, TextInput } from "../../ui/index.ts";
 import { CityName, CityPicker } from "./CityPicker.tsx";
 import { formPatchOf, stillCity } from "./cities.ts";
-import { echoOf, EMPTY_FORM, formOf, isTimeZone, parseBirth, type BirthForm } from "./model.ts";
+import { echoOf, EMPTY_FORM, formOf, HOUR_CHOICE_OF, isTimeZone, parseBirth, TIME_FIELDS, type BirthForm } from "./model.ts";
 
-interface Info { readonly resolution: "unique" | "ambiguous" | "nonexistent"; readonly echo: ReturnType<typeof echoOf> | null; readonly solarClock: { first: string; second: string } | null }
+interface Info {
+  readonly resolution: "unique" | "ambiguous" | "nonexistent";
+  readonly echo: ReturnType<typeof echoOf> | null;
+  readonly solarClock: { first: string; second: string } | null;
+  /** Whether the time is near a change of hour, and the pillars on either side — for the time as typed, whatever has been picked. `forKey` is the typed time it was worked out for. */
+  readonly hours: HourAlternatives | null;
+  readonly forKey: string;
+}
 
 const zones = (): string[] => { try { return (Intl as unknown as { supportedValuesOf?: (k: string) => string[] }).supportedValuesOf?.("timeZone") ?? []; } catch { return []; } };
 const hhmm = (c: { hour: number; minute: number }): string => `${String(c.hour).padStart(2, "0")}:${String(c.minute).padStart(2, "0")}`;
 
 /**
  * The birth card (UX spec §4.2, S03): optional, opt-in in release (on by default in dev), with an echo of what will be used so the person can check it, both possibilities
- * for a time that happened twice when daylight saving ended, a warning for a time that never existed, and "remember on this device" (default off). The place is picked from the
+ * for a time that happened twice when daylight saving ended, the choice of hour for a time within about 15 minutes of a change of hour, a warning for a time that never existed, and "remember on
+ * this device" (default off). The place is picked from the
  * built-in city list (K-10, loaded when the card opens) or entered as a longitude and an IANA time zone, which always works — also when the list cannot be loaded.
  */
 export function BirthCard({ draft }: { draft: Draft }): ReactNode {
@@ -30,7 +39,11 @@ export function BirthCard({ draft }: { draft: Draft }): ReactNode {
   const [info, setInfo] = useState<Info | null>(null);
   const parsed = useMemo(() => parseBirth(form, sex), [form, sex]);
   const key = parsed.birth === null ? "" : JSON.stringify(parsed.birth);
-  const set = (patch: Partial<BirthForm>): void => setForm((f) => ({ ...f, ...patch }));
+  // changing anything that decides where the time falls asks the question about the hour again: the person's answer was about the time as it was
+  const set = (patch: Partial<BirthForm>): void => setForm((f) => ({ ...f, ...(TIME_FIELDS.some((k) => k in patch) && !("hourPick" in patch) ? { hourPick: "computed" as const } : {}), ...patch }));
+  // the time as typed, without any answer about the hour: what the question about the hour is asked of
+  const timed = useMemo(() => (form.unknownHour ? null : parseBirth({ ...form, hourPick: "computed" }, sex).birth), [form, sex]);
+  const timedKey = timed === null ? "" : JSON.stringify(timed);
   const allZones = useMemo(() => zones(), []);
   const loaded = useLoadedOptional();
   const [cities, setCities] = useState<{ readonly status: "loading" | "ready" | "failed"; readonly items: readonly City[]; readonly attribution: string }>({ status: "loading", items: [], attribution: "" });
@@ -48,25 +61,30 @@ export function BirthCard({ draft }: { draft: Draft }): ReactNode {
     let cancelled = false;
     if (!on || parsed.birth === null) { void Promise.resolve().then(() => { if (!cancelled) setInfo(null); }); return () => { cancelled = true; }; }
     const b = parsed.birth;
-    void import("@tcm/wuxing").then(({ buildChart }) => {
+    void import("@tcm/wuxing").then(({ buildChart, hourAlternatives }) => {
       if (cancelled) return;
       try {
         const chart = buildChart(b);
         const solarClock = chart.corrections.resolution === "ambiguous"
           ? { first: hhmm(buildChart({ ...b, fold: "first" }).trueSolarCalendar), second: hhmm(buildChart({ ...b, fold: "second" }).trueSolarCalendar) } : null;
-        setInfo({ resolution: chart.corrections.resolution, echo: echoOf(chart, b), solarClock });
+        setInfo({ resolution: chart.corrections.resolution, echo: echoOf(chart, b), solarClock, hours: timed === null || chart.corrections.resolution === "nonexistent" ? null : hourAlternatives(timed), forKey: timedKey });
       } catch { setInfo(null); }
     });
     return () => { cancelled = true; };
-  }, [on, key, parsed.birth]);
+  }, [on, key, parsed.birth, timed, timedKey]);
 
   // keep the draft in step: valid and existing → stored; off, incomplete or non-existent → removed
   const usable = on && parsed.birth !== null && info !== null && info.resolution !== "nonexistent";
   const stored = draft.birth === undefined ? "" : JSON.stringify(draft.birth);
+  // what was worked out for the time as it is now (a result for an earlier time is not an answer about this one)
+  const hours = info !== null && info.forKey === timedKey && info.hours?.ambiguous === true ? info.hours : null;
+  const choice: HourChoice | undefined = usable && hours !== null ? HOUR_CHOICE_OF[form.hourPick] : undefined;
+  const storedChoice = draft.hourChoice;
   useEffect(() => {
-    if (usable && parsed.birth !== null) { if (stored !== key) updateDraft((d) => ({ ...d, birth: parsed.birth! })); }
-    else if (stored !== "") updateDraft((d) => { const { birth: _b, ...rest } = d; return rest; });
-  }, [usable, key, stored, parsed.birth, updateDraft]);
+    if (usable && parsed.birth !== null) {
+      if (stored !== key || storedChoice !== choice) updateDraft(({ hourChoice: _h, ...d }) => ({ ...d, birth: parsed.birth!, ...(choice !== undefined ? { hourChoice: choice } : {}) }));
+    } else if (stored !== "") updateDraft((d) => { const { birth: _b, hourChoice: _h, ...rest } = d; return rest; });
+  }, [usable, key, stored, storedChoice, choice, parsed.birth, updateDraft]);
 
   const remove = (): void => { setOn(false); setForm(EMPTY_FORM); setInfo(null); };
   const tzInvalid = form.timeZone.trim() !== "" && !isTimeZone(form.timeZone);
@@ -113,6 +131,7 @@ export function BirthCard({ draft }: { draft: Draft }): ReactNode {
             <ChoiceGroup legend={t.t("intake.birth.ambiguous.title")} hint={t.t("intake.birth.ambiguous.body")} value={form.fold} onChange={(v) => set({ fold: v as "first" | "second" })}
               options={[{ value: "first", label: t.t("intake.birth.ambiguous.first"), description: info.solarClock.first }, { value: "second", label: t.t("intake.birth.ambiguous.second"), description: info.solarClock.second }]} />
           ) : null}
+          {hours !== null && hours.alternative !== null && hours.primary.hour !== null ? <HourChoiceGroup hours={hours} value={form.hourPick} onChange={(v) => set({ hourPick: v })} /> : null}
           {info?.resolution === "nonexistent" ? (
             <Notice kind="caution" kindLabel={t.t("common.notice.caution")} title={t.t("intake.birth.nonexistent.title")}>
               <p>{t.t("intake.birth.nonexistent.body")}</p>
@@ -125,5 +144,24 @@ export function BirthCard({ draft }: { draft: Draft }): ReactNode {
         </div>
       ) : null}
     </Card>
+  );
+}
+
+/** *Which hour is nearer the truth?* for a time within the margin of a change of hour: the computed hour (kept unless changed), the other one, or neither. */
+function HourChoiceGroup({ hours, value, onChange }: { readonly hours: HourAlternatives; readonly value: BirthForm["hourPick"]; readonly onChange: (v: BirthForm["hourPick"]) => void }): ReactNode {
+  const { t } = useI18n();
+  const primary = hours.primary.hour!.branch;
+  const other = hours.alternative!.hour.branch;
+  const [earlier, later] = hours.side === "after" ? [other, primary] : [primary, other];
+  const dayMoves = hours.primary.day.stem !== hours.alternative!.day.stem || hours.primary.day.branch !== hours.alternative!.day.branch;
+  const name = (branch: string): string => t.t("intake.birth.hour.name", { branch: t.zh(branch) });
+  return (
+    <ChoiceGroup legend={t.t("intake.birth.hour.title")} value={value} onChange={(v) => onChange(v as BirthForm["hourPick"])}
+      hint={t.t(dayMoves ? "intake.birth.hour.body.day" : "intake.birth.hour.body", { margin: hours.marginMinutes, earlier: t.zh(earlier), later: t.zh(later) })}
+      options={[
+        { value: "computed", label: t.t("intake.birth.hour.computed"), description: name(primary) },
+        { value: "other", label: t.t("intake.birth.hour.other"), description: name(other) },
+        { value: "unsure", label: t.t("intake.birth.hour.unsure"), description: t.t("intake.birth.hour.unsure.note") },
+      ]} />
   );
 }

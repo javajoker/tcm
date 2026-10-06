@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 0.4 (draft) |
+| **Version** | 0.5 (draft) |
 | **Status** | Draft — implementation not started (only `packages/wuxing`, `data/` and `scripts/kb` exist) |
 | **Last updated** | 2026-10-06 |
 | **Derives from** | [PRD v0.3](PRD.md) · [Diagnosis SOP v0.2](diagnosis-sop.zh-TW.md) · [Algorithm spec](wuxing-algorithm.md) |
@@ -75,7 +75,7 @@ data. That makes it trivially testable, usable in a Web Worker later, and re-run
 tcm-app/
 ├─ apps/web/                  # Vite + React + TypeScript single-page app
 ├─ packages/
-│  ├─ wuxing/        ✔        # yin-yang / five-phase engine (zero deps, 88 tests)
+│  ├─ wuxing/        ✔        # yin-yang / five-phase engine (zero deps, 103 tests)
 │  ├─ kb/                     # KB types (generated from JSON Schema), loader, indices, versioning, pruning rules
 │  ├─ engine/                 # diagnosis pipeline: policy → … → explanation (pure, deterministic)
 │  └─ i18n/                   # tiny typed message formatter + catalog checker
@@ -360,7 +360,7 @@ export interface Subject {            // SOP §3
   medications: MedicationClass[];     // classes, "other" for anything unlisted
   allergies: string[];                // herb / food names, matched by name
   seriousChronicDisease: boolean;
-  birth?: BirthInput;                 // optional, local only
+  birth?: BirthInput;                 // optional, local only; `hourPick: "alternative"` = the other side of a change of hour (five-phase design §5)
 }
 export interface AssessInput {
   subject: Subject;
@@ -517,6 +517,7 @@ interface AppState {
     context: AssessContext;     // non-symptom answers (course)
     constitutionAnswers: Record<ItemId, number>;
     birth?: BirthInput; rememberBirth: boolean;
+    hourChoice?: "primary" | "alternative" | "unknown";   // PM-27: which hour the person said is nearer the truth; only with `birth`, and only while the time is within 15 minutes of a change of hour
     acknowledgements: RequiredAcknowledgement[];
     options: AssessInput["options"];
     position: { route: string; questionId?: string };
@@ -545,6 +546,7 @@ interface SavedAssessment {
   input: Omit<AssessInput, "options"> & { birth?: BirthInput };   // birth present only if rememberBirth = true
   result: Assessment;                                              // snapshot as shown; re-running produces a new one
   userNote?: string; feedback?: Record<string, "match" | "partial" | "no">;     // FR-16
+  hour?: "primary" | "alternative" | "unknown";                                     // PM-27: which hour the birth chart was made from, when the birth time was near a change of hour — the choice, never the time
   followUp?: { dueAt: number; dismissedAt?: number };                                // PM-18: when the app offers a new assessment; deleted with the result
   imported?: { at: number; from: { appVersion; kbVersion; engineVersion; profile } };   // PM-07: came from a backup and could not be replayed; shown as saved, marked Imported
 }
@@ -667,3 +669,4 @@ Colour: one sequential hue per quantity family, never red/green as good/bad; sig
 | 0.2 | 2026-10-06 | §8.3: the lock record and the local data lock (PM-20); §11: the lock row |
 | 0.3 | 2026-10-06 | §5.2: the herb browser (PM-24) replaces the planned `herbs-ext` chunk: an index and sixteen shards, fetched on demand, outside the version and the session figure |
 | 0.4 | 2026-10-06 | §7, §8.2: how seasons are counted (PM-26): `options.seasons`, `meta.seasons` and the stamp suffix, the `seasons` preference; a saved result is replayed on the basis in its stamp |
+| 0.5 | 2026-10-06 | §8.2, §8.3: the hour near a change (PM-27): `BirthInput.hourPick`, `Draft.hourChoice`, `SavedAssessment.hour`; the importer keeps `fold` |

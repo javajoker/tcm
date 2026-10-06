@@ -1,4 +1,4 @@
-import type { Draft } from "./types.ts";
+import { HOUR_CHOICES, type Draft } from "./types.ts";
 
 const isRecord = (x: unknown): x is Record<string, unknown> => typeof x === "object" && x !== null && !Array.isArray(x);
 const isStringArray = (x: unknown): x is string[] => Array.isArray(x) && x.every((s) => typeof s === "string");
@@ -13,7 +13,7 @@ export function newDraft(id: string, now: number, route = "/start"): Draft {
  */
 export function toStored(d: Draft): Draft {
   if (d.rememberBirth || d.birth === undefined) return d;
-  const { birth: _birth, ...rest } = d;
+  const { birth: _birth, hourChoice: _hourChoice, ...rest } = d;          // the choice about the hour goes with the birth data it is about
   return rest;
 }
 
@@ -64,5 +64,7 @@ export function parseDraft(x: unknown): Draft | null {
   if (typeof rememberBirth !== "boolean" || !isStringArray(acknowledgements) || !isRecord(position) || typeof position["route"] !== "string") return null;
   const profile = parseProfile(x["profile"]);
   const draft = { id, startedAt, updatedAt, subject, profile, screening: parseScreening(x["screening"]), inquiry: parseInquiry(x["inquiry"]), observe: parseObserve(x["observe"]), redFlags, findings, context, constitutionAnswers, rememberBirth, acknowledgements, position } as unknown as Draft;
-  return isRecord(birth) && rememberBirth ? ({ ...draft, birth } as unknown as Draft) : draft;
+  if (!isRecord(birth) || !rememberBirth) return draft;
+  const hourChoice = oneOf(x["hourChoice"], HOUR_CHOICES);
+  return { ...draft, birth, ...(hourChoice !== undefined ? { hourChoice } : {}) } as unknown as Draft;
 }

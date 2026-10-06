@@ -41,6 +41,12 @@ export interface BirthInput {
   readonly unknownHour?: boolean;
   /** For a wall time that occurs twice (daylight-saving overlap): `first` (daylight-saving side, the default) or `second` (standard time). */
   readonly fold?: "first" | "second";
+  /**
+   * Within the margin of an hour boundary a birth time cannot say which hour it was (docs/post-mvp/design/five-phase-extensions.md §5). `alternative` takes the pillars of the other side of that boundary — the
+   * person's choice — in place of the computed ones. Absent means the computed hour, and a chart built without it is exactly what it was before the choice existed. Ignored when the time is not within the
+   * margin of a boundary, and when the hour is unknown.
+   */
+  readonly hourPick?: "alternative";
 }
 
 export interface SilingInfo {
@@ -88,6 +94,8 @@ export interface NatalChart {
   readonly enclosingJie: { readonly prevName: string; readonly prevJd: number; readonly nextName: string; readonly nextJd: number };
   readonly siling: SilingInfo;
   readonly luck: LuckInfo;
+  /** Present only when `input.hourPick` was applied: the hour (and day) pillar above are those of the other side of the nearest hour boundary. */
+  readonly hourChoice?: "alternative";
   /** Mandatory: any chart must be able to say which rules produced it. */
   readonly rulesUsed: { readonly ziHourRule: ZiHourRule; readonly trueSolarTime: boolean; readonly equationOfTime: boolean };
   readonly warnings: readonly string[];
@@ -128,6 +136,74 @@ export function dayAndHourPillarOf(
   const stemSource = stemAt(mod(stemSourceJdn + 49, 60));
   const hourBranch = hourBranchOf(trueSolar.hour);
   return { day, hour: { stem: hourStemOf(stemSource, hourBranch), branch: hourBranch }, dayAdvanced };
+}
+
+// ── a birth time near the change of hour ─────────────────────────────────
+
+/**
+ * [calibrate] Minutes of true solar time on either side of an hour boundary (23, 1, 3 … o'clock) within which a birth time is called ambiguous. It changes no chart — only whether the person is
+ * asked — so it is not one of the stamped parameters (`paramsFingerprint` is unchanged by it).
+ */
+export const HOUR_MARGIN_MINUTES = 15;
+
+export interface HourPillars { readonly day: Pillar; readonly hour: Pillar }
+
+export interface HourAlternatives {
+  /** The time is within the margin of an hour boundary: the hour pillar — and, where the rule moves the day at 23:00, the day pillar — could be those of the other side. */
+  readonly ambiguous: boolean;
+  /** Minutes of true solar time from the birth time to that boundary; null when not ambiguous. */
+  readonly minutesFromBoundary: number | null;
+  /** Which side of the boundary the birth time lies on: `before` it (the change is still ahead) or `after` it; null when not ambiguous. */
+  readonly side: "before" | "after" | null;
+  /** The true-solar hour at which the pillars change: 23 (the start of 子), 1 (丑), 3 … 21 (亥); null when not ambiguous. */
+  readonly boundaryHour: number | null;
+  /** What the chart computes; the hour is null when the birth hour is unknown. */
+  readonly primary: { readonly day: Pillar; readonly hour: Pillar | null };
+  /** The pillars of the same moment just across the boundary; null when not ambiguous, and when the hour is unknown. */
+  readonly alternative: HourPillars | null;
+  readonly marginMinutes: number;
+  /** The school rule the pillars were made under (it decides whether the day moves with the hour at 23:00). */
+  readonly ziHourRule: ZiHourRule;
+}
+
+interface AcrossBoundary { readonly distance: number; readonly side: "before" | "after"; readonly boundaryHour: number; /** Half a minute beyond the boundary, on the other side. */ readonly calendar: CalendarDateTime }
+
+/** The nearest hour boundary of a true-solar time if it is within the margin, and the clock half a minute across it; null when the time is not near one. */
+function acrossBoundary(jdTrueSolar: number, marginMinutes: number): AcrossBoundary | null {
+  const c = fromJulianDay(jdTrueSolar);
+  const minutes = c.hour * 60 + c.minute + c.second / 60;
+  const into = mod(minutes + 60, 120);                      // minutes since the last boundary: 0 at 23:00, 01:00, 03:00 …
+  const after = into <= 60;
+  const distance = after ? into : 120 - into;
+  if (!(distance < marginMinutes)) return null;
+  const boundaryMinutes = mod(after ? minutes - into : minutes + (120 - into), 1440);
+  const across = jdTrueSolar + (after ? -(into + 0.5) : 120 - into + 0.5) / 1440;
+  return { distance, side: after ? "after" : "before", boundaryHour: Math.round(boundaryMinutes / 60) % 24, calendar: fromJulianDay(across) };
+}
+
+/**
+ * The hour pillar, and the day pillar with it, at a true-solar time and at the other side of the nearest hour boundary when the time is within the margin of one. The boundaries are the twelve odd hours;
+ * the pillars at both sides are made by the same rule that makes the chart's own, so the day pillar differs only where the school rule moves the day (`lateZiNextDay` at 23:00).
+ */
+export function hourAlternativesAt(jdTrueSolar: number, rule: ZiHourRule, marginMinutes: number = HOUR_MARGIN_MINUTES): HourAlternatives {
+  const own = dayAndHourPillarOf(fromJulianDay(jdTrueSolar), rule);
+  const base = { marginMinutes, ziHourRule: rule, primary: { day: own.day, hour: own.hour } } as const;
+  const near = acrossBoundary(jdTrueSolar, marginMinutes);
+  if (near === null) return { ...base, ambiguous: false, minutesFromBoundary: null, side: null, boundaryHour: null, alternative: null };
+  const other = dayAndHourPillarOf(near.calendar, rule);
+  return { ...base, ambiguous: true, minutesFromBoundary: near.distance, side: near.side, boundaryHour: near.boundaryHour, alternative: { day: other.day, hour: other.hour } };
+}
+
+/**
+ * Whether a birth time is too close to a change of hour to say which hour it was, and what the pillars would be on the other side — measured in true solar time (so a clock time far from a boundary can be
+ * near one, and the other way round). The answer is about the computed time, whatever `hourPick` says. An unknown hour is never ambiguous: there is nothing to choose.
+ */
+export function hourAlternatives(input: BirthInput, options: { readonly params?: WuxingParams; readonly marginMinutes?: number } = {}): HourAlternatives {
+  const { hourPick: _picked, ...asked } = input;
+  const chart = buildChart(asked, options.params === undefined ? {} : { params: options.params });
+  const found = hourAlternativesAt(chart.trueSolarJd, chart.rulesUsed.ziHourRule, options.marginMinutes);
+  if (input.unknownHour !== true) return found;
+  return { ...found, ambiguous: false, minutesFromBoundary: null, side: null, boundaryHour: null, primary: { day: found.primary.day, hour: null }, alternative: null };
 }
 
 // ── 人元司令 ──────────────────────────────────────────────────────────────
@@ -184,6 +260,8 @@ export function computeLuck(args: {
 export interface ChartOptions {
   readonly params?: WuxingParams;
   readonly luckPillarCount?: number;
+  /** The margin within which `input.hourPick` applies (default `HOUR_MARGIN_MINUTES`). */
+  readonly hourMarginMinutes?: number;
 }
 
 const isInt = (n: unknown): n is number => typeof n === "number" && Number.isInteger(n);
@@ -210,6 +288,7 @@ export function validateBirthInput(input: BirthInput): string[] {
   if (input.sex !== "male" && input.sex !== "female") problems.push('sex must be "male" or "female"');
   if (typeof input.timeZone !== "string" || input.timeZone.length === 0) problems.push("timeZone must be an IANA zone name");
   if (input.fold !== undefined && input.fold !== "first" && input.fold !== "second") problems.push('fold must be "first" or "second"');
+  if (input.hourPick !== undefined && input.hourPick !== "alternative") problems.push('hourPick must be "alternative"');
   return problems;
 }
 
@@ -240,7 +319,16 @@ export function buildChart(input: BirthInput, options: ChartOptions = {}): Natal
   const yearPillar = yearPillarOf(birthJdUT).pillar;
   const month: Pillar = { stem: monthStemOf(yearPillar.stem, monthBranch), branch: monthBranch };
 
-  const dh = dayAndHourPillarOf(trueSolarCalendar, params.chart.ziHourRule);
+  let dh = dayAndHourPillarOf(trueSolarCalendar, params.chart.ziHourRule);
+  let hourChoice: "alternative" | undefined;
+  if (input.hourPick === "alternative" && input.unknownHour !== true) {
+    const near = acrossBoundary(tst.jdTrueSolar, options.hourMarginMinutes ?? HOUR_MARGIN_MINUTES);
+    if (near !== null) {
+      dh = dayAndHourPillarOf(near.calendar, params.chart.ziHourRule);
+      hourChoice = "alternative";
+      warnings.push(`The birth time is within about ${Math.round(near.distance)} minutes of the change of hour at ${near.boundaryHour}:00 true solar time: the pillars of the other side were used, as the person chose.`);
+    }
+  }
   if (dh.dayAdvanced) warnings.push("Born in late 子 hour (after 23:00 true solar time): the day pillar advanced under the lateZiNextDay rule.");
   if (input.unknownHour === true) warnings.push("Birth hour unknown: the hour pillar is omitted and nothing that depends on it is inferred.");
 
@@ -265,6 +353,7 @@ export function buildChart(input: BirthInput, options: ChartOptions = {}): Natal
       resolution: tst.resolution,
     },
     year: yearPillar, month, day: dh.day, hour: input.unknownHour === true ? null : dh.hour,
+    ...(hourChoice !== undefined ? { hourChoice } : {}),
     enclosingJie: { prevName: jie.prev.def.name, prevJd: jie.prev.jdUT, nextName: jie.next.def.name, nextJd: jie.next.jdUT },
     siling, luck,
     rulesUsed: { ziHourRule: params.chart.ziHourRule, trueSolarTime: params.chart.trueSolarTime, equationOfTime: params.chart.equationOfTime },

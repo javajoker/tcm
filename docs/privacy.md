@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 0.3 (draft) |
+| **Version** | 0.4 (draft) |
 | **Status** | Design document; the user-facing statement (§8) needs legal review before release |
 | **Last updated** | 2026-10-06 |
 | **Audience** | Developers, reviewers, whoever writes the public privacy statement |
@@ -43,8 +43,8 @@
 | Medications, allergies, chronic conditions | classes, allergens, listed conditions, free-text medicine names the user types (never interpreted) | **Sensitive (health)** | Safety filter | IndexedDB | Same | Same |
 | Red-flag answers and acknowledgements | which items (yes / no / not sure), corrections ("I made a mistake"), time each notice was acknowledged | **Sensitive (health)** | Notices, record of acknowledgement | IndexedDB | Same | Same |
 | Findings | symptoms, tongue, pulse, constitution answers | **Sensitive (health)** | Pattern differentiation | IndexedDB | Same | Same |
-| **Birth data** | date, time/unknown, place (longitude, time zone) | **Sensitive (personal)** | Optional innate/annual reference | **Session memory only unless "Remember on this device" is ticked** (default off; Settings has a "Remember birth data" default, off, that the person can turn on to start each assessment with the box ticked) → then IndexedDB | Session, or until deleted | Opt-in toggle; erase |
-| Results | assessments, reasoning, recommendations (with KB/engine versions, and, when the season was counted on another basis than the northern calendar, that basis) | **Sensitive (health, derived)** | History and compare | IndexedDB | Until the user deletes | Delete one/all |
+| **Birth data** | date, time/unknown, place (longitude, time zone), which of two clock times (daylight-saving overlap) and, for a time near a change of hour, which hour the person said is nearer the truth | **Sensitive (personal)** | Optional innate/annual reference | **Session memory only unless "Remember on this device" is ticked** (default off; Settings has a "Remember birth data" default, off, that the person can turn on to start each assessment with the box ticked) → then IndexedDB | Session, or until deleted | Opt-in toggle; erase |
+| Results | assessments, reasoning, recommendations (with KB/engine versions, when the season was counted on another basis than the northern calendar that basis, and, when the birth time was within 15 minutes of a change of hour, which hour the birth chart was made from — the choice, not the time) | **Sensitive (health, derived)** | History and compare | IndexedDB | Until the user deletes | Delete one/all |
 | Free-text notes | anything typed | Sensitive | Memo for the user | IndexedDB | Same | Same |
 | Feedback marks | match / partly / no, per result, pattern and formula (stored inside the saved result) | Low | Optional calibration export (marks + result summary; the answers only if the user ticks "include my answers") | IndexedDB | Same | Export or delete |
 | Follow-up date | A day the person chose (in 2, 4 or 8 weeks) and, if they said "not now", when — stored inside the saved result | Low | Shows the card on the start page and in History when the day has passed; nothing is sent and no timer runs. A calendar file for that day, if the person asks, holds only a date and the title "time to look again" | IndexedDB | Same | Deleted with the result; included in a backup |
@@ -159,3 +159,4 @@ Since then (post-MVP, [decisions register](post-mvp/decisions.md)): PQ2 and PQ3 
 | 0.1 | 2026-10-04 | Initial privacy design |
 | 0.2 | 2026-10-06 | The local data lock (PM-20): rows for the passphrase, the data key, the lock record, the lock marker and the idle time; the paragraph on what is encrypted; the storage, erase and device rows |
 | 0.3 | 2026-10-06 | How seasons are counted (PM-26): the `seasons` preference (low sensitivity; travels in a backup when chosen), the basis stamped on a result made on another basis, and the device's time zone read only to suggest a default |
+| 0.4 | 2026-10-06 | The hour near a change (PM-27): the answer *which hour is nearer the truth* is kept with the unfinished assessment only together with the birth data, and a saved result keeps the choice — `primary`, `alternative` or `unknown` — and never the time; the pillars and the true solar time are still removed unless the birth data is remembered |

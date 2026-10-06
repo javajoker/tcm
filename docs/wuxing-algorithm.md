@@ -2,8 +2,8 @@
 
 | | |
 |---|---|
-| **Version** | 0.2 |
-| **Status** | Implemented and verified — [`packages/wuxing`](../packages/wuxing) (88 tests) |
+| **Version** | 0.3 |
+| **Status** | Implemented and verified — [`packages/wuxing`](../packages/wuxing) (103 tests) |
 | **Last updated** | 2026-10-06 |
 | **Consumers** | [Diagnosis SOP](diagnosis-sop.zh-TW.md) §6 (先天・流年・時令) and §10 (盤面), [PRD](PRD.md) FR-18/19, knowledge base [`data/wuxing/`](../data/wuxing) |
 | **Provenance** | Extracted from the author's earlier BaZi engine, *fate4* (private repository, commit `aba58ee`), and re-implemented independently. Nothing in this project depends on that repository. |
@@ -239,6 +239,24 @@ step n (n = 1…12):  [startJd + (n−1)·10 y,  startJd + n·10 y),
 
 The polarity is that of the year **stem**, not the branch. Only the 3:1 rate is stored; everything else is derived (the source's earlier docs contradicted
 themselves on "1 時辰 = ? days" by keeping several constants).
+
+### 4.6 A birth time near a change of hour
+
+Birth times are recorded to the nearest 5 or 15 minutes, so a time within a few minutes of an odd hour (23, 1, 3 … o'clock of true solar time) cannot say which hour it was: the hour pillar — and, at 23:00 under `lateZiNextDay`, the day pillar — can be the other side's. About a quarter of all births fall within 15 minutes of one of the twelve boundaries.
+
+`hourAlternatives(input, { marginMinutes, params })` is a pure function. It builds the chart of the time as given (a choice already made, see below, is ignored) and returns:
+
+| Field | Meaning |
+|---|---|
+| `ambiguous` | The true solar time is **less than** the margin (15 minutes, `HOUR_MARGIN_MINUTES`, `[calibrate]`) from the nearest hour boundary. Never for an unknown hour: there is nothing to choose |
+| `minutesFromBoundary`, `side`, `boundaryHour` | The distance in minutes (seconds included), `before` or `after` the boundary, and the hour at which the pillars change: 23 (the start of 子), 1 (丑), 3 … 21 (亥) |
+| `primary` | The day and hour pillars the chart computes (hour `null` when unknown) |
+| `alternative` | The pillars of the same moment half a minute across the boundary, made by the same rule as the chart's own — so the day pillar differs only where the rule moves the day (`lateZiNextDay` at 23:00); `null` when not ambiguous |
+| `marginMinutes`, `ziHourRule` | The margin and the school rule used |
+
+The distance is measured in **true solar time**: a clock time far from a boundary can be near one (Ürümqi's clock runs about 130 minutes ahead of its sun), and the other way round. The boundaries are the twelve odd hours; midnight is not one. Under `earlyZiSameDay` and `split` the *day* changes at 00:00 although the hour branch does not; those rules are not offered by the app, and a time near midnight under them is not reported here.
+
+**The person's choice.** `BirthInput.hourPick = "alternative"` takes the other side: the chart uses `alternative`'s hour and day pillars — the year, month, 司令 and 大運 come from the instant and do not change — and records `hourChoice: "alternative"`, a warning, and the late-子 note for the pillars it used. It is ignored when the time is not within the margin and when the hour is unknown. Without it a chart is exactly what it was before the choice existed (no key, no stamp). The margin changes no chart, only whether the person is asked, so it is not among the stamped parameters and `paramsFingerprint` is unchanged. *Not sure* is the unknown-hour path above: the hour pillar is left out and nothing takes its place.
 
 ---
 
@@ -527,6 +545,7 @@ decision that must be reported with every result.
 |---|---|---|---|
 | chart | `ziHourRule` | `lateZiNextDay` | school |
 | chart | `trueSolarTime`, `equationOfTime` | true, true | — |
+| chart | `HOUR_MARGIN_MINUTES` (not stamped: it changes no chart, only whether the person is asked, §4.6) | 15 | calibrate |
 | weights | `pillarBase`, `stemShare`, `branchShare` | 100, 0.40, 0.60 | — |
 | weights | `hiddenSplit` | [1] · [0.7, 0.3] · [0.65, 0.25, 0.10] | — |
 | weights | `monthCommand.branchMultiplier` / `stemMultiplier` / `silingBoost` | 2.0 / 1.2 / 1.5 | calibrate |
@@ -558,6 +577,7 @@ evaluateYear(base, year)                       → YearEvaluation    // pillar, 
 innateProfile(base, p?)                        → shares, relative, bands, degrees, evenness, missing
 buildReferencePanel(base | null, jdUT, p?)     → components, total, zangfu, climate, trace, notes
 forecastReferencePanels(base | null, jdUT, n)  → panel now + start of each of the next n seasons
+hourAlternatives(input, {marginMinutes?, params?}) → ambiguous, minutesFromBoundary, side, boundaryHour, primary, alternative   (§4.6)
 analyzeOffset(observed, reference)             → offsetPopulation, offsetPersonal, alignment
 transmission(deviation, p?)                    → pressure, ranked rules
 yunqiOfYear / yunqiAt / seasonAt               → classical tables for a year / instant
@@ -620,7 +640,7 @@ not say anything about disease by itself.
 2. **Calibration** of every `[calibrate]` parameter, especially the profile caps, with practitioner input; the diagnostic panel needs real cases to show whether the reference blocks add anything.
 3. **Season model** (`changxia` vs `tuwang18`) and the 長夏 extent — school decision pending.
 4. ~~**Southern hemisphere.**~~ **Decided (PM-26):** the season is counted on a basis the person chooses — the northern calendar (default), the southern basis (the lookup at longitude + 180°) or none (§9.3). The source's hard "no flip" rule applied to the birth chart and to calendar constructs, which still do not flip. Open: the clinical content owner confirms *what* flips (the experienced season only).
-5. **Hour precision:** births within ~15 min of an hour boundary should show both hour pillars as alternatives (the engine already exposes the corrections to do so).
+5. ~~**Hour precision.**~~ **Done (PM-27):** `hourAlternatives` names the other side's pillars for a time within 15 minutes of an hour boundary in true solar time, and `BirthInput.hourPick` takes them (§4.6). The margin is a `[calibrate]` constant; the app asks the person and keeps the computed hour unless told otherwise.
 6. **Julian-calendar dates** (before 1582) are rejected, as in the source.
 7. Optional later: 客主加臨 as a modifier of the climate vector; BaZi 大運/流年 *interaction* with natal branches (the L2 structure the source retired).
 

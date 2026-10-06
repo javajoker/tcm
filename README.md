@@ -20,7 +20,7 @@ conclusion with citations to classical texts (《黃帝內經》《傷寒論》�
 | [`docs/content-review.md`](docs/content-review.md) · [`docs/safety-policy.md`](docs/safety-policy.md) · [`docs/privacy.md`](docs/privacy.md) | Review process and release gates · notice wording and safety filter · data handling | v0.1 drafts |
 | [`docs/test-plan.md`](docs/test-plan.md) · [`docs/release-process.md`](docs/release-process.md) | Quality strategy · versions, gates, deployment | v0.1 drafts |
 | [`TASKS.md`](TASKS.md) · [`CHECKLIST.md`](CHECKLIST.md) · [`CONTRIBUTING.md`](CONTRIBUTING.md) | Task list (one commit per task) · definition of done and release checklists · how to contribute | v0.1 |
-| [`packages/wuxing`](packages/wuxing) | Zero-dependency TypeScript engine: birth chart, element weights, propagation, 大運/流年, 五運六氣, reference panel (88 tests) | done |
+| [`packages/wuxing`](packages/wuxing) | Zero-dependency TypeScript engine: birth chart, element weights, propagation, 大運/流年, 五運六氣, reference panel (103 tests) | done |
 | [`data/`](data/README.md) | Knowledge base: 127 verified quotations, 703 herbs, 33 formulas, 23 patterns, tongue/pulse, scope profiles, safety rules | first pass, review pending |
 | [`scripts/kb`](scripts/kb) | Deterministic KB build, validation, pattern self-test, reference diagnosis pipeline | done |
 | [`reference/`](reference/README.md) | Source texts and datasets as git submodules | — |
