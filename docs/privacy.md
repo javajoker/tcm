@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 0.2 (draft) |
+| **Version** | 0.3 (draft) |
 | **Status** | Design document; the user-facing statement (§8) needs legal review before release |
 | **Last updated** | 2026-10-06 |
 | **Audience** | Developers, reviewers, whoever writes the public privacy statement |
@@ -38,13 +38,13 @@
 | Lock marker | the value `1` under the key `tcm.lockHint`, present while a lock exists | None | Lets the first page of a locked device wait for the lock record instead of showing the history for a moment | `localStorage` | Removed when the lock is turned off; removed by Erase | Same |
 | Lock idle time | 5, 10, 30 or 60 minutes (`lockIdleMinutes`), in the preferences | Low | The history locks itself after this long without use | `localStorage` key `tcm.prefs` | Until erased | Settings → Lock the history |
 | Boot counter | a number (`tcm.boot`) raised when the page starts and cleared after its first render, and the time of the last recovery (`tcm.boot.recovered`) | None | The boot guard: two starts in a row that never rendered drop the offline copy ([offline design](post-mvp/design/offline-and-install.md) §3.5) | `localStorage` | Cleared by the next successful start | Settings → Erase |
-| Preferences | language (only once the user has chosen one), theme, text size, emergency-number region, "move on automatically" switch, "English offer dismissed" flag | Low | Personalisation; the one-time English offer is shown only while no language has been chosen | `localStorage` key `tcm.prefs` | Until erased | Settings |
+| Preferences | language (only once the user has chosen one), theme, text size, emergency-number region, how seasons are counted (`seasons`: northern calendar, southern hemisphere or none — only once the user has chosen), "move on automatically" switch, "English offer dismissed" flag | Low | Personalisation; the one-time English offer is shown only while no language has been chosen; until the season choice is made, the device's time zone — read in the page, never stored and never sent — suggests the northern or the southern calendar | `localStorage` key `tcm.prefs` | Until erased | Settings |
 | Basic profile | age, sex at birth, pregnancy/lactation, region, lifestyle | **Sensitive (health)** | Safety scope and context | IndexedDB (draft, history) | Until the user deletes the assessment | Edit, delete |
 | Medications, allergies, chronic conditions | classes, allergens, listed conditions, free-text medicine names the user types (never interpreted) | **Sensitive (health)** | Safety filter | IndexedDB | Same | Same |
 | Red-flag answers and acknowledgements | which items (yes / no / not sure), corrections ("I made a mistake"), time each notice was acknowledged | **Sensitive (health)** | Notices, record of acknowledgement | IndexedDB | Same | Same |
 | Findings | symptoms, tongue, pulse, constitution answers | **Sensitive (health)** | Pattern differentiation | IndexedDB | Same | Same |
 | **Birth data** | date, time/unknown, place (longitude, time zone) | **Sensitive (personal)** | Optional innate/annual reference | **Session memory only unless "Remember on this device" is ticked** (default off; Settings has a "Remember birth data" default, off, that the person can turn on to start each assessment with the box ticked) → then IndexedDB | Session, or until deleted | Opt-in toggle; erase |
-| Results | assessments, reasoning, recommendations (with KB/engine versions) | **Sensitive (health, derived)** | History and compare | IndexedDB | Until the user deletes | Delete one/all |
+| Results | assessments, reasoning, recommendations (with KB/engine versions, and, when the season was counted on another basis than the northern calendar, that basis) | **Sensitive (health, derived)** | History and compare | IndexedDB | Until the user deletes | Delete one/all |
 | Free-text notes | anything typed | Sensitive | Memo for the user | IndexedDB | Same | Same |
 | Feedback marks | match / partly / no, per result, pattern and formula (stored inside the saved result) | Low | Optional calibration export (marks + result summary; the answers only if the user ticks "include my answers") | IndexedDB | Same | Export or delete |
 | Follow-up date | A day the person chose (in 2, 4 or 8 weeks) and, if they said "not now", when — stored inside the saved result | Low | Shows the card on the start page and in History when the day has passed; nothing is sent and no timer runs. A calendar file for that day, if the person asks, holds only a date and the title "time to look again" | IndexedDB | Same | Deleted with the result; included in a backup |
@@ -158,3 +158,4 @@ Since then (post-MVP, [decisions register](post-mvp/decisions.md)): PQ2 and PQ3 
 |---|---|---|
 | 0.1 | 2026-10-04 | Initial privacy design |
 | 0.2 | 2026-10-06 | The local data lock (PM-20): rows for the passphrase, the data key, the lock record, the lock marker and the idle time; the paragraph on what is encrypted; the storage, erase and device rows |
+| 0.3 | 2026-10-06 | How seasons are counted (PM-26): the `seasons` preference (low sensitivity; travels in a backup when chosen), the basis stamped on a result made on another basis, and the device's time zone read only to suggest a default |

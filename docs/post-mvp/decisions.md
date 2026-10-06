@@ -2,9 +2,9 @@
 
 | | |
 |---|---|
-| **Version** | 0.1 (draft) |
+| **Version** | 0.3 (draft) |
 | **Status** | Every item the MVP documents recorded as "to be revisited after the MVP" is answered here with the recommended default; new decisions that came out of the post-MVP design are PD-01 … PD-12 |
-| **Last updated** | 2026-10-05 |
+| **Last updated** | 2026-10-06 |
 | **Audience** | Project owner, maintainers, reviewers |
 | **Related** | [Roadmap](roadmap.md) · [Requirements](requirements.md) · [PRD §14](../PRD.md#14-decisions-and-open-questions) · [Tech spec §13](../tech-spec.md#13-open-technical-questions) · [UX spec §15](../ux-spec.md#15-open-design-questions) · [Safety policy §10](../safety-policy.md#10-open-questions) · [Privacy §9](../privacy.md#9-open-questions) · [Release process §13](../release-process.md#13-open-questions) |
 
@@ -61,7 +61,7 @@ An *unchanged* decision means the MVP answer still holds and the reason is state
 | W-1 | VSOP87 data regenerated from the archive | Open | PM-28 (FR-31c) | ⚑ approval to download the archive |
 | W-2 | Calibration of `[calibrate]` parameters | Open | Review track | Calibration |
 | W-3 | 長夏 versus 土旺十八日 | Default model | PM-29: shown as a declared choice | School decision (⚑) |
-| W-4 | Southern hemisphere | Northern mapping | PM-26 (FR-31a) | — |
+| W-4 | Southern hemisphere | Northern mapping | **Built (PM-26, FR-31a):** a `seasons` choice — the northern calendar (default), the southern basis (the season lookup at longitude + 180°) or none (the tropics) — suggested by the device's time zone, shown on every result and stamped on a result made on another basis; a northern result is byte-for-byte unchanged | The clinical content owner confirms *what* flips (the experienced season only; the birth chart, the annual block and yunqi stay calendar references) |
 | W-5 | Hour-boundary alternatives | Corrections exposed by the engine | PM-27 (FR-31b) | — |
 | W-6 | Julian-calendar dates | Rejected | Unchanged | A real need |
 | W-7 | 客主加臨; 大運/流年 interaction with natal branches | Not built | Not planned; revisit if calibration shows the structure adds value | Calibration |
@@ -132,3 +132,4 @@ An *unchanged* decision means the MVP answer still holds and the reason is state
 |---|---|---|
 | 0.1 | 2026-10-05 | Initial register: all "revisit after the MVP" items answered; PD-01 … PD-12 |
 | 0.2 | 2026-10-06 | PD-12 extended for Release B: all JavaScript ≤ 350 KB |
+| 0.3 | 2026-10-06 | W-4 built (PM-26): the southern hemisphere as a person's choice, additive to every saved result |

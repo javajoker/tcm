@@ -44,7 +44,7 @@ export interface Source {
 }
 
 /** The part of the preferences that travels: not the disclaimer acknowledgement (it must be given again on the new device and version) and not the one-time offer flags. */
-export const backupPrefs = (p: Prefs): BackupPrefs => ({ ...(p.lang ? { lang: p.lang } : {}), theme: p.theme, textScale: p.textScale, ...(p.region ? { region: p.region } : {}), autoAdvance: p.autoAdvance });
+export const backupPrefs = (p: Prefs): BackupPrefs => ({ ...(p.lang ? { lang: p.lang } : {}), theme: p.theme, textScale: p.textScale, ...(p.region ? { region: p.region } : {}), ...(p.seasons ? { seasons: p.seasons } : {}), autoAdvance: p.autoAdvance });
 
 export async function buildBackup(source: Source, selection: Selection, stamps: Stamps, now: number): Promise<BackupDocument> {
   const chosen = selection.assessments === "all" ? source.assessments : source.assessments.filter((a) => (selection.assessments as readonly string[]).includes(a.id));

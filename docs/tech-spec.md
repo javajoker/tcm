@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 0.3 (draft) |
+| **Version** | 0.4 (draft) |
 | **Status** | Draft — implementation not started (only `packages/wuxing`, `data/` and `scripts/kb` exist) |
 | **Last updated** | 2026-10-06 |
 | **Derives from** | [PRD v0.3](PRD.md) · [Diagnosis SOP v0.2](diagnosis-sop.zh-TW.md) · [Algorithm spec](wuxing-algorithm.md) |
@@ -75,7 +75,7 @@ data. That makes it trivially testable, usable in a Web Worker later, and re-run
 tcm-app/
 ├─ apps/web/                  # Vite + React + TypeScript single-page app
 ├─ packages/
-│  ├─ wuxing/        ✔        # yin-yang / five-phase engine (zero deps, 74 tests)
+│  ├─ wuxing/        ✔        # yin-yang / five-phase engine (zero deps, 88 tests)
 │  ├─ kb/                     # KB types (generated from JSON Schema), loader, indices, versioning, pruning rules
 │  ├─ engine/                 # diagnosis pipeline: policy → … → explanation (pure, deterministic)
 │  └─ i18n/                   # tiny typed message formatter + catalog checker
@@ -367,7 +367,8 @@ export interface AssessInput {
   redFlags: ReadonlySet<string>;      // answered yes OR unsure (unsure counts as yes)
   findings: Findings;                 // Record<SymptomId, Finding>: inquiry, tongue, face, voice, pulse
   context?: { course?: "acute" | "subacute" | "chronic" };      // from the course question (SOP §9.1 routing)
-  options: { now: number /* UTC ms, injected (T14) */; birthModule: boolean /* user opt-in */; seasonModel?: "changxia" | "tuwang18" };
+  options: { now: number /* UTC ms, injected (T14) */; birthModule: boolean /* user opt-in */; seasonModel?: "changxia" | "tuwang18";
+             seasons?: "north" | "south" | "off" /* how the season is counted; absent = north, and the result is exactly what it was before the choice existed */ };
 }
 
 assess(kb, input): Assessment                          // the whole pipeline
@@ -380,7 +381,8 @@ ENGINE_VERSION                                         // semver; bump on any be
 interface Finding { state: "present" | "absent" | "unsure"; severity?: "light" | "moderate" | "severe"; source?: "inquiry" | "measured" | "guided" | "pulse"; position?: PulsePosition }
 
 interface Assessment {
-  meta: { engineVersion; kbVersion; profile; computedAt; seasonModel; paramsFingerprint };
+  meta: { engineVersion; kbVersion; profile; computedAt; seasonModel; paramsFingerprint;
+          seasons?: "south" | "off" };    // present only for a basis other than north; paramsFingerprint then ends "+south" / "+noseason"
   policy: Policy;                         // final: after the states the engine found and an allergy match
   requiredAcknowledgements: NoticeId[];   // blocking notices to collect before showing the result; the flow continues
   quality: { coverage; kappa; unansweredCore; conflicts; unknownFindings; unmatchedAllergies };
@@ -503,6 +505,7 @@ interface AppState {
   prefs: { lang?: Lang;              // set only when the user chooses (toggle or the English offer); absent → zh-Hant
            theme: "system"|"light"|"dark"; textScale: 0.9|1|1.15|1.3; disclaimerAck?: { version: string; at: number }; langOfferDismissed: boolean;
            region?: string;            // emergency-number region (id in emergency.json); absent → the data's default
+           seasons?: "north"|"south"|"off";   // how seasons are counted (five-phase design §4); absent until chosen → the device's time zone suggests north or south
            autoAdvance: boolean };     // move on after a single-choice answer (UX spec §4.4), default on
   draft: {                      // the in-progress assessment; persisted after every answer
     id: string; startedAt: number; updatedAt: number;
@@ -663,3 +666,4 @@ Colour: one sequential hue per quantity family, never red/green as good/bad; sig
 | 0.1 | 2026-10-04 | Initial technical specification |
 | 0.2 | 2026-10-06 | §8.3: the lock record and the local data lock (PM-20); §11: the lock row |
 | 0.3 | 2026-10-06 | §5.2: the herb browser (PM-24) replaces the planned `herbs-ext` chunk: an index and sixteen shards, fetched on demand, outside the version and the session figure |
+| 0.4 | 2026-10-06 | §7, §8.2: how seasons are counted (PM-26): `options.seasons`, `meta.seasons` and the stamp suffix, the `seasons` preference; a saved result is replayed on the basis in its stamp |

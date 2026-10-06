@@ -40,6 +40,11 @@ export const EVILS: readonly Evil[] = Object.freeze(["風", "寒", "暑", "濕",
 // ── parameters ───────────────────────────────────────────────────────────────
 
 export type SeasonModel = "changxia" | "tuwang18";
+/**
+ * The basis the season is counted on. `north` is the calendar as the tradition has it. `south` shifts the Sun's longitude by 180° before the season is looked up, so the season the person
+ * *experiences* is the one commanded; the birth chart, the solar terms and the annual and yunqi blocks are calendar constructs and do not move (docs/post-mvp/design/five-phase-extensions.md §4).
+ */
+export type Hemisphere = "north" | "south";
 
 export interface ProfileParams {
   /** Even distribution: each element holds 20 % of the total. */
@@ -53,6 +58,11 @@ export interface ProfileParams {
   /** Cap on the summed reference shift of any element. */
   readonly totalCap: number;
   readonly seasonModel: SeasonModel;
+  /**
+   * The basis of the season (default `north`). **Absent from the defaults on purpose**: a parameter at its default is left out of everything that is stamped or compared, so that nothing about a
+   * northern result — and so nothing about a saved one — changes (design §3).
+   */
+  readonly hemisphere?: Hemisphere;
   /** Weights of each qi source in the environmental pathogenic-qi (六邪) vector, 0–1 total. */
   readonly climate: { readonly siTian: number; readonly zaiQuan: number; readonly guest: number; readonly host: number };
   readonly enable: { readonly innate: boolean; readonly annualBazi: boolean; readonly yunqi: boolean; readonly season: boolean };
@@ -123,7 +133,10 @@ export interface SeasonInfo {
   readonly element: Element;
   readonly name: string;
   readonly model: SeasonModel;
+  /** The Sun's apparent longitude at the instant: the calendar's, in both hemispheres. */
   readonly longitude: number;
+  /** Present, as `"south"`, only when the season was counted on the southern basis; a northern season carries nothing extra. */
+  readonly hemisphere?: "south";
 }
 
 const FOUR_LI_LONGITUDES = [315, 45, 135, 225] as const;   // 立春 立夏 立秋 立冬
@@ -133,22 +146,28 @@ const FOUR_LI_LONGITUDES = [315, 45, 135, 225] as const;   // 立春 立夏 立�
  *   changxia : 春 [立春,立夏) · 夏 [立夏,小暑) · 長夏 [小暑,立秋) · 秋 [立秋,立冬) · 冬 [立冬,立春)
  *   tuwang18 : four seasons, with 土 commanding the last 18 days before each of 立春 立夏 立秋 立冬
  * Which is right is a school decision (長夏's extent is disputed), hence a parameter.
+ *
+ * `hemisphere` is the basis (design §4): on the southern one the Sun's longitude is shifted by 180° before the lookup, so the season commanded is the one the person experiences — the southern
+ * spring is the northern autumn. The four 立 instants map onto themselves under the shift, so the 18 days of 土 under `tuwang18` fall on the same days in both.
  */
-export function seasonAt(jdUT: number, model: SeasonModel = "changxia"): SeasonInfo {
+export function seasonAt(jdUT: number, model: SeasonModel = "changxia", hemisphere: Hemisphere = "north"): SeasonInfo {
   const lambda = apparentSolarLongitude(asTT(utToTT(jdUT)));
-  const inRange = (from: number, to: number): boolean => norm360(lambda - from) < norm360(to - from);
+  const south = hemisphere === "south";
+  const experienced = south ? norm360(lambda + 180) : lambda;
+  const inRange = (from: number, to: number): boolean => norm360(experienced - from) < norm360(to - from);
+  const basis = south ? { hemisphere: "south" as const } : {};
 
   if (model === "tuwang18") {
     for (const li of FOUR_LI_LONGITUDES) {
       const guess = utToTT(jdUT) + norm360(li - lambda) / (360 / 365.2421897);
       const next = solveSolarTerm(li, asTT(guess)).jdUT;
-      if (next - jdUT <= 18 && next - jdUT >= 0) return { element: "土", name: "土旺", model, longitude: lambda };
+      if (next - jdUT <= 18 && next - jdUT >= 0) return { element: "土", name: "土旺", model, longitude: lambda, ...basis };
     }
     const element: Element = inRange(315, 45) ? "木" : inRange(45, 135) ? "火" : inRange(135, 225) ? "金" : "水";
-    return { element, name: SEASON_NAME_OF[element], model, longitude: lambda };
+    return { element, name: SEASON_NAME_OF[element], model, longitude: lambda, ...basis };
   }
   const element: Element = inRange(315, 45) ? "木" : inRange(45, 105) ? "火" : inRange(105, 135) ? "土" : inRange(135, 225) ? "金" : "水";
-  return { element, name: SEASON_NAME_OF[element], model, longitude: lambda };
+  return { element, name: SEASON_NAME_OF[element], model, longitude: lambda, ...basis };
 }
 
 function seasonDegrees(season: SeasonInfo, p: ProfileParams): ElementVector {
@@ -238,7 +257,7 @@ export function buildReferencePanel(
   const notes: string[] = [];
   const trace: string[] = [];
   const baziYear = yearPillarOf(jdUT).solarYear;
-  const season = seasonAt(jdUT, params.seasonModel);
+  const season = seasonAt(jdUT, params.seasonModel, params.hemisphere ?? "north");
   const yq = yunqiAt(jdUT);
 
   let innate: ElementVector | null = null;
@@ -267,7 +286,7 @@ export function buildReferencePanel(
   }
   const seasonBlock = params.enable.season ? seasonDegrees(season, params) : null;
   if (seasonBlock !== null) {
-    trace.push(`Season ${season.name} (${season.model}, λ=${season.longitude.toFixed(1)}°): ${ELEMENTS.map((e) => `${e}${fmt(seasonBlock[e])}`).join(" ")}`);
+    trace.push(`Season ${season.name} (${season.model}${season.hemisphere === "south" ? ", southern basis" : ""}, λ=${season.longitude.toFixed(1)}°): ${ELEMENTS.map((e) => `${e}${fmt(seasonBlock[e])}`).join(" ")}`);
   }
 
   const total = zeroVector();
@@ -325,12 +344,16 @@ export function analyzeOffset(
   return { observed: cloneVec(observed), offsetPopulation, offsetPersonal, alignment };
 }
 
-/** Reference panels at "now" and at the start of each of the next `count` seasons (changxia boundaries). */
+/**
+ * Reference panels at "now" and at the start of each of the next `count` seasons (changxia boundaries). The boundaries are the instants the *experienced* season changes: on the southern basis they are
+ * the same four-and-one longitudes shifted by 180°, so the seasons come in the order the person lives them.
+ */
 export function forecastReferencePanels(
   base: BaseChart | null, fromJdUT: number, count: number, params: ProfileParams = DEFAULT_PROFILE_PARAMS,
 ): ReferencePanel[] {
   const out: ReferencePanel[] = [buildReferencePanel(base, fromJdUT, params)];
-  const boundaries = [315, 45, 105, 135, 225] as const;   // 立春 立夏 小暑 立秋 立冬
+  const northern = [315, 45, 105, 135, 225] as const;   // 立春 立夏 小暑 立秋 立冬 (as the season changes in the north)
+  const boundaries = params.hemisphere === "south" ? northern.map((b) => norm360(b - 180)) : northern;
   let jd = fromJdUT;
   for (let k = 0; k < count; k++) {
     const lambda = apparentSolarLongitude(asTT(utToTT(jd)));

@@ -21,7 +21,10 @@ function Pages({ delay }: { delay: number }) {
     <>
       <RouteFocus />
       <input aria-label="elsewhere" />
-      <main id="main">{path === "/late" ? (arrived === "/late" ? <h1>Late heading</h1> : <p>Loading</p>) : <h1>{path === "/sync" ? "Sync heading" : "Start heading"}</h1>}</main>
+      <main id="main">
+        {path === "/late" ? (arrived === "/late" ? <h1>Late heading</h1> : <p>Loading</p>) : <h1>{path === "/sync" ? "Sync heading" : "Start heading"}</h1>}
+        {path === "/sync" ? <section id="target" aria-label="A place on the page"><p>Named by the address</p></section> : null}
+      </main>
     </>
   );
 }
@@ -30,7 +33,7 @@ function setup(delay = 40) {
   render(<Router hook={loc.hook}><Pages delay={delay} /></Router>);
   return loc;
 }
-afterEach(() => { document.body.innerHTML = ""; });
+afterEach(() => { document.body.innerHTML = ""; window.history.replaceState(null, "", "/"); });
 
 describe("RouteFocus", () => {
   it("does nothing on the first load", () => {
@@ -41,6 +44,42 @@ describe("RouteFocus", () => {
     const loc = setup();
     await act(async () => { loc.navigate("/sync"); });
     expect(screen.getByRole("heading", { name: "Sync heading" })).toHaveFocus();
+  });
+  it("goes to the place the address names with a #, when the new page has it", async () => {
+    const loc = setup();
+    window.history.pushState(null, "", "/#target");
+    await act(async () => { loc.navigate("/sync"); });
+    expect(screen.getByRole("region", { name: "A place on the page" })).toHaveFocus();
+  });
+  it("does not count a heading that is in the page but hidden — the old screen React keeps while a new one loads — and moves to the new heading when it is shown", async () => {
+    document.body.innerHTML = "";
+    const loc = setup(60);
+    await act(async () => { loc.navigate("/late"); });
+    // the page keeps the previous screen's heading in the DOM, hidden, beside the loading state (as a suspended lazy route does)
+    const old = document.createElement("h1");
+    old.textContent = "Old screen";
+    old.style.display = "none";
+    document.getElementById("main")!.appendChild(old);
+    await wait(150);
+    expect(screen.getByRole("heading", { name: "Late heading" })).toHaveFocus();
+  });
+  it("focus given at the moment of the change skips a hidden heading and rests on the container", async () => {
+    const loc = setup(500);
+    const old = document.createElement("h1");
+    old.textContent = "Old screen";
+    old.style.display = "none";
+    document.getElementById("main")!.prepend(old);
+    await act(async () => { loc.navigate("/late"); });
+    expect(document.getElementById("main")).toHaveFocus();
+  });
+  it("falls back to the heading when the # names nothing on the page, or is not a valid name at all", async () => {
+    for (const hash of ["#nothing-here", "#%E0%A4%A"]) {
+      document.body.innerHTML = "";
+      const loc = setup();
+      window.history.pushState(null, "", `/${hash}`);
+      await act(async () => { loc.navigate("/sync"); });
+      expect(screen.getByRole("heading", { name: "Sync heading" }), hash).toHaveFocus();
+    }
   });
   it("puts focus on the container while a screen's content is on its way, then on its heading when it arrives", async () => {
     const loc = setup(60);

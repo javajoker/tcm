@@ -7,6 +7,12 @@ import {
 } from "@tcm/wuxing";
 import type { KnowledgeBase } from "@tcm/kb";
 
+/**
+ * How the season is counted (docs/post-mvp/design/five-phase-extensions.md §4): by the northern calendar (the default), by the southern one — the season the person experiences — or not at all, for
+ * the tropics where the four seasons are not the climate. Only the season changes; the birth chart and the annual and yunqi blocks are calendar constructs.
+ */
+export type SeasonBasis = "north" | "south" | "off";
+
 export interface ReferenceInput {
   /** Birth data if the user entered it; null otherwise. */
   readonly birth: BirthInput | null;
@@ -15,6 +21,8 @@ export interface ReferenceInput {
   /** UTC milliseconds — injected, the engine never reads a clock. */
   readonly now: number;
   readonly seasonModel?: SeasonModel;
+  /** The basis of the season; absent means the northern calendar, and a result made so is exactly what it was before the choice existed. */
+  readonly seasons?: SeasonBasis;
   /** How many following seasons to forecast (default 4). */
   readonly forecastSeasons?: number;
 }
@@ -42,14 +50,16 @@ export interface ReferenceBlock {
 const pad = (n: number): string => String(n).padStart(2, "0");
 
 /** The wuxing profile parameters for this knowledge-base profile and this user's choices. */
-export function profileParamsFor(kb: KnowledgeBase, input: Pick<ReferenceInput, "birthModule" | "seasonModel">): ProfileParams {
+export function profileParamsFor(kb: KnowledgeBase, input: Pick<ReferenceInput, "birthModule" | "seasonModel" | "seasons">): ProfileParams {
   const w = kb.config.profile.wuxing;
   // `birthAvailable` is not consulted: with the block on but no birth data, the panel itself says the block is omitted
   const birthOn = (flag: boolean | "opt_in"): boolean => w.enabled && (flag === true || (flag === "opt_in" && input.birthModule));
   return {
     ...DEFAULT_PROFILE_PARAMS,
     seasonModel: input.seasonModel ?? w.season_model,
-    enable: { innate: birthOn(w.bazi_innate), annualBazi: birthOn(w.bazi_annual), yunqi: w.enabled && w.yunqi, season: w.enabled && w.season },
+    // the basis is part of the parameters only when it is not the default: nothing of a northern result changes
+    ...(input.seasons === "south" ? { hemisphere: "south" as const } : {}),
+    enable: { innate: birthOn(w.bazi_innate), annualBazi: birthOn(w.bazi_annual), yunqi: w.enabled && w.yunqi, season: w.enabled && w.season && input.seasons !== "off" },
   };
 }
 
@@ -80,7 +90,8 @@ export function buildReference(kb: KnowledgeBase, input: ReferenceInput): Refere
   }
 
   const panel = buildReferencePanel(base, jdUT, params);
-  const forecast = forecastReferencePanels(base, jdUT, input.forecastSeasons ?? 4, params);
+  // with no seasons there is no "coming season" to list: the forecast is empty
+  const forecast = input.seasons === "off" ? [] : forecastReferencePanels(base, jdUT, input.forecastSeasons ?? 4, params);
   return {
     jdUT, panel,
     innate: base && params.enable.innate ? innateProfile(base, params) : null,

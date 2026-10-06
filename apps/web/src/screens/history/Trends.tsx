@@ -56,7 +56,7 @@ export function Trends({ items }: { items: readonly SavedAssessment[] }): ReactN
               <tr>
                 <th scope="col">{t.t("trends.table.col.row")}</th>
                 {seg.points.map((p) => (
-                  <th key={p.id} scope="col">{formatShortDate(lang, p.createdAt)} · {seasonName(t, p.season)}<br /><Link href={`/result/${p.id}`} aria-label={t.t("trends.table.open", { date: date(p.createdAt) })}>{t.t("report.history.open")}</Link></th>
+                  <th key={p.id} scope="col">{formatShortDate(lang, p.createdAt)}{p.season !== null ? ` · ${seasonName(t, p.season)}` : ""}<br /><Link href={`/result/${p.id}`} aria-label={t.t("trends.table.open", { date: date(p.createdAt) })}>{t.t("report.history.open")}</Link></th>
                 ))}
               </tr>
             </thead>

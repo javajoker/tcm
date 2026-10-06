@@ -49,8 +49,8 @@ export function Transmission({ saved }: { saved: SavedAssessment }): ReactNode {
           <ul>
             {forecast.slice(0, 4).map((p, i) => {
               const top = [...ELEMENTS].map((e) => ({ e, v: p.total[e] })).sort((x, y) => Math.abs(y.v) - Math.abs(x.v))[0];
-              if (!top || Math.abs(top.v) < 0.05) return <li key={i}>{p.season.name}</li>;
-              return <li key={i}>{t.t("report.transmission.season", { season: p.season.name, element: element(top.e), direction: t.t(top.v > 0 ? "report.transmission.up" : "report.transmission.down") })}</li>;
+              if (!top || Math.abs(top.v) < 0.05) return <li key={i}>{seasonName(p.season.name)}</li>;
+              return <li key={i}>{t.t("report.transmission.season", { season: seasonName(p.season.name), element: element(top.e), direction: t.t(top.v > 0 ? "report.transmission.up" : "report.transmission.down") })}</li>;
             })}
           </ul>
           <p className="muted">{t.t("safety.notice.birth.text")}</p>

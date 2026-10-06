@@ -16,8 +16,8 @@ const TOP = 3;
 export interface TrendPoint {
   readonly id: string;
   readonly createdAt: number;
-  /** The commanding season at the date of the result (春, 夏, 長夏, 秋, 冬), from the result's own season model. */
-  readonly season: string;
+  /** The commanding season at the date of the result (春, 夏, 長夏, 秋, 冬), from the result's own season model and the basis it was counted on; `null` for a result that left seasons out. */
+  readonly season: string | null;
   readonly bands: Readonly<Record<RowKey, Level5>>;
   /** The numbers the result page prints (one decimal), for the table. */
   readonly values: Readonly<Record<RowKey, number>>;
@@ -64,7 +64,7 @@ function pointOf(s: SavedAssessment): TrendPoint {
   for (const row of ROWS) { bands[row] = level5(raw[row][0], raw[row][1]); values[row] = oneDecimal(raw[row][0]); }
   const v = s.result.verdict;
   return {
-    id: s.id, createdAt: s.createdAt, season: seasonAt(millisToJulianDay(s.createdAt), s.seasonModel as SeasonModel).name, bands, values,
+    id: s.id, createdAt: s.createdAt, season: s.result.meta.seasons === "off" ? null : seasonAt(millisToJulianDay(s.createdAt), s.seasonModel as SeasonModel, s.result.meta.seasons === "south" ? "south" : "north").name, bands, values,
     patterns: v.status === "established" ? v.patterns.slice(0, TOP).map((x) => ({ id: x.id, band: x.band })) : [],
   };
 }

@@ -2,9 +2,9 @@
 
 | | |
 |---|---|
-| **Version** | 0.1 |
-| **Status** | Implemented and verified — [`packages/wuxing`](../packages/wuxing) (74 tests) |
-| **Last updated** | 2026-10-03 |
+| **Version** | 0.2 |
+| **Status** | Implemented and verified — [`packages/wuxing`](../packages/wuxing) (88 tests) |
+| **Last updated** | 2026-10-06 |
 | **Consumers** | [Diagnosis SOP](diagnosis-sop.zh-TW.md) §6 (先天・流年・時令) and §10 (盤面), [PRD](PRD.md) FR-18/19, knowledge base [`data/wuxing/`](../data/wuxing) |
 | **Provenance** | Extracted from the author's earlier BaZi engine, *fate4* (private repository, commit `aba58ee`), and re-implemented independently. Nothing in this project depends on that repository. |
 | **Translations** | [繁體中文版](wuxing-algorithm.zh-TW.md) (kept in sync; **this English version is authoritative** if they differ) |
@@ -450,6 +450,18 @@ Commanding element from the apparent solar longitude (四氣調神: 春肝 夏�
 | `changxia` (default) | [立春, 立夏) | [立夏, 小暑) | **長夏** [小暑, 立秋) | [立秋, 立冬) | [立冬, 立春) |
 | `tuwang18` | the four seasons as above without 長夏, but 土 commands the **18 days before each of 立春 立夏 立秋 立冬** | | | | |
 
+**Basis (hemisphere).** The season a person lives is not the same everywhere, so the lookup has a *basis* that the person chooses (the app suggests one from the device's time zone and says that it is only a suggestion). Three values:
+
+| Basis | What the season is |
+|---|---|
+| **north** (default) | The table above, unchanged. A parameter at its default value is left out of the parameters and out of the result, so a northern result is byte-for-byte what it was before the basis existed (pinned by a recorded-hash test over whole results) |
+| **south** | The lookup is made at the apparent solar longitude **+ 180°**: `seasonAt(λ, model, "south") = seasonAt(λ + 180°, model, "north")` for every λ and both models. In practice spring begins in early August, summer in early November, 長夏 runs from early January to early February, autumn from early February, winter from early May. The coming-seasons forecast lists the seasons in the order the person lives them, and its boundaries are shifted the same way |
+| **off** | For the equatorial tropics, where four seasons are not the climate: no season block, no coming seasons, and no susceptibility to a season in the result. Nothing else changes |
+
+What does **not** move on the southern basis: the birth chart and its solar terms (an astronomical event, the same for everyone), the annual block, the 五運六氣 of §9.4 (defined by the year's stem and branch; the classical claims they carry belong to the tradition's own latitude, so they stay *calendar* references and are declared as such), and — under `tuwang18` — the days of 土, which are the 18 days before each of the four 立 terms in both hemispheres (the four terms are 90° apart, so a shift of 180° maps the set of them to itself). The choice of *what* flips (the experienced season, and only that) is the clinical content owner's to confirm. The model knows the calendar and this choice, not the climate where the person is; the interface says so beside the choice.
+
+A basis other than the default is a parameter of the result: it is stamped (`meta.seasons` = `south` | `off`) and ends the stamp of the parameters (`+south`, `+noseason`), so a history keeps results made on different bases in separate series, and a saved result is replayed on the basis it was made on.
+
 ### 9.4 五運六氣 (classical, person-independent)
 
 Source: 《素問》天元紀大論, 五運行大論, 六微旨大論, 氣交變大論, 五常政大論, 六元正紀大論, 至真要大論 (verified against the local text).
@@ -528,6 +540,7 @@ decision that must be reported with every result.
 | propagation | `distance`, `external` | §6.2 | — |
 | profile | innate gain/cap · annual gain/cap · yunqi caps · season · `totalCap` | 1.0/1.0 · 1.0/0.75 · see §9.4 · 0.5/−0.125 · 1.5 | calibrate |
 | profile | `seasonModel` | `changxia` | school |
+| profile | `hemisphere` | absent (= north); `south` shifts the season lookup by 180° (§9.3). `off` is not a parameter: it switches `enable.season` off | school |
 | profile | `enable.*` | all true | — |
 
 `validateParams` enforces the structural invariants and reports **all** violations at once: stem + branch shares = 1; each hidden split has the right length, sums to 1 and is non-increasing;
@@ -606,7 +619,7 @@ not say anything about disease by itself.
 1. **Regenerate the VSOP87 data** from the official archive with an in-repo script that pins the SHA-256 (currently taken over from the source engine's generated file).
 2. **Calibration** of every `[calibrate]` parameter, especially the profile caps, with practitioner input; the diagnostic panel needs real cases to show whether the reference blocks add anything.
 3. **Season model** (`changxia` vs `tuwang18`) and the 長夏 extent — school decision pending.
-4. **Southern hemisphere:** the season mapping is northern-hemisphere; the source has a hard "no flip" constraint. Decide whether to flip by latitude.
+4. ~~**Southern hemisphere.**~~ **Decided (PM-26):** the season is counted on a basis the person chooses — the northern calendar (default), the southern basis (the lookup at longitude + 180°) or none (§9.3). The source's hard "no flip" rule applied to the birth chart and to calendar constructs, which still do not flip. Open: the clinical content owner confirms *what* flips (the experienced season only).
 5. **Hour precision:** births within ~15 min of an hour boundary should show both hour pillars as alternatives (the engine already exposes the corrections to do so).
 6. **Julian-calendar dates** (before 1582) are rejected, as in the source.
 7. Optional later: 客主加臨 as a modifier of the climate vector; BaZi 大運/流年 *interaction* with natal branches (the L2 structure the source retired).

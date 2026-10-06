@@ -1,5 +1,5 @@
 // From the draft to an engine run, and from a saved result back to a draft (tech spec §8.3).
-import { isAsked, type AssessInput, type Assessment } from "@tcm/engine";
+import { isAsked, type AssessInput, type Assessment, type SeasonBasis } from "@tcm/engine";
 import type { KnowledgeBase } from "@tcm/kb";
 import type { Lang } from "@tcm/i18n";
 import { subjectOf } from "../screens/profile/model.ts";
@@ -7,15 +7,18 @@ import { newDraft } from "../storage/draft.ts";
 import type { Draft, SavedAssessment } from "../storage/types.ts";
 import { APP_BUILD } from "./profile.ts";
 
-/** The engine's input for a complete draft, or `null` while the profile is incomplete. Birth data given at all means the user opted in to the birth module. */
-export function assessInputOf(d: Draft, now: number): AssessInput | null {
+/**
+ * The engine's input for a complete draft, or `null` while the profile is incomplete. Birth data given at all means the user opted in to the birth module. `seasons` is how the season is counted; the
+ * northern calendar is the default and is not put in the input at all, so that a result made so is exactly what it was before the choice existed.
+ */
+export function assessInputOf(d: Draft, now: number, seasons?: SeasonBasis): AssessInput | null {
   const subject = subjectOf(d);
   if (subject === null) return null;
   return {
     subject: d.birth === undefined ? subject : { ...subject, birth: d.birth },
     redFlags: new Set(d.redFlags), findings: d.findings, context: d.context,
     ...(Object.keys(d.constitutionAnswers).length > 0 ? { constitutionAnswers: d.constitutionAnswers } : {}),
-    options: { now, birthModule: d.birth !== undefined },
+    options: { now, birthModule: d.birth !== undefined, ...(seasons !== undefined && seasons !== "north" ? { seasons } : {}) },
   };
 }
 

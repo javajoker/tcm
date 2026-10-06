@@ -12,7 +12,7 @@ import { scoreElements, scorePatterns, type ScoredElement, type ScoredPattern } 
 import { resolvePolicy, SERIOUS_RED_FLAGS } from "./policy.ts";
 import { reconcile, type Verdict } from "./reconcile.ts";
 import { recommend, type Recommendations } from "./recommend.ts";
-import { buildReference, type ReferenceBlock } from "./reference.ts";
+import { buildReference, type ReferenceBlock, type SeasonBasis } from "./reference.ts";
 import type { SuppressedItem } from "./safety.ts";
 import type { AssessContext, Findings, NoticeId, Policy, PolicyFacts, Subject } from "./types.ts";
 
@@ -33,11 +33,13 @@ export interface AssessInput {
     /** The user's opt-in for the birth-based blocks (release marks them opt-in). */
     readonly birthModule: boolean;
     readonly seasonModel?: SeasonModel;
+    /** How the season is counted; absent = the northern calendar (nothing about the result differs from before the choice existed). */
+    readonly seasons?: SeasonBasis;
   };
 }
 
 export interface Assessment {
-  readonly meta: { readonly engineVersion: string; readonly kbVersion: string; readonly profile: string; readonly computedAt: number; readonly seasonModel: SeasonModel; readonly paramsFingerprint: string };
+  readonly meta: { readonly engineVersion: string; readonly kbVersion: string; readonly profile: string; readonly computedAt: number; readonly seasonModel: SeasonModel; readonly paramsFingerprint: string; /** Present only when the season was counted on another basis than the northern calendar: `south`, or `off` (no seasons). */ readonly seasons?: "south" | "off" };
   readonly policy: Policy;
   /** Notices that need an explicit acknowledgement before the result is shown (the flow then continues). */
   readonly requiredAcknowledgements: readonly NoticeId[];
@@ -88,7 +90,7 @@ export function assess(kb: KnowledgeBase, input: AssessInput): Assessment {
   const acuteExternal = orientation.channel === "external";
 
   // step 4: the reference panel (a prior: context only)
-  const reference = buildReference(kb, { birth: (subject.birth ?? null) as BirthInput | null, birthModule: input.options.birthModule, now: input.options.now, ...(input.options.seasonModel ? { seasonModel: input.options.seasonModel } : {}) });
+  const reference = buildReference(kb, { birth: (subject.birth ?? null) as BirthInput | null, birthModule: input.options.birthModule, now: input.options.now, ...(input.options.seasonModel ? { seasonModel: input.options.seasonModel } : {}), ...(input.options.seasons ? { seasons: input.options.seasons } : {}) });
 
   // steps 7–9: patterns, panel, verdict
   const patterns = scorePatterns(kb, normalized);
@@ -101,13 +103,16 @@ export function assess(kb: KnowledgeBase, input: AssessInput): Assessment {
   });
 
   // step 5: the constitution tendency (never part of the score) and the susceptibility to the season
+  const basis = reference !== null && input.options.seasons !== undefined && input.options.seasons !== "north" ? input.options.seasons : null;
+  const seasonsOff = basis === "off";
   const constitutionResult = input.constitutionAnswers ? scoreConstitution(kb, input.constitutionAnswers) : null;
   const constitution: ConstitutionBlock | null = constitutionResult === null ? null : {
     result: constitutionResult,
     susceptibility: constitutionResult.primary === null ? null : {
       constitution: constitutionResult.primary,
-      now: reference ? susceptibilityAt(kb, constitutionResult.primary, reference.panel) : null,
-      upcoming: reference ? reference.forecast.map((p) => susceptibilityAt(kb, constitutionResult.primary!, p)) : [],
+      // with no seasons there is no season whose pathogenic qi a constitution could be prone to
+      now: reference && !seasonsOff ? susceptibilityAt(kb, constitutionResult.primary, reference.panel) : null,
+      upcoming: reference && !seasonsOff ? reference.forecast.map((p) => susceptibilityAt(kb, constitutionResult.primary!, p)) : [],
     },
   };
 
@@ -132,7 +137,9 @@ export function assess(kb: KnowledgeBase, input: AssessInput): Assessment {
     meta: {
       engineVersion: ENGINE_VERSION, kbVersion: kb.version, profile: kb.config.profileName, computedAt: input.options.now,
       seasonModel: reference?.seasonModel ?? input.options.seasonModel ?? kb.config.profile.wuxing.season_model,
-      paramsFingerprint: fnv1a(JSON.stringify(kb.params)) + (reference ? `+${reference.wuxingParamsFingerprint}` : ""),
+      // a basis other than the default is a parameter of the result: it is stamped, and it starts a series of its own in the history; the default leaves no trace
+      paramsFingerprint: fnv1a(JSON.stringify(kb.params)) + (reference ? `+${reference.wuxingParamsFingerprint}` : "") + (basis === "south" ? "+south" : basis === "off" ? "+noseason" : ""),
+      ...(basis !== null ? { seasons: basis } : {}),
     },
     policy,
     requiredAcknowledgements: policy.notices.filter((n) => n.kind === "blocking_ack").map((n) => n.id),

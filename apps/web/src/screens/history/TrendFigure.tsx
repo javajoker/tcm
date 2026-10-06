@@ -62,7 +62,7 @@ export function TrendFigure({ segments }: { segments: readonly Segment[] }): Rea
                 );
               })}
               <text x={cx} y={ROWS.length * ROW_H + 16} textAnchor="middle" fontSize={11} fill="var(--ink)">{when}</text>
-              <text x={cx} y={ROWS.length * ROW_H + 30} textAnchor="middle" fontSize={11} fill="var(--ink-muted)">{seasonName(t, p.season)}</text>
+              {p.season !== null ? <text x={cx} y={ROWS.length * ROW_H + 30} textAnchor="middle" fontSize={11} fill="var(--ink-muted)">{seasonName(t, p.season)}</text> : null}
             </g>
           );
         }))}

@@ -9,6 +9,7 @@ import { FigureBlock } from "./figures/FigureBlock.tsx";
 import { describeRadar, FivePhaseRadar } from "./figures/FivePhaseRadar.tsx";
 import { OffsetCompare } from "./figures/OffsetCompare.tsx";
 import { OrganHeat } from "./figures/OrganHeat.tsx";
+import { SeasonLine } from "./SeasonLine.tsx";
 import { ELEMENT_SLUG, level5, LIUXIE_SLUG, ORGAN_SLUG, PRODUCT_SLUG, signed } from "./words.ts";
 
 const th = { textAlign: "start", padding: "0.4rem 0.6rem", borderBottom: "2px solid var(--border-strong)" } as const;
@@ -88,6 +89,7 @@ export function Panel({ saved }: { saved: SavedAssessment }): ReactNode {
       {ref !== null ? (
         <section aria-labelledby="panel-blocks">
           <h3 id="panel-blocks">{t.t("report.panel.blocks")}</h3>
+          <SeasonLine saved={saved} />
           <ul>
             {(["innate", "annualBazi", "yunqi", "season"] as const).map((k) => {
               const v = ref.panel.components[k];

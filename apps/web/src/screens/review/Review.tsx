@@ -3,6 +3,7 @@ import { useLocation } from "wouter";
 import { useI18n } from "../../i18n/I18nProvider.tsx";
 import type { MessageKey } from "../../i18n/catalogs.ts";
 import { assessInputOf, toSaved } from "../../app/assessment.ts";
+import { effectiveSeasons } from "../../app/seasons.ts";
 import { NeedsKnowledge, useLoaded } from "../../app/knowledge.tsx";
 import { Term } from "../../app/Term.tsx";
 import { useApp } from "../../app/store.tsx";
@@ -67,6 +68,7 @@ function Body({ draft, onFinishing, onUnfinish }: { draft: Draft; onFinishing: (
   const { kb, engine: eng } = useLoaded();
   const [, navigate] = useLocation();
   const saveAssessment = useApp((s) => s.saveAssessment);
+  const prefs = useApp((s) => s.prefs);
   const [busy, setBusy] = useState(false);
   const [failed, setFailed] = useState(false);
 
@@ -80,7 +82,7 @@ function Body({ draft, onFinishing, onUnfinish }: { draft: Draft; onFinishing: (
   const edit = (qid: string): string => `/inquiry?edit=${qid}&back=/review`;
 
   const run = (): void => {
-    const input = assessInputOf(draft, Date.now());
+    const input = assessInputOf(draft, Date.now(), effectiveSeasons(prefs));
     if (input === null) return;
     setBusy(true);
     setFailed(false);

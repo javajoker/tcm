@@ -1,4 +1,4 @@
-import { DEFAULT_PREFS, LOCK_IDLE_MINUTES, TEXT_SCALES, THEMES, type Prefs } from "./types.ts";
+import { DEFAULT_PREFS, LOCK_IDLE_MINUTES, SEASON_BASES, TEXT_SCALES, THEMES, type Prefs } from "./types.ts";
 
 export const PREFS_KEY = "tcm.prefs";
 
@@ -25,6 +25,7 @@ export function parsePrefs(raw: string | null): Prefs {
     ...(isTime(x["backupSnoozeUntil"]) ? { backupSnoozeUntil: x["backupSnoozeUntil"] } : {}),
     ...(x["backupReminder"] === false ? { backupReminder: false } : {}),
     ...((LOCK_IDLE_MINUTES as readonly unknown[]).includes(x["lockIdleMinutes"]) ? { lockIdleMinutes: x["lockIdleMinutes"] as (typeof LOCK_IDLE_MINUTES)[number] } : {}),
+    ...((SEASON_BASES as readonly unknown[]).includes(x["seasons"]) ? { seasons: x["seasons"] as (typeof SEASON_BASES)[number] } : {}),
   };
 }
 

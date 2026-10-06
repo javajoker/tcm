@@ -28,12 +28,18 @@ export interface Prefs {
   readonly backupReminder?: boolean;
   /** Minutes without use after which the lock (when it is on) locks the app by itself; 10 unless the person chose another (backup design §5.4). */
   readonly lockIdleMinutes?: 5 | 10 | 30 | 60;
+  /**
+   * How seasons are counted (five-phase design §4): by the northern calendar, by the southern one — the season the person lives — or not at all (the tropics). Absent until the person chooses; the
+   * device's time zone then decides between the first two (`app/seasons.ts`). Low sensitivity.
+   */
+  readonly seasons?: "north" | "south" | "off";
 }
 
 export const TEXT_SCALES = [0.9, 1, 1.15, 1.3] as const;
 export const THEMES = ["system", "light", "dark"] as const;
 export const LOCK_IDLE_MINUTES = [5, 10, 30, 60] as const;
 export const DEFAULT_LOCK_IDLE_MINUTES = 10;
+export const SEASON_BASES = ["north", "south", "off"] as const;
 export const DEFAULT_PREFS: Prefs = { theme: "system", textScale: 1, langOfferDismissed: false, autoAdvance: true };
 
 /** What the user answered on the profile screen that the engine's `Subject` cannot express (free text, and explicit "none" answers — silence is not "none"). */

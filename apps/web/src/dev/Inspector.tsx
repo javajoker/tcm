@@ -10,6 +10,7 @@ import { ELEMENTS } from "@tcm/wuxing";
 import { assessInputOf } from "../app/assessment.ts";
 import { NeedsKnowledge, useLoaded } from "../app/knowledge.tsx";
 import { useApp } from "../app/store.tsx";
+import { effectiveSeasons } from "../app/seasons.ts";
 import { usePageTitle } from "../app/usePageTitle.ts";
 import { Button, Tabs } from "../ui/index.ts";
 import { PulsePositions } from "../screens/observe/PulsePositions.tsx";
@@ -143,6 +144,7 @@ function FiguresTab({ kb }: { kb: KnowledgeBase }): ReactNode {
 function Inspector(): ReactNode {
   const { kb: loadedKb } = useLoaded();
   const draft = useApp((s) => s.draft);
+  const prefs = useApp((s) => s.prefs);
   const [tab, setTab] = useState("policy");
   const [paramsText, setParamsText] = useState(() => JSON.stringify(loadedKb.params, null, 2));
   const [edited, setEdited] = useState<KnowledgeBase["params"] | null>(null);
@@ -150,7 +152,8 @@ function Inspector(): ReactNode {
   const kb: KnowledgeBase = useMemo(() => (edited === null ? loadedKb : { ...loadedKb, params: edited }), [loadedKb, edited]);
 
   const [now] = useState(() => Date.now());
-  const input = useMemo(() => (draft === null ? null : assessInputOf(draft, now)), [draft, now]);
+  const seasons = effectiveSeasons(prefs);
+  const input = useMemo(() => (draft === null ? null : assessInputOf(draft, now, seasons)), [draft, now, seasons]);
   const a = useMemo(() => (input === null ? null : engine.assess(kb, input)), [kb, input]);
 
   if (draft === null || input === null || a === null) {

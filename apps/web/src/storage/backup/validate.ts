@@ -146,6 +146,7 @@ function assessmentLike(x: unknown): SavedAssessment["result"] {
   const r = record(x, "the result");
   const meta = record(r["meta"], "the result's stamps");
   for (const k of ["engineVersion", "kbVersion", "profile", "seasonModel", "paramsFingerprint"]) text(meta[k], `the result's ${k}`, 200);
+  if (has(meta, "seasons")) oneOf(meta["seasons"], ["south", "off"] as const, "how seasons were counted in the result");          // present only when it was not the northern calendar
   num(meta["computedAt"], "the result's time", 0, 4_102_444_800_000);
   for (const k of ["policy", "quality", "orientation", "panel", "verdict", "recommendations"]) record(r[k], `the result's ${k}`);
   for (const k of ["patterns", "elements", "suppressed", "trace", "consistency", "requiredAcknowledgements"]) list(r[k], `the result's ${k}`, LIMITS.list);
@@ -219,8 +220,8 @@ export function validateDraft(raw: unknown): Valid<Draft> {
   }
 }
 
-/** The preferences a backup carries: language, theme, text size, emergency-number region and the auto-advance switch — never the disclaimer acknowledgement or the one-time offer flags. */
-export type BackupPrefs = Pick<Prefs, "lang" | "theme" | "textScale" | "region" | "autoAdvance">;
+/** The preferences a backup carries: language, theme, text size, emergency-number region, how seasons are counted and the auto-advance switch — never the disclaimer acknowledgement or the one-time offer flags. */
+export type BackupPrefs = Pick<Prefs, "lang" | "theme" | "textScale" | "region" | "seasons" | "autoAdvance">;
 export function validatePrefs(raw: unknown): Valid<BackupPrefs> {
   try {
     const r = record(plainCopy(raw), "the preferences");
@@ -229,6 +230,7 @@ export function validatePrefs(raw: unknown): Valid<BackupPrefs> {
       theme: oneOf(r["theme"], ["system", "light", "dark"] as const, "the theme"),
       textScale: ((n) => ([0.9, 1, 1.15, 1.3] as const).find((s) => s === n) ?? bad("the text size is not one of the presets"))(num(r["textScale"], "the text size", 0.5, 3)),
       ...(has(r, "region") ? { region: ((s) => (/^[A-Z]{2,5}$/.test(s) ? s : bad("the region is not valid")))(text(r["region"], "the region", 5)) } : {}),
+      ...(has(r, "seasons") ? { seasons: oneOf(r["seasons"], ["north", "south", "off"] as const, "how seasons are counted") } : {}),
       autoAdvance: bool(r["autoAdvance"], "autoAdvance"),
     } };
   } catch (e) {

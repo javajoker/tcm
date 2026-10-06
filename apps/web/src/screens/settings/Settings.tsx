@@ -11,6 +11,7 @@ import { TEXT_SCALES, THEMES } from "../../storage/types.ts";
 import { Button, Card, ConfirmDialog, LinkButton, SegmentedControl, Tile } from "../../ui/index.ts";
 import { DataTable } from "../result/Panel.tsx";
 import { LockCard } from "../../lock/LockCard.tsx";
+import { SeasonsCard } from "./SeasonsCard.tsx";
 import { DataCard } from "./DataCard.tsx";
 import { InstallCard } from "./InstallCard.tsx";
 import { OfflineCard } from "./OfflineCard.tsx";
@@ -52,6 +53,8 @@ export function Settings(): ReactNode {
         <Card title={t.t("common.settings.rememberBirth")} headingLevel={2} id="settings-birth">
           <Tile type="checkbox" name="rememberBirthDefault" value="on" checked={prefs.rememberBirthDefault === true} onChange={(on) => setPrefs({ rememberBirthDefault: on })} label={t.t("common.settings.rememberBirth")} description={t.t("common.settings.rememberBirth.hint")} />
         </Card>
+
+        <SeasonsCard />
 
         {IS_DEV_PROFILE ? null : <><OfflineCard /><InstallCard /></>}
 

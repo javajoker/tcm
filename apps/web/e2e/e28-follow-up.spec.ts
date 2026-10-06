@@ -75,7 +75,9 @@ test("E28: Not now keeps the card away, and a new assessment started from it is 
   await expect(page.getByRole("checkbox")).toHaveCount(1);
   const id = (await page.getByRole("link", { name: /./ }).evaluateAll((as) => as.map((a) => a.getAttribute("href") ?? ""))).filter((h) => /\/result\/[^/]+$/.test(h))[0]!.split("/").pop()!;
   await app.goto(`/result/${id}`);
-  await page.getByRole("region", { name: app.t("followup.card.title") }).getByRole("radio", { name: tileName(app.plural("followup.interval", 2)) }).click({ force: true });
+  const card = page.getByRole("region", { name: app.t("followup.card.title") });
+  await card.getByRole("radio", { name: tileName(app.plural("followup.interval", 2)) }).click({ force: true });
+  await expect(card.getByRole("status")).toContainText(/.+/);          // the date is on the record before the page is left: a full page load would cut a write that is still under way
   await page.clock.setFixedTime(Date.now() + 16 * DAY);
   await app.goto("/");
   await page.getByRole("button", { name: app.t("followup.nudge.later"), exact: true }).click();

@@ -18,7 +18,8 @@ export function makeReplay(kb: KnowledgeBase, engine: Engine): (saved: SavedAsse
     // a result that used a birth moment the person did not choose to keep has had the moment removed (privacy §3): the answers no longer suffice to make it again
     if (saved.result.reference?.birth.requested === true && saved.input.birth === undefined) return "cannot";
     try {
-      const input = assessInputOf(draftFromSaved(kb, saved, "replay", saved.createdAt), saved.createdAt);
+      // the basis the result was made on is in its stamp: a record is replayed as it was made, not as this device would make it today
+      const input = assessInputOf(draftFromSaved(kb, saved, "replay", saved.createdAt), saved.createdAt, saved.result.meta.seasons);
       if (input === null) return "cannot";
       const again = engine.assess(kb, input);
       if (canonicalJson(again) === canonicalJson(saved.result)) return "same";
