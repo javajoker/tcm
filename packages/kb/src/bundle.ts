@@ -6,6 +6,7 @@ import type {
   Citations, Cities, ConstitutionItems, Constitutions, Correspondences, Emergency, Exclusions, NameFold, Formula, Formulas, Glossary, Herb, Herbs, Level, Orientation, PanelSchema, PatternElements, Patterns, ProfileName, Pulse, Questions,
   RawKbChunks, RedFlags, SafetyRules, ScopeConfig, ScopeProfile, ScopeProfiles, ScoringParams, Susceptibility, Symptoms, Tongue, TreatmentGuidance, Yunqi, FormulasChunk, GuidanceChunk, HerbName, TreatmentCore,
 } from "./types.ts";
+import { buildHerbBrowser, memorySource, type HerbBrowserChunks } from "./herbs.ts";
 
 /** The parsed contents of data/ (one field per data file). */
 export interface DataFiles {
@@ -162,7 +163,13 @@ export interface BuildOptions {
   readonly draftLabel?: boolean;
 }
 
-export interface BuildResult { readonly chunks: RawKbChunks; readonly reach: Reach; readonly profile: ScopeProfile }
+export interface BuildResult {
+  readonly chunks: RawKbChunks;
+  readonly reach: Reach;
+  readonly profile: ScopeProfile;
+  /** What the bundler writes for the herb browser (PM-24); `chunks.herbBrowser` reads the same content from memory. Null when this build shows no herb page. */
+  readonly herbFiles: HerbBrowserChunks | null;
+}
 
 /** Resolve the profile, prune what it cannot reach and return the chunks of one knowledge-base version. */
 export function buildChunks(files: DataFiles, opts: BuildOptions): BuildResult {
@@ -205,6 +212,10 @@ export function buildChunks(files: DataFiles, opts: BuildOptions): BuildResult {
   const patterns: Patterns = { ...files.patterns, items: files.patterns.items.map((p) => ({ ...p, formulas: p.formulas.filter((id) => keptIds.has(id)) })) };
   const formulas: FormulasChunk = { items: kept, herbNames };
 
+  // the herb browser (PM-24): every herb in the dev profile and in the closed beta (draft label on, each page labelled as a draft); a public release only the herbs a sample review has covered —
+  // none yet, so no herb file at all. It carries no dose and no herb weights whatever the profile, so a page can never show more than the bundle holds.
+  const herbFiles = buildHerbBrowser(files.herbs.items, { all: dev || opts.draftLabel === true });
+
   const emergency: Emergency = dev || opts.draftLabel === true ? files.emergency : { ...files.emergency, regions: files.emergency.regions.filter((r) => r.id === "OTHER" || r.verification !== undefined) };
 
   const chunks: RawKbChunks = {
@@ -219,8 +230,9 @@ export function buildChunks(files: DataFiles, opts: BuildOptions): BuildResult {
     guidance,
     cities: files.cities,
     herbs: herbs ? { items: herbs } : null,
+    herbBrowser: herbFiles ? memorySource(herbFiles) : null,
     // the source-script quotation and the repository path are verification aids: dev only
     citations: dev ? files.citations : { ...files.citations, items: files.citations.items.map(({ source_path: _p, quote_source_zh_hans: _q, ...c }) => c) },
   };
-  return { chunks, reach, profile };
+  return { chunks, reach, profile, herbFiles };
 }

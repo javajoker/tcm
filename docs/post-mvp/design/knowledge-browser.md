@@ -2,8 +2,8 @@
 
 | | |
 |---|---|
-| **Version** | 0.5 (draft) |
-| **Status** | Design for Release B (FR-14, FR-25; tasks PM-13 … PM-16) and Release C (herb browser; PM-24, PM-25). **PM-13 to PM-16 are built** (the shell, the stable ids, search, the page template, pages for all seven kinds, and the comparison of patterns); herbs wait for Release C |
+| **Version** | 0.6 (draft) |
+| **Status** | Design for Release B (FR-14, FR-25; tasks PM-13 … PM-16) and Release C (herb browser; PM-24, PM-25; **PM-24, the delivery of the herb data, is built**, [§7.1](#71-as-built-pm-24-delivery)). **PM-13 to PM-16 are built** (the shell, the stable ids, search, the page template, pages for all seven kinds, and the comparison of patterns); herbs wait for Release C |
 | **Last updated** | 2026-10-06 |
 | **Audience** | Engineers, designers, the clinical reviewer |
 | **Related** | [Requirements FR-14, FR-25](../requirements.md#fr-14-knowledge-browser--release-b--class-n-herbs-c-release-c--refines-fr-14) · [PRD §3](../../PRD.md#3-target-users) · [Tech spec §5.3, §8.1](../../tech-spec.md) · [UX spec](../../ux-spec.md) · [Safety policy](../../safety-policy.md) · [i18n guide §5](../../i18n-guide.md) |
@@ -103,6 +103,22 @@ The name **Compare patterns** (比較證型) is deliberately different from the 
 | Release C herbs | A compact **browse index** (id, names, nature, flavours, channels, short functions, flags; about 70 KB raw) plus detail **shards** fetched on demand (16 shards by id hash, each about 4–5 KB gzip), listed in the manifest with their hashes like every chunk, and never part of the per-session figure. The release shows herb pages only for herbs covered by the sample review (V-04); the others keep the draft label |
 | Print | The existing print stylesheet; navigation is hidden |
 | Indexing | `noindex` as long as any shown content is draft ([check-release rule 8](../../release-process.md)); the pages are client-rendered and indexing is not a goal |
+
+### 7.1 As built (PM-24: delivery)
+
+The data layer of the herb browser exists; the pages (PM-25) are not built yet.
+
+| Piece | What was built |
+|---|---|
+| Files | `herbs-index.<hash>.json` and up to sixteen `herbs-<k>.<hash>.json` shards, written by `scripts/bundle-data.ts` and listed in the manifest as `herbBrowser { count, index, shards }`, hash-addressed and cached as immutable like every chunk. The code is `packages/kb/src/herbs.ts` (the shard function, the builder, the decoder, the browser) |
+| The index | One tuple per herb in the data's order: slug, Chinese name, English name, Latin name, category, nature, flavours, channels, the first three functions, flags (toxic, a caution text, interactions), pregnancy level, status. **90 KB raw, 26.5 KB gzip** (the estimate was 70 KB raw: the Chinese values are arrays of the data's own strings rather than joined ones, so that each has its Simplified form) |
+| The shards | A herb's **whole page**, so that a page opened by its address costs one shard (3–5 KB gzip) and not the index: all functions, the Pharmacopoeia's caution text, the stored interaction flags, the classical formulas the source lists it in, aliases, and the source (book and entry). The shard is the FNV-1a hash of the slug, folded to a hex digit, so a page knows what to fetch before it fetches anything; the 703 herbs fall 20 to 80 to a shard |
+| Who is in it | The dev build and the closed beta (draft label on): all 703 herbs, each with its status. A **public build: only herbs with `status: reviewed`** — a sample review covers a herb by a valid record, and there is none yet, so a public build has **no herb file at all** (no entry in the manifest, nothing in the output) |
+| What is never in it | **No dose, no herb weights (effects and harms), no temperature number, no repository path or commit**, in any profile. A page about a herb describes it; the dev inspector keeps its own view of the curated herbs. Rule 15 of `check-release` fails a build that has any of them |
+| Version and budgets | Not part of the knowledge-base version (the manifest's version is recomputed from the main chunks in a test), so a change to a herb page marks no saved result as old; **never part of the per-session figure** (87.4 of 100 KB, unchanged); budgets of their own: 36 KB for the index, 8 KB per shard, and 140 KB for the whole browser with its Simplified lists (118.6 KB today). All JavaScript grew by 1.4 KB (the loader and the decoder) |
+| Simplified | A display list for the index and one for each shard, built and verified like the others (the strings the file holds, their digest, the lines): each is fetched and paired when its file first comes, and a list that does not match is reported while the names stay as the data has them |
+| The loader | `kb.herbBrowser` is `null` when the build has none, else `rows()`, `categories()` and `detail(slug)`; each file is fetched once, hash-checked against the manifest, kept, and asked for again if it failed. A malformed manifest entry is refused before anything is fetched |
+| Offline | The files are listed with the knowledge base in the service worker's build facts, so after one visit the herb pages work offline like everything else; no worker code changed |
 
 ## 8. Experience and accessibility
 
@@ -206,3 +222,4 @@ PM-13 (shell, ids, anonymous-context components, search index, print), PM-14 (pa
 | 0.3 | 2026-10-06 | PM-14 built: pattern and constitution pages, feature bands from the engine, the treatment lists and the questionnaire items kept off these pages (§9.1) |
 | 0.4 | 2026-10-06 | PM-15 built: formula, acupoint and food pages with the cautions region first (§9.2), the interaction-list rule, second-person wording removed from the data a page shows, links from a pattern to its treatments |
 | 0.5 | 2026-10-06 | PM-16 built: the comparison of patterns, its decisions (§6.1) and entry points |
+| 0.6 | 2026-10-06 | PM-24 built ([§7.1](#71-as-built-pm-24-delivery)): the herb index and sixteen shards, their policy by profile, their Simplified lists, the loader API, rule 15 of the release check. The pages are PM-25 |

@@ -54,10 +54,14 @@ export async function smoke(baseUrl: string, opts: SmokeOptions = {}): Promise<s
   // 4. the knowledge base: manifest revalidated; every chunk matches its hash and is cached immutably
   const mres = await get("/kb/manifest.json");
   need(mres.status === 200 && /no-cache/.test(mres.headers.get("cache-control") ?? ""), `/kb/manifest.json: status ${mres.status}, cache-control ${mres.headers.get("cache-control")} (expected 200 and no-cache)`);
-  type Manifest = { chunks: Record<string, { file: string; sha256: string } | undefined>; variants?: Record<string, Record<string, { file: string; sha256: string }>> };
+  type Ref = { file: string; sha256: string };
+  type Manifest = { chunks: Record<string, Ref | undefined>; herbBrowser?: { index: Ref; shards: Record<string, Ref> }; variants?: Record<string, Record<string, Ref | { index: Ref; shards: Record<string, Ref> }>> };
   let manifest: Manifest = { chunks: {} };
   try { manifest = (await mres.json()) as Manifest; } catch { out.push("/kb/manifest.json is not JSON"); }
-  const listed = [...Object.entries(manifest.chunks), ...Object.entries(manifest.variants?.["zh-Hans"] ?? {}).map(([n, ref]) => [`zh-Hans ${n}`, ref] as const)];
+  const hans = Object.entries(manifest.variants?.["zh-Hans"] ?? {}).flatMap(([n, ref]): (readonly [string, Ref])[] => "file" in ref ? [[`zh-Hans ${n}`, ref]] : [[`zh-Hans ${n} index`, ref.index], ...Object.entries(ref.shards).map(([k, r]) => [`zh-Hans ${n} ${k}`, r] as const)]);
+  // the herb browser (PM-24): the index and the shards are files of the build like any other chunk
+  const herbs = manifest.herbBrowser === undefined ? [] : [["herbs index", manifest.herbBrowser.index] as const, ...Object.entries(manifest.herbBrowser.shards).map(([k, r]) => [`herbs ${k}`, r] as const)];
+  const listed: (readonly [string, Ref | undefined])[] = [...Object.entries(manifest.chunks), ...hans, ...herbs];
   for (const [name, ref] of listed) {
     if (!ref) continue;
     const r = await get(`/kb/${ref.file}`);

@@ -111,6 +111,66 @@ export interface FormulasChunk { readonly items: readonly Formula[]; readonly he
 export interface HerbsChunk { readonly items: readonly Herb[] }
 export interface CitationsChunk { readonly items: readonly Citation[] }
 
+// ── the herb browser (PM-24; docs/post-mvp/design/knowledge-browser.md §7) ──
+// A compact browse index and detail shards, fetched only when someone browses herbs. They are NOT part of the knowledge-base version (they change nothing a result says) and never part of the
+// per-session budget. The browser carries no dose and no herb weights: a page about a herb describes it, and a release must not show more than its bundle holds.
+export type HerbStatus = Herb["status"];
+export type HerbPregnancy = Herb["pregnancy"];
+/**
+ * One row of the browse index, as stored: slug, Chinese name, English name, Latin name, category (an index into `categories`), nature, flavours, channels, the first functions, flags (`HERB_FLAG` in herbs.ts),
+ * pregnancy (an index into `HERB_PREGNANCY`) and status (an index into `HERB_STATUS`). The Chinese values are arrays of the data's own strings, never joined, so each one has its Simplified form.
+ */
+export type HerbRowTuple = readonly [string, string, string | null, string | null, number, readonly string[], readonly string[], readonly string[], readonly string[], number, number, number];
+export interface HerbIndexChunk { readonly count: number; readonly categories: readonly string[]; readonly rows: readonly HerbRowTuple[] }
+/** A herb as a list shows it. */
+export interface HerbRow {
+  /** The address of its page: the data's id without `herb-`. Stable and ASCII. */
+  readonly slug: string;
+  readonly name: Bilingual;
+  readonly latin: string | null;
+  readonly category: string;
+  /** 四氣: 寒, 涼, 平, 溫, 熱 and the marked ones. */
+  readonly nature: readonly string[];
+  readonly flavors: readonly string[];
+  readonly channels: readonly string[];
+  /** The first three functions; `HerbDetail.functions` has them all. */
+  readonly functions: readonly string[];
+  readonly toxic: boolean;
+  readonly hasCaution: boolean;
+  readonly hasInteractions: boolean;
+  readonly pregnancy: HerbPregnancy;
+  readonly status: HerbStatus;
+}
+/** A herb's page, as a shard stores it: self-sufficient, so a page opened by its address needs one shard and not the index. */
+export interface HerbDetail extends Omit<HerbRow, "hasCaution" | "hasInteractions"> {
+  readonly functions: readonly string[];
+  /** The Pharmacopoeia's caution text, as stored. */
+  readonly caution: string | null;
+  /** The stored interaction flags (`anticoagulant`, …), worded by the app. */
+  readonly interactions: readonly string[];
+  /** The classical formulas the source lists the herb in, by name (not all are formulas of this app). */
+  readonly classicalFormulas: readonly string[];
+  readonly aliases?: readonly string[];
+  readonly source: { readonly book: string; readonly entry: string };
+}
+export interface HerbShardChunk { readonly shard: string; readonly items: Readonly<Record<string, HerbDetail>> }
+/** Where the browser's chunks come from: fetched and hash-checked on demand, or in memory for tests and the dev server. */
+export interface HerbBrowserSource {
+  readonly count: number;
+  index(): Promise<HerbIndexChunk>;
+  /** One shard by its key ("0"…"f"); an empty shard is an empty one, not an error. */
+  shard(key: string): Promise<HerbShardChunk>;
+}
+/** The herb browser as the app uses it. Everything is fetched on first use and then kept. */
+export interface HerbBrowser {
+  readonly count: number;
+  rows(): Promise<readonly HerbRow[]>;
+  /** The categories in the data's order. */
+  categories(): Promise<readonly string[]>;
+  /** One herb by its slug; `undefined` for an address that is not a herb of this bundle. */
+  detail(slug: string): Promise<HerbDetail | undefined>;
+}
+
 /** The chunks of one knowledge-base version. `herbs` is null when the profile can never reach the levels that use herb records. */
 export interface RawKbChunks {
   readonly version: string;
@@ -122,6 +182,8 @@ export interface RawKbChunks {
   readonly guidance: GuidanceChunk;
   /** The birth-place picker's city list (K-10): the same in every profile, and loaded only when the picker is opened — a function when it is fetched on demand. */
   readonly cities: Cities | (() => Promise<Cities>);
+  /** The herb browser (PM-24): null when this build shows no herb page. */
+  readonly herbBrowser: HerbBrowserSource | null;
 }
 
 // ── manifest ────────────────────────────────────────────────────────────────
@@ -133,8 +195,10 @@ export interface Manifest {
   readonly version: string;
   readonly profile: ProfileName;
   readonly chunks: { readonly core: ChunkRef; readonly formulas: ChunkRef; readonly herbs?: ChunkRef; readonly citations: ChunkRef; readonly guidance: ChunkRef; readonly cities: ChunkRef };
-  /** Display lists for Simplified Chinese: one for the chunks loaded with the knowledge base, one for the lazy city list. The data itself is never converted. */
-  readonly variants?: { readonly "zh-Hans"?: { readonly main: HansRef; readonly cities: HansRef } };
+  /** The herb browser's files (PM-24): absent when the build shows no herb page. Shards are keyed "0"…"f"; a key without a shard has no herb. */
+  readonly herbBrowser?: { readonly count: number; readonly index: ChunkRef; readonly shards: Readonly<Record<string, ChunkRef>> };
+  /** Display lists for Simplified Chinese: one for the chunks loaded with the knowledge base, one for the lazy city list, and — with the herb browser — one for each of its files. The data itself is never converted. */
+  readonly variants?: { readonly "zh-Hans"?: { readonly main: HansRef; readonly cities: HansRef; readonly herbs?: { readonly index: HansRef; readonly shards: Readonly<Record<string, HansRef>> } } };
 }
 
 // ── runtime view ────────────────────────────────────────────────────────────
@@ -181,6 +245,8 @@ export interface KnowledgeBase {
 
   /** The city list of the birth-place picker, with its GeoNames attribution (fetched on first use, then kept). */
   cities(): Promise<Cities>;
+  /** The herb pages (PM-24): null when this build shows none — a public release before any herb has been covered by the sample review. */
+  readonly herbBrowser: HerbBrowser | null;
   citation(id: string): Citation | undefined;
   /** Every quotation of the bundle, in the data's order (the Learn pages list them). */
   readonly citations: readonly Citation[];

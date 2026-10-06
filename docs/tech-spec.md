@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 0.2 (draft) |
+| **Version** | 0.3 (draft) |
 | **Status** | Draft — implementation not started (only `packages/wuxing`, `data/` and `scripts/kb` exist) |
 | **Last updated** | 2026-10-06 |
 | **Derives from** | [PRD v0.3](PRD.md) · [Diagnosis SOP v0.2](diagnosis-sop.zh-TW.md) · [Algorithm spec](wuxing-algorithm.md) |
@@ -257,8 +257,8 @@ Measured on the current `data/` (minified JSON, gzip):
 | `herbs-core` | the 94 curated herbs, reduced to the fields needed (id, names, effects, harms, flags, role display) | when the profile can reach L2 and a result is shown | ≈ 14 KB | 25 KB |
 | `citations` | 127 quotations | first time a citation chip opens or the result renders | ≈ 5 KB | 15 KB |
 | `guidance` | the texts of the treatment guidance (K-11): where each acupressure point is and its cautions, the diet entries with nature, flavour, rationale and citations, the per-pattern lifestyle lines, in both languages. The engine's part of the guidance (codes, meridians, pregnancy flags, the pregnancy-caution list, the general regimen) stays in `core`; the indexer merges the two into `kb.treatment` | with the result | ≈ 10 KB | 20 KB |
-| `herbs-ext` | the 609 derived herbs | only the P2 knowledge browser (dev) | ≈ 60 KB | lazy only |
-| `hans-main` · `hans-cities` | the **Simplified-Chinese display lists** (post-MVP, [design](post-mvp/design/simplified-chinese.md)): for the Chinese strings of the chunks above (resp. the city list), the Simplified form of each, one per line, aligned with the sorted list of those strings that the client rebuilds from the chunks; the data itself is never converted | only for a person who uses Simplified Chinese: with the knowledge base, resp. with the city list | ≈ 22 KB · ≈ 1.5 KB | 30 KB · 6 KB |
+| `herbs-index` · `herbs-<k>` ✔ (PM-24) | the **herb browser**: a compact browse index of all 703 herbs (tuples: slug, names, category, nature, flavours, channels, the first functions, flags, pregnancy level, status — ≈ 26 KB gz) and **16 detail shards** by a hash of the slug (each herb's whole page: all functions, the caution text, interactions, classical formulas, source — 3–5 KB gz each). Content-hashed and listed in the manifest (`herbBrowser`) like every chunk; **never** part of the knowledge-base version or of the per-session figure; no dose, no herb weights and no repository path in them. Only herbs a sample review has covered ship in a public build (none yet: no file at all); the closed beta and dev ship all, each labelled a draft | only when someone browses herbs: the index for a list, one shard for a page | ≈ 26 KB + 16 × 4 KB | 36 KB · 8 KB per shard |
+| `hans-main` · `hans-cities` · `hans-herbs-<index|k>` | the **Simplified-Chinese display lists** (post-MVP, [design](post-mvp/design/simplified-chinese.md)): for the Chinese strings of the chunks above (resp. the city list), the Simplified form of each, one per line, aligned with the sorted list of those strings that the client rebuilds from the chunks; the data itself is never converted | only for a person who uses Simplified Chinese: with the knowledge base, resp. with the city list | ≈ 22 KB · ≈ 1.5 KB | 30 KB · 6 KB |
 
 Total KB currently **≈ 143 KB gzip** for everything including all 703 herbs. With pruning (§5.3) a **release** session fetches roughly **55–65 KB gzip**
 (core, tier-A formulas without amounts, citations; no herb records), a **dev** session about 100 KB (plus `herbs-ext` on demand). The 975 KB `herbs.json` is never shipped whole. Per-chunk budgets are asserted by `bundle-data.ts` (fails the build on overrun).
@@ -662,3 +662,4 @@ Colour: one sequential hue per quantity family, never red/green as good/bad; sig
 |---|---|---|
 | 0.1 | 2026-10-04 | Initial technical specification |
 | 0.2 | 2026-10-06 | §8.3: the lock record and the local data lock (PM-20); §11: the lock row |
+| 0.3 | 2026-10-06 | §5.2: the herb browser (PM-24) replaces the planned `herbs-ext` chunk: an index and sixteen shards, fetched on demand, outside the version and the session figure |

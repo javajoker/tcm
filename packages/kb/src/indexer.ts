@@ -1,4 +1,5 @@
 import { KbError } from "./errors.ts";
+import { herbBrowser } from "./herbs.ts";
 import type { Cities, GlossaryTerm, KnowledgeBase, RawKbChunks, TreatmentGuidance } from "./types.ts";
 
 /** The schema version this build of the app understands (data/schema, `_meta.schema`). A KB with another version is refused. */
@@ -103,6 +104,7 @@ export function indexKnowledgeBase(raw: RawKbChunks, display?: { zh(text: string
     constitutionItems: core.constitutionItems,
     herbName: (id) => raw.formulas.herbNames[id],
     cities: (() => { let loaded: Promise<Cities> | null = null; return () => (loaded ??= Promise.resolve(typeof raw.cities === "function" ? raw.cities() : raw.cities)); })(),
+    herbBrowser: raw.herbBrowser ? herbBrowser(raw.herbBrowser) : null,
     citation: (id) => citations.get(id),
     citations: raw.citations.items,
     term: (zh) => terms.get(zh),

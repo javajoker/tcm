@@ -53,6 +53,20 @@ function edit(dir: string, name: string, fn: (data: any) => void): void {
   m.chunks[name]!.sha256 = createHash("sha256").update(text).digest("hex");
   saveManifest(dir, m);          // (also describes the changed files to the worker)
 }
+/** Rewrite one file of the herb browser ("index" or a shard key) and keep its hash in the manifest right, so only the intended rule can fail. */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any -- the tests damage arbitrary JSON shapes
+function editHerb(dir: string, which: string, fn: (data: any) => void): void {
+  const m = manifest(dir) as unknown as { herbBrowser: { index: { file: string; sha256: string }; shards: Record<string, { file: string; sha256: string }> } };
+  const ref = which === "index" ? m.herbBrowser.index : m.herbBrowser.shards[which]!;
+  const file = join(dir, "kb", ref.file);
+  const data = JSON.parse(readFileSync(file, "utf8"));
+  fn(data);
+  const text = JSON.stringify(data);
+  writeFileSync(file, text);
+  ref.sha256 = createHash("sha256").update(text).digest("hex");
+  saveManifest(dir, m);
+}
+const firstShard = (dir: string): string => Object.keys((manifest(dir) as unknown as { herbBrowser: { shards: Record<string, unknown> } }).herbBrowser.shards)[0]!;
 const html = (dir: string, fn: (s: string) => string): void => { writeFileSync(join(dir, "index.html"), fn(readFileSync(join(dir, "index.html"), "utf8"))); resync(dir); };
 const entryJs = (dir: string): string => join(dir, readdirSync(join(dir, "assets")).filter((f) => f.endsWith(".js")).map((f) => `assets/${f}`).sort()[0]!);
 /** Text that does not compress, for a file that is meant to be too big. */
@@ -69,8 +83,9 @@ describe("check-release", () => {
   test("a real release build passes with the closed-beta exception and fails only the review gate without it", () => {
     assert.deepEqual(checkRelease(base, { draftLabel: true }), []);
     const f = checkRelease(base);
-    assert.deepEqual(rules(f), [12, 8]);          // the review gate, and the draft emergency rows (a public build ships only verified ones)
+    assert.deepEqual(rules(f), [12, 15, 8]);          // the review gate, the draft emergency rows (a public build ships only verified ones) and the herbs no sample review has covered
     assert.match(messages(f), /not reviewed/);
+    assert.match(messages(f), /a public build shows only herbs a sample review has covered/);
   });
 
   test("reviewed content needs no exception", () => {
@@ -418,5 +433,104 @@ describe("check-release", () => {
     writeFileSync(join(small, "apple-touch-icon.png"), tiny);
     resync(small);
     assert.match(only14(small), /apple-touch-icon is not a square PNG of at least 180 px/);
+  });
+  test("15: the closed beta ships the herb browser, a public build ships none, and both are clean", () => {
+    const m = manifest(base) as unknown as { herbBrowser?: { count: number; shards: Record<string, unknown> }; variants: { "zh-Hans": { herbs?: unknown } } };
+    assert.ok(m.herbBrowser !== undefined && m.herbBrowser.count > 600 && Object.keys(m.herbBrowser.shards).length === 16);
+    assert.ok(m.variants["zh-Hans"].herbs !== undefined, "and a Simplified list for each file");
+    assert.equal((manifest(publicBase) as unknown as { herbBrowser?: unknown }).herbBrowser, undefined);
+    assert.equal(readdirSync(join(publicBase, "kb")).filter((f) => f.includes("herbs-")).length, 0);
+    assert.deepEqual(checkRelease(base, { draftLabel: true }).filter((f) => f.rule === 15), []);
+  });
+
+  test("15: a file of the herb browser that is missing, altered or not content-hashed", () => {
+    const missing = copy();
+    const key = firstShard(missing);
+    const file = join(missing, "kb", (manifest(missing) as unknown as { herbBrowser: { shards: Record<string, { file: string }> } }).herbBrowser.shards[key]!.file);
+    rmSync(file);
+    resync(missing);
+    assert.match(messages(checkRelease(missing, { draftLabel: true }).filter((f) => f.rule === 15)), new RegExp(`herbs-${key} → .*, which is not in the output`));
+
+    const altered = copy();
+    const f2 = join(altered, "kb", (manifest(altered) as unknown as { herbBrowser: { index: { file: string } } }).herbBrowser.index.file);
+    writeFileSync(f2, readFileSync(f2, "utf8").replace(/,/, ", "));
+    resync(altered);
+    assert.match(messages(checkRelease(altered, { draftLabel: true }).filter((f) => f.rule === 15)), /the SHA-256 differs from the manifest/);
+
+    const unhashed = copy();
+    const m = manifest(unhashed) as unknown as { herbBrowser: { index: { file: string } } };
+    const old = m.herbBrowser.index.file;
+    m.herbBrowser.index.file = "herbs-index.json";
+    writeFileSync(join(unhashed, "kb", "herbs-index.json"), readFileSync(join(unhashed, "kb", old)));
+    rmSync(join(unhashed, "kb", old));
+    saveManifest(unhashed, m);
+    assert.match(messages(checkRelease(unhashed, { draftLabel: true }).filter((f) => f.rule === 15)), /is not a content-hashed herbs-index file/);
+  });
+
+  test("15: no weights, no dose and no repository path in a herb page", () => {
+    const d = copy();
+    editHerb(d, firstShard(d), (c) => {
+      const h = Object.values(c.items)[0] as Record<string, unknown>;
+      h["effects"] = { "liuxie.濕": -0.5 };
+      h["dose_g_reference"] = [9, 15];
+      (h["source"] as Record<string, unknown>)["path"] = "reference/sources/TCM-Library/x.md";
+    });
+    const f = checkRelease(d, { draftLabel: true });
+    assert.match(messages(f.filter((x) => x.rule === 15)), /carries the field "effects"/);
+    assert.match(messages(f.filter((x) => x.rule === 15)), /carries the field "path"/);
+    assert.match(messages(f.filter((x) => x.rule === 3)), /dose field "dose_g_reference"/);
+  });
+
+  test("15: the index and the shards must agree", () => {
+    const moved = copy();
+    const keys = Object.keys((manifest(moved) as unknown as { herbBrowser: { shards: Record<string, unknown> } }).herbBrowser.shards);
+    let carried: [string, unknown] | undefined;
+    editHerb(moved, keys[0]!, (c) => { const slug = Object.keys(c.items)[0]!; carried = [slug, c.items[slug]]; delete c.items[slug]; });
+    editHerb(moved, keys[1]!, (c) => { c.items[carried![0]] = carried![1]; });
+    const f = checkRelease(moved, { draftLabel: true }).filter((x) => x.rule === 15);
+    assert.match(messages(f), /is in shard .* but its slug maps to/);
+    assert.doesNotMatch(messages(f), /in none of the shards/, "it is still in a shard, only in the wrong one");
+
+    const dropped = copy();
+    editHerb(dropped, firstShard(dropped), (c) => { delete c.items[Object.keys(c.items)[0]!]; });
+    assert.match(messages(checkRelease(dropped, { draftLabel: true }).filter((x) => x.rule === 15)), /is in the index but in none of the shards/);
+
+    const counted = copy();
+    editHerb(counted, "index", (c) => { c.count += 1; });
+    assert.match(messages(checkRelease(counted, { draftLabel: true }).filter((x) => x.rule === 15)), /the manifest says \d+ herbs/);
+  });
+
+  test("15: a public build lists only herbs a sample review has covered", () => {
+    const d = copy();          // the closed-beta build, checked as a public one: every herb is a draft
+    const f = checkRelease(d).filter((x) => x.rule === 15);
+    assert.ok(f.length > 600, `${f.length} failures: one for each herb of the shards and of the index`);
+    // once the sample review has covered them, nothing stands in the way of the herb rule (the review gate and the emergency rows are other rules)
+    const m = manifest(d) as unknown as { herbBrowser: { shards: Record<string, unknown> } };
+    editHerb(d, "index", (c) => { for (const row of c.rows) row[11] = 2; });
+    for (const key of Object.keys(m.herbBrowser.shards)) editHerb(d, key, (c) => { for (const h of Object.values(c.items) as { status: string }[]) h.status = "reviewed"; });
+    assert.deepEqual(checkRelease(d).filter((x) => x.rule === 15), []);
+  });
+
+  test("15 and 6: the Simplified list of each herb file", () => {
+    const d = copy();
+    const key = firstShard(d);
+    const m = manifest(d) as unknown as { variants: { "zh-Hans": { herbs: { index: unknown; shards: Record<string, unknown> } } } };
+    delete m.variants["zh-Hans"].herbs.shards[key];
+    saveManifest(d, m);
+    assert.match(messages(checkRelease(d, { draftLabel: true }).filter((x) => x.rule === 6)), new RegExp(`no Simplified display list "herbs-${key}"`));
+
+    const none = copy();
+    const mm = manifest(none) as unknown as { variants: { "zh-Hans": { herbs?: unknown } } };
+    delete mm.variants["zh-Hans"].herbs;
+    saveManifest(none, mm);
+    assert.match(messages(checkRelease(none, { draftLabel: true }).filter((x) => x.rule === 6)), /the herb browser but no Simplified display lists for it/);
+  });
+
+  test("11: the files of the herb browser are cached as immutable", () => {
+    const d = copy();
+    const index = (manifest(d) as unknown as { herbBrowser: { index: { file: string } } }).herbBrowser.index.file;
+    writeFileSync(join(d, "_headers"), readFileSync(join(d, "_headers"), "utf8").replace(new RegExp(`/kb/${index.replace(".", "\\.")}\\n  Cache-Control: [^\\n]*`), `/kb/${index}\n  Cache-Control: no-cache`));
+    resync(d);
+    assert.match(messages(checkRelease(d, { draftLabel: true }).filter((x) => x.rule === 11)), /the herb browser file \/kb\/herbs-index\.[0-9a-f]+\.json must be cached as immutable/);
   });
 });

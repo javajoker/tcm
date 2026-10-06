@@ -14,7 +14,11 @@ import { readDataFiles } from "../packages/kb/node/fromDisk.ts";
 import type { ChunkRef, HansRef, Manifest, ProfileName } from "../packages/kb/src/types.ts";
 
 /** Gzip budgets per chunk in bytes (tech spec §5.2) — the release budgets; the dev profile carries every tier and the herb records and gets half as much again. */
-export const BUDGET_GZ = { core: 60 * 1024, formulas: 30 * 1024, herbs: 25 * 1024, citations: 15 * 1024, guidance: 20 * 1024, cities: 25 * 1024, hansMain: 30 * 1024, hansCities: 6 * 1024 } as const;
+export const BUDGET_GZ = {
+  core: 60 * 1024, formulas: 30 * 1024, herbs: 25 * 1024, citations: 15 * 1024, guidance: 20 * 1024, cities: 25 * 1024, hansMain: 30 * 1024, hansCities: 6 * 1024,
+  // the herb browser (PM-24): fetched on demand, never part of the per-session figure
+  herbIndex: 36 * 1024, herbShard: 8 * 1024, hansHerbIndex: 8 * 1024, hansHerbShard: 3 * 1024,
+} as const;
 
 /** The committed Simplified display dictionary (Traditional string → Simplified string), written by `python -m scripts.i18n.build_hans`. */
 export const DICTIONARY_PATH = join(import.meta.dirname, "i18n", "zh-Hans.dictionary.json");
@@ -39,6 +43,8 @@ export interface WriteBundleResult {
   readonly reach: Reach;
   readonly formulas: number;
   readonly herbRecords: number;
+  /** The herb browser (PM-24): how many herbs it holds and the files written (none for a build that shows no herb page). */
+  readonly herbBrowser: { readonly count: number; readonly files: number } | null;
   readonly hans: { readonly main: HansRef; readonly cities: HansRef };
   readonly report: string[];
   readonly overBudget: string[];
@@ -48,7 +54,7 @@ export function writeBundle(opts: WriteBundleOptions): WriteBundleResult {
   const { profile } = opts;
   const out = resolve(opts.out);
   const overrides = opts.overridesPath ? (JSON.parse(readFileSync(resolve(opts.overridesPath), "utf8")) as unknown) : undefined;
-  const { chunks, reach } = buildChunks(readDataFiles(), { profile, overrides, version: "pending", draftLabel: opts.draftLabel ?? process.env.APP_DRAFT_LABEL === "on" });
+  const { chunks, reach, herbFiles } = buildChunks(readDataFiles(), { profile, overrides, version: "pending", draftLabel: opts.draftLabel ?? process.env.APP_DRAFT_LABEL === "on" });
 
   const serialized: Record<string, string> = {
     core: JSON.stringify(chunks.core),
@@ -65,21 +71,28 @@ export function writeBundle(opts: WriteBundleOptions): WriteBundleResult {
   const refs: Record<string, ChunkRef> = {};
   const overBudget: string[] = [];
   const report: string[] = [];
-  for (const [name, body] of Object.entries(serialized)) {
+  const emit = (name: string, body: string, budgetKey: keyof typeof BUDGET_GZ): ChunkRef => {
     const hash = sha256(body);
     const file = `${name}.${hash.slice(0, 10)}.json`;
     writeFileSync(join(out, file), body);
     const gz = gzipSync(body, { level: 9 }).length;
-    refs[name] = { file, sha256: hash, bytes: Buffer.byteLength(body) };
-    const budget = BUDGET_GZ[name as keyof typeof BUDGET_GZ] * (profile === "dev" ? DEV_BUDGET_FACTOR : 1);
+    const budget = BUDGET_GZ[budgetKey] * (profile === "dev" ? DEV_BUDGET_FACTOR : 1);
     report.push(`  ${name.padEnd(10)} ${(Buffer.byteLength(body) / 1024).toFixed(1).padStart(7)} KB  gzip ${(gz / 1024).toFixed(1).padStart(6)} KB  (budget ${(budget / 1024).toFixed(0)} KB)`);
     if (gz > budget) overBudget.push(`${name}: ${(gz / 1024).toFixed(1)} KB gzip exceeds the ${(budget / 1024).toFixed(0)} KB budget`);
-  }
+    return { file, sha256: hash, bytes: Buffer.byteLength(body) };
+  };
+  for (const [name, body] of Object.entries(serialized)) refs[name] = emit(name, body, name as keyof typeof BUDGET_GZ);
+
+  // the herb browser (PM-24): an index and up to sixteen shards, hash-addressed like every chunk but NOT part of the knowledge-base version (they change nothing a result says)
+  const herbRefs = herbFiles === null ? null : {
+    index: emit("herbs-index", JSON.stringify(herbFiles.index), "herbIndex"),
+    shards: Object.fromEntries(Object.entries(herbFiles.shards).map(([key, shard]) => [key, emit(`herbs-${key}`, JSON.stringify(shard), "herbShard")])),
+  };
 
   // the Simplified display lists: aligned with the Chinese strings of exactly these chunks. They are display only, so they are NOT part of the knowledge-base version
   // (a wording change in the dictionary must not make saved results look as if they were made with another knowledge base).
   const dictionary = (JSON.parse(readFileSync(resolve(opts.dictionaryPath ?? DICTIONARY_PATH), "utf8")) as { entries: Record<string, string> }).entries;
-  const hansRef = (name: "main" | "cities", budgetKey: "hansMain" | "hansCities", list: string[]): HansRef => {
+  const hansRef = (name: string, budgetKey: "hansMain" | "hansCities" | "hansHerbIndex" | "hansHerbShard", list: string[]): HansRef => {
     const body = alignedList(list, dictionary);
     const hash = sha256(body);
     const file = `hans-${name}.${hash.slice(0, 10)}.txt`;
@@ -95,14 +108,20 @@ export function writeBundle(opts: WriteBundleOptions): WriteBundleResult {
     cities: hansRef("cities", "hansCities", chineseStrings(chunks.cities)),
   };
 
+  const herbHans = herbFiles === null ? null : {
+    index: hansRef("herbs-index", "hansHerbIndex", chineseStrings(herbFiles.index)),
+    shards: Object.fromEntries(Object.entries(herbFiles.shards).map(([key, shard]) => [key, hansRef(`herbs-${key}`, "hansHerbShard", chineseStrings(shard))])),
+  };
+
   const version = sha256([profile, chunks.schemaVersion, ...Object.values(refs).map((r) => r.sha256)].join("|")).slice(0, 12);
   const manifest: Manifest = {
     schema: chunks.schemaVersion, version, profile,
     chunks: { core: refs.core!, formulas: refs.formulas!, citations: refs.citations!, guidance: refs.guidance!, cities: refs.cities!, ...(refs.herbs ? { herbs: refs.herbs } : {}) },
-    variants: { "zh-Hans": hans },
+    ...(herbRefs && herbFiles ? { herbBrowser: { count: herbFiles.index.count, index: herbRefs.index, shards: herbRefs.shards } } : {}),
+    variants: { "zh-Hans": { ...hans, ...(herbHans ? { herbs: herbHans } : {}) } },
   };
   writeFileSync(join(out, "manifest.json"), JSON.stringify(manifest, null, 2) + "\n");
-  return { manifest, reach, formulas: chunks.formulas.items.length, herbRecords: chunks.herbs ? chunks.herbs.items.length : 0, hans, report, overBudget };
+  return { manifest, reach, formulas: chunks.formulas.items.length, herbRecords: chunks.herbs ? chunks.herbs.items.length : 0, herbBrowser: herbRefs && herbFiles ? { count: herbFiles.index.count, files: 1 + Object.keys(herbRefs.shards).length } : null, hans, report, overBudget };
 }
 
 if (import.meta.main) {
@@ -114,7 +133,7 @@ if (import.meta.main) {
   if (profile !== "release" && profile !== "dev") throw new Error(`unknown profile ${profile} (use release or dev)`);
   const out = resolve(arg("out") ?? "dist/kb");
   const r = writeBundle({ profile, out, overridesPath: arg("overrides") ?? process.env.APP_OVERRIDES });
-  console.log(`kb bundle ${r.manifest.version} — profile ${profile}, max level ${r.reach.maxLevel}, ${r.formulas} formulas, ${r.herbRecords} herb records → ${out}`);
+  console.log(`kb bundle ${r.manifest.version} — profile ${profile}, max level ${r.reach.maxLevel}, ${r.formulas} formulas, ${r.herbRecords} herb records, ${r.herbBrowser ? `${r.herbBrowser.count} herbs in ${r.herbBrowser.files} browser files` : "no herb browser"} → ${out}`);
   console.log(r.report.join("\n"));
   if (r.overBudget.length) {
     console.error(`BUDGET EXCEEDED:\n - ${r.overBudget.join("\n - ")}`);

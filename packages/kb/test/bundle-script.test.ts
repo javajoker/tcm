@@ -1,19 +1,20 @@
 // Integration: scripts/bundle-data.ts writes a bundle that loadKnowledgeBase can load, for both profiles.
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
+import { createHash } from "node:crypto";
 import { mkdtempSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { test } from "node:test";
-import { loadKnowledgeBase } from "../src/index.ts";
+import { KbError, loadKnowledgeBase, shardOf } from "../src/index.ts";
 import type { Manifest } from "../src/index.ts";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..", "..", "..");
 
-function bundle(args: string[]): { dir: string; manifest: Manifest; stdout: string } {
+function bundle(args: string[], env: Record<string, string> = {}): { dir: string; manifest: Manifest; stdout: string } {
   const dir = mkdtempSync(join(tmpdir(), "kb-"));
-  const stdout = execFileSync("node", [join(root, "scripts", "bundle-data.ts"), "--out", dir, ...args], { encoding: "utf8" });
+  const stdout = execFileSync("node", [join(root, "scripts", "bundle-data.ts"), "--out", dir, ...args], { encoding: "utf8", env: { ...process.env, ...env } });
   return { dir, manifest: JSON.parse(readFileSync(join(dir, "manifest.json"), "utf8")) as Manifest, stdout };
 }
 
@@ -63,4 +64,126 @@ test("a restricting override file is applied and a loosening one fails the build
   const bad = join(dir, "bad.json");
   writeFileSync(bad, JSON.stringify({ population: { adult: { level: "L3" } } }));
   assert.throws(() => bundle(["--profile", "release", "--overrides", bad]), /would raise/);
+});
+
+// ── the herb browser (PM-24) ────────────────────────────────────────────────────────────────────────
+
+/** A network over a bundle's files that records what was asked for, and can serve a file with a byte changed. */
+function network(dir: string): { fetch: typeof fetch; asked: string[]; damaged: Set<string> } {
+  const asked: string[] = [];
+  const damaged = new Set<string>();
+  const f = (async (url: string) => {
+    const name = url.split("/").pop()!;
+    asked.push(name);
+    try {
+      const bytes = readFileSync(join(dir, name));
+      if (damaged.has(name)) bytes[bytes.length - 2] = bytes[bytes.length - 2]! ^ 1;
+      return new Response(bytes);
+    } catch { return new Response("missing", { status: 404 }); }
+  }) as unknown as typeof fetch;
+  return { fetch: f, asked, damaged };
+}
+const BETA = { APP_DRAFT_LABEL: "on" };
+
+test("a public build has no herb browser; the closed beta and the dev build have all 703 herbs", async () => {
+  const pub = bundle(["--profile", "release"], { APP_DRAFT_LABEL: "off" });
+  assert.equal(pub.manifest.herbBrowser, undefined);
+  assert.equal(pub.manifest.variants?.["zh-Hans"]?.herbs, undefined);
+  assert.equal(readdirSync(pub.dir).filter((f) => f.includes("herbs-")).length, 0);
+  assert.match(pub.stdout, /no herb browser/);
+  assert.equal((await loadKnowledgeBase({ baseUrl: "/kb", fetch: network(pub.dir).fetch })).herbBrowser, null);
+
+  for (const [profile, env] of [["release", BETA], ["dev", {}]] as const) {
+    const b = bundle(["--profile", profile], env);
+    assert.equal(b.manifest.herbBrowser?.count, 703, profile);
+    assert.equal(Object.keys(b.manifest.herbBrowser!.shards).length, 16, profile);
+    assert.match(b.stdout, /703 herbs in 17 browser files/);
+    assert.ok((b.manifest.variants?.["zh-Hans"]?.herbs?.index.strings ?? 0) > 1000, "a Simplified list for the index, with its strings");
+    for (const ref of [b.manifest.herbBrowser!.index, ...Object.values(b.manifest.herbBrowser!.shards)]) assert.match(ref.file, /^herbs-(index|[0-9a-f])\.[0-9a-f]{10}\.json$/);
+    assert.equal((await loadKnowledgeBase({ baseUrl: "/kb", fetch: network(b.dir).fetch })).herbBrowser?.count, 703);
+  }
+});
+
+test("the herb browser is not part of the knowledge-base version, so a herb page changing marks no saved result as old", () => {
+  const { manifest } = bundle(["--profile", "release"], BETA);
+  assert.ok(manifest.herbBrowser);
+  // the version is the hash of the profile, the schema and the hashes of the chunks that results depend on — recomputed here without a single herb file or display list
+  const expected = createHash("sha256").update([manifest.profile, manifest.schema, ...Object.values(manifest.chunks).map((r) => r.sha256)].join("|")).digest("hex").slice(0, 12);
+  assert.equal(manifest.version, expected);
+  const again = bundle(["--profile", "release"], BETA);
+  assert.equal(again.manifest.version, manifest.version, "deterministic");
+});
+
+test("nothing of the herb browser is fetched with the knowledge base; a list asks for the index, a page for its one shard, each once", async () => {
+  const { dir } = bundle(["--profile", "release"], BETA);
+  const net = network(dir);
+  const kb = await loadKnowledgeBase({ baseUrl: "/kb", fetch: net.fetch });
+  assert.deepEqual(net.asked.filter((f) => f.includes("herbs-")), []);
+  const rows = await kb.herbBrowser!.rows();
+  assert.equal(rows.length, 703);
+  assert.deepEqual(net.asked.filter((f) => f.includes("herbs-")).map((f) => f.replace(/\.[0-9a-f]{10}\.json$/, "")), ["herbs-index"]);
+  const detail = await kb.herbBrowser!.detail("baibiandou");
+  assert.equal(detail?.name["zh-Hant"], "白扁豆");
+  assert.equal(detail?.caution, null);
+  assert.deepEqual(net.asked.filter((f) => f.includes("herbs-")).map((f) => f.replace(/\.[0-9a-f]{10}\.json$/, "")), ["herbs-index", `herbs-${shardOf("baibiandou")}`]);
+  await kb.herbBrowser!.detail("baibiandou");
+  await kb.herbBrowser!.rows();
+  assert.equal(net.asked.filter((f) => f.includes("herbs-")).length, 2, "kept once it came");
+  assert.equal(await kb.herbBrowser!.detail("no-such-herb"), undefined);
+});
+
+test("a herb file that does not match its hash is refused, and asked for again later", async () => {
+  const { dir } = bundle(["--profile", "release"], BETA);
+  const net = network(dir);
+  const kb = await loadKnowledgeBase({ baseUrl: "/kb", fetch: net.fetch });
+  const shardFile = readdirSync(dir).find((f) => f.startsWith(`herbs-${shardOf("baibiandou")}.`))!;
+  net.damaged.add(shardFile);
+  await assert.rejects(kb.herbBrowser!.detail("baibiandou"), (e: unknown) => e instanceof KbError && e.code === "chunk-hash-mismatch");
+  const indexFile = readdirSync(dir).find((f) => f.startsWith("herbs-index."))!;
+  net.damaged.add(indexFile);
+  await assert.rejects(kb.herbBrowser!.rows(), (e: unknown) => e instanceof KbError && e.code === "chunk-hash-mismatch");
+  net.damaged.clear();
+  assert.equal((await kb.herbBrowser!.detail("baibiandou"))?.slug, "baibiandou");
+  assert.equal((await kb.herbBrowser!.rows()).length, 703);
+});
+
+test("a manifest whose herb entry is malformed is refused before anything is fetched", async () => {
+  const { dir, manifest } = bundle(["--profile", "release"], BETA);
+  const bad = { ...manifest, herbBrowser: { count: 3, index: { file: 5 }, shards: {} } };
+  const net = network(dir);
+  const fetched = (async (url: string) => (url.endsWith("manifest.json") ? new Response(JSON.stringify(bad)) : net.fetch(url))) as unknown as typeof fetch;
+  await assert.rejects(loadKnowledgeBase({ baseUrl: "/kb", fetch: fetched }), (e: unknown) => e instanceof KbError && e.code === "manifest-invalid");
+  assert.deepEqual(net.asked, []);
+});
+
+test("Simplified: a herb name gets its Simplified form once the file that holds it has come, verified against its own list", async () => {
+  const { dir, manifest } = bundle(["--profile", "release"], BETA);
+  const dictionary = (JSON.parse(readFileSync(join(root, "scripts", "i18n", "zh-Hans.dictionary.json"), "utf8")) as { entries: Record<string, string> }).entries;
+  const herbs = (JSON.parse(readFileSync(join(root, "data", "herbs", "herbs.json"), "utf8")) as { items: { slug: string; status: string; name: { "zh-Hant": string } }[] }).items;
+  const net = network(dir);
+  const errors: string[] = [];
+  const kb = await loadKnowledgeBase({ baseUrl: "/kb", fetch: net.fetch, script: "Hans", onDisplayError: (e) => errors.push(e.message) });
+  assert.equal(kb.script, "Hans");
+  const only = herbs.find((h) => h.status === "derived" && dictionary[h.name["zh-Hant"]] !== h.name["zh-Hant"] && kb.zh(h.name["zh-Hant"]) === h.name["zh-Hant"])!;
+  assert.ok(only, "a herb whose name differs in Simplified and is not already known from the knowledge base");
+  const simplified = dictionary[only.name["zh-Hant"]]!;
+  assert.equal(kb.zh(only.name["zh-Hant"]), only.name["zh-Hant"], "not yet");
+  await kb.herbBrowser!.rows();
+  assert.equal(kb.zh(only.name["zh-Hant"]), simplified);
+  assert.deepEqual(errors, []);
+  assert.equal(net.asked.some((f) => f.startsWith("hans-herbs-index.")), true);
+  const detail = await kb.herbBrowser!.detail(only.slug);
+  assert.equal(detail?.name["zh-Hant"], only.name["zh-Hant"], "the data stays what it is");
+  assert.equal(net.asked.some((f) => f.startsWith(`hans-herbs-${shardOf(only.slug)}.`)), true);
+  assert.ok(manifest.variants?.["zh-Hans"]?.herbs?.shards[shardOf(only.slug)]);
+});
+
+test("Simplified: a herb list that does not match its chunk is reported and the names stay as they are", async () => {
+  const { dir, manifest } = bundle(["--profile", "release"], BETA);
+  const net = network(dir);
+  const errors: string[] = [];
+  const kb = await loadKnowledgeBase({ baseUrl: "/kb", fetch: net.fetch, script: "Hans", onDisplayError: (e) => errors.push(e.code) });
+  net.damaged.add(manifest.variants!["zh-Hans"]!.herbs!.index.file);
+  await kb.herbBrowser!.rows();
+  assert.deepEqual(errors, ["chunk-hash-mismatch"]);
 });

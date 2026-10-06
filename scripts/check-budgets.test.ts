@@ -13,7 +13,7 @@ const KB = 1024;
 const blob = (kb: number): Buffer => randomBytes(kb * KB);
 
 /** A synthetic output: an entry that imports a vendor chunk statically, lazy chunks, css, knowledge-base chunks. */
-function dist(sizes: { entry?: number; vendor?: number; lazy?: number[]; css?: number; kb?: number[]; hans?: number } = {}): string {
+function dist(sizes: { entry?: number; vendor?: number; lazy?: number[]; css?: number; kb?: number[]; hans?: number; herbs?: number[] } = {}): string {
   const d = mkdtempSync(join(tmpdir(), "tcm-budget-"));
   dirs.push(d);
   mkdirSync(join(d, "assets"), { recursive: true });
@@ -26,6 +26,7 @@ function dist(sizes: { entry?: number; vendor?: number; lazy?: number[]; css?: n
   (sizes.kb ?? [30, 10]).forEach((k, i) => writeFileSync(join(d, "kb", `chunk${i}.abc.json`), blob(k)));
   writeFileSync(join(d, "kb", "manifest.json"), "{}");
   if (sizes.hans !== undefined) writeFileSync(join(d, "kb", "hans-main.0123456789.txt"), blob(sizes.hans));
+  (sizes.herbs ?? []).forEach((k, i) => writeFileSync(join(d, "kb", i === 0 ? "herbs-index.0123456789.json" : `herbs-${(i - 1).toString(16)}.0123456789.json`), blob(k)));
   return d;
 }
 const within = (b: number, target: number, tol = 0.1): boolean => Math.abs(b - target * KB) < target * KB * tol + 200;
@@ -38,6 +39,16 @@ test("the initial load is the entry plus what it imports; the lazy chunks are th
   assert.equal(m.hansList, 0);
   assert.ok(within(measure(dist({ hans: 20 })).hansList, 20), "the display list is measured apart from the session figure");
   assert.ok(within(measure(dist({ hans: 20 })).kbSession, 40), "and is not part of it");
+});
+
+test("the herb browser is counted apart: never in the session figure, with a budget of its own", () => {
+  const m = measure(dist({ herbs: [30, 5, 5, 5] }));
+  assert.ok(within(m.herbBrowser, 45), `herb browser ${m.herbBrowser}`);
+  assert.ok(within(m.kbSession, 40), "the session figure is the chunks without the herb browser");
+  assert.equal(measure(dist()).herbBrowser, 0);
+  assert.match(checkBudgets(dist({ herbs: [30, 5] })).report[0]!, /herb browser \(on demand\) \d+\.\d KB \/ 140\.0 KB/);
+  assert.doesNotMatch(checkBudgets(dist()).report[0]!, /herb browser/);
+  assert.match(checkBudgets(dist({ herbs: [90, 40, 40] })).failures.join("\n"), /herb browser: .* over the 140\.0 KB budget/);
 });
 
 test("a build inside the budgets passes and says the numbers", () => {
@@ -59,7 +70,7 @@ test("each budget fails on its own, naming what is over", () => {
 });
 
 test("the budgets are the ones of the tech spec, and a custom budget is honoured", () => {
-  assert.deepEqual([BUDGETS.initialJs, BUDGETS.lazyJsChunk, BUDGETS.totalJs, BUDGETS.totalCss, BUDGETS.kbSession, BUDGETS.hansList], [200 * KB, 50 * KB, 350 * KB, 20 * KB, 100 * KB, 30 * KB]);
+  assert.deepEqual([BUDGETS.initialJs, BUDGETS.lazyJsChunk, BUDGETS.totalJs, BUDGETS.totalCss, BUDGETS.kbSession, BUDGETS.hansList, BUDGETS.herbBrowser], [200 * KB, 50 * KB, 350 * KB, 20 * KB, 100 * KB, 30 * KB, 140 * KB]);
   const tight: Budgets = { ...BUDGETS, initialJs: 10 * KB };
   assert.equal(checkBudgets(dist(), tight).failures.length, 1);
 });

@@ -1,7 +1,7 @@
 import { KbError } from "./errors.ts";
 import { chineseStrings, digestInput, newDisplay } from "./hans.ts";
 import { indexKnowledgeBase, SUPPORTED_SCHEMA_VERSION } from "./indexer.ts";
-import type { ChunkRef, Cities, CitationsChunk, CoreChunk, FormulasChunk, GuidanceChunk, HerbsChunk, KnowledgeBase, Manifest, RawKbChunks } from "./types.ts";
+import type { ChunkRef, Cities, CitationsChunk, CoreChunk, FormulasChunk, GuidanceChunk, HansRef, HerbBrowserSource, HerbIndexChunk, HerbShardChunk, HerbsChunk, KnowledgeBase, Manifest, RawKbChunks } from "./types.ts";
 
 export interface LoadOptions {
   /** URL (absolute or root-relative) of the directory that holds `manifest.json` and the chunk files, e.g. "/kb". */
@@ -29,6 +29,13 @@ function assertManifest(m: unknown): asserts m is Manifest {
   const ok = typeof m === "object" && m !== null && typeof (m as Manifest).version === "string" && typeof (m as Manifest).schema === "number" &&
     typeof (m as Manifest).chunks === "object" && (m as Manifest).chunks !== null && !!(m as Manifest).chunks.core && !!(m as Manifest).chunks.formulas && !!(m as Manifest).chunks.citations && !!(m as Manifest).chunks.guidance && !!(m as Manifest).chunks.cities;
   if (!ok) throw new KbError("manifest-invalid", "manifest.json is missing required fields");
+  const hb = (m as Manifest).herbBrowser;
+  if (hb !== undefined) {
+    const ref = (r: unknown): boolean => typeof r === "object" && r !== null && typeof (r as ChunkRef).file === "string" && typeof (r as ChunkRef).sha256 === "string";
+    const sound = typeof hb === "object" && hb !== null && Number.isInteger(hb.count) && ref(hb.index) && typeof hb.shards === "object" && hb.shards !== null &&
+      Object.entries(hb.shards).every(([k, r]) => /^[0-9a-f]$/.test(k) && ref(r));
+    if (!sound) throw new KbError("manifest-invalid", "manifest.json: the herb browser entry is not valid");
+  }
 }
 
 /**
@@ -70,8 +77,7 @@ export async function loadKnowledgeBase(opts: LoadOptions): Promise<KnowledgeBas
   const display = opts.script === "Hans" ? newDisplay(opts.onFallback) : null;
   let shown = display !== null;
   const fail = (e: unknown): void => { shown = false; opts.onDisplayError?.(e instanceof KbError ? e : new KbError("display-missing", String(e))); };
-  async function addList(name: "main" | "cities", list: readonly string[]): Promise<void> {
-    const ref = mf.variants?.["zh-Hans"]?.[name];
+  async function addList(name: string, ref: HansRef | undefined, list: readonly string[]): Promise<void> {
     if (display === null || ref === undefined) { if (display !== null) fail(new KbError("display-missing", `the manifest has no Simplified display list for ${name}`)); return; }
     try {
       if (list.length !== ref.strings || (await sha256(new TextEncoder().encode(digestInput(list)).buffer as ArrayBuffer)) !== ref.digest) {
@@ -89,13 +95,31 @@ export async function loadKnowledgeBase(opts: LoadOptions): Promise<KnowledgeBas
     chunk<CitationsChunk>("citations", chunks.citations),
     chunk<GuidanceChunk>("guidance", chunks.guidance),
   ]);
-  if (display !== null) await addList("main", chineseStrings(core, formulas, herbs, citations, guidance));
+  const lists = mf.variants?.["zh-Hans"];
+  if (display !== null) await addList("main", lists?.main, chineseStrings(core, formulas, herbs, citations, guidance));
   // the city list is for one screen only: fetched (and hash-checked) when it is first asked for, with its own display list
   const cities = async (): Promise<Cities> => {
     const list = await chunk<Cities>("cities", chunks.cities);
-    if (display !== null && shown) await addList("cities", chineseStrings(list));
+    if (display !== null && shown) await addList("cities", lists?.cities, chineseStrings(list));
     return list;
   };
-  const raw: RawKbChunks = { version: manifest.version, schemaVersion: manifest.schema, core, formulas, herbs, citations, guidance, cities };
+  // the herb browser (PM-24): the index and each shard are fetched, hash-checked and paired with their Simplified list when a herb page first asks for them — never with the knowledge base
+  const hb = mf.herbBrowser;
+  const herbBrowser: HerbBrowserSource | null = hb === undefined ? null : {
+    count: hb.count,
+    async index() {
+      const list = await chunk<HerbIndexChunk>("herbs-index", hb.index);
+      if (display !== null && shown) await addList("herbs-index", lists?.herbs?.index, chineseStrings(list));
+      return list;
+    },
+    async shard(key) {
+      const ref = hb.shards[key];
+      if (ref === undefined) return { shard: key, items: {} };
+      const list = await chunk<HerbShardChunk>(`herbs-${key}`, ref);
+      if (display !== null && shown) await addList(`herbs-${key}`, lists?.herbs?.shards[key], chineseStrings(list));
+      return list;
+    },
+  };
+  const raw: RawKbChunks = { version: manifest.version, schemaVersion: manifest.schema, core, formulas, herbs, citations, guidance, cities, herbBrowser };
   return indexKnowledgeBase(raw, display !== null && shown ? display : undefined);
 }

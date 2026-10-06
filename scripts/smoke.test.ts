@@ -77,6 +77,13 @@ describe("the smoke test fails on damage, with the reason", () => {
     assert.match((await run(mutable, { noindex: true })).join("\n"), /\/kb\/core\.[0-9a-f]+\.json: cache-control no-cache/);
     const tampered = damaged(beta, (d) => { const f = readdirSync(join(d, "kb")).find((x) => x.startsWith("citations."))!; writeFileSync(join(d, "kb", f), "{}"); });
     assert.match((await run(tampered, { noindex: true })).join("\n"), /\(citations\): the content does not match the manifest hash/);
+    // the herb browser's files are files of the build like any other (PM-24): altered, or not immutable
+    const herbTampered = damaged(beta, (d) => { const f = readdirSync(join(d, "kb")).find((x) => /^herbs-[0-9a-f]\.[0-9a-f]+\.json$/.test(x))!; writeFileSync(join(d, "kb", f), "{}"); });
+    assert.match((await run(herbTampered, { noindex: true })).join("\n"), /\(herbs [0-9a-f]\): the content does not match the manifest hash/);
+    const herbMutable = damaged(beta, (d) => edit(d, "_headers", (s) => s.replace(/(\/kb\/herbs-index\.[0-9a-f]+\.json\n {2}Cache-Control: )[^\n]*/, "$1no-cache")));
+    assert.match((await run(herbMutable, { noindex: true })).join("\n"), /\/kb\/herbs-index\.[0-9a-f]+\.json: cache-control no-cache/);
+    const herbListTampered = damaged(beta, (d) => { const f = readdirSync(join(d, "kb")).find((x) => /^hans-herbs-index\.[0-9a-f]+\.txt$/.test(x))!; writeFileSync(join(d, "kb", f), "x"); });
+    assert.match((await run(herbListTampered, { noindex: true })).join("\n"), /\(zh-Hans herbs index\): the content does not match the manifest hash/);
     const cachedWorker = damaged(beta, (d) => edit(d, "_headers", (s) => s.replace("/sw.js\n  Cache-Control: no-cache", "/sw.js\n  Cache-Control: public, max-age=86400")));
     assert.match((await run(cachedWorker, { noindex: true })).join("\n"), /\/sw\.js: cache-control public, max-age=86400, expected no-cache/);
     const noWorker = damaged(beta, (d) => rmSync(join(d, "sw.js")));

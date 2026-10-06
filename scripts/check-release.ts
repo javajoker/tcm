@@ -8,8 +8,9 @@ import { fileURLToPath } from "node:url";
 import { gzipSync } from "node:zlib";
 import { reachOf } from "../packages/kb/src/bundle.ts";
 import { chineseStrings, digestInput } from "../packages/kb/src/hans.ts";
+import { HERB_STATUS, shardOf } from "../packages/kb/src/herbs.ts";
 import { SUPPORTED_SCHEMA_VERSION } from "../packages/kb/src/indexer.ts";
-import type { CoreChunk, FormulasChunk, Manifest } from "../packages/kb/src/types.ts";
+import type { ChunkRef, CoreChunk, FormulasChunk, HansRef, HerbIndexChunk, HerbShardChunk, Manifest } from "../packages/kb/src/types.ts";
 import { BUDGET_GZ } from "./bundle-data.ts";
 import { cspHeader, IMMUTABLE, LANGUAGE_SEGMENTS } from "./deploy-files.ts";
 import { parseHeaders, parseRedirects } from "./serve-dist.ts";
@@ -74,22 +75,22 @@ export function checkRelease(distDir: string, opts: CheckOptions = {}): Failure[
   const hansLists = manifest.variants?.["zh-Hans"];
   if (hansLists === undefined) fail(6, "the manifest has no Simplified-Chinese display lists");
   const hansFiles: string[] = [];
-  for (const name of ["main", "cities"] as const) {
-    const ref = hansLists?.[name];
-    if (ref === undefined) { if (hansLists !== undefined) fail(6, `the manifest has no Simplified display list "${name}"`); continue; }
+  const checkHans = (name: string, ref: HansRef | undefined, strings: () => string[], budget: number): void => {
+    if (ref === undefined) { if (hansLists !== undefined) fail(6, `the manifest has no Simplified display list "${name}"`); return; }
     const p = join(dist, "kb", ref.file);
     hansFiles.push(ref.file);
-    if (!existsSync(p)) { fail(6, `manifest lists the Simplified display list ${name} → ${ref.file}, which is not in the output`); continue; }
+    if (!existsSync(p)) { fail(6, `manifest lists the Simplified display list ${name} → ${ref.file}, which is not in the output`); return; }
     const bytes = readFileSync(p);
     if (createHash("sha256").update(bytes).digest("hex") !== ref.sha256) fail(6, `kb/${ref.file}: the SHA-256 differs from the manifest`);
     if (!new RegExp(`^hans-${name}\\.[0-9a-f]{8,}\\.txt$`).test(ref.file)) fail(5, `kb/${ref.file} is not a content-hashed display list`);
-    const budget = BUDGET_GZ[name === "main" ? "hansMain" : "hansCities"];
     if (gzipSync(bytes).length > budget) fail(6, `kb/${ref.file}: ${gzipSync(bytes).length} B gzip exceeds the ${budget} B budget of the Simplified ${name} list`);
-    const roots = (names: string[]): unknown[] => names.filter((n) => chunkFiles.has(n)).map((n) => JSON.parse(read(chunkFiles.get(n)!)) as unknown);
-    const list = chineseStrings(...(name === "main" ? roots(["core", "formulas", "citations", "guidance", "herbs"]) : roots(["cities"])));
+    const list = strings();
     if (list.length !== ref.strings || createHash("sha256").update(digestInput(list)).digest("hex") !== ref.digest) fail(6, `kb/${ref.file}: the Simplified display list is not aligned with the Chinese strings of the chunks it ships with`);
     if (bytes.toString("utf8").split("\n").length !== ref.strings) fail(6, `kb/${ref.file}: the display list does not have ${ref.strings} lines`);
-  }
+  };
+  const roots = (names: string[]): unknown[] => names.filter((n) => chunkFiles.has(n)).map((n) => JSON.parse(read(chunkFiles.get(n)!)) as unknown);
+  checkHans("main", hansLists?.main, () => chineseStrings(...roots(["core", "formulas", "citations", "guidance", "herbs"])), BUDGET_GZ.hansMain);
+  checkHans("cities", hansLists?.cities, () => chineseStrings(...roots(["cities"])), BUDGET_GZ.hansCities);
 
   const corePath = chunkFiles.get("core");
   const core = corePath ? (JSON.parse(read(corePath)) as CoreChunk) : null;
@@ -252,6 +253,62 @@ export function checkRelease(distDir: string, opts: CheckOptions = {}): Failure[
   if (touch === undefined || !existsSync(join(dist, touch.replace(/^\//, "")))) fail(14, "index.html has no apple-touch-icon in the output: iOS needs one for \"Add to Home Screen\"");
   else { const b = readFileSync(join(dist, touch.replace(/^\//, ""))); if (b.length < 24 || b.readUInt32BE(16) < 180 || b.readUInt32BE(16) !== b.readUInt32BE(20)) fail(14, "the apple-touch-icon is not a square PNG of at least 180 px"); }
 
+  // 15 — the herb browser (PM-24; knowledge-browser design §7): an index and shards, each in the output, content-hashed, within its budget and equal to the manifest; the index and the shards agree (every herb is
+  // in the shard its slug maps to, and nothing else is); no dose, no herb weights and no repository path in them; a public build holds only herbs a sample review has covered; each file has its Simplified list
+  const herbFiles: string[] = [];
+  const hb = manifest.herbBrowser;
+  if (hb !== undefined) {
+    const parsed = new Map<string, unknown>();
+    const refs: [string, ChunkRef, number][] = [["herbs-index", hb.index, BUDGET_GZ.herbIndex], ...Object.entries(hb.shards).map(([k, r]): [string, ChunkRef, number] => [`herbs-${k}`, r, BUDGET_GZ.herbShard])];
+    for (const [name, ref, limit] of refs) {
+      const p = join(dist, "kb", ref.file);
+      herbFiles.push(ref.file);
+      if (!existsSync(p)) { fail(15, `manifest lists ${name} → ${ref.file}, which is not in the output`); continue; }
+      const bytes = readFileSync(p);
+      if (createHash("sha256").update(bytes).digest("hex") !== ref.sha256) fail(15, `kb/${ref.file}: the SHA-256 differs from the manifest`);
+      if (!new RegExp(`^${name}\\.[0-9a-f]{8,}\\.json$`).test(ref.file)) fail(15, `kb/${ref.file} is not a content-hashed ${name} file`);
+      if (gzipSync(bytes).length > limit) fail(15, `kb/${ref.file}: ${gzipSync(bytes).length} B gzip exceeds the ${limit} B budget of the herb browser's ${name === "herbs-index" ? "index" : "shards"}`);
+      try { parsed.set(name, JSON.parse(bytes.toString("utf8")) as unknown); } catch { fail(15, `kb/${ref.file} is not valid JSON`); }
+    }
+    const index = parsed.get("herbs-index") as HerbIndexChunk | undefined;
+    const inShards = new Set<string>();
+    for (const [key] of Object.entries(hb.shards)) {
+      const shard = parsed.get(`herbs-${key}`) as HerbShardChunk | undefined;
+      if (shard === undefined) continue;
+      if (shard.shard !== key) fail(15, `herbs-${key}: the shard says it is "${shard.shard}"`);
+      for (const [slug, h] of Object.entries(shard.items)) {
+        if (shardOf(slug) !== key) fail(15, `herb ${slug} is in shard ${key} but its slug maps to ${shardOf(slug)}`);
+        if (h.slug !== slug) fail(15, `herbs-${key}: the record under ${slug} says it is ${h.slug}`);
+        inShards.add(slug);
+        if (!opts.draftLabel && h.status !== "reviewed") fail(15, `herb ${slug} is "${h.status}": a public build shows only herbs a sample review has covered (or the closed beta, with --draft-label)`);
+      }
+    }
+    if (index !== undefined) {
+      if (index.count !== hb.count || index.rows.length !== hb.count) fail(15, `the herb index holds ${index.rows.length} rows (it says ${index.count}) but the manifest says ${hb.count} herbs`);
+      for (const row of index.rows) {
+        const slug = row[0];
+        if (!inShards.has(slug)) fail(15, `the herb ${slug} is in the index but in none of the shards`);
+        if (!opts.draftLabel && HERB_STATUS[row[11]] !== "reviewed") fail(15, `the herb ${slug} is not covered by a sample review: a public build cannot list it`);
+      }
+      if (inShards.size !== index.rows.length) fail(15, `the shards hold ${inShards.size} herbs and the index ${index.rows.length}`);
+    }
+    // what a herb page may never carry: weights, a dose or the repository path of the source (doses are also rule 3)
+    const FORBIDDEN = ["effects", "harms", "temperature", "path", "commit", "repo", "tags", "data_quality"];
+    const weigh = (node: unknown, where: string): void => {
+      if (Array.isArray(node)) { node.forEach((x, i) => weigh(x, `${where}[${i}]`)); return; }
+      if (node === null || typeof node !== "object") return;
+      for (const [k, v] of Object.entries(node)) { if (FORBIDDEN.includes(k)) fail(15, `${where} carries the field "${k}": a herb page describes the herb, it does not weigh or date it`); weigh(v, `${where}.${k}`); }
+    };
+    for (const [name, v] of parsed) weigh(v, name);
+    // each file has its Simplified list, aligned with its own strings
+    const herbHans = hansLists?.herbs;
+    if (herbHans === undefined) fail(6, "the manifest has the herb browser but no Simplified display lists for it");
+    else {
+      checkHans("herbs-index", herbHans.index, () => chineseStrings(parsed.get("herbs-index")), BUDGET_GZ.hansHerbIndex);
+      for (const key of Object.keys(hb.shards)) checkHans(`herbs-${key}`, herbHans.shards[key], () => chineseStrings(parsed.get(`herbs-${key}`)), BUDGET_GZ.hansHerbShard);
+    }
+  } else if (hansLists?.herbs !== undefined) fail(15, "the manifest has Simplified lists for a herb browser it does not have");
+
   // 10 — the attribution notice travels with the app: MIT-licensed material derived into the knowledge base requires its copyright and permission notice to be kept
   if (!existsSync(join(dist, "NOTICE.txt"))) fail(10, "NOTICE.txt is missing: the attribution notice must be shipped with the app");
   else {
@@ -276,6 +333,7 @@ export function checkRelease(distDir: string, opts: CheckOptions = {}): Failure[
     if (cache("/boot.js") !== "no-cache") fail(11, "_headers: /boot.js must be revalidated (no-cache): its name carries no hash");
     for (const [name, ref] of Object.entries(manifest.chunks)) if (ref && cache(`/kb/${ref.file}`) !== IMMUTABLE) fail(11, `_headers: the ${name} chunk /kb/${ref.file} must be cached as immutable`);
     for (const f of hansFiles) if (cache(`/kb/${f}`) !== IMMUTABLE) fail(11, `_headers: the Simplified display list /kb/${f} must be cached as immutable`);
+    for (const f of herbFiles) if (cache(`/kb/${f}`) !== IMMUTABLE) fail(11, `_headers: the herb browser file /kb/${f} must be cached as immutable`);
   }
   if (existsSync(join(dist, "_redirects"))) {
     const redirects = parseRedirects(read(join(dist, "_redirects")));
