@@ -165,7 +165,11 @@ describe("a release file stays inside what a release result can show", () => {
 });
 
 describe("the published examples", () => {
-  const stamps = (f: Record<string, unknown>): Record<string, unknown> => ({ ...f, exportedFrom: { appVersion: "example", kbVersion: "example", engineVersion: "example", paramsFingerprint: "example", profile: (f["exportedFrom"] as Record<string, string>)["profile"] } });
+  /** The version stamps are replaced by `example`; what says how the season was counted is kept, because it is the point of the example. */
+  const stamps = (f: Record<string, unknown>): Record<string, unknown> => {
+    const from = f["exportedFrom"] as Record<string, string>;
+    return { ...f, exportedFrom: { appVersion: "example", kbVersion: "example", engineVersion: "example", paramsFingerprint: "example", profile: from["profile"], ...(from["seasonModel"] !== undefined ? { seasonModel: from["seasonModel"] } : {}), ...(from["seasons"] !== undefined ? { seasons: from["seasons"] } : {}) } };
+  };
   const EXAMPLE_LIST: [string, () => Record<string, unknown>][] = [
     ["release-full", () => file(release, releasePatients.find((p) => p.id === "SP1")!.saved) as Record<string, unknown>],
     ["release-with-medicines-and-note", () => file(release, patient(release, "EX1", {}, woman), { ...defaultOptions(NOW, "zh-Hant"), otherNamed: true, note: "Cold since the weekend; no appetite." }) as Record<string, unknown>],

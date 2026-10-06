@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 0.3 |
+| **Version** | 0.4 |
 | **Status** | Implemented and verified — [`packages/wuxing`](../packages/wuxing) (103 tests) |
 | **Last updated** | 2026-10-06 |
 | **Consumers** | [Diagnosis SOP](diagnosis-sop.zh-TW.md) §6 (先天・流年・時令) and §10 (盤面), [PRD](PRD.md) FR-18/19, knowledge base [`data/wuxing/`](../data/wuxing) |
@@ -480,6 +480,8 @@ What does **not** move on the southern basis: the birth chart and its solar term
 
 A basis other than the default is a parameter of the result: it is stamped (`meta.seasons` = `south` | `off`) and ends the stamp of the parameters (`+south`, `+noseason`), so a history keeps results made on different bases in separate series, and a saved result is replayed on the basis it was made on.
 
+**The model is declared.** The model is a school choice and is stated, not hidden: every result says in one line which reading stands behind its season ("late summer counted as a season of its own" / "the earth phase on the last 18 days before each change of season"), the practitioner summary and its file carry it, and the explanation says that it changes only the season block of the reference. A release declares `changxia` and offers no other; the development profile can try both. The other model, like a basis, ends the stamp of the parameters (`…+tuwang18`, before the basis's ending) and the default leaves no trace; with no season block there is no model to stamp. The stamp covers the *weights* (`paramsFingerprint(DEFAULT_PARAMS)`) and these two profile choices; the profile's caps and gains (`DEFAULT_PROFILE_PARAMS`) are not in it, so a change to one of them is a change of engine version.
+
 ### 9.4 五運六氣 (classical, person-independent)
 
 Source: 《素問》天元紀大論, 五運行大論, 六微旨大論, 氣交變大論, 五常政大論, 六元正紀大論, 至真要大論 (verified against the local text).
@@ -558,7 +560,7 @@ decision that must be reported with every result.
 | propagation | `tongdangBeta` | 0.60 | — |
 | propagation | `distance`, `external` | §6.2 | — |
 | profile | innate gain/cap · annual gain/cap · yunqi caps · season · `totalCap` | 1.0/1.0 · 1.0/0.75 · see §9.4 · 0.5/−0.125 · 1.5 | calibrate |
-| profile | `seasonModel` | `changxia` | school |
+| profile | `seasonModel` | `changxia`; the other value ends the stamp of the parameters (`+tuwang18`), the default leaves no trace (§9.3) | school |
 | profile | `hemisphere` | absent (= north); `south` shifts the season lookup by 180° (§9.3). `off` is not a parameter: it switches `enable.season` off | school |
 | profile | `enable.*` | all true | — |
 
@@ -638,7 +640,7 @@ not say anything about disease by itself.
 
 1. **Regenerate the VSOP87 data** from the official archive with an in-repo script that pins the SHA-256 (currently taken over from the source engine's generated file).
 2. **Calibration** of every `[calibrate]` parameter, especially the profile caps, with practitioner input; the diagnostic panel needs real cases to show whether the reference blocks add anything.
-3. **Season model** (`changxia` vs `tuwang18`) and the 長夏 extent — school decision pending.
+3. **Season model** (`changxia` vs `tuwang18`) and the 長夏 extent — school decision pending. **Declared on every result since PM-29** (§9.3): a release states the default and offers no switch.
 4. ~~**Southern hemisphere.**~~ **Decided (PM-26):** the season is counted on a basis the person chooses — the northern calendar (default), the southern basis (the lookup at longitude + 180°) or none (§9.3). The source's hard "no flip" rule applied to the birth chart and to calendar constructs, which still do not flip. Open: the clinical content owner confirms *what* flips (the experienced season only).
 5. ~~**Hour precision.**~~ **Done (PM-27):** `hourAlternatives` names the other side's pillars for a time within 15 minutes of an hour boundary in true solar time, and `BirthInput.hourPick` takes them (§4.6). The margin is a `[calibrate]` constant; the app asks the person and keeps the computed hour unless told otherwise.
 6. **Julian-calendar dates** (before 1582) are rejected, as in the source.

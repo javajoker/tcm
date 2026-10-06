@@ -1,7 +1,9 @@
 // How seasons are counted (docs/post-mvp/design/five-phase-extensions.md §4.2). The model knows the calendar and a choice, not the climate where a person is: there are three bases — the northern
 // calendar (the default), the southern one, and none (the tropics, where four seasons are not the climate). Until the person chooses, the device's time zone decides between the first two.
 import type { SeasonBasis } from "@tcm/engine";
+import type { SeasonModel } from "@tcm/wuxing";
 import type { Prefs } from "../storage/types.ts";
+import { IS_DEV_PROFILE } from "./profile.ts";
 
 /**
  * IANA zones whose people live the southern seasons, by name: a short, conservative list — temperate and subtropical places south of the equator. Zones near the equator (Jakarta, Nairobi, Quito,
@@ -29,6 +31,12 @@ export const defaultSeasons = (timeZone: string | null): "north" | "south" => (t
 
 /** The basis in force: the person's choice, or the zone's default. */
 export const effectiveSeasons = (prefs: Pick<Prefs, "seasons">, timeZone: string | null = deviceTimeZone()): SeasonBasis => prefs.seasons ?? defaultSeasons(timeZone);
+
+/**
+ * The season model in force: the declared one (`changxia`) in a release, whatever the preferences say; in the development profile the one chosen there, so that both can be tried (five-phase design §7).
+ * `dev` is a parameter so that a test can ask what a release would do.
+ */
+export const effectiveSeasonModel = (prefs: Pick<Prefs, "seasonModel">, dev: boolean = IS_DEV_PROFILE): SeasonModel => (dev && prefs.seasonModel !== undefined ? prefs.seasonModel : "changxia");
 
 /** The words' slug of a basis (`report.seasons.basis.<slug>`). */
 export const BASIS_SLUG: Readonly<Record<SeasonBasis, "north" | "south" | "off">> = { north: "north", south: "south", off: "off" };

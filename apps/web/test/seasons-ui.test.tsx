@@ -54,7 +54,7 @@ describe("Settings → Seasons", () => {
     await open("/settings");
     const c = within(card());
     expect(c.getByText(/it does not know the climate where you are/)).toBeInTheDocument();
-    expect(c.getAllByRole("radio").map((r) => r.parentElement!.textContent)).toEqual(["Northern calendar", "Southern hemisphere", "Don't use seasons"]);
+    expect(within(c.getByRole("group", { name: "Seasons" })).getAllByRole("radio").map((r) => r.parentElement!.textContent)).toEqual(["Northern calendar", "Southern hemisphere", "Don't use seasons"]);
     expect(c.getByRole("radio", { name: "Northern calendar" })).toBeChecked();
     expect(c.getByText("Not chosen yet: this device's time zone suggests the northern calendar.")).toBeInTheDocument();
     expect(c.getByText(/Spring begins in early February/)).toBeInTheDocument();

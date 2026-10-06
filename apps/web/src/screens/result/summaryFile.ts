@@ -47,7 +47,12 @@ export function summaryFile(data: SummaryData, saved: SavedAssessment, kb: Knowl
   const on = (s: FileSection): boolean => options.sections.has(s);
   const out: Record<string, unknown> = {
     format: SUMMARY_FORMAT, version: SUMMARY_VERSION, createdAt: new Date(options.createdAt).toISOString(),
-    exportedFrom: { appVersion: saved.appVersion, kbVersion: saved.kbVersion, engineVersion: saved.engineVersion, paramsFingerprint: saved.paramsFingerprint, profile: saved.profile },
+    exportedFrom: {
+      appVersion: saved.appVersion, kbVersion: saved.kbVersion, engineVersion: saved.engineVersion, paramsFingerprint: saved.paramsFingerprint, profile: saved.profile,
+      // how the season was counted: the school's model, when the result has a season at all, and the basis when it is not the northern calendar (five-phase design §7)
+      ...(saved.result.reference !== null && saved.result.meta.seasons !== "off" ? { seasonModel: saved.result.meta.seasonModel } : {}),
+      ...(saved.result.reference !== null && saved.result.meta.seasons !== undefined ? { seasons: saved.result.meta.seasons } : {}),
+    },
     language: options.language,
     notice: { "zh-Hant": `${zh.t("report.pract.file.notice")} ${zh.t("common.footer.disclaimer")}`, en: `${en.t("report.pract.file.notice")} ${en.t("common.footer.disclaimer")}` },
   };

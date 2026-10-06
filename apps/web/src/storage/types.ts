@@ -33,6 +33,11 @@ export interface Prefs {
    * device's time zone then decides between the first two (`app/seasons.ts`). Low sensitivity.
    */
   readonly seasons?: "north" | "south" | "off";
+  /**
+   * The season model (five-phase design §7), a school choice: 長夏 as a season of its own (`changxia`, the default) or the days of 土 before each change of season (`tuwang18`). **Only the development profile reads
+   * it** — a release has the declared model and no switch — and it never travels in a backup.
+   */
+  readonly seasonModel?: "changxia" | "tuwang18";
 }
 
 /** The answer to *which hour is nearer the truth* when the birth time is near a change of hour. */
@@ -44,6 +49,7 @@ export const THEMES = ["system", "light", "dark"] as const;
 export const LOCK_IDLE_MINUTES = [5, 10, 30, 60] as const;
 export const DEFAULT_LOCK_IDLE_MINUTES = 10;
 export const SEASON_BASES = ["north", "south", "off"] as const;
+export const SEASON_MODELS = ["changxia", "tuwang18"] as const;
 export const DEFAULT_PREFS: Prefs = { theme: "system", textScale: 1, langOfferDismissed: false, autoAdvance: true };
 
 /** What the user answered on the profile screen that the engine's `Subject` cannot express (free text, and explicit "none" answers — silence is not "none"). */

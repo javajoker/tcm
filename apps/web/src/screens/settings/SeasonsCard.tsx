@@ -1,8 +1,10 @@
 import type { ReactNode } from "react";
 import { useI18n } from "../../i18n/I18nProvider.tsx";
 import type { MessageKey } from "../../i18n/catalogs.ts";
+import { IS_DEV_PROFILE } from "../../app/profile.ts";
 import { useApp } from "../../app/store.tsx";
 import { defaultSeasons, deviceTimeZone, effectiveSeasons } from "../../app/seasons.ts";
+import { SeasonModelSwitch } from "../../dev/SeasonModelSwitch.tsx";
 import { SEASON_BASES } from "../../storage/types.ts";
 import { Card, SegmentedControl } from "../../ui/index.ts";
 
@@ -24,6 +26,7 @@ export function SeasonsCard(): ReactNode {
       <p className="muted" style={{ margin: 0 }}>{word(`${effective}.hint`)}</p>
       {prefs.seasons === undefined ? <p className="muted" style={{ margin: 0 }}>{t.t("common.settings.seasons.suggested", { basis: word(`basis.${defaultSeasons(zone)}`) })}</p> : null}
       <p className="muted" style={{ margin: 0 }}>{t.t("common.settings.seasons.note")}</p>
+      {IS_DEV_PROFILE ? <SeasonModelSwitch /> : null}
     </Card>
   );
 }

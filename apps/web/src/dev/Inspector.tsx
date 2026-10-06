@@ -10,7 +10,7 @@ import { ELEMENTS } from "@tcm/wuxing";
 import { assessInputOf } from "../app/assessment.ts";
 import { NeedsKnowledge, useLoaded } from "../app/knowledge.tsx";
 import { useApp } from "../app/store.tsx";
-import { effectiveSeasons } from "../app/seasons.ts";
+import { effectiveSeasonModel, effectiveSeasons } from "../app/seasons.ts";
 import { usePageTitle } from "../app/usePageTitle.ts";
 import { Button, Tabs } from "../ui/index.ts";
 import { PulsePositions } from "../screens/observe/PulsePositions.tsx";
@@ -153,7 +153,8 @@ function Inspector(): ReactNode {
 
   const [now] = useState(() => Date.now());
   const seasons = effectiveSeasons(prefs);
-  const input = useMemo(() => (draft === null ? null : assessInputOf(draft, now, seasons)), [draft, now, seasons]);
+  const seasonModel = effectiveSeasonModel(prefs);
+  const input = useMemo(() => (draft === null ? null : assessInputOf(draft, now, seasons, seasonModel)), [draft, now, seasons, seasonModel]);
   const a = useMemo(() => (input === null ? null : engine.assess(kb, input)), [kb, input]);
 
   if (draft === null || input === null || a === null) {

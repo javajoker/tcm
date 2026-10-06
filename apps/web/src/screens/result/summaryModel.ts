@@ -18,6 +18,19 @@ export interface SummarySection {
   readonly table?: { readonly caption: string; readonly head: readonly string[]; readonly rows: readonly (readonly string[])[] };
 }
 
+/**
+ * How the season of the result was counted, for the foot of the summary (five-phase design §7): the season model the result was made with and the basis — or that seasons were left out. Empty where the result has
+ * no five-phase reference. It is provenance, like the versions beside it: the summary shows nothing that depends on the season, and a practitioner who is told which school's reading stands behind the reference
+ * can discount it as they see fit.
+ */
+export function seasonsSentence(saved: SavedAssessment, t: T): string {
+  if (saved.result.reference === null) return "";
+  const basis = saved.result.meta.seasons ?? "north";
+  if (basis === "off") return t.t("report.footer.seasons.off");
+  const model = saved.result.meta.seasonModel === "tuwang18" ? "tuwang18" : "changxia";
+  return t.t(`report.footer.seasons.${basis}`, { model: t.t(`report.season.model.short.${model}`) });
+}
+
 /** The summary page's sections in the page language: one model of text for the printable page and the plain-text copy, made from the data layer (`summaryData`). */
 export function renderSummary(data: SummaryData, kb: KnowledgeBase, t: T): SummarySection[] {
   const k = (key: string, p?: Record<string, string | number>): string => t.t(key as MessageKey, p);

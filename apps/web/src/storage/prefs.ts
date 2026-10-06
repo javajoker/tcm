@@ -1,4 +1,4 @@
-import { DEFAULT_PREFS, LOCK_IDLE_MINUTES, SEASON_BASES, TEXT_SCALES, THEMES, type Prefs } from "./types.ts";
+import { DEFAULT_PREFS, LOCK_IDLE_MINUTES, SEASON_BASES, SEASON_MODELS, TEXT_SCALES, THEMES, type Prefs } from "./types.ts";
 
 export const PREFS_KEY = "tcm.prefs";
 
@@ -26,6 +26,7 @@ export function parsePrefs(raw: string | null): Prefs {
     ...(x["backupReminder"] === false ? { backupReminder: false } : {}),
     ...((LOCK_IDLE_MINUTES as readonly unknown[]).includes(x["lockIdleMinutes"]) ? { lockIdleMinutes: x["lockIdleMinutes"] as (typeof LOCK_IDLE_MINUTES)[number] } : {}),
     ...((SEASON_BASES as readonly unknown[]).includes(x["seasons"]) ? { seasons: x["seasons"] as (typeof SEASON_BASES)[number] } : {}),
+    ...((SEASON_MODELS as readonly unknown[]).includes(x["seasonModel"]) ? { seasonModel: x["seasonModel"] as (typeof SEASON_MODELS)[number] } : {}),
   };
 }
 

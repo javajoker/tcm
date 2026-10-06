@@ -8,7 +8,7 @@ import type { SavedAssessment } from "../../storage/types.ts";
 import { Button, Card, LinkButton, Skeleton } from "../../ui/index.ts";
 import { DataTable } from "./Panel.tsx";
 import { usePrintExpand } from "./PrintSupport.tsx";
-import { buildSummary, summaryToText } from "./summaryModel.ts";
+import { buildSummary, seasonsSentence, summaryToText } from "./summaryModel.ts";
 import styles from "./Result.module.css";
 
 const SummaryFileDialog = lazy(() => import("./SummaryFileDialog.tsx").then((m) => ({ default: m.SummaryFileDialog })));
@@ -21,7 +21,8 @@ function Page({ saved }: { saved: SavedAssessment }): ReactNode {
   usePrintExpand();
   const sections = buildSummary(saved, kb, t);
   const m = saved.result.meta;
-  const footer = `${t.t("report.print.footer")} — ${t.t("report.footer.computed", { date: formatLocal(lang, m.computedAt), kb: m.kbVersion.slice(0, 8), engine: m.engineVersion, params: m.paramsFingerprint })}`;
+  const seasons = seasonsSentence(saved, t);
+  const footer = `${t.t("report.print.footer")} — ${t.t("report.footer.computed", { date: formatLocal(lang, m.computedAt), kb: m.kbVersion.slice(0, 8), engine: m.engineVersion, params: m.paramsFingerprint })}${seasons === "" ? "" : ` ${seasons}`}`;
   const onCopy = (): void => {
     navigator.clipboard.writeText(summaryToText(t.t("report.pract.title"), t.t("report.pract.intro"), sections, footer)).then(() => setCopy("ok"), () => setCopy("failed"));
   };

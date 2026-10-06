@@ -37,8 +37,10 @@ const PINNED: Readonly<Record<string, string>> = {
   "dev, spring, no birth data": "73a0fb6eb26fe0a7",
   "dev, long summer, no birth data": "544d5f962db9b054",
   "dev, autumn, birth data": "0eb560c892edaf24",
-  "dev, winter, birth data, the other season model": "46d6b887e505bc42",
-  "dev, the days before a season change under the other model": "853933c63a8260dc",
+  // The two cases of the other season model were recorded again at PM-29, when that model began to end the stamp of the parameters ("+tuwang18"): with the ending removed they hash to the values first
+  // recorded here (46d6b887e505bc42 and 853933c63a8260dc), so nothing else changed. The app has never offered a way to ask for that model, so no saved result of it exists to be replayed.
+  "dev, winter, birth data, the other season model": "a2a321102220c366",
+  "dev, the days before a season change under the other model": "76a0dee8da92d3c0",
   "release, autumn, birth module on": "18ecb824d0190064",
   "release, summer, no birth data": "78658bf0e53e6988",
   /** The stamp of the parameters of a result with birth data: the knowledge base's parameters, then the five-phase module's. */

@@ -2,8 +2,8 @@
 
 | | |
 |---|---|
-| **Version** | 0.3 (draft) |
-| **Status** | Design for Release C (FR-31; tasks PM-26 … PM-29). **PM-26 (the southern hemisphere and the person's choice) is built** ([§4.4](#44-as-built-pm-26)) and **PM-27 (the hour near a boundary) is built** ([§5.1](#51-as-built-pm-27)); PM-28 and PM-29 are not |
+| **Version** | 0.4 (draft) |
+| **Status** | Design for Release C (FR-31; tasks PM-26 … PM-29). **PM-26 (the southern hemisphere and the person's choice) is built** ([§4.4](#44-as-built-pm-26)) **PM-27 (the hour near a boundary) is built** ([§5.1](#51-as-built-pm-27)) and **PM-29 (the declared 長夏 model) is built** ([§7.1](#71-as-built-pm-29)); PM-28 is not (it needs the owner's approval to download the archive) |
 | **Last updated** | 2026-10-06 |
 | **Audience** | Engineers, the clinical content owner (school choices) |
 | **Related** | [Requirements FR-31](../requirements.md#fr-31-five-phase-extensions--release-c--class-n-or-c-by-item--refines-algorithm-spec-14) · [Algorithm spec §9, §14](../../wuxing-algorithm.md) · [PRD FR-18](../../PRD.md#fr-18-birth-based-five-phase-module--p1-new) · [Decisions W-1 … W-7, Q11](../decisions.md) |
@@ -118,6 +118,19 @@ Why keep the computed hour by default: a quarter of birth times fall in a window
 
 `seasonModel` (`changxia` default, `tuwang18`) is a school choice recorded in every saved result. The design makes it **visible**: the season section of a result states the model in a line ("長夏 counted as its own season") with a plain explanation reachable from it, and the practitioner summary and the summary file carry it. The **development profile** can switch the model (to test both); the **release profile shows the declared one and offers no switch** (Q11 stays decided until calibration). Switching in dev is a parameter change and so a different fingerprint.
 
+### 7.1 As built (PM-29)
+
+| Piece | What was built |
+|---|---|
+| The line on a result | Under the season line of the panel's blocks section (`SeasonLine.tsx`, id `season-model`): *Late summer (長夏) is counted as a season of its own, between summer and autumn.* — or, for the other model, *Late summer is not a season of its own: the earth phase (土旺) commands the last 18 days before each change of season.* A disclosure *What does this mean?* holds a plain explanation: schools divide the year in different ways; this app uses one reading and says so on every result; **the choice changes only the season block of the reference, never how symptoms are scored**. The model shown is the one **stamped on the result** (`meta.seasonModel`), whatever the device would use today; a result made without seasons has no line (there is no season to read). In print the line stays and the disclosure's text is part of the page |
+| The stamp | The other model ends the stamp of the parameters — `…+4c3e3303+tuwang18`, before the southern basis's ending (`+tuwang18+south`) — and **the default leaves no trace**. With no season block (*don't use seasons*, or a profile with the five-phase module off) there is no model suffix. `meta.seasonModel` was already stamped on every result; what changed is that two results that differ in their season block no longer share a parameter stamp, so the history's trends — which break a series at a fingerprint change — keep them apart. The two stability pins that were recorded with the other model (`result-stability.test.ts`) were recorded again for this one reason, and with the ending removed they hash to the values first recorded; the app had no way to ask for that model, so no saved result of it exists to be replayed |
+| In a release | One model, declared, and **no switch**: `effectiveSeasonModel(prefs, dev)` returns `changxia` whatever the preferences hold unless it is the development profile. The release check's existing rule against development texts (`DEV · `) covers the control; the built release was searched and holds neither it nor its words |
+| In dev | **Settings → Seasons** has a control labelled *DEV · Season model* (`src/dev/SeasonModelSwitch.tsx`, strings not localised, imported behind the compile-time profile check). The choice is a preference `seasonModel` of this device — **never in a backup**, and a backup that carries one does not bring it in. A new result is made with it (`assessInputOf(draft, now, seasons, model)`; the default is not put in the input), the inspector uses it, and a saved result is proved genuine by replaying it **with the model in its stamp** (a result made with the other model replays as such; one whose model was edited away no longer does) |
+| The summary | The foot of the practitioner summary, and so the plain-text copy, ends with *Seasons: late summer counted as a season of its own (northern calendar).* (or the other model, or *southern hemisphere*; *Seasons were left out of this result.*). The summary file's `exportedFrom` gains two **optional** properties — `seasonModel` (when the result has a season) and `seasons` (`south` or `off`, only when it is not the northern calendar) — in the published schema, which stays version 1 (a field added without changing `version` is optional); the four examples carry `seasonModel`. It is provenance, like the versions beside it: the summary shows nothing that depends on the season |
+| Words | The second model's days of 土 had no English name: they were printed as 土旺 on an English page and, in the transmission section, left Traditional on a Simplified one. They are now *Earth days* (and 土旺) through the same map as every other season (`SEASON_SLUG`) |
+| Found on the way | **The parameter fingerprint covers the weights, not the profile parameters**: `paramsFingerprint(DEFAULT_PARAMS)` is the `+4c3e3303` of every result with a reference, and the profile's caps and gains (`DEFAULT_PROFILE_PARAMS`) are not in it. The design (§2) said it covered them; it does not. A change to a cap is therefore a change of engine version, not of the stamp — as the stability pins would show — and the model and the basis are the only profile choices that are stamped. Not widened here |
+| Tests | Engine (7 new): the default leaves no trace, the other model's ending, combined with the southern basis in that order, none with no seasons, the same diagnosis, the names on the days that differ and on those that do not, the release profile. App (23): which model is in force (release and dev), the preference and its absence from backups, the input, the stamp, replay in both profiles and the edited stamp, the foot of the summary in both languages, the file with each combination and its schema (the Python schema test validates every file written), the line and its explanation on the result in both languages with axe, *Earth days*, the summary page, the switch. **E34** in Chrome (desktop English, mobile Traditional, desktop Simplified, and the dev build in English and Traditional) |
+
 ## 8. Review class and rollout
 
 | Item | Class | Note |
@@ -154,6 +167,15 @@ All four stay behind the draft label with the rest and respect the additive-para
 | 長夏 switch in release | None; declared only |
 | Regeneration | Numerical comparison first, then replace and pin; needs a download approval |
 
+**Decided at build time (PM-29, 2026-10-06; same status — the school decision stays pending until calibration).**
+
+| Question | Default |
+|---|---|
+| Where the dev switch lives | Settings → Seasons, in `src/dev/` (not in the inspector): it governs the results made, not only a view of one |
+| What shows the other model in the stamp | The parameter stamp's ending `+tuwang18`, between the weights' and the basis's; the default and a result with no seasons carry none |
+| Does the summary need the model | As provenance only: the foot of the page and the file's `exportedFrom` (optional fields; the schema stays version 1) |
+| Is the explanation a link or a disclosure | A disclosure on the result: one click, no navigation, and the words stay with the line |
+
 **Decided at build time (PM-27, 2026-10-06; same status — revisit at the usability round).**
 
 | Question | Default |
@@ -186,3 +208,4 @@ PM-26 (hemisphere, preference, labels), PM-27 (hour alternatives and the choice)
 | 0.1 | 2026-10-05 | Initial design |
 | 0.2 | 2026-10-06 | PM-26 built ([§4.4](#44-as-built-pm-26)): the southern basis in `seasonAt` and the forecast, the `seasons` choice and its stamp, the replay on the stamped basis, the Settings card and the season line, the recorded northern results; the decisions made at build time in §10 |
 | 0.3 | 2026-10-06 | PM-27 built ([§5.1](#51-as-built-pm-27)): `hourAlternatives` and `BirthInput.hourPick`, the question on the birth card and its three outcomes, the choice kept with the draft and the saved result, the sentence on the result; the importer no longer drops `fold`; the decisions made at build time in §10 |
+| 0.4 | 2026-10-06 | PM-29 built ([§7.1](#71-as-built-pm-29)): the declared model on every result with a disclosure, the stamp of the other model, the development switch and its absence from a release, the foot of the practitioner summary and the file's optional fields, *Earth days*; the fingerprint's coverage found and recorded |

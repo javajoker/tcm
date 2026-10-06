@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 0.4 (draft) |
+| **Version** | 0.5 (draft) |
 | **Status** | Design for Release B (FR-26 and FR-27; tasks PM-17 … PM-19). **PM-17 (the practitioner file), PM-18 (follow-up) and PM-19 (trends) are built** |
 | **Last updated** | 2026-10-06 |
 | **Audience** | Engineers, the wording reviewer, practitioners who will read the file |
@@ -247,3 +247,4 @@ PM-17 (data layer split, file, preview, share, schema), PM-18 (follow-up card, p
 | 0.2 | 2026-10-06 | PM-17 built: the data layer, the file, the schema and its examples, the preview, sharing and print refinements; the differences from the sketch are listed in §3.5 |
 | 0.3 | 2026-10-06 | PM-18 built: the date, the card, the nudge, the previous-profile draft and the calendar file (§4.4) |
 | 0.4 | 2026-10-06 | PM-19 built: the trend model, the dot-strip figure and its table twin, the changes, the profile marks, the scoped wording rule (§5.5) |
+| 0.5 | 2026-10-06 | PM-29: the summary file's `exportedFrom` gains the optional `seasonModel` and `seasons` (how the season of the result was counted), and the foot of the practitioner summary says the same; the schema stays version 1 |

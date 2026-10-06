@@ -20,7 +20,9 @@
         "kbVersion": { "type": "string" },
         "engineVersion": { "type": "string" },
         "paramsFingerprint": { "type": "string" },
-        "profile": { "enum": ["release", "dev"], "description": "A release file holds only what a release result can show; a development file may hold more." }
+        "profile": { "enum": ["release", "dev"], "description": "A release file holds only what a release result can show; a development file may hold more." },
+        "seasonModel": { "enum": ["changxia", "tuwang18"], "description": "The school's reading of the year behind the result's season: `changxia` counts late summer (長夏) as a season of its own, `tuwang18` gives the earth phase the last 18 days before each change of season. Present when the result has a season; absent otherwise. Optional." },
+        "seasons": { "enum": ["south", "off"], "description": "Present only when the season was not counted by the northern calendar: `south` by the southern hemisphere's, `off` not at all (the result then has no season). Optional." }
       }
     },
     "language": { "enum": ["zh-Hant", "zh-Hans", "en"], "description": "The language the person was using when the file was made. Labels are always given in zh-Hant and en." },

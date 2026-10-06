@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 0.4 (draft) |
+| **Version** | 0.5 (draft) |
 | **Status** | Every item the MVP documents recorded as "to be revisited after the MVP" is answered here with the recommended default; new decisions that came out of the post-MVP design are PD-01 … PD-12 |
 | **Last updated** | 2026-10-06 |
 | **Audience** | Project owner, maintainers, reviewers |
@@ -60,7 +60,7 @@ An *unchanged* decision means the MVP answer still holds and the reason is state
 | PF-03 | Engine in a worker | Not triggered | See TQ5 | — |
 | W-1 | VSOP87 data regenerated from the archive | Open | PM-28 (FR-31c) | ⚑ approval to download the archive |
 | W-2 | Calibration of `[calibrate]` parameters | Open | Review track | Calibration |
-| W-3 | 長夏 versus 土旺十八日 | Default model | PM-29: shown as a declared choice | School decision (⚑) |
+| W-3 | 長夏 versus 土旺十八日 | Default model | **Built (PM-29):** the model is declared in a line on every result with a plain explanation, at the foot of the practitioner summary and in the summary file; a release declares `changxia` and offers no switch, the development profile can try both, and the other model ends the stamp of the parameters | School decision (⚑) — the choice itself waits for calibration |
 | W-4 | Southern hemisphere | Northern mapping | **Built (PM-26, FR-31a):** a `seasons` choice — the northern calendar (default), the southern basis (the season lookup at longitude + 180°) or none (the tropics) — suggested by the device's time zone, shown on every result and stamped on a result made on another basis; a northern result is byte-for-byte unchanged | The clinical content owner confirms *what* flips (the experienced season only; the birth chart, the annual block and yunqi stay calendar references) |
 | W-5 | Hour-boundary alternatives | Corrections exposed by the engine | **Built (PM-27, FR-31b):** `hourAlternatives` names the other side's pillars for a birth time within 15 minutes of an hour boundary in true solar time; the birth card asks which hour is nearer the truth (the computed hour is kept unless the person says otherwise, the other hour or *I am not sure*); a saved result records the choice and not the time | Usability round: the margin and the default |
 | W-6 | Julian-calendar dates | Rejected | Unchanged | A real need |
@@ -134,3 +134,4 @@ An *unchanged* decision means the MVP answer still holds and the reason is state
 | 0.2 | 2026-10-06 | PD-12 extended for Release B: all JavaScript ≤ 350 KB |
 | 0.3 | 2026-10-06 | W-4 built (PM-26): the southern hemisphere as a person's choice, additive to every saved result |
 | 0.4 | 2026-10-06 | W-5 built (PM-27): the hour near a boundary as a person's choice, kept with the draft and the saved result and never in the engine's result |
+| 0.5 | 2026-10-06 | W-3 built (PM-29): the season model declared on every result; Q11's 長夏 item is a declared parameter, the school decision stays open |

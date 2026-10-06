@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 0.5 (draft) |
+| **Version** | 0.6 (draft) |
 | **Status** | Draft — implementation not started (only `packages/wuxing`, `data/` and `scripts/kb` exist) |
 | **Last updated** | 2026-10-06 |
 | **Derives from** | [PRD v0.3](PRD.md) · [Diagnosis SOP v0.2](diagnosis-sop.zh-TW.md) · [Algorithm spec](wuxing-algorithm.md) |
@@ -382,7 +382,7 @@ interface Finding { state: "present" | "absent" | "unsure"; severity?: "light" |
 
 interface Assessment {
   meta: { engineVersion; kbVersion; profile; computedAt; seasonModel; paramsFingerprint;
-          seasons?: "south" | "off" };    // present only for a basis other than north; paramsFingerprint then ends "+south" / "+noseason"
+          seasons?: "south" | "off" };    // present only for a basis other than north; paramsFingerprint then ends "+south" / "+noseason"; for a seasonModel other than changxia (and a season block) "+tuwang18" comes first
   policy: Policy;                         // final: after the states the engine found and an allergy match
   requiredAcknowledgements: NoticeId[];   // blocking notices to collect before showing the result; the flow continues
   quality: { coverage; kappa; unansweredCore; conflicts; unknownFindings; unmatchedAllergies };
@@ -506,6 +506,7 @@ interface AppState {
            theme: "system"|"light"|"dark"; textScale: 0.9|1|1.15|1.3; disclaimerAck?: { version: string; at: number }; langOfferDismissed: boolean;
            region?: string;            // emergency-number region (id in emergency.json); absent → the data's default
            seasons?: "north"|"south"|"off";   // how seasons are counted (five-phase design §4); absent until chosen → the device's time zone suggests north or south
+           seasonModel?: "changxia"|"tuwang18";   // DEVELOPMENT profile only (five-phase design §7): a release declares changxia whatever this holds; never in a backup
            autoAdvance: boolean };     // move on after a single-choice answer (UX spec §4.4), default on
   draft: {                      // the in-progress assessment; persisted after every answer
     id: string; startedAt: number; updatedAt: number;
@@ -670,3 +671,4 @@ Colour: one sequential hue per quantity family, never red/green as good/bad; sig
 | 0.3 | 2026-10-06 | §5.2: the herb browser (PM-24) replaces the planned `herbs-ext` chunk: an index and sixteen shards, fetched on demand, outside the version and the session figure |
 | 0.4 | 2026-10-06 | §7, §8.2: how seasons are counted (PM-26): `options.seasons`, `meta.seasons` and the stamp suffix, the `seasons` preference; a saved result is replayed on the basis in its stamp |
 | 0.5 | 2026-10-06 | §8.2, §8.3: the hour near a change (PM-27): `BirthInput.hourPick`, `Draft.hourChoice`, `SavedAssessment.hour`; the importer keeps `fold` |
+| 0.6 | 2026-10-06 | §7, §8.2: the season model declared (PM-29): the stamp `+tuwang18`, the development-only `seasonModel` preference, replay on the model in the stamp; the summary file's optional `exportedFrom.seasonModel` and `seasons` |

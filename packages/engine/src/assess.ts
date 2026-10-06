@@ -1,6 +1,6 @@
 // The one public entry point: the whole pipeline of the SOP (tech spec §7.1). Pure and deterministic: all inputs — the knowledge base, the
 // person, the findings, the injected clock — are arguments; the result is plain data (structured trace and message keys, no prose).
-import type { BirthInput, SeasonModel } from "@tcm/wuxing";
+import { DEFAULT_PROFILE_PARAMS, type BirthInput, type SeasonModel } from "@tcm/wuxing";
 import type { KnowledgeBase } from "@tcm/kb";
 import { explain, type TraceItem } from "./explain.ts";
 import { normalize, type Conflict } from "./normalize.ts";
@@ -137,8 +137,11 @@ export function assess(kb: KnowledgeBase, input: AssessInput): Assessment {
     meta: {
       engineVersion: ENGINE_VERSION, kbVersion: kb.version, profile: kb.config.profileName, computedAt: input.options.now,
       seasonModel: reference?.seasonModel ?? input.options.seasonModel ?? kb.config.profile.wuxing.season_model,
-      // a basis other than the default is a parameter of the result: it is stamped, and it starts a series of its own in the history; the default leaves no trace
-      paramsFingerprint: fnv1a(JSON.stringify(kb.params)) + (reference ? `+${reference.wuxingParamsFingerprint}` : "") + (basis === "south" ? "+south" : basis === "off" ? "+noseason" : ""),
+      // a basis other than the default, and the season model other than the default, are parameters of the result: each ends the stamp of the parameters and starts a series of its own in the history;
+      // the defaults leave no trace. With no season block there is no season model to speak of.
+      paramsFingerprint: fnv1a(JSON.stringify(kb.params)) + (reference ? `+${reference.wuxingParamsFingerprint}` : "")
+        + (reference !== null && reference.enabled.season && reference.seasonModel !== DEFAULT_PROFILE_PARAMS.seasonModel ? `+${reference.seasonModel}` : "")
+        + (basis === "south" ? "+south" : basis === "off" ? "+noseason" : ""),
       ...(basis !== null ? { seasons: basis } : {}),
     },
     policy,
