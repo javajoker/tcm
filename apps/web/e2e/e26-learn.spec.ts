@@ -69,6 +69,29 @@ test("E26: a pattern page shows its features in bands, from the list, and the pa
   await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
 });
 
+test("E26: a page about something a person might use puts its cautions first, in the release too, and the release holds only its own formulas", async ({ app, page }) => {
+  await app.goto("/learn/formulas/F_GUIZHI");
+  const cautions = page.getByRole("region", { name: app.t("learn.page.cautions") });
+  await expect(cautions).toBeVisible();
+  await expect(cautions).toContainText(app.t("formula.cautions.pregnancy.caution"));
+  await expect(cautions).toContainText(app.t("learn.formula.allergy"));
+  await expect(cautions).toContainText(app.t("formula.interaction.bp-raising"));
+  await app.simplified("formula page");
+  // the cautions are the first section of the article, above everything that describes the formula
+  expect(await page.locator("article > section").first().getAttribute("id")).toBe("learn-cautions-section");
+  expect(await page.locator("article section").count()).toBeGreaterThan(3);
+  // a release bundle has tier-A formulas without amounts: the composition table has no amount column, and a formula of another tier is not there at all
+  await expect(page.getByRole("columnheader", { name: app.t("formula.composition.col.amount") })).toHaveCount(0);
+  await app.goto("/learn/formulas/F_MAHUANG");
+  await expect(page.getByRole("alert")).toContainText(app.t("learn.notFound.title"));
+  await app.goto("/learn/points/SP6");
+  await expect(page.getByRole("region", { name: app.t("learn.page.cautions") })).toContainText(app.t("learn.point.pregnancy"));
+  await app.simplified("point page");
+  await app.goto("/learn/foods/foshou");
+  await expect(page.getByRole("region", { name: app.t("learn.page.cautions") })).toContainText(app.t("learn.food.allergy"));
+  await app.simplified("food page");
+});
+
 test("E26: a list filters, announces the count and keeps what the search sent", async ({ app, page, lang }) => {
   await app.goto("/learn/terms?q=" + encodeURIComponent(QUERY[lang]));
   await expect(page.getByRole("searchbox", { name: app.t("learn.list.filter") })).toHaveValue(QUERY[lang]);
@@ -87,7 +110,7 @@ for (const scheme of ["light", "dark"] as const) {
       await page.getByRole("combobox", { name: app.t("learn.search.label") }).fill(QUERY[lang]);
       await expect(page.getByRole("listbox").getByRole("option").first()).toBeVisible();
       await clean(page, "hub");
-      for (const path of ["/learn/terms", "/learn/terms/yin-yang", "/learn/quotations", "/learn/quotations/shanghan-035", "/learn/patterns", "/learn/patterns/EX1", "/learn/constitutions", "/learn/constitutions/C_YINXU"]) {
+      for (const path of ["/learn/terms", "/learn/terms/yin-yang", "/learn/quotations", "/learn/quotations/shanghan-035", "/learn/patterns", "/learn/patterns/EX1", "/learn/constitutions", "/learn/constitutions/C_YINXU", "/learn/formulas", "/learn/formulas/F_GUIZHI", "/learn/points", "/learn/points/SP6", "/learn/foods", "/learn/foods/foshou"]) {
         await app.goto(path);
         await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
         await clean(page, path);

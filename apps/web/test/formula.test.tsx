@@ -10,7 +10,7 @@ import type { Loaded } from "../src/app/knowledge.tsx";
 import type { Draft, SavedAssessment } from "../src/storage/types.ts";
 import { fakeEnvironment, renderApp, testStore } from "./helpers.tsx";
 import { interview } from "./interview.ts";
-import { UNIT_ID } from "../src/screens/result/FormulaDetail.tsx";
+import { UNIT_ID } from "../src/screens/result/words.ts";
 import en from "../src/i18n/en/formula.json";
 import zhHant from "../src/i18n/zh-Hant/formula.json";
 

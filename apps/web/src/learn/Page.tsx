@@ -33,6 +33,25 @@ function Blocks({ blocks }: { blocks: readonly Block[] }): ReactNode {
           ))}
         </dl>
       );
+      case "table": return (
+        <div key={i} className={styles.tableWrap}>
+          <table className={styles.table}>
+            <caption>{b.caption}</caption>
+            <thead><tr>{b.head.map((h) => <th key={h} scope="col">{h}</th>)}</tr></thead>
+            <tbody>{b.rows.map((r, j) => <tr key={j}>{r.map((c, k) => (k === 0 ? <th key={k} scope="row">{typeof c === "string" ? c : <NameLine name={c} />}</th> : <td key={k}>{typeof c === "string" ? c : <NameLine name={c} />}</td>))}</tr>)}</tbody>
+          </table>
+        </div>
+      );
+      case "links": return (
+        <div key={i} className={styles.bands}>
+          {b.groups.map((g, j) => (
+            <div key={j}>
+              {g.label !== null ? <h3 className={styles.bandHeading}>{g.label}</h3> : null}
+              <ul className={styles.names}>{g.items.map((r) => <li key={r.href}><Link href={r.href}><NameLine name={r.name} /></Link></li>)}</ul>
+            </div>
+          ))}
+        </div>
+      );
       case "groups": return (
         <div key={i} className={styles.bands}>
           {b.groups.map((g, j) => (
@@ -56,7 +75,7 @@ function Cautions({ model }: { model: PageModel }): ReactNode {
     <section aria-labelledby="learn-cautions" id="learn-cautions-section">
       <Notice kind="caution" kindLabel={t.t("common.notice.caution")} title={<span id="learn-cautions">{t.t("learn.page.cautions")}</span>}>
         <ul className={styles.flags}>{model.cautions.map((c, i) => <li key={`c${i}`}>{text(c)}</li>)}</ul>
-        {model.flags.length > 0 ? <><p style={{ margin: "var(--space-2) 0 0" }}><strong>{t.t("learn.page.flags")}</strong></p><ul className={styles.flags}>{model.flags.map((c, i) => <li key={`f${i}`}>{text(c)}</li>)}</ul></> : null}
+        {model.flags.length > 0 ? <><p style={{ margin: "var(--space-2) 0 0" }}><strong>{t.t("learn.page.flags")}</strong></p><ul className={styles.flags}>{model.flags.map((f, i) => <li key={`f${i}`}>{f}</li>)}</ul></> : null}
       </Notice>
     </section>
   );

@@ -9,7 +9,7 @@
       "basis": "WHO Standard Acupuncture Point Locations (2008), in the project's own words",
       "cautions": [
         {
-          "en": "Do not press this point if you are pregnant or may be pregnant.",
+          "en": "Do not press this point in pregnancy or when pregnancy is possible.",
           "zh-Hant": "懷孕或可能懷孕時不要按壓此穴。"
         }
       ],
@@ -76,7 +76,7 @@
           "zh-Hant": "按壓力道宜輕到中等，不可重壓。"
         },
         {
-          "en": "Do not press this point if you are pregnant or may be pregnant.",
+          "en": "Do not press this point in pregnancy or when pregnancy is possible.",
           "zh-Hant": "懷孕或可能懷孕時不要按壓此穴。"
         }
       ],
@@ -158,7 +158,7 @@
       "basis": "WHO Standard Acupuncture Point Locations (2008), in the project's own words",
       "cautions": [
         {
-          "en": "Do not press this point if you are pregnant or may be pregnant.",
+          "en": "Do not press this point in pregnancy or when pregnancy is possible.",
           "zh-Hant": "懷孕或可能懷孕時不要按壓此穴。"
         }
       ],
@@ -187,13 +187,13 @@
       "basis": "WHO Standard Acupuncture Point Locations (2008), in the project's own words",
       "cautions": [
         {
-          "en": "Do not press this point if you are pregnant or may be pregnant.",
+          "en": "Do not press this point in pregnancy or when pregnancy is possible.",
           "zh-Hant": "懷孕或可能懷孕時不要按壓此穴。"
         }
       ],
       "code": "BL32",
       "location": {
-        "en": "On the sacrum (the flat triangular bone at the base of the spine), one on each side, in the second small hollow from the top; it is hard to find by yourself, so ask a practitioner to show you.",
+        "en": "On the sacrum (the flat triangular bone at the base of the spine), one on each side, in the second small hollow from the top; it is hard to find without help, so a practitioner is best placed to show it.",
         "zh-Hant": "骶骨（脊椎下端的三角形平骨）上，左右各一，位於第二個骶後孔的凹陷中；位置不易自找，宜請專業人員示範。"
       },
       "meridian": "膀胱經",
@@ -255,7 +255,7 @@
       "basis": "WHO Standard Acupuncture Point Locations (2008), in the project's own words",
       "cautions": [
         {
-          "en": "Do not press this point if you are pregnant or may be pregnant.",
+          "en": "Do not press this point in pregnancy or when pregnancy is possible.",
           "zh-Hant": "懷孕或可能懷孕時不要按壓此穴。"
         }
       ],
@@ -284,7 +284,7 @@
       "basis": "WHO Standard Acupuncture Point Locations (2008), in the project's own words",
       "cautions": [
         {
-          "en": "Do not press this point if you are pregnant or may be pregnant.",
+          "en": "Do not press this point in pregnancy or when pregnancy is possible.",
           "zh-Hant": "懷孕或可能懷孕時不要按壓此穴。"
         }
       ],
@@ -325,7 +325,7 @@
       "basis": "WHO Standard Acupuncture Point Locations (2008), in the project's own words",
       "cautions": [
         {
-          "en": "Press the breastbone only gently; if you have chest pain or tightness, do not press it yourself — follow the advice to see a doctor.",
+          "en": "Press the breastbone only gently; with chest pain or tightness, do not press it at all — follow the advice to see a doctor.",
           "zh-Hant": "胸骨處以輕柔按揉為主；若有胸痛、胸悶，不要自行按壓，請依畫面提示就醫。"
         }
       ],
@@ -342,7 +342,7 @@
       "basis": "WHO Standard Acupuncture Point Locations (2008), in the project's own words",
       "cautions": [
         {
-          "en": "Do not press this point if you are pregnant or may be pregnant.",
+          "en": "Do not press this point in pregnancy or when pregnancy is possible.",
           "zh-Hant": "懷孕或可能懷孕時不要按壓此穴。"
         }
       ],
@@ -359,7 +359,7 @@
       "basis": "WHO Standard Acupuncture Point Locations (2008), in the project's own words",
       "cautions": [
         {
-          "en": "Do not press this point if you are pregnant or may be pregnant.",
+          "en": "Do not press this point in pregnancy or when pregnancy is possible.",
           "zh-Hant": "懷孕或可能懷孕時不要按壓此穴。"
         }
       ],
@@ -416,7 +416,7 @@
           "zh-Hant": "下腹部按壓宜輕；月經量多時不要按。"
         },
         {
-          "en": "Do not press this point if you are pregnant or may be pregnant.",
+          "en": "Do not press this point in pregnancy or when pregnancy is possible.",
           "zh-Hant": "懷孕或可能懷孕時不要按壓此穴。"
         }
       ],
@@ -478,7 +478,7 @@
         "zh-Hant": "皮膚破損、發炎、瘀青或腫脹處不要按壓。"
       },
       {
-        "en": "Stop at once if pain gets worse or you feel dizzy, sick, cold-sweaty or numb.",
+        "en": "Stop at once if pain gets worse or dizziness, sickness, a cold sweat or numbness appears.",
         "zh-Hant": "按壓時若出現疼痛加劇、頭暈、噁心、冒冷汗或麻木，請立即停止。"
       },
       {
@@ -487,7 +487,7 @@
       }
     ],
     "how": {
-      "en": "Press and knead with the thumb or a fingertip using light to moderate pressure, about 1 to 3 minutes per point, until you feel a dull ache but not pain; once or twice a day. Most points are paired, so you can press both sides.",
+      "en": "Traditionally pressed and kneaded with the thumb or a fingertip using light to moderate pressure, about 1 to 3 minutes per point, until a dull ache but no pain is felt; once or twice a day. Most points are paired, so both sides can be pressed.",
       "zh-Hant": "用拇指或指腹以輕到中等的力道按揉，每個穴位約 1 至 3 分鐘，以有痠脹感但不疼痛為度；每天 1 至 2 次。穴位位置以左右兩側對稱為主，可雙側都按。"
     }
   },
@@ -1086,7 +1086,7 @@
       "basis": "textbook",
       "cautions": [
         {
-          "en": "Use little with insomnia, palpitations or excess stomach acid; ask a doctor or pharmacist if you take medicines.",
+          "en": "Use little with insomnia, palpitations or excess stomach acid; ask a doctor or pharmacist when medicines are taken.",
           "zh-Hant": "失眠、心悸、胃酸過多者少用；與藥物併用請先詢問。"
         }
       ],
@@ -1337,7 +1337,7 @@
       "basis": "pharmacopoeia",
       "cautions": [
         {
-          "en": "Use little if you are weak and sweat easily.",
+          "en": "Use little with weakness and easy sweating.",
           "zh-Hant": "體虛多汗者少用。"
         }
       ],
@@ -1368,7 +1368,7 @@
       "basis": "pharmacopoeia",
       "cautions": [
         {
-          "en": "Use with caution in pregnancy; use little if fluids are low or you are constipated.",
+          "en": "Use with caution in pregnancy; use little if fluids are low or with constipation.",
           "zh-Hant": "孕婦慎用；津液不足、便秘者少用。"
         }
       ],
@@ -1461,7 +1461,7 @@
       "basis": "pharmacopoeia",
       "cautions": [
         {
-          "en": "Use little if fluids are low or you pass a lot of urine.",
+          "en": "Use little if fluids are low or urine is plentiful.",
           "zh-Hant": "津液不足、尿多者少用。"
         }
       ],
@@ -1490,7 +1490,7 @@
       "basis": "pharmacopoeia",
       "cautions": [
         {
-          "en": "If you take sedatives or sleeping medicines, ask a doctor or pharmacist first.",
+          "en": "With sedatives or sleeping medicines, ask a doctor or pharmacist first.",
           "zh-Hant": "與鎮靜安眠藥併用請先詢問醫師或藥師。"
         }
       ],
@@ -1650,7 +1650,7 @@
       "basis": "pharmacopoeia",
       "cautions": [
         {
-          "en": "Not suited during a fever, with a bloated belly or marked internal heat; if you take medicines, ask a doctor or pharmacist first.",
+          "en": "Not suited during a fever, with a bloated belly or marked internal heat; when medicines are taken, ask a doctor or pharmacist first.",
           "zh-Hant": "感冒發熱、腹脹或內熱明顯時不宜；與藥物併用請先詢問醫師或藥師。"
         }
       ],

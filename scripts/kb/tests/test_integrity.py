@@ -70,6 +70,16 @@ class Corruptions(unittest.TestCase):
             f["pregnancy"] = "avoid"
         self.assertReported({"formulas/formulas.json": m}, "stored pregnancy")
 
+    def test_stored_interactions_are_recomputed(self):
+        def forgotten(d):
+            f = next(x for x in d["items"] if x["interactions"])
+            f["interactions"] = f["interactions"][1:]
+        self.assertReported({"formulas/formulas.json": forgotten}, "stored interactions")
+        def invented(d):
+            f = next(x for x in d["items"] if not x["interactions"])
+            f["interactions"] = ["anticoagulant"]
+        self.assertReported({"formulas/formulas.json": invented}, "stored interactions")
+
     def test_duplicate_ids_and_names(self):
         self.assertReported({"diagnosis/symptoms.json": lambda d: d["items"].append(copy.deepcopy(d["items"][0]))}, "duplicate symptom id")
         def dup_herb(d):

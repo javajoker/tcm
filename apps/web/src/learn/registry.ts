@@ -7,9 +7,9 @@ import type { LearnType, TypeInfo } from "./types.ts";
 export const TYPES: readonly TypeInfo[] = [
   { type: "pattern", path: "patterns", adviceLike: false, available: true },
   { type: "constitution", path: "constitutions", adviceLike: false, available: true },
-  { type: "formula", path: "formulas", adviceLike: true, available: false },
-  { type: "point", path: "points", adviceLike: true, available: false },
-  { type: "food", path: "foods", adviceLike: true, available: false },
+  { type: "formula", path: "formulas", adviceLike: true, available: true },
+  { type: "point", path: "points", adviceLike: true, available: true },
+  { type: "food", path: "foods", adviceLike: true, available: true },
   { type: "quotation", path: "quotations", adviceLike: false, available: true },
   { type: "term", path: "terms", adviceLike: false, available: true },
 ];

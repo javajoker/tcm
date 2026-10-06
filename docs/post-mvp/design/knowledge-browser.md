@@ -2,8 +2,8 @@
 
 | | |
 |---|---|
-| **Version** | 0.3 (draft) |
-| **Status** | Design for Release B (FR-14, FR-25; tasks PM-13 … PM-16) and Release C (herb browser; PM-24, PM-25). **PM-13 and PM-14 are built** (the shell, the stable ids, search, the page template, terms, quotations, patterns and constitutions); formulas, points and foods follow in PM-15 |
+| **Version** | 0.4 (draft) |
+| **Status** | Design for Release B (FR-14, FR-25; tasks PM-13 … PM-16) and Release C (herb browser; PM-24, PM-25). **PM-13 to PM-15 are built** (the shell, the stable ids, search, the page template, and pages for terms, quotations, patterns, constitutions, formulas, acupoints and foods); the comparison follows in PM-16 |
 | **Last updated** | 2026-10-06 |
 | **Audience** | Engineers, designers, the clinical reviewer |
 | **Related** | [Requirements FR-14, FR-25](../requirements.md#fr-14-knowledge-browser--release-b--class-n-herbs-c-release-c--refines-fr-14) · [PRD §3](../../PRD.md#3-target-users) · [Tech spec §5.3, §8.1](../../tech-spec.md) · [UX spec](../../ux-spec.md) · [Safety policy](../../safety-policy.md) · [i18n guide §5](../../i18n-guide.md) |
@@ -138,6 +138,21 @@ The name **Compare patterns** (比較證型) is deliberately different from the 
 
 The bands come from one pure function, `featuresOf` in `@tcm/engine` (`learn.ts`), which the comparison of PM-16 reuses, so the two views never disagree about what is key. Tests: the boundaries are exact (2 of 3 is key, 1 of 3 is common, 2 of 6 is common, 1 of 6 is supporting); every pattern has a key feature and no feature twice; every page of both kinds has the required sections; a scan of each page model finds no second-person wording, no question mark and none of the pattern's treatment names.
 
+### 9.2 As built: pages about something a person might use (PM-15)
+
+| Page | Cautions region (always the first section, open) | The rest |
+|---|---|---|
+| **Formula** (`/learn/formulas/F_MAHUANG`) | The record's cautions in both languages; the stored **pregnancy** flag in the result page's own words; every stored **interaction** (or "none recorded, not yet reviewed"); the **allergy** line (an allergy to any herb of the composition rules the formula out); for tiers B and C the tier and its reasons; and one line saying a formula is set by a licensed practitioner for the person it is meant for | School, tier and source; the direction of care; the **composition table** — role (君臣佐使 with its English), herb in both languages, share, and an amount column only when the data has amounts; the reasoning; how far the composition was checked; sources (the source clause and the rationale quotations); the patterns it is traditionally used for |
+| **Acupoint** (`/learn/points/SP6`, the WHO code) | The point's cautions and the cautions that apply to every point; the stored **pregnancy** flag, or "no restriction recorded, not yet reviewed" | Code and meridian; where it lies; how a point is traditionally pressed; the patterns that list it; the other points of the meridian; the source standard |
+| **Food** (`/learn/foods/foshou`, a curated id) | The record's cautions; the stored pregnancy flag or "none recorded"; the allergy line (to the food, or to the herb it is made from) | Nature (with the glossary's English where it has one), flavours, traditional functions; why it is listed; its basis (the pharmacopoeia record or general textbook teaching) and citations; the patterns that list it |
+
+* **R4 holds because the data holds it.** A page is built only from records the session loaded: a release bundle has 20 tier-A formulas, so the other 13 have no page (the address gives the section's own not-found page, and a pattern page links only to formulas that exist), and the composition table has no amount column because the records have no amounts. A development build shows everything.
+* **R7 is two checks, not one.** The build already refused a formula whose stored pregnancy flag differs from the worst among its herbs; it now refuses one whose stored **interaction list** differs from the union of its herbs' (`validate_kb`, with a test that a forgotten or an invented interaction is reported). The page then shows the stored flags as they are, in a test over every formula, point and food that also checks they agree with the herbs.
+* **R2 reached the data.** Twenty-two English strings of the curated data spoke to the reader ("Do not press this point if you are pregnant"); the ones a page shows were reworded into the impersonal ("Do not press this point in pregnancy or when pregnancy is possible"), keeping the plain imperative that a caution needs, and a test scans **every page of every kind**, in both languages, for second-person wording. The result page shows the same, reworded, strings. The pattern lifestyle lines and the general advice text are not shown by any Learn page and keep their wording until a page uses them.
+* **A pattern page now links to its treatments** — a section *Traditionally associated* with the formulas, points and foods the record lists, as links only, to pages that put their cautions first; the pattern page itself still names none of them in its own text.
+* **Foods have no English name in the data** (a food is a Chinese name with a curated id), so an English page shows the Chinese name with its id and takes English only from the glossary where there is an entry; adding English names is a data task for the language review.
+* **The result page gained a fix on the way:** a tier reason such as *contains a strong herb: 麻黃* showed the herb unconverted on a Simplified page; each herb is now converted on its own, and the two reasons that were shown in English on a Chinese page (*bitter-cold herbs carry …*, *outside the first release*) have catalogue text.
+
 ### 10.1 As built (PM-13)
 
 | Layer | What exists |
@@ -176,3 +191,4 @@ PM-13 (shell, ids, anonymous-context components, search index, print), PM-14 (pa
 | 0.1 | 2026-10-05 | Initial design |
 | 0.2 | 2026-10-06 | PM-13 built: stable ids frozen in the data, the in-memory index (replacing the chunk of §5), best-match group order, the standing line's link, the as-built test list (§10.1) and the three defaults it added |
 | 0.3 | 2026-10-06 | PM-14 built: pattern and constitution pages, feature bands from the engine, the treatment lists and the questionnaire items kept off these pages (§9.1) |
+| 0.4 | 2026-10-06 | PM-15 built: formula, acupoint and food pages with the cautions region first (§9.2), the interaction-list rule, second-person wording removed from the data a page shows, links from a pattern to its treatments |

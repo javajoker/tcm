@@ -1,11 +1,12 @@
 // The lists and pages of the Learn section, built from the records the session already holds (docs/post-mvp/design/knowledge-browser.md §3). Pure: a knowledge base and a formatter in, models out.
 // Nothing is invented here — a page shows what the record says, with its source and its review state, and says "no source" where there is none.
 import { featuresOf, type FeatureBand } from "@tcm/engine";
-import type { Citation, Constitution, GlossaryTerm, KnowledgeBase, Pattern } from "@tcm/kb";
+import type { Citation, Constitution, Formula, GlossaryTerm, KnowledgeBase, Pattern } from "@tcm/kb";
 import type { T } from "../i18n/I18nProvider.tsx";
 import type { MessageKey } from "../i18n/catalogs.ts";
+import { COMPOSITION_STATUS, ROLE_SLUG, SCHOOL_SLUG, tierReason, UNIT_ID } from "../screens/result/words.ts";
 import { hrefOf } from "./registry.ts";
-import type { Block, ListGroup, LearnType, Name, PageModel, Review, Section } from "./types.ts";
+import type { Block, Caution, LinkGroup, ListGroup, LearnType, Name, PageModel, Related, Review, Section } from "./types.ts";
 
 const key = (k: string): MessageKey => k as MessageKey;
 
@@ -105,6 +106,8 @@ export function patternPage(kb: KnowledgeBase, id: string, t: T): PageModel | nu
     { id: "features", heading: t.t("learn.pattern.features"), blocks: featureBlocks },
     ...(elements.length > 0 ? [{ id: "elements", heading: t.t("learn.pattern.elements"), blocks: [{ kind: "plain" as const, text: t.t("learn.pattern.elements.intro") }, { kind: "groups" as const, groups: [{ label: null, items: elements }] }] }] : []),
   ];
+  const assoc = associatedWith(kb, t, p);
+  if (assoc.length > 0) sections.push({ id: "assoc", heading: t.t("learn.page.assoc"), blocks: [{ kind: "plain", text: t.t("learn.page.assoc.intro") }, { kind: "links", groups: assoc }] });
   const same = kb.patterns.filter((x) => x.group === p.group && x.id !== p.id);
   return {
     type: "pattern", id, title: p.name, alias: p.id, adviceLike: false, cautions: [], flags: [], sections,
@@ -141,6 +144,140 @@ export function constitutionPage(kb: KnowledgeBase, id: string, t: T): PageModel
   };
 }
 
+// ── what the records of one kind say about another ─────────────────────────
+
+const reviewOf = (status: string): Review => (status === "reviewed" ? "reviewed" : status === "derived" ? "derived" : status === "curated-draft" ? "curated-draft" : "draft");
+/** A word of the data named in both languages: the glossary's English where it has one. */
+const wordName = (kb: KnowledgeBase, zh: string, fallback: string | null = null): Name => ({ "zh-Hant": zh, en: kb.term(zh)?.en ?? fallback });
+const bilingual = (zh: readonly string[], en: readonly string[]): Caution[] => zh.map((c, i) => ({ "zh-Hant": c, en: en[i] ?? c }));
+
+const pointEntry = (kb: KnowledgeBase, code: string): readonly [string, KnowledgeBase["treatment"]["acupoints"][string]] | undefined => Object.entries(kb.treatment.acupoints).find(([, a]) => a.code === code);
+const pointName = (kb: KnowledgeBase, name: string, code: string): Name => wordName(kb, name, code);
+const foodName = (kb: KnowledgeBase, name: string): Name => wordName(kb, name);
+const formulaLink = (f: Formula): Related => ({ href: hrefOf("formula", f.id), name: f.name, kind: "formula" });
+
+/** Links from a pattern to the pages of what it lists: only to pages that exist in this build (a release bundle holds the tier-A formulas only). */
+function associatedWith(kb: KnowledgeBase, t: T, p: Pattern): LinkGroup[] {
+  const formulas = p.formulas.flatMap((id) => { const f = kb.formulas.get(id); return f === undefined ? [] : [formulaLink(f)]; });
+  const points = p.treatment.acupoints.flatMap((name): Related[] => { const a = kb.treatment.acupoints[name]; return a === undefined ? [] : [{ href: hrefOf("point", a.code), name: pointName(kb, name, a.code), kind: "point" }]; });
+  const foods = p.treatment.foods.flatMap((name): Related[] => { const f = kb.treatment.foods[name]; return f === undefined ? [] : [{ href: hrefOf("food", f.id), name: foodName(kb, name), kind: "food" }]; });
+  return [
+    { label: t.t("learn.page.assoc.formulas"), items: formulas }, { label: t.t("learn.page.assoc.points"), items: points }, { label: t.t("learn.page.assoc.foods"), items: foods },
+  ].filter((g) => g.items.length > 0);
+}
+
+/** The patterns that list a point or a food (the other direction of the same association). */
+const patternsListing = (kb: KnowledgeBase, field: "acupoints" | "foods", name: string): Related[] => kb.patterns.filter((p) => p.treatment[field].includes(name)).map((p) => ({ href: hrefOf("pattern", p.id), name: p.name, kind: "pattern" }));
+
+// ── formulas ────────────────────────────────────────────────────────────────
+
+export function formulasList(kb: KnowledgeBase, t: T): ListGroup[] {
+  const all = [...kb.formulas.values()];
+  return (["經方", "時方"] as const).map((school) => ({
+    key: SCHOOL_SLUG[school], heading: t.t(key(`formula.school.${SCHOOL_SLUG[school]}`)),
+    items: all.filter((f) => f.school === school).sort((a, b) => a.tier.localeCompare(b.tier)).map((f) => ({ id: f.id, name: f.name, note: t.t(key(`formula.tier.${f.tier}`)) })),
+  })).filter((g) => g.items.length > 0);
+}
+
+export function formulaPage(kb: KnowledgeBase, id: string, t: T): PageModel | null {
+  const f = kb.formulas.get(id);
+  if (f === undefined) return null;
+  const herb = (herbId: string, fallback: string): Name => kb.herbName(herbId)?.name ?? { "zh-Hant": fallback, en: null };
+  const hasAmounts = f.composition.some((r) => r.typical_g !== undefined || r.classical_amount !== undefined);
+  const amount = (r: Formula["composition"][number]): string => (r.typical_g !== undefined ? t.t("formula.composition.amount.g", { g: r.typical_g }) : r.classical_amount ? t.t("formula.composition.amount.classical", { value: r.classical_amount.value, unit: t.t(key(`formula.composition.unit.${UNIT_ID[r.classical_amount.unit]}`)) }) : "—");
+  const list = new Intl.ListFormat(t.lang === "en" ? "en" : t.lang, { style: "long", type: "conjunction" });
+  const flags = [
+    t.t(f.pregnancy === "avoid" ? "formula.cautions.pregnancy.avoid" : f.pregnancy === "caution" ? "formula.cautions.pregnancy.caution" : "formula.cautions.pregnancy.ok"),
+    f.interactions.length > 0 ? `${t.t("formula.cautions.interactions")} ${list.format(f.interactions.map((i) => t.t(key(`formula.interaction.${i}`))))}` : t.t("learn.formula.noInteraction"),
+    t.t("learn.formula.allergy"),
+    ...(f.tier !== "A" ? [[t.t(key(`formula.tier.${f.tier}`)), ...f.tier_reasons.map((r) => tierReason(t, r))].join("; ")] : []),
+    t.t("learn.formula.practitioner"),
+  ];
+  const verification = COMPOSITION_STATUS[f.verification.composition_status as keyof typeof COMPOSITION_STATUS] ?? "partial";
+  const sections: Section[] = [
+    { id: "overview", heading: t.t("learn.formula.overview"), blocks: [
+      { kind: "facts", rows: [{ label: t.t("learn.formula.school"), value: t.t(key(`formula.school.${SCHOOL_SLUG[f.school]}`)) }, { label: t.t("learn.formula.tier"), value: t.t(key(`formula.tier.${f.tier}`)) }] },
+      { kind: "plain", text: t.t("formula.source", { book: t.zh(f.source.book), school: t.t(key(`formula.school.${SCHOOL_SLUG[f.school]}`)) }) },
+    ] },
+    { id: "principle", heading: t.t("learn.formula.principle"), blocks: [{ kind: "text", zh: f.principle, en: f.principle_en, status: f.en_status }] },
+    { id: "composition", heading: t.t("learn.formula.composition"), blocks: [
+      { kind: "table", caption: t.t("formula.composition.caption"), head: [t.t("formula.composition.col.role"), t.t("formula.composition.col.herb"), t.t("formula.composition.col.share"), ...(hasAmounts ? [t.t("formula.composition.col.amount")] : [])],
+        rows: f.composition.map((r) => [`${t.zh(r.role)} ${t.t(key(`report.role.${ROLE_SLUG[r.role]}`))}`, herb(r.herb, r.name), t.number(r.proportion, { style: "percent", maximumFractionDigits: 0 }), ...(hasAmounts ? [amount(r)] : [])]) },
+      { kind: "plain", text: t.t("formula.composition.roleNote") },
+    ] },
+    { id: "rationale", heading: t.t("learn.formula.rationale"), blocks: [{ kind: "text", zh: f.rationale_zh, en: f.rationale_en, status: f.en_status }] },
+    { id: "verification", heading: t.t("learn.formula.verification"), blocks: [{ kind: "plain", text: t.t(key(`formula.verification.${verification}`)) }, { kind: "plain", text: t.t("formula.verification.proportion") }] },
+  ];
+  return {
+    type: "formula", id, title: f.name, adviceLike: true, cautions: bilingual(f.cautions, f.cautions_en), flags, sections,
+    citations: [...new Set([f.source.ref, ...f.rationale_citations])], review: reviewOf(f.status),
+    related: f.patterns.flatMap((pid) => { const p = kb.patternById.get(pid); return p === undefined ? [] : [{ href: hrefOf("pattern", pid), name: p.name, kind: "pattern" }]; }),
+  };
+}
+
+// ── acupoints ───────────────────────────────────────────────────────────────
+
+const meridianLabel = (kb: KnowledgeBase, t: T, meridian: string): string => (t.lang === "en" ? kb.term(meridian)?.en ?? t.zh(meridian) : t.zh(meridian));
+
+export function pointsList(kb: KnowledgeBase, t: T): ListGroup[] {
+  const entries = Object.entries(kb.treatment.acupoints);
+  const meridians = [...new Set(entries.map(([, a]) => a.meridian))];
+  return meridians.map((m) => ({ key: m, heading: meridianLabel(kb, t, m), items: entries.filter(([, a]) => a.meridian === m).map(([name, a]) => ({ id: a.code, name: pointName(kb, name, a.code), note: a.code })) }));
+}
+
+export function pointPage(kb: KnowledgeBase, code: string, t: T): PageModel | null {
+  const found = pointEntry(kb, code);
+  if (found === undefined) return null;
+  const [name, a] = found;
+  const acupressure = kb.treatment.acupressure;
+  const sections: Section[] = [
+    { id: "overview", heading: t.t("learn.point.overview"), blocks: [{ kind: "facts", rows: [{ label: t.t("learn.point.code"), value: a.code }, { label: t.t("learn.point.meridian"), value: wordName(kb, a.meridian) }] }] },
+    { id: "where", heading: t.t("learn.point.where"), blocks: [{ kind: "text", zh: a.location["zh-Hant"], en: a.location.en, status: "machine-draft" }] },
+    { id: "method", heading: t.t("learn.point.method"), blocks: [{ kind: "text", zh: acupressure.how["zh-Hant"], en: acupressure.how.en, status: "machine-draft" }] },
+  ];
+  const assoc = patternsListing(kb, "acupoints", name);
+  if (assoc.length > 0) sections.push({ id: "assoc", heading: t.t("learn.page.assoc"), blocks: [{ kind: "links", groups: [{ label: t.t("learn.page.assoc.patterns"), items: assoc }] }] });
+  return {
+    type: "point", id: a.code, title: pointName(kb, name, a.code), alias: a.code, adviceLike: true,
+    cautions: [...a.cautions, ...acupressure.cautions], flags: [t.t(a.pregnancy_avoid ? "learn.point.pregnancy" : "learn.point.noPregnancy")], sections,
+    citations: [], sourceLabel: a.basis, review: reviewOf(a.status),
+    related: Object.entries(kb.treatment.acupoints).filter(([n, x]) => x.meridian === a.meridian && n !== name).map(([n, x]) => ({ href: hrefOf("point", x.code), name: pointName(kb, n, x.code), kind: "point" })),
+  };
+}
+
+// ── foods ───────────────────────────────────────────────────────────────────
+
+const NATURE_ORDER = ["寒", "涼", "平", "溫", "熱"];
+
+export function foodsList(kb: KnowledgeBase, t: T): ListGroup[] {
+  const entries = Object.entries(kb.treatment.foods);
+  const natures = [...new Set(entries.map(([, f]) => f.nature))].sort((a, b) => { const [x, y] = [NATURE_ORDER.indexOf(a), NATURE_ORDER.indexOf(b)]; return (x < 0 ? 99 : x) - (y < 0 ? 99 : y); });
+  return natures.map((n) => ({
+    key: n, heading: meridianLabel(kb, t, n),
+    items: entries.filter(([, f]) => f.nature === n).map(([name, f]) => ({ id: f.id, name: foodName(kb, name), ...(f.flavors.length > 0 ? { note: f.flavors.map((x) => t.zh(x)).join(""), noteLang: "zh" as const } : {}) })),
+  }));
+}
+
+export function foodPage(kb: KnowledgeBase, id: string, t: T): PageModel | null {
+  const found = Object.entries(kb.treatment.foods).find(([, f]) => f.id === id);
+  if (found === undefined) return null;
+  const [name, f] = found;
+  const sections: Section[] = [
+    { id: "overview", heading: t.t("learn.food.overview"), blocks: [{ kind: "facts", rows: [{ label: t.t("learn.food.nature"), value: wordName(kb, f.nature) }] },
+      ...(f.flavors.length > 0 ? [{ kind: "groups" as const, groups: [{ label: t.t("learn.food.flavors"), items: f.flavors.map((x) => wordName(kb, x)) }] }] : []),
+      ...(f.functions.length > 0 ? [{ kind: "groups" as const, groups: [{ label: t.t("learn.food.functions"), items: f.functions.map((x) => wordName(kb, x)) }] }] : [])] },
+    { id: "rationale", heading: t.t("learn.food.rationale"), blocks: [{ kind: "text", zh: f.rationale["zh-Hant"], en: f.rationale.en, status: "machine-draft" }] },
+  ];
+  const assoc = patternsListing(kb, "foods", name);
+  if (assoc.length > 0) sections.push({ id: "assoc", heading: t.t("learn.page.assoc"), blocks: [{ kind: "links", groups: [{ label: t.t("learn.page.assoc.patterns"), items: assoc }] }] });
+  return {
+    type: "food", id, title: foodName(kb, name), alias: f.id, adviceLike: true,
+    cautions: f.cautions, flags: [t.t(f.pregnancy_caution ? "report.diet.pregnancy" : "learn.food.noPregnancy"), t.t("learn.food.allergy")], sections,
+    citations: f.citations, sourceLabel: t.t(key(`report.diet.basis.${f.basis}`)), review: reviewOf(f.status),
+    related: [],
+  };
+}
+
 // ── by type ─────────────────────────────────────────────────────────────────
 
 export function listOf(kb: KnowledgeBase, type: LearnType, t: T): ListGroup[] {
@@ -149,6 +286,9 @@ export function listOf(kb: KnowledgeBase, type: LearnType, t: T): ListGroup[] {
     case "quotation": return quotationsList(kb, t);
     case "pattern": return patternsList(kb, t);
     case "constitution": return constitutionsList(kb, t);
+    case "formula": return formulasList(kb, t);
+    case "point": return pointsList(kb, t);
+    case "food": return foodsList(kb, t);
     default: return [];
   }
 }
@@ -159,6 +299,9 @@ export function pageOf(kb: KnowledgeBase, type: LearnType, id: string, t: T): Pa
     case "quotation": return quotationPage(kb, id, t);
     case "pattern": return patternPage(kb, id, t);
     case "constitution": return constitutionPage(kb, id, t);
+    case "formula": return formulaPage(kb, id, t);
+    case "point": return pointPage(kb, id, t);
+    case "food": return foodPage(kb, id, t);
     default: return null;
   }
 }

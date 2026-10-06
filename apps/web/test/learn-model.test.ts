@@ -1,5 +1,7 @@
 // The Learn section's models (docs/post-mvp/design/knowledge-browser.md §3–§5, §10): search normalisation and ranking, the page model of every term and quotation, the registry, and the
 // wording rule R2 over the whole catalogue.
+import { indexKnowledgeBase } from "@tcm/kb";
+import { rawChunksFromDisk } from "@tcm/kb/node";
 import { createI18n } from "@tcm/i18n";
 import { describe, expect, it } from "vitest";
 import { catalogs, type MessageKey } from "../src/i18n/catalogs.ts";
@@ -10,6 +12,7 @@ import { kb, kbHans } from "./sweep.tsx";
 
 const tFor = (lang: "en" | "zh-Hant", k = kb) => createI18n<MessageKey>({ ...catalogs, "zh-Hans": {} }, lang, { zh: k.zh });
 const en = tFor("en");
+const release = indexKnowledgeBase(rawChunksFromDisk("release"));
 
 describe("normalise", () => {
   it("ignores case, tone marks, width and spaces", () => {
@@ -85,7 +88,7 @@ describe("the registry", () => {
   it("has the seven kinds, unique paths, and only the kinds whose pages exist are available", () => {
     expect(TYPES.map((t) => t.type)).toEqual(["pattern", "constitution", "formula", "point", "food", "quotation", "term"]);
     expect(new Set(TYPES.map((t) => t.path)).size).toBe(TYPES.length);
-    expect(AVAILABLE.map((t) => t.type).sort()).toEqual(["constitution", "pattern", "quotation", "term"]);
+    expect(AVAILABLE.map((t) => t.type).sort()).toEqual(["constitution", "food", "formula", "pattern", "point", "quotation", "term"]);
   });
   it("addresses are ASCII and round-trip", () => {
     for (const { type, path } of AVAILABLE) {
@@ -93,7 +96,7 @@ describe("the registry", () => {
       expect(hrefOf(type)).toBe(`/learn/${path}`);
       expect(hrefOf(type, "x-1")).toBe(`/learn/${path}/x-1`);
     }
-    expect(typeOfPath("formulas")).toBeUndefined();            // not built yet: the route says not found rather than showing an empty list
+    expect(typeOfPath("herbs")).toBeUndefined();               // not built yet (Release C): the route says not found rather than showing an empty list
     expect(infoOf("formula").adviceLike).toBe(true);
     expect(infoOf("term").adviceLike).toBe(false);
   });
@@ -147,8 +150,15 @@ describe.each(["en", "zh-Hant"] as const)("the pages of every available kind · 
       expect(text).not.toMatch(/\b(you|your)\b|\?/i);
       for (const r of page.related) expect(kb.patternById.get(r.href.split("/").pop()!)?.group, r.href).toBe(p.group);
       // the treatment lists (points, foods, lifestyle) belong to the pages that carry cautions first, not to this one
-      for (const point of p.treatment.acupoints) expect(text, `${p.id} ${point}`).not.toContain(point);
-      for (const food of p.treatment.foods) expect(text, `${p.id} ${food}`).not.toContain(food);
+      // …they are only reachable as links, in a section of their own, to pages that carry their cautions first
+      const assoc = page.sections.find((s) => s.id === "assoc");
+      const outside = JSON.stringify(page.sections.filter((s) => s.id !== "assoc"));
+      for (const point of p.treatment.acupoints) expect(outside, `${p.id} ${point}`).not.toContain(point);
+      for (const food of p.treatment.foods) expect(outside, `${p.id} ${food}`).not.toContain(food);
+      for (const f of p.formulas) expect(outside, `${p.id} ${f}`).not.toContain(f);
+      const links = (assoc?.blocks ?? []).flatMap((b) => (b.kind === "links" ? b.groups.flatMap((g) => g.items.map((i) => i.href)) : []));
+      expect(links.length, p.id).toBe(p.formulas.length + p.treatment.acupoints.length + p.treatment.foods.length);
+      for (const href of links) expect(href).toMatch(/^\/learn\/(formulas|points|foods)\/[A-Za-z0-9_-]+$/);
     }
   });
   it("every constitution has a page: description, features, related nature, tendencies, source", () => {
@@ -171,8 +181,9 @@ describe.each(["en", "zh-Hant"] as const)("the pages of every available kind · 
     expect(pageOf(kb, "quotation", "no-such-quotation", t)).toBeNull();
     expect(pageOf(kb, "pattern", "NOPE", t)).toBeNull();
     expect(pageOf(kb, "constitution", "C_NOPE", t)).toBeNull();
-    expect(pageOf(kb, "formula", "anything", t)).toBeNull();
-    expect(listOf(kb, "formula", t)).toEqual([]);
+    expect(pageOf(kb, "formula", "F_NOPE", t)).toBeNull();
+    expect(pageOf(kb, "point", "XX99", t)).toBeNull();
+    expect(pageOf(kb, "food", "no-such-food", t)).toBeNull();
   });
   it("the lists hold every record exactly once, in groups with headings", () => {
     const terms = listOf(kb, "term", t);
@@ -206,5 +217,86 @@ describe("R2: the Learn catalogue never speaks to the reader", () => {
   it("the catalogue has keys to check (the scan is not vacuous)", () => {
     expect(Object.keys(catalogs.en).filter((k) => k.startsWith("learn.")).length).toBeGreaterThan(50);
     expect(en.t("learn.page.standing")).toMatch(/not advice/);
+  });
+});
+
+describe.each(["en", "zh-Hant"] as const)("pages about something a person might use · %s", (lang) => {
+  const t = tFor(lang);
+  const SECOND_PERSON = lang === "en" ? /\b(you|your|yours|yourself)\b/i : /[你妳您]/;
+  const everyPage = (k: typeof kb) => AVAILABLE.flatMap(({ type }) => listOf(k, type, t).flatMap((g) => g.items.map((i) => ({ type, id: i.id, page: pageOf(k, type, i.id, t)! }))));
+
+  it("every page of every kind is reachable from its list, and never speaks to the reader (R2), in the data it shows as well as in the catalogue", () => {
+    const pages = everyPage(kb);
+    expect(pages).toHaveLength(kb.glossary.length + kb.citations.length + kb.patterns.length + kb.constitutions.length + kb.formulas.size + Object.keys(kb.treatment.acupoints).length + Object.keys(kb.treatment.foods).length);
+    for (const { type, id, page } of pages) {
+      expect(page, `${type}/${id}`).not.toBeNull();
+      const text = JSON.stringify(page);
+      expect(text.match(SECOND_PERSON)?.[0], `${type}/${id}`).toBeUndefined();
+    }
+  });
+  it("R1: every page about something a person might use has cautions or flags to put first, and one that describes none says so", () => {
+    for (const { type, id, page } of everyPage(kb)) {
+      if (!page.adviceLike) continue;
+      expect(page.cautions.length + page.flags.length, `${type}/${id}`).toBeGreaterThan(0);
+      expect(page.flags.length, `${type}/${id} states its flags`).toBeGreaterThan(0);
+    }
+    expect(AVAILABLE.filter((a) => a.adviceLike).map((a) => a.type).sort()).toEqual(["food", "formula", "point"]);
+  });
+  it("R7 formulas: the flags shown are the stored ones — pregnancy, every interaction, allergy — and the stored ones agree with the herbs", () => {
+    for (const f of kb.formulas.values()) {
+      const page = pageOf(kb, "formula", f.id, t)!;
+      const flags = page.flags.join("\n");
+      expect(flags, f.id).toContain(t.t(f.pregnancy === "avoid" ? "formula.cautions.pregnancy.avoid" : f.pregnancy === "caution" ? "formula.cautions.pregnancy.caution" : "formula.cautions.pregnancy.ok"));
+      for (const i of f.interactions) expect(flags, `${f.id} ${i}`).toContain(t.t(`formula.interaction.${i}` as MessageKey));
+      if (f.interactions.length === 0) expect(flags).toContain(t.t("learn.formula.noInteraction"));
+      expect(flags).toContain(t.t("learn.formula.allergy"));
+      expect(page.cautions.map((c) => c["zh-Hant"])).toEqual(f.cautions);
+      // the stored flags against the herbs (the build checks this too, validate_kb)
+      const herbs = f.composition.map((c) => kb.herbs!.get(c.herb)!);
+      expect([...f.interactions].sort()).toEqual([...new Set(herbs.flatMap((h) => h.interactions))].sort());
+      const order = ["ok", "ok-unreviewed", "caution", "avoid"];
+      expect(f.pregnancy).toBe(herbs.map((h) => h.pregnancy).sort((a, b) => order.indexOf(a) - order.indexOf(b)).at(-1));
+    }
+  });
+  it("R7 points and foods: the pregnancy flag follows the record, a point that is to be avoided says so in its cautions too, and the allergy line is there", () => {
+    for (const [name, a] of Object.entries(kb.treatment.acupoints)) {
+      const page = pageOf(kb, "point", a.code, t)!;
+      expect(page.flags, a.code).toEqual([t.t(a.pregnancy_avoid ? "learn.point.pregnancy" : "learn.point.noPregnancy")]);
+      expect(page.cautions.length, a.code).toBe(a.cautions.length + kb.treatment.acupressure.cautions.length);
+      if (a.pregnancy_avoid) expect(page.cautions.some((c) => /pregnan|懷孕/.test(c["zh-Hant"] + c.en)), `${name} lists the pregnancy caution`).toBe(true);
+    }
+    for (const [name, f] of Object.entries(kb.treatment.foods)) {
+      const page = pageOf(kb, "food", f.id, t)!;
+      expect(page.flags[0], name).toBe(t.t(f.pregnancy_caution ? "report.diet.pregnancy" : "learn.food.noPregnancy"));
+      expect(page.flags, name).toContain(t.t("learn.food.allergy"));
+      expect(page.cautions, name).toEqual(f.cautions);
+    }
+  });
+  it("a formula's composition table has a row per herb with its role, and amounts only where the data has them", () => {
+    for (const f of kb.formulas.values()) {
+      const table = pageOf(kb, "formula", f.id, t)!.sections.find((s) => s.id === "composition")!.blocks.find((b) => b.kind === "table")!;
+      if (table.kind !== "table") throw new Error("no table");
+      expect(table.rows).toHaveLength(f.composition.length);
+      expect(table.head).toHaveLength(f.composition.some((r) => r.typical_g !== undefined || r.classical_amount !== undefined) ? 4 : 3);
+    }
+  });
+  it("R4: a release build shows only its bundle — the tier-A formulas, without amounts — and nothing else can be opened by address", () => {
+    const listed = listOf(release, "formula", t).flatMap((g) => g.items.map((i) => i.id)).sort();
+    expect(listed).toEqual([...release.formulas.keys()].sort());
+    expect(listed.length).toBeLessThan(kb.formulas.size);
+    for (const f of kb.formulas.values()) {
+      if (f.tier === "A") continue;
+      expect(pageOf(release, "formula", f.id, t), `${f.id} (tier ${f.tier}) is not in the release`).toBeNull();
+      expect(listed).not.toContain(f.id);
+    }
+    for (const id of listed) {
+      const table = pageOf(release, "formula", id, t)!.sections.find((s) => s.id === "composition")!.blocks.find((b) => b.kind === "table")!;
+      if (table.kind === "table") expect(table.head, id).toHaveLength(3);
+    }
+    // a pattern page links only to the formula pages that exist in this build
+    for (const p of release.patterns) {
+      const links = pageOf(release, "pattern", p.id, t)!.sections.find((s) => s.id === "assoc")?.blocks.flatMap((b) => (b.kind === "links" ? b.groups.flatMap((g) => g.items.map((i) => i.href)) : [])) ?? [];
+      for (const href of links.filter((h) => h.startsWith("/learn/formulas/"))) expect(release.formulas.has(href.split("/").pop()!), `${p.id} ${href}`).toBe(true);
+    }
   });
 });

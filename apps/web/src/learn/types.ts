@@ -32,7 +32,13 @@ export type Block =
   | { readonly kind: "quote"; readonly zh: string }
   | { readonly kind: "facts"; readonly rows: readonly Fact[] }
   /** Labelled lists of names (the features of a pattern by band, the smaller patterns it is built from). A group without a label is a plain list. */
-  | { readonly kind: "groups"; readonly groups: readonly NameGroup[] };
+  | { readonly kind: "groups"; readonly groups: readonly NameGroup[] }
+  /** A table with a caption; the first column is the row header. A `Name` cell is shown in both languages. */
+  | { readonly kind: "table"; readonly caption: string; readonly head: readonly string[]; readonly rows: readonly (readonly Cell[])[] }
+  /** Links to other pages, in labelled groups (what is traditionally associated with the subject of the page). */
+  | { readonly kind: "links"; readonly groups: readonly LinkGroup[] };
+export type Cell = string | Name;
+export interface LinkGroup { readonly label: string | null; readonly items: readonly Related[] }
 export interface NameGroup { readonly label: string | null; readonly items: readonly Name[] }
 /** A string `value` is already in the page language (and, for Chinese, in the page script) and `lang` only marks it for assistive technology; a `Name` is shown in both languages like a title. */
 export interface Fact { readonly label: string; readonly value: string | Name; readonly lang?: "zh" | "en" | "pinyin" }
@@ -55,8 +61,8 @@ export interface PageModel {
   /** The page describes something a person might use (a formula, a food, a point): its cautions come first and the standing line is shown (R1, R3). */
   readonly adviceLike: boolean;
   readonly cautions: readonly Caution[];
-  /** Flags stored on the record that a reader must see beside the cautions (R7): pregnancy and interaction notes. */
-  readonly flags: readonly Caution[];
+  /** The flags stored on the record, as statements in the page language, that a reader must see beside the cautions (R7): pregnancy, interactions, allergy. A flag that is absent is stated as absent ("none recorded"), never left out. */
+  readonly flags: readonly string[];
   readonly sections: readonly Section[];
   /** Quotation ids of the sources; `sourceLabel` says where the content comes from when it has no quotation (a standard, a textbook). */
   readonly citations: readonly string[];

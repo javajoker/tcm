@@ -64,7 +64,7 @@ describe("diet, acupressure and lifestyle in the result (K-11)", () => {
     expect(within(figure.closest("figure")!).getByText("足三里")).toBeInTheDocument();
     const notes = advice().getByText("How to press").closest("details")!;
     await userEvent.click(within(notes).getByText("How to press"));
-    expect(within(notes).getByText(/Press and knead with the thumb or a fingertip/)).toBeInTheDocument();
+    expect(within(notes).getByText(/Traditionally pressed and kneaded with the thumb or a fingertip/)).toBeInTheDocument();
     expect(within(notes).getByText(/Stop at once if pain gets worse/)).toBeInTheDocument();
   });
 
@@ -73,7 +73,7 @@ describe("diet, acupressure and lifestyle in the result (K-11)", () => {
     const point = listed("三陰交");
     expect(within(point).getByText("Not in pregnancy")).toBeInTheDocument();
     await userEvent.click(within(point).getByText("Cautions for this point"));
-    expect(within(point).getByText(/Do not press this point if you are pregnant or may be pregnant/)).toBeInTheDocument();
+    expect(within(point).getByText(/Do not press this point in pregnancy or when pregnancy is possible/)).toBeInTheDocument();
     const dates = advice().getByText("桂圓").closest("li")!;
     expect(within(dates).getByText("Use with caution in pregnancy")).toBeInTheDocument();
   });

@@ -31,6 +31,9 @@ export function buildIndex(kb: KnowledgeBase): Index {
   const types = new Set(AVAILABLE.map((a) => a.type));
   if (types.has("pattern")) for (const p of kb.patterns) entries.push({ type: "pattern", id: p.id, name: p.name, forms: forms(p.name["zh-Hant"], kb.zh(p.name["zh-Hant"]), p.name.en, p.id) });
   if (types.has("constitution")) for (const c of kb.constitutions) entries.push({ type: "constitution", id: c.id, name: c.name, forms: forms(c.name["zh-Hant"], kb.zh(c.name["zh-Hant"]), c.name.en, c.id.replace(/^C_/, ""), c.id) });
+  if (types.has("formula")) for (const f of kb.formulas.values()) entries.push({ type: "formula", id: f.id, name: f.name, forms: forms(f.name["zh-Hant"], kb.zh(f.name["zh-Hant"]), f.name.en, f.id, f.id.replace(/^F_/, "")) });
+  if (types.has("point")) for (const [name, a] of Object.entries(kb.treatment.acupoints)) entries.push({ type: "point", id: a.code, name: { "zh-Hant": name, en: kb.term(name)?.en ?? a.code }, note: a.code, forms: forms(name, kb.zh(name), a.code, kb.term(name)?.en) });
+  if (types.has("food")) for (const [name, f] of Object.entries(kb.treatment.foods)) entries.push({ type: "food", id: f.id, name: { "zh-Hant": name, en: kb.term(name)?.en ?? null }, forms: forms(name, kb.zh(name), f.id, kb.term(name)?.en) });
   if (types.has("term")) for (const g of kb.glossary) entries.push({ type: "term", id: g.id, name: { "zh-Hant": g["zh-Hant"], en: g.en }, note: g.pinyin, noteLang: "pinyin", forms: forms(g["zh-Hant"], kb.zh(g["zh-Hant"]), g.en, g.pinyin, ...g.alt, g.id.replace(/-/g, " ")) });
   if (types.has("quotation")) for (const c of kb.citations) entries.push({ type: "quotation", id: c.id, name: { "zh-Hant": `《${kb.zh(c.book)}》${kb.zh(c.chapter)}`, en: null }, note: excerpt(kb.zh(c.quote_zh_hant)), noteLang: "zh", forms: forms(c.book, kb.zh(c.book), c.chapter, kb.zh(c.chapter), `${c.book}${c.chapter}`, kb.zh(`${c.book}${c.chapter}`)) });
   return { entries };

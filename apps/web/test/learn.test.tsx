@@ -33,9 +33,10 @@ describe("the hub", () => {
     await open("/en/learn");
     expect(screen.getByRole("heading", { level: 1, name: "Learn" })).toBeInTheDocument();
     const cards = within(screen.getByRole("region", { name: "Browse by kind" })).getAllByRole("link");
-    expect(cards.map((c) => c.getAttribute("href"))).toEqual(["/en/learn/patterns", "/en/learn/constitutions", "/en/learn/quotations", "/en/learn/terms"]);
+    expect(cards.map((c) => c.getAttribute("href"))).toEqual(["/en/learn/patterns", "/en/learn/constitutions", "/en/learn/formulas", "/en/learn/points", "/en/learn/foods", "/en/learn/quotations", "/en/learn/terms"]);
     expect(cards[0]).toHaveTextContent(`${kb.patterns.length} entries`);
-    expect(cards[3]).toHaveTextContent(`${kb.glossary.length} entries`);
+    expect(cards[6]).toHaveTextContent(`${kb.glossary.length} entries`);
+    expect(cards[2]).toHaveTextContent(`${kb.formulas.size} entries`);
     expect(screen.getByRole("search")).toBeInTheDocument();
     expect(document.title).toBe("Learn · TCM Self-Check");
   });
@@ -164,8 +165,9 @@ describe("a pattern page", () => {
     expect(within(screen.getByRole("region", { name: "Sources" })).getAllByRole("button", { name: /^Open source/ })).toHaveLength(p.citations.length);
     expect(screen.getByRole("link", { name: "Back to Patterns" })).toHaveAttribute("href", "/en/learn/patterns");
     expect(screen.getByRole("region", { name: "Related" })).toBeInTheDocument();
-    // R5: no checklist, no question, no treatment (those belong to pages that carry cautions first)
-    const text = document.querySelector("article")!.textContent ?? "";
+    // R5: no checklist, no question; the treatments are only links, in a section of their own, to pages that carry cautions first
+    const assoc = screen.getByRole("region", { name: "Traditionally associated" });
+    const text = (document.querySelector("article")!.textContent ?? "").replace(assoc.textContent ?? "", "");
     expect(text).not.toMatch(/\?|\byou\b/i);
     for (const point of p.treatment.acupoints) expect(text).not.toContain(point);
     expect(screen.queryByText(/not advice for the reader/)).toBeNull();
@@ -209,6 +211,102 @@ describe("a constitution page", () => {
   });
 });
 
+describe("a formula page", () => {
+  const f = kb.formulas.get("F_MAHUANG")!;
+  it("puts the cautions, the stored flags and the allergy line first, under the standing line, before anything that describes the formula (R1, R3, R7)", async () => {
+    await open("/en/learn/formulas/F_MAHUANG");
+    const h1 = screen.getByRole("heading", { level: 1 });
+    expect(h1).toHaveTextContent("Mahuang Tang (Ephedra Decoction) · 麻黃湯");
+    const cautions = screen.getByRole("region", { name: "Cautions" });
+    for (const c of f.cautions_en) expect(cautions).toHaveTextContent(c);
+    expect(cautions).toHaveTextContent("Use with caution in pregnancy; ask a doctor first.");
+    expect(cautions).toHaveTextContent("May interact with: high blood pressure or blood-pressure medicines");
+    expect(cautions).toHaveTextContent("An allergy to any herb in the composition rules the formula out.");
+    expect(cautions).toHaveTextContent("Contains strong or harsh herbs");
+    expect(cautions).toHaveTextContent("only explains its traditional composition");
+    expect(within(cautions).queryByRole("button")).toBeNull();
+    const article = document.querySelector("article")!;
+    expect(article.querySelector("section")).toBe(cautions);
+    const standing = screen.getByText(/not advice for the reader/);
+    expect(standing.compareDocumentPosition(cautions) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    for (const heading of ["Overview", "Composition", "Reasoning"]) expect(cautions.compareDocumentPosition(screen.getByRole("heading", { level: 2, name: heading })) & Node.DOCUMENT_POSITION_FOLLOWING, heading).toBeTruthy();
+  });
+  it("shows the composition as a table with the role of each herb, and the sources, the direction of care and the patterns it is used for", async () => {
+    await open("/en/learn/formulas/F_MAHUANG");
+    const table = within(screen.getByRole("region", { name: "Composition" })).getByRole("table");
+    expect(within(table).getAllByRole("row")).toHaveLength(f.composition.length + 1);
+    expect(within(table).getByRole("rowheader", { name: /君 Sovereign/ })).toBeInTheDocument();
+    expect(within(table).getByRole("columnheader", { name: "Amount" })).toBeInTheDocument();       // the development data has amounts; a release bundle has none (the model tests)
+    expect(screen.getByRole("region", { name: "Direction of care" })).toHaveTextContent(f.principle_en);
+    expect(within(screen.getByRole("region", { name: "Sources" })).getAllByRole("button", { name: /^Open source/ }).length).toBeGreaterThan(1);
+    expect(within(screen.getByRole("region", { name: "Related" })).getByRole("link")).toHaveAttribute("href", "/en/learn/patterns/EX1");
+    expect(screen.getByRole("region", { name: "How far the composition was checked" })).toHaveTextContent("checked against the classical text");
+  });
+  it("is listed by school, each with its tier, and a pattern page links to it", async () => {
+    await open("/en/learn/formulas");
+    expect(screen.getAllByRole("heading", { level: 2 }).map((h) => h.textContent)).toEqual(["classical formula (jingfang)", "later formula (shifang)"]);
+    const link = screen.getByRole("link", { name: /Mahuang Tang/ });
+    expect(link).toHaveAttribute("href", "/en/learn/formulas/F_MAHUANG");
+    expect(link).toHaveTextContent("Contains strong or harsh herbs");
+    document.body.innerHTML = "";
+    await open("/en/learn/patterns/EX1");
+    const assoc = screen.getByRole("region", { name: "Traditionally associated" });
+    expect(within(assoc).getByRole("heading", { level: 3, name: "Formulas" })).toBeInTheDocument();
+    expect(within(assoc).getByRole("link", { name: /Mahuang Tang/ })).toHaveAttribute("href", "/en/learn/formulas/F_MAHUANG");
+    expect(within(assoc).getAllByRole("link").map((a) => a.getAttribute("href")).every((h) => /\/learn\/(formulas|points|foods)\//.test(h ?? ""))).toBe(true);
+  });
+});
+
+describe("an acupoint page", () => {
+  it("shows the pregnancy flag and every caution first, then where the point lies and how a point is traditionally pressed", async () => {
+    await open("/en/learn/points/SP6");
+    expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent("SP6 · 三陰交");
+    const cautions = screen.getByRole("region", { name: "Cautions" });
+    expect(cautions).toHaveTextContent("Not to be pressed in pregnancy or when pregnancy is possible.");
+    expect(cautions).toHaveTextContent("Do not press on skin that is broken, inflamed, bruised or swollen.");
+    expect(document.querySelector("article")!.querySelector("section")).toBe(cautions);
+    expect(screen.getByRole("region", { name: "Where it lies" })).toHaveTextContent("inner side of the lower leg");
+    expect(screen.getByRole("region", { name: "How an acupoint is traditionally pressed" })).toHaveTextContent("Traditionally pressed and kneaded");
+    expect(within(screen.getByRole("region", { name: "Overview" })).getByText("脾經")).toBeInTheDocument();
+    expect(screen.getByRole("region", { name: "Sources" })).toHaveTextContent("WHO Standard Acupuncture Point Locations");
+    expect(document.querySelector("article")!.textContent).not.toMatch(/\byou\b/i);
+  });
+  it("is listed by meridian and a point that carries no pregnancy restriction says so", async () => {
+    await open("/en/learn/points");
+    expect(screen.getAllByRole("heading", { level: 2 }).length).toBeGreaterThan(5);
+    const free = Object.values(kb.treatment.acupoints).find((a) => !a.pregnancy_avoid)!;
+    document.body.innerHTML = "";
+    await open(`/en/learn/points/${free.code}`);
+    expect(screen.getByRole("region", { name: "Cautions" })).toHaveTextContent("No pregnancy restriction is recorded for this point");
+  });
+});
+
+describe("a food page", () => {
+  it("shows the cautions, the pregnancy flag and the allergy line first, then nature and flavour, why it is listed and its basis", async () => {
+    const [name, food] = Object.entries(kb.treatment.foods).find(([, f]) => f.pregnancy_caution)!;
+    await open(`/en/learn/foods/${food.id}`);
+    expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(name);
+    const cautions = screen.getByRole("region", { name: "Cautions" });
+    expect(cautions).toHaveTextContent("Use with caution in pregnancy");
+    expect(cautions).toHaveTextContent("An allergy to this food, or to the herb it is made from, rules it out.");
+    for (const c of food.cautions) expect(cautions).toHaveTextContent(c.en);
+    expect(document.querySelector("article")!.querySelector("section")).toBe(cautions);
+    expect(screen.getByRole("region", { name: "Why it is listed" })).toHaveTextContent(food.rationale.en.slice(0, 20));
+    expect(screen.getByRole("region", { name: "Sources" })).toHaveTextContent(food.basis === "pharmacopoeia" ? "Pharmacopoeia" : "General textbook teaching");
+  });
+  it("is listed by nature, cold to hot", async () => {
+    await open("/en/learn/foods");
+    const headings = screen.getAllByRole("heading", { level: 2 }).map((h) => h.textContent ?? "");
+    expect(headings.length).toBeGreaterThanOrEqual(3);
+  });
+  it("is found by search through its Chinese name", async () => {
+    const [name, food] = Object.entries(kb.treatment.foods)[0]!;
+    const { user } = await open("/en/learn");
+    await user.type(screen.getByRole("combobox"), name);
+    expect(within(screen.getByRole("listbox")).getAllByRole("option").some((o) => o.getAttribute("href") === `/en/learn/foods/${food.id}`)).toBe(true);
+  });
+});
+
 describe("a quotation page", () => {
   it("shows the passage, where it comes from and how far it was checked", async () => {
     const c = kb.citation("shanghan-035")!;
@@ -221,7 +319,7 @@ describe("a quotation page", () => {
 });
 
 describe("the section's own not-found page", () => {
-  it.each(["/en/learn/terms/no-such-term", "/en/learn/formulas", "/en/learn/patterns/NOPE", "/en/learn/constitutions/C_NOPE", "/en/learn/quotations/nope"])("%s", async (path) => {
+  it.each(["/en/learn/terms/no-such-term", "/en/learn/herbs", "/en/learn/formulas/F_NOPE", "/en/learn/points/XX99", "/en/learn/foods/nope", "/en/learn/patterns/NOPE", "/en/learn/constitutions/C_NOPE", "/en/learn/quotations/nope"])("%s", async (path) => {
     await open(path);
     expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent("This page is not in the Learn section");
     expect(screen.getByRole("link", { name: "Back to Learn" })).toHaveAttribute("href", "/en/learn");
@@ -233,7 +331,7 @@ describe("the section's own not-found page", () => {
 const advice: PageModel = {
   type: "formula", id: "test-formula", title: { "zh-Hant": "測試方", en: "Test formula" }, adviceLike: true,
   cautions: [{ "zh-Hant": "孕婦慎用。", en: "Use with care in pregnancy." }],
-  flags: [{ "zh-Hant": "與抗凝藥物可能有交互作用。", en: "May interact with anticoagulant medicines." }],
+  flags: ["May interact with anticoagulant medicines."],
   sections: [
     { id: "description", heading: "Description", blocks: [{ kind: "text", zh: "描述文字。", en: "Description text." }] },
     { id: "composition", heading: "Composition", blocks: [{ kind: "plain", text: "A, B, C" }] },
@@ -250,7 +348,7 @@ describe.each(["en", "zh-Hant"] as const)("the page template · %s", (lang) => {
     const { container } = renderTree(<Tree lang={lang}><Page model={advice} /></Tree>);
     const cautions = await screen.findByRole("region", { name: lang === "en" ? "Cautions" : "注意事項" });
     expect(cautions).toHaveTextContent(lang === "en" ? "Use with care in pregnancy." : "孕婦慎用。");
-    expect(cautions).toHaveTextContent(lang === "en" ? "May interact with anticoagulant medicines." : "與抗凝藥物可能有交互作用。");
+    expect(cautions).toHaveTextContent("May interact with anticoagulant medicines.");
     expect(within(cautions).queryByRole("button")).toBeNull();
     expect(container.querySelector("details")).toBeNull();
     const first = container.querySelector("article")!.querySelectorAll("section");

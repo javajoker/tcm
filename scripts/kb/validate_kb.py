@@ -397,6 +397,10 @@ def validate(load: Loader = load, check_sources: bool = True) -> list[str]:
             worst = max((h["pregnancy"] for _, h in comp), key=lambda p: PREG_ORDER[p])
             if f["pregnancy"] != worst:
                 err(f"{f['id']}: stored pregnancy {f['pregnancy']} but the herbs give {worst}")
+            # the interaction list is the same kind of stored flag (PM-15, R7 of the knowledge browser): a Learn page shows it as it is stored, so it may never lag behind the herbs
+            interactions = sorted({i for _, h in comp for i in h["interactions"]})
+            if sorted(f["interactions"]) != interactions:
+                err(f"{f['id']}: stored interactions {sorted(f['interactions'])} but the herbs give {interactions}")
 
     # ── 6. patterns and elements ───────────────────────────────────────────
     acu = load("treatment/guidance.json")["acupoints"]

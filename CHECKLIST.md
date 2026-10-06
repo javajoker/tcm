@@ -108,7 +108,7 @@ A release is ticked item by item as features ship; a feature ships when the gate
 - [ ] Folded into the PRD and specs; `CHANGELOG.md` updated
 
 **Release B — Learn and follow up** (FR-14, FR-24, FR-25, FR-26, FR-27)
-- [ ] Every knowledge page names its sources or says "no source" and carries its cautions (test over all pages); axe-clean in light and dark; a release build shows only its bundle *(PM-13: the shell, terms and quotations built and tested; the other kinds and the data-side rules R4 and R7 follow in PM-14 and PM-15)*
+- [ ] Every knowledge page names its sources or says "no source" and carries its cautions (test over all pages); axe-clean in light and dark; a release build shows only its bundle *(PM-13 to PM-15: all seven kinds of page are built and tested, including the data-side rules R4 and R7; herbs follow in Release C)*
 - [ ] Comparison uses the question bank and adds no score
 - [ ] Practitioner export: schema published, preview toggles work, fields within the privacy inventory, wording lint clean
 - [ ] Follow-up: the calendar file carries no health content; trends never mix parameter fingerprints silently; wording passes the forbidden-wording lint and is reviewed

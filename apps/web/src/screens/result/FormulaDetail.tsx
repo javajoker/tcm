@@ -11,12 +11,9 @@ import type { SavedAssessment } from "../../storage/types.ts";
 import { Card, Chip, LinkButton, Skeleton } from "../../ui/index.ts";
 import { matchWord } from "./Advice.tsx";
 import { BilingualName, Prose } from "./shared.tsx";
-import { CHANNELS, LIUXIE_SLUG, ORGAN_SLUG, PRODUCT_SLUG } from "./words.ts";
+import { CHANNELS, COMPOSITION_STATUS, LIUXIE_SLUG, ORGAN_SLUG, PRODUCT_SLUG, ROLE_SLUG, SCHOOL_SLUG, tierReason, UNIT_ID } from "./words.ts";
 import { DataTable } from "./Panel.tsx";
 
-const SCHOOL_SLUG = { 經方: "jingfang", 時方: "shifang" } as const;
-const COMPOSITION_STATUS = { "verified-against-classical-text": "classical", "verified-against-source-book": "sourceBook", "verified-against-second-source": "secondSource", "partially-verified": "partial" } as const;
-const ROLE_SLUG = { 君: "sovereign", 臣: "minister", 佐: "assistant", 使: "envoy" } as const;
 
 /** Label of a panel dimension (`肺.qi`, `liuxie.濕`, `product.痰`) in the page language. */
 function dimLabel(t: ReturnType<typeof useI18n>["t"], dim: string): string {
@@ -25,16 +22,6 @@ function dimLabel(t: ReturnType<typeof useI18n>["t"], dim: string): string {
   if (head === "product" && tail in PRODUCT_SLUG) return t.t(`report.product.${PRODUCT_SLUG[tail as keyof typeof PRODUCT_SLUG]}` as MessageKey);
   if (head in ORGAN_SLUG && (CHANNELS as readonly string[]).includes(tail)) return `${t.t(`report.organ.${ORGAN_SLUG[head as keyof typeof ORGAN_SLUG]}` as MessageKey)} ${t.t(`report.channel.${tail}` as MessageKey)}`;
   return dim;
-}
-
-/** The knowledge base states a tier reason in English; known shapes are rendered in the page language, anything else is shown as written. */
-function tierReason(t: ReturnType<typeof useI18n>["t"], reason: string): string {
-  let m = /^contains a strong herb: (.+)$/.exec(reason);
-  if (m) return t.t("formula.tier.reason.strong", { herbs: m[1]! });
-  m = /^blood-activating herbs carry (\d+)% of the effective weight$/.exec(reason);
-  if (m) return t.t("formula.tier.reason.blood", { pct: `${m[1]}%` });
-  if (reason === "contains an aristolochic-acid risk herb") return t.t("formula.tier.reason.aristolochic");
-  return reason;
 }
 
 function Detail({ saved, rec, formula, kb }: { saved: SavedAssessment; rec: FormulaRecommendation; formula: Formula; kb: KnowledgeBase }): ReactNode {
@@ -137,9 +124,6 @@ function Detail({ saved, rec, formula, kb }: { saved: SavedAssessment; rec: Form
 }
 
 /** S14 Formula detail (UX spec §4.11). Only a formula that is part of the saved result is shown: nothing outside the policy's output can be opened by address. */
-/** The classical units of the original texts (兩 斤 升 合 and the counting units) and the key of each one's name in the page language. */
-export const UNIT_ID = { 兩: "liang", 斤: "jin", 升: "sheng", 合: "ge", 個: "piece", 枚: "piece" } as const;
-
 export function FormulaDetail({ id, fid }: { id: string; fid: string }): ReactNode {
   const { t } = useI18n();
   usePageTitle("formula.title");

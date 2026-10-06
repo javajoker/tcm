@@ -63,6 +63,12 @@ export const ROUTES: { pattern: string; url: string; needs: Needs; dev?: true; s
 export const STATES: { name: string; url: string; draft: (d: Draft) => Draft }[] = [
   { name: "a pattern page of the Learn section", url: "/learn/patterns/EX1", draft: (d) => d },
   { name: "the pattern list of the Learn section", url: "/learn/patterns", draft: (d) => d },
+  { name: "a formula page of the Learn section", url: "/learn/formulas/F_MAHUANG", draft: (d) => d },
+  { name: "the formula list of the Learn section", url: "/learn/formulas", draft: (d) => d },
+  { name: "an acupoint page of the Learn section", url: "/learn/points/SP6", draft: (d) => d },
+  { name: "the acupoint list of the Learn section", url: "/learn/points", draft: (d) => d },
+  { name: "a food page of the Learn section", url: "/learn/foods/foshou", draft: (d) => d },
+  { name: "the food list of the Learn section", url: "/learn/foods", draft: (d) => d },
   { name: "a constitution page of the Learn section", url: "/learn/constitutions/C_YINXU", draft: (d) => d },
   { name: "a quotation page of the Learn section", url: "/learn/quotations/shanghan-035", draft: (d) => d },
   { name: "the Learn section's own not-found page", url: "/learn/terms/no-such-term", draft: (d) => d },
