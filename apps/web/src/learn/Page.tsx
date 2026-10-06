@@ -28,7 +28,7 @@ export function Blocks({ blocks }: { blocks: readonly Block[] }): ReactNode {
           {b.rows.map((r) => (
             <div key={r.label} style={{ display: "contents" }}>
               <dt>{r.label}</dt>
-              <dd>{typeof r.value !== "string" ? <NameLine name={r.value} /> : r.lang === "zh" ? <span lang={t.zhLang}>{r.value}</span> : r.lang === "pinyin" ? <i lang="zh-Latn-pinyin">{r.value}</i> : r.lang === "en" ? <span lang="en">{r.value}</span> : r.value}</dd>
+              <dd>{typeof r.value !== "string" ? <NameLine name={r.value} /> : r.lang === "zh" ? <span lang={t.zhLang}>{r.value}</span> : r.lang === "pinyin" ? <i lang="zh-Latn-pinyin">{r.value}</i> : r.lang === "en" ? <span lang="en">{r.value}</span> : r.lang === "la" ? <i lang="la">{r.value}</i> : r.value}</dd>
             </div>
           ))}
         </dl>
@@ -72,7 +72,8 @@ export function Blocks({ blocks }: { blocks: readonly Block[] }): ReactNode {
 function Cautions({ model }: { model: PageModel }): ReactNode {
   const { t, lang } = useI18n();
   if (model.cautions.length === 0 && model.flags.length === 0) return null;
-  const text = (c: { readonly "zh-Hant": string; readonly en: string }): ReactNode => (lang === "en" ? <span lang="en">{c.en}</span> : <span lang={t.zhLang}>{t.zh(c["zh-Hant"])}</span>);
+  const text = (c: { readonly "zh-Hant": string; readonly en?: string | undefined }): ReactNode => (lang === "en" && c.en !== undefined ? <span lang="en">{c.en}</span>
+    : <><span lang={t.zhLang}>{t.zh(c["zh-Hant"])}</span>{lang === "en" ? <span className="muted"> {t.t("learn.herb.caution.zhOnly")}</span> : null}</>);
   return (
     <section aria-labelledby="learn-cautions" id="learn-cautions-section">
       <Notice kind="caution" kindLabel={t.t("common.notice.caution")} title={<span id="learn-cautions">{t.t("learn.page.cautions")}</span>}>
@@ -97,6 +98,7 @@ export function Page({ model }: { model: PageModel }): ReactNode {
         {model.adviceLike ? <p className="muted" style={{ margin: "var(--space-2) 0 0" }}>{t.t("learn.page.standing")} <Link href="/sources">{t.t("learn.page.standing.link")}</Link></p> : null}
       </header>
       {kb.params._meta.status !== "reviewed" ? <Notice kind="caution" kindLabel={t.t("common.notice.caution")}>{t.t("safety.notice.draft.text")}</Notice> : null}
+      {model.draftNote !== undefined ? <Notice kind="caution" kindLabel={t.t("common.notice.caution")}>{model.draftNote}</Notice> : null}
       {model.adviceLike ? <Cautions model={model} /> : null}
       {showIndex ? (
         <nav aria-label={t.t("learn.page.index")}>

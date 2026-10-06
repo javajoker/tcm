@@ -55,7 +55,7 @@ async function makeBackup(path = "/settings", over: Parameters<typeof open>[2] =
   const dialog = await screen.findByRole("dialog", { name: "Make a backup" });
   for (const label of untick) await userEvent.click(await within(dialog).findByRole("checkbox", { name: label }));
   await userEvent.click(within(dialog).getByRole("button", { name: "Download the backup" }));
-  await waitFor(() => expect(downloads).toHaveLength(1), { timeout: 10_000 });
+  await waitFor(() => expect(downloads).toHaveLength(1), { timeout: 40_000 });
   const read = await readBackup(downloads[0]!.text);
   if (read.kind !== "backup") throw new Error("not a backup");
   return { text: downloads[0]!.text, doc: read.document, opened };
@@ -125,7 +125,7 @@ describe("Make a backup", () => {
     expect(within(dialog).getByRole("button", { name: "Download the backup" })).toBeDisabled();
     await userEvent.click(within(dialog).getAllByRole("checkbox", { name: /20(25|26)/ })[1]!);
     await userEvent.click(within(dialog).getByRole("button", { name: "Download the backup" }));
-    await waitFor(() => expect(downloads).toHaveLength(1), { timeout: 10_000 });
+    await waitFor(() => expect(downloads).toHaveLength(1), { timeout: 40_000 });
     const read = await readBackup(downloads[0]!.text);
     expect(read.kind === "backup" && read.document.contents).toMatchObject({ assessments: 1, prefs: false });
   });
@@ -139,7 +139,7 @@ describe("Make a backup", () => {
     expect(box).not.toBeChecked();
     await userEvent.click(box);
     await userEvent.click(within(dialog).getByRole("button", { name: "Download the backup" }));
-    await waitFor(() => expect(downloads).toHaveLength(1), { timeout: 10_000 });
+    await waitFor(() => expect(downloads).toHaveLength(1), { timeout: 40_000 });
     const read = await readBackup(downloads[0]!.text);
     expect(read.kind === "backup" && read.document.contents).toMatchObject({ draft: true, assessments: 0 });
   });
@@ -272,7 +272,7 @@ describe("Restore from a file", () => {
     const dlg = await screen.findByRole("dialog", { name: "Make a backup" });
     await userEvent.click(await within(dlg).findByRole("checkbox", { name: /^The assessment I have not finished/ }));
     await userEvent.click(within(dlg).getByRole("button", { name: "Download the backup" }));
-    await waitFor(() => expect(downloads).toHaveLength(1), { timeout: 10_000 });
+    await waitFor(() => expect(downloads).toHaveLength(1), { timeout: 40_000 });
     const text = downloads[0]!.text;
     opened.unmount();
 
@@ -313,7 +313,7 @@ describe("a passphrase-protected backup", () => {
     await userEvent.type(within(dialog).getByLabelText("Passphrase"), PASS);
     await userEvent.type(within(dialog).getByLabelText("Type it again"), PASS);
     await userEvent.click(within(dialog).getByRole("button", { name: "Download the backup" }));
-    await waitFor(() => expect(downloads).toHaveLength(1), { timeout: 20_000 });
+    await waitFor(() => expect(downloads).toHaveLength(1), { timeout: 50_000 });
     return downloads[0]!.text;
   }
 
@@ -356,12 +356,12 @@ describe("a passphrase-protected backup", () => {
     const field = within(dialog).getByLabelText("Passphrase");
     await userEvent.type(field, "not the passphrase");
     await userEvent.click(within(dialog).getByRole("button", { name: "Open the backup" }));
-    expect(await within(dialog).findByText("Wrong passphrase, or the file is damaged. Nothing was changed.", undefined, { timeout: 20_000 })).toBeInTheDocument();
+    expect(await within(dialog).findByText("Wrong passphrase, or the file is damaged. Nothing was changed.", undefined, { timeout: 50_000 })).toBeInTheDocument();
     expect(await persistence.listAssessments()).toEqual([]);
     expect(within(dialog).getByLabelText("Passphrase")).toHaveValue("");                                    // the wrong try is not kept in the field
     await userEvent.type(within(dialog).getByLabelText("Passphrase"), PASS);
     await userEvent.click(within(dialog).getByRole("button", { name: "Open the backup" }));
-    expect(await within(dialog).findByText("3 saved results: 3 new, 0 already here, 0 different.", undefined, { timeout: 20_000 })).toBeInTheDocument();
+    expect(await within(dialog).findByText("3 saved results: 3 new, 0 already here, 0 different.", undefined, { timeout: 50_000 })).toBeInTheDocument();
     await userEvent.click(within(dialog).getByRole("button", { name: "Restore" }));
     await within(dialog).findByText(/3 added/);
     expect(await persistence.listAssessments()).toEqual(sorted(history()));
@@ -452,7 +452,7 @@ describe("two browsers", () => {
     const a = await open("/settings", items, { prefs: { theme: "dark" } });
     await userEvent.click(await screen.findByRole("button", { name: /^Make a backup/ }));
     await userEvent.click(await within(await screen.findByRole("dialog", { name: "Make a backup" })).findByRole("button", { name: "Download the backup" }));
-    await waitFor(() => expect(downloads).toHaveLength(1), { timeout: 10_000 });
+    await waitFor(() => expect(downloads).toHaveLength(1), { timeout: 40_000 });
     const text = downloads[0]!.text;
     const listA = await (a.persistence as Persistence).listAssessments();
     a.unmount();

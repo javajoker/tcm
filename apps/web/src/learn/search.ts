@@ -23,7 +23,7 @@ export interface Entry {
 
 export interface Index { readonly entries: readonly Entry[] }
 
-const forms = (...texts: readonly (string | null | undefined)[]): string[] => [...new Set(texts.filter((x): x is string => x !== null && x !== undefined && x !== "").map(normalise).filter((x) => x !== ""))];
+export const forms = (...texts: readonly (string | null | undefined)[]): string[] => [...new Set(texts.filter((x): x is string => x !== null && x !== undefined && x !== "").map(normalise).filter((x) => x !== ""))];
 
 /** The entries of every available type. A Simplified form is added when the page shows Simplified (`kb.zh`), so what the reader sees is what they can type. */
 export function buildIndex(kb: KnowledgeBase): Index {

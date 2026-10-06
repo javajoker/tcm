@@ -146,9 +146,9 @@ def build() -> tuple[list[dict], dict[str, str]]:
             "id": f"herb-{x['id']}", "slug": x["id"], "name": {"zh-Hant": x["zh"], "en": x["en"]}, "category": "藥食同源（人工補充）",
             "latin": None, "siqi": [], "temperature": x["temp"],
             "flavors": [{"flavor": f, "weight": 1.0, "element": FLAVOR_ELEMENT[f]} for f in x["flavors"]],
-            "organs": x["organs"], "functions": [], "effects": x["effects"], "harms": derive_harms(x["temp"], [{"flavor": f, "weight": 1.0} for f in x["flavors"]], x["tags"], x["organs"]),
+            "organs": x["organs"], "functions": x["functions"], "effects": x["effects"], "harms": derive_harms(x["temp"], [{"flavor": f, "weight": 1.0} for f in x["flavors"]], x["tags"], x["organs"]),
             "tags": x["tags"], "pregnancy": x["pregnancy"], "interactions": [], "toxic": False, "dose_g_reference": None,
-            "caution": x["note"], "classical_formulas": [], "status": "curated-draft", "data_quality": ["not in TCM-Library; hand-curated"],
+            "caution": x["caution"], "classical_formulas": [], "status": "curated-draft", "data_quality": ["not in TCM-Library; hand-curated"],
             "source": {"repo": "curated", "commit": None, "path": "scripts/kb/curated/herbs.py", "entry_id": x["id"], "book": "—"},
         }
         herbs.append(herb)

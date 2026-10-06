@@ -2867,7 +2867,7 @@
     },
     {
       "category": "藥食同源（人工補充）",
-      "caution": "潤肺和胃；糖尿病者慎用",
+      "caution": "糖尿病者慎用",
       "classical_formulas": [],
       "data_quality": [
         "not in TCM-Library; hand-curated"
@@ -2884,7 +2884,9 @@
           "weight": 1.0
         }
       ],
-      "functions": [],
+      "functions": [
+        "潤肺和胃"
+      ],
       "harms": {
         "liuxie.濕": 0.15
       },
@@ -17900,7 +17902,7 @@
     },
     {
       "category": "藥食同源（人工補充）",
-      "caution": "益氣和中、除煩止渴；常作藥食同源配伍",
+      "caution": null,
       "classical_formulas": [],
       "data_quality": [
         "not in TCM-Library; hand-curated"
@@ -17917,7 +17919,10 @@
           "weight": 1.0
         }
       ],
-      "functions": [],
+      "functions": [
+        "益氣和中",
+        "除煩止渴"
+      ],
       "harms": {},
       "id": "herb-jingmi",
       "interactions": [],
@@ -19028,7 +19033,7 @@
     },
     {
       "category": "藥食同源（人工補充）",
-      "caution": "滋陰養血、除煩；蛋類過敏者忌用",
+      "caution": "蛋類過敏者忌用",
       "classical_formulas": [],
       "data_quality": [
         "not in TCM-Library; hand-curated"
@@ -19045,7 +19050,10 @@
           "weight": 1.0
         }
       ],
-      "functions": [],
+      "functions": [
+        "滋陰養血",
+        "除煩"
+      ],
       "harms": {
         "脾.qi": -0.25
       },

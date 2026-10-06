@@ -108,14 +108,15 @@ wumei|Mume fruit|收澀|-|-|0|外有表邪或內有實熱積滯者不宜
 """
 
 # Herbs absent from TCM-Library: fully curated records.
-# id, zh, English, 四氣 (signed warmth), 五味 list, 歸經 list, effects, tags, pregnancy, note
+# id, zh, English, 四氣 (signed warmth), 五味 list, 歸經 list, effects, tags, pregnancy, functions (功效), caution (注意; None when the note has none)
+# Each hand-written note was one line of "functions；caution" and used to be filed whole under `caution`, so a page showed the functions of 粳米 as a caution. The words are the same; each part is filed where it belongs.
 EXTRA = [
     dict(id="jingmi", zh="粳米", en="Japonica rice", temp=0.0, flavors=["甘"], organs=["脾", "胃"],
-         effects={"脾.qi": 0.3, "胃.yin": 0.2}, tags=[], pregnancy="ok", note="益氣和中、除煩止渴；常作藥食同源配伍"),
+         effects={"脾.qi": 0.3, "胃.yin": 0.2}, tags=[], pregnancy="ok", functions=["益氣和中", "除煩止渴"], caution=None),   # the rest of the old note, 常作藥食同源配伍, is what the category 藥食同源 already says
     dict(id="jizihuang", zh="雞子黃", en="Egg yolk", temp=0.0, flavors=["甘"], organs=["心", "腎"],
-         effects={"心.yin": 0.5, "腎.yin": 0.3}, tags=["滋膩"], pregnancy="ok", note="滋陰養血、除煩；蛋類過敏者忌用"),
+         effects={"心.yin": 0.5, "腎.yin": 0.3}, tags=["滋膩"], pregnancy="ok", functions=["滋陰養血", "除煩"], caution="蛋類過敏者忌用"),
     dict(id="bingtang", zh="冰糖", en="Rock sugar", temp=0.0, flavors=["甘"], organs=["脾", "肺"],
-         effects={"肺.yin": 0.2, "胃.yin": 0.2}, tags=["甘壅"], pregnancy="ok", note="潤肺和胃；糖尿病者慎用"),
+         effects={"肺.yin": 0.2, "胃.yin": 0.2}, tags=["甘壅"], pregnancy="ok", functions=["潤肺和胃"], caution="糖尿病者慎用"),
 ]
 
 # Names used in formulas → library dir (canonical, Taiwan orthography)

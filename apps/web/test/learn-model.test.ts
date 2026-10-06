@@ -7,7 +7,7 @@ import { describe, expect, it } from "vitest";
 import { catalogs, type MessageKey } from "../src/i18n/catalogs.ts";
 import { comparisonPage, compareHref, compareLinks, parseIds } from "../src/learn/compare.ts";
 import { listOf, pageOf } from "../src/learn/pages.ts";
-import { AVAILABLE, hrefOf, infoOf, TYPES, typeOfPath } from "../src/learn/registry.ts";
+import { AVAILABLE, availableIn, hrefOf, infoOf, TYPES, typeOfPath } from "../src/learn/registry.ts";
 import { buildIndex, matching, normalise, PER_TYPE, search } from "../src/learn/search.ts";
 import { kb, kbHans } from "./sweep.tsx";
 
@@ -86,10 +86,17 @@ describe("search", () => {
 });
 
 describe("the registry", () => {
-  it("has the seven kinds, unique paths, and only the kinds whose pages exist are available", () => {
-    expect(TYPES.map((t) => t.type)).toEqual(["pattern", "constitution", "formula", "point", "food", "quotation", "term"]);
+  it("has the eight kinds, unique paths, and only the kinds whose pages exist are available", () => {
+    expect(TYPES.map((t) => t.type)).toEqual(["pattern", "constitution", "formula", "point", "food", "herb", "quotation", "term"]);
     expect(new Set(TYPES.map((t) => t.path)).size).toBe(TYPES.length);
-    expect(AVAILABLE.map((t) => t.type).sort()).toEqual(["constitution", "food", "formula", "pattern", "point", "quotation", "term"]);
+    expect(AVAILABLE.map((t) => t.type).sort()).toEqual(["constitution", "food", "formula", "herb", "pattern", "point", "quotation", "term"]);
+  });
+  it("offers the herbs only where the build has a herb browser: the dev build and the closed beta do, a public build has none until a sample review has covered herbs", () => {
+    expect(availableIn(kb).map((t) => t.type)).toContain("herb");
+    expect(availableIn(release).map((t) => t.type)).toContain("herb");
+    const pub = indexKnowledgeBase(rawChunksFromDisk("release", undefined, false));
+    expect(pub.herbBrowser).toBeNull();
+    expect(availableIn(pub).map((t) => t.type)).toEqual(["pattern", "constitution", "formula", "point", "food", "quotation", "term"]);
   });
   it("addresses are ASCII and round-trip", () => {
     for (const { type, path } of AVAILABLE) {
@@ -97,7 +104,8 @@ describe("the registry", () => {
       expect(hrefOf(type)).toBe(`/learn/${path}`);
       expect(hrefOf(type, "x-1")).toBe(`/learn/${path}/x-1`);
     }
-    expect(typeOfPath("herbs")).toBeUndefined();               // not built yet (Release C): the route says not found rather than showing an empty list
+    expect(typeOfPath("herbs")?.type).toBe("herb");
+    expect(typeOfPath("seeds")).toBeUndefined();               // a kind the section does not hold: the route says not found rather than showing an empty list
     expect(infoOf("formula").adviceLike).toBe(true);
     expect(infoOf("term").adviceLike).toBe(false);
   });
@@ -241,7 +249,7 @@ describe.each(["en", "zh-Hant"] as const)("pages about something a person might 
       expect(page.cautions.length + page.flags.length, `${type}/${id}`).toBeGreaterThan(0);
       expect(page.flags.length, `${type}/${id} states its flags`).toBeGreaterThan(0);
     }
-    expect(AVAILABLE.filter((a) => a.adviceLike).map((a) => a.type).sort()).toEqual(["food", "formula", "point"]);
+    expect(AVAILABLE.filter((a) => a.adviceLike).map((a) => a.type).sort()).toEqual(["food", "formula", "herb", "point"]);          // the herbs are checked page by page in learn-herbs.test.ts: their data comes on demand
   });
   it("R7 formulas: the flags shown are the stored ones — pregnancy, every interaction, allergy — and the stored ones agree with the herbs", () => {
     for (const f of kb.formulas.values()) {

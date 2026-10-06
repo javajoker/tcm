@@ -2,7 +2,7 @@
 // template renders, so that the anonymous-context rules (§4) are enforced in one place and tested over every record.
 import type { Bilingual } from "@tcm/kb";
 
-export type LearnType = "pattern" | "constitution" | "formula" | "point" | "food" | "quotation" | "term";
+export type LearnType = "pattern" | "constitution" | "formula" | "point" | "food" | "herb" | "quotation" | "term";
 
 /** A name in both languages, as the data carries it. Chinese text is shown through `t.zh` (data strings only: a name joined from several data strings is converted part by part and joined after, which `t.zh` leaves as it is). */
 export type Name = Bilingual;
@@ -14,6 +14,8 @@ export interface ListItem {
   readonly note?: string;
   /** The language of the note when it is not interface text: Chinese (already converted for display by the builder) or pinyin. */
   readonly noteLang?: "zh" | "pinyin";
+  /** What the record flags, in the page's language (a herb marked toxic, a pregnancy caution): shown under the name, so a list never reads as an invitation. */
+  readonly marks?: readonly string[];
 }
 export interface ListGroup {
   /** A stable key (also the order key) and the heading already in the page's language; `null` = no heading (one group). */
@@ -22,8 +24,8 @@ export interface ListGroup {
   readonly items: readonly ListItem[];
 }
 
-/** A caution as the data carries it: a sentence in Chinese and in English. */
-export interface Caution { readonly "zh-Hant": string; readonly en: string }
+/** A caution as the data carries it: a sentence in Chinese and in English; `en` is absent when the source gives the Chinese only (a herb's caution from the Pharmacopoeia), and the page then shows the Chinese and says so. */
+export interface Caution { readonly "zh-Hant": string; readonly en?: string }
 
 /** One block of a page's body. Text is data (Chinese and English), shown through the template's own language handling. */
 export type Block =
@@ -41,7 +43,7 @@ export type Cell = string | Name;
 export interface LinkGroup { readonly label: string | null; readonly items: readonly Related[] }
 export interface NameGroup { readonly label: string | null; readonly items: readonly Name[] }
 /** A string `value` is already in the page language (and, for Chinese, in the page script) and `lang` only marks it for assistive technology; a `Name` is shown in both languages like a title. */
-export interface Fact { readonly label: string; readonly value: string | Name; readonly lang?: "zh" | "en" | "pinyin" }
+export interface Fact { readonly label: string; readonly value: string | Name; readonly lang?: "zh" | "en" | "pinyin" | "la" }
 
 export interface Section { readonly id: string; readonly heading: string; readonly blocks: readonly Block[] }
 
@@ -68,6 +70,8 @@ export interface PageModel {
   readonly citations: readonly string[];
   readonly sourceLabel?: string | undefined;
   readonly review: Review;
+  /** A line about how far this page's facts have been checked, when its source is not a reviewed one (a herb derived by the app's rules): shown as a notice under the title. */
+  readonly draftNote?: string | undefined;
   readonly related: readonly Related[];
 }
 

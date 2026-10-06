@@ -53,7 +53,7 @@ export function SearchBox({ kb, index }: { kb: KnowledgeBase; index: Index }): R
           onChange={(e) => { setQuery(e.currentTarget.value); setActive(-1); }} onKeyDown={onKeyDown} />
       </Field>
       <div role="status" className={open ? "visually-hidden" : "muted"}>
-        {query.trim() === "" ? null : results.total === 0 ? t.t("learn.search.none", { query: query.trim() }) : t.t("learn.search.results", { n: results.total })}
+        {query.trim() === "" ? null : results.total === 0 ? t.t("learn.search.none", { query: query.trim() }) : t.plural("learn.search.results", results.total)}
       </div>
       <div id={`${base}-list`} role="listbox" aria-label={t.t("learn.search.label")} className={styles.listbox} hidden={!open}>
         {[...results.byType.entries()].map(([type, g]) => {

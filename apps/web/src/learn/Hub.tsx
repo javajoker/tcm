@@ -7,7 +7,7 @@ import { usePageTitle } from "../app/usePageTitle.ts";
 import { Notice } from "../ui/index.ts";
 import { compareHref } from "./compare.ts";
 import { listOf } from "./pages.ts";
-import { AVAILABLE, hrefOf } from "./registry.ts";
+import { availableIn, hrefOf } from "./registry.ts";
 import { kindTitle, SearchBox, useIndex } from "./SearchBox.tsx";
 import styles from "./Learn.module.css";
 
@@ -17,7 +17,9 @@ export function Hub(): ReactNode {
   const { kb } = useLoaded();
   const index = useIndex(kb);
   usePageTitle("learn.title");
-  const count = (type: (typeof AVAILABLE)[number]["type"]): number => listOf(kb, type, t).reduce((n, g) => n + g.items.length, 0);
+  const kinds = availableIn(kb);
+  // the herbs come on demand: how many there are is in the manifest, so the card needs no fetch
+  const count = (type: (typeof kinds)[number]["type"]): number => (type === "herb" ? kb.herbBrowser?.count ?? 0 : listOf(kb, type, t).reduce((n, g) => n + g.items.length, 0));
   return (
     <div className={styles.hub}>
       <h1>{t.t("learn.title")}</h1>
@@ -27,12 +29,12 @@ export function Hub(): ReactNode {
       <section aria-labelledby="learn-browse">
         <h2 id="learn-browse">{t.t("learn.hub.browse")}</h2>
         <ul className={styles.cards}>
-          {AVAILABLE.map(({ type }) => (
+          {kinds.map(({ type }) => (
             <li key={type}>
               <Link className={styles.card} href={hrefOf(type)}>
                 <span className={styles.cardTitle}>{t.t(kindTitle(type))}</span>
                 <span>{t.t(`learn.type.${type}.blurb` as MessageKey)}</span>
-                <span className="muted">{t.t("learn.type.count", { n: count(type) })}</span>
+                <span className="muted">{t.plural("learn.type.count", count(type))}</span>
               </Link>
             </li>
           ))}

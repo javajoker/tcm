@@ -67,6 +67,13 @@ test("E22: after one visit the whole product works with the server gone, and the
   await expect(page).toHaveURL(new RegExp(`/${lang}/learn/terms/yin-yang$`));
   await expect(page.getByRole("region", { name: app.t("learn.term.meaning") })).toContainText("yīn yáng");
 
+  // the herb pages, whose index and shards were never fetched while online: they come from the offline copy too (PM-25), with the Simplified lists where the page is Simplified
+  await app.goto("/learn/herbs/danggui");
+  await expect(page.getByRole("region", { name: app.t("learn.page.cautions") })).toBeVisible();
+  await app.goto("/learn/herbs");
+  await expect(page.getByRole("status").filter({ hasText: /\d{3}/ }).last()).toBeVisible();
+  await app.simplified("herb list offline");
+
   // after a whole assessment the offline copy still holds exactly the build's files, nothing the person produced
   expect(await cachedFiles(page)).toEqual(wanted);
 

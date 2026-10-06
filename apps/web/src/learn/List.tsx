@@ -35,7 +35,7 @@ export function List({ type }: { type: LearnType }): ReactNode {
           <TextInput type="search" value={query} autoComplete="off" spellCheck={false} onChange={(e) => setQuery(e.currentTarget.value)} />
         </Field>
       </div>
-      <p role="status" className="muted" style={{ margin: 0 }}>{total === 0 ? t.t("learn.list.empty") : t.t("learn.list.count", { n: total })}</p>
+      <p role="status" className="muted" style={{ margin: 0 }}>{total === 0 ? t.t("learn.list.empty") : t.plural("learn.list.count", total)}</p>
       <div className={styles.groups}>
         {shown.map((g) => (
           <section key={g.key} aria-labelledby={`learn-g-${g.key}`}>

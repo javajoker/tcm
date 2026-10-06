@@ -119,7 +119,7 @@ A release is ticked item by item as features ship; a feature ships when the gate
 **Release C — Breadth** (FR-30, FR-31, herb browser)
 - [ ] Every new pattern or module passes the admission checks in the build and has vignettes and golden seeds; self-test and margin rule green *(PM-21 built: the machine rows run in the build, the 23 original patterns carry named waivers that can only shrink, and a new pattern is never waived; the waves themselves, PM-22 and PM-23, are not started — they wait for named reviewers)*
 - [ ] Review records valid for each area added; golden concordance re-reported; no area ships on an exception without the draft label
-- [ ] Herb browser: per-session budget holds; only herbs covered by the sample review lose the draft label; every page carries its flags and sources *(PM-24 built: the data layer — index and shards, hash-checked, outside the session figure; a public build lists only reviewed herbs, so none yet. The pages are PM-25)*
+- [ ] Herb browser: per-session budget holds; only herbs covered by the sample review lose the draft label; every page carries its flags and sources *(PM-24 and PM-25 built: the data layer — index and shards, hash-checked, outside the session figure — and the pages, with the stored flags first, a source line and a draft note on every herb; a public build lists only reviewed herbs, so none yet. The sample review is not done)*
 - [ ] Five-phase extensions: parity cases pass; each change is a recorded parameter or engine version change; the astronomy tables regenerate from the pinned archive
 - [ ] Folded into the PRD, the SOP (owner of the logic) and specs; `CHANGELOG.md` updated
 

@@ -126,6 +126,6 @@ export default defineConfig(({ command }) => {
     build: { target: "es2022", modulePreload: { polyfill: false }, sourcemap: false },
     css: { modules: { localsConvention: "camelCaseOnly" } },
     // The whole suite shares the machine with the other packages' tests; a flow that takes half a second alone can take several when 50 workers compete.
-    test: { environment: "jsdom", setupFiles: ["./test/setup.ts"], include: ["test/**/*.test.{ts,tsx}", "src/**/*.test.{ts,tsx}"], css: false, testTimeout: 20_000, hookTimeout: 20_000 },
+    test: { environment: "jsdom", setupFiles: ["./test/setup.ts"], include: ["test/**/*.test.{ts,tsx}", "src/**/*.test.{ts,tsx}"], css: false, testTimeout: 60_000, hookTimeout: 60_000 },
   };
 });

@@ -33,9 +33,10 @@ describe("the hub", () => {
     await open("/en/learn");
     expect(screen.getByRole("heading", { level: 1, name: "Learn" })).toBeInTheDocument();
     const cards = within(screen.getByRole("region", { name: "Browse by kind" })).getAllByRole("link");
-    expect(cards.map((c) => c.getAttribute("href"))).toEqual(["/en/learn/patterns", "/en/learn/constitutions", "/en/learn/formulas", "/en/learn/points", "/en/learn/foods", "/en/learn/quotations", "/en/learn/terms", "/en/learn/compare"]);
+    expect(cards.map((c) => c.getAttribute("href"))).toEqual(["/en/learn/patterns", "/en/learn/constitutions", "/en/learn/formulas", "/en/learn/points", "/en/learn/foods", "/en/learn/herbs", "/en/learn/quotations", "/en/learn/terms", "/en/learn/compare"]);
     expect(cards[0]).toHaveTextContent(`${kb.patterns.length} entries`);
-    expect(cards[6]).toHaveTextContent(`${kb.glossary.length} entries`);
+    expect(cards[5]).toHaveTextContent(`${kb.herbBrowser!.count} entries`);          // known from the manifest: the card fetches nothing
+    expect(cards[7]).toHaveTextContent(`${kb.glossary.length} entries`);
     expect(cards[2]).toHaveTextContent(`${kb.formulas.size} entries`);
     expect(screen.getByRole("search")).toBeInTheDocument();
     expect(document.title).toBe("Learn · TCM Self-Check");
@@ -398,7 +399,7 @@ describe("a quotation page", () => {
 });
 
 describe("the section's own not-found page", () => {
-  it.each(["/en/learn/terms/no-such-term", "/en/learn/herbs", "/en/learn/formulas/F_NOPE", "/en/learn/points/XX99", "/en/learn/foods/nope", "/en/learn/patterns/NOPE", "/en/learn/constitutions/C_NOPE", "/en/learn/quotations/nope"])("%s", async (path) => {
+  it.each(["/en/learn/terms/no-such-term", "/en/learn/herbs/no-such-herb", "/en/learn/seeds", "/en/learn/formulas/F_NOPE", "/en/learn/points/XX99", "/en/learn/foods/nope", "/en/learn/patterns/NOPE", "/en/learn/constitutions/C_NOPE", "/en/learn/quotations/nope"])("%s", async (path) => {
     await open(path);
     expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent("This page is not in the Learn section");
     expect(screen.getByRole("link", { name: "Back to Learn" })).toHaveAttribute("href", "/en/learn");

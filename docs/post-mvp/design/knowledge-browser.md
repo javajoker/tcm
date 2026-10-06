@@ -2,8 +2,8 @@
 
 | | |
 |---|---|
-| **Version** | 0.6 (draft) |
-| **Status** | Design for Release B (FR-14, FR-25; tasks PM-13 … PM-16) and Release C (herb browser; PM-24, PM-25; **PM-24, the delivery of the herb data, is built**, [§7.1](#71-as-built-pm-24-delivery)). **PM-13 to PM-16 are built** (the shell, the stable ids, search, the page template, pages for all seven kinds, and the comparison of patterns); herbs wait for Release C |
+| **Version** | 0.7 (draft) |
+| **Status** | Design for Release B (FR-14, FR-25; tasks PM-13 … PM-16) and Release C (herb browser; PM-24, PM-25; **PM-24, the delivery of the herb data, and PM-25, the herb pages, are built**, [§7.1](#71-as-built-pm-24-delivery), [§7.2](#72-as-built-pm-25-the-herb-pages)). **PM-13 to PM-16 are built** (the shell, the stable ids, search, the page template, pages for all seven kinds, and the comparison of patterns); herbs wait for Release C |
 | **Last updated** | 2026-10-06 |
 | **Audience** | Engineers, designers, the clinical reviewer |
 | **Related** | [Requirements FR-14, FR-25](../requirements.md#fr-14-knowledge-browser--release-b--class-n-herbs-c-release-c--refines-fr-14) · [PRD §3](../../PRD.md#3-target-users) · [Tech spec §5.3, §8.1](../../tech-spec.md) · [UX spec](../../ux-spec.md) · [Safety policy](../../safety-policy.md) · [i18n guide §5](../../i18n-guide.md) |
@@ -35,17 +35,18 @@
 
 | Route (under `/:lang`) | Page | Source records |
 |---|---|---|
-| `/learn` | Hub: seven cards, a search field, a plain line on what this section is | — |
+| `/learn` | Hub: a card for each kind that exists (eight, with the herbs), a search field, a plain line on what this section is | — |
 | `/learn/patterns` · `/learn/patterns/:id` | List by group (external, spleen-stomach, liver, heart, lung, kidney, qi-blood) · detail | `patterns` (+ elements, formulas, treatment, citations) |
 | `/learn/constitutions` · `/:id` | List of nine · detail (features, prior nature, susceptibility) | `constitutions` |
 | `/learn/formulas` · `/:id` | List by school and tier · detail: composition with roles, principle, rationale, cautions, interactions, pregnancy, verification | `formulas` (+ herb display names) |
 | `/learn/points` · `/:code` | List by meridian · detail: location in words, basis, cautions, pregnancy flag | `guidance.acupoints` |
 | `/learn/foods` · `/:id` | List by nature and flavour · detail: nature, flavours, functions, rationale, cautions | `guidance.foods` (+ herb link) |
+| `/learn/herbs` · `/:slug` | List by category with a text filter and a nature filter · detail: the stored flags and the source's caution first, then category, nature, flavours, channel tropism, functions, the formulas it is in, source and review state. **Data on demand** ([§7.1](#71-as-built-pm-24-delivery)) | the herb browser (index and shards) |
 | `/learn/quotations` · `/:id` | List by book · the quotation, its source, translation label, verification | `citations` |
 | `/learn/terms` · `/:id` | Glossary: *Chinese · pinyin · English*, note, source | `glossary` |
 | `/learn/compare?ids=SP1,SP4` | Pattern comparison (§6) | `patterns`, `questions`, `symptoms` |
 
-Release C adds `/learn/herbs` and `/learn/herbs/:id`. A result links into the same pages (a term, a quotation, a pattern name); a learn page links back to the assessment with one neutral line at its foot.
+A result links into the same pages (a term, a quotation, a pattern name); a learn page links back to the assessment with one neutral line at its foot.
 
 **Stable ids.** Patterns, constitutions, formulas and quotations already have ASCII ids; acupoints use the WHO code; foods are addressed by the id of the herb they name, or by a new stable `id` the builder gives a food without a herb. Terms get an id derived from the glossary entry. No route contains Chinese characters, so links do not depend on the script of the data.
 
@@ -119,6 +120,21 @@ The data layer of the herb browser exists; the pages (PM-25) are not built yet.
 | Simplified | A display list for the index and one for each shard, built and verified like the others (the strings the file holds, their digest, the lines): each is fetched and paired when its file first comes, and a list that does not match is reported while the names stay as the data has them |
 | The loader | `kb.herbBrowser` is `null` when the build has none, else `rows()`, `categories()` and `detail(slug)`; each file is fetched once, hash-checked against the manifest, kept, and asked for again if it failed. A malformed manifest entry is refused before anything is fetched |
 | Offline | The files are listed with the knowledge base in the service worker's build facts, so after one visit the herb pages work offline like everything else; no worker code changed |
+
+### 7.2 As built (PM-25: the herb pages)
+
+| Piece | What was built |
+|---|---|
+| Routes and files | `/learn/herbs` and `/learn/herbs/:slug` in the same lazy route group (`apps/web/src/learn/Herbs.tsx`, the pure builders in `herbs.ts`), the same page template as every other kind. The hub has a card (the count comes from the manifest, so it fetches nothing); a build without a herb browser — a public build until a sample review has covered herbs — has no card and the address is the section's own not-found page |
+| The list | The herbs by category in the order a textbook lists them (解表藥 first), the data's order within a category, each with its name in both languages where it has both, its first functions in Chinese and — in words, under the name — what its record flags: *Toxic*, *Avoid in pregnancy*, *Pregnancy caution*. A text filter (a Chinese name in either script, an English or Latin name, the address, a function; case, width and tone marks ignored) and a native select for the nature, coldest first; the count is announced. The index is fetched when the list opens, with a way to try again |
+| The page | **R1, R7**: first, in one notice, the five statements the record supports and nothing else — toxic or *no toxicity recorded (not yet reviewed)*, the pregnancy level in four wordings, every stored interaction in the result page's own words or *none recorded*, the allergy line, the practitioner line — and the Pharmacopoeia's caution text exactly as stored, in Chinese, with a note in English that these are the source's words. Then the overview (category, nature, flavours, **channel tropism**, Latin name, aliases), the functions (in Chinese: the source gives no English and none has been reviewed, which the English page says), *In formulas* (links to the formulas of this build that use the herb or that the source names, and the names of the other classical formulas it lists, as names), the source and the review state. A notice under the title says why the page is a draft: *derived from the source entry by the app's own rules*, or *curated draft* |
+| English words | The categories (22), the natures (9) and the flavours (7) have English in the catalogue, filed under stable slugs; the channels come from the glossary, with two of the page's own for the ones it lacks (triple burner, pericardium). They are machine drafts like the rest of the English |
+| The source line | Three kinds: the Pharmacopoeia (2025 edition) for 637 herbs; a textbook, *《中藥學》· 藥典外品種*, for 63 that the Pharmacopoeia does not list; and **none** for the three added by hand (冰糖, 粳米, 雞子黃), which the page says in so many words |
+| Async pages | The first kind whose data comes after the route: a loading state, a failure with a way to try again, and the section's not-found page for a herb the build does not hold. `useAsync` runs a loader once per source and attempt whatever the loader's identity — a first version put the loader in the effect's dependencies and looped (789 000 loads in 200 ms in a test), and is covered by a test of its own. `RouteFocus` now waits for a heading that arrives late and moves focus to it, unless the person has moved on meanwhile; before, focus stayed on the page's container |
+| The hub's search | **Does not cover herbs.** The index is 26.5 KB gzip and is fetched when the herb list opens; making every search wait for it, or fetch it on the first keystroke, was not worth it, and the list has its own filter. *Decided 2026-10-06; revisit if learners ask* |
+| Tests | Model tests over all 703 herbs in two languages for R1, R2, R6 and R7 (every flag the record has is on the page and none it lacks; no second person; a source line; the draft note; the formula links); the filter in every script; component tests for the hub, the list, both filters, a page from the list and by its address (one shard, never the index), a failed fetch and its retry, Traditional and Simplified (no Traditional character on a Simplified page), the public build, axe; E31 in Chrome, Safari's engine and Firefox in three languages with axe and contrast in both colour schemes; and E22 now opens a herb page with the server gone |
+
+**Found on the way.** The three herbs added by hand had one free-text note each, *functions；caution*, filed whole under `caution`, so a page would have shown 粳米's functions as a caution; each part is now filed where it belongs (the words are the same, `curated/herbs.py`). The Learn lists said "1 entries shown": a plural message was passed through the plain lookup in four places (the hub's cards, the two lists and the search box) and is now chosen by count.
 
 ## 8. Experience and accessibility
 
@@ -223,3 +239,4 @@ PM-13 (shell, ids, anonymous-context components, search index, print), PM-14 (pa
 | 0.4 | 2026-10-06 | PM-15 built: formula, acupoint and food pages with the cautions region first (§9.2), the interaction-list rule, second-person wording removed from the data a page shows, links from a pattern to its treatments |
 | 0.5 | 2026-10-06 | PM-16 built: the comparison of patterns, its decisions (§6.1) and entry points |
 | 0.6 | 2026-10-06 | PM-24 built ([§7.1](#71-as-built-pm-24-delivery)): the herb index and sixteen shards, their policy by profile, their Simplified lists, the loader API, rule 15 of the release check. The pages are PM-25 |
+| 0.7 | 2026-10-06 | PM-25 built ([§7.2](#72-as-built-pm-25-the-herb-pages)): the herb list and page, their English words, the three kinds of source line, the async-page device and the focus fix, the decision that the hub's search does not cover herbs; two faults found on the way and fixed |

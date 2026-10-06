@@ -6,6 +6,7 @@ import { NeedsKnowledge, useLoaded } from "../app/knowledge.tsx";
 import { usePageTitle } from "../app/usePageTitle.ts";
 import { Compare } from "./Compare.tsx";
 import { Hub } from "./Hub.tsx";
+import { HerbList, HerbPage } from "./Herbs.tsx";
 import { List } from "./List.tsx";
 import { Page } from "./Page.tsx";
 import { pageOf } from "./pages.ts";
@@ -29,6 +30,7 @@ function Body({ type, id }: { type?: string | undefined; id?: string | undefined
   if (type === undefined) return <Hub />;
   const info = typeOfPath(type);
   if (info === undefined) return <Missing />;
+  if (info.type === "herb") return kb.herbBrowser === null ? <Missing /> : id === undefined ? <HerbList /> : <HerbPage slug={id} missing={<Missing />} />;
   if (id === undefined) return <List type={info.type} />;
   const model = pageOf(kb, info.type, id, t);
   return model === null ? <Missing /> : <Page model={model} />;
