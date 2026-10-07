@@ -3,7 +3,7 @@
 // content even if the UI is bypassed. Doses, tier-C formulas, herb weights, internal provenance and the other profile never reach a
 // bundle that cannot use them.
 import type {
-  Citations, Cities, ConstitutionItems, Constitutions, Correspondences, Emergency, Exclusions, NameFold, Formula, Formulas, Glossary, Herb, Herbs, Level, Orientation, PanelSchema, PatternElements, Patterns, ProfileName, Pulse, Questions,
+  Citations, Cities, ConstitutionItems, Constitutions, Correspondences, DoseBands, Emergency, Exclusions, NameFold, Formula, Formulas, Glossary, Herb, Herbs, Level, Orientation, Pairings, PanelSchema, PatternElements, Patterns, Prescription, PrescriptionChunk, Processing, ProfileName, Pulse, Questions, Sanyin, Yinjing,
   RawKbChunks, RedFlags, SafetyRules, ScopeConfig, ScopeProfile, ScopeProfiles, ScoringParams, Susceptibility, Symptoms, Tongue, TreatmentGuidance, Yunqi, FormulasChunk, GuidanceChunk, HerbName, TreatmentCore,
 } from "./types.ts";
 import { buildHerbBrowser, memorySource, type HerbBrowserChunks } from "./herbs.ts";
@@ -36,6 +36,13 @@ export interface DataFiles {
   readonly herbs: Herbs;
   readonly citations: Citations;
   readonly cities: Cities;
+  // the prescription model (PM-37 … PM-40): bundled with the herb records only
+  readonly pairings: Pairings;
+  readonly processing: Processing;
+  readonly doseBands: DoseBands;
+  readonly yinjing: Yinjing;
+  readonly prescriptionParams: Prescription;
+  readonly sanyin: Sanyin;
 }
 
 export const LEVELS: readonly Level[] = ["L0", "L1", "L2", "L3"];
@@ -196,6 +203,16 @@ export function buildChunks(files: DataFiles, opts: BuildOptions): BuildResult {
   const herbs: Herb[] | null = reach.herbRecords
     ? files.herbs.items.filter((h) => h.status === "curated-draft").map((h) => (dev ? h : ((({ props_rules: _rules, ...rest }) => rest)(h) as Herb)))
     : null;
+  // the prescription model's tables, filtered to the herbs of the bundle: they go wherever the herb records go, and nowhere else
+  const bundled = new Set((herbs ?? []).map((h) => h.id));
+  const prescription: PrescriptionChunk | null = herbs ? {
+    params: files.prescriptionParams.params,
+    pairings: files.pairings.items.filter((p) => bundled.has(p.herb) && bundled.has(p.other)),
+    processing: files.processing.methods,
+    doseBands: files.doseBands.items.filter((b) => bundled.has(b.herb)),
+    yinjing: files.yinjing.channels.map((c) => ({ ...c, herbs: c.herbs.filter((h) => bundled.has(h)) })),
+    sanyin: files.sanyin,
+  } : null;
 
   const config: ScopeConfig = {
     profileName: opts.profile, profile, levels: files.scope.levels, dimensions: files.scope.dimensions, noticeKinds: files.scope.notice_kinds,
@@ -232,7 +249,7 @@ export function buildChunks(files: DataFiles, opts: BuildOptions): BuildResult {
     formulas,
     guidance,
     cities: files.cities,
-    herbs: herbs ? { items: herbs } : null,
+    herbs: herbs ? { items: herbs, ...(prescription ? { prescription } : {}) } : null,
     herbBrowser: herbFiles ? memorySource(herbFiles) : null,
     // the source-script quotation and the repository path are verification aids: dev only
     citations: dev ? files.citations : { ...files.citations, items: files.citations.items.map(({ source_path: _p, quote_source_zh_hans: _q, ...c }) => c) },

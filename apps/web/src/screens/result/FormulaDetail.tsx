@@ -1,4 +1,4 @@
-import { useEffect, useState, type ReactNode } from "react";
+import { lazy, Suspense, useEffect, useState, type ReactNode } from "react";
 import type { FormulaRecommendation } from "@tcm/engine";
 import type { Formula, KnowledgeBase } from "@tcm/kb";
 import { useI18n } from "../../i18n/I18nProvider.tsx";
@@ -14,9 +14,12 @@ import { BilingualName, Prose } from "./shared.tsx";
 import { CHANNELS, COMPOSITION_STATUS, LIUXIE_SLUG, ORGAN_SLUG, PRODUCT_SLUG, ROLE_SLUG, SCHOOL_SLUG, tierReason, UNIT_ID } from "./words.ts";
 import { DataTable } from "./Panel.tsx";
 
+// the personalised prescription (PM-41): only a build that can show one loads the card, its words and the code that made it
+const PrescriptionCard = __APP_PROFILE__ === "dev" ? lazy(() => import("../../prescription/PrescriptionCard.tsx")) : null;
+
 
 /** Label of a panel dimension (`肺.qi`, `liuxie.濕`, `product.痰`) in the page language. */
-function dimLabel(t: ReturnType<typeof useI18n>["t"], dim: string): string {
+export function dimLabel(t: ReturnType<typeof useI18n>["t"], dim: string): string {
   const [head, tail] = dim.split(".") as [string, string];
   if (head === "liuxie" && tail in LIUXIE_SLUG) return t.t(`report.liuxie.${LIUXIE_SLUG[tail as keyof typeof LIUXIE_SLUG]}` as MessageKey);
   if (head === "product" && tail in PRODUCT_SLUG) return t.t(`report.product.${PRODUCT_SLUG[tail as keyof typeof PRODUCT_SLUG]}` as MessageKey);
@@ -62,6 +65,8 @@ function Detail({ saved, rec, formula, kb }: { saved: SavedAssessment; rec: Form
             ])} />
           <p className="muted">{t.t("formula.composition.roleNote")}</p>
         </Card>
+
+        {PrescriptionCard !== null && saved.prescription?.base.formula === formula.id ? <Suspense fallback={null}><PrescriptionCard saved={saved} kb={kb} /></Suspense> : null}
 
         <Card title={t.t("formula.fit.title")} headingLevel={2} id="formula-fit">
           <p><strong>{t.t("formula.fit.match", { word })}</strong> · {t.t("report.formula.explained", { pct: pct(rec.fit.explained) })}</p>

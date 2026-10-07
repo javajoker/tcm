@@ -1,0 +1,869 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tcm-self-check.invalid/schemas/tcm-summary-2.schema.json",
+  "title": "TCM Self-Check practitioner summary, version 2",
+  "description": "A file the person makes from a saved result to bring to a practitioner (tcm-summary-YYYY-MM-DD.json). It carries what the printed practitioner summary shows and nothing more, as identifiers with labels in Traditional Chinese and English. Every section after the envelope is optional: the person chooses which ones go in. Readers ignore fields they do not know; a field added later without changing `version` is optional. Version 2 is version 1 with one more section, `prescription`, required in version 2, which only a development build writes; a file without it is written as version 1, so a version-1 reader is never handed a section it does not know.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "format",
+    "version",
+    "createdAt",
+    "exportedFrom",
+    "language",
+    "notice",
+    "prescription"
+  ],
+  "properties": {
+    "format": {
+      "const": "tcm-summary"
+    },
+    "version": {
+      "const": 2
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]+)?Z$",
+      "description": "When the file was made (UTC, RFC 3339)."
+    },
+    "exportedFrom": {
+      "type": "object",
+      "description": "The versions that produced the result the file describes.",
+      "additionalProperties": false,
+      "required": [
+        "appVersion",
+        "kbVersion",
+        "engineVersion",
+        "paramsFingerprint",
+        "profile"
+      ],
+      "properties": {
+        "appVersion": {
+          "type": "string"
+        },
+        "kbVersion": {
+          "type": "string"
+        },
+        "engineVersion": {
+          "type": "string"
+        },
+        "paramsFingerprint": {
+          "type": "string"
+        },
+        "profile": {
+          "enum": [
+            "release",
+            "dev"
+          ],
+          "description": "A release file holds only what a release result can show; a development file may hold more."
+        },
+        "seasonModel": {
+          "enum": [
+            "changxia",
+            "tuwang18"
+          ],
+          "description": "The school's reading of the year behind the result's season: `changxia` counts late summer (長夏) as a season of its own, `tuwang18` gives the earth phase the last 18 days before each change of season. Present when the result has a season; absent otherwise. Optional."
+        },
+        "seasons": {
+          "enum": [
+            "south",
+            "off"
+          ],
+          "description": "Present only when the season was not counted by the northern calendar: `south` by the southern hemisphere's, `off` not at all (the result then has no season). Optional."
+        }
+      }
+    },
+    "language": {
+      "enum": [
+        "zh-Hant",
+        "zh-Hans",
+        "en"
+      ],
+      "description": "The language the person was using when the file was made. Labels are always given in zh-Hant and en."
+    },
+    "notice": {
+      "$ref": "#/$defs/notice"
+    },
+    "person": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "ageYears",
+        "sex",
+        "conditions"
+      ],
+      "properties": {
+        "ageYears": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0,
+          "maximum": 130
+        },
+        "sex": {
+          "enum": [
+            "female",
+            "male",
+            null
+          ]
+        },
+        "pregnancy": {
+          "enum": [
+            "no",
+            "possible",
+            "yes"
+          ]
+        },
+        "lactating": {
+          "type": "boolean"
+        },
+        "conditions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/coded"
+          },
+          "description": "Serious long-term conditions the person reported, by the identifiers of the app's screening list."
+        }
+      }
+    },
+    "safety": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "medications",
+        "allergies",
+        "notices"
+      ],
+      "properties": {
+        "medications": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status",
+            "classes"
+          ],
+          "properties": {
+            "status": {
+              "enum": [
+                "none",
+                "some",
+                "unsure"
+              ]
+            },
+            "classes": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/coded"
+              },
+              "description": "Classes of medicine, not names."
+            },
+            "otherNamed": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "maxLength": 200
+              },
+              "description": "Medicine names the person typed. Present only when the person switched it on: free text can contain more than intended."
+            }
+          }
+        },
+        "allergies": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status",
+            "items"
+          ],
+          "properties": {
+            "status": {
+              "enum": [
+                "none",
+                "some"
+              ]
+            },
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "maxLength": 200
+              },
+              "description": "The allergies as the person entered them."
+            }
+          }
+        },
+        "notices": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/coded"
+          },
+          "description": "The notices the result showed (their titles), by id."
+        }
+      }
+    },
+    "findings": {
+      "type": "array",
+      "description": "The symptoms the person reported, in the order of the printed summary.",
+      "items": {
+        "allOf": [
+          {
+            "$ref": "#/$defs/coded"
+          }
+        ],
+        "type": "object",
+        "required": [
+          "id",
+          "label",
+          "quality"
+        ],
+        "properties": {
+          "id": true,
+          "label": true,
+          "severity": {
+            "enum": [
+              "light",
+              "moderate",
+              "severe"
+            ]
+          },
+          "quality": {
+            "$ref": "#/$defs/quality"
+          }
+        },
+        "unevaluatedProperties": false
+      }
+    },
+    "observations": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "items",
+        "pulse"
+      ],
+      "properties": {
+        "items": {
+          "type": "array",
+          "description": "Tongue, pulse and other findings the person observed themselves.",
+          "items": {
+            "allOf": [
+              {
+                "$ref": "#/$defs/coded"
+              }
+            ],
+            "type": "object",
+            "required": [
+              "id",
+              "label",
+              "quality"
+            ],
+            "properties": {
+              "id": true,
+              "label": true,
+              "quality": {
+                "$ref": "#/$defs/quality"
+              }
+            },
+            "unevaluatedProperties": false
+          }
+        },
+        "pulse": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "rate"
+              ],
+              "properties": {
+                "rate": {
+                  "type": "integer",
+                  "minimum": 20,
+                  "maximum": 250,
+                  "description": "Resting pulse rate, beats per minute."
+                },
+                "method": {
+                  "enum": [
+                    "typed",
+                    "timer",
+                    "tap"
+                  ],
+                  "description": "How the rate was obtained."
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    "constitution": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "primary",
+            "secondary"
+          ],
+          "properties": {
+            "primary": {
+              "$ref": "#/$defs/coded"
+            },
+            "secondary": {
+              "oneOf": [
+                {
+                  "type": "null"
+                },
+                {
+                  "$ref": "#/$defs/coded"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "panel": {
+      "type": "object",
+      "description": "The five-phase panel and the two eight-principle axes: a band in words, and the number the page prints beside it (one decimal; a positive value is above a typical healthy person).",
+      "additionalProperties": false,
+      "required": [
+        "elements",
+        "coldHeat",
+        "deficiencyExcess"
+      ],
+      "properties": {
+        "elements": {
+          "type": "array",
+          "minItems": 5,
+          "maxItems": 5,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "element",
+              "label",
+              "band",
+              "value"
+            ],
+            "properties": {
+              "element": {
+                "enum": [
+                  "wood",
+                  "fire",
+                  "earth",
+                  "metal",
+                  "water"
+                ]
+              },
+              "label": {
+                "$ref": "#/$defs/label"
+              },
+              "band": {
+                "$ref": "#/$defs/band"
+              },
+              "value": {
+                "type": "number"
+              }
+            }
+          }
+        },
+        "coldHeat": {
+          "$ref": "#/$defs/axis"
+        },
+        "deficiencyExcess": {
+          "$ref": "#/$defs/axis"
+        }
+      }
+    },
+    "patterns": {
+      "type": "object",
+      "description": "The patterns the result leaned towards, as hypotheses for the practitioner, with the confidence and what would change them.",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "items",
+        "confidence",
+        "whatWouldChange"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "established",
+            "insufficient"
+          ]
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "allOf": [
+              {
+                "$ref": "#/$defs/coded"
+              }
+            ],
+            "type": "object",
+            "required": [
+              "id",
+              "label",
+              "band"
+            ],
+            "properties": {
+              "id": true,
+              "label": true,
+              "band": {
+                "enum": [
+                  "high",
+                  "medium",
+                  "weak"
+                ]
+              }
+            },
+            "unevaluatedProperties": false
+          }
+        },
+        "confidence": {
+          "enum": [
+            "high",
+            "medium",
+            "low",
+            "insufficient",
+            null
+          ]
+        },
+        "whatWouldChange": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "symptoms",
+              "shiftsTo",
+              "over"
+            ],
+            "properties": {
+              "symptoms": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/$defs/coded"
+                }
+              },
+              "shiftsTo": {
+                "$ref": "#/$defs/coded"
+              },
+              "over": {
+                "$ref": "#/$defs/coded"
+              }
+            }
+          }
+        }
+      }
+    },
+    "recommendations": {
+      "type": "object",
+      "description": "What the result showed the person after its safety checks. A release file holds tier-A formulas only, without amounts.",
+      "additionalProperties": false,
+      "required": [
+        "formulas",
+        "foods",
+        "points"
+      ],
+      "properties": {
+        "formulas": {
+          "type": "array",
+          "items": {
+            "allOf": [
+              {
+                "$ref": "#/$defs/coded"
+              }
+            ],
+            "type": "object",
+            "required": [
+              "id",
+              "label",
+              "tier"
+            ],
+            "properties": {
+              "id": true,
+              "label": true,
+              "tier": {
+                "enum": [
+                  "A",
+                  "B",
+                  "C"
+                ]
+              }
+            },
+            "unevaluatedProperties": false
+          }
+        },
+        "foods": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/coded"
+          }
+        },
+        "points": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/coded"
+          },
+          "description": "Acupressure points, by WHO code."
+        }
+      }
+    },
+    "prescription": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "base",
+        "withheld",
+        "changes",
+        "composition",
+        "cautions",
+        "version"
+      ],
+      "description": "The recommended formula adapted to the person by the app's rules (三因制宜: the person, the season, the place) — written only by a development build, for a licensed practitioner's judgement, never as an instruction. The rules and their data are drafts no practitioner or pharmacist has reviewed. Quantities are in grams; `grams` is null where the build carried none.",
+      "properties": {
+        "base": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "formula",
+            "strength"
+          ],
+          "properties": {
+            "formula": {
+              "$ref": "#/$defs/coded"
+            },
+            "strength": {
+              "enum": [
+                "light",
+                "standard",
+                "strong"
+              ],
+              "description": "How strongly the formula is needed for the deviation: it scales every quantity."
+            }
+          }
+        },
+        "withheld": {
+          "description": "Set when a rule touches the formula's sovereign herb: nothing is listed then, and this says why.",
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "herb",
+                "rule"
+              ],
+              "properties": {
+                "herb": {
+                  "$ref": "#/$defs/coded"
+                },
+                "rule": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 80,
+                  "description": "A rule id of the prescription model: `yinren.pregnancy`, `yinren.allergy`, `yinren.interaction:<flag>`, `jiajian.classical:<modification id>`, `jiajian.residual`; for factors `severity`, `age:<band>`, `constitution:<id>`, `season:<phase>`, `toxic-cap`, `range-top`, `range-bottom`; for cautions `interaction:<flag>`, `pregnancy:caution`, `identity:aristolochic`."
+                }
+              }
+            }
+          ]
+        },
+        "changes": {
+          "type": "array",
+          "maxItems": 30,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "op",
+              "herb",
+              "role",
+              "rule"
+            ],
+            "properties": {
+              "op": {
+                "enum": [
+                  "add",
+                  "remove"
+                ]
+              },
+              "herb": {
+                "$ref": "#/$defs/coded"
+              },
+              "role": {
+                "enum": [
+                  "君",
+                  "臣",
+                  "佐",
+                  "使"
+                ]
+              },
+              "rule": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 80,
+                "description": "A rule id of the prescription model: `yinren.pregnancy`, `yinren.allergy`, `yinren.interaction:<flag>`, `jiajian.classical:<modification id>`, `jiajian.residual`; for factors `severity`, `age:<band>`, `constitution:<id>`, `season:<phase>`, `toxic-cap`, `range-top`, `range-bottom`; for cautions `interaction:<flag>`, `pregnancy:caution`, `identity:aristolochic`."
+              },
+              "improves": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Panel dimensions an added herb brings back most."
+              },
+              "via": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "七情 pairings the added herb brings into play (`<herb>.<shi|xu|wei|wu|fan>.<herb>`)."
+              },
+              "source": {
+                "type": "string",
+                "description": "The book of a classical modification."
+              }
+            }
+          }
+        },
+        "composition": {
+          "type": "array",
+          "maxItems": 40,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "herb",
+              "role",
+              "source",
+              "grams",
+              "range",
+              "factors"
+            ],
+            "properties": {
+              "herb": {
+                "$ref": "#/$defs/coded"
+              },
+              "role": {
+                "enum": [
+                  "君",
+                  "臣",
+                  "佐",
+                  "使"
+                ]
+              },
+              "source": {
+                "enum": [
+                  "formula",
+                  "classical",
+                  "residual"
+                ]
+              },
+              "grams": {
+                "type": [
+                  "number",
+                  "null"
+                ],
+                "minimum": 0,
+                "maximum": 1000
+              },
+              "range": {
+                "description": "The adult range of the Pharmacopoeia in grams, when it gives one.",
+                "oneOf": [
+                  {
+                    "type": "null"
+                  },
+                  {
+                    "type": "array",
+                    "items": {
+                      "type": "number",
+                      "minimum": 0
+                    },
+                    "minItems": 2,
+                    "maxItems": 2
+                  }
+                ]
+              },
+              "factors": {
+                "type": "array",
+                "maxItems": 20,
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "rule",
+                    "factor"
+                  ],
+                  "properties": {
+                    "rule": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 80,
+                      "description": "A rule id of the prescription model: `yinren.pregnancy`, `yinren.allergy`, `yinren.interaction:<flag>`, `jiajian.classical:<modification id>`, `jiajian.residual`; for factors `severity`, `age:<band>`, `constitution:<id>`, `season:<phase>`, `toxic-cap`, `range-top`, `range-bottom`; for cautions `interaction:<flag>`, `pregnancy:caution`, `identity:aristolochic`."
+                    },
+                    "factor": {
+                      "type": "number",
+                      "minimum": 0
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "cautions": {
+          "type": "array",
+          "maxItems": 60,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "herb",
+              "rule"
+            ],
+            "properties": {
+              "herb": {
+                "$ref": "#/$defs/coded"
+              },
+              "rule": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 80,
+                "description": "A rule id of the prescription model: `yinren.pregnancy`, `yinren.allergy`, `yinren.interaction:<flag>`, `jiajian.classical:<modification id>`, `jiajian.residual`; for factors `severity`, `age:<band>`, `constitution:<id>`, `season:<phase>`, `toxic-cap`, `range-top`, `range-bottom`; for cautions `interaction:<flag>`, `pregnancy:caution`, `identity:aristolochic`."
+              }
+            }
+          }
+        },
+        "version": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "engine",
+            "kb",
+            "params"
+          ],
+          "properties": {
+            "engine": {
+              "type": "string"
+            },
+            "kb": {
+              "type": "string"
+            },
+            "params": {
+              "type": "string",
+              "description": "A stamp of the rules' parameters and the 三因 table the prescription was made with."
+            }
+          }
+        }
+      }
+    },
+    "note": {
+      "type": "string",
+      "maxLength": 4000,
+      "description": "The person's own note. Present only when the person switched it on."
+    }
+  },
+  "$defs": {
+    "label": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "zh-Hant",
+        "en"
+      ],
+      "properties": {
+        "zh-Hant": {
+          "type": "string",
+          "minLength": 1
+        },
+        "en": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Null where the knowledge base has no English text for the item."
+        }
+      }
+    },
+    "coded": {
+      "type": "object",
+      "required": [
+        "id",
+        "label"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "label": {
+          "$ref": "#/$defs/label"
+        }
+      }
+    },
+    "notice": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "zh-Hant",
+        "en"
+      ],
+      "properties": {
+        "zh-Hant": {
+          "type": "string",
+          "minLength": 1
+        },
+        "en": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "description": "The disclaimer travels in the file so that it cannot be detached from the data."
+    },
+    "band": {
+      "enum": [
+        "low",
+        "somewhatLow",
+        "normal",
+        "somewhatHigh",
+        "high"
+      ],
+      "description": "The five bands the app uses instead of a bare number."
+    },
+    "axis": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "band",
+        "value"
+      ],
+      "properties": {
+        "band": {
+          "$ref": "#/$defs/band"
+        },
+        "value": {
+          "type": "number"
+        }
+      }
+    },
+    "quality": {
+      "enum": [
+        "inquiry",
+        "measured",
+        "guided",
+        "pulse"
+      ],
+      "description": "inquiry: reported in answer to a question; guided: the person looked and felt following the app's guide; pulse: a pulse the person took; measured: a measured value."
+    }
+  }
+}

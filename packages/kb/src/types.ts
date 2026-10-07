@@ -123,7 +123,16 @@ export interface GuidanceChunk {
 /** Display names of every herb the retained formulas use: always present, so a bundle without herb records can still name the herbs. */
 export interface HerbName { readonly name: Bilingual; readonly latin: string | null }
 export interface FormulasChunk { readonly items: readonly Formula[]; readonly herbNames: Readonly<Record<string, HerbName>> }
-export interface HerbsChunk { readonly items: readonly Herb[] }
+/** The tables of the prescription model (PM-37 … PM-40), filtered to the herbs of the bundle: they travel with the herb records, so a build without herb records has none. */
+export interface PrescriptionChunk {
+  readonly params: PrescriptionParams;
+  readonly pairings: readonly Pairing[];
+  readonly processing: readonly ProcessingMethod[];
+  readonly doseBands: readonly DoseBand[];
+  readonly yinjing: readonly YinjingChannel[];
+  readonly sanyin: Sanyin;
+}
+export interface HerbsChunk { readonly items: readonly Herb[]; readonly prescription?: PrescriptionChunk }
 export interface CitationsChunk { readonly items: readonly Citation[] }
 
 // ── the herb browser (PM-24; docs/post-mvp/design/knowledge-browser.md §7) ──
@@ -244,6 +253,8 @@ export interface KnowledgeBase {
   readonly formulas: ReadonlyMap<string, Formula>;
   /** Null when the profile cannot reach the levels that use herb records (release at L1). */
   readonly herbs: ReadonlyMap<string, Herb> | null;
+  /** The prescription model's tables; null wherever there are no herb records (every public build today). */
+  readonly prescription: PrescriptionChunk | null;
   /** Display name of any herb used by a formula of this bundle (works without herb records). */
   herbName(id: string): HerbName | undefined;
 

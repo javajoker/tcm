@@ -139,6 +139,82 @@ function inputOf(x: unknown): SavedAssessment["input"] {
   };
 }
 
+// ── the personalised prescription of a saved result (PM-41) ────────────────
+
+const ROLES = ["君", "臣", "佐", "使"] as const;
+const STRENGTHS = ["light", "standard", "strong"] as const;
+const ROW_SOURCES = ["formula", "classical", "residual"] as const;
+const BIG = 1e9;
+const RULE = /^[A-Za-z0-9_.:\-\u3400-\u9fff]{1,80}$/u;
+const DIM = /^[A-Za-z0-9_.\u3400-\u9fff]{1,40}$/u;
+const rule = (x: unknown, what: string): string => ((t) => (RULE.test(t) ? t : bad(`${what} is not a rule id`)))(text(x, what, 80));
+const dim = (x: unknown, what: string): string => ((t) => (DIM.test(t) ? t : bad(`${what} is not a dimension`)))(text(x, what, 40));
+const herbId = (x: unknown, what: string): string => ((t) => (/^herb-[a-z0-9]{1,60}$/.test(t) ? t : bad(`${what} is not a herb id`)))(text(x, what, 70));
+
+type Rx = NonNullable<SavedAssessment["prescription"]>;
+
+function mechanismOf(x: unknown): NonNullable<Rx["mechanism"]> {
+  const m = record(x, "the prescription's explanation");
+  const z = record(m["zhifa"], "the treatment method");
+  return {
+    formula: text(m["formula"], "the explained formula", 80), k: num(m["k"], "the scale", 0, BIG), costBefore: num(m["costBefore"], "the cost before", 0, BIG), costAfter: num(m["costAfter"], "the cost after", 0, BIG),
+    bingji: list(m["bingji"], "the main deviations", 200).map((b) => { const r = record(b, "a deviation"); return { dim: dim(r["dim"], "a deviation's dimension"), deviation: num(r["deviation"], "a deviation", -BIG, BIG) }; }),
+    zhifa: { principle: text(z["principle"], "the principle", 200), addresses: list(z["addresses"], "what it addresses", 200).map((d, i) => dim(d, `addresses[${i}]`)) },
+    components: list(m["components"], "the components", 200).map((c) => {
+      const r = record(c, "a component");
+      return {
+        dim: dim(r["dim"], "a component's dimension"), deviation: num(r["deviation"], "a component's deviation", -BIG, BIG), after: num(r["after"], "a component after", -BIG, BIG),
+        reduction: num(r["reduction"], "a reduction", -BIG, BIG), share: r["share"] === null ? null : num(r["share"], "a share", -BIG, BIG),
+        herbs: list(r["herbs"], "a component's herbs", 60).map((h) => { const q = record(h, "a herb's part"); return { herb: herbId(q["herb"], "a herb"), part: num(q["part"], "a part", -BIG, BIG) }; }),
+      };
+    }),
+    herbs: list(m["herbs"], "the herbs explained", 60).map((h) => {
+      const r = record(h, "a herb explained");
+      return {
+        herb: herbId(r["herb"], "a herb"), role: r["role"] === null ? null : oneOf(r["role"], ROLES, "a role"),
+        reduces: list(r["reduces"], "what a herb brings back", 200).map((x) => { const q = record(x, "a reduction"); return { dim: dim(q["dim"], "a dimension"), share: num(q["share"], "a share", -BIG, BIG) }; }),
+        worsens: list(r["worsens"], "what a herb pushes the wrong way", 200).map((x) => { const q = record(x, "a worsening"); return { dim: dim(q["dim"], "a dimension"), part: num(q["part"], "a part", -BIG, BIG), offsetBy: list(q["offsetBy"], "the herbs offsetting it", 60).map((o, i) => herbId(o, `offsetBy[${i}]`)) }; }),
+      };
+    }),
+    residual: list(m["residual"], "what remains", 200).map((x) => { const q = record(x, "a remainder"); return { dim: dim(q["dim"], "a dimension"), value: num(q["value"], "a remainder", -BIG, BIG) }; }),
+  };
+}
+
+/** The prescription stored with a result: rebuilt from the keys it has, every value checked; its versions must be the record's own. */
+function prescriptionOf(x: unknown, stamps: { readonly engineVersion: string; readonly kbVersion: string }): Rx {
+  const r = record(x, "the prescription");
+  const base = record(r["base"], "the prescription's base");
+  const version = record(r["version"], "the prescription's versions");
+  const out: Rx = {
+    base: { formula: text(base["formula"], "the base formula", 80), strength: oneOf(base["strength"], STRENGTHS, "the strength"), explained: num(base["explained"], "the share explained", -BIG, 1), patterns: strings(base["patterns"], "the base's patterns", 50, 20) },
+    withheld: r["withheld"] === null ? null : ((w) => ({ herb: herbId(w["herb"], "the withheld herb"), rule: rule(w["rule"], "why it was withheld") }))(record(r["withheld"], "why it was withheld")),
+    changes: list(r["changes"], "the changes", 30).map((c) => {
+      const q = record(c, "a change");
+      return {
+        op: oneOf(q["op"], ["add", "remove"] as const, "a change"), herb: herbId(q["herb"], "a changed herb"), role: oneOf(q["role"], ROLES, "a role"), rule: rule(q["rule"], "a change's rule"),
+        ...(has(q, "improves") ? { improves: list(q["improves"], "what it improves", 10).map((d, i) => dim(d, `improves[${i}]`)) } : {}),
+        ...(has(q, "via") ? { via: list(q["via"], "the pairings", 20).map((v, i) => rule(v, `via[${i}]`)) } : {}),
+        ...(has(q, "source") ? { source: text(q["source"], "the book", 80) } : {}),
+      };
+    }),
+    composition: list(r["composition"], "the composition", 40).map((c) => {
+      const q = record(c, "a herb of the composition");
+      return {
+        herb: herbId(q["herb"], "a herb"), role: oneOf(q["role"], ROLES, "a role"), source: oneOf(q["source"], ROW_SOURCES, "where a herb came from"), proportion: num(q["proportion"], "a proportion", 0, 1),
+        amountG: q["amountG"] === null ? null : num(q["amountG"], "an amount", 0, 1000),
+        rangeG: q["rangeG"] === null ? null : ((g) => g.length === 2 ? [num(g[0], "a range's bottom", 0, 1000), num(g[1], "a range's top", 0, 1000)] as const : bad("a range is not two numbers"))(list(q["rangeG"], "a range", 2)),
+        factors: list(q["factors"], "the factors", 20).map((f) => { const z = record(f, "a factor"); return { rule: rule(z["rule"], "a factor's rule"), factor: num(z["factor"], "a factor", 0, 100) }; }),
+      };
+    }),
+    amounts: bool(r["amounts"], "whether there are amounts"),
+    cautions: list(r["cautions"], "the cautions", 60).map((c) => { const q = record(c, "a caution"); return { herb: herbId(q["herb"], "a herb"), rule: rule(q["rule"], "a caution's rule") }; }),
+    mechanism: r["mechanism"] === null ? null : mechanismOf(r["mechanism"]),
+    version: { engine: text(version["engine"], "the engine version", 200), kb: text(version["kb"], "the knowledge-base version", 200), params: text(version["params"], "the rules' stamp", 200) },
+  };
+  if (out.version.engine !== stamps.engineVersion || out.version.kb !== stamps.kbVersion) bad("the prescription does not carry the versions of its record");
+  return out;
+}
+
 // ── a saved result ──────────────────────────────────────────────────────────
 
 const stamp = (x: unknown, what: string): string => text(x, what, 200).length > 0 ? (x as string) : bad(`${what} is empty`);
@@ -189,6 +265,8 @@ export function validateAssessment(raw: unknown): Valid<SavedAssessment> {
       ...(has(r, "hour") ? { hour: oneOf(r["hour"], HOUR_CHOICES, "which hour the birth blocks were made from") } : {}),
       ...(has(r, "followUp") ? { followUp: ((f) => ({ dueAt: int(f["dueAt"], "the follow-up date", 0, 4_102_444_800_000), ...(has(f, "dismissedAt") ? { dismissedAt: int(f["dismissedAt"], "the dismissal time", 0, 4_102_444_800_000) } : {}) }))(record(r["followUp"], "the follow-up")) } : {}),
       ...(Object.keys(feedback).length > 0 ? { feedback } : {}),
+      // only a development build makes a prescription; a release build refuses the record (its importer refuses development records anyway) and carries no code to read one
+      ...(has(r, "prescription") ? { prescription: __APP_PROFILE__ === "dev" ? prescriptionOf(r["prescription"], base) : bad("a prescription is made only by a development build") } : {}),
       ...(imported ? { imported } : {}),
     } };
   } catch (e) {

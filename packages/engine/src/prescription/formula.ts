@@ -22,6 +22,8 @@ const totalOf = (a: HerbAction): Map<string, number> => {
   return m;
 };
 const byNameThenValue = (a: [string, number], b: [string, number]): number => b[1] - a[1] || (a[0] < b[0] ? -1 : 1);
+/** −0 as 0: the explanation is stored and travels as JSON, which has no negative zero (a zero-weight dimension's reduction is −0 otherwise). */
+const z = (x: number): number => (x === 0 ? 0 : x);
 
 // ── the formula at its own amounts ──────────────────────────────────────────
 
@@ -267,9 +269,9 @@ export function formulaMechanism(kb: KnowledgeBase, dev: PanelVector, f: Formula
   const components = dims.map((d): MechanismComponent => {
     const w = dimensionWeight(kb, d), D = dev[d] ?? 0, T = t[d] ?? 0, after = D + k * T;
     const reduction = w * (D * D - after * after);
-    const herbs = contribs.map((c) => ({ herb: c.herb, part: -w * k * (c.total[d] ?? 0) * (2 * D + k * T) })).filter((h) => h.part !== 0)
+    const herbs = contribs.map((c) => ({ herb: c.herb, part: z(-w * k * (c.total[d] ?? 0) * (2 * D + k * T)) })).filter((h) => h.part !== 0)
       .sort((a, b) => b.part - a.part || (a.herb < b.herb ? -1 : 1));
-    return { dim: d, deviation: D, after, reduction, share: D !== 0 && w > 0 ? reduction / (w * D * D) : null, herbs };
+    return { dim: d, deviation: z(D), after: z(after), reduction: z(reduction), share: D !== 0 && w > 0 ? z(reduction / (w * D * D)) : null, herbs };
   });
   const top = params.mechanism.top;
   const bingji = Object.entries(dev).filter(([, x]) => x !== 0).map(([d, x]): [string, number] => [d, dimensionWeight(kb, d) * x * x]).sort(byNameThenValue).slice(0, top)
@@ -289,7 +291,7 @@ export function formulaMechanism(kb: KnowledgeBase, dev: PanelVector, f: Formula
   });
   const residual = components.filter((c) => Math.abs(c.after) > 1e-9).map((c): [string, number] => [c.dim, dimensionWeight(kb, c.dim) * c.after * c.after]).sort(byNameThenValue)
     .slice(0, top).map(([d]) => ({ dim: d, value: components.find((c) => c.dim === d)!.after }));
-  return { formula: f.id, k, costBefore: cost(kb, dev, {}), costAfter: cost(kb, dev, scaled), bingji, zhifa: { principle: f.principle, addresses }, components, herbs, residual };
+  return { formula: f.id, k: z(k), costBefore: z(cost(kb, dev, {})), costAfter: z(cost(kb, dev, scaled)), bingji, zhifa: { principle: f.principle, addresses }, components, herbs, residual };
 }
 
 /** The whole analysis of a formula at its own amounts: its action, the herbs' shares and the measured roles. Null without amounts in the bundle. */

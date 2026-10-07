@@ -296,6 +296,7 @@
   "report.pract.file.section.panel": "The panel of the five phases and the two axes",
   "report.pract.file.section.patterns": "Patterns, confidence and what would change them",
   "report.pract.file.section.person": "The person: age, sex, pregnancy and long-term conditions",
+  "report.pract.file.section.prescription": "Modifications for this person (for a practitioner)",
   "report.pract.file.section.recommendations": "What the result showed the person",
   "report.pract.file.section.safety": "Medicine classes, allergies and the notices shown",
   "report.pract.file.sections": "What goes in the file",

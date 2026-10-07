@@ -2,9 +2,9 @@
 
 | | |
 |---|---|
-| **Version** | 0.6 (draft) |
+| **Version** | 0.7 (draft) |
 | **Status** | Design document; the user-facing statement (§8) needs legal review before release |
-| **Last updated** | 2026-10-06 |
+| **Last updated** | 2026-10-07 |
 | **Audience** | Developers, reviewers, whoever writes the public privacy statement |
 | **Related** | [PRD G7, NFR Privacy](PRD.md) · [Tech spec §8.3, §11](tech-spec.md) · [UX spec §4.2, §4.14](ux-spec.md) · [Safety policy](safety-policy.md) · [Algorithm spec §15](wuxing-algorithm.md) |
 
@@ -48,6 +48,7 @@
 | Findings | symptoms, tongue, pulse, constitution answers | **Sensitive (health)** | Pattern differentiation | IndexedDB | Same | Same |
 | **Birth data** | date, time/unknown, place (longitude, time zone), which of two clock times (daylight-saving overlap) and, for a time near a change of hour, which hour the person said is nearer the truth | **Sensitive (personal)** | Optional innate/annual reference | **Session memory only unless "Remember on this device" is ticked** (default off; Settings has a "Remember birth data" default, off, that the person can turn on to start each assessment with the box ticked) → then IndexedDB | Session, or until deleted | Opt-in toggle; erase |
 | Results | assessments, reasoning, recommendations (with KB/engine versions, when the season was counted on another basis than the northern calendar that basis, and, when the birth time was within 15 minutes of a change of hour, which hour the birth chart was made from — the choice, not the time) | **Sensitive (health, derived)** | History and compare | IndexedDB | Until the user deletes | Delete one/all |
+| Personalised prescription (PM-41; **development builds only**) | the recommended formula adapted to the person by rules — herbs removed or added with their reasons, quantities in grams with what adjusted each, cautions, the explanation — computed from the result and the inputs it already holds, stored inside the saved result | **Sensitive (health, derived)** | Shown on the formula page and, if kept in, in the practitioner summary and its file (version 2) | Inside the saved result in IndexedDB; in a backup with its result | Same as the result | Deleted with the result |
 | Free-text notes | anything typed | Sensitive | Memo for the user | IndexedDB | Same | Same |
 | Feedback marks | match / partly / no, per result, pattern and formula (stored inside the saved result) | Low | Optional calibration export (marks + result summary; the answers only if the user ticks "include my answers") | IndexedDB | Same | Export or delete |
 | Follow-up date | A day the person chose (in 2, 4 or 8 weeks) and, if they said "not now", when — stored inside the saved result | Low | Shows the card on the start page and in History when the day has passed; nothing is sent and no timer runs. A calendar file for that day, if the person asks, holds only a date and the title "time to look again" | IndexedDB | Same | Deleted with the result; included in a backup |
@@ -164,4 +165,5 @@ Since then (post-MVP, [decisions register](post-mvp/decisions.md)): PQ2 and PQ3 
 | 0.3 | 2026-10-06 | How seasons are counted (PM-26): the `seasons` preference (low sensitivity; travels in a backup when chosen), the basis stamped on a result made on another basis, and the device's time zone read only to suggest a default |
 | 0.4 | 2026-10-06 | The hour near a change (PM-27): the answer *which hour is nearer the truth* is kept with the unfinished assessment only together with the birth data, and a saved result keeps the choice — `primary`, `alternative` or `unknown` — and never the time; the pillars and the true solar time are still removed unless the birth data is remembered |
 | 0.5 | 2026-10-06 | The season model (PM-29): the development profile's `seasonModel` preference (low sensitivity, never in a backup, not read by a release); the summary file's optional `exportedFrom.seasonModel` and `seasons` say how the season was counted and hold nothing about the person |
+| 0.7 | 2026-10-07 | The personalised prescription (PM-41): a derived field inside a saved result, made only by a development build (a release build has no herb records and refuses a record that holds one on import); nothing new is collected — it is computed from the result and the inputs the result already holds |
 | 0.6 | 2026-10-06 | The kept backup file (PM-32): the encrypted file in a folder the person chose, its record in IndexedDB (the handle and a hash — never the passphrase) and the passphrase held in memory only |

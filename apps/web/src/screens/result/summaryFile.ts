@@ -11,10 +11,13 @@ import type { SummaryData } from "./summaryData.ts";
 
 export const SUMMARY_FORMAT = "tcm-summary";
 export const SUMMARY_VERSION = 1;
+/** A file that holds the personalised prescription (only a development build makes one) is version 2: version 1 readers are not handed a section they do not know. */
+export const SUMMARY_VERSION_WITH_PRESCRIPTION = 2;
 
 /** The sections the person can switch on and off in the preview, in the order of the file. */
 export const FILE_SECTIONS = ["person", "safety", "findings", "observations", "constitution", "panel", "patterns", "recommendations"] as const;
-export type FileSection = (typeof FILE_SECTIONS)[number];
+/** `prescription` is offered only for a result that holds one. */
+export type FileSection = (typeof FILE_SECTIONS)[number] | "prescription";
 
 export interface FileOptions {
   readonly sections: ReadonlySet<FileSection>;
@@ -33,12 +36,12 @@ export const defaultOptions = (createdAt: number, language: Lang): FileOptions =
 export interface Label { readonly "zh-Hant": string; readonly en: string | null }
 interface Coded { readonly id: string; readonly label: Label }
 
-export type SummaryFile = Record<string, unknown> & { readonly format: "tcm-summary"; readonly version: 1 };
+export type SummaryFile = Record<string, unknown> & { readonly format: "tcm-summary"; readonly version: 1 | 2 };
 
 export const summaryFileName = (createdAt: number): string => `tcm-summary-${new Date(createdAt).toISOString().slice(0, 10)}.json`;
 
-/** `tOf` gives the formatter of each language, so a label can carry both. */
-export function summaryFile(data: SummaryData, saved: SavedAssessment, kb: KnowledgeBase, options: FileOptions, tOf: (lang: "zh-Hant" | "en") => T): SummaryFile {
+/** `tOf` gives the formatter of each language, so a label can carry both. `prescription` is the file's prescription section (prescription/summary.ts), when the person kept it in. */
+export function summaryFile(data: SummaryData, saved: SavedAssessment, kb: KnowledgeBase, options: FileOptions, tOf: (lang: "zh-Hant" | "en") => T, prescription: Record<string, unknown> | null = null): SummaryFile {
   const zh = tOf("zh-Hant"), en = tOf("en");
   const both = (key: string, params?: Record<string, string | number>): Label => ({ "zh-Hant": zh.t(key as MessageKey, params), en: en.t(key as MessageKey, params) });
   const bilingual = (v: { readonly "zh-Hant": string; readonly en: string | null } | undefined, fallback: string): Label => v ?? { "zh-Hant": fallback, en: null };
@@ -46,7 +49,7 @@ export function summaryFile(data: SummaryData, saved: SavedAssessment, kb: Knowl
   const pattern = (id: string): Coded => ({ id, label: bilingual(kb.patternById.get(id)?.name, id) });
   const on = (s: FileSection): boolean => options.sections.has(s);
   const out: Record<string, unknown> = {
-    format: SUMMARY_FORMAT, version: SUMMARY_VERSION, createdAt: new Date(options.createdAt).toISOString(),
+    format: SUMMARY_FORMAT, version: prescription !== null && options.sections.has("prescription") ? SUMMARY_VERSION_WITH_PRESCRIPTION : SUMMARY_VERSION, createdAt: new Date(options.createdAt).toISOString(),
     exportedFrom: {
       appVersion: saved.appVersion, kbVersion: saved.kbVersion, engineVersion: saved.engineVersion, paramsFingerprint: saved.paramsFingerprint, profile: saved.profile,
       // how the season was counted: the school's model, when the result has a season at all, and the basis when it is not the northern calendar (five-phase design §7)
@@ -83,6 +86,7 @@ export function summaryFile(data: SummaryData, saved: SavedAssessment, kb: Knowl
       points: data.recommendations.points.map((x): Coded => ({ id: x.code, label: { "zh-Hant": x.name, en: kb.term(x.name)?.en ?? x.code } })),
     };
   }
+  if (prescription !== null && on("prescription")) out["prescription"] = prescription;
   if (options.note !== null && options.note.trim() !== "") out["note"] = options.note;
   return out as SummaryFile;
 }

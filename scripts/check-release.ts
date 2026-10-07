@@ -36,9 +36,12 @@ const rel = (dist: string, p: string): string => p.slice(dist.length + 1);
 
 /** Field names that mean a dose or amount (rule 3). */
 const DOSE_FIELDS = ["classical_amounts", "classical_amount", "typical_g", "dose_g_reference", "dose_references"];
-/** Texts that exist only in dev builds (rule 2) — in the app: the profile badge, the component catalogue, the developer route and the pseudo-locales; in the knowledge base: the non-enforcing safety mode. */
-const DEV_APP_MARKERS = ["DEV · ", "Component catalogue", "/_dev", "en-xa", "zh-xl"];
-const DEV_KB_MARKERS = ["annotate_only"];
+/**
+ * Texts that exist only in dev builds (rule 2) — in the app: the profile badge, the component catalogue, the developer route, the pseudo-locales and the personalised prescription's
+ * own messages (PM-41: a build that cannot reach L3 never loads them); in the knowledge base: the non-enforcing safety mode and the prescription's 三因 table (it travels with the herb records).
+ */
+const DEV_APP_MARKERS = ["DEV · ", "Component catalogue", "/_dev", "en-xa", "zh-xl", "rx.title"];
+const DEV_KB_MARKERS = ["annotate_only", "\"sanyin\":"];
 /** Population / condition cells that must always raise a blocking notice in a release configuration (rule 7, safety policy §2). */
 const BLOCKING = [["population", "minor_under_18"], ["population", "pregnant"], ["population", "lactating"], ["condition", "red_flag_A"], ["condition", "red_flag_B"], ["condition", "serious_chronic_disease"]] as const;
 

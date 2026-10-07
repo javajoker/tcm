@@ -11,9 +11,12 @@ from jsonschema import Draft202012Validator
 
 ROOT = Path(__file__).resolve().parents[3]
 SCHEMA = json.loads((ROOT / "docs" / "schemas" / "tcm-summary-1.schema.json").read_text(encoding="utf-8"))
+# version 2 (PM-41) is version 1 with the optional `prescription` section: a file holding it is version 2, any other is version 1
+SCHEMA2 = json.loads((ROOT / "docs" / "schemas" / "tcm-summary-2.schema.json").read_text(encoding="utf-8"))
 EXAMPLES = sorted((ROOT / "docs" / "schemas" / "examples").glob("*.json"))
 GENERATED = sorted((ROOT / "apps" / "web" / "test" / ".generated" / "summaries").glob("*.json"))
 VALIDATOR = Draft202012Validator(SCHEMA)
+VALIDATOR2 = Draft202012Validator(SCHEMA2)
 
 
 def load(path: Path) -> dict:
@@ -21,12 +24,27 @@ def load(path: Path) -> dict:
 
 
 def problems(doc: dict) -> list[str]:
-    return [f"{'/'.join(map(str, e.absolute_path))}: {e.message[:120]}" for e in VALIDATOR.iter_errors(doc)]
+    validator = VALIDATOR2 if doc.get("version") == 2 else VALIDATOR
+    return [f"{'/'.join(map(str, e.absolute_path))}: {e.message[:120]}" for e in validator.iter_errors(doc)]
 
 
 class Schema(unittest.TestCase):
     def test_it_is_a_valid_schema(self):
         Draft202012Validator.check_schema(SCHEMA)
+        Draft202012Validator.check_schema(SCHEMA2)
+
+    def test_version_2_is_version_1_with_the_prescription_section_only(self):
+        strip = lambda s: {k: v for k, v in s.items() if k not in ("$id", "title", "description", "required")} | {"properties": {k: v for k, v in s["properties"].items() if k not in ("version", "prescription")}}
+        self.assertEqual(strip(SCHEMA2), strip(SCHEMA))
+        self.assertEqual(SCHEMA2["properties"]["version"], {"const": 2})
+        self.assertEqual(SCHEMA2["required"], SCHEMA["required"] + ["prescription"])
+
+    def test_a_version_2_example_is_published_and_a_version_1_file_never_holds_a_prescription(self):
+        v2 = [p for p in EXAMPLES if load(p).get("version") == 2]
+        self.assertEqual([p.stem for p in v2], ["dev-with-prescription"])
+        for path in [*EXAMPLES, *GENERATED]:
+            doc = load(path)
+            self.assertEqual("prescription" in doc, doc.get("version") == 2, path.name)
 
     def test_the_published_examples_validate_and_cover_the_cases(self):
         self.assertGreaterEqual(len(EXAMPLES), 4)
@@ -45,6 +63,27 @@ class Schema(unittest.TestCase):
                 self.assertEqual(problems(load(path)), [])
 
 
+class PrescriptionRefusals(unittest.TestCase):
+    def setUp(self):
+        path = next((p for p in EXAMPLES if p.stem == "dev-with-prescription"), None)
+        if path is None:
+            self.skipTest("no version-2 example")
+        self.base = load(path)
+
+    def refused(self, mutate, expect: str):
+        doc = copy.deepcopy(self.base)
+        mutate(doc)
+        found = problems(doc)
+        self.assertTrue(any(expect in p for p in found), f"expected a problem about {expect!r}: {found}")
+
+    def test_the_section_is_exact(self):
+        self.refused(lambda d: d["prescription"]["composition"][0].update(grams="9"), "grams")
+        self.refused(lambda d: d["prescription"]["composition"][0].update(dose=9), "dose")
+        self.refused(lambda d: d["prescription"].pop("version"), "version")
+        self.refused(lambda d: d["prescription"]["changes"].append({"op": "swap", "herb": d["prescription"]["composition"][0]["herb"], "role": "佐", "rule": "x"}), "swap")
+        self.refused(lambda d: d.update(version=1), "prescription")
+
+
 class Refusals(unittest.TestCase):
     base = load(next(p for p in EXAMPLES if p.stem == "release-full")) if EXAMPLES else {}
 
@@ -58,7 +97,7 @@ class Refusals(unittest.TestCase):
     def test_the_envelope_is_required_and_exact(self):
         self.refused(lambda d: d.pop("notice"), "notice")
         self.refused(lambda d: d.pop("exportedFrom"), "exportedFrom")
-        self.refused(lambda d: d.update(version=2), "1 was expected")
+        self.refused(lambda d: d.update(version=2), "prescription")          # version 2 means a file that holds a prescription
         self.refused(lambda d: d.update(format="tcm-inputs"), "tcm-summary")
         self.refused(lambda d: d.update(language="fr"), "language")
         self.refused(lambda d: d.update(createdAt="yesterday"), "createdAt")

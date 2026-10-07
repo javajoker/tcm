@@ -1,0 +1,659 @@
+{
+  "format": "tcm-summary",
+  "version": 2,
+  "createdAt": "2026-10-07T12:00:00.000Z",
+  "exportedFrom": {
+    "appVersion": "example",
+    "kbVersion": "example",
+    "engineVersion": "example",
+    "paramsFingerprint": "example",
+    "profile": "dev",
+    "seasonModel": "changxia"
+  },
+  "language": "en",
+  "notice": {
+    "zh-Hant": "由本人使用「中醫自我評估」，依其輸入內容整理而成。 僅供教育參考，不是醫療診斷或處方。",
+    "en": "Prepared by the person using TCM Self-Check from what they entered. Educational reference — not a medical diagnosis or prescription."
+  },
+  "person": {
+    "ageYears": 40,
+    "sex": "female",
+    "pregnancy": "no",
+    "lactating": false,
+    "conditions": []
+  },
+  "safety": {
+    "medications": {
+      "status": "none",
+      "classes": []
+    },
+    "allergies": {
+      "status": "none",
+      "items": []
+    },
+    "notices": []
+  },
+  "findings": [
+    {
+      "id": "S_LOOSE_STOOL",
+      "label": {
+        "zh-Hant": "大便溏稀",
+        "en": "loose stool"
+      },
+      "severity": "moderate",
+      "quality": "inquiry"
+    },
+    {
+      "id": "S_POOR_APPETITE",
+      "label": {
+        "zh-Hant": "食少納呆",
+        "en": "poor appetite"
+      },
+      "severity": "moderate",
+      "quality": "inquiry"
+    },
+    {
+      "id": "S_PALPITATION",
+      "label": {
+        "zh-Hant": "心悸",
+        "en": "palpitations"
+      },
+      "severity": "moderate",
+      "quality": "inquiry"
+    },
+    {
+      "id": "S_DREAM_MANY",
+      "label": {
+        "zh-Hant": "多夢",
+        "en": "profuse dreaming"
+      },
+      "severity": "moderate",
+      "quality": "inquiry"
+    },
+    {
+      "id": "S_FORGETFUL",
+      "label": {
+        "zh-Hant": "健忘",
+        "en": "forgetfulness"
+      },
+      "severity": "moderate",
+      "quality": "inquiry"
+    },
+    {
+      "id": "S_INSOMNIA_MAINT",
+      "label": {
+        "zh-Hant": "睡眠易醒",
+        "en": "frequent waking"
+      },
+      "severity": "moderate",
+      "quality": "inquiry"
+    },
+    {
+      "id": "S_FACE_SALLOW",
+      "label": {
+        "zh-Hant": "面色萎黃",
+        "en": "sallow complexion"
+      },
+      "quality": "guided"
+    },
+    {
+      "id": "S_FATIGUE",
+      "label": {
+        "zh-Hant": "神疲乏力",
+        "en": "fatigue and lack of strength"
+      },
+      "severity": "moderate",
+      "quality": "inquiry"
+    }
+  ],
+  "observations": {
+    "items": [],
+    "pulse": null
+  },
+  "constitution": null,
+  "panel": {
+    "elements": [
+      {
+        "element": "wood",
+        "label": {
+          "zh-Hant": "木",
+          "en": "Wood"
+        },
+        "band": "normal",
+        "value": 0
+      },
+      {
+        "element": "fire",
+        "label": {
+          "zh-Hant": "火",
+          "en": "Fire"
+        },
+        "band": "normal",
+        "value": 0
+      },
+      {
+        "element": "earth",
+        "label": {
+          "zh-Hant": "土",
+          "en": "Earth"
+        },
+        "band": "somewhatLow",
+        "value": -0.8
+      },
+      {
+        "element": "metal",
+        "label": {
+          "zh-Hant": "金",
+          "en": "Metal"
+        },
+        "band": "normal",
+        "value": 0
+      },
+      {
+        "element": "water",
+        "label": {
+          "zh-Hant": "水",
+          "en": "Water"
+        },
+        "band": "normal",
+        "value": 0
+      }
+    ],
+    "coldHeat": {
+      "band": "normal",
+      "value": 0
+    },
+    "deficiencyExcess": {
+      "band": "low",
+      "value": -0.7
+    }
+  },
+  "patterns": {
+    "status": "established",
+    "items": [
+      {
+        "id": "HT1",
+        "label": {
+          "en": "Dual deficiency of heart and spleen",
+          "zh-Hant": "心脾兩虛"
+        },
+        "band": "high"
+      }
+    ],
+    "confidence": "high",
+    "whatWouldChange": [
+      {
+        "symptoms": [
+          {
+            "id": "P_THIN",
+            "label": {
+              "zh-Hant": "細脈",
+              "en": "thin (fine) pulse"
+            }
+          }
+        ],
+        "shiftsTo": {
+          "id": "HT1",
+          "label": {
+            "en": "Dual deficiency of heart and spleen",
+            "zh-Hant": "心脾兩虛"
+          }
+        },
+        "over": {
+          "id": "SP1",
+          "label": {
+            "en": "Spleen qi deficiency",
+            "zh-Hant": "脾氣虛"
+          }
+        }
+      },
+      {
+        "symptoms": [
+          {
+            "id": "T_TOOTHMARK_EDGE",
+            "label": {
+              "zh-Hant": "舌邊齒痕",
+              "en": "tooth marks on the tongue edges"
+            }
+          },
+          {
+            "id": "P_SOFT",
+            "label": {
+              "zh-Hant": "濡脈",
+              "en": "soggy (soft) pulse"
+            }
+          },
+          {
+            "id": "T_BODY_PALE_SWOLLEN",
+            "label": {
+              "zh-Hant": "舌淡胖",
+              "en": "pale, swollen tongue"
+            }
+          }
+        ],
+        "shiftsTo": {
+          "id": "SP1",
+          "label": {
+            "en": "Spleen qi deficiency",
+            "zh-Hant": "脾氣虛"
+          }
+        },
+        "over": {
+          "id": "HT1",
+          "label": {
+            "en": "Dual deficiency of heart and spleen",
+            "zh-Hant": "心脾兩虛"
+          }
+        }
+      }
+    ]
+  },
+  "recommendations": {
+    "formulas": [
+      {
+        "id": "F_GUIPI",
+        "label": {
+          "en": "Guipi Tang (Restore the Spleen Decoction)",
+          "zh-Hant": "歸脾湯"
+        },
+        "tier": "A"
+      }
+    ],
+    "foods": [
+      {
+        "id": "longyanrou",
+        "label": {
+          "zh-Hant": "龍眼肉",
+          "en": null
+        }
+      },
+      {
+        "id": "lianzi",
+        "label": {
+          "zh-Hant": "蓮子",
+          "en": null
+        }
+      },
+      {
+        "id": "hongzao",
+        "label": {
+          "zh-Hant": "紅棗",
+          "en": null
+        }
+      },
+      {
+        "id": "xiaomai",
+        "label": {
+          "zh-Hant": "小麥",
+          "en": null
+        }
+      }
+    ],
+    "points": [
+      {
+        "id": "HT7",
+        "label": {
+          "zh-Hant": "神門",
+          "en": "HT7"
+        }
+      },
+      {
+        "id": "PC6",
+        "label": {
+          "zh-Hant": "內關",
+          "en": "PC6"
+        }
+      },
+      {
+        "id": "SP6",
+        "label": {
+          "zh-Hant": "三陰交",
+          "en": "SP6"
+        }
+      }
+    ]
+  },
+  "prescription": {
+    "base": {
+      "formula": {
+        "id": "F_GUIPI",
+        "label": {
+          "zh-Hant": "歸脾湯",
+          "en": "Guipi Tang (Restore the Spleen Decoction)"
+        }
+      },
+      "strength": "strong"
+    },
+    "withheld": null,
+    "changes": [
+      {
+        "op": "add",
+        "herb": {
+          "id": "herb-dazao",
+          "label": {
+            "zh-Hant": "大棗",
+            "en": "Jujube"
+          }
+        },
+        "role": "佐",
+        "rule": "jiajian.residual",
+        "improves": [
+          "心.blood",
+          "脾.qi",
+          "liuxie.濕"
+        ]
+      },
+      {
+        "op": "add",
+        "herb": {
+          "id": "herb-baiziren",
+          "label": {
+            "zh-Hant": "柏子仁",
+            "en": "Arborvitae seed"
+          }
+        },
+        "role": "佐",
+        "rule": "jiajian.residual",
+        "improves": [
+          "心.blood"
+        ]
+      }
+    ],
+    "composition": [
+      {
+        "herb": {
+          "id": "herb-huangqi",
+          "label": {
+            "zh-Hant": "黃耆",
+            "en": "Astragalus root"
+          }
+        },
+        "role": "君",
+        "source": "formula",
+        "grams": 19,
+        "range": [
+          9,
+          30
+        ],
+        "factors": [
+          {
+            "rule": "severity",
+            "factor": 1.2
+          }
+        ]
+      },
+      {
+        "herb": {
+          "id": "herb-longyanrou",
+          "label": {
+            "zh-Hant": "龍眼肉",
+            "en": "Longan aril"
+          }
+        },
+        "role": "君",
+        "source": "formula",
+        "grams": 15,
+        "range": [
+          9,
+          15
+        ],
+        "factors": [
+          {
+            "rule": "severity",
+            "factor": 1.2
+          },
+          {
+            "rule": "range-top",
+            "factor": 0.794
+          }
+        ]
+      },
+      {
+        "herb": {
+          "id": "herb-renshen",
+          "label": {
+            "zh-Hant": "人參",
+            "en": "Ginseng"
+          }
+        },
+        "role": "臣",
+        "source": "formula",
+        "grams": 9,
+        "range": [
+          3,
+          9
+        ],
+        "factors": [
+          {
+            "rule": "severity",
+            "factor": 1.2
+          },
+          {
+            "rule": "range-top",
+            "factor": 0.952
+          }
+        ]
+      },
+      {
+        "herb": {
+          "id": "herb-baizhu",
+          "label": {
+            "zh-Hant": "白朮",
+            "en": "White atractylodes"
+          }
+        },
+        "role": "臣",
+        "source": "formula",
+        "grams": 12,
+        "range": [
+          6,
+          12
+        ],
+        "factors": [
+          {
+            "rule": "severity",
+            "factor": 1.2
+          },
+          {
+            "rule": "range-top",
+            "factor": 0.847
+          }
+        ]
+      },
+      {
+        "herb": {
+          "id": "herb-danggui",
+          "label": {
+            "zh-Hant": "當歸",
+            "en": "Chinese angelica root"
+          }
+        },
+        "role": "臣",
+        "source": "formula",
+        "grams": 12,
+        "range": [
+          6,
+          12
+        ],
+        "factors": [
+          {
+            "rule": "severity",
+            "factor": 1.2
+          },
+          {
+            "rule": "range-top",
+            "factor": 0.847
+          }
+        ]
+      },
+      {
+        "herb": {
+          "id": "herb-suanzaoren",
+          "label": {
+            "zh-Hant": "酸棗仁",
+            "en": "Jujube seed"
+          }
+        },
+        "role": "臣",
+        "source": "formula",
+        "grams": 15,
+        "range": [
+          10,
+          15
+        ],
+        "factors": [
+          {
+            "rule": "severity",
+            "factor": 1.2
+          },
+          {
+            "rule": "range-top",
+            "factor": 0.794
+          }
+        ]
+      },
+      {
+        "herb": {
+          "id": "herb-fushen",
+          "label": {
+            "zh-Hant": "茯神",
+            "en": "Poria with root (spirit)"
+          }
+        },
+        "role": "臣",
+        "source": "formula",
+        "grams": 14,
+        "range": [
+          9,
+          15
+        ],
+        "factors": [
+          {
+            "rule": "severity",
+            "factor": 1.2
+          }
+        ]
+      },
+      {
+        "herb": {
+          "id": "herb-yuanzhi",
+          "label": {
+            "zh-Hant": "遠志",
+            "en": "Polygala root"
+          }
+        },
+        "role": "臣",
+        "source": "formula",
+        "grams": 9.5,
+        "range": [
+          3,
+          10
+        ],
+        "factors": [
+          {
+            "rule": "severity",
+            "factor": 1.2
+          }
+        ]
+      },
+      {
+        "herb": {
+          "id": "herb-muxiang",
+          "label": {
+            "zh-Hant": "木香",
+            "en": "Costus root"
+          }
+        },
+        "role": "佐",
+        "source": "formula",
+        "grams": 6,
+        "range": [
+          3,
+          6
+        ],
+        "factors": [
+          {
+            "rule": "severity",
+            "factor": 1.2
+          },
+          {
+            "rule": "range-top",
+            "factor": 0.635
+          }
+        ]
+      },
+      {
+        "herb": {
+          "id": "herb-zhigancao",
+          "label": {
+            "zh-Hant": "炙甘草",
+            "en": "Honey-fried licorice"
+          }
+        },
+        "role": "使",
+        "source": "formula",
+        "grams": 4.5,
+        "range": [
+          2,
+          10
+        ],
+        "factors": [
+          {
+            "rule": "severity",
+            "factor": 1.2
+          }
+        ]
+      },
+      {
+        "herb": {
+          "id": "herb-dazao",
+          "label": {
+            "zh-Hant": "大棗",
+            "en": "Jujube"
+          }
+        },
+        "role": "佐",
+        "source": "residual",
+        "grams": 12.5,
+        "range": [
+          6,
+          15
+        ],
+        "factors": [
+          {
+            "rule": "severity",
+            "factor": 1.2
+          }
+        ]
+      },
+      {
+        "herb": {
+          "id": "herb-baiziren",
+          "label": {
+            "zh-Hant": "柏子仁",
+            "en": "Arborvitae seed"
+          }
+        },
+        "role": "佐",
+        "source": "residual",
+        "grams": 8,
+        "range": [
+          3,
+          10
+        ],
+        "factors": [
+          {
+            "rule": "severity",
+            "factor": 1.2
+          }
+        ]
+      }
+    ],
+    "cautions": [],
+    "version": {
+      "engine": "example",
+      "kb": "example",
+      "params": "example"
+    }
+  }
+}

@@ -3,6 +3,7 @@ import { useLocation } from "wouter";
 import { useI18n } from "../../i18n/I18nProvider.tsx";
 import type { MessageKey } from "../../i18n/catalogs.ts";
 import { assessInputOf, toSaved } from "../../app/assessment.ts";
+import { attachPrescription } from "../../app/prescription.ts";
 import { effectiveSeasonModel, effectiveSeasons } from "../../app/seasons.ts";
 import { NeedsKnowledge, useLoaded } from "../../app/knowledge.tsx";
 import { Term } from "../../app/Term.tsx";
@@ -90,7 +91,8 @@ function Body({ draft, onFinishing, onUnfinish }: { draft: Draft; onFinishing: (
     try {
       const result = eng.assess(kb, input);
       const id = randomId();
-      void saveAssessment(toSaved(draft, result, { id, lang })).then(() => navigate(`/result/${id}`));
+      // the personalised prescription is made with the record, where the build can make one (app/prescription.ts)
+      void attachPrescription(kb, toSaved(draft, result, { id, lang })).then(saveAssessment).then(() => navigate(`/result/${id}`));
     } catch {
       setBusy(false);
       setFailed(true);

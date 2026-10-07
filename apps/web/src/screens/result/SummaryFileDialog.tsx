@@ -17,7 +17,9 @@ export function SummaryFileDialog({ saved, onClose }: { saved: SavedAssessment; 
   const { kb } = useLoaded();
   const titleId = useId();
   const data = summaryData(saved, kb);
-  const [sections, setSections] = useState<ReadonlySet<FileSection>>(new Set(FILE_SECTIONS));
+  // the personalised prescription is offered only for a result that holds one, in a build that can show it (PM-41)
+  const offered: readonly FileSection[] = __APP_PROFILE__ === "dev" && saved.prescription !== undefined ? [...FILE_SECTIONS, "prescription"] : FILE_SECTIONS;
+  const [sections, setSections] = useState<ReadonlySet<FileSection>>(new Set(offered));
   const [otherNamed, setOtherNamed] = useState(false);
   const [note, setNote] = useState(false);
   const [done, setDone] = useState<string | null>(null);
@@ -31,7 +33,8 @@ export function SummaryFileDialog({ saved, onClose }: { saved: SavedAssessment; 
   const make = async (share: boolean): Promise<void> => {
     try {
       const now = clock.current();
-      const file = summaryFile(data, saved, kb, { ...defaultOptions(now, lang), sections, otherNamed: otherNamed && sections.has("safety"), note: note ? saidNote : null }, (l) => forLang(l));
+      const rx = __APP_PROFILE__ === "dev" && saved.prescription !== undefined && sections.has("prescription") ? (await import("../../prescription/summary.ts")).prescriptionFile(saved.prescription, kb) : null;
+      const file = summaryFile(data, saved, kb, { ...defaultOptions(now, lang), sections, otherNamed: otherNamed && sections.has("safety"), note: note ? saidNote : null }, (l) => forLang(l), rx);
       const text = `${JSON.stringify(file, null, 2)}\n`;
       const name = summaryFileName(now);
       if (share) { const f = shareableFile(name, text); if (f !== null) await shareFile(f); else downloadText(name, text); } else downloadText(name, text);
@@ -48,7 +51,7 @@ export function SummaryFileDialog({ saved, onClose }: { saved: SavedAssessment; 
       <p>{t.t("report.pract.file.intro")}</p>
       <fieldset style={{ border: "none", padding: 0, margin: "0 0 var(--space-3)" }}>
         <legend style={{ fontWeight: 600 }}>{t.t("report.pract.file.sections")}</legend>
-        {FILE_SECTIONS.map((s) => (
+        {offered.map((s) => (
           <Tile key={s} type="checkbox" name="section" value={s} checked={sections.has(s)} label={t.t(`report.pract.file.section.${s}` as MessageKey)}
             onChange={(on) => setSections((c) => { const next = new Set(c); if (on) next.add(s); else next.delete(s); return next; })} />
         ))}

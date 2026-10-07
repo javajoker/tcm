@@ -2,8 +2,8 @@
 
 | | |
 |---|---|
-| **Version** | 0.6 (draft) |
-| **Status** | Design for Release E (FR-36 … FR-38; tasks PM-36 … PM-41). **Built: the herb property model (PM-36, §3.6); dose–response, pairings and processing (PM-37, §3.7); the formula's effect, roles and 方解 (PM-38, §4.4); the verification of the library and its first report (PM-39, §5.1); the personalised prescription (PM-40, §6.6)** |
+| **Version** | 0.7 (draft) |
+| **Status** | Design for Release E (FR-36 … FR-38; tasks PM-36 … PM-41). **Built: the herb property model (PM-36, §3.6); dose–response, pairings and processing (PM-37, §3.7); the formula's effect, roles and 方解 (PM-38, §4.4); the verification of the library and its first report (PM-39, §5.1); the personalised prescription (PM-40, §6.6); in the app, gated (PM-41, §7.3)** |
 | **Last updated** | 2026-10-07 |
 | **Audience** | Engineers, the clinical content owner, the pharmacy reviewer, a legal adviser (for §7) |
 | **Related** | [Knowledge base v2](knowledge-base-v2.md) · [AI-assisted intake](ai-assisted-intake.md) · [Requirements FR-36 … FR-38](../requirements.md) · [Decisions PD-13 … PD-18](../decisions.md) · [Diagnosis SOP §12](../../diagnosis-sop.zh-TW.md) · [Safety policy §2](../../safety-policy.md) · [PRD G10](../../PRD.md) |
@@ -275,6 +275,15 @@ A third profile beside `dev` and `release`: everything of L3 except the develope
 
 The personalised prescription goes into the practitioner summary (a new section) at the level the profile allows; the summary file gains an optional `prescription` section in a new schema version (2) — version 1 readers are unaffected.
 
+### 7.3 As built: in the app (PM-41)
+
+- **Where it is made.** When a result is saved, a build that can show a prescription makes it from the result and its inputs and keeps it in the saved record (`prescription`); it is shown as it was made. The tables travel with the herb records (the knowledge base's herbs chunk), so **a release build — whose levels stop at L1 — has neither the tables, nor the code that makes a prescription (the engine's `@tcm/engine/prescription` entry, loaded lazily behind the build's profile), nor the card or its words** (the `rx` messages); `check-release` rule 2 fails on any of them, and the release bundle grew by 0.2 KB for all of it.
+- **The formula page** of the base formula shows a card, **因人加減（供中醫師參考）**: what it is (rules, from this result, the details given and the season, for a licensed practitioner's judgement), that rules and data are drafts nobody has reviewed, the base and how much of the deviation it can adjust, the modifications with their reasons, the composition with grams, the Pharmacopoeia range and what adjusted each quantity, what to note, why it fits (病機, 治法, each herb's share, what remains) and, last, that whether and how to use any of it is a practitioner's decision after seeing the person. A withheld prescription says why and lists nothing.
+- **The practitioner summary** has the same section on its page and in its plain-text copy; its file holds a `prescription` section when the person keeps it in, and is then **version 2** ([`tcm-summary-2.schema.json`](../../schemas/tcm-summary-2.schema.json)); every other file stays version 1.
+- **A backup** carries the prescription with its result; the importer rebuilds it field by field, refuses one whose versions are not its record's, and a release build refuses a record that holds one.
+- **Words.** The card avoids 處方, prescription, 劑量 and dose: it speaks of 加減 (modifications) and 份量 (quantities in grams), and of a practitioner's judgement — the forbidden-wording lint applies to it unchanged. The `rx` messages exist in Traditional Chinese, English and the generated Simplified Chinese.
+- **Tests.** 14 web tests (made at save, absent without herb records, the card in English and Traditional Chinese, absent elsewhere, every text in three languages, a withheld prescription, the summary section and file, the backup round trip and refusals), the schema tests for version 2, `check-release` rule 2's seeded cases, and E36 in a real browser (development: the card and the summary section; release, in three languages: none of it).
+
 ## 8. Tests
 
 | Layer | Tests |
@@ -320,3 +329,4 @@ PM-36 (herb property model v2), PM-37 (dose–response, pairings, processing in 
 | 0.4 | 2026-10-07 | §4.4: the formula's effect, the herbs' exact shares, the roles measured and the 方解 as built (PM-38) |
 | 0.5 | 2026-10-07 | §5.1: the verification as built and its first report (PM-39); pattern directions in `data/treatment/mechanisms.json` |
 | 0.6 | 2026-10-07 | §6.6: the personalised prescription as built (PM-40); the 三因 rules in `data/treatment/sanyin.json` |
+| 0.7 | 2026-10-07 | §7.3: the prescription in the app, gated (PM-41) |

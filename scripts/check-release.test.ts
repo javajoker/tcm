@@ -117,6 +117,12 @@ describe("check-release", () => {
     const c2 = copy();
     writeFileSync(entryJs(c2), `${readFileSync(entryJs(c2), "utf8")}\n;"Component catalogue";`); resync(c2);
     assert.deepEqual(rules(checkRelease(c2, { draftLabel: true })), [2]);
+    const rx = copy();
+    writeFileSync(entryJs(rx), `${readFileSync(entryJs(rx), "utf8")}\n;({"rx.title":"x"});`); resync(rx);
+    assert.deepEqual(rules(checkRelease(rx, { draftLabel: true })), [2], "the personalised prescription's messages in a release build");
+    const sanyin = copy();
+    edit(sanyin, "core", (c) => { c.config.extra = { sanyin: {} }; });
+    assert.deepEqual(rules(checkRelease(sanyin, { draftLabel: true })), [2], "the prescription's tables in a release knowledge base");
   });
 
   test("3: a dose or amount anywhere in the knowledge base — null is fine, a value is not", () => {

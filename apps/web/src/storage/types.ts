@@ -1,4 +1,5 @@
 // What is stored, and where (docs/privacy.md §2 is the inventory — add every new stored field there in the same change).
+import type { Prescription } from "@tcm/engine/prescription";
 import type { Assessment, AssessContext, FindingState, Subject } from "@tcm/engine";
 import type { Finding } from "@tcm/engine";
 import type { BirthInput } from "@tcm/wuxing";
@@ -145,6 +146,11 @@ export interface SavedAssessment {
   /** A note the person set for themselves (docs/post-mvp/design/export-follow-up-trends.md §4): the date the app offers a new assessment, and when they said "not now". Deleted with the result. */
   readonly followUp?: { readonly dueAt: number; readonly dismissedAt?: number };
   readonly feedback?: Readonly<Record<string, "match" | "partial" | "no">>;
+  /**
+   * The personalised prescription (三因制宜; docs/post-mvp/design/prescription-model.md §6, §7): made when the result was saved, by a build whose knowledge base carries the herb records and the
+   * prescription tables (the development profile today), and kept as it was made. Absent everywhere else. It is derived from the result and the inputs; the result never depends on it.
+   */
+  readonly prescription?: Prescription;
   /** Present on a record that came from a backup and could not be checked against its answers (made by another version): shown as saved, marked *Imported* (backup design §3.4 stage 8). */
   readonly imported?: { readonly at: number; readonly from: { readonly appVersion: string; readonly kbVersion: string; readonly engineVersion: string; readonly profile: string } };
 }

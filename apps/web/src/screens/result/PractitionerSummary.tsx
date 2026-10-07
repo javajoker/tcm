@@ -8,7 +8,7 @@ import type { SavedAssessment } from "../../storage/types.ts";
 import { Button, Card, LinkButton, Skeleton } from "../../ui/index.ts";
 import { DataTable } from "./Panel.tsx";
 import { usePrintExpand } from "./PrintSupport.tsx";
-import { buildSummary, seasonsSentence, summaryToText } from "./summaryModel.ts";
+import { buildSummary, seasonsSentence, summaryToText, type SummarySection } from "./summaryModel.ts";
 import styles from "./Result.module.css";
 
 const SummaryFileDialog = lazy(() => import("./SummaryFileDialog.tsx").then((m) => ({ default: m.SummaryFileDialog })));
@@ -19,7 +19,15 @@ function Page({ saved }: { saved: SavedAssessment }): ReactNode {
   const [copy, setCopy] = useState<"idle" | "ok" | "failed">("idle");
   const [fileOpen, setFileOpen] = useState(false);
   usePrintExpand();
-  const sections = buildSummary(saved, kb, t);
+  // the personalised prescription's section (PM-41): loaded only by a build that can show it, for a result that holds one
+  const [rx, setRx] = useState<SummarySection | null>(null);
+  useEffect(() => {
+    if (__APP_PROFILE__ !== "dev" || saved.prescription === undefined) return;
+    let cancelled = false;
+    void import("../../prescription/summary.ts").then((m) => { if (!cancelled) setRx(m.prescriptionSection(saved, kb, t)); });
+    return () => { cancelled = true; };
+  }, [saved, kb, t]);
+  const sections = rx === null ? buildSummary(saved, kb, t) : [...buildSummary(saved, kb, t), rx];
   const m = saved.result.meta;
   const seasons = seasonsSentence(saved, t);
   const footer = `${t.t("report.print.footer")} — ${t.t("report.footer.computed", { date: formatLocal(lang, m.computedAt), kb: m.kbVersion.slice(0, 8), engine: m.engineVersion, params: m.paramsFingerprint })}${seasons === "" ? "" : ` ${seasons}`}`;

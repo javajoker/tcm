@@ -95,6 +95,7 @@ export function indexKnowledgeBase(raw: RawKbChunks, display?: { zh(text: string
     panelSchema: core.panelSchema,
     formulas,
     herbs,
+    prescription: raw.herbs?.prescription ?? null,
     safety: core.safety,
     treatment,
     wuxing: core.wuxing,
