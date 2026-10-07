@@ -49,6 +49,10 @@ export interface Sanyin {
     temperature_at_most?: number;
   }[];
   season_citation: CitationId;
+  season_exception: {
+    citation: CitationId;
+    says: string;
+  };
   season_spares_jun: boolean;
   severity: {
     citation: CitationId;
