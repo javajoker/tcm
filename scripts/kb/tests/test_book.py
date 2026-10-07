@@ -1,5 +1,5 @@
 """The learning book (PM-42; docs/book/zh-Hant): Traditional Chinese only, every classical quotation a verified one from the book and chapter it names, no amount
-anywhere, no instruction to take anything, and every chapter short enough to read in a few minutes."""
+anywhere, no instruction to take anything, no second person (it is a page of the app's Learn section, PM-43), and every chapter short enough to read in a few minutes."""
 from __future__ import annotations
 
 import json
@@ -66,6 +66,11 @@ class Book(unittest.TestCase):
             t = text(path)
             self.assertIsNone(amount.search(t), f"{path.name}: an amount")
             self.assertIsNone(words.search(t), f"{path.name}: {words.search(t).group(0) if words.search(t) else ''}")
+
+    def test_no_second_person(self):
+        # the book is shown in the app's Learn section, whose pages address no reader (knowledge-browser design §4, R2)
+        for path in PAGES:
+            self.assertIsNone(re.search(r"[你妳您]", text(path)), path.name)
 
     def test_each_chapter_is_short(self):
         for path in CHAPTERS:

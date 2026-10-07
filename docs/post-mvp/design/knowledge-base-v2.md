@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 0.3 (draft) |
+| **Version** | 0.4 (draft) |
 | **Status** | Design for Release E (FR-35, FR-39; tasks PM-35, PM-42, PM-43). **Built: the sources registry and its coverage report (PM-35, §4.1)** |
 | **Last updated** | 2026-10-07 |
 | **Audience** | The clinical content owner, reviewers, engineers |
@@ -116,6 +116,10 @@ As for the existing quotations: a curated table names the record and an **anchor
 
 Writing it against the model found three things, fixed with it: the reason the 君 keeps its amount in every season now has its classical source — 「發表不遠熱，攻裡不遠寒」 (《素問·六元正紀大論》, a new verified quotation, `suwen-071-4`, recorded as `season_exception` in the 三因 table) — in place of a loose reading of 有假者反常; the Traditional text of the 《本草蒙筌》 processing rhyme read 姜制 and 酒制 for 薑製 and 酒製 (OpenCC; corrected in the conversion's fixes); and the prescription design and PD-16 said three herbs could be added, where the model and the SOP add at most two.
 
+### 6.2 In the app (PM-43)
+
+Learn → the book, from the hub, in every interface: [knowledge browser §7.3](knowledge-browser.md#73-as-built-pm-43-the-learning-book). One file fetched when a reader opens it, Traditional Chinese whatever the interface, a Simplified page that says where the book is; a public build carries the book once it is reviewed. To be shown in Learn, the book now addresses no reader (R2): twenty-two lines with 你 were reworded.
+
 ## 7. Decided defaults
 
 **Decided 2026-10-07 — default of this design, revisit with the owner (decision register PD-19, PD-20).**
@@ -138,3 +142,4 @@ PM-35 (sources registry and coverage report), PM-36 … PM-40 (the tables above,
 | 0.1 | 2026-10-07 | Initial design, from the owner's direction of 2026-10-07 |
 | 0.2 | 2026-10-07 | §4.1: the sources registry as built (PM-35) and its first reading |
 | 0.3 | 2026-10-07 | §6.1: the learning book as built (PM-42) |
+| 0.4 | 2026-10-07 | §6.2: the book in the app (PM-43) |

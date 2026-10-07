@@ -134,8 +134,8 @@ A release is ticked item by item as features ship; a feature ships when the gate
 - [ ] Personalisation: no excluded herb ever appears, amounts never leave their range, toxic herbs are never raised (property tests); the diagnosis, its replay and the golden results unchanged *(PM-40 built and tested; the golden results and the result pins are unchanged)*
 - [ ] No reference amount in a public build (`check-release`) unless the owner decides otherwise after a legal view (PD-13 ⚑); a practitioner profile only as decided (PD-14 ⚑) *(PM-41 built: a release build has no tables, no code and no words of the prescription; rule 2 of `check-release` enforces it; the decisions themselves are the owner's)*
 - [ ] Clinical and pharmacy review of the property rules, pairings, processing, dose bands and 三因 factors, or the draft label shown
-- [ ] The learning book: Traditional Chinese only, quotations from the verified set, no doses and no prescriptive wording; linguistic review (class L) *(PM-42 built: twelve chapters, 53 verified quotations; `test_book.py` enforces all but the review)*
-- [ ] Budgets hold; folded into the PRD, the SOP §12 (owner of the logic) and specs; `CHANGELOG.md` updated
+- [ ] The learning book: Traditional Chinese only, quotations from the verified set, no doses and no prescriptive wording; linguistic review (class L) *(PM-42 built: twelve chapters, 53 verified quotations; `test_book.py` enforces all but the review. PM-43: in Learn in every interface — Traditional Chinese, a Simplified page that points to it — and a public build carries it only once reviewed, `check-release` rule 16)*
+- [ ] Budgets hold; folded into the PRD, the SOP §12 (owner of the logic) and specs; `CHANGELOG.md` updated *(after PM-43: all JS 349.3 of 350 KB, the book 13.1 of 20 KB on demand, the session figure unchanged at 88.9 KB)*
 
 **Release F — AI-assisted intake** (FR-40 … FR-42; nothing public before its gates)
 - [ ] The owner's decisions recorded (PD-21 data leaving the device for those who opt in, PD-25 photos); privacy redesign (inventory, statement, DPIA-style review, data-processing agreement with the provider) and legal view done

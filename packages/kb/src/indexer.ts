@@ -1,4 +1,5 @@
 import { KbError } from "./errors.ts";
+import { bookOf } from "./book.ts";
 import { herbBrowser } from "./herbs.ts";
 import type { Cities, GlossaryTerm, KnowledgeBase, RawKbChunks, TreatmentGuidance } from "./types.ts";
 
@@ -106,6 +107,7 @@ export function indexKnowledgeBase(raw: RawKbChunks, display?: { zh(text: string
     herbName: (id) => raw.formulas.herbNames[id],
     cities: (() => { let loaded: Promise<Cities> | null = null; return () => (loaded ??= Promise.resolve(typeof raw.cities === "function" ? raw.cities() : raw.cities)); })(),
     herbBrowser: raw.herbBrowser ? herbBrowser(raw.herbBrowser) : null,
+    book: raw.book ? bookOf(raw.book) : null,
     citation: (id) => citations.get(id),
     citations: raw.citations.items,
     term: (zh) => terms.get(zh),

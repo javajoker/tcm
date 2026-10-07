@@ -22,5 +22,8 @@ export const availableIn = (kb: KnowledgeBase): readonly TypeInfo[] => AVAILABLE
 export const infoOf = (type: LearnType): TypeInfo => TYPES.find((t) => t.type === type)!;
 export const typeOfPath = (path: string): TypeInfo | undefined => AVAILABLE.find((t) => t.path === path);
 
+/** The address of the learning book's contents, or of one of its chapters (PM-43); relative to the language. The book is not a kind of page: it is one work, read in order. */
+export const bookHref = (chapter?: string): string => (chapter === undefined || chapter === "" ? "/learn/book" : `/learn/book/${chapter}`);
+
 /** The address of a page or of a list (`/learn/terms/yin-yang`); relative to the language, like every route. */
 export const hrefOf = (type: LearnType, id?: string): string => `/learn/${infoOf(type).path}${id === undefined ? "" : `/${id}`}`;

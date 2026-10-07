@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 0.1 (draft) |
+| **Version** | 0.2 (draft) |
 | **Status** | Proposed process — **no reviewer has been appointed yet** (PRD Q8 blocks milestone M3) |
 | **Last updated** | 2026-10-04 |
 | **Audience** | Maintainers, clinical and linguistic reviewers |
@@ -58,6 +58,7 @@ One person may hold several roles if qualified; the physician and the TCM clinic
 | **Citations** | `citations.json` | That each quotation actually supports the sentence where it is used (machine verification only proves the text exists) | TCM clinical |
 | **Copy** | UI catalogs, notices, disclaimers | Tone, forbidden wording, clinical accuracy | Linguistic + regulatory (+ physician for notices) |
 | **Glossary / translations** | `glossary.json`, `en` fields | Term choices, WHO conformity, readability | Linguistic |
+| **The learning book** | `docs/book/zh-Hant/` (shown in Learn, PM-43) | That each chapter says what the model does, in plain Traditional Chinese a cultured reader accepts; that each quotation supports its sentence (the build proves only that it exists); no advice, no amount, no second person | Linguistic + TCM clinical |
 
 ---
 
@@ -154,7 +155,7 @@ What must be `reviewed` before each output level is enabled in a **release** bui
 | Level / feature | Required reviewed areas |
 |---|---|
 | **Any release** | Red flags and scope · scope-profile configuration · all notices and disclaimers · UI strings (both languages) · glossary rows used · birth/yunqi/season copy (or the birth module stays off) |
-| **L0** (education) | Patterns and elements in use · symptoms/questions · tongue and pulse content · constitutions and susceptibility · panel model and scoring params · lifestyle/seasonal text · citations used |
+| **L0** (education) | Patterns and elements in use · symptoms/questions · tongue and pulse content · constitutions and susceptibility · panel model and scoring params · lifestyle/seasonal text · citations used · the learning book, if the build carries it (a public build carries it only once reviewed: `check-release` rule 16) |
 | **L1** (+ diet, acupoints, tier-A formulas without dose) | + treatment guidance (diet, acupoints, pregnancy cautions) · the tier-A formulas (composition, roles, indications) · **the herbs in those formulas** (effects, burdens, flags) · the safety rules those formulas can trigger |
 | **L2** (+ tier B, modification, herb weights) | + tier-B formulas and their herbs · classical modifications · the residual-modification candidate pool · herb weight display text |
 | **L3** (dev only) | None required, but items remain labelled *draft* in the UI |
@@ -207,3 +208,4 @@ A release build **must fail** (`check-release.ts`) if a required area has no val
 | Version | Date | Change |
 |---|---|---|
 | 0.1 | 2026-10-04 | Initial proposal |
+| 0.2 | 2026-10-07 | §3, §7: the learning book (PM-42, PM-43) — reviewed by a linguist and a TCM clinician; a public build carries it only once reviewed |

@@ -25,7 +25,7 @@ describe("classify", () => {
     for (const p of ["index.html", "assets/index-AAAAAA.js", "assets/Result-BBBBBB.js", "assets/x-ABCDEF.css", "icon.svg", "icon-192.png", "apple-touch-icon.png", "manifest.webmanifest", "NOTICE.txt"]) assert.equal(classify(p), "shell", p);
   });
   test("the knowledge base is fetched on request; the Simplified display lists and catalogue only for Simplified", () => {
-    for (const p of ["kb/manifest.json", "kb/core.0123456789.json", "kb/cities.0123456789.json"]) assert.equal(classify(p), "common", p);
+    for (const p of ["kb/manifest.json", "kb/core.0123456789.json", "kb/cities.0123456789.json", "kb/book.0123456789.json"]) assert.equal(classify(p), "common", p);          // the book too: read offline in every script that shows it
     for (const p of ["kb/hans-main.0123456789.txt", "kb/hans-cities.0123456789.txt", "assets/hans-B-z8IZ3g.js"]) assert.equal(classify(p), "hans", p);
     assert.equal(classify("assets/hans.module-AAAAAA.css"), "shell", "only the script chunk is the catalogue");
     assert.equal(classify("assets/Inquiry-AAAAAA.js"), "shell");

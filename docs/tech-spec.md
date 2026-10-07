@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 0.7 (draft) |
+| **Version** | 0.8 (draft) |
 | **Status** | Draft — implementation not started (only `packages/wuxing`, `data/` and `scripts/kb` exist) |
 | **Last updated** | 2026-10-06 |
 | **Derives from** | [PRD v0.3](PRD.md) · [Diagnosis SOP v0.2](diagnosis-sop.zh-TW.md) · [Algorithm spec](wuxing-algorithm.md) |
@@ -258,6 +258,7 @@ Measured on the current `data/` (minified JSON, gzip):
 | `citations` | 127 quotations | first time a citation chip opens or the result renders | ≈ 5 KB | 15 KB |
 | `guidance` | the texts of the treatment guidance (K-11): where each acupressure point is and its cautions, the diet entries with nature, flavour, rationale and citations, the per-pattern lifestyle lines, in both languages. The engine's part of the guidance (codes, meridians, pregnancy flags, the pregnancy-caution list, the general regimen) stays in `core`; the indexer merges the two into `kb.treatment` | with the result | ≈ 10 KB | 20 KB |
 | `herbs-index` · `herbs-<k>` ✔ (PM-24) | the **herb browser**: a compact browse index of all 703 herbs (tuples: slug, names, category, nature, flavours, channels, the first functions, flags, pregnancy level, status — ≈ 26 KB gz) and **16 detail shards** by a hash of the slug (each herb's whole page: all functions, the caution text, interactions, classical formulas, source — 3–5 KB gz each). Content-hashed and listed in the manifest (`herbBrowser`) like every chunk; **never** part of the knowledge-base version or of the per-session figure; no dose, no herb weights and no repository path in them. Only herbs a sample review has covered ship in a public build (none yet: no file at all); the closed beta and dev ship all, each labelled a draft | only when someone browses herbs: the index for a list, one shard for a page | ≈ 26 KB + 16 × 4 KB | 36 KB · 8 KB per shard |
+| `book` ✔ (PM-43) | the **learning book** (`docs/book/zh-Hant`, read by the bundler): its contents and twelve chapters as blocks, each quotation with the citation it is part of — Traditional Chinese only, so no display list. Listed in the manifest with its chapter ids; **not** part of the knowledge-base version or of the per-session figure; a public build carries it only once reviewed ([knowledge browser §7.3](post-mvp/design/knowledge-browser.md#73-as-built-pm-43-the-learning-book)) | when a reader opens the book (and with the offline copy) | 34 KB · 13.1 KB gz | 20 KB |
 | `hans-main` · `hans-cities` · `hans-herbs-<index|k>` | the **Simplified-Chinese display lists** (post-MVP, [design](post-mvp/design/simplified-chinese.md)): for the Chinese strings of the chunks above (resp. the city list), the Simplified form of each, one per line, aligned with the sorted list of those strings that the client rebuilds from the chunks; the data itself is never converted | only for a person who uses Simplified Chinese: with the knowledge base, resp. with the city list | ≈ 22 KB · ≈ 1.5 KB | 30 KB · 6 KB |
 
 Total KB currently **≈ 143 KB gzip** for everything including all 703 herbs. With pruning (§5.3) a **release** session fetches roughly **55–65 KB gzip**
@@ -674,3 +675,4 @@ Colour: one sequential hue per quantity family, never red/green as good/bad; sig
 | 0.5 | 2026-10-06 | §8.2, §8.3: the hour near a change (PM-27): `BirthInput.hourPick`, `Draft.hourChoice`, `SavedAssessment.hour`; the importer keeps `fold` |
 | 0.6 | 2026-10-06 | §7, §8.2: the season model declared (PM-29): the stamp `+tuwang18`, the development-only `seasonModel` preference, replay on the model in the stamp; the summary file's optional `exportedFrom.seasonModel` and `seasons` |
 | 0.7 | 2026-10-06 | §8.3: the file sync (PM-32): `meta/sync`, `Persistence.syncFile` and `onAssessmentsChanged`; `apps/web/src/sync/` (the file layer, the session, the provider); the File System Access save picker needs no Permissions-Policy or CSP entry |
+| 0.8 | 2026-10-07 | §5.2: the learning book's file (PM-43) |

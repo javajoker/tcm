@@ -7,11 +7,11 @@ import { usePageTitle } from "../app/usePageTitle.ts";
 import { Notice } from "../ui/index.ts";
 import { compareHref } from "./compare.ts";
 import { listOf } from "./pages.ts";
-import { availableIn, hrefOf } from "./registry.ts";
+import { availableIn, bookHref, hrefOf } from "./registry.ts";
 import { kindTitle, SearchBox, useIndex } from "./SearchBox.tsx";
 import styles from "./Learn.module.css";
 
-/** /learn — what the section is, a search field, and one card per kind of page that exists. */
+/** /learn — what the section is, a search field, the learning book when the build carries it, and one card per kind of page that exists. */
 export function Hub(): ReactNode {
   const { t } = useI18n();
   const { kb } = useLoaded();
@@ -29,6 +29,15 @@ export function Hub(): ReactNode {
       <section aria-labelledby="learn-browse">
         <h2 id="learn-browse">{t.t("learn.hub.browse")}</h2>
         <ul className={styles.cards}>
+          {kb.book !== null ? (
+            <li>
+              <Link className={styles.card} href={bookHref()}>
+                <span className={styles.cardTitle}>{t.t("learn.book.title")}</span>
+                <span>{t.t("learn.book.blurb")}</span>
+                <span className="muted">{t.plural("learn.book.count", kb.book.chapters.length)}</span>
+              </Link>
+            </li>
+          ) : null}
           {kinds.map(({ type }) => (
             <li key={type}>
               <Link className={styles.card} href={hrefOf(type)}>

@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 0.7 (draft) |
+| **Version** | 0.8 (draft) |
 | **Status** | Design for Release B (FR-14, FR-25; tasks PM-13 … PM-16) and Release C (herb browser; PM-24, PM-25; **PM-24, the delivery of the herb data, and PM-25, the herb pages, are built**, [§7.1](#71-as-built-pm-24-delivery), [§7.2](#72-as-built-pm-25-the-herb-pages)). **PM-13 to PM-16 are built** (the shell, the stable ids, search, the page template, pages for all seven kinds, and the comparison of patterns); herbs wait for Release C |
 | **Last updated** | 2026-10-06 |
 | **Audience** | Engineers, designers, the clinical reviewer |
@@ -136,6 +136,22 @@ The data layer of the herb browser exists; the pages (PM-25) are not built yet.
 
 **Found on the way.** The three herbs added by hand had one free-text note each, *functions；caution*, filed whole under `caution`, so a page would have shown 粳米's functions as a caution; each part is now filed where it belongs (the words are the same, `curated/herbs.py`). The Learn lists said "1 entries shown": a plural message was passed through the plain lookup in four places (the hub's cards, the two lists and the search box) and is now chosen by count.
 
+### 7.3 As built (PM-43: the learning book)
+
+The learning book of [knowledge base v2 §6](knowledge-base-v2.md#6-the-learning-book-fr-39) (PM-42, `docs/book/zh-Hant/`) is the one Learn page that is a work rather than a record: a contents page and twelve chapters, read in order.
+
+| Piece | What was built |
+|---|---|
+| Delivery | The bundler reads the Markdown (`packages/kb/node/book.ts`) and writes **one file**, `kb/book.<hash>.json` (34 KB, **13.1 KB gzip**, budget 20 KB), listed in the manifest with its chapter ids — so the hub and the routes know the chapters without a fetch. Like the herb browser it is hash-checked by the loader (`kb.book.get()`: asked for once, again after a failure), **outside the knowledge-base version** (a wording change in the book marks no saved result as old) and outside the session figure (`check-budgets` counts it apart); the service worker keeps it with the knowledge files, so the book reads offline. The app never parses Markdown and no JavaScript carries the text: the code is the page template, about 2 KB in the Learn chunk |
+| The parser | Knows exactly what the book uses — a title, `##` sections, paragraphs with **strong** text and links, one-line quotations, tables, lists, one fenced block — and **fails the build** on anything else, with the file and line. A link to another chapter becomes a link in the app; a link to a document outside the book keeps its name and loses its address. Every quotation is resolved to the verified citation it is part of (the rule of `test_book.py`), and the page links it to that quotation's page — where the original and how far it has been checked are shown (R6) |
+| Who carries it | The dev build and the closed beta (draft label on). A public build carries **a reviewed book only**: the book is a draft until a record of its linguistic and TCM-clinical review exists (content review §3), and the review records cover data files — a document has none yet — so a public build has no book file, no card and no route (`check-release` rule 16) |
+| Routes and pages | `/learn/book` (the contents: the index of `docs/book/zh-Hant`, its chapter table linking each chapter) and `/learn/book/<chapter>` (`apps/web/src/learn/Book.tsx`): the title, the draft notice, the text on a card, the previous and next chapter and the way back to the contents; a chapter the book does not have is the section's not-found page. The hub lists the book first, with its number of chapters |
+| Languages | **Traditional Chinese whatever the interface** (decision PD-20): in English the page around it is English, a line says the book is in Traditional Chinese only, and the text carries `lang="zh-Hant"`. A Simplified page may hold no Traditional text, so `/zh-Hans/learn/book…` says in Simplified words where the book is and links to the same page in Traditional Chinese — the address changes language, the preferred language does not — and never asks for the file |
+| R2 | The book addressed its reader (「你的舌」, 「提醒你」) in twenty-two places; as a Learn page it may not, so the chapters were reworded into the impersonal (「使用者」, or no subject at all) and `test_book.py` and the page tests now refuse second person |
+| Tests | `packages/kb/test/book.test.ts` (12: the real book's pages, links, quotations and blocks; what a Learn page may say; every refusal of the parser; who carries it; the loader); `bundle-script.test.ts` (3: public / beta / dev, outside the version, fetched once and only when asked, a damaged file refused and asked again, a malformed manifest entry refused before any fetch); `check-release` rule 16 and rule 11's immutable caching (5 seeded cases); `check-budgets` (the book counted apart); `learn-book.test.tsx` (11: the hub, the contents, a chapter and its way on, a failure and a retry, English, Simplified with no Traditional text and no fetch, not-found, axe); **E37** in Chrome on desktop and phone in three languages, axe in both colour schemes; E22 (offline) passes with the book in the copy |
+
+**Not done.** The hub's search does not find the book's chapters (a chapter is read, not looked up; *revisit if learners ask*). The JavaScript budget is nearly spent (all JS 349.3 of 350 KB after this task): the next feature in a release build needs the raise its release declares (decision PD-12).
+
 ## 8. Experience and accessibility
 
 - A page has one `h1`, a *Sources* section, a *Related* section and a short on-page index; focus moves to the heading on navigation (the existing `RouteFocus`).
@@ -240,3 +256,4 @@ PM-13 (shell, ids, anonymous-context components, search index, print), PM-14 (pa
 | 0.5 | 2026-10-06 | PM-16 built: the comparison of patterns, its decisions (§6.1) and entry points |
 | 0.6 | 2026-10-06 | PM-24 built ([§7.1](#71-as-built-pm-24-delivery)): the herb index and sixteen shards, their policy by profile, their Simplified lists, the loader API, rule 15 of the release check. The pages are PM-25 |
 | 0.7 | 2026-10-06 | PM-25 built ([§7.2](#72-as-built-pm-25-the-herb-pages)): the herb list and page, their English words, the three kinds of source line, the async-page device and the focus fix, the decision that the hub's search does not cover herbs; two faults found on the way and fixed |
+| 0.8 | 2026-10-07 | PM-43 built ([§7.3](#73-as-built-pm-43-the-learning-book)): the learning book in Learn — one hash-checked file outside the version, Traditional Chinese in every interface, the Simplified page that points to it, rule 16 of the release check, the book reworded for R2 |

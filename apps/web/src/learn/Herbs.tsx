@@ -14,12 +14,14 @@ import { NameLine } from "./Title.tsx";
 import { useAsync } from "./useAsync.ts";
 import styles from "./Learn.module.css";
 
-function Loading(): ReactNode {
+/** What a Learn page shows while its data comes (the herb pages, the book). */
+export function Loading(): ReactNode {
   const { t } = useI18n();
   return <div role="status" aria-busy="true"><span className="visually-hidden">{t.t("common.loading")}</span><Skeleton height="2rem" width="50%" /><br /><Skeleton /><br /><Skeleton /></div>;
 }
 
-function Failed({ message, retry }: { message: string; retry: () => void }): ReactNode {
+/** A fetch that failed: what failed, a way to try again and a way back. */
+export function Failed({ message, retry }: { message: string; retry: () => void }): ReactNode {
   const { t } = useI18n();
   return (
     <div role="alert" style={{ display: "grid", gap: "var(--space-3)", justifyItems: "start" }}>

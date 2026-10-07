@@ -3,12 +3,13 @@
 // content even if the UI is bypassed. Doses, tier-C formulas, herb weights, internal provenance and the other profile never reach a
 // bundle that cannot use them.
 import type {
-  Citations, Cities, ConstitutionItems, Constitutions, Correspondences, DoseBands, Emergency, Exclusions, NameFold, Formula, Formulas, Glossary, Herb, Herbs, Level, Orientation, Pairings, PanelSchema, PatternElements, Patterns, Prescription, PrescriptionChunk, Processing, ProfileName, Pulse, Questions, Sanyin, Yinjing,
+  BookChunk, Citations, Cities, ConstitutionItems, Constitutions, Correspondences, DoseBands, Emergency, Exclusions, NameFold, Formula, Formulas, Glossary, Herb, Herbs, Level, Orientation, Pairings, PanelSchema, PatternElements, Patterns, Prescription, PrescriptionChunk, Processing, ProfileName, Pulse, Questions, Sanyin, Yinjing,
   RawKbChunks, RedFlags, SafetyRules, ScopeConfig, ScopeProfile, ScopeProfiles, ScoringParams, Susceptibility, Symptoms, Tongue, TreatmentGuidance, Yunqi, FormulasChunk, GuidanceChunk, HerbName, TreatmentCore,
 } from "./types.ts";
+import { memoryBook } from "./book.ts";
 import { buildHerbBrowser, memorySource, type HerbBrowserChunks } from "./herbs.ts";
 
-/** The parsed contents of data/ (one field per data file). */
+/** The parsed contents of data/ (one field per data file), and the learning book. */
 export interface DataFiles {
   readonly scope: ScopeProfiles;
   readonly symptoms: Symptoms;
@@ -43,6 +44,8 @@ export interface DataFiles {
   readonly yinjing: Yinjing;
   readonly prescriptionParams: Prescription;
   readonly sanyin: Sanyin;
+  /** The learning book (PM-42, PM-43), read from docs/book/zh-Hant by packages/kb/node/book.ts; absent where a caller has no use for it. */
+  readonly book?: BookChunk | null;
 }
 
 export const LEVELS: readonly Level[] = ["L0", "L1", "L2", "L3"];
@@ -176,6 +179,8 @@ export interface BuildResult {
   readonly profile: ScopeProfile;
   /** What the bundler writes for the herb browser (PM-24); `chunks.herbBrowser` reads the same content from memory. Null when this build shows no herb page. */
   readonly herbFiles: HerbBrowserChunks | null;
+  /** What the bundler writes for the learning book (PM-43); `chunks.book` reads the same from memory. Null when this build carries no book. */
+  readonly bookFile: BookChunk | null;
 }
 
 /** Resolve the profile, prune what it cannot reach and return the chunks of one knowledge-base version. */
@@ -236,6 +241,9 @@ export function buildChunks(files: DataFiles, opts: BuildOptions): BuildResult {
   // none yet, so no herb file at all. It carries no dose and no herb weights whatever the profile, so a page can never show more than the bundle holds.
   const herbFiles = buildHerbBrowser(files.herbs.items, { all: dev || opts.draftLabel === true });
 
+  // the learning book (PM-43): every build that labels its content a draft carries it; a public release only a reviewed book — none yet, so no book file at all
+  const bookFile = files.book && (dev || opts.draftLabel === true || files.book.status === "reviewed") ? files.book : null;
+
   const emergency: Emergency = dev || opts.draftLabel === true ? files.emergency : { ...files.emergency, regions: files.emergency.regions.filter((r) => r.id === "OTHER" || r.verification !== undefined) };
 
   const chunks: RawKbChunks = {
@@ -251,8 +259,9 @@ export function buildChunks(files: DataFiles, opts: BuildOptions): BuildResult {
     cities: files.cities,
     herbs: herbs ? { items: herbs, ...(prescription ? { prescription } : {}) } : null,
     herbBrowser: herbFiles ? memorySource(herbFiles) : null,
+    book: bookFile ? memoryBook(bookFile) : null,
     // the source-script quotation and the repository path are verification aids: dev only
     citations: dev ? files.citations : { ...files.citations, items: files.citations.items.map(({ source_path: _p, quote_source_zh_hans: _q, ...c }) => c) },
   };
-  return { chunks, reach, profile, herbFiles };
+  return { chunks, reach, profile, herbFiles, bookFile };
 }

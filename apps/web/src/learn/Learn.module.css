@@ -37,4 +37,16 @@
 .index { display: flex; flex-wrap: wrap; gap: var(--space-3); list-style: none; padding: 0; margin: 0; }
 .alias { margin: 0; color: var(--ink-muted); }
 .foot { border-top: 1px solid var(--border); padding-top: var(--space-3); }
+/* the learning book (PM-43): a page of running text, its quotations with their source under them, the formula of a chapter as it is written */
+.book { display: grid; gap: var(--space-3); padding: var(--space-4); border: 1px solid var(--border); border-radius: var(--radius-card); background: var(--surface); }      /* on a card, like every Learn page: the quotations and the tables' row headers read against it */
+.book > * { margin: 0; min-width: 0; }
+.book h2 { margin-top: var(--space-3); }
+.book ol, .book ul { padding-inline-start: 1.4rem; display: grid; gap: var(--space-1); }
+.bookQuote { display: grid; gap: var(--space-1); }
+.bookQuote blockquote { margin: 0; }
+.bookQuote figcaption { text-align: end; color: var(--ink-muted); }
+.bookCode { white-space: pre-wrap; overflow-wrap: anywhere; padding: var(--space-3); background: var(--bg); border-radius: var(--radius-control); font-family: inherit; }
+.bookNav { display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--space-3); list-style: none; padding: var(--space-3) 0 0; margin: 0; border-top: 1px solid var(--border); }
+.bookNav a { display: inline-block; min-height: 44px; padding-block: 0.6rem; }
+.bookNavLabel { color: var(--ink-muted); }
 @media print { .search, .foot { display: none; } }

@@ -6,11 +6,12 @@ import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { gzipSync } from "node:zlib";
+import { checkBook } from "../packages/kb/src/book.ts";
 import { reachOf } from "../packages/kb/src/bundle.ts";
 import { chineseStrings, digestInput } from "../packages/kb/src/hans.ts";
 import { HERB_STATUS, shardOf } from "../packages/kb/src/herbs.ts";
 import { SUPPORTED_SCHEMA_VERSION } from "../packages/kb/src/indexer.ts";
-import type { ChunkRef, CoreChunk, FormulasChunk, HansRef, HerbIndexChunk, HerbShardChunk, Manifest } from "../packages/kb/src/types.ts";
+import type { BookChunk, ChunkRef, CitationsChunk, CoreChunk, FormulasChunk, HansRef, HerbIndexChunk, HerbShardChunk, Manifest } from "../packages/kb/src/types.ts";
 import { BUDGET_GZ } from "./bundle-data.ts";
 import { cspHeader, IMMUTABLE, LANGUAGE_SEGMENTS } from "./deploy-files.ts";
 import { parseHeaders, parseRedirects } from "./serve-dist.ts";
@@ -312,6 +313,32 @@ export function checkRelease(distDir: string, opts: CheckOptions = {}): Failure[
     }
   } else if (hansLists?.herbs !== undefined) fail(15, "the manifest has Simplified lists for a herb browser it does not have");
 
+  // 16 — the learning book (PM-43; knowledge-browser design §7.3): one file, in the output, content-hashed, within its budget and equal to the manifest; the chapters the manifest names, in order;
+  // every quotation one of the citations the build ships; a public build carries the book only once it is reviewed — and no book file the manifest does not list
+  const bk = manifest.book;
+  const bookFiles = kbFiles.map((f) => rel(dist, f).slice("kb/".length)).filter((f) => f.startsWith("book."));
+  if (bk === undefined) for (const f of bookFiles) fail(16, `kb/${f} is a book file the manifest does not list`);
+  else {
+    const p = join(dist, "kb", bk.file);
+    for (const f of bookFiles) if (f !== bk.file) fail(16, `kb/${f} is a book file the manifest does not list`);
+    if (!existsSync(p)) fail(16, `manifest lists the book → ${bk.file}, which is not in the output`);
+    else {
+      const bytes = readFileSync(p);
+      if (createHash("sha256").update(bytes).digest("hex") !== bk.sha256) fail(16, `kb/${bk.file}: the SHA-256 differs from the manifest`);
+      if (!/^book\.[0-9a-f]{8,}\.json$/.test(bk.file)) fail(16, `kb/${bk.file} is not a content-hashed book file`);
+      if (gzipSync(bytes).length > BUDGET_GZ.book) fail(16, `kb/${bk.file}: ${gzipSync(bytes).length} B gzip exceeds the ${BUDGET_GZ.book} B budget of the book`);
+      let book: BookChunk | null = null;
+      try { book = checkBook(JSON.parse(bytes.toString("utf8")), bk.chapters); } catch { fail(16, `kb/${bk.file} is not the book the manifest lists (Traditional Chinese, the chapters ${bk.chapters.join(", ")})`); }
+      if (book !== null) {
+        const cited = new Set(chunkFiles.has("citations") ? (JSON.parse(read(chunkFiles.get("citations")!)) as CitationsChunk).items.map((c) => c.id) : []);
+        for (const page of [{ id: "contents", blocks: book.contents }, ...book.chapters]) {
+          for (const b of page.blocks) if (b.kind === "quote" && !cited.has(b.citation)) fail(16, `the book's ${page.id}: the quotation 「${b.text}」 names the citation ${b.citation}, which this build does not ship`);
+        }
+        if (!opts.draftLabel && book.status !== "reviewed") fail(16, `the learning book is "${book.status}": a public build carries it only once reviewed (content review §3), or the closed beta, with --draft-label`);
+      }
+    }
+  }
+
   // 10 — the attribution notice travels with the app: MIT-licensed material derived into the knowledge base requires its copyright and permission notice to be kept
   if (!existsSync(join(dist, "NOTICE.txt"))) fail(10, "NOTICE.txt is missing: the attribution notice must be shipped with the app");
   else {
@@ -337,6 +364,7 @@ export function checkRelease(distDir: string, opts: CheckOptions = {}): Failure[
     for (const [name, ref] of Object.entries(manifest.chunks)) if (ref && cache(`/kb/${ref.file}`) !== IMMUTABLE) fail(11, `_headers: the ${name} chunk /kb/${ref.file} must be cached as immutable`);
     for (const f of hansFiles) if (cache(`/kb/${f}`) !== IMMUTABLE) fail(11, `_headers: the Simplified display list /kb/${f} must be cached as immutable`);
     for (const f of herbFiles) if (cache(`/kb/${f}`) !== IMMUTABLE) fail(11, `_headers: the herb browser file /kb/${f} must be cached as immutable`);
+    if (bk !== undefined && cache(`/kb/${bk.file}`) !== IMMUTABLE) fail(11, `_headers: the book /kb/${bk.file} must be cached as immutable`);
   }
   if (existsSync(join(dist, "_redirects"))) {
     const redirects = parseRedirects(read(join(dist, "_redirects")));

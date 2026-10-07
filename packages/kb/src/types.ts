@@ -208,7 +208,36 @@ export interface RawKbChunks {
   readonly cities: Cities | (() => Promise<Cities>);
   /** The herb browser (PM-24): null when this build shows no herb page. */
   readonly herbBrowser: HerbBrowserSource | null;
+  /** The learning book (PM-43): absent or null when this build carries none. */
+  readonly book?: BookSource | null;
 }
+
+// ── the learning book (PM-42, PM-43) ────────────────────────────────────────
+/** A run of the book's text: plain, strong, or a link to a chapter of the book (`chapter` is its id; "" is the contents). A link to a document outside the book is kept as its text. */
+export type BookSpan = string | { readonly strong: string } | { readonly text: string; readonly chapter: string };
+export type BookText = readonly BookSpan[];
+/** A block of the book, in the order the page shows it. A quotation names its source as the book writes it and the verified citation it is part of. */
+export type BookBlock =
+  | { readonly kind: "heading"; readonly text: string }
+  | { readonly kind: "paragraph"; readonly text: BookText }
+  | { readonly kind: "quote"; readonly text: string; readonly source: string; readonly citation: string }
+  | { readonly kind: "table"; readonly head: readonly BookText[]; readonly rows: readonly (readonly BookText[])[] }
+  | { readonly kind: "list"; readonly ordered: boolean; readonly items: readonly BookText[] }
+  | { readonly kind: "code"; readonly text: string };
+export interface BookChapter { readonly id: string; readonly title: string; readonly blocks: readonly BookBlock[] }
+/** The book as the bundler writes it: Traditional Chinese only, its contents page (the index of docs/book/zh-Hant) and its chapters in order. */
+export interface BookChunk {
+  readonly lang: "zh-Hant";
+  /** `reviewed` once a review covers it (content review §3); a public build carries only a reviewed book. */
+  readonly status: "draft" | "reviewed";
+  readonly title: string;
+  readonly contents: readonly BookBlock[];
+  readonly chapters: readonly BookChapter[];
+}
+/** Where the book comes from: its chapter ids (from the manifest, so a page knows them without a fetch) and the file, fetched and checked when first asked for. */
+export interface BookSource { readonly chapters: readonly string[]; load(): Promise<BookChunk> }
+/** The book as the app reads it: the file is asked for once, again after a failure. */
+export interface Book { readonly chapters: readonly string[]; get(): Promise<BookChunk> }
 
 // ── manifest ────────────────────────────────────────────────────────────────
 export interface ChunkRef { readonly file: string; readonly sha256: string; readonly bytes: number }
@@ -221,6 +250,8 @@ export interface Manifest {
   readonly chunks: { readonly core: ChunkRef; readonly formulas: ChunkRef; readonly herbs?: ChunkRef; readonly citations: ChunkRef; readonly guidance: ChunkRef; readonly cities: ChunkRef };
   /** The herb browser's files (PM-24): absent when the build shows no herb page. Shards are keyed "0"…"f"; a key without a shard has no herb. */
   readonly herbBrowser?: { readonly count: number; readonly index: ChunkRef; readonly shards: Readonly<Record<string, ChunkRef>> };
+  /** The learning book's file (PM-43), with its chapter ids: absent when the build carries no book. Traditional Chinese only, so it has no Simplified display list. */
+  readonly book?: ChunkRef & { readonly chapters: readonly string[] };
   /** Display lists for Simplified Chinese: one for the chunks loaded with the knowledge base, one for the lazy city list, and — with the herb browser — one for each of its files. The data itself is never converted. */
   readonly variants?: { readonly "zh-Hans"?: { readonly main: HansRef; readonly cities: HansRef; readonly herbs?: { readonly index: HansRef; readonly shards: Readonly<Record<string, HansRef>> } } };
 }
@@ -273,6 +304,8 @@ export interface KnowledgeBase {
   cities(): Promise<Cities>;
   /** The herb pages (PM-24): null when this build shows none — a public release before any herb has been covered by the sample review. */
   readonly herbBrowser: HerbBrowser | null;
+  /** The learning book (PM-43): null when this build carries none — a public release before the book has been reviewed. */
+  readonly book: Book | null;
   citation(id: string): Citation | undefined;
   /** Every quotation of the bundle, in the data's order (the Learn pages list them). */
   readonly citations: readonly Citation[];

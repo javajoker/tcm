@@ -1,7 +1,8 @@
 import { KbError } from "./errors.ts";
 import { chineseStrings, digestInput, newDisplay } from "./hans.ts";
 import { indexKnowledgeBase, SUPPORTED_SCHEMA_VERSION } from "./indexer.ts";
-import type { ChunkRef, Cities, CitationsChunk, CoreChunk, FormulasChunk, GuidanceChunk, HansRef, HerbBrowserSource, HerbIndexChunk, HerbShardChunk, HerbsChunk, KnowledgeBase, Manifest, RawKbChunks } from "./types.ts";
+import { CHAPTER_ID } from "./book.ts";
+import type { BookChunk, BookSource, ChunkRef, Cities, CitationsChunk, CoreChunk, FormulasChunk, GuidanceChunk, HansRef, HerbBrowserSource, HerbIndexChunk, HerbShardChunk, HerbsChunk, KnowledgeBase, Manifest, RawKbChunks } from "./types.ts";
 
 export interface LoadOptions {
   /** URL (absolute or root-relative) of the directory that holds `manifest.json` and the chunk files, e.g. "/kb". */
@@ -35,6 +36,12 @@ function assertManifest(m: unknown): asserts m is Manifest {
     const sound = typeof hb === "object" && hb !== null && Number.isInteger(hb.count) && ref(hb.index) && typeof hb.shards === "object" && hb.shards !== null &&
       Object.entries(hb.shards).every(([k, r]) => /^[0-9a-f]$/.test(k) && ref(r));
     if (!sound) throw new KbError("manifest-invalid", "manifest.json: the herb browser entry is not valid");
+  }
+  const book = (m as Manifest).book;
+  if (book !== undefined) {
+    const sound = typeof book === "object" && book !== null && typeof book.file === "string" && typeof book.sha256 === "string" && Array.isArray(book.chapters) && book.chapters.length > 0 &&
+      book.chapters.every((c) => typeof c === "string" && CHAPTER_ID.test(c)) && new Set(book.chapters).size === book.chapters.length;
+    if (!sound) throw new KbError("manifest-invalid", "manifest.json: the book entry is not valid");
   }
 }
 
@@ -120,6 +127,9 @@ export async function loadKnowledgeBase(opts: LoadOptions): Promise<KnowledgeBas
       return list;
     },
   };
-  const raw: RawKbChunks = { version: manifest.version, schemaVersion: manifest.schema, core, formulas, herbs, citations, guidance, cities, herbBrowser };
+  // the learning book (PM-43): one file in Traditional Chinese, fetched and hash-checked when a reader first opens it — never with the knowledge base, and with no display list
+  const bk = mf.book;
+  const book: BookSource | null = bk === undefined ? null : { chapters: bk.chapters, load: () => chunk<BookChunk>("book", bk) };
+  const raw: RawKbChunks = { version: manifest.version, schemaVersion: manifest.schema, core, formulas, herbs, citations, guidance, cities, herbBrowser, book };
   return indexKnowledgeBase(raw, display !== null && shown ? display : undefined);
 }

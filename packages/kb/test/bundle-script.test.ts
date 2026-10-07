@@ -187,3 +187,50 @@ test("Simplified: a herb list that does not match its chunk is reported and the 
   await kb.herbBrowser!.rows();
   assert.deepEqual(errors, ["chunk-hash-mismatch"]);
 });
+
+// ── the learning book (PM-43) ───────────────────────────────────────────────────────────────────────
+
+test("a public build has no book; the closed beta and the dev build carry its twelve chapters in one file, outside the knowledge-base version", async () => {
+  const pub = bundle(["--profile", "release"], { APP_DRAFT_LABEL: "off" });
+  assert.equal(pub.manifest.book, undefined);
+  assert.equal(readdirSync(pub.dir).filter((f) => f.startsWith("book.")).length, 0);
+  assert.match(pub.stdout, /no book/);
+  assert.equal((await loadKnowledgeBase({ baseUrl: "/kb", fetch: network(pub.dir).fetch })).book, null);
+
+  for (const [profile, env] of [["release", BETA], ["dev", {}]] as const) {
+    const b = bundle(["--profile", profile], env);
+    assert.match(b.manifest.book?.file ?? "", /^book\.[0-9a-f]{10}\.json$/, profile);
+    assert.equal(b.manifest.book?.chapters.length, 12);
+    assert.equal(b.manifest.book?.chapters[0], "model");
+    assert.match(b.stdout, /the book in 12 chapters/);
+    const expected = createHash("sha256").update([b.manifest.profile, b.manifest.schema, ...Object.values(b.manifest.chunks).map((r) => r.sha256)].join("|")).digest("hex").slice(0, 12);
+    assert.equal(b.manifest.version, expected, "the version is made without the book");
+    assert.equal(b.manifest.variants?.["zh-Hans"] !== undefined && JSON.stringify(b.manifest.variants).includes("book"), false, "Traditional only: no Simplified list");
+  }
+});
+
+test("nothing of the book is fetched with the knowledge base; opening it asks for its one file, once; a damaged file is refused and asked for again", async () => {
+  const { dir, manifest } = bundle(["--profile", "release"], BETA);
+  const net = network(dir);
+  const kb = await loadKnowledgeBase({ baseUrl: "/kb", fetch: net.fetch, script: "Hans" });
+  assert.deepEqual(net.asked.filter((f) => f.startsWith("book.")), []);
+  assert.deepEqual(kb.book?.chapters, manifest.book?.chapters, "the chapters are known without a fetch");
+  net.damaged.add(manifest.book!.file);
+  await assert.rejects(kb.book!.get(), (e: unknown) => e instanceof KbError && e.code === "chunk-hash-mismatch");
+  net.damaged.clear();
+  const book = await kb.book!.get();
+  assert.equal(book.chapters[1]!.title, "二、陰陽：一把尺");
+  assert.equal(kb.zh(book.chapters[1]!.title), book.chapters[1]!.title, "the book is never converted");
+  await kb.book!.get();
+  assert.equal(net.asked.filter((f) => f.startsWith("book.")).length, 2, "kept once it came");
+});
+
+test("a manifest whose book entry is malformed is refused before anything is fetched", async () => {
+  const { dir, manifest } = bundle(["--profile", "release"], BETA);
+  for (const book of [{ ...manifest.book, chapters: [] }, { ...manifest.book, chapters: ["Model"] }, { ...manifest.book, chapters: ["model", "model"] }, { chapters: ["model"] }]) {
+    const net = network(dir);
+    const fetched = (async (url: string) => (url.endsWith("manifest.json") ? new Response(JSON.stringify({ ...manifest, book })) : net.fetch(url))) as unknown as typeof fetch;
+    await assert.rejects(loadKnowledgeBase({ baseUrl: "/kb", fetch: fetched }), (e: unknown) => e instanceof KbError && e.code === "manifest-invalid", JSON.stringify(book).slice(0, 60));
+    assert.deepEqual(net.asked, []);
+  }
+});

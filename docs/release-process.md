@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 0.1 (draft) |
+| **Version** | 0.2 (draft) |
 | **Status** | Partly implemented — CI workflow and `scripts/check-release.ts` exist (R-01…R-03); deployment, SBOM and the integration jobs do not yet |
 | **Last updated** | 2026-10-04 |
 | **Audience** | Maintainers |
@@ -91,7 +91,8 @@ Jobs and blocking rules are in the [test plan §6](test-plan.md). The pipeline p
 15. **The herb browser** ([knowledge browser design](post-mvp/design/knowledge-browser.md) §7, PM-24): when the manifest lists one, its index and shards are in the output, content-hashed, within their budgets and equal to the manifest; the index and the shards agree (every herb in the shard its slug maps to, and nothing else, and as many as the manifest says); nothing in them carries a dose, herb weights or the repository path of a source; each file has its Simplified display list, aligned with its own strings; and a build **without the draft label lists only herbs a sample review has covered** (`status: reviewed` — none yet, so a public build has no herb browser).
 10. `NOTICE.txt` is shipped and carries the attributions (the MIT permission notice of TCM-Library, the Apache licence statement): material derived from MIT-licensed sources requires its notice to travel with the app.
 12. **Emergency numbers:** a build without the draft label ships only regions whose numbers a regional owner has verified (a dated `verification` record no older than 24 months) and the generic `OTHER` row that lists none; the closed beta may carry the draft rows ([design](post-mvp/design/tap-tempo-and-regions.md)).
-11. The host files are present and right: `_headers` (the CSP with `frame-ancestors`, `nosniff`, referrer policy, immutable caching for `/assets/*` and for each chunk of this build, `no-cache` for the manifest, no `Cache-Control` on `/*`), `_redirects` (every language falls back to the app, no catch-all), `404.html`, and an unexpired `security.txt` ([§6](#6-deployment)).
+16. **The learning book** ([knowledge browser design](post-mvp/design/knowledge-browser.md) §7.3, PM-43): when the manifest lists it, its one file is in the output, content-hashed, within its budget and equal to the manifest; it is the book the manifest names (Traditional Chinese, the chapters in order); every quotation names a citation the build ships; no book file the manifest does not list; and a build **without the draft label carries it only once it is reviewed** (none yet, so a public build has no book).
+11. The host files are present and right: `_headers` (the CSP with `frame-ancestors`, `nosniff`, referrer policy, immutable caching for `/assets/*` and for each chunk of this build (the herb browser's files and the book included), `no-cache` for the manifest, no `Cache-Control` on `/*`), `_redirects` (every language falls back to the app, no catch-all), `404.html`, and an unexpired `security.txt` ([§6](#6-deployment)).
 
 ---
 
@@ -199,3 +200,4 @@ Issue templates: **Bug**, **Content problem** (item id, KB version, source), **S
 | Version | Date | Change |
 |---|---|---|
 | 0.1 | 2026-10-04 | Initial release process |
+| 0.2 | 2026-10-07 | §4.1 rule 16: the learning book (PM-43) |

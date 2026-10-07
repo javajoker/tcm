@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 0.7 (draft) |
+| **Version** | 0.8 (draft) |
 | **Status** | Draft — no UI implemented yet |
 | **Last updated** | 2026-10-06 |
 | **Derives from** | [PRD v0.3](PRD.md) (FR-1…FR-20, NFRs) · [Diagnosis SOP v0.2](diagnosis-sop.zh-TW.md) (what is asked and shown) · [Tech spec](tech-spec.md) (routes, state, components' data) |
@@ -71,6 +71,7 @@ Landing ─► Start (profile, birth*) ─► Safety screening ─► Inquiry �
 | S21 | Learn: hub, list, page | `/:lang/learn`, `/:lang/learn/:kind`, `/:lang/learn/:kind/:id` | Browse and search the knowledge the app holds without taking an assessment; cautions first on anything a person might use, never "you" ([design](post-mvp/design/knowledge-browser.md)) | `glossary`, `citations`, `patterns`, `constitutions`, `formulas`, `treatment` (points, foods), and the herb browser (herbs: a list by category with two filters and a page whose stored flags and the source's caution come first; the data comes on demand, with a way to try again) |
 | S22 | Compare patterns | `/:lang/learn/compare?ids=…` | Two or three patterns side by side: what they share, what tells them apart, and which topics of the assessment bring out the difference; a chooser when fewer than two are named | `patterns`, `symptoms`, `questions` |
 | S23 | Lock screen | any route, while a lock is on and the key is not in memory | Replaces the whole app: a passphrase field, the language and the theme, and the way out (erase) — nothing of the history is rendered or fetched ([design](post-mvp/design/backup-and-data-lock.md#56-as-built-pm-20)) | `meta/lock` |
+| S24 | The learning book | `/:lang/learn/book`, `/:lang/learn/book/:chapter` | The contents and twelve chapters of 以模型讀中醫, read in order: the text on a card, its quotations linked to their pages, the previous and the next chapter. **Traditional Chinese in every interface**: English says so in a line above the text; a Simplified page shows no Traditional text and links to the same page in Traditional Chinese ([design](post-mvp/design/knowledge-browser.md#73-as-built-pm-43-the-learning-book)) | `book` (fetched when opened), `citations` |
 | S20 | Developer inspector | `/:lang/_dev` | Dev profile only (see tech spec §8.6) | Everything |
 
 ---
@@ -583,3 +584,4 @@ Testing method and scenarios are in the [test plan](test-plan.md).
 | 0.5 | 2026-10-06 | The hour near a change (PM-27): the question on the birth card (S03) and its sentence on the result (S13) |
 | 0.6 | 2026-10-06 | The season model declared (PM-29): the line and its disclosure on the result (S13), the foot of the practitioner summary, the development-only switch in S17 |
 | 0.7 | 2026-10-06 | The kept backup file (PM-32): the card in Settings (S17) and the merge through the restore dialog |
+| 0.8 | 2026-10-07 | S24, the learning book (PM-43); the hub (S21) lists it first |
