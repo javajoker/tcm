@@ -112,7 +112,7 @@ FORMULAS = [
          cautions=["肝陽上亢、陰虛火旺者慎用", "孕婦慎用（含當歸）", "服藥期間宜情緒舒暢"],
          modifications=[
              dict(id="M_XIAOYAO_DANZHI", result="丹梔逍遙散", add=[("牡丹皮", "佐", 6), ("梔子", "佐", 6)], remove=[], when=["S_IRRITABLE", "S_BITTER_MOUTH", "T_EDGE_RED"], source=dict(book="醫方集解", prefix="087", heading="逍遥散")),
-             dict(id="M_XIAOYAO_HEI", result="黑逍遙散", add=[("熟地黃", "佐", 12)], remove=[], when=["S_BLURRED_VISION", "S_MENSES_SCANTY_PALE"], source=dict(book="醫宗已任編", prefix="624", heading="黑逍遥")),
+             dict(id="M_XIAOYAO_HEI", result="黑逍遙散", add=[("熟地黃", "佐", 12)], remove=[], when=["S_BLURRED_VISION", "S_MENSES_SCANTY_PALE"], source=dict(book="醫宗己任編", prefix="624", heading="黑逍遥")),
          ]),
     dict(id="F_CHAIHUSHUGAN", zh="柴胡疏肝散", en="Chaihu Shugan San (Bupleurum Liver-Soothing Powder)", school=S, source=dict(book="景岳全書", ref="卷五十六", prefix="637", heading="柴胡疏肝散"),
          patterns=["LV1", "LV4"], principle="疏肝理氣、活血止痛",

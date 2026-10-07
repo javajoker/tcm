@@ -19,6 +19,7 @@ Needs Node ≥ 22.18 for the one TypeScript export step (`scripts/kb/export_wuxi
 | File | Records | What it holds | Built from |
 |---|---:|---|---|
 | `citations.json` | 127 | Quotation registry (id, book, chapter, zh-Hant and source-script text, source path). **Every quote is machine-checked against the source text** (`verified: true`). Ids: `suwen-005-1`, `shanghan-035` … | TCM-Library raw text, TCM-Ancient-Books |
+| `sources.json` | 87 works | **Sources registry** (PM-35): every work the knowledge base draws on or should draw on, by domain — the classics in the corpus, 8 famous works the corpus lacks, the Pharmacopoeia, standards and modern references — with how the data uses each (33 drawn on). Report: [`docs/kb-sources.md`](../docs/kb-sources.md). Build-time only | `scripts/kb/curated/sources.py` + tcm-mkg's catalogue + the other data files |
 | `herbs/herbs.json` | 703 | Herb model: 四氣 (signed warmth), 五味→五行, 歸經 organs, functions, **panel effects**, **burden weights (利弊)**, tags, pregnancy / interaction / toxicity flags | TCM-Library (Pharmacopoeia 2025 + textbook entries) → derived rules; 94 curated herbs override |
 | `herbs/herb-index.json` | 714 | zh-Hant name / alias → herb id | same |
 | `formulas/formulas.json` | 33 | Formulas: composition with 君臣佐使 roles and proportions, aggregate panel effect and burden, flavour profile, computed tier A/B/C, pregnancy and interaction flags, modifications (加減), verification record | curated + verified against the classics |

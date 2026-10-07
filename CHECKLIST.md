@@ -128,7 +128,7 @@ A release is ticked item by item as features ship; a feature ships when the gate
 - [ ] A go decision names the review class, the privacy and legal review, and the new requirement before any code ships
 
 **Release E — Knowledge and prescription** (FR-35 … FR-39)
-- [ ] Every new knowledge record names a verified passage or a rule and is `derived` or `curated-draft` until reviewed; the sources registry covers every quotation; no pattern added outside admission (PM-21)
+- [ ] Every new knowledge record names a verified passage or a rule and is `derived` or `curated-draft` until reviewed; the sources registry covers every quotation; no pattern added outside admission (PM-21) *(PM-35 built: the registry covers every quotation, `book` name and corpus path, and the validator enforces it)*
 - [ ] Herb property and dose–response property tests green; every derived value names its rule
 - [ ] Formula attributions are exact; the library's verification report is generated in the build, its failures listed for review and none auto-fixed
 - [ ] Personalisation: no excluded herb ever appears, amounts never leave their range, toxic herbs are never raised (property tests); the diagnosis, its replay and the golden results unchanged

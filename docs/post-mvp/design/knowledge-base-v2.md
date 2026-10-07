@@ -2,8 +2,8 @@
 
 | | |
 |---|---|
-| **Version** | 0.1 (draft) |
-| **Status** | Design for Release E (FR-35, FR-39; tasks PM-35, PM-42, PM-43). Nothing is built yet |
+| **Version** | 0.2 (draft) |
+| **Status** | Design for Release E (FR-35, FR-39; tasks PM-35, PM-42, PM-43). **Built: the sources registry and its coverage report (PM-35, §4.1)** |
 | **Last updated** | 2026-10-07 |
 | **Audience** | The clinical content owner, reviewers, engineers |
 | **Related** | [Prescription model](prescription-model.md) · [Library expansion](library-expansion.md) · [`reference/README.md`](../../../reference/README.md) · [Content review](../../content-review.md) · [KB schema](../../kb-schema.md) · [Requirements FR-35, FR-39](../requirements.md) |
@@ -69,6 +69,16 @@ Each public-domain addition is a **download that needs the owner's approval** (f
 
 Every derived item keeps a pointer to its source and is shown as a draft, exactly as the 609 derived herbs are today; nothing reaches a public build until the review track covers it ([content review](../../content-review.md)). The admission rules for **new patterns** (PM-21) are unchanged: this design adds no pattern.
 
+### 4.1 As built: the sources registry (PM-35)
+
+`data/sources.json` registers 87 works — 72 in the corpus (the classics of §2 by domain), the 8 famous works the corpus lacks (§3 and 《醫級》, which a modification of the library names), and 7 standards, references and websites — and counts how the data uses each. The generated report is [`docs/kb-sources.md`](../../kb-sources.md). First reading:
+
+- **33 of the 87 works are drawn on**; the 127 quotations come from 11 of them (《素問》 79).
+- **Herb theory is the gap**: of the 47 本草 books of the corpus, the registry names 19 and the data draws on one (《本草便讀》, for the 十八反 and 十九畏 rhymes); the herb records come from the Pharmacopoeia and a textbook through TCM-Library. PM-36 and PM-37 draw on 《醫學啟源》《湯液本草》 (升降浮沉, 氣味厚薄), 《得配本草》 (pairings), 《雷公炮炙論》《炮炙大法》 (processing) and 《本草害利》 (harms).
+- **Diagnosis** draws on 《瀕湖脈學》《診家正眼》 and the tongue-zone passage of 《傷寒指掌》; 《望診遵經》《察舌辨症新法》《傷寒舌鑑》《臨症驗舌法》 are in the corpus and unused — the observation lists of FR-41 should start there.
+- **Formulas** are the best covered (21 of 33 registered works drawn on); the 方解 works (《刪補名醫方論》《醫方集解》) are what PM-39 checks the roles against.
+- A book title in the data was misspelt (《醫宗已任編》 for 《醫宗己任編》); the registry's rule that every `book` name resolves found it, and it is corrected.
+
 ## 5. The extraction pipeline
 
 As for the existing quotations: a curated table names the record and an **anchor** (a short passage); the build finds the anchor in the corpus file (Simplified, GB18030, converted with OpenCC `s2twp`) and records `verified: true` with the path, or fails. Values derived by rule (properties) keep the rule id and are re-derived on every build, so correcting a rule corrects every herb. Nothing is taken from the corpus by a model: every value comes from a rule, a table a person wrote, or a passage that was matched.
@@ -118,3 +128,4 @@ PM-35 (sources registry and coverage report), PM-36 … PM-40 (the tables above,
 | Version | Date | Change |
 |---|---|---|
 | 0.1 | 2026-10-07 | Initial design, from the owner's direction of 2026-10-07 |
+| 0.2 | 2026-10-07 | §4.1: the sources registry as built (PM-35) and its first reading |

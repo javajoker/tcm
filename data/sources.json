@@ -1,0 +1,2590 @@
+{
+  "_meta": {
+    "corpus_categories": {
+      "專科": {
+        "books": 89,
+        "drawn_on": 0,
+        "registered": 0
+      },
+      "方劑": {
+        "books": 88,
+        "drawn_on": 4,
+        "registered": 10
+      },
+      "本草": {
+        "books": 47,
+        "drawn_on": 1,
+        "registered": 19
+      },
+      "綜合": {
+        "books": 333,
+        "drawn_on": 10,
+        "registered": 22
+      },
+      "診法": {
+        "books": 11,
+        "drawn_on": 2,
+        "registered": 4
+      },
+      "醫經": {
+        "books": 95,
+        "drawn_on": 7,
+        "registered": 9
+      },
+      "針灸": {
+        "books": 25,
+        "drawn_on": 0,
+        "registered": 2
+      },
+      "食療": {
+        "books": 5,
+        "drawn_on": 0,
+        "registered": 2
+      },
+      "養生": {
+        "books": 8,
+        "drawn_on": 0,
+        "registered": 0
+      }
+    },
+    "count": 87,
+    "description": "Sources registry: every work the knowledge base draws on or, by its design, should draw on (docs/post-mvp/design/knowledge-base-v2.md), with how the data uses it. Build-time only; never in the bundle.",
+    "domains": {
+      "acupuncture": {
+        "en": "Channels and acupoints",
+        "zh-Hant": "針灸"
+      },
+      "diagnosis": {
+        "en": "Diagnosis: the four examinations",
+        "zh-Hant": "四診"
+      },
+      "formulas": {
+        "en": "Formulas: composition, roles, explanations, modifications",
+        "zh-Hant": "方劑"
+      },
+      "materia-medica": {
+        "en": "Herbs: properties, actions, processing, pairings",
+        "zh-Hant": "本草"
+      },
+      "pattern-systems": {
+        "en": "Pattern systems: six channels, defence-qi-nutrient-blood, triple burner, organs, qi and blood",
+        "zh-Hant": "辨證"
+      },
+      "prevention": {
+        "en": "Constitution, prevention and diet",
+        "zh-Hant": "養生食療"
+      },
+      "terminology": {
+        "en": "Terminology standards",
+        "zh-Hant": "術語"
+      },
+      "theory": {
+        "en": "Theory: yin-yang, five phases, organs, qi, blood and fluids, causes of disease",
+        "zh-Hant": "基礎理論"
+      },
+      "treatment": {
+        "en": "Treatment principles and methods",
+        "zh-Hant": "治則治法"
+      }
+    },
+    "drawn_on": 33,
+    "schema": 1,
+    "status_counts": {
+      "bibliography": 7,
+      "in-corpus": 72,
+      "not-in-corpus": 8
+    },
+    "unresolved": []
+  },
+  "items": [
+    {
+      "author": null,
+      "corpus": [
+        {
+          "exists": true,
+          "path": "reference/sources/TCM-Ancient-Books/437-黄帝内经素问.txt",
+          "repo": "TCM-Ancient-Books"
+        },
+        {
+          "exists": true,
+          "path": "reference/sources/TCM-Library/raw/neijing/suwen",
+          "repo": "TCM-Library"
+        }
+      ],
+      "domains": [
+        "theory",
+        "treatment",
+        "prevention"
+      ],
+      "drawn_on": true,
+      "edition": {
+        "author": "王冰次",
+        "category": "醫經",
+        "dynasty": "唐",
+        "year": "公元762年"
+      },
+      "era": null,
+      "id": "suwen",
+      "kind": "classic",
+      "names": [
+        "素問"
+      ],
+      "quotations": 79,
+      "references": {
+        "diagnosis/patterns.json": 8,
+        "formulas/formulas.json": 68,
+        "herbs/herbs.json": 5,
+        "safety/rules.json": 6,
+        "treatment/guidance.json": 52,
+        "wuxing/correspondences.json": 5,
+        "wuxing/susceptibility.json": 5,
+        "wuxing/yunqi.json": 14
+      },
+      "status": "in-corpus",
+      "title": "黃帝內經素問",
+      "use": "The correspondences, 君臣佐使 (至真要大論), 五味所入 (宣明五氣), 因地制宜 (異法方宜論, 五常政大論), the seasons (四氣調神大論)"
+    },
+    {
+      "author": null,
+      "corpus": [
+        {
+          "exists": true,
+          "path": "reference/sources/TCM-Library/raw/neijing/lingshu",
+          "repo": "TCM-Library"
+        }
+      ],
+      "domains": [
+        "theory",
+        "acupuncture"
+      ],
+      "drawn_on": true,
+      "edition": null,
+      "era": null,
+      "id": "lingshu",
+      "kind": "classic",
+      "names": [
+        "靈樞"
+      ],
+      "quotations": 13,
+      "references": {
+        "diagnosis/patterns.json": 3,
+        "wuxing/susceptibility.json": 1
+      },
+      "status": "in-corpus",
+      "title": "靈樞經",
+      "use": "Organs, channels, the body's constitution types"
+    },
+    {
+      "author": null,
+      "corpus": [
+        {
+          "exists": true,
+          "path": "reference/sources/TCM-Ancient-Books/421-八十一难经.txt",
+          "repo": "TCM-Ancient-Books"
+        },
+        {
+          "exists": true,
+          "path": "reference/sources/TCM-Library/raw/nanjing",
+          "repo": "TCM-Library"
+        }
+      ],
+      "domains": [
+        "theory",
+        "diagnosis"
+      ],
+      "drawn_on": true,
+      "edition": {
+        "author": "秦越人扁鵲",
+        "category": "醫經",
+        "dynasty": "西漢末",
+        "year": "公元前206年-公元8年"
+      },
+      "era": null,
+      "id": "nanjing",
+      "kind": "classic",
+      "names": [
+        "八十一難經"
+      ],
+      "quotations": 3,
+      "references": {},
+      "status": "in-corpus",
+      "title": "難經",
+      "use": "Pulse positions, the five-phase transmission of disease"
+    },
+    {
+      "author": null,
+      "corpus": [
+        {
+          "exists": true,
+          "path": "reference/sources/TCM-Ancient-Books/427-类经.txt",
+          "repo": "TCM-Ancient-Books"
+        }
+      ],
+      "domains": [
+        "theory"
+      ],
+      "drawn_on": false,
+      "edition": {
+        "author": "張介賓",
+        "category": "綜合",
+        "dynasty": "明·天啟四年",
+        "year": "公元1624年"
+      },
+      "era": null,
+      "id": "leijing",
+      "kind": "classic",
+      "names": [],
+      "quotations": 0,
+      "references": {},
+      "status": "in-corpus",
+      "title": "類經",
+      "use": "張介賓's arrangement of the 內經 by topic, for finding passages by theme"
+    },
+    {
+      "author": null,
+      "corpus": [
+        {
+          "exists": true,
+          "path": "reference/sources/TCM-Ancient-Books/557-华氏中藏经.txt",
+          "repo": "TCM-Ancient-Books"
+        }
+      ],
+      "domains": [
+        "theory",
+        "pattern-systems"
+      ],
+      "drawn_on": false,
+      "edition": {
+        "author": "華佗",
+        "category": "綜合",
+        "dynasty": "東漢",
+        "year": "公元25—220年"
+      },
+      "era": null,
+      "id": "zhongcangjing",
+      "kind": "classic",
+      "names": [
+        "華氏中藏經"
+      ],
+      "quotations": 0,
+      "references": {},
+      "status": "in-corpus",
+      "title": "中藏經",
+      "use": "Organ patterns (臟腑辨證), cold-heat-deficiency-excess of each organ"
+    },
+    {
+      "author": null,
+      "corpus": [
+        {
+          "exists": true,
+          "path": "reference/sources/TCM-Ancient-Books/558-三因极一病证方论.txt",
+          "repo": "TCM-Ancient-Books"
+        }
+      ],
+      "domains": [
+        "theory",
+        "formulas"
+      ],
+      "drawn_on": true,
+      "edition": {
+        "author": "陳言",
+        "category": "方劑",
+        "dynasty": "宋",
+        "year": "公元1174年"
+      },
+      "era": null,
+      "id": "sanyin",
+      "kind": "classic",
+      "names": [],
+      "quotations": 0,
+      "references": {
+        "formulas/formulas.json": 3
+      },
+      "status": "in-corpus",
+      "title": "三因極一病證方論",
+      "use": "The three classes of causes (內因、外因、不內外因)"
+    },
+    {
+      "author": null,
+      "corpus": [
+        {
+          "exists": true,
+          "path": "reference/sources/TCM-Ancient-Books/418-医学源流论.txt",
+          "repo": "TCM-Ancient-Books"
+        }
+      ],
+      "domains": [
+        "theory",
+        "treatment"
+      ],
+      "drawn_on": false,
+      "edition": {
+        "author": "徐大椿",
+        "category": "綜合",
+        "dynasty": "清·乾隆二十二年",
+        "year": "公元1757年"
+      },
+      "era": null,
+      "id": "yixue-yuanliu",
+      "kind": "classic",
+      "names": [],
+      "quotations": 0,
+      "references": {},
+      "status": "in-corpus",
+      "title": "醫學源流論",
+      "use": "五方異治 and other essays on adapting treatment"
+    },
+    {
+      "author": null,
+      "corpus": [
+        {
+          "exists": true,
+          "path": "reference/sources/TCM-Ancient-Books/504-脉经.txt",
+          "repo": "TCM-Ancient-Books"
+        }
+      ],
+      "domains": [
+        "diagnosis"
+      ],
+      "drawn_on": false,
+      "edition": {
+        "author": "王叔和",
+        "category": "診法",
+        "dynasty": "西晉",
+        "year": "公元280年"
+      },
+      "era": null,
+      "id": "maijing",
+      "kind": "classic",
+      "names": [],
+      "quotations": 0,
+      "references": {},
+      "status": "in-corpus",
+      "title": "脈經",
+      "use": "The pulse classic: positions, the twenty-four pulses"
+    },
+    {
+      "author": null,
+      "corpus": [
+        {
+          "exists": true,
+          "path": "reference/sources/TCM-Ancient-Books/506-濒湖脉学.txt",
+          "repo": "TCM-Ancient-Books"
+        }
+      ],
+      "domains": [
+        "diagnosis"
+      ],
+      "drawn_on": true,
+      "edition": {
+        "author": "李時珍",
+        "category": "診法",
+        "dynasty": "明·嘉靖四十三年",
+        "year": "公元1564年"
+      },
+      "era": null,
+      "id": "binhu-maixue",
+      "kind": "classic",
+      "names": [],
+      "quotations": 1,
+      "references": {
+        "diagnosis/pulse.json": 28
+      },
+      "status": "in-corpus",
+      "title": "瀕湖脈學",
+      "use": "The 27 pulses and their yin-yang class (pulse data)"
+    },
+    {
+      "author": null,
+      "corpus": [
+        {
+          "exists": true,
+          "path": "reference/sources/TCM-Ancient-Books/507-诊家正眼.txt",
+          "repo": "TCM-Ancient-Books"
+        }
+      ],
+      "domains": [
+        "diagnosis"
+      ],
+      "drawn_on": true,
+      "edition": {
+        "author": "李中梓",
+        "category": "診法",
+        "dynasty": "明",
+        "year": "公元1642年"
+      },
+      "era": null,
+      "id": "zhenjia-zhengyan",
+      "kind": "classic",
+      "names": [],
+      "quotations": 0,
+      "references": {
+        "diagnosis/pulse.json": 1
+      },
+      "status": "in-corpus",
+      "title": "診家正眼",
+      "use": "The 28th pulse (疾)"
+    },
+    {
+      "author": null,
+      "corpus": [
+        {
+          "exists": true,
+          "path": "reference/sources/TCM-Ancient-Books/517-望诊遵经.txt",
+          "repo": "TCM-Ancient-Books"
+        }
+      ],
+      "domains": [
+        "diagnosis"
+      ],
+      "drawn_on": false,
+      "edition": {
+        "author": "汪宏",
+        "category": "診法",
+        "dynasty": "清",
+        "year": "公元1644年—1911年"
+      },
+      "era": null,
+      "id": "wangzhen-zunjing",
+      "kind": "classic",
+      "names": [],
+      "quotations": 0,
+      "references": {},
+      "status": "in-corpus",
+      "title": "望診遵經",
+      "use": "Inspection of the face and body, for the observation screens and the observation lists (FR-41)"
+    },
+    {
+      "author": null,
+      "corpus": [
+        {
+          "exists": true,
+          "path": "reference/sources/TCM-Ancient-Books/521-察舌辨症新法.txt",
+          "repo": "TCM-Ancient-Books"
+        }
+      ],
+      "domains": [
+        "diagnosis"
+      ],
+      "drawn_on": false,
+      "edition": {
+        "author": "劉恆瑞",
+        "category": "綜合",
+        "dynasty": "清",
+        "year": "公元1644-1911年"
+      },
+      "era": null,
+      "id": "chashe-bianzheng",
+      "kind": "classic",
+      "names": [],
+      "quotations": 0,
+      "references": {},
+      "status": "in-corpus",
+      "title": "察舌辨症新法",
+      "use": "Tongue diagnosis by body and coating"
+    },
+    {
+      "author": null,
+      "corpus": [
+        {
+          "exists": true,
+          "path": "reference/sources/TCM-Ancient-Books/490-伤寒舌鉴.txt",
+          "repo": "TCM-Ancient-Books"
+        }
+      ],
+      "domains": [
+        "diagnosis"
+      ],
+      "drawn_on": false,
+      "edition": {
+        "author": "張登",
+        "category": "醫經",
+        "dynasty": "清·康熙戊申年",
+        "year": "公元1668年"
+      },
+      "era": null,
+      "id": "shanghan-shejian",
+      "kind": "classic",
+      "names": [],
+      "quotations": 0,
+      "references": {},
+      "status": "in-corpus",
+      "title": "傷寒舌鑑",
+      "use": "Tongue atlas of the cold-damage tradition"
+    },
+    {
+      "author": null,
+      "corpus": [
+        {
+          "exists": true,
+          "path": "reference/sources/TCM-Ancient-Books/516-临症验舌法.txt",
+          "repo": "TCM-Ancient-Books"
+        }
+      ],
+      "domains": [
+        "diagnosis"
+      ],
+      "drawn_on": false,
+      "edition": {
+        "author": "楊雲峰",
+        "category": "綜合",
+        "dynasty": "清",
+        "year": "公元1917年"
+      },
+      "era": null,
+      "id": "linzheng-yanshe",
+      "kind": "classic",
+      "names": [],
+      "quotations": 0,
+      "references": {},
+      "status": "in-corpus",
+      "title": "臨症驗舌法",
+      "use": "Tongue diagnosis"
+    },
+    {
+      "author": null,
+      "corpus": [
+        {
+          "exists": true,
+          "path": "reference/sources/TCM-Ancient-Books/494-伤寒指掌.txt",
+          "repo": "TCM-Ancient-Books"
+        }
+      ],
+      "domains": [
+        "diagnosis",
+        "pattern-systems"
+      ],
+      "drawn_on": true,
+      "edition": {
+        "author": "吳坤安",
+        "category": "醫經",
+        "dynasty": "清",
+        "year": "公元1644-1911年"
+      },
+      "era": null,
+      "id": "shanghan-zhizhang",
+      "kind": "classic",
+      "names": [],
+      "quotations": 1,
+      "references": {
+        "diagnosis/tongue.json": 1
+      },
+      "status": "in-corpus",
+      "title": "傷寒指掌",
+      "use": "The tongue zones (verified quotation)"
+    },
+    {
+      "author": null,
+      "corpus": [
+        {
+          "exists": true,
+          "path": "reference/sources/TCM-Ancient-Books/457-伤寒论.txt",
+          "repo": "TCM-Ancient-Books"
+        },
+        {
+          "exists": true,
+          "path": "reference/sources/TCM-Library/raw/shanghan",
+          "repo": "TCM-Library"
+        }
+      ],
+      "domains": [
+        "pattern-systems",
+        "formulas"
+      ],
+      "drawn_on": true,
+      "edition": {
+        "author": "張仲景",
+        "category": "醫經",
+        "dynasty": "東漢",
+        "year": "公元25-220年"
+      },
+      "era": null,
+      "id": "shanghan",
+      "kind": "classic",
+      "names": [],
+      "quotations": 18,
+      "references": {
+        "diagnosis/patterns.json": 8,
+        "formulas/formulas.json": 10
+      },
+      "status": "in-corpus",
+      "title": "傷寒論",
+      "use": "The six channels; 經方 and their indications"
+    },
+    {
+      "author": null,
+      "corpus": [
+        {
+          "exists": true,
+          "path": "reference/sources/TCM-Ancient-Books/499-金匮要略方论.txt",
+          "repo": "TCM-Ancient-Books"
+        },
+        {
+          "exists": true,
+          "path": "reference/sources/TCM-Library/raw/jingui",
+          "repo": "TCM-Library"
+        }
+      ],
+      "domains": [
+        "pattern-systems",
+        "formulas"
+      ],
+      "drawn_on": true,
+      "edition": {
+        "author": "張仲景",
+        "category": "醫經",
+        "dynasty": "漢",
+        "year": "公元219年"
+      },
+      "era": null,
+      "id": "jingui",
+      "kind": "classic",
+      "names": [
+        "金匱要略方論"
+      ],
+      "quotations": 7,
+      "references": {
+        "diagnosis/patterns.json": 5,
+        "formulas/formulas.json": 11
+      },
+      "status": "in-corpus",
+      "title": "金匱要略",
+      "use": "Miscellaneous diseases; 經方"
+    },
+    {
+      "author": null,
+      "corpus": [
+        {
+          "exists": true,
+          "path": "reference/sources/TCM-Ancient-Books/544-温热论.txt",
+          "repo": "TCM-Ancient-Books"
+        }
+      ],
+      "domains": [
+        "pattern-systems"
+      ],
+      "drawn_on": false,
+      "edition": {
+        "author": "葉桂",
+        "category": "醫經",
+        "dynasty": "清",
+        "year": "公元1644-1911年"
+      },
+      "era": null,
+      "id": "wenre-lun",
+      "kind": "classic",
+      "names": [],
+      "quotations": 0,
+      "references": {},
+      "status": "in-corpus",
+      "title": "溫熱論",
+      "use": "Defence, qi, nutrient and blood (衛氣營血)"
+    },
+    {
+      "author": null,
+      "corpus": [
+        {
+          "exists": true,
+          "path": "reference/sources/TCM-Ancient-Books/543-温热经纬.txt",
+          "repo": "TCM-Ancient-Books"
+        }
+      ],
+      "domains": [
+        "pattern-systems",
+        "formulas"
+      ],
+      "drawn_on": true,
+      "edition": {
+        "author": "王士雄",
+        "category": "醫經",
+        "dynasty": "清",
+        "year": "公元1644-1911年"
+      },
+      "era": null,
+      "id": "wenre-jingwei",
+      "kind": "classic",
+      "names": [],
+      "quotations": 0,
+      "references": {
+        "formulas/formulas.json": 3
+      },
+      "status": "in-corpus",
+      "title": "溫熱經緯",
+      "use": "The warm-disease classics gathered"
+    },
+    {
+      "author": null,
+      "corpus": [
+        {
+          "exists": true,
+          "path": "reference/sources/TCM-Ancient-Books/526-温病条辨.txt",
+          "repo": "TCM-Ancient-Books"
+        }
+      ],
+      "domains": [
+        "pattern-systems",
+        "formulas"
+      ],
+      "drawn_on": true,
+      "edition": {
+        "author": "吳鞠通",
+        "category": "醫經",
+        "dynasty": "清",
+        "year": "公元1644-1911年"
+      },
+      "era": null,
+      "id": "wenbing-tiaobian",
+      "kind": "classic",
+      "names": [],
+      "quotations": 0,
+      "references": {
+        "formulas/formulas.json": 15
+      },
+      "status": "in-corpus",
+      "title": "溫病條辨",
+      "use": "The triple burner (三焦); formulas of warm disease"
+    },
+    {
+      "author": null,
+      "corpus": [
+        {
+          "exists": true,
+          "path": "reference/sources/TCM-Ancient-Books/522-温疫论.txt",
+          "repo": "TCM-Ancient-Books"
+        }
+      ],
+      "domains": [
+        "pattern-systems"
+      ],
+      "drawn_on": false,
+      "edition": {
+        "author": "吳又可",
+        "category": "綜合",
+        "dynasty": "明",
+        "year": "公元1368-1644年"
+      },
+      "era": null,
+      "id": "wenyi-lun",
+      "kind": "classic",
+      "names": [],
+      "quotations": 0,
+      "references": {},
+      "status": "in-corpus",
+      "title": "溫疫論",
+      "use": "Epidemic disease"
+    },
+    {
+      "author": null,
+      "corpus": [
+        {
+          "exists": true,
+          "path": "reference/sources/TCM-Ancient-Books/133-小儿药证直诀.txt",
+          "repo": "TCM-Ancient-Books"
+        }
+      ],
+      "domains": [
+        "pattern-systems",
+        "formulas"
+      ],
+      "drawn_on": true,
+      "edition": {
+        "author": "錢乙",
+        "category": "綜合",
+        "dynasty": "宋",
+        "year": "公元1032～ll13年"
+      },
+      "era": null,
+      "id": "xiaoer-yaozheng",
+      "kind": "classic",
+      "names": [],
+      "quotations": 0,
+      "references": {
+        "formulas/formulas.json": 4
+      },
+      "status": "in-corpus",
+      "title": "小兒藥證直訣",
+      "use": "Organ patterns of children; 六味地黃丸"
+    },
+    {
+      "author": null,
+      "corpus": [
+        {
+          "exists": true,
+          "path": "reference/sources/TCM-Ancient-Books/637-景岳全书.txt",
+          "repo": "TCM-Ancient-Books"
+        }
+      ],
+      "domains": [
+        "pattern-systems",
+        "formulas",
+        "treatment"
+      ],
+      "drawn_on": true,
+      "edition": {
+        "author": "張介賓",
+        "category": "綜合",
+        "dynasty": "明",
+        "year": "公元1640年"
+      },
+      "era": null,
+      "id": "jingyue-quanshu",
+      "kind": "classic",
+      "names": [],
+      "quotations": 1,
+      "references": {
+        "formulas/formulas.json": 6
+      },
+      "status": "in-corpus",
+      "title": "景岳全書",
+      "use": "十問歌; the eight principles; 新方八陣"
+    },
+    {
+      "author": null,
+      "corpus": [
+        {
+          "exists": true,
+          "path": "reference/sources/TCM-Ancient-Books/204-医林改错.txt",
+          "repo": "TCM-Ancient-Books"
+        }
+      ],
+      "domains": [
+        "pattern-systems",
+        "formulas"
+      ],
+      "drawn_on": true,
+      "edition": {
+        "author": "王清任",
+        "category": "綜合",
+        "dynasty": "清",
+        "year": "公元1644-1911年"
+      },
+      "era": null,
+      "id": "yilin-gaicuo",
+      "kind": "classic",
+      "names": [],
+      "quotations": 0,
+      "references": {
+        "formulas/formulas.json": 3
+      },
+      "status": "in-corpus",
+      "title": "醫林改錯",
+      "use": "Blood stasis and its formulas"
+    },
+    {
+      "author": null,
+      "corpus": [
+        {
+          "exists": true,
+          "path": "reference/sources/TCM-Ancient-Books/209-血证论.txt",
+          "repo": "TCM-Ancient-Books"
+        }
+      ],
+      "domains": [
+        "pattern-systems"
+      ],
+      "drawn_on": false,
+      "edition": {
+        "author": "唐容川",
+        "category": "綜合",
+        "dynasty": "清",
+        "year": "公元1884年"
+      },
+      "era": null,
+      "id": "xuezheng-lun",
+      "kind": "classic",
+      "names": [],
+      "quotations": 0,
+      "references": {},
+      "status": "in-corpus",
+      "title": "血證論",
+      "use": "Qi and blood; bleeding"
+    },
+    {
+      "author": null,
+      "corpus": [
+        {
+          "exists": true,
+          "path": "reference/sources/TCM-Ancient-Books/614-脾胃论.txt",
+          "repo": "TCM-Ancient-Books"
+        }
+      ],
+      "domains": [
+        "pattern-systems",
+        "formulas"
+      ],
+      "drawn_on": true,
+      "edition": {
+        "author": "李東垣",
+        "category": "綜合",
+        "dynasty": "金元",
+        "year": "公元1249年[公元年起] 11249"
+      },
+      "era": null,
+      "id": "piwei-lun",
+      "kind": "classic",
+      "names": [],
+      "quotations": 0,
+      "references": {
+        "formulas/formulas.json": 3
+      },
+      "status": "in-corpus",
+      "title": "脾胃論",
+      "use": "Spleen and stomach; raising the clear yang (升陽)"
+    },
+    {
+      "author": null,
+      "corpus": [
+        {
+          "exists": true,
+          "path": "reference/sources/TCM-Ancient-Books/232-内外伤辨.txt",
+          "repo": "TCM-Ancient-Books"
+        }
+      ],
+      "domains": [
+        "pattern-systems",
+        "formulas"
+      ],
+      "drawn_on": false,
+      "edition": {
+        "author": "李杲",
+        "category": "綜合",
+        "dynasty": "金",
+        "year": "公元1115-1234年"
+      },
+      "era": null,
+      "id": "neiwaishang",
+      "kind": "classic",
+      "names": [
+        "內外傷辨"
+      ],
+      "quotations": 0,
+      "references": {},
+      "status": "in-corpus",
+      "title": "內外傷辨惑論",
+      "use": "Internal and external damage; the first source of 補中益氣湯"
+    },
+    {
+      "author": null,
+      "corpus": [
+        {
+          "exists": true,
+          "path": "reference/sources/TCM-Ancient-Books/570-丹溪心法.txt",
+          "repo": "TCM-Ancient-Books"
+        }
+      ],
+      "domains": [
+        "pattern-systems",
+        "formulas"
+      ],
+      "drawn_on": true,
+      "edition": {
+        "author": "朱震亨、戴思恭",
+        "category": "綜合",
+        "dynasty": "元末明初",
+        "year": "公元1347年"
+      },
+      "era": null,
+      "id": "danxi-xinfa",
+      "kind": "classic",
+      "names": [],
+      "quotations": 1,
+      "references": {
+        "formulas/formulas.json": 6
+      },
+      "status": "in-corpus",
+      "title": "丹溪心法",
+      "use": "六鬱; 越鞠丸; a verified quotation"
+    },
+    {
+      "author": null,
+      "corpus": [
+        {
+          "exists": true,
+          "path": "reference/sources/TCM-Ancient-Books/000-神农本草经.txt",
+          "repo": "TCM-Ancient-Books"
+        },
+        {
+          "exists": true,
+          "path": "reference/sources/TCM-Library/raw/bencao",
+          "repo": "TCM-Library"
+        }
+      ],
+      "domains": [
+        "materia-medica"
+      ],
+      "drawn_on": false,
+      "edition": {
+        "author": "孫星衍",
+        "category": "本草",
+        "dynasty": "清",
+        "year": "公元1644-1911年"
+      },
+      "era": null,
+      "id": "shennong",
+      "kind": "classic",
+      "names": [],
+      "quotations": 0,
+      "references": {},
+      "status": "in-corpus",
+      "title": "神農本草經",
+      "use": "The three grades; 七情 (序例); the oldest statements of properties"
+    },
+    {
+      "author": null,
+      "corpus": [
+        {
+          "exists": true,
+          "path": "reference/sources/TCM-Ancient-Books/002-本草经集注.txt",
+          "repo": "TCM-Ancient-Books"
+        }
+      ],
+      "domains": [
+        "materia-medica"
+      ],
+      "drawn_on": false,
+      "edition": {
+        "author": "陶弘景",
+        "category": "本草",
+        "dynasty": "南朝·梁",
+        "year": "公元502-557年"
+      },
+      "era": null,
+      "id": "bencaojing-jizhu",
+      "kind": "classic",
+      "names": [],
+      "quotations": 0,
+      "references": {},
+      "status": "in-corpus",
+      "title": "本草經集注",
+      "use": "陶弘景's commentary; the 七情 table"
+    },
+    {
+      "author": null,
+      "corpus": [
+        {
+          "exists": true,
+          "path": "reference/sources/TCM-Ancient-Books/003-新修本草.txt",
+          "repo": "TCM-Ancient-Books"
+        }
+      ],
+      "domains": [
+        "materia-medica"
+      ],
+      "drawn_on": false,
+      "edition": {
+        "author": "蘇敬等20餘人編寫",
+        "category": "本草",
+        "dynasty": "唐",
+        "year": "公元659年"
+      },
+      "era": null,
+      "id": "xinxiu-bencao",
+      "kind": "classic",
+      "names": [],
+      "quotations": 0,
+      "references": {},
+      "status": "in-corpus",
+      "title": "新修本草",
+      "use": "The Tang pharmacopoeia"
+    },
+    {
+      "author": null,
+      "corpus": [
+        {
+          "exists": true,
+          "path": "reference/sources/TCM-Ancient-Books/645-证类本草.txt",
+          "repo": "TCM-Ancient-Books"
+        }
+      ],
+      "domains": [
+        "materia-medica"
+      ],
+      "drawn_on": false,
+      "edition": {
+        "author": "唐慎微",
+        "category": "本草",
+        "dynasty": "宋",
+        "year": "公元960-1279年"
+      },
+      "era": null,
+      "id": "zhenglei-bencao",
+      "kind": "classic",
+      "names": [],
+      "quotations": 0,
+      "references": {},
+      "status": "in-corpus",
+      "title": "證類本草",
+      "use": "The Song compendium"
+    },
+    {
+      "author": null,
+      "corpus": [
+        {
+          "exists": true,
+          "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt",
+          "repo": "TCM-Ancient-Books"
+        }
+      ],
+      "domains": [
+        "materia-medica"
+      ],
+      "drawn_on": false,
+      "edition": {
+        "author": "李時珍",
+        "category": "本草",
+        "dynasty": "明·萬曆六年",
+        "year": "公元1578年"
+      },
+      "era": null,
+      "id": "bencao-gangmu",
+      "kind": "classic",
+      "names": [],
+      "quotations": 0,
+      "references": {},
+      "status": "in-corpus",
+      "title": "本草綱目",
+      "use": "李時珍's compendium: properties, 升降浮沉, processing"
+    },
+    {
+      "author": null,
+      "corpus": [
+        {
+          "exists": true,
+          "path": "reference/sources/TCM-Ancient-Books/023-本草纲目拾遗.txt",
+          "repo": "TCM-Ancient-Books"
+        }
+      ],
+      "domains": [
+        "materia-medica"
+      ],
+      "drawn_on": false,
+      "edition": {
+        "author": "趙學敏",
+        "category": "本草",
+        "dynasty": "清",
+        "year": "公元1765年"
+      },
+      "era": null,
+      "id": "bencao-gangmu-shiyi",
+      "kind": "classic",
+      "names": [],
+      "quotations": 0,
+      "references": {},
+      "status": "in-corpus",
+      "title": "本草綱目拾遺",
+      "use": "Herbs added after 本草綱目"
+    },
+    {
+      "author": null,
+      "corpus": [
+        {
+          "exists": true,
+          "path": "reference/sources/TCM-Ancient-Books/045-珍珠囊补遗药性赋.txt",
+          "repo": "TCM-Ancient-Books"
+        }
+      ],
+      "domains": [
+        "materia-medica"
+      ],
+      "drawn_on": false,
+      "edition": {
+        "author": "李東垣",
+        "category": "本草",
+        "dynasty": "元",
+        "year": "公元1271年—1368年"
+      },
+      "era": null,
+      "id": "zhenzhunang",
+      "kind": "classic",
+      "names": [
+        "珍珠囊"
+      ],
+      "quotations": 0,
+      "references": {},
+      "status": "in-corpus",
+      "title": "珍珠囊補遺藥性賦",
+      "use": "引經 and the property rhymes"
+    },
+    {
+      "author": null,
+      "corpus": [
+        {
+          "exists": true,
+          "path": "reference/sources/TCM-Ancient-Books/578-医学启源.txt",
+          "repo": "TCM-Ancient-Books"
+        }
+      ],
+      "domains": [
+        "materia-medica",
+        "theory"
+      ],
+      "drawn_on": false,
+      "edition": {
+        "author": "張元素",
+        "category": "綜合",
+        "dynasty": "金",
+        "year": "公元1127-1279年"
+      },
+      "era": null,
+      "id": "yixue-qiyuan",
+      "kind": "classic",
+      "names": [],
+      "quotations": 0,
+      "references": {},
+      "status": "in-corpus",
+      "title": "醫學啟源",
+      "use": "升降浮沉 and 氣味厚薄 (PM-36)"
+    },
+    {
+      "author": null,
+      "corpus": [
+        {
+          "exists": true,
+          "path": "reference/sources/TCM-Ancient-Books/008-汤液本草.txt",
+          "repo": "TCM-Ancient-Books"
+        }
+      ],
+      "domains": [
+        "materia-medica"
+      ],
+      "drawn_on": false,
+      "edition": {
+        "author": "王好古",
+        "category": "本草",
+        "dynasty": "元",
+        "year": "公元1298年"
+      },
+      "era": null,
+      "id": "tangye-bencao",
+      "kind": "classic",
+      "names": [],
+      "quotations": 0,
+      "references": {},
+      "status": "in-corpus",
+      "title": "湯液本草",
+      "use": "氣味厚薄, 引經 (PM-36)"
+    },
+    {
+      "author": null,
+      "corpus": [
+        {
+          "exists": true,
+          "path": "reference/sources/TCM-Ancient-Books/018-本草备要.txt",
+          "repo": "TCM-Ancient-Books"
+        }
+      ],
+      "domains": [
+        "materia-medica"
+      ],
+      "drawn_on": false,
+      "edition": {
+        "author": "汪昂",
+        "category": "本草",
+        "dynasty": "清·公元1644-1911年",
+        "year": null
+      },
+      "era": null,
+      "id": "bencao-beiyao",
+      "kind": "classic",
+      "names": [],
+      "quotations": 0,
+      "references": {},
+      "status": "in-corpus",
+      "title": "本草備要",
+      "use": "Concise properties and actions"
+    },
+    {
+      "author": null,
+      "corpus": [
+        {
+          "exists": true,
+          "path": "reference/sources/TCM-Ancient-Books/021-本草从新.txt",
+          "repo": "TCM-Ancient-Books"
+        }
+      ],
+      "domains": [
+        "materia-medica"
+      ],
+      "drawn_on": false,
+      "edition": {
+        "author": "吳儀洛",
+        "category": "本草",
+        "dynasty": "清·公元1644-1911年",
+        "year": null
+      },
+      "era": null,
+      "id": "bencao-congxin",
+      "kind": "classic",
+      "names": [],
+      "quotations": 0,
+      "references": {},
+      "status": "in-corpus",
+      "title": "本草從新",
+      "use": "Revised 本草備要"
+    },
+    {
+      "author": null,
+      "corpus": [
+        {
+          "exists": true,
+          "path": "reference/sources/TCM-Ancient-Books/036-得配本草.txt",
+          "repo": "TCM-Ancient-Books"
+        }
+      ],
+      "domains": [
+        "materia-medica"
+      ],
+      "drawn_on": false,
+      "edition": {
+        "author": "嚴西亭",
+        "category": "本草",
+        "dynasty": "清",
+        "year": "公元1644-1911年"
+      },
+      "era": null,
+      "id": "depei-bencao",
+      "kind": "classic",
+      "names": [],
+      "quotations": 0,
+      "references": {},
+      "status": "in-corpus",
+      "title": "得配本草",
+      "use": "Pairings (得、配、佐、和) for the 七情 table (PM-37)"
+    },
+    {
+      "author": null,
+      "corpus": [
+        {
+          "exists": true,
+          "path": "reference/sources/TCM-Ancient-Books/025-本草求真.txt",
+          "repo": "TCM-Ancient-Books"
+        }
+      ],
+      "domains": [
+        "materia-medica"
+      ],
+      "drawn_on": false,
+      "edition": {
+        "author": "黃宮繡",
+        "category": "本草",
+        "dynasty": "清",
+        "year": "公元1644-1911年"
+      },
+      "era": null,
+      "id": "bencao-qiuzhen",
+      "kind": "classic",
+      "names": [],
+      "quotations": 0,
+      "references": {},
+      "status": "in-corpus",
+      "title": "本草求真",
+      "use": "Herbs by action class, 補瀉"
+    },
+    {
+      "author": null,
+      "corpus": [
+        {
+          "exists": true,
+          "path": "reference/sources/TCM-Ancient-Books/024-本草崇原.txt",
+          "repo": "TCM-Ancient-Books"
+        }
+      ],
+      "domains": [
+        "materia-medica"
+      ],
+      "drawn_on": false,
+      "edition": {
+        "author": "著者張志聰歿而書未成，後由弟子高世栻續成",
+        "category": "本草",
+        "dynasty": "清·康熙十三年",
+        "year": "公元1674年"
+      },
+      "era": null,
+      "id": "bencao-chongyuan",
+      "kind": "classic",
+      "names": [],
+      "quotations": 0,
+      "references": {},
+      "status": "in-corpus",
+      "title": "本草崇原",
+      "use": "Commentary on 神農本草經"
+    },
+    {
+      "author": null,
+      "corpus": [
+        {
+          "exists": true,
+          "path": "reference/sources/TCM-Ancient-Books/037-本草害利.txt",
+          "repo": "TCM-Ancient-Books"
+        }
+      ],
+      "domains": [
+        "materia-medica"
+      ],
+      "drawn_on": false,
+      "edition": {
+        "author": "凌奐",
+        "category": "本草",
+        "dynasty": "清",
+        "year": "公元1644-1911年"
+      },
+      "era": null,
+      "id": "bencao-haili",
+      "kind": "classic",
+      "names": [],
+      "quotations": 0,
+      "references": {},
+      "status": "in-corpus",
+      "title": "本草害利",
+      "use": "The harms and benefits of each herb (利弊; the burden model)"
+    },
+    {
+      "author": null,
+      "corpus": [
+        {
+          "exists": true,
+          "path": "reference/sources/TCM-Ancient-Books/039-雷公炮炙论.txt",
+          "repo": "TCM-Ancient-Books"
+        }
+      ],
+      "domains": [
+        "materia-medica"
+      ],
+      "drawn_on": false,
+      "edition": {
+        "author": "劉宋、雷學所著",
+        "category": "本草",
+        "dynasty": "南北朝",
+        "year": "公元420-581年"
+      },
+      "era": null,
+      "id": "leigong-paozhi",
+      "kind": "classic",
+      "names": [],
+      "quotations": 0,
+      "references": {},
+      "status": "in-corpus",
+      "title": "雷公炮炙論",
+      "use": "Processing (炮製) (PM-37)"
+    },
+    {
+      "author": null,
+      "corpus": [
+        {
+          "exists": true,
+          "path": "reference/sources/TCM-Ancient-Books/041-炮炙大法.txt",
+          "repo": "TCM-Ancient-Books"
+        }
+      ],
+      "domains": [
+        "materia-medica"
+      ],
+      "drawn_on": false,
+      "edition": {
+        "author": "繆希雍",
+        "category": "本草",
+        "dynasty": "明",
+        "year": "公元1622年"
+      },
+      "era": null,
+      "id": "paozhi-dafa",
+      "kind": "classic",
+      "names": [],
+      "quotations": 0,
+      "references": {},
+      "status": "in-corpus",
+      "title": "炮炙大法",
+      "use": "Processing (炮製) (PM-37)"
+    },
+    {
+      "author": null,
+      "corpus": [
+        {
+          "exists": true,
+          "path": "reference/sources/TCM-Ancient-Books/031-本草便读.txt",
+          "repo": "TCM-Ancient-Books"
+        }
+      ],
+      "domains": [
+        "materia-medica"
+      ],
+      "drawn_on": true,
+      "edition": {
+        "author": "張秉成",
+        "category": "本草",
+        "dynasty": "清",
+        "year": "公元1644-1911年"
+      },
+      "era": null,
+      "id": "bencao-biandu",
+      "kind": "classic",
+      "names": [],
+      "quotations": 1,
+      "references": {
+        "safety/rules.json": 2
+      },
+      "status": "in-corpus",
+      "title": "本草便讀",
+      "use": "十八反 and 十九畏 rhymes (verified quotation)"
+    },
+    {
+      "author": null,
+      "corpus": [
+        {
+          "exists": true,
+          "path": "reference/sources/TCM-Ancient-Books/020-本草经解.txt",
+          "repo": "TCM-Ancient-Books"
+        }
+      ],
+      "domains": [
+        "materia-medica"
+      ],
+      "drawn_on": false,
+      "edition": {
+        "author": "葉桂",
+        "category": "本草",
+        "dynasty": "清",
+        "year": "公元1644-1911年"
+      },
+      "era": null,
+      "id": "bencaojing-jie",
+      "kind": "classic",
+      "names": [],
+      "quotations": 0,
+      "references": {},
+      "status": "in-corpus",
+      "title": "本草經解",
+      "use": "Properties explained by 氣 and 味"
+    },
+    {
+      "author": null,
+      "corpus": [
+        {
+          "exists": true,
+          "path": "reference/sources/TCM-Ancient-Books/012-本草蒙筌.txt",
+          "repo": "TCM-Ancient-Books"
+        }
+      ],
+      "domains": [
+        "materia-medica"
+      ],
+      "drawn_on": false,
+      "edition": {
+        "author": "陳嘉謨",
+        "category": "本草",
+        "dynasty": "明",
+        "year": "公元1368-1644年"
+      },
+      "era": null,
+      "id": "bencao-mengquan",
+      "kind": "classic",
+      "names": [],
+      "quotations": 0,
+      "references": {},
+      "status": "in-corpus",
+      "title": "本草蒙筌",
+      "use": "Properties; processing"
+    },
+    {
+      "author": null,
+      "corpus": [
+        {
+          "exists": true,
+          "path": "reference/sources/TCM-Ancient-Books/004-食疗本草.txt",
+          "repo": "TCM-Ancient-Books"
+        }
+      ],
+      "domains": [
+        "materia-medica",
+        "prevention"
+      ],
+      "drawn_on": false,
+      "edition": {
+        "author": "孟顯",
+        "category": "食療",
+        "dynasty": "唐",
+        "year": "公元618-907年"
+      },
+      "era": null,
+      "id": "shiliao-bencao",
+      "kind": "classic",
+      "names": [],
+      "quotations": 0,
+      "references": {},
+      "status": "in-corpus",
+      "title": "食療本草",
+      "use": "Foods as medicine"
+    },
+    {
+      "author": null,
+      "corpus": [
+        {
+          "exists": true,
+          "path": "reference/sources/TCM-Ancient-Books/532-备急千金要方.txt",
+          "repo": "TCM-Ancient-Books"
+        }
+      ],
+      "domains": [
+        "formulas",
+        "prevention"
+      ],
+      "drawn_on": false,
+      "edition": {
+        "author": "孫思邈",
+        "category": "方劑",
+        "dynasty": "唐·永微三年",
+        "year": "公元652年"
+      },
+      "era": null,
+      "id": "qianjin-yaofang",
+      "kind": "classic",
+      "names": [],
+      "quotations": 0,
+      "references": {},
+      "status": "in-corpus",
+      "title": "備急千金要方",
+      "use": "Tang formulas; 食治"
+    },
+    {
+      "author": null,
+      "corpus": [
+        {
+          "exists": true,
+          "path": "reference/sources/TCM-Ancient-Books/051-千金翼方.txt",
+          "repo": "TCM-Ancient-Books"
+        }
+      ],
+      "domains": [
+        "formulas"
+      ],
+      "drawn_on": false,
+      "edition": {
+        "author": "孫思邈",
+        "category": "方劑",
+        "dynasty": "唐·開耀二年",
+        "year": "公元682年"
+      },
+      "era": null,
+      "id": "qianjin-yifang",
+      "kind": "classic",
+      "names": [],
+      "quotations": 0,
+      "references": {},
+      "status": "in-corpus",
+      "title": "千金翼方",
+      "use": "Tang formulas"
+    },
+    {
+      "author": null,
+      "corpus": [
+        {
+          "exists": true,
+          "path": "reference/sources/TCM-Ancient-Books/053-外台秘要.txt",
+          "repo": "TCM-Ancient-Books"
+        }
+      ],
+      "domains": [
+        "formulas"
+      ],
+      "drawn_on": false,
+      "edition": {
+        "author": "王燾",
+        "category": "綜合",
+        "dynasty": "唐·天寶十一年",
+        "year": "公元752年"
+      },
+      "era": null,
+      "id": "waitai-miyao",
+      "kind": "classic",
+      "names": [],
+      "quotations": 0,
+      "references": {},
+      "status": "in-corpus",
+      "title": "外臺秘要",
+      "use": "Tang formula collection"
+    },
+    {
+      "author": null,
+      "corpus": [
+        {
+          "exists": true,
+          "path": "reference/sources/TCM-Ancient-Books/059-太平惠民和剂局方.txt",
+          "repo": "TCM-Ancient-Books"
+        }
+      ],
+      "domains": [
+        "formulas"
+      ],
+      "drawn_on": true,
+      "edition": {
+        "author": "太平惠民和劑局所",
+        "category": "方劑",
+        "dynasty": "初刊於宋·元豐年間",
+        "year": "公元1078年-1085年"
+      },
+      "era": null,
+      "id": "hejiju-fang",
+      "kind": "classic",
+      "names": [],
+      "quotations": 0,
+      "references": {
+        "formulas/formulas.json": 19
+      },
+      "status": "in-corpus",
+      "title": "太平惠民和劑局方",
+      "use": "Song official formulary (six formulas of the library)"
+    },
+    {
+      "author": null,
+      "corpus": [
+        {
+          "exists": true,
+          "path": "reference/sources/TCM-Ancient-Books/087-医方集解.txt",
+          "repo": "TCM-Ancient-Books"
+        }
+      ],
+      "domains": [
+        "formulas"
+      ],
+      "drawn_on": true,
+      "edition": {
+        "author": "汪昂",
+        "category": "方劑",
+        "dynasty": "清",
+        "year": "公元1682年"
+      },
+      "era": null,
+      "id": "yifang-jijie",
+      "kind": "classic",
+      "names": [],
+      "quotations": 0,
+      "references": {
+        "formulas/formulas.json": 9
+      },
+      "status": "in-corpus",
+      "title": "醫方集解",
+      "use": "Formulas by method with explanations (方解); modifications"
+    },
+    {
+      "author": null,
+      "corpus": [
+        {
+          "exists": true,
+          "path": "reference/sources/TCM-Ancient-Books/084-汤头歌诀.txt",
+          "repo": "TCM-Ancient-Books"
+        }
+      ],
+      "domains": [
+        "formulas"
+      ],
+      "drawn_on": false,
+      "edition": {
+        "author": "汪昂",
+        "category": "方劑",
+        "dynasty": "清",
+        "year": "公元1644-1911年"
+      },
+      "era": null,
+      "id": "tangtou-gejue",
+      "kind": "classic",
+      "names": [],
+      "quotations": 0,
+      "references": {},
+      "status": "in-corpus",
+      "title": "湯頭歌訣",
+      "use": "The formula rhymes"
+    },
+    {
+      "author": null,
+      "corpus": [
+        {
+          "exists": true,
+          "path": "reference/sources/TCM-Ancient-Books/639-删补名医方论.txt",
+          "repo": "TCM-Ancient-Books"
+        }
+      ],
+      "domains": [
+        "formulas"
+      ],
+      "drawn_on": false,
+      "edition": {
+        "author": "吳謙",
+        "category": "方劑",
+        "dynasty": "清",
+        "year": "公元1644-1911年"
+      },
+      "era": null,
+      "id": "shanbu-mingyi-fanglun",
+      "kind": "classic",
+      "names": [],
+      "quotations": 0,
+      "references": {},
+      "status": "in-corpus",
+      "title": "刪補名醫方論",
+      "use": "Formula explanations (方解) for the verification of roles (PM-39)"
+    },
+    {
+      "author": null,
+      "corpus": [
+        {
+          "exists": true,
+          "path": "reference/sources/TCM-Ancient-Books/575-医宗金鉴.txt",
+          "repo": "TCM-Ancient-Books"
+        }
+      ],
+      "domains": [
+        "formulas",
+        "pattern-systems"
+      ],
+      "drawn_on": true,
+      "edition": {
+        "author": "吳謙",
+        "category": "綜合",
+        "dynasty": "清",
+        "year": "公元1742年"
+      },
+      "era": null,
+      "id": "yizong-jinjian",
+      "kind": "classic",
+      "names": [],
+      "quotations": 0,
+      "references": {
+        "formulas/formulas.json": 1
+      },
+      "status": "in-corpus",
+      "title": "醫宗金鑑",
+      "use": "The Qing imperial textbook; a modification"
+    },
+    {
+      "author": null,
+      "corpus": [
+        {
+          "exists": true,
+          "path": "reference/sources/TCM-Ancient-Books/091-成方切用.txt",
+          "repo": "TCM-Ancient-Books"
+        }
+      ],
+      "domains": [
+        "formulas"
+      ],
+      "drawn_on": false,
+      "edition": {
+        "author": "吳儀洛",
+        "category": "綜合",
+        "dynasty": "清",
+        "year": "公元1761年"
+      },
+      "era": null,
+      "id": "chengfang-qieyong",
+      "kind": "classic",
+      "names": [],
+      "quotations": 0,
+      "references": {},
+      "status": "in-corpus",
+      "title": "成方切用",
+      "use": "Formulas by method"
+    },
+    {
+      "author": null,
+      "corpus": [
+        {
+          "exists": true,
+          "path": "reference/sources/TCM-Ancient-Books/601-医学心悟.txt",
+          "repo": "TCM-Ancient-Books"
+        }
+      ],
+      "domains": [
+        "treatment",
+        "formulas"
+      ],
+      "drawn_on": true,
+      "edition": {
+        "author": "程國彭",
+        "category": "綜合",
+        "dynasty": "清",
+        "year": "公元1644-1911年"
+      },
+      "era": null,
+      "id": "yixue-xinwu",
+      "kind": "classic",
+      "names": [],
+      "quotations": 2,
+      "references": {},
+      "status": "in-corpus",
+      "title": "醫學心悟",
+      "use": "The eight methods (八法); verified quotations"
+    },
+    {
+      "author": null,
+      "corpus": [
+        {
+          "exists": true,
+          "path": "reference/sources/TCM-Ancient-Books/584-医学衷中参西录.txt",
+          "repo": "TCM-Ancient-Books"
+        }
+      ],
+      "domains": [
+        "formulas"
+      ],
+      "drawn_on": false,
+      "edition": {
+        "author": "張錫純",
+        "category": "綜合",
+        "dynasty": "清",
+        "year": "公元1909年"
+      },
+      "era": null,
+      "id": "yixue-zhongzhong-canxi",
+      "kind": "classic",
+      "names": [],
+      "quotations": 0,
+      "references": {},
+      "status": "in-corpus",
+      "title": "醫學衷中參西錄",
+      "use": "Modern-era formulas and dose notes"
+    },
+    {
+      "author": null,
+      "corpus": [
+        {
+          "exists": true,
+          "path": "reference/sources/TCM-Ancient-Books/077-严氏济生方.txt",
+          "repo": "TCM-Ancient-Books"
+        }
+      ],
+      "domains": [
+        "formulas"
+      ],
+      "drawn_on": true,
+      "edition": {
+        "author": "嚴用和",
+        "category": "綜合",
+        "dynasty": "宋·寶元",
+        "year": "公元1253年"
+      },
+      "era": null,
+      "id": "yanshi-jisheng",
+      "kind": "classic",
+      "names": [
+        "濟生方"
+      ],
+      "quotations": 0,
+      "references": {
+        "formulas/formulas.json": 3
+      },
+      "status": "in-corpus",
+      "title": "嚴氏濟生方",
+      "use": "歸脾湯"
+    },
+    {
+      "author": null,
+      "corpus": [
+        {
+          "exists": true,
+          "path": "reference/sources/TCM-Ancient-Books/247-正体类要.txt",
+          "repo": "TCM-Ancient-Books"
+        }
+      ],
+      "domains": [
+        "formulas"
+      ],
+      "drawn_on": true,
+      "edition": {
+        "author": "薛己",
+        "category": "綜合",
+        "dynasty": "明",
+        "year": "公元1529年"
+      },
+      "era": null,
+      "id": "zhengti-leiyao",
+      "kind": "classic",
+      "names": [],
+      "quotations": 0,
+      "references": {
+        "formulas/formulas.json": 3
+      },
+      "status": "in-corpus",
+      "title": "正體類要",
+      "use": "A formula of the library"
+    },
+    {
+      "author": null,
+      "corpus": [
+        {
+          "exists": true,
+          "path": "reference/sources/TCM-Ancient-Books/072-医方考.txt",
+          "repo": "TCM-Ancient-Books"
+        }
+      ],
+      "domains": [
+        "formulas"
+      ],
+      "drawn_on": true,
+      "edition": {
+        "author": "吳昆",
+        "category": "方劑",
+        "dynasty": "明代",
+        "year": "公元1584年"
+      },
+      "era": null,
+      "id": "yifang-kao",
+      "kind": "classic",
+      "names": [],
+      "quotations": 0,
+      "references": {
+        "formulas/formulas.json": 1
+      },
+      "status": "in-corpus",
+      "title": "醫方考",
+      "use": "A modification"
+    },
+    {
+      "author": null,
+      "corpus": [
+        {
+          "exists": true,
+          "path": "reference/sources/TCM-Ancient-Books/624-医宗己任编.txt",
+          "repo": "TCM-Ancient-Books"
+        }
+      ],
+      "domains": [
+        "formulas"
+      ],
+      "drawn_on": true,
+      "edition": {
+        "author": "高鼓峰",
+        "category": "綜合",
+        "dynasty": "清",
+        "year": "公元1644-1911年"
+      },
+      "era": null,
+      "id": "yizong-jirenbian",
+      "kind": "classic",
+      "names": [],
+      "quotations": 0,
+      "references": {
+        "formulas/formulas.json": 1
+      },
+      "status": "in-corpus",
+      "title": "醫宗己任編",
+      "use": "黑逍遙散 (a modification)"
+    },
+    {
+      "author": null,
+      "corpus": [
+        {
+          "exists": true,
+          "path": "reference/sources/TCM-Ancient-Books/128-妇人大全良方.txt",
+          "repo": "TCM-Ancient-Books"
+        }
+      ],
+      "domains": [
+        "formulas",
+        "pattern-systems"
+      ],
+      "drawn_on": false,
+      "edition": {
+        "author": "陳自明",
+        "category": "方劑",
+        "dynasty": "南宋·嘉熙元年",
+        "year": "公元1237年"
+      },
+      "era": null,
+      "id": "furen-daquan",
+      "kind": "classic",
+      "names": [],
+      "quotations": 0,
+      "references": {},
+      "status": "in-corpus",
+      "title": "婦人大全良方",
+      "use": "Gynaecology; the later 歸脾湯 with 當歸 and 遠志 (via its annotated edition)"
+    },
+    {
+      "author": null,
+      "corpus": [
+        {
+          "exists": true,
+          "path": "reference/sources/TCM-Ancient-Books/076-普济本事方.txt",
+          "repo": "TCM-Ancient-Books"
+        }
+      ],
+      "domains": [
+        "formulas"
+      ],
+      "drawn_on": false,
+      "edition": {
+        "author": "許叔微",
+        "category": "方劑",
+        "dynasty": "南宋",
+        "year": "公元1132年"
+      },
+      "era": null,
+      "id": "puji-benshi",
+      "kind": "classic",
+      "names": [],
+      "quotations": 0,
+      "references": {},
+      "status": "in-corpus",
+      "title": "普濟本事方",
+      "use": "Song formulas"
+    },
+    {
+      "author": null,
+      "corpus": [
+        {
+          "exists": true,
+          "path": "reference/sources/TCM-Ancient-Books/009-饮膳正要.txt",
+          "repo": "TCM-Ancient-Books"
+        }
+      ],
+      "domains": [
+        "prevention"
+      ],
+      "drawn_on": false,
+      "edition": {
+        "author": "忽思慧",
+        "category": "食療",
+        "dynasty": "元",
+        "year": "公元1314-1320年"
+      },
+      "era": null,
+      "id": "yinshan-zhengyao",
+      "kind": "classic",
+      "names": [],
+      "quotations": 0,
+      "references": {},
+      "status": "in-corpus",
+      "title": "飲膳正要",
+      "use": "Diet and food properties"
+    },
+    {
+      "author": null,
+      "corpus": [
+        {
+          "exists": true,
+          "path": "reference/sources/TCM-Ancient-Books/301-针灸甲乙经.txt",
+          "repo": "TCM-Ancient-Books"
+        }
+      ],
+      "domains": [
+        "acupuncture"
+      ],
+      "drawn_on": false,
+      "edition": {
+        "author": "皇甫謐",
+        "category": "針灸",
+        "dynasty": "晉",
+        "year": "公元256年"
+      },
+      "era": null,
+      "id": "zhenjiu-jiayi",
+      "kind": "classic",
+      "names": [],
+      "quotations": 0,
+      "references": {},
+      "status": "in-corpus",
+      "title": "針灸甲乙經",
+      "use": "The classical acupoint locations"
+    },
+    {
+      "author": null,
+      "corpus": [
+        {
+          "exists": true,
+          "path": "reference/sources/TCM-Ancient-Books/299-针灸大成.txt",
+          "repo": "TCM-Ancient-Books"
+        }
+      ],
+      "domains": [
+        "acupuncture"
+      ],
+      "drawn_on": false,
+      "edition": {
+        "author": null,
+        "category": "針灸",
+        "dynasty": null,
+        "year": null
+      },
+      "era": null,
+      "id": "zhenjiu-dacheng",
+      "kind": "classic",
+      "names": [],
+      "quotations": 0,
+      "references": {},
+      "status": "in-corpus",
+      "title": "針灸大成",
+      "use": "Acupoints and their indications"
+    },
+    {
+      "author": "曹炳章",
+      "corpus": [],
+      "domains": [
+        "diagnosis"
+      ],
+      "drawn_on": false,
+      "edition": null,
+      "era": "民國（1920）",
+      "id": "bianshe-zhinan",
+      "kind": "classic",
+      "names": [],
+      "quotations": 0,
+      "references": {},
+      "status": "not-in-corpus",
+      "title": "辨舌指南",
+      "use": "The modern classic of tongue diagnosis"
+    },
+    {
+      "author": "梁玉瑜",
+      "corpus": [],
+      "domains": [
+        "diagnosis"
+      ],
+      "drawn_on": false,
+      "edition": null,
+      "era": "清（1894）",
+      "id": "shejian-bianzheng",
+      "kind": "classic",
+      "names": [],
+      "quotations": 0,
+      "references": {},
+      "status": "not-in-corpus",
+      "title": "舌鑑辨正",
+      "use": "A tongue atlas with corrections"
+    },
+    {
+      "author": "林之翰",
+      "corpus": [],
+      "domains": [
+        "diagnosis"
+      ],
+      "drawn_on": false,
+      "edition": null,
+      "era": "清（1723）",
+      "id": "sizhen-juewei",
+      "kind": "classic",
+      "names": [],
+      "quotations": 0,
+      "references": {},
+      "status": "not-in-corpus",
+      "title": "四診抉微",
+      "use": "The four examinations, systematic"
+    },
+    {
+      "author": "賈所學",
+      "corpus": [],
+      "domains": [
+        "materia-medica"
+      ],
+      "drawn_on": false,
+      "edition": null,
+      "era": "明末",
+      "id": "yaopin-huayi",
+      "kind": "classic",
+      "names": [],
+      "quotations": 0,
+      "references": {},
+      "status": "not-in-corpus",
+      "title": "藥品化義",
+      "use": "The eight aspects of a herb (體色氣味形性能力)"
+    },
+    {
+      "author": "柯琴",
+      "corpus": [],
+      "domains": [
+        "pattern-systems",
+        "formulas"
+      ],
+      "drawn_on": false,
+      "edition": null,
+      "era": "清（1669）",
+      "id": "shanghan-laisu",
+      "kind": "classic",
+      "names": [],
+      "quotations": 0,
+      "references": {},
+      "status": "not-in-corpus",
+      "title": "傷寒來蘇集",
+      "use": "A major commentary on 傷寒論 (方解 of the 經方)"
+    },
+    {
+      "author": "沈金鰲",
+      "corpus": [],
+      "domains": [
+        "pattern-systems"
+      ],
+      "drawn_on": false,
+      "edition": null,
+      "era": "清（1773）",
+      "id": "zabing-yuanliu",
+      "kind": "classic",
+      "names": [],
+      "quotations": 0,
+      "references": {},
+      "status": "not-in-corpus",
+      "title": "雜病源流犀燭",
+      "use": "Internal medicine (沈氏尊生書)"
+    },
+    {
+      "author": "鄒澍",
+      "corpus": [],
+      "domains": [
+        "materia-medica"
+      ],
+      "drawn_on": false,
+      "edition": null,
+      "era": "清（道光）",
+      "id": "benjing-shuzheng",
+      "kind": "classic",
+      "names": [],
+      "quotations": 0,
+      "references": {},
+      "status": "not-in-corpus",
+      "title": "本經疏證",
+      "use": "A commentary on 神農本草經 that explains properties"
+    },
+    {
+      "author": "董西園",
+      "corpus": [],
+      "domains": [
+        "formulas"
+      ],
+      "drawn_on": true,
+      "edition": null,
+      "era": "清（乾隆）",
+      "id": "yiji",
+      "kind": "classic",
+      "names": [],
+      "quotations": 0,
+      "references": {
+        "formulas/formulas.json": 1
+      },
+      "status": "not-in-corpus",
+      "title": "醫級",
+      "use": "杞菊地黃丸 (a modification of the library names it)"
+    },
+    {
+      "author": null,
+      "corpus": [
+        {
+          "exists": true,
+          "path": "reference/sources/TCM-Library/raw/yaodian2025",
+          "repo": "TCM-Library"
+        }
+      ],
+      "domains": [
+        "materia-medica"
+      ],
+      "drawn_on": true,
+      "edition": null,
+      "era": null,
+      "id": "chp-2025",
+      "kind": "pharmacopoeia",
+      "names": [
+        "中國藥典（2025年版）一部"
+      ],
+      "quotations": 0,
+      "references": {
+        "herbs/herbs.json": 637
+      },
+      "status": "in-corpus",
+      "title": "中華人民共和國藥典（2025年版）一部",
+      "use": "性味、歸經、功能主治、用法用量 of 637 herbs (as transcribed by TCM-Library)"
+    },
+    {
+      "author": null,
+      "corpus": [
+        {
+          "exists": true,
+          "path": "reference/sources/TCM-Library/raw/l1",
+          "repo": "TCM-Library"
+        }
+      ],
+      "domains": [
+        "materia-medica"
+      ],
+      "drawn_on": true,
+      "edition": null,
+      "era": null,
+      "id": "zhongyaoxue-textbook",
+      "kind": "textbook",
+      "names": [
+        "《中藥學》（清華社）· 藥典外品種"
+      ],
+      "quotations": 0,
+      "references": {
+        "herbs/herbs.json": 63
+      },
+      "status": "in-corpus",
+      "title": "中藥學（教材）",
+      "use": "63 herbs that the Pharmacopoeia lacks (as transcribed by TCM-Library); copyrighted: facts only"
+    },
+    {
+      "author": null,
+      "corpus": [
+        {
+          "exists": true,
+          "path": "reference/sources/TCM-Library/library",
+          "repo": "TCM-Library"
+        }
+      ],
+      "domains": [
+        "materia-medica",
+        "formulas"
+      ],
+      "drawn_on": true,
+      "edition": null,
+      "era": null,
+      "id": "tcm-library",
+      "kind": "compilation",
+      "names": [],
+      "quotations": 0,
+      "references": {
+        "formulas/formulas.json": 6,
+        "herbs/herbs.json": 700
+      },
+      "status": "in-corpus",
+      "title": "TCM-Library structured entries",
+      "use": "Entries compiled from the classics and the Pharmacopoeia (MIT compilation); the underlying work is named in each record's `book`"
+    },
+    {
+      "author": "WHO Regional Office for the Western Pacific",
+      "corpus": [],
+      "domains": [
+        "terminology"
+      ],
+      "drawn_on": true,
+      "edition": null,
+      "era": "2007",
+      "id": "who-istm-2007",
+      "kind": "standard",
+      "names": [],
+      "quotations": 0,
+      "references": {
+        "glossary.json": 90
+      },
+      "status": "bibliography",
+      "title": "WHO International Standard Terminologies on Traditional Medicine in the Western Pacific Region",
+      "use": "The English terms of the glossary"
+    },
+    {
+      "author": "WHO Regional Office for the Western Pacific",
+      "corpus": [],
+      "domains": [
+        "acupuncture"
+      ],
+      "drawn_on": true,
+      "edition": null,
+      "era": "2008",
+      "id": "who-acupoints-2008",
+      "kind": "standard",
+      "names": [],
+      "quotations": 0,
+      "references": {
+        "treatment/guidance.json": 31
+      },
+      "status": "bibliography",
+      "title": "WHO Standard Acupuncture Point Locations in the Western Pacific Region",
+      "use": "The acupoint locations, in the project's own words"
+    },
+    {
+      "author": "中華中醫藥學會",
+      "corpus": [],
+      "domains": [
+        "prevention",
+        "diagnosis"
+      ],
+      "drawn_on": true,
+      "edition": null,
+      "era": "2009",
+      "id": "ccma-constitution-2009",
+      "kind": "standard",
+      "names": [],
+      "quotations": 0,
+      "references": {
+        "diagnosis/constitution-items.json": 1,
+        "diagnosis/constitutions.json": 1
+      },
+      "status": "bibliography",
+      "title": "中醫體質分類與判定（ZYYXH/T157-2009）",
+      "use": "The nine constitutions; the questionnaire is the project's own (the standard's items are not copied)"
+    },
+    {
+      "author": "國家中醫藥管理局規劃",
+      "corpus": [],
+      "domains": [
+        "theory",
+        "diagnosis",
+        "materia-medica",
+        "formulas",
+        "treatment"
+      ],
+      "drawn_on": false,
+      "edition": null,
+      "era": "current editions",
+      "id": "textbooks",
+      "kind": "textbook",
+      "names": [],
+      "quotations": 0,
+      "references": {},
+      "status": "bibliography",
+      "title": "全國中醫藥行業高等教育規劃教材（中醫基礎理論、中醫診斷學、中藥學、方劑學、中醫內科學）",
+      "use": "The standard teaching statements a reviewer checks against (dose bands, 三因制宜); copyrighted: cited, never copied"
+    },
+    {
+      "author": "國家中醫藥管理局《中華本草》編委會",
+      "corpus": [],
+      "domains": [
+        "materia-medica"
+      ],
+      "drawn_on": false,
+      "edition": null,
+      "era": "1999",
+      "id": "zhonghua-bencao",
+      "kind": "textbook",
+      "names": [],
+      "quotations": 0,
+      "references": {},
+      "status": "bibliography",
+      "title": "中華本草",
+      "use": "Comprehensive herb reference for reviewers; copyrighted"
+    },
+    {
+      "author": "南京中醫藥大學",
+      "corpus": [],
+      "domains": [
+        "materia-medica"
+      ],
+      "drawn_on": false,
+      "edition": null,
+      "era": "2006（第二版）",
+      "id": "zhongyao-dacidian",
+      "kind": "textbook",
+      "names": [],
+      "quotations": 0,
+      "references": {},
+      "status": "bibliography",
+      "title": "中藥大辭典",
+      "use": "Comprehensive herb reference for reviewers; copyrighted"
+    },
+    {
+      "author": null,
+      "corpus": [],
+      "domains": [
+        "formulas"
+      ],
+      "drawn_on": true,
+      "edition": null,
+      "era": null,
+      "id": "wikisource",
+      "kind": "website",
+      "names": [],
+      "quotations": 0,
+      "references": {
+        "formulas/formulas.json": 12
+      },
+      "status": "bibliography",
+      "title": "維基文庫 (zh.wikisource.org)",
+      "use": "Traditional-script originals; the second source of six formulas"
+    }
+  ]
+}

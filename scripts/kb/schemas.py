@@ -243,6 +243,21 @@ def scoring_params() -> dict:
         "required": ["_meta", "formula", "pattern", "panel", "quality", "questionnaire", "reconcile", "safety", "severity", "tier"], "additionalProperties": False}
 
 
+def sources() -> dict:
+    from .curated.sources import DOMAINS, KINDS, STATUSES
+    corpus = obj({"exists": BOOL, "path": STR, "repo": enum("TCM-Ancient-Books", "TCM-Library")})
+    edition = obj({"author": NSTR, "category": NSTR, "dynasty": NSTR, "year": NSTR})
+    item = obj({
+        "author": NSTR, "corpus": arr(corpus), "domains": arr(enum(*DOMAINS), 1, True), "drawn_on": BOOL, "edition": {"oneOf": [{"type": "null"}, edition]}, "era": NSTR,
+        "id": pattern(r"^[a-z0-9]+(-[a-z0-9]+)*$"), "kind": enum(*KINDS), "names": arr(STR), "quotations": INT, "references": dictionary(INT), "status": enum(*STATUSES),
+        "title": STR, "use": NSTR,
+    })
+    return envelope(item, meta({
+        "corpus_categories": dictionary(obj({"books": INT, "drawn_on": INT, "registered": INT})), "count": INT, "domains": dictionary(obj({"en": STR, "zh-Hant": STR})),
+        "drawn_on": INT, "status_counts": dictionary(INT), "unresolved": arr(obj({"file": STR, "value": STR})),
+    }, ["corpus_categories", "count", "domains", "drawn_on", "status_counts", "unresolved"]))
+
+
 # ── herbs and formulas ──────────────────────────────────────────────────────
 
 def herbs() -> dict:
@@ -457,6 +472,7 @@ def admission() -> dict:
 # file (relative to data/) → (schema file stem, builder, title)
 SCHEMAS = {
     "citations.json": ("citations", citations, "Quotation registry"),
+    "sources.json": ("sources", sources, "Sources registry"),
     "glossary.json": ("glossary", glossary, "Glossary"),
     "geo/cities.json": ("cities", cities, "Cities for the birth-place picker"),
     "herbs/herbs.json": ("herbs", herbs, "Herbs"),

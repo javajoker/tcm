@@ -727,6 +727,21 @@ def validate(load: Loader = load, check_sources: bool = True) -> list[str]:
         for c in cit["items"]:
             if not (ROOT / c["source_path"]).exists():
                 err(f"citation {c['id']}: source file {c['source_path']} not found (submodules checked out?)")
+    # the sources registry (PM-35): every book named, every corpus path pointed at and every quotation's book is a registered work
+    registry = load("sources.json")
+    for u in registry["_meta"]["unresolved"]:
+        err(f"sources: {u['file']} names a work that is not in the sources registry: {u['value']!r} (scripts/kb/curated/sources.py)")
+    for dup in duplicates([s["id"] for s in registry["items"]]):
+        err(f"sources: duplicate id {dup}")
+    for s in registry["items"]:
+        if (s["status"] == "in-corpus") != bool(s["corpus"]):
+            err(f"sources {s['id']}: status {s['status']} but {len(s['corpus'])} corpus paths")
+        if s["status"] == "not-in-corpus" and not (s["author"] and s["era"]):
+            err(f"sources {s['id']}: a work the corpus lacks needs its author and era")
+        if check_sources:
+            for c in s["corpus"]:
+                if not c["exists"]:
+                    err(f"sources {s['id']}: corpus path {c['path']} not found")
     # ── 10. admission (PM-21): every pattern meets each machine row of the checklist in library-expansion.md §4, or is waived by name as a known gap of the original library ──
     errors += admission.failures(admission.check(admission.library(load, check_sources=check_sources)))
     return errors

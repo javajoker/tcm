@@ -95,8 +95,12 @@ def overrides_digest() -> str:
 
 # ── the data ────────────────────────────────────────────────────────────────
 
+# Build-time files that are never bundled or shown: the sources registry (PM-35) is a bibliography for maintainers.
+NOT_SHOWN = {"sources.json"}
+
+
 def data_files() -> list[Path]:
-    return sorted(p for p in DATA.rglob("*.json") if "schema" not in p.relative_to(DATA).parts)
+    return sorted(p for p in DATA.rglob("*.json") if "schema" not in p.relative_to(DATA).parts and p.relative_to(DATA).as_posix() not in NOT_SHOWN)
 
 
 def _walk(node, key: str = "") -> Iterator[tuple[str, bool]]:

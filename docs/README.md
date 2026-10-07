@@ -9,7 +9,7 @@ Reading order for a new contributor: **PRD → Diagnosis SOP → Tech spec → U
 | [Yin-yang / five-phase algorithm](wuxing-algorithm.md) · [繁體中文版](wuxing-algorithm.zh-TW.md) | English · **繁體中文** | The birth + annual + seasonal five-phase mathematics; extraction from the source engine; parameters; verification | The five-phase mathematics | 0.1 |
 | [Technical specification](tech-spec.md) | English | Architecture, packages, data delivery, profiles, engine contract, state, storage, security, performance | Technical decisions and contracts | 0.1 |
 | [UI/UX specification](ux-spec.md) | English | Screens, flows, components, design tokens, responsive and accessibility rules, copy rules | Interface behaviour and look | 0.1 |
-| [Knowledge-base schema](kb-schema.md) | English | Shape and integrity rules of every `data/` file; planned additions | Data contracts | 0.1 |
+| [Knowledge-base schema](kb-schema.md) | English | Shape and integrity rules of every `data/` file; planned additions | Data contracts | 0.3 |
 | [i18n, terminology and copy guide](i18n-guide.md) | English | Languages, glossary rules, message catalogs, forbidden wording, translation workflow | Terminology and wording | 0.1 |
 | [Content review process](content-review.md) | English | Who reviews which medical content, records, release gates | Review status and gates | 0.1 |
 | [Safety policy](safety-policy.md) | English | Who gets what output, notice wording, filter semantics, emergency resources, incidents | **Notice wording** and safety behaviour | 0.1 |
@@ -22,6 +22,7 @@ Reading order for a new contributor: **PRD → Diagnosis SOP → Tech spec → U
 | [`CHECKLIST.md`](../CHECKLIST.md) | English | Definition of done and milestone/release checklists | Acceptance | 0.1 |
 | [`CONTRIBUTING.md`](../CONTRIBUTING.md) | English | How to work on the project | Contribution rules | 0.1 |
 | [`data/README.md`](../data/README.md) | English | What the knowledge base contains, provenance, verification, gaps | Data provenance | — |
+| [Knowledge-base sources and coverage](kb-sources.md) | English (generated) | Which classics, standards and references the knowledge base draws on, by domain; the famous works the corpus lacks | Generated from `data/sources.json` | — |
 | [`reference/README.md`](../reference/README.md) | English | Source repositories, licences, data-quality findings | Sources | — |
 
 ## Precedence when documents disagree

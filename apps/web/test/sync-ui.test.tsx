@@ -133,7 +133,7 @@ describe("setting it up", () => {
     await waitFor(() => expect(status()).toMatch(/Kept up to date in “tcm-backup\.encrypted\.json”\./), { timeout: 20_000 });
     expect(picker).toHaveBeenCalledWith(expect.objectContaining({ suggestedName: "tcm-backup.encrypted.json" }));
     expect(status()).toMatch(/Last written/);
-    expect(screen.queryByRole("dialog")).toBeNull();
+    await waitFor(() => expect(screen.queryByRole("dialog")).toBeNull());      // the dialog closes just after the first write is reported
     expect(handle.content).toContain("tcm-backup-encrypted");
     expect(handle.content).not.toContain("S_");
     expect(await held(handle.content)).toEqual([A.id, B.id]);
