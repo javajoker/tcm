@@ -162,6 +162,12 @@ def main() -> None:
     dump(DATA / "herbs" / "processing.json", build_processing())
     dump(DATA / "herbs" / "dose-bands.json", build_dose_bands(index))
     dump(DATA / "herbs" / "yinjing.json", build_yinjing(index))
+    dump(DATA / "treatment" / "sanyin.json", {
+        "_meta": {"description": "三因制宜: the factors of a personalised prescription (因人 severity, age and constitution; 因時 the season; 因地 the region), each with what it "
+                                 "says and its verified quotation. Read by the prescription model (design §6), never by the diagnosis. Curated drafts until the clinical review.",
+                  "design": "docs/post-mvp/design/prescription-model.md §6", "status": "curated-draft"},
+        **cp.SANYIN,
+    })
     dump(DATA / "treatment" / "mechanisms.json", {
         "_meta": {"description": "The direction of qi a pattern's treatment asks for (升 · 降 · 宣 · 收), only where the classics state it; `sign` +1 up and out, −1 down and in. "
                                  "Read by the prescription model (design §3.4), never by the diagnosis.", "design": "docs/post-mvp/design/prescription-model.md §3.4"},

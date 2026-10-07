@@ -1,0 +1,126 @@
+{
+  "_meta": {
+    "description": "三因制宜: the factors of a personalised prescription (因人 severity, age and constitution; 因時 the season; 因地 the region), each with what it says and its verified quotation. Read by the prescription model (design §6), never by the diagnosis. Curated drafts until the clinical review.",
+    "design": "docs/post-mvp/design/prescription-model.md §6",
+    "schema": 1,
+    "status": "curated-draft"
+  },
+  "age": {
+    "citation": "lingshu-053-1",
+    "elderly_fraction": "2/3",
+    "elderly_from_years": 65,
+    "minors": [
+      {
+        "below_years": 0.0833,
+        "fraction": "1/6",
+        "label": "新生兒"
+      },
+      {
+        "below_years": 1,
+        "fraction": "1/3",
+        "label": "乳兒"
+      },
+      {
+        "below_years": 7,
+        "fraction": "1/2",
+        "label": "幼兒"
+      },
+      {
+        "below_years": 14,
+        "fraction": "2/3",
+        "label": "學齡兒童"
+      }
+    ],
+    "says": "人之勝毒 differs by body; the fractions are the textbook rules of thumb of the safety rules' dose references (unverified)"
+  },
+  "constitution": [
+    {
+      "avoid": "寒涼",
+      "citation": "suwen-074-2",
+      "constitution": "C_YANGXU",
+      "factor": 0.8,
+      "says": "陽虛質：寒涼之品減量，不另加"
+    },
+    {
+      "avoid": "寒涼",
+      "citation": "suwen-074-2",
+      "constitution": "C_QIXU",
+      "factor": 0.8,
+      "says": "氣虛質：寒涼之品減量，不另加"
+    },
+    {
+      "avoid": "溫燥",
+      "citation": "suwen-074-2",
+      "constitution": "C_YINXU",
+      "factor": 0.8,
+      "says": "陰虛質：溫燥之品減量，不另加"
+    },
+    {
+      "avoid": "溫燥",
+      "citation": "suwen-074-2",
+      "constitution": "C_SHIRE",
+      "factor": 0.8,
+      "says": "濕熱質：溫燥之品減量，不另加"
+    },
+    {
+      "avoid": "滋膩",
+      "citation": "suwen-074-14",
+      "constitution": "C_TANSHI",
+      "factor": 0.8,
+      "says": "痰濕質：滋膩之品減量，不另加"
+    },
+    {
+      "avoid": "補",
+      "citation": "suwen-070-5",
+      "constitution": "C_TEBING",
+      "factor": 1.0,
+      "says": "特稟質：不另加補益之品"
+    }
+  ],
+  "general": {
+    "citation": "suwen-012-2",
+    "says": "治所以異而病皆愈者，得病之情，知治之大體也"
+  },
+  "heat_demand": 0.5,
+  "region": {
+    "citation": "suwen-070-6",
+    "rules": [],
+    "says": "西北之氣散而寒之，東南之氣收而溫之 — off until a region pack states a rule"
+  },
+  "round_g": 0.5,
+  "season": [
+    {
+      "element": "木",
+      "factor": 0.9,
+      "says": "用溫遠溫 (春)",
+      "temperature_at_least": 0.5
+    },
+    {
+      "element": "火",
+      "factor": 0.85,
+      "says": "用熱遠熱 (夏)",
+      "temperature_at_least": 1.0
+    },
+    {
+      "element": "金",
+      "factor": 0.9,
+      "says": "用涼遠涼 (秋)",
+      "temperature_at_most": -1.0
+    },
+    {
+      "element": "水",
+      "factor": 0.85,
+      "says": "用寒遠寒 (冬)",
+      "temperature_at_most": -1.0
+    }
+  ],
+  "season_citation": "suwen-071-3",
+  "season_spares_jun": true,
+  "severity": {
+    "citation": "suwen-070-5",
+    "light": 0.8,
+    "says": "能毒者以厚藥，不勝毒者以薄藥 — a lighter deviation, a lighter prescription",
+    "standard": 1.0,
+    "strong": 1.2
+  }
+}

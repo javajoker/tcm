@@ -102,6 +102,32 @@ class ProcessingAndBands(unittest.TestCase):
         self.assertGreater(p["bands"]["large_above"], 1)
 
 
+class Sanyin(unittest.TestCase):
+    def test_each_adaptation_rests_on_a_verified_passage(self):
+        sy = load("treatment/sanyin.json")
+        cites = {c["id"]: c for c in load("citations.json")["items"]}
+        for cid in (sy["severity"]["citation"], sy["age"]["citation"], sy["season_citation"], sy["region"]["citation"], sy["general"]["citation"]):
+            self.assertTrue(cites[cid]["verified"], cid)
+        self.assertIn("用寒遠寒", cites[sy["season_citation"]]["quote_zh_hant"])
+        self.assertIn("能毒者以厚藥", cites[sy["severity"]["citation"]]["quote_zh_hant"])
+
+    def test_the_four_seasons_of_the_rule_and_none_for_the_long_summer(self):
+        sy = load("treatment/sanyin.json")
+        self.assertEqual(sorted(s["element"] for s in sy["season"]), sorted(["木", "火", "金", "水"]))
+        self.assertTrue(sy["season_spares_jun"])
+
+    def test_no_factor_raises_an_amount_except_severity(self):
+        sy = load("treatment/sanyin.json")
+        self.assertTrue(all(c["factor"] <= 1 for c in sy["constitution"]) and all(s["factor"] <= 1 for s in sy["season"]))
+        self.assertEqual(sy["region"]["rules"], [], "因地 is off until a region pack states a rule")
+
+    def test_the_directions_of_the_patterns(self):
+        m = {x["pattern"]: x for x in load("treatment/mechanisms.json")["items"]}
+        self.assertEqual(m["SP3"]["direction"], "升")
+        self.assertEqual(m["LG1"]["direction"], "收")
+        self.assertTrue(all(x["sign"] == (1 if x["direction"] in ("升", "宣") else -1) for x in m.values()))
+
+
 class Corruptions(unittest.TestCase):
     def assertReported(self, mutations: dict, fragment: str, check_sources: bool = False):
         problems = validate_with(mutations, check_sources=check_sources)
@@ -124,6 +150,12 @@ class Corruptions(unittest.TestCase):
 
     def test_a_dose_band_with_an_invalid_target(self):
         self.assertReported({"herbs/dose-bands.json": lambda d: d["items"][0]["large"].update(effects_add={"nowhere.qi": 1})}, "nowhere.qi")   # the schema rejects it first
+
+    def test_a_constitution_factor_that_raises(self):
+        self.assertReported({"treatment/sanyin.json": lambda d: d["constitution"][0].update(factor=1.3)}, "a factor that raises")
+
+    def test_a_mechanism_with_the_wrong_sign(self):
+        self.assertReported({"treatment/mechanisms.json": lambda d: d["items"][0].update(sign=-1)}, "has the sign")
 
     def test_bands_on_the_wrong_side_of_the_typical_dose(self):
         self.assertReported({"treatment/prescription.json": lambda d: d["params"]["bands"].update(small_below=1.2)}, "dose bands must lie on each side")

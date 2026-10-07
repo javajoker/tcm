@@ -1,11 +1,11 @@
 {
   "_meta": {
-    "count": 150,
+    "count": 155,
     "description": "Registry of quotations cited by the SOP and knowledge base. Every quote is checked against the source text.",
     "note": "shanghan-NNN ids carry the standard Song-edition clause number; the number is not verified against the data.",
     "schema": 1,
     "unverified": [],
-    "verified": 150
+    "verified": 155
   },
   "items": [
     {
@@ -315,6 +315,16 @@
       "quote_source_zh_hans": "五色独决于明堂",
       "quote_zh_hant": "五色獨決於明堂",
       "source_path": "reference/sources/TCM-Library/raw/neijing/lingshu/lingshu_049.txt",
+      "source_repo": "TCM-Library (MIT)",
+      "verified": true
+    },
+    {
+      "book": "靈樞",
+      "chapter": "論痛",
+      "id": "lingshu-053-1",
+      "quote_source_zh_hans": "胃厚、色黑、大骨及肥骨者，皆胜毒；故其瘦而薄胃者，皆不胜毒也",
+      "quote_zh_hant": "胃厚、色黑、大骨及肥骨者，皆勝毒；故其瘦而薄胃者，皆不勝毒也",
+      "source_path": "reference/sources/TCM-Library/raw/neijing/lingshu/lingshu_053.txt",
       "source_repo": "TCM-Library (MIT)",
       "verified": true
     },
@@ -986,6 +996,16 @@
     },
     {
       "book": "素問",
+      "chapter": "異法方宜論",
+      "id": "suwen-012-2",
+      "quote_source_zh_hans": "圣人杂合以治，各得其所宜。故治所以异而病皆愈者，得病之情，知治之大体也",
+      "quote_zh_hant": "聖人雜合以治，各得其所宜。故治所以異而病皆愈者，得病之情，知治之大體也",
+      "source_path": "reference/sources/TCM-Library/raw/neijing/suwen/suwen_012.txt",
+      "source_repo": "TCM-Library (MIT)",
+      "verified": true
+    },
+    {
+      "book": "素問",
       "chapter": "移精變氣論",
       "id": "suwen-013-1",
       "quote_source_zh_hans": "得神者昌，失神者亡",
@@ -1336,6 +1356,26 @@
     },
     {
       "book": "素問",
+      "chapter": "五常政大論",
+      "id": "suwen-070-5",
+      "quote_source_zh_hans": "能毒者以厚药，不胜毒者以薄药",
+      "quote_zh_hant": "能毒者以厚藥，不勝毒者以薄藥",
+      "source_path": "reference/sources/TCM-Library/raw/neijing/suwen/suwen_070.txt",
+      "source_repo": "TCM-Library (MIT)",
+      "verified": true
+    },
+    {
+      "book": "素問",
+      "chapter": "五常政大論",
+      "id": "suwen-070-6",
+      "quote_source_zh_hans": "西北之气散而寒之，东南之气收而温之，所谓同病异治也",
+      "quote_zh_hant": "西北之氣散而寒之，東南之氣收而溫之，所謂同病異治也",
+      "source_path": "reference/sources/TCM-Library/raw/neijing/suwen/suwen_070.txt",
+      "source_repo": "TCM-Library (MIT)",
+      "verified": true
+    },
+    {
+      "book": "素問",
       "chapter": "六元正紀大論",
       "id": "suwen-071-1",
       "quote_source_zh_hans": "有故无殒，亦无殒也",
@@ -1350,6 +1390,16 @@
       "id": "suwen-071-2",
       "quote_source_zh_hans": "木郁达之",
       "quote_zh_hant": "木鬱達之",
+      "source_path": "reference/sources/TCM-Library/raw/neijing/suwen/suwen_071.txt",
+      "source_repo": "TCM-Library (MIT)",
+      "verified": true
+    },
+    {
+      "book": "素問",
+      "chapter": "六元正紀大論",
+      "id": "suwen-071-3",
+      "quote_source_zh_hans": "用寒远寒，用凉远凉，用温远温，用热远热，食宜同法",
+      "quote_zh_hant": "用寒遠寒，用涼遠涼，用溫遠溫，用熱遠熱，食宜同法",
       "source_path": "reference/sources/TCM-Library/raw/neijing/suwen/suwen_071.txt",
       "source_repo": "TCM-Library (MIT)",
       "verified": true

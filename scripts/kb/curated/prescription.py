@@ -92,6 +92,43 @@ MECHANISMS = [
 ]
 DIRECTION_SIGN = {"宣": 1, "升": 1, "降": -1, "收": -1}
 
+# ── 三因制宜 (§6) ─────────────────────────────────────────────────────────────
+# The factors of a personalised prescription: each names what it says and the passage it rests on. Natures: 寒涼 (signed warmth ≤ −1),
+# 溫熱 (≥ 1), 溫 (≥ 0.5), 溫燥 (warm and drying), 滋膩 (滋膩 tag, or moistening and tonifying), 補 (tonifying).
+SANYIN = {
+    "severity": {"light": 0.8, "standard": 1.0, "strong": 1.2, "says": "能毒者以厚藥，不勝毒者以薄藥 — a lighter deviation, a lighter prescription", "citation": "suwen-070-5"},
+    "age": {
+        "minors": [
+            {"label": "新生兒", "below_years": 0.0833, "fraction": "1/6"},
+            {"label": "乳兒", "below_years": 1, "fraction": "1/3"},
+            {"label": "幼兒", "below_years": 7, "fraction": "1/2"},
+            {"label": "學齡兒童", "below_years": 14, "fraction": "2/3"},
+        ],
+        "elderly_from_years": 65, "elderly_fraction": "2/3",
+        "says": "人之勝毒 differs by body; the fractions are the textbook rules of thumb of the safety rules' dose references (unverified)", "citation": "lingshu-053-1",
+    },
+    "constitution": [
+        {"constitution": "C_YANGXU", "avoid": "寒涼", "factor": 0.8, "says": "陽虛質：寒涼之品減量，不另加", "citation": "suwen-074-2"},
+        {"constitution": "C_QIXU", "avoid": "寒涼", "factor": 0.8, "says": "氣虛質：寒涼之品減量，不另加", "citation": "suwen-074-2"},
+        {"constitution": "C_YINXU", "avoid": "溫燥", "factor": 0.8, "says": "陰虛質：溫燥之品減量，不另加", "citation": "suwen-074-2"},
+        {"constitution": "C_SHIRE", "avoid": "溫燥", "factor": 0.8, "says": "濕熱質：溫燥之品減量，不另加", "citation": "suwen-074-2"},
+        {"constitution": "C_TANSHI", "avoid": "滋膩", "factor": 0.8, "says": "痰濕質：滋膩之品減量，不另加", "citation": "suwen-074-14"},
+        {"constitution": "C_TEBING", "avoid": "補", "factor": 1.0, "says": "特稟質：不另加補益之品", "citation": "suwen-070-5"},
+    ],
+    "heat_demand": 0.5,       # a 寒涼 herb may still be added for 陽虛質 or 氣虛質 when the remaining heat (liuxie.火) is above this — and it is said
+    "season": [
+        {"element": "木", "says": "用溫遠溫 (春)", "temperature_at_least": 0.5, "factor": 0.9},
+        {"element": "火", "says": "用熱遠熱 (夏)", "temperature_at_least": 1.0, "factor": 0.85},
+        {"element": "金", "says": "用涼遠涼 (秋)", "temperature_at_most": -1.0, "factor": 0.9},
+        {"element": "水", "says": "用寒遠寒 (冬)", "temperature_at_most": -1.0, "factor": 0.85},
+    ],
+    "season_citation": "suwen-071-3",
+    "season_spares_jun": True,    # 有假者反常: the 君 keeps its amount whatever the season — the disease decides it
+    "region": {"rules": [], "says": "西北之氣散而寒之，東南之氣收而溫之 — off until a region pack states a rule", "citation": "suwen-070-6"},
+    "general": {"says": "治所以異而病皆愈者，得病之情，知治之大體也", "citation": "suwen-012-2"},
+    "round_g": 0.5,
+}
+
 # ── 炮製 ───────────────────────────────────────────────────────────────────
 # 《本草蒙筌·總論·製造資水火》: 酒製升提，薑製發散。入鹽走腎臟，仍使軟堅；用醋注肝經，且資住痛。童便製，除劣性降下；米泔製，去燥性和中。
 # 乳製滋潤回枯，助生陰血；蜜製甘緩難化，增益元陽。陳壁土製，竊真氣驟補中焦；麥麩皮製，抑酷性勿傷上膈。烏豆湯，甘草湯漬曝，並解毒致令平和。

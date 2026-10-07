@@ -1,0 +1,404 @@
+{
+  "$defs": {
+    "bilingual": {
+      "additionalProperties": false,
+      "properties": {
+        "en": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "zh-Hant": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "en",
+        "zh-Hant"
+      ],
+      "type": "object"
+    },
+    "bilingualNamed": {
+      "additionalProperties": false,
+      "properties": {
+        "en": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "zh-Hant": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "en",
+        "zh-Hant"
+      ],
+      "type": "object"
+    },
+    "citationId": {
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+      "type": "string"
+    },
+    "constitutionId": {
+      "pattern": "^C_[A-Z]+$",
+      "type": "string"
+    },
+    "element": {
+      "enum": [
+        "木",
+        "火",
+        "土",
+        "金",
+        "水"
+      ]
+    },
+    "elementId": {
+      "pattern": "^PE_.+$",
+      "type": "string"
+    },
+    "enStatus": {
+      "enum": [
+        "machine-draft",
+        "reviewed"
+      ]
+    },
+    "evil": {
+      "enum": [
+        "風",
+        "寒",
+        "暑",
+        "濕",
+        "燥",
+        "火"
+      ]
+    },
+    "formulaId": {
+      "pattern": "^F_[A-Z0-9_]+$",
+      "type": "string"
+    },
+    "herbId": {
+      "pattern": "^herb-[a-z0-9_]+$",
+      "type": "string"
+    },
+    "level": {
+      "enum": [
+        "L0",
+        "L1",
+        "L2",
+        "L3"
+      ]
+    },
+    "moduleId": {
+      "enum": [
+        "sleep",
+        "fatigue",
+        "digestion",
+        "cold-heat-sweat",
+        "head-body-pain",
+        "mood-stress",
+        "womens-cycle",
+        "early-external"
+      ]
+    },
+    "notice": {
+      "enum": [
+        "none",
+        "inline",
+        "blocking_ack"
+      ]
+    },
+    "panelDim": {
+      "pattern": "^((肝|心|脾|肺|腎|膽|小腸|胃|大腸|膀胱)\\.(qi|blood|yin|yang|stasis)|liuxie\\.(風|寒|暑|濕|燥|火)|product\\.(痰|飲|瘀|食積)|bagang\\.exterior)$",
+      "type": "string"
+    },
+    "panelMap": {
+      "additionalProperties": {
+        "type": "number"
+      },
+      "propertyNames": {
+        "$ref": "#/$defs/panelDim"
+      },
+      "type": "object"
+    },
+    "patternId": {
+      "pattern": "^(EX|SP|LV|HT|LG|KD|QB)[0-9]$",
+      "type": "string"
+    },
+    "questionId": {
+      "pattern": "^Q_[A-Z_]+$",
+      "type": "string"
+    },
+    "redFlagId": {
+      "pattern": "^RF_[ABC]_[A-Z_]+$",
+      "type": "string"
+    },
+    "reviewStatus": {
+      "enum": [
+        "derived",
+        "curated-draft",
+        "draft",
+        "reviewed"
+      ]
+    },
+    "ruleId": {
+      "pattern": "^R_[A-Z_]+$",
+      "type": "string"
+    },
+    "symptomId": {
+      "pattern": "^[STP]_[A-Z0-9_]+$",
+      "type": "string"
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "_meta": {
+      "additionalProperties": true,
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "design": {
+          "type": "string"
+        },
+        "schema": {
+          "type": "integer"
+        },
+        "status": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "description",
+        "design",
+        "schema",
+        "status"
+      ],
+      "type": "object"
+    },
+    "age": {
+      "additionalProperties": false,
+      "properties": {
+        "citation": {
+          "$ref": "#/$defs/citationId"
+        },
+        "elderly_fraction": {
+          "pattern": "^[0-9]+/[0-9]+$",
+          "type": "string"
+        },
+        "elderly_from_years": {
+          "type": "number"
+        },
+        "minors": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "below_years": {
+                "type": "number"
+              },
+              "fraction": {
+                "pattern": "^[0-9]+/[0-9]+$",
+                "type": "string"
+              },
+              "label": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "below_years",
+              "fraction",
+              "label"
+            ],
+            "type": "object"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "says": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "citation",
+        "elderly_fraction",
+        "elderly_from_years",
+        "minors",
+        "says"
+      ],
+      "type": "object"
+    },
+    "constitution": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "avoid": {
+            "enum": [
+              "寒涼",
+              "溫熱",
+              "溫",
+              "溫燥",
+              "滋膩",
+              "補"
+            ]
+          },
+          "citation": {
+            "$ref": "#/$defs/citationId"
+          },
+          "constitution": {
+            "pattern": "^C_[A-Z]+$",
+            "type": "string"
+          },
+          "factor": {
+            "type": "number"
+          },
+          "says": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "avoid",
+          "citation",
+          "constitution",
+          "factor",
+          "says"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "general": {
+      "additionalProperties": false,
+      "properties": {
+        "citation": {
+          "$ref": "#/$defs/citationId"
+        },
+        "says": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "citation",
+        "says"
+      ],
+      "type": "object"
+    },
+    "heat_demand": {
+      "type": "number"
+    },
+    "region": {
+      "additionalProperties": false,
+      "properties": {
+        "citation": {
+          "$ref": "#/$defs/citationId"
+        },
+        "rules": {
+          "items": {
+            "additionalProperties": true,
+            "required": [],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "says": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "citation",
+        "rules",
+        "says"
+      ],
+      "type": "object"
+    },
+    "round_g": {
+      "type": "number"
+    },
+    "season": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "element": {
+            "enum": [
+              "木",
+              "火",
+              "土",
+              "金",
+              "水"
+            ]
+          },
+          "factor": {
+            "type": "number"
+          },
+          "says": {
+            "type": "string"
+          },
+          "temperature_at_least": {
+            "type": "number"
+          },
+          "temperature_at_most": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "element",
+          "factor",
+          "says"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "season_citation": {
+      "$ref": "#/$defs/citationId"
+    },
+    "season_spares_jun": {
+      "type": "boolean"
+    },
+    "severity": {
+      "additionalProperties": false,
+      "properties": {
+        "citation": {
+          "$ref": "#/$defs/citationId"
+        },
+        "light": {
+          "type": "number"
+        },
+        "says": {
+          "type": "string"
+        },
+        "standard": {
+          "type": "number"
+        },
+        "strong": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "citation",
+        "light",
+        "says",
+        "standard",
+        "strong"
+      ],
+      "type": "object"
+    }
+  },
+  "required": [
+    "_meta",
+    "age",
+    "constitution",
+    "general",
+    "heat_demand",
+    "region",
+    "round_g",
+    "season",
+    "season_citation",
+    "season_spares_jun",
+    "severity"
+  ],
+  "title": "三因制宜: the factors of a personalised prescription",
+  "type": "object"
+}

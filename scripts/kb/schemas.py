@@ -307,6 +307,21 @@ def dose_bands() -> dict:
     return envelope(item, meta({"fields": dictionary(STR)}, ["fields"]))
 
 
+def sanyin() -> dict:
+    said = {"says": STR, "citation": ref("citationId")}
+    return {"type": "object", "properties": {
+        "_meta": meta({"design": STR, "status": STR}, ["design", "status"]),
+        "severity": obj({"light": NUM, "standard": NUM, "strong": NUM, **said}),
+        "age": obj({"minors": arr(obj({"below_years": NUM, "fraction": pattern(r"^[0-9]+/[0-9]+$"), "label": STR}), 1), "elderly_from_years": NUM,
+                    "elderly_fraction": pattern(r"^[0-9]+/[0-9]+$"), **said}),
+        "constitution": arr(obj({"avoid": enum("寒涼", "溫熱", "溫", "溫燥", "滋膩", "補"), "constitution": pattern(r"^C_[A-Z]+$"), "factor": NUM, **said})),
+        "heat_demand": NUM,
+        "season": arr(obj({"element": enum("木", "火", "土", "金", "水"), "factor": NUM, "says": STR, "temperature_at_least": NUM, "temperature_at_most": NUM}, ["element", "factor", "says"])),
+        "season_citation": ref("citationId"), "season_spares_jun": BOOL,
+        "region": obj({"rules": arr(loose()), **said}), "general": obj(said), "round_g": NUM,
+    }, "required": ["_meta", "age", "constitution", "general", "heat_demand", "region", "round_g", "season", "season_citation", "season_spares_jun", "severity"], "additionalProperties": False}
+
+
 def mechanisms() -> dict:
     item = obj({"citation": ref("citationId"), "direction": enum("升", "降", "宣", "收"), "pattern": ref("patternId"), "says": STR, "sign": enum(1, -1),
                 "status": enum("curated-draft", "reviewed")})
@@ -532,6 +547,7 @@ SCHEMAS = {
     "herbs/yinjing.json": ("yinjing", yinjing, "引經報使: the herbs that lead to each channel"),
     "treatment/prescription.json": ("prescription", prescription, "Parameters of the prescription model"),
     "treatment/mechanisms.json": ("mechanisms", mechanisms, "The direction a pattern's treatment asks for"),
+    "treatment/sanyin.json": ("sanyin", sanyin, "三因制宜: the factors of a personalised prescription"),
     "formulas/formulas.json": ("formulas", formulas, "Formulas"),
     "diagnosis/symptoms.json": ("symptoms", symptoms, "Symptom registry"),
     "diagnosis/questions.json": ("questions", questions, "Question bank"),

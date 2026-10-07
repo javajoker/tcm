@@ -11,6 +11,7 @@ import re
 import sys
 from collections import Counter
 from datetime import date
+from fractions import Fraction
 from typing import Callable
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
@@ -416,6 +417,22 @@ def validate(load: Loader = load, check_sources: bool = True) -> list[str]:
             err(f"mechanism {m['pattern']}: unknown pattern or citation")
         if m["sign"] != (1 if m["direction"] in ("升", "宣") else -1):
             err(f"mechanism {m['pattern']}: {m['direction']} has the sign {m['sign']}")
+    sy = load("treatment/sanyin.json")
+    constitution_ids = {c["id"] for c in load("diagnosis/constitutions.json")["items"]}
+    said = [sy["severity"], sy["age"], sy["region"], sy["general"], *sy["constitution"]]
+    if any(x["citation"] not in cit_ids for x in said) or sy["season_citation"] not in cit_ids:
+        err("sanyin: unknown citation")
+    for c in sy["constitution"]:
+        if c["constitution"] not in constitution_ids or not 0 < c["factor"] <= 1:
+            err(f"sanyin constitution {c['constitution']}: unknown constitution, or a factor that raises")
+    bounds = [m["below_years"] for m in sy["age"]["minors"]]
+    if bounds != sorted(bounds) or bounds[-1] > 18 or any(not 0 < Fraction(m["fraction"]) < 1 for m in sy["age"]["minors"]):
+        err("sanyin age: minors' bands must rise to 18 at most, each with a fraction below 1")
+    for s in sy["season"]:
+        if not 0 < s["factor"] <= 1 or ("temperature_at_least" in s) == ("temperature_at_most" in s):
+            err(f"sanyin season {s['element']}: a factor that raises, or not exactly one temperature bound")
+    if not (0 < sy["severity"]["light"] <= sy["severity"]["standard"] <= sy["severity"]["strong"] <= 1.5):
+        err("sanyin severity: light ≤ standard ≤ strong, within (0, 1.5]")
     rx_params = load("treatment/prescription.json")["params"]
     if not 0 < rx_params["bands"]["small_below"] < 1 < rx_params["bands"]["large_above"]:
         err("prescription params: dose bands must lie on each side of the typical dose")

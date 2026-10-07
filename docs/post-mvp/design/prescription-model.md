@@ -2,8 +2,8 @@
 
 | | |
 |---|---|
-| **Version** | 0.5 (draft) |
-| **Status** | Design for Release E (FR-36 … FR-38; tasks PM-36 … PM-41). **Built: the herb property model (PM-36, §3.6); dose–response, pairings and processing (PM-37, §3.7); the formula's effect, roles and 方解 (PM-38, §4.4); the verification of the library and its first report (PM-39, §5.1)** |
+| **Version** | 0.6 (draft) |
+| **Status** | Design for Release E (FR-36 … FR-38; tasks PM-36 … PM-41). **Built: the herb property model (PM-36, §3.6); dose–response, pairings and processing (PM-37, §3.7); the formula's effect, roles and 方解 (PM-38, §4.4); the verification of the library and its first report (PM-39, §5.1); the personalised prescription (PM-40, §6.6)** |
 | **Last updated** | 2026-10-07 |
 | **Audience** | Engineers, the clinical content owner, the pharmacy reviewer, a legal adviser (for §7) |
 | **Related** | [Knowledge base v2](knowledge-base-v2.md) · [AI-assisted intake](ai-assisted-intake.md) · [Requirements FR-36 … FR-38](../requirements.md) · [Decisions PD-13 … PD-18](../decisions.md) · [Diagnosis SOP §12](../../diagnosis-sop.zh-TW.md) · [Safety policy §2](../../safety-policy.md) · [PRD G10](../../PRD.md) |
@@ -239,6 +239,20 @@ Prescription = {
 
 It is computed by a pure function from the stored result, the person's profile and the knowledge base, and **stored with the saved result** (a record-level field, like `hour`), so it is explained as it was made and the engine's own result — and its replay — is unchanged.
 
+### 6.6 As built: the personalised prescription (PM-40)
+
+`personalise` ([`prescription/personalise.ts`](../../../packages/engine/src/prescription/personalise.ts)) is a pure function of a stored assessment, the person and the knowledge base; the assessment is never changed, and it returns nothing where the bundle carries no herb records — every public build today, whose levels stop at L1 and whose modifications are off. The 三因 rules are data, **`data/treatment/sanyin.json`**, each with what it says and a verified passage: 能毒者以厚藥，不勝毒者以薄藥 (severity: light 0.8, standard 1.0, strong 1.2), 人之勝毒 (《靈樞·論痛》; the minors' fractions and the elderly's two thirds of the safety rules' dose references, unverified), the constitution rules, 用寒遠寒，用涼遠涼，用溫遠溫，用熱遠熱 (《六元正紀大論》; spring and autumn 0.9, summer and winter 0.85), 西北之氣散而寒之，東南之氣收而溫之 (因地: off until a region pack states a rule) and 治所以異而病皆愈者 (同病異治).
+
+What the build decided, beyond the sketch above:
+
+- **Removals are for the person only** — pregnancy (a herb to avoid), an allergy, a medicine a hard rule names — **never for a better fit and never the 君**: a rule that touches the 君 withholds the whole prescription and says why. A classical 加減 may remove a herb, as its book says.
+- **The constitution lowers, it does not remove:** a herb of the formula against the constitution is given at 0.8; no herb of that nature is *added*, except 寒涼 for 陽虛質 or 氣虛質 when the heat that remains is above 0.5 (and the change says so).
+- **Additions are stricter than the sketch:** never a toxic herb (whatever the level), never a herb with a pregnancy flag, never one without a Pharmacopoeia range (it could not be dosed), never one a soft rule or the 木通 identity rule names, never the processed or raw twin of a herb already present (炙甘草 beside 甘草), never a 相惡 or 相反 partner. **A herb is added for what it treats:** candidates are ranked by their benefit alone at the base composition's own scale, and must still help with their burden counted — a herb is never chosen because its burden offsets another herb's excess. An addition records the components it brings back and the 七情 it brings into play (生薑 for 當歸畏生薑 is 佐制 through 相畏).
+- **Amounts** exist only where the bundle carries them (L3): the 君 at the middle of its range (the mean when there are several 君), the others in the formula's proportions, then × severity × age × constitution × season; **the 君 keeps its amount through the season** (有假者反常 — the disease decides it); a toxic herb is never raised; an amount never exceeds the top of its range; a child's or an elder's may fall below the adult bottom, everyone else's is lifted to it; grams are rounded to 0.5 g, or to 0.01 g for a herb whose whole range is under a gram.
+- **What comes back** — the base, the changes with their rules, the composition with each amount's factors, the cautions on herbs kept (a soft interaction, a pregnancy caution, an identity to confirm), the 方解 of what is prescribed against the person's own deviation, and the engine, knowledge-base and parameter versions. Storing it with the saved result goes with the page that shows it (PM-41).
+
+Examples on the typical patients: 參苓白朮散 for 脾氣虛 gains 大棗; at seventy every amount is two thirds; 歸脾湯 for someone on anticoagulants loses 人參 and 當歸 (named by the hard rule) and gains 大棗 and 柏子仁 for the heart's blood; 補中益氣湯 in pregnancy keeps 當歸 with a caution and adds nothing flagged. Tests: eight, among them a property over every pattern's typical patient and random people (age, pregnancy, an allergy, a medicine, a constitution, a season — 600 cases in the extended run): nothing the person must not take, no amount above its range, at most three additions, each through its benefit or a pairing, and the same answer twice.
+
 ## 7. What a person sees: the gate
 
 The output levels of the safety policy decide, as today:
@@ -305,3 +319,4 @@ PM-36 (herb property model v2), PM-37 (dose–response, pairings, processing in 
 | 0.3 | 2026-10-07 | §3.7: dose–response, dose bands, processing and pairings as built (PM-37) |
 | 0.4 | 2026-10-07 | §4.4: the formula's effect, the herbs' exact shares, the roles measured and the 方解 as built (PM-38) |
 | 0.5 | 2026-10-07 | §5.1: the verification as built and its first report (PM-39); pattern directions in `data/treatment/mechanisms.json` |
+| 0.6 | 2026-10-07 | §6.6: the personalised prescription as built (PM-40); the 三因 rules in `data/treatment/sanyin.json` |
