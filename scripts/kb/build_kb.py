@@ -2,13 +2,13 @@
 
     .venv/bin/python -m scripts.kb.build_kb
 
-Order matters: params → citations → herbs → formulas → wuxing correspondences → diagnosis → policy → emergency → name fold → geo → questions → exclusions → orientation → admission → sources registry (reads all of the above) → review records → schemas → validation → pattern self-test.
+Order matters: params → citations → herbs → formulas → prescription tables (pairings, processing, dose bands) → wuxing correspondences → diagnosis → policy → emergency → name fold → geo → questions → exclusions → orientation → admission → sources registry (reads all of the above) → review records → schemas → validation → pattern self-test.
 """
 from __future__ import annotations
 
 import sys
 
-from . import build_admission, build_citations, build_sources, build_constitution_items, build_diagnosis, build_emergency, build_exclusions, build_formulas, build_geo, build_herbs, build_name_fold, build_orientation, build_params, build_policy, build_questions, build_review, build_schemas, build_wuxing, selftest_patterns, validate_kb
+from . import build_admission, build_citations, build_prescription, build_sources, build_constitution_items, build_diagnosis, build_emergency, build_exclusions, build_formulas, build_geo, build_herbs, build_name_fold, build_orientation, build_params, build_policy, build_questions, build_review, build_schemas, build_wuxing, selftest_patterns, validate_kb
 
 
 def main() -> int:
@@ -16,6 +16,7 @@ def main() -> int:
     build_citations.main()
     build_herbs.main()
     build_formulas.main()
+    build_prescription.main()
     build_wuxing.main()
     build_diagnosis.main()
     build_policy.main()

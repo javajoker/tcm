@@ -99,6 +99,9 @@ SOURCES: list[dict] = [
     src("bencaojing-jie", "本草經解", ["materia-medica"], book="020", use="Properties explained by 氣 and 味"),
     src("bencao-mengquan", "本草蒙筌", ["materia-medica"], book="012", use="Properties; processing"),
     src("shiliao-bencao", "食療本草", ["materia-medica", "prevention"], book="004", use="Foods as medicine"),
+    src("bencao-xinbian", "本草新編", ["materia-medica"], book="017", use="量效: how the action of 葛根 and 人參 changes with the amount (PM-37)"),
+    src("benjing-fengyuan", "本經逢原", ["materia-medica"], book="019", use="量效: 蘇木 少用和血、多用破血 (PM-37)"),
+    src("waike-quansheng", "外科全生集", ["materia-medica", "formulas"], book="239", use="量效: 紅花 少用通經活血、多用破血 (PM-37)"),
     # ── formulas ────────────────────────────────────────────────────────────────────────────────────────────────
     src("qianjin-yaofang", "備急千金要方", ["formulas", "prevention"], book="532", use="Tang formulas; 食治"),
     src("qianjin-yifang", "千金翼方", ["formulas"], book="051", use="Tang formulas"),
@@ -145,7 +148,7 @@ SOURCES: list[dict] = [
     src("ccma-constitution-2009", "中醫體質分類與判定（ZYYXH/T157-2009）", ["prevention", "diagnosis"], kind="standard", author="中華中醫藥學會", era="2009",
         markers=("ZYYXH/T157-2009",), use="The nine constitutions; the questionnaire is the project's own (the standard's items are not copied)"),
     src("textbooks", "全國中醫藥行業高等教育規劃教材（中醫基礎理論、中醫診斷學、中藥學、方劑學、中醫內科學）", ["theory", "diagnosis", "materia-medica", "formulas", "treatment"],
-        kind="textbook", author="國家中醫藥管理局規劃", era="current editions",
+        kind="textbook", author="國家中醫藥管理局規劃", era="current editions", names=("教材",),
         use="The standard teaching statements a reviewer checks against (dose bands, 三因制宜); copyrighted: cited, never copied"),
     src("zhonghua-bencao", "中華本草", ["materia-medica"], kind="textbook", author="國家中醫藥管理局《中華本草》編委會", era="1999",
         use="Comprehensive herb reference for reviewers; copyrighted"),

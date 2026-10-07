@@ -1,0 +1,250 @@
+{
+  "_meta": {
+    "description": "炮製: what each method does to a herb, read from 《本草蒙筌·總論·製造資水火》 (one method is a textbook statement, unverified). `words` are the forms a formula's processing note may take; `cleaning` are words with no effect on the action.",
+    "modifiers": {
+      "bu_xie": "replaces 補瀉",
+      "direction": "added to the herb's 升降浮沉",
+      "harms_scale": "multiplies the burden",
+      "run_zao": "replaces 潤燥",
+      "temperature": "added to the signed warmth",
+      "tropism": "added to the named channels' shares, then renormalised"
+    },
+    "schema": 1
+  },
+  "cleaning": [
+    "去皮",
+    "去節",
+    "湯去皮尖",
+    "去皮尖",
+    "洗",
+    "湯洗",
+    "切",
+    "擘",
+    "掰",
+    "碎",
+    "綿裹"
+  ],
+  "methods": [
+    {
+      "citation": "bencao-mengquan-zhizao-1",
+      "id": "jiu",
+      "modifiers": {
+        "direction": 0.3
+      },
+      "name": "酒製",
+      "says": "酒製升提",
+      "status": "curated-draft",
+      "words": [
+        "酒製",
+        "酒炙",
+        "酒洗",
+        "酒浸",
+        "酒炒",
+        "酒蒸",
+        "酒洒"
+      ]
+    },
+    {
+      "citation": "bencao-mengquan-zhizao-1",
+      "id": "jiang",
+      "modifiers": {
+        "direction": 0.2
+      },
+      "name": "薑製",
+      "says": "薑製發散",
+      "status": "curated-draft",
+      "words": [
+        "薑製",
+        "薑汁炙",
+        "薑汁炒",
+        "薑炙"
+      ]
+    },
+    {
+      "citation": "bencao-mengquan-zhizao-1",
+      "id": "yan",
+      "modifiers": {
+        "direction": -0.2,
+        "tropism": {
+          "腎": 0.3
+        }
+      },
+      "name": "鹽製",
+      "says": "入鹽走腎臟，仍使軟堅",
+      "status": "curated-draft",
+      "words": [
+        "鹽製",
+        "鹽炙",
+        "鹽水炒",
+        "鹽炒"
+      ]
+    },
+    {
+      "citation": "bencao-mengquan-zhizao-1",
+      "id": "cu",
+      "modifiers": {
+        "tropism": {
+          "肝": 0.3
+        }
+      },
+      "name": "醋製",
+      "says": "用醋注肝經，且資住痛",
+      "status": "curated-draft",
+      "words": [
+        "醋製",
+        "醋炙",
+        "醋炒",
+        "醋煮"
+      ]
+    },
+    {
+      "citation": "bencao-mengquan-zhizao-1",
+      "id": "tongbian",
+      "modifiers": {
+        "direction": -0.3,
+        "harms_scale": 0.8
+      },
+      "name": "童便製",
+      "says": "童便製，除劣性降下",
+      "status": "curated-draft",
+      "words": [
+        "童便製",
+        "童便浸"
+      ]
+    },
+    {
+      "citation": "bencao-mengquan-zhizao-1",
+      "id": "migan",
+      "modifiers": {
+        "run_zao": "平",
+        "tropism": {
+          "脾": 0.1
+        }
+      },
+      "name": "米泔製",
+      "says": "米泔製，去燥性和中",
+      "status": "curated-draft",
+      "words": [
+        "米泔製",
+        "米泔浸"
+      ]
+    },
+    {
+      "citation": "bencao-mengquan-zhizao-1",
+      "id": "ru",
+      "modifiers": {
+        "run_zao": "潤"
+      },
+      "name": "乳製",
+      "says": "乳製滋潤回枯，助生陰血",
+      "status": "curated-draft",
+      "words": [
+        "乳製",
+        "乳拌"
+      ]
+    },
+    {
+      "citation": "bencao-mengquan-zhizao-1",
+      "id": "mi",
+      "modifiers": {
+        "bu_xie": "補",
+        "harms_scale": 0.8,
+        "run_zao": "潤"
+      },
+      "name": "蜜製",
+      "says": "蜜製甘緩難化，增益元陽",
+      "status": "curated-draft",
+      "words": [
+        "蜜製",
+        "蜜炙"
+      ]
+    },
+    {
+      "citation": "bencao-mengquan-zhizao-1",
+      "id": "tu",
+      "modifiers": {
+        "bu_xie": "補",
+        "tropism": {
+          "脾": 0.3
+        }
+      },
+      "name": "土製",
+      "says": "陳壁土製，竊真氣驟補中焦",
+      "status": "curated-draft",
+      "words": [
+        "土製",
+        "土炒",
+        "陳壁土炒"
+      ]
+    },
+    {
+      "citation": "bencao-mengquan-zhizao-1",
+      "id": "fu",
+      "modifiers": {
+        "harms_scale": 0.8
+      },
+      "name": "麩製",
+      "says": "麥麩皮製，抑酷性勿傷上膈",
+      "status": "curated-draft",
+      "words": [
+        "麩製",
+        "麩炒"
+      ]
+    },
+    {
+      "citation": "bencao-mengquan-zhizao-1",
+      "id": "jiedu",
+      "modifiers": {
+        "harms_scale": 0.6
+      },
+      "name": "甘草湯、烏豆湯漬",
+      "says": "烏豆湯，甘草湯漬曝，並解毒致令平和",
+      "status": "curated-draft",
+      "words": [
+        "甘草湯漬",
+        "甘草湯浸",
+        "烏豆湯漬",
+        "黑豆汁製"
+      ]
+    },
+    {
+      "citation": "bencao-mengquan-zhizao-2",
+      "id": "quran",
+      "modifiers": {
+        "harms_scale": 0.9
+      },
+      "name": "去瓤",
+      "says": "剜去瓤免脹",
+      "status": "curated-draft",
+      "words": [
+        "去瓤"
+      ]
+    },
+    {
+      "citation": "bencao-mengquan-zhizao-2",
+      "id": "quxin",
+      "modifiers": {
+        "harms_scale": 0.9
+      },
+      "name": "去心",
+      "says": "抽去心除煩",
+      "status": "curated-draft",
+      "words": [
+        "去心"
+      ]
+    },
+    {
+      "citation": null,
+      "id": "wei",
+      "modifiers": {
+        "direction": -0.2
+      },
+      "name": "煨",
+      "says": "煨後辛散減而溫中和胃增 (textbook statement, unverified)",
+      "status": "curated-draft",
+      "words": [
+        "煨"
+      ]
+    }
+  ]
+}

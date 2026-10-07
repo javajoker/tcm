@@ -1,0 +1,22 @@
+{
+  "_meta": {
+    "description": "Parameters of the prescription model ([calibrate]): the dose–response of a herb, the pairings and the dose bands.",
+    "design": "docs/post-mvp/design/prescription-model.md §3.3, §4.1",
+    "schema": 1
+  },
+  "params": {
+    "bands": {
+      "large_above": 1.25,
+      "small_below": 0.75
+    },
+    "dose": {
+      "gamma": 1.5,
+      "kappa": 1.0,
+      "reference": "the middle of the Pharmacopoeia range (dose_g_reference)"
+    },
+    "pairs": {
+      "sigma": 0.2,
+      "tau": 0.5
+    }
+  }
+}

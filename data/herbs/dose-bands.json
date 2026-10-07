@@ -1,0 +1,103 @@
+{
+  "_meta": {
+    "description": "量效: herbs whose action changes with the amount, each from a verified passage. `small` applies below bands.small_below of the typical dose and `large` above bands.large_above (data/treatment/prescription.json).",
+    "fields": {
+      "direction": "replaces the herb's 升降浮沉",
+      "effects_add": "added to the effects",
+      "effects_scale": "multiplies the named effects",
+      "harms_add": "added to the harms",
+      "tropism": "added to the channels' shares, then renormalised"
+    },
+    "schema": 1
+  },
+  "items": [
+    {
+      "citation": "bencao-xinbian-gegen-1",
+      "herb": "herb-gegen",
+      "large": {
+        "direction": -0.3,
+        "effects_add": {
+          "liuxie.火": -0.2
+        }
+      },
+      "name": "葛根",
+      "says": "少用則浮而外散，多用則沉而內降",
+      "small": {
+        "direction": 0.6,
+        "effects_add": {
+          "bagang.exterior": -0.2
+        }
+      },
+      "status": "curated-draft"
+    },
+    {
+      "citation": "waike-quansheng-honghua-1",
+      "herb": "herb-honghua",
+      "large": {
+        "effects_scale": {
+          "product.瘀": 1.5
+        },
+        "harms_add": {
+          "肝.blood": -0.2
+        }
+      },
+      "name": "紅花",
+      "says": "少用通經活血，多用破血",
+      "small": {},
+      "status": "curated-draft"
+    },
+    {
+      "citation": "bencao-xinbian-renshen-1",
+      "herb": "herb-renshen",
+      "large": {
+        "direction": -0.2,
+        "tropism": {
+          "肝": 0.1,
+          "腎": 0.15
+        }
+      },
+      "name": "人參",
+      "says": "少用則泛上，多用則沉下",
+      "small": {
+        "direction": 0.3
+      },
+      "status": "curated-draft"
+    },
+    {
+      "citation": "depei-bencao-shengma-1",
+      "herb": "herb-shengma",
+      "large": {
+        "direction": 0.4,
+        "effects_add": {
+          "bagang.exterior": -0.2
+        }
+      },
+      "name": "升麻",
+      "says": "多用則散，少用則升",
+      "small": {
+        "direction": 0.9
+      },
+      "status": "curated-draft"
+    },
+    {
+      "citation": "benjing-fengyuan-sumu-1",
+      "herb": "herb-sumu",
+      "large": {
+        "effects_scale": {
+          "product.瘀": 1.5
+        },
+        "harms_add": {
+          "肝.blood": -0.2
+        }
+      },
+      "name": "蘇木",
+      "says": "少用則和血，多用則破血",
+      "small": {
+        "effects_add": {
+          "肝.blood": 0.1
+        }
+      },
+      "status": "curated-draft"
+    }
+  ]
+}

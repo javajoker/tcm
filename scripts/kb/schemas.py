@@ -279,6 +279,35 @@ def herbs() -> dict:
     return envelope(item, meta({"conventions": loose(), "count": INT, "licence_note": STR, "status_counts": dictionary(INT)}, ["conventions", "count", "licence_note", "status_counts"]))
 
 
+def pairings() -> dict:
+    source = obj({"book": STR, "chapter": STR, "entry_zh_hans": STR, "note": STR, "path": STR}, ["book", "chapter"])
+    item = obj({"herb": ref("herbId"), "id": pattern(r"^[a-z0-9]+\.(xu|shi|wei|wu|fan)\.[a-z0-9]+$"), "other": ref("herbId"), "says": STR, "source": source,
+                "status": enum("derived", "curated-draft", "reviewed"), "type": enum("相須", "相使", "相畏", "相惡", "相反")})
+    return envelope(item, meta({"citations": arr(ref("citationId")), "count": INT, "entries_read": INT, "names_not_in_the_knowledge_base": INT, "type_counts": dictionary(INT),
+                                "types": dictionary(STR)}, ["citations", "count", "entries_read", "type_counts", "types"]))
+
+
+def processing() -> dict:
+    modifiers = obj({"bu_xie": enum("補", "瀉", "平"), "direction": NUM, "harms_scale": NUM, "run_zao": enum("潤", "燥", "平"), "temperature": NUM, "tropism": dictionary(NUM)}, [])
+    method = obj({"citation": {"oneOf": [{"type": "null"}, ref("citationId")]}, "id": pattern(r"^[a-z]+$"), "modifiers": modifiers, "name": STR, "says": STR,
+                  "status": enum("curated-draft", "reviewed"), "words": arr(STR, 1)})
+    return {"type": "object", "properties": {"_meta": meta({"modifiers": dictionary(STR)}, ["modifiers"]), "cleaning": arr(STR), "methods": arr(method, 1)},
+            "required": ["_meta", "cleaning", "methods"], "additionalProperties": False}
+
+
+def dose_bands() -> dict:
+    band = obj({"direction": NUM, "effects_add": ref("panelMap"), "effects_scale": ref("panelMap"), "harms_add": ref("panelMap"), "tropism": dictionary(NUM)}, [])
+    item = obj({"citation": ref("citationId"), "herb": ref("herbId"), "large": band, "name": STR, "says": STR, "small": band, "status": enum("curated-draft", "reviewed")})
+    return envelope(item, meta({"fields": dictionary(STR)}, ["fields"]))
+
+
+def prescription() -> dict:
+    params = obj({
+        "bands": obj({"large_above": NUM, "small_below": NUM}), "dose": obj({"gamma": NUM, "kappa": NUM, "reference": STR}), "pairs": obj({"sigma": NUM, "tau": NUM}),
+    })
+    return {"type": "object", "properties": {"_meta": meta({"design": STR}, ["design"]), "params": params}, "required": ["_meta", "params"], "additionalProperties": False}
+
+
 def herb_index() -> dict:
     return {"type": "object", "properties": {"_meta": meta(), "index": dictionary(ref("herbId"), min_props=1)}, "required": ["_meta", "index"], "additionalProperties": False}
 
@@ -483,6 +512,10 @@ SCHEMAS = {
     "geo/cities.json": ("cities", cities, "Cities for the birth-place picker"),
     "herbs/herbs.json": ("herbs", herbs, "Herbs"),
     "herbs/herb-index.json": ("herb-index", herb_index, "Herb name index"),
+    "herbs/pairings.json": ("pairings", pairings, "七情 pairings between herbs"),
+    "herbs/processing.json": ("processing", processing, "Processing (炮製) methods"),
+    "herbs/dose-bands.json": ("dose-bands", dose_bands, "Dose bands (量效)"),
+    "treatment/prescription.json": ("prescription", prescription, "Parameters of the prescription model"),
     "formulas/formulas.json": ("formulas", formulas, "Formulas"),
     "diagnosis/symptoms.json": ("symptoms", symptoms, "Symptom registry"),
     "diagnosis/questions.json": ("questions", questions, "Question bank"),

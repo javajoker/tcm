@@ -236,6 +236,17 @@ The panel model: `organs.{zang, fu, element_of}`, `channels` (ranges), `liuxie` 
 `composition[]` item: `{ herb, name, role (君|臣|佐|使), role_weight (1.0|0.6|0.35|0.15), proportion, effective_weight, typical_g, classical_amount?, note? }`.
 Invariants: proportions sum to 1; **effective weights** (`proportion × role_weight`, renormalised) sum to 1; at least one 君 herb; every herb exists.
 
+### 4.3 The prescription model's tables (PM-37)
+
+Built by `build_prescription.py` from `curated/prescription.py`; read by the engine's `prescription/herbs.ts` ([prescription model §3.3–§3.5, §4.1](post-mvp/design/prescription-model.md)). Not bundled yet: the app reads them when the prescription is shown (PM-40, PM-41).
+
+| File | Records | Shape |
+|---|---:|---|
+| `herbs/pairings.json` | 249 | 七情 `{ id (herb.xu\|shi\|wei\|wu\|fan.other), herb, other, type (相須 相使 相畏 相惡 相反), says, source, status }`. `相使`: `other` strengthens `herb`; `相畏`: `other` restrains `herb`'s harm (相殺 seen from the other side); `相惡`: `other` takes away from `herb`'s effect; `相反`: never computed. **Derived** pairings are read from 《本草綱目·序例下》「相須相使相畏相惡諸藥」 and keep the entry (`source.entry_zh_hans`, checked against the book); the 11 相須 are textbook examples, `curated-draft`, unverified. Names the knowledge base lacks, or that are ambiguous (术), are skipped, never guessed |
+| `herbs/processing.json` | 14 methods | `{ id, name, words[] (the forms a formula's note may take), says, modifiers { direction?, tropism?, run_zao?, bu_xie?, harms_scale?, temperature? }, citation, status }` and `cleaning[]` (words with no effect: 去皮, 去節 …). Read from 《本草蒙筌·總論·製造資水火》; 煨 is a textbook statement marked unverified |
+| `herbs/dose-bands.json` | 5 | 量效 `{ herb, name, says, citation, small, large, status }`; a side holds `direction?` (replaces), `effects_add?`, `effects_scale?`, `harms_add?`, `tropism?`. Each rests on a verified passage (葛根, 人參 — 《本草新編》; 升麻 — 《得配本草》; 蘇木 — 《本經逢原》; 紅花 — 《外科全生集》) |
+| `treatment/prescription.json` | — | The parameters: `dose { kappa, gamma }` (benefit `(1+κ)x/(κ+x)`, burden `x^γ`, x = amount / the middle of the Pharmacopoeia range), `pairs { sigma, tau }`, `bands { small_below, large_above }` |
+
 ---
 
 ## 5. Five phases, time and constitution × season
@@ -311,7 +322,7 @@ Ids are **append-only**. A rename needs a new id plus an alias map so old saved 
 1. **Schema** — every file validates against its JSON Schema and carries `_meta.schema` = the current version.
 2. **Parameters** — severity factors ordered; quality coefficients in (0, 1]; pattern bands high > medium > weak; confidence thresholds non-increasing; role weights 君 > 臣 > 佐 > 使; the pulse coefficient equals the one in `pulse.json` and in both profiles.
 3. **Identity** — unique ids in every collection; unique herb names and glossary terms; every herb name and alias is in the herb index.
-4. **Herbs** — every panel key valid; every organ known; index entries resolve; the properties (PM-36) within their ranges, the five-phase and channel shares summing to 1 over the herb's own channels, the toxicity grade agreeing with `toxic`, every rule id known and every rule's quotation in `citations.json`.
+4. **Herbs** — every panel key valid; every organ known; index entries resolve; the properties (PM-36) within their ranges, the five-phase and channel shares summing to 1 over the herb's own channels, the toxicity grade agreeing with `toxic`, every rule id known and every rule's quotation in `citations.json`. The prescription tables (PM-37): pairings between two different known herbs, none listed twice, each derived one keeping an entry found in 《本草綱目》; no processing word in two methods, every method quoted or marked unverified, modifiers in range; dose bands on known herbs with valid targets; the parameters' bands on each side of the typical dose.
 5. **Formulas** — proportions and effective weights sum to 1; no herb twice; role weights equal the parameter file; at least one 君; core indications, patterns (with back-links), modification symptoms/herbs and rationale citations exist; **stored tier, pregnancy level and interaction list equal the values recomputed from the herbs** (the interaction list since PM-15: a Learn page shows these stored flags as they are, so none may lag behind the herbs).
 6. **Patterns and elements** — every symptom id used in `weights`/`against`/`required_any` exists; `required_any ⊆ weights`; no symptom both for and against; `max_score = Σ weights`; formula and element links resolve and link back; citations and acupoints exist; projection targets valid; constitution features exist.
 7. **Examination data** — tongue features equal the tongue symptoms and their zones exist and agree; pulses equal the pulse symptoms; exclusive groups name real pulses; panel nature projections valid.
@@ -419,4 +430,4 @@ Pharmacopoeia facts are used as structured data. The Sources screen lists each b
 |---|---|---|
 | 0.1 | 2026-10-04 | Initial schema reference for the first-pass `data/` |
 | 0.2 | 2026-10-06 | PM-21: the admission checklist (§8.4) and `review/admission.json`; §8.1 item 10; the extension procedure for a pattern |
-| 0.3 | 2026-10-07 | PM-35: the sources registry `sources.json` (§3.1b) and its coverage report; §8.1 item 9. PM-36: the herb property model (`props`, `props_rules`; §4.1) |
+| 0.3 | 2026-10-07 | PM-35: the sources registry `sources.json` (§3.1b) and its coverage report; §8.1 item 9. PM-36: the herb property model (`props`, `props_rules`; §4.1). PM-37: the prescription model's tables (§4.3) |

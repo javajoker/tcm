@@ -1,0 +1,3504 @@
+{
+  "_meta": {
+    "citations": [
+      "shennong-xulu-qiqing-1",
+      "shennong-xulu-qiqing-2",
+      "bencao-jizhu-banxia"
+    ],
+    "count": 249,
+    "description": "七情 between herbs of the knowledge base: the table of 《本草綱目·序例下》「相須相使相畏相惡諸藥」 (after 徐之才《藥對》), each relation with the entry it was read from, and the textbook examples of 相須 (unverified). Derived drafts until the pharmacy review.",
+    "entries_read": 271,
+    "names_not_in_the_knowledge_base": 393,
+    "schema": 1,
+    "type_counts": {
+      "相使": 70,
+      "相惡": 81,
+      "相畏": 87,
+      "相須": 11
+    },
+    "types": {
+      "相使": "`other` serves `herb`: it strengthens the herb's action (「X為之使」, 「得X良」)",
+      "相反": "the two must not be combined; never computed — the safety rules exclude the pair",
+      "相惡": "`herb` dislikes `other`: the other takes away from the herb's effect (人參惡萊菔子)",
+      "相畏": "`herb` fears `other`: the other restrains the herb's harm (半夏畏生薑; seen from the other side, 相殺)",
+      "相須": "two herbs of like action strengthen each other"
+    }
+  },
+  "items": [
+    {
+      "herb": "herb-aive",
+      "id": "aive.shi.xiangfu",
+      "other": "herb-xiangfu",
+      "says": "艾葉苦酒、香附為之使",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "艾叶（苦酒、香附为之使。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相使"
+    },
+    {
+      "herb": "herb-badou",
+      "id": "badou.shi.yuanhua",
+      "other": "herb-yuanhua",
+      "says": "巴豆芫花為之使",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "巴豆（芫花为之使。得火良。恶草、牵牛。畏大黄、藜芦、黄连芦笋、菰笋、酱、豉、豆汁、冷水。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相使"
+    },
+    {
+      "herb": "herb-badou",
+      "id": "badou.wei.dahuang",
+      "other": "herb-dahuang",
+      "says": "巴豆畏大黃、藜蘆、黃連蘆筍、菰筍、醬、豉、豆汁、冷水",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "巴豆（芫花为之使。得火良。恶草、牵牛。畏大黄、藜芦、黄连芦笋、菰笋、酱、豉、豆汁、冷水。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相畏"
+    },
+    {
+      "herb": "herb-badou",
+      "id": "badou.wei.lilu",
+      "other": "herb-lilu",
+      "says": "巴豆畏大黃、藜蘆、黃連蘆筍、菰筍、醬、豉、豆汁、冷水",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "巴豆（芫花为之使。得火良。恶草、牵牛。畏大黄、藜芦、黄连芦笋、菰笋、酱、豉、豆汁、冷水。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相畏"
+    },
+    {
+      "herb": "herb-baiji",
+      "id": "baiji.shi.zishiying",
+      "other": "herb-zishiying",
+      "says": "白芨紫石英為之使",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "白芨（紫石英为之使。恶理石。畏杏仁、李核仁。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相使"
+    },
+    {
+      "herb": "herb-baiji",
+      "id": "baiji.wei.kuxingren",
+      "other": "herb-kuxingren",
+      "says": "白芨畏杏仁、李核仁",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "白芨（紫石英为之使。恶理石。畏杏仁、李核仁。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相畏"
+    },
+    {
+      "herb": "herb-baishao",
+      "id": "baishao.shi.moyao",
+      "other": "herb-moyao",
+      "says": "芍藥須丸、烏藥、沒藥為之使",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "芍药（须丸、乌药、没药为之使。恶石斛、芒硝。畏硝石、鳖甲、小蓟。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相使"
+    },
+    {
+      "herb": "herb-baishao",
+      "id": "baishao.shi.wuyao",
+      "other": "herb-wuyao",
+      "says": "芍藥須丸、烏藥、沒藥為之使",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "芍药（须丸、乌药、没药为之使。恶石斛、芒硝。畏硝石、鳖甲、小蓟。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相使"
+    },
+    {
+      "herb": "herb-baishao",
+      "id": "baishao.wu.mangxiao",
+      "other": "herb-mangxiao",
+      "says": "芍藥惡石斛、芒硝",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "芍药（须丸、乌药、没药为之使。恶石斛、芒硝。畏硝石、鳖甲、小蓟。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相惡"
+    },
+    {
+      "herb": "herb-baishao",
+      "id": "baishao.wu.shihu",
+      "other": "herb-shihu",
+      "says": "芍藥惡石斛、芒硝",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "芍药（须丸、乌药、没药为之使。恶石斛、芒硝。畏硝石、鳖甲、小蓟。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相惡"
+    },
+    {
+      "herb": "herb-baishao",
+      "id": "baishao.wei.biejia",
+      "other": "herb-biejia",
+      "says": "芍藥畏硝石、鱉甲、小薊",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "芍药（须丸、乌药、没药为之使。恶石斛、芒硝。畏硝石、鳖甲、小蓟。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相畏"
+    },
+    {
+      "herb": "herb-baishao",
+      "id": "baishao.wei.xiaoji",
+      "other": "herb-xiaoji",
+      "says": "芍藥畏硝石、鱉甲、小薊",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "芍药（须丸、乌药、没药为之使。恶石斛、芒硝。畏硝石、鳖甲、小蓟。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相畏"
+    },
+    {
+      "herb": "herb-baiwei",
+      "id": "baiwei.wu.dahuang",
+      "other": "herb-dahuang",
+      "says": "白薇惡黃、乾薑、大棗、山茱萸、大黃、大戟、乾漆",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "白薇（恶黄、干姜、大枣、山茱萸、大黄、大戟、干漆。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相惡"
+    },
+    {
+      "herb": "herb-baiwei",
+      "id": "baiwei.wu.dazao",
+      "other": "herb-dazao",
+      "says": "白薇惡黃、乾薑、大棗、山茱萸、大黃、大戟、乾漆",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "白薇（恶黄、干姜、大枣、山茱萸、大黄、大戟、干漆。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相惡"
+    },
+    {
+      "herb": "herb-baiwei",
+      "id": "baiwei.wu.ganjiang",
+      "other": "herb-ganjiang",
+      "says": "白薇惡黃、乾薑、大棗、山茱萸、大黃、大戟、乾漆",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "白薇（恶黄、干姜、大枣、山茱萸、大黄、大戟、干漆。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相惡"
+    },
+    {
+      "herb": "herb-baiwei",
+      "id": "baiwei.wu.ganqi",
+      "other": "herb-ganqi",
+      "says": "白薇惡黃、乾薑、大棗、山茱萸、大黃、大戟、乾漆",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "白薇（恶黄、干姜、大枣、山茱萸、大黄、大戟、干漆。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相惡"
+    },
+    {
+      "herb": "herb-baiwei",
+      "id": "baiwei.wu.shanzhuyu",
+      "other": "herb-shanzhuyu",
+      "says": "白薇惡黃、乾薑、大棗、山茱萸、大黃、大戟、乾漆",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "白薇（恶黄、干姜、大枣、山茱萸、大黄、大戟、干漆。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相惡"
+    },
+    {
+      "herb": "herb-baizhi",
+      "id": "baizhi.shi.danggui",
+      "other": "herb-danggui",
+      "says": "白芷當歸為之使",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "白芷（当归为之使。恶旋复花。制雄黄、硫黄。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相使"
+    },
+    {
+      "herb": "herb-bajitian",
+      "id": "bajitian.shi.fupenzi",
+      "other": "herb-fupenzi",
+      "says": "巴戟天覆盆子為之使",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "巴戟天（覆盆子为之使。恶雷丸、丹参、朝生。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相使"
+    },
+    {
+      "herb": "herb-bajitian",
+      "id": "bajitian.wu.danshen",
+      "other": "herb-danshen",
+      "says": "巴戟天惡雷丸、丹參、朝生",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "巴戟天（覆盆子为之使。恶雷丸、丹参、朝生。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相惡"
+    },
+    {
+      "herb": "herb-bajitian",
+      "id": "bajitian.wu.leiwan",
+      "other": "herb-leiwan",
+      "says": "巴戟天惡雷丸、丹參、朝生",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "巴戟天（覆盆子为之使。恶雷丸、丹参、朝生。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相惡"
+    },
+    {
+      "herb": "herb-banmao",
+      "id": "banmao.wu.gancao",
+      "other": "herb-gancao",
+      "says": "斑蝥惡曾青、豆花、甘草",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "斑蝥（马刀为之使。得糯米、小麻子良。恶曾青、豆花、甘草。畏巴豆、丹参、空青、黄连、黑豆、靛汁、葱、茶、醋。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相惡"
+    },
+    {
+      "herb": "herb-banmao",
+      "id": "banmao.wei.badou",
+      "other": "herb-badou",
+      "says": "斑蝥畏巴豆、丹參、空青、黃連、黑豆、靛汁、蔥、茶、醋",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "斑蝥（马刀为之使。得糯米、小麻子良。恶曾青、豆花、甘草。畏巴豆、丹参、空青、黄连、黑豆、靛汁、葱、茶、醋。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相畏"
+    },
+    {
+      "herb": "herb-banmao",
+      "id": "banmao.wei.danshen",
+      "other": "herb-danshen",
+      "says": "斑蝥畏巴豆、丹參、空青、黃連、黑豆、靛汁、蔥、茶、醋",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "斑蝥（马刀为之使。得糯米、小麻子良。恶曾青、豆花、甘草。畏巴豆、丹参、空青、黄连、黑豆、靛汁、葱、茶、醋。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相畏"
+    },
+    {
+      "herb": "herb-banmao",
+      "id": "banmao.wei.heidou",
+      "other": "herb-heidou",
+      "says": "斑蝥畏巴豆、丹參、空青、黃連、黑豆、靛汁、蔥、茶、醋",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "斑蝥（马刀为之使。得糯米、小麻子良。恶曾青、豆花、甘草。畏巴豆、丹参、空青、黄连、黑豆、靛汁、葱、茶、醋。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相畏"
+    },
+    {
+      "herb": "herb-banmao",
+      "id": "banmao.wei.huanglian",
+      "other": "herb-huanglian",
+      "says": "斑蝥畏巴豆、丹參、空青、黃連、黑豆、靛汁、蔥、茶、醋",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "斑蝥（马刀为之使。得糯米、小麻子良。恶曾青、豆花、甘草。畏巴豆、丹参、空青、黄连、黑豆、靛汁、葱、茶、醋。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相畏"
+    },
+    {
+      "herb": "herb-banxia",
+      "id": "banxia.shi.chaihu",
+      "other": "herb-chaihu",
+      "says": "半夏射干、柴胡為之使",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "半夏（射干、柴胡为之使。恶皂荚。忌海藻、饴糖、羊血。畏生姜、干姜、秦皮、龟甲、雄黄。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相使"
+    },
+    {
+      "herb": "herb-banxia",
+      "id": "banxia.shi.shegan",
+      "other": "herb-shegan",
+      "says": "半夏射干、柴胡為之使",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "半夏（射干、柴胡为之使。恶皂荚。忌海藻、饴糖、羊血。畏生姜、干姜、秦皮、龟甲、雄黄。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相使"
+    },
+    {
+      "herb": "herb-banxia",
+      "id": "banxia.wu.zaojia",
+      "other": "herb-zaojia",
+      "says": "半夏惡皂莢",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "半夏（射干、柴胡为之使。恶皂荚。忌海藻、饴糖、羊血。畏生姜、干姜、秦皮、龟甲、雄黄。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相惡"
+    },
+    {
+      "herb": "herb-banxia",
+      "id": "banxia.wei.ganjiang",
+      "other": "herb-ganjiang",
+      "says": "半夏畏生薑、乾薑、秦皮、龜甲、雄黃",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "半夏（射干、柴胡为之使。恶皂荚。忌海藻、饴糖、羊血。畏生姜、干姜、秦皮、龟甲、雄黄。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相畏"
+    },
+    {
+      "herb": "herb-banxia",
+      "id": "banxia.wei.guijia",
+      "other": "herb-guijia",
+      "says": "半夏畏生薑、乾薑、秦皮、龜甲、雄黃",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "半夏（射干、柴胡为之使。恶皂荚。忌海藻、饴糖、羊血。畏生姜、干姜、秦皮、龟甲、雄黄。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相畏"
+    },
+    {
+      "herb": "herb-banxia",
+      "id": "banxia.wei.qinpi",
+      "other": "herb-qinpi",
+      "says": "半夏畏生薑、乾薑、秦皮、龜甲、雄黃",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "半夏（射干、柴胡为之使。恶皂荚。忌海藻、饴糖、羊血。畏生姜、干姜、秦皮、龟甲、雄黄。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相畏"
+    },
+    {
+      "herb": "herb-banxia",
+      "id": "banxia.wei.shengjiang",
+      "other": "herb-shengjiang",
+      "says": "半夏畏生薑、乾薑、秦皮、龜甲、雄黃",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "半夏（射干、柴胡为之使。恶皂荚。忌海藻、饴糖、羊血。畏生姜、干姜、秦皮、龟甲、雄黄。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相畏"
+    },
+    {
+      "herb": "herb-banxia",
+      "id": "banxia.wei.xionghuang",
+      "other": "herb-xionghuang",
+      "says": "半夏畏生薑、乾薑、秦皮、龜甲、雄黃",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "半夏（射干、柴胡为之使。恶皂荚。忌海藻、饴糖、羊血。畏生姜、干姜、秦皮、龟甲、雄黄。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相畏"
+    },
+    {
+      "herb": "herb-beishashen",
+      "id": "beishashen.wu.fangji",
+      "other": "herb-fangji",
+      "says": "沙參惡防己",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "沙参（恶防己。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相惡"
+    },
+    {
+      "herb": "herb-buguzhi",
+      "id": "buguzhi.wu.gancao",
+      "other": "herb-gancao",
+      "says": "補骨脂惡甘草",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "补骨脂（得胡桃、胡麻良。恶甘草。忌诸血、芸苔。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相惡"
+    },
+    {
+      "herb": "herb-chaihu",
+      "id": "chaihu.shi.banxia",
+      "other": "herb-banxia",
+      "says": "柴胡半夏為之使",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "柴胡（半夏为之使。恶皂荚。畏女菀、藜芦。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相使"
+    },
+    {
+      "herb": "herb-chaihu",
+      "id": "chaihu.wu.zaojia",
+      "other": "herb-zaojia",
+      "says": "柴胡惡皂莢",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "柴胡（半夏为之使。恶皂荚。畏女菀、藜芦。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相惡"
+    },
+    {
+      "herb": "herb-chaihu",
+      "id": "chaihu.wei.lilu",
+      "other": "herb-lilu",
+      "says": "柴胡畏女菀、藜蘆",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "柴胡（半夏为之使。恶皂荚。畏女菀、藜芦。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相畏"
+    },
+    {
+      "herb": "herb-cheqianzi",
+      "id": "cheqianzi.shi.changshan",
+      "other": "herb-changshan",
+      "says": "車前子常山為之使",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "车前子（常山为之使。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相使"
+    },
+    {
+      "herb": "herb-chishizhi",
+      "id": "chishizhi.wu.dahuang",
+      "other": "herb-dahuang",
+      "says": "赤石脂惡大黃、松脂",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "赤石脂（恶大黄、松脂。畏芫花、豉汁。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相惡"
+    },
+    {
+      "herb": "herb-chishizhi",
+      "id": "chishizhi.wei.yuanhua",
+      "other": "herb-yuanhua",
+      "says": "赤石脂畏芫花、豉汁",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "赤石脂（恶大黄、松脂。畏芫花、豉汁。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相畏"
+    },
+    {
+      "herb": "herb-cishi",
+      "id": "cishi.shi.chaihu",
+      "other": "herb-chaihu",
+      "says": "磁石柴胡為之使",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "磁石（柴胡为之使。恶牡丹、莽草。畏黄石脂。杀铁毒。消金。伏丹砂。养水银。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相使"
+    },
+    {
+      "herb": "herb-cishi",
+      "id": "cishi.wu.mudanpi",
+      "other": "herb-mudanpi",
+      "says": "磁石惡牡丹、莽草",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "磁石（柴胡为之使。恶牡丹、莽草。畏黄石脂。杀铁毒。消金。伏丹砂。养水银。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相惡"
+    },
+    {
+      "herb": "herb-dadouhuangjuan",
+      "id": "dadouhuangjuan.shi.muli",
+      "other": "herb-muli",
+      "says": "大豆黃卷得前胡、杏子、牡蠣、天雄、烏喙、鼠屎、石蜜良",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "大豆黄卷（得前胡、杏子、牡蛎、天雄、乌喙、鼠屎、石蜜良。恶海藻、龙胆。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相使"
+    },
+    {
+      "herb": "herb-dadouhuangjuan",
+      "id": "dadouhuangjuan.shi.qianhu",
+      "other": "herb-qianhu",
+      "says": "大豆黃卷得前胡、杏子、牡蠣、天雄、烏喙、鼠屎、石蜜良",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "大豆黄卷（得前胡、杏子、牡蛎、天雄、乌喙、鼠屎、石蜜良。恶海藻、龙胆。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相使"
+    },
+    {
+      "herb": "herb-dadouhuangjuan",
+      "id": "dadouhuangjuan.wu.haizao",
+      "other": "herb-haizao",
+      "says": "大豆黃卷惡海藻、龍膽",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "大豆黄卷（得前胡、杏子、牡蛎、天雄、乌喙、鼠屎、石蜜良。恶海藻、龙胆。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相惡"
+    },
+    {
+      "herb": "herb-dadouhuangjuan",
+      "id": "dadouhuangjuan.wu.longdan",
+      "other": "herb-longdan",
+      "says": "大豆黃卷惡海藻、龍膽",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "大豆黄卷（得前胡、杏子、牡蛎、天雄、乌喙、鼠屎、石蜜良。恶海藻、龙胆。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相惡"
+    },
+    {
+      "herb": "herb-dahuang",
+      "id": "dahuang.shi.huangqin",
+      "other": "herb-huangqin",
+      "says": "大黃黃芩為之使",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "大黄（黄芩为之使。恶干漆。忌冷水。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相使"
+    },
+    {
+      "herb": "herb-dahuang",
+      "id": "dahuang.wu.ganqi",
+      "other": "herb-ganqi",
+      "says": "大黃惡乾漆",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "大黄（黄芩为之使。恶干漆。忌冷水。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相惡"
+    },
+    {
+      "herb": "herb-dahuang",
+      "id": "dahuang.xu.mangxiao",
+      "other": "herb-mangxiao",
+      "says": "大黃、芒硝：瀉下攻積 — 大承氣湯",
+      "source": {
+        "book": "教材",
+        "chapter": "七情配伍·相須",
+        "note": "textbook example, unverified"
+      },
+      "status": "curated-draft",
+      "type": "相須"
+    },
+    {
+      "herb": "herb-daizheshi",
+      "id": "daizheshi.shi.ganjiang",
+      "other": "herb-ganjiang",
+      "says": "代赭石乾薑為之使",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "代赭石（干姜为之使。畏天雄、附子。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相使"
+    },
+    {
+      "herb": "herb-daizheshi",
+      "id": "daizheshi.wei.fuzi",
+      "other": "herb-fuzi",
+      "says": "代赭石畏天雄、附子",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "代赭石（干姜为之使。畏天雄、附子。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相畏"
+    },
+    {
+      "herb": "herb-danggui",
+      "id": "danggui.wei.haizao",
+      "other": "herb-haizao",
+      "says": "當歸畏菖蒲、生薑、海藻、牡蒙",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "当归（恶茹、湿面。制雄黄。畏菖蒲、生姜、海藻、牡蒙。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相畏"
+    },
+    {
+      "herb": "herb-danggui",
+      "id": "danggui.wei.shengjiang",
+      "other": "herb-shengjiang",
+      "says": "當歸畏菖蒲、生薑、海藻、牡蒙",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "当归（恶茹、湿面。制雄黄。畏菖蒲、生姜、海藻、牡蒙。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相畏"
+    },
+    {
+      "herb": "herb-danggui",
+      "id": "danggui.wei.shichangpu",
+      "other": "herb-shichangpu",
+      "says": "當歸畏菖蒲、生薑、海藻、牡蒙",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "当归（恶茹、湿面。制雄黄。畏菖蒲、生姜、海藻、牡蒙。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相畏"
+    },
+    {
+      "herb": "herb-dangshen",
+      "id": "dangshen.xu.huangqi",
+      "other": "herb-huangqi",
+      "says": "黨參、黃耆：補氣",
+      "source": {
+        "book": "教材",
+        "chapter": "七情配伍·相須",
+        "note": "textbook example, unverified"
+      },
+      "status": "curated-draft",
+      "type": "相須"
+    },
+    {
+      "herb": "herb-dihuang",
+      "id": "dihuang.shi.maidong",
+      "other": "herb-maidong",
+      "says": "地黃得酒、麥門冬、薑汁、縮砂良",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "地黄（得酒、麦门冬、姜汁、缩砂良。恶贝母。畏芜荑。忌葱、蒜、萝卜、诸血。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相使"
+    },
+    {
+      "herb": "herb-dihuang",
+      "id": "dihuang.wei.wuyi",
+      "other": "herb-wuyi",
+      "says": "地黃畏蕪荑",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "地黄（得酒、麦门冬、姜汁、缩砂良。恶贝母。畏芜荑。忌葱、蒜、萝卜、诸血。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相畏"
+    },
+    {
+      "herb": "herb-diyu",
+      "id": "diyu.wu.maidong",
+      "other": "herb-maidong",
+      "says": "地榆惡麥門冬",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "地榆（得发良。恶麦门冬。伏丹砂、雄黄、硫黄。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相惡"
+    },
+    {
+      "herb": "herb-duzhong",
+      "id": "duzhong.wu.xuanshen",
+      "other": "herb-xuanshen",
+      "says": "杜仲惡玄參、蛇蛻皮",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "杜仲（恶玄参、蛇蜕皮。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相惡"
+    },
+    {
+      "herb": "herb-ejiao",
+      "id": "ejiao.wei.dahuang",
+      "other": "herb-dahuang",
+      "says": "阿膠畏大黃",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "阿胶（得火良。薯蓣为之使。畏大黄。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相畏"
+    },
+    {
+      "herb": "herb-fangfeng",
+      "id": "fangfeng.wu.bailian",
+      "other": "herb-bailian",
+      "says": "防風惡乾薑、藜蘆、白蘞、芫花",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "防风（畏萆。恶干姜、藜芦、白蔹、芫花。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相惡"
+    },
+    {
+      "herb": "herb-fangfeng",
+      "id": "fangfeng.wu.ganjiang",
+      "other": "herb-ganjiang",
+      "says": "防風惡乾薑、藜蘆、白蘞、芫花",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "防风（畏萆。恶干姜、藜芦、白蔹、芫花。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相惡"
+    },
+    {
+      "herb": "herb-fangfeng",
+      "id": "fangfeng.wu.lilu",
+      "other": "herb-lilu",
+      "says": "防風惡乾薑、藜蘆、白蘞、芫花",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "防风（畏萆。恶干姜、藜芦、白蔹、芫花。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相惡"
+    },
+    {
+      "herb": "herb-fangfeng",
+      "id": "fangfeng.wu.yuanhua",
+      "other": "herb-yuanhua",
+      "says": "防風惡乾薑、藜蘆、白蘞、芫花",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "防风（畏萆。恶干姜、藜芦、白蔹、芫花。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相惡"
+    },
+    {
+      "herb": "herb-fangji",
+      "id": "fangji.wu.xixin",
+      "other": "herb-xixin",
+      "says": "防己惡細辛",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "防己（殷为之使。恶细辛。畏萆、女菀、卤咸。杀雄黄、硝石毒。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相惡"
+    },
+    {
+      "herb": "herb-fuling",
+      "id": "fuling.wu.bailian",
+      "other": "herb-bailian",
+      "says": "茯苓惡白蘞、米醋、酸物",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "茯苓、茯神（马蔺为之使。得甘草、防风、芍药、麦门冬、紫石英，疗五脏。恶白蔹、米醋、酸物。畏地榆、秦艽、牡蒙、龟甲、雄黄。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相惡"
+    },
+    {
+      "herb": "herb-fuling",
+      "id": "fuling.wei.diyu",
+      "other": "herb-diyu",
+      "says": "茯苓畏地榆、秦艽、牡蒙、龜甲、雄黃",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "茯苓、茯神（马蔺为之使。得甘草、防风、芍药、麦门冬、紫石英，疗五脏。恶白蔹、米醋、酸物。畏地榆、秦艽、牡蒙、龟甲、雄黄。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相畏"
+    },
+    {
+      "herb": "herb-fuling",
+      "id": "fuling.wei.guijia",
+      "other": "herb-guijia",
+      "says": "茯苓畏地榆、秦艽、牡蒙、龜甲、雄黃",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "茯苓、茯神（马蔺为之使。得甘草、防风、芍药、麦门冬、紫石英，疗五脏。恶白蔹、米醋、酸物。畏地榆、秦艽、牡蒙、龟甲、雄黄。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相畏"
+    },
+    {
+      "herb": "herb-fuling",
+      "id": "fuling.wei.qinjiao",
+      "other": "herb-qinjiao",
+      "says": "茯苓畏地榆、秦艽、牡蒙、龜甲、雄黃",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "茯苓、茯神（马蔺为之使。得甘草、防风、芍药、麦门冬、紫石英，疗五脏。恶白蔹、米醋、酸物。畏地榆、秦艽、牡蒙、龟甲、雄黄。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相畏"
+    },
+    {
+      "herb": "herb-fuling",
+      "id": "fuling.wei.xionghuang",
+      "other": "herb-xionghuang",
+      "says": "茯苓畏地榆、秦艽、牡蒙、龜甲、雄黃",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "茯苓、茯神（马蔺为之使。得甘草、防风、芍药、麦门冬、紫石英，疗五脏。恶白蔹、米醋、酸物。畏地榆、秦艽、牡蒙、龟甲、雄黄。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相畏"
+    },
+    {
+      "herb": "herb-fushen",
+      "id": "fushen.wu.bailian",
+      "other": "herb-bailian",
+      "says": "茯神惡白蘞、米醋、酸物",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "茯苓、茯神（马蔺为之使。得甘草、防风、芍药、麦门冬、紫石英，疗五脏。恶白蔹、米醋、酸物。畏地榆、秦艽、牡蒙、龟甲、雄黄。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相惡"
+    },
+    {
+      "herb": "herb-fushen",
+      "id": "fushen.wei.diyu",
+      "other": "herb-diyu",
+      "says": "茯神畏地榆、秦艽、牡蒙、龜甲、雄黃",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "茯苓、茯神（马蔺为之使。得甘草、防风、芍药、麦门冬、紫石英，疗五脏。恶白蔹、米醋、酸物。畏地榆、秦艽、牡蒙、龟甲、雄黄。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相畏"
+    },
+    {
+      "herb": "herb-fushen",
+      "id": "fushen.wei.guijia",
+      "other": "herb-guijia",
+      "says": "茯神畏地榆、秦艽、牡蒙、龜甲、雄黃",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "茯苓、茯神（马蔺为之使。得甘草、防风、芍药、麦门冬、紫石英，疗五脏。恶白蔹、米醋、酸物。畏地榆、秦艽、牡蒙、龟甲、雄黄。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相畏"
+    },
+    {
+      "herb": "herb-fushen",
+      "id": "fushen.wei.qinjiao",
+      "other": "herb-qinjiao",
+      "says": "茯神畏地榆、秦艽、牡蒙、龜甲、雄黃",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "茯苓、茯神（马蔺为之使。得甘草、防风、芍药、麦门冬、紫石英，疗五脏。恶白蔹、米醋、酸物。畏地榆、秦艽、牡蒙、龟甲、雄黄。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相畏"
+    },
+    {
+      "herb": "herb-fushen",
+      "id": "fushen.wei.xionghuang",
+      "other": "herb-xionghuang",
+      "says": "茯神畏地榆、秦艽、牡蒙、龜甲、雄黃",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "茯苓、茯神（马蔺为之使。得甘草、防风、芍药、麦门冬、紫石英，疗五脏。恶白蔹、米醋、酸物。畏地榆、秦艽、牡蒙、龟甲、雄黄。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相畏"
+    },
+    {
+      "herb": "herb-fuzi",
+      "id": "fuzi.wu.wugong",
+      "other": "herb-wugong",
+      "says": "附子惡蜈蚣、豉汁",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "附子（地胆为之使。得蜀椒、食盐，下达命门。恶蜈蚣、豉汁。畏防风、黑豆、甘草、人参、黄、绿豆、乌韭、童溲、犀角。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相惡"
+    },
+    {
+      "herb": "herb-fuzi",
+      "id": "fuzi.wei.fangfeng",
+      "other": "herb-fangfeng",
+      "says": "附子畏防風、黑豆、甘草、人參、黃、綠豆、烏韭、童溲、犀角",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "附子（地胆为之使。得蜀椒、食盐，下达命门。恶蜈蚣、豉汁。畏防风、黑豆、甘草、人参、黄、绿豆、乌韭、童溲、犀角。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相畏"
+    },
+    {
+      "herb": "herb-fuzi",
+      "id": "fuzi.wei.gancao",
+      "other": "herb-gancao",
+      "says": "附子畏防風、黑豆、甘草、人參、黃、綠豆、烏韭、童溲、犀角",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "附子（地胆为之使。得蜀椒、食盐，下达命门。恶蜈蚣、豉汁。畏防风、黑豆、甘草、人参、黄、绿豆、乌韭、童溲、犀角。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相畏"
+    },
+    {
+      "herb": "herb-fuzi",
+      "id": "fuzi.wei.heidou",
+      "other": "herb-heidou",
+      "says": "附子畏防風、黑豆、甘草、人參、黃、綠豆、烏韭、童溲、犀角",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "附子（地胆为之使。得蜀椒、食盐，下达命门。恶蜈蚣、豉汁。畏防风、黑豆、甘草、人参、黄、绿豆、乌韭、童溲、犀角。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相畏"
+    },
+    {
+      "herb": "herb-fuzi",
+      "id": "fuzi.wei.lvdou",
+      "other": "herb-lvdou",
+      "says": "附子畏防風、黑豆、甘草、人參、黃、綠豆、烏韭、童溲、犀角",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "附子（地胆为之使。得蜀椒、食盐，下达命门。恶蜈蚣、豉汁。畏防风、黑豆、甘草、人参、黄、绿豆、乌韭、童溲、犀角。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相畏"
+    },
+    {
+      "herb": "herb-fuzi",
+      "id": "fuzi.wei.renshen",
+      "other": "herb-renshen",
+      "says": "附子畏防風、黑豆、甘草、人參、黃、綠豆、烏韭、童溲、犀角",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "附子（地胆为之使。得蜀椒、食盐，下达命门。恶蜈蚣、豉汁。畏防风、黑豆、甘草、人参、黄、绿豆、乌韭、童溲、犀角。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相畏"
+    },
+    {
+      "herb": "herb-fuzi",
+      "id": "fuzi.xu.ganjiang",
+      "other": "herb-ganjiang",
+      "says": "附子、乾薑：回陽 — 四逆湯",
+      "source": {
+        "book": "教材",
+        "chapter": "七情配伍·相須",
+        "note": "textbook example, unverified"
+      },
+      "status": "curated-draft",
+      "type": "相須"
+    },
+    {
+      "herb": "herb-gancao",
+      "id": "gancao.shi.ganqi",
+      "other": "herb-ganqi",
+      "says": "甘草術、苦參、乾漆為之使",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "甘草（术、苦参、干漆为之使。恶远志。忌猪肉。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相使"
+    },
+    {
+      "herb": "herb-gancao",
+      "id": "gancao.shi.kushen",
+      "other": "herb-kushen",
+      "says": "甘草術、苦參、乾漆為之使",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "甘草（术、苦参、干漆为之使。恶远志。忌猪肉。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相使"
+    },
+    {
+      "herb": "herb-gancao",
+      "id": "gancao.wu.yuanzhi",
+      "other": "herb-yuanzhi",
+      "says": "甘草惡遠志",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "甘草（术、苦参、干漆为之使。恶远志。忌猪肉。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相惡"
+    },
+    {
+      "herb": "herb-ganqi",
+      "id": "ganqi.shi.banxia",
+      "other": "herb-banxia",
+      "says": "乾漆半夏為之使",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "干漆（半夏为之使。畏鸡子、紫苏、杉木、漆姑草、蟹。忌猪脂。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相使"
+    },
+    {
+      "herb": "herb-gansui",
+      "id": "gansui.shi.guadi",
+      "other": "herb-guadi",
+      "says": "甘遂瓜蒂為之使",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "甘遂（瓜蒂为之使。恶远志。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相使"
+    },
+    {
+      "herb": "herb-gansui",
+      "id": "gansui.wu.yuanzhi",
+      "other": "herb-yuanzhi",
+      "says": "甘遂惡遠志",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "甘遂（瓜蒂为之使。恶远志。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相惡"
+    },
+    {
+      "herb": "herb-guijia",
+      "id": "guijia.wu.beishashen",
+      "other": "herb-beishashen",
+      "says": "龜甲惡沙參、蜚蠊",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "龟甲（恶沙参、蜚蠊。畏狗胆。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相惡"
+    },
+    {
+      "herb": "herb-heshouwu",
+      "id": "heshouwu.shi.fuling",
+      "other": "herb-fuling",
+      "says": "何首烏茯苓為之使",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "何首乌（茯苓为之使。忌葱、蒜、萝卜、诸血、无鳞鱼。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相使"
+    },
+    {
+      "herb": "herb-houpo",
+      "id": "houpo.shi.ganjiang",
+      "other": "herb-ganjiang",
+      "says": "濃樸乾薑為之使",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "浓朴（干姜为之使。恶泽泻、硝石、寒水石。忌豆。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相使"
+    },
+    {
+      "herb": "herb-houpo",
+      "id": "houpo.wu.hanshuishi",
+      "other": "herb-hanshuishi",
+      "says": "濃樸惡澤瀉、硝石、寒水石",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "浓朴（干姜为之使。恶泽泻、硝石、寒水石。忌豆。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相惡"
+    },
+    {
+      "herb": "herb-houpo",
+      "id": "houpo.wu.zexie",
+      "other": "herb-zexie",
+      "says": "濃樸惡澤瀉、硝石、寒水石",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "浓朴（干姜为之使。恶泽泻、硝石、寒水石。忌豆。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相惡"
+    },
+    {
+      "herb": "herb-huanglian",
+      "id": "huanglian.shi.huangqin",
+      "other": "herb-huangqin",
+      "says": "黃連黃芩、龍骨、理石為之使",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "黄连（黄芩、龙骨、理石为之使。忌猪肉。畏牛膝、款冬。恶冷水、菊花、玄参、白僵蚕、白藓、芫花。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相使"
+    },
+    {
+      "herb": "herb-huanglian",
+      "id": "huanglian.shi.longgu",
+      "other": "herb-longgu",
+      "says": "黃連黃芩、龍骨、理石為之使",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "黄连（黄芩、龙骨、理石为之使。忌猪肉。畏牛膝、款冬。恶冷水、菊花、玄参、白僵蚕、白藓、芫花。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相使"
+    },
+    {
+      "herb": "herb-huanglian",
+      "id": "huanglian.wu.juhua",
+      "other": "herb-juhua",
+      "says": "黃連惡冷水、菊花、玄參、白殭蠶、白蘚、芫花",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "黄连（黄芩、龙骨、理石为之使。忌猪肉。畏牛膝、款冬。恶冷水、菊花、玄参、白僵蚕、白藓、芫花。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相惡"
+    },
+    {
+      "herb": "herb-huanglian",
+      "id": "huanglian.wu.xuanshen",
+      "other": "herb-xuanshen",
+      "says": "黃連惡冷水、菊花、玄參、白殭蠶、白蘚、芫花",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "黄连（黄芩、龙骨、理石为之使。忌猪肉。畏牛膝、款冬。恶冷水、菊花、玄参、白僵蚕、白藓、芫花。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相惡"
+    },
+    {
+      "herb": "herb-huanglian",
+      "id": "huanglian.wu.yuanhua",
+      "other": "herb-yuanhua",
+      "says": "黃連惡冷水、菊花、玄參、白殭蠶、白蘚、芫花",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "黄连（黄芩、龙骨、理石为之使。忌猪肉。畏牛膝、款冬。恶冷水、菊花、玄参、白僵蚕、白藓、芫花。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相惡"
+    },
+    {
+      "herb": "herb-huanglian",
+      "id": "huanglian.wei.niuxi",
+      "other": "herb-niuxi",
+      "says": "黃連畏牛膝、款冬",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "黄连（黄芩、龙骨、理石为之使。忌猪肉。畏牛膝、款冬。恶冷水、菊花、玄参、白僵蚕、白藓、芫花。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相畏"
+    },
+    {
+      "herb": "herb-huangqin",
+      "id": "huangqin.shi.longgu",
+      "other": "herb-longgu",
+      "says": "黃芩龍骨、山茱萸為之使",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "黄芩（龙骨、山茱萸为之使。恶葱实。畏丹砂、牡丹、藜芦。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相使"
+    },
+    {
+      "herb": "herb-huangqin",
+      "id": "huangqin.shi.shanzhuyu",
+      "other": "herb-shanzhuyu",
+      "says": "黃芩龍骨、山茱萸為之使",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "黄芩（龙骨、山茱萸为之使。恶葱实。畏丹砂、牡丹、藜芦。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相使"
+    },
+    {
+      "herb": "herb-huangqin",
+      "id": "huangqin.wei.lilu",
+      "other": "herb-lilu",
+      "says": "黃芩畏丹砂、牡丹、藜蘆",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "黄芩（龙骨、山茱萸为之使。恶葱实。畏丹砂、牡丹、藜芦。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相畏"
+    },
+    {
+      "herb": "herb-huangqin",
+      "id": "huangqin.wei.mudanpi",
+      "other": "herb-mudanpi",
+      "says": "黃芩畏丹砂、牡丹、藜蘆",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "黄芩（龙骨、山茱萸为之使。恶葱实。畏丹砂、牡丹、藜芦。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相畏"
+    },
+    {
+      "herb": "herb-huhuanglian",
+      "id": "huhuanglian.wu.juhua",
+      "other": "herb-juhua",
+      "says": "胡黃連惡菊花、玄參、白蘚",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "胡黄连（忌猪肉。恶菊花、玄参、白藓。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相惡"
+    },
+    {
+      "herb": "herb-huhuanglian",
+      "id": "huhuanglian.wu.xuanshen",
+      "other": "herb-xuanshen",
+      "says": "胡黃連惡菊花、玄參、白蘚",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "胡黄连（忌猪肉。恶菊花、玄参、白藓。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相惡"
+    },
+    {
+      "herb": "herb-jiegeng",
+      "id": "jiegeng.wei.baiji",
+      "other": "herb-baiji",
+      "says": "桔梗畏白芨、龍膽、龍眼",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "桔梗（节皮为之使。畏白芨、龙胆、龙眼。忌猪肉。伏砒。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相畏"
+    },
+    {
+      "herb": "herb-jiegeng",
+      "id": "jiegeng.wei.longdan",
+      "other": "herb-longdan",
+      "says": "桔梗畏白芨、龍膽、龍眼",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "桔梗（节皮为之使。畏白芨、龙胆、龙眼。忌猪肉。伏砒。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相畏"
+    },
+    {
+      "herb": "herb-kuandonghua",
+      "id": "kuandonghua.shi.kuxingren",
+      "other": "herb-kuxingren",
+      "says": "款冬花杏仁為之使",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "款冬花（杏仁为之使。得紫菀良。恶玄参、皂荚、硝石。畏贝母、麻黄、辛夷、黄芩、黄、黄连、青葙。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相使"
+    },
+    {
+      "herb": "herb-kuandonghua",
+      "id": "kuandonghua.shi.ziwan",
+      "other": "herb-ziwan",
+      "says": "款冬花得紫菀良",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "款冬花（杏仁为之使。得紫菀良。恶玄参、皂荚、硝石。畏贝母、麻黄、辛夷、黄芩、黄、黄连、青葙。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相使"
+    },
+    {
+      "herb": "herb-kuandonghua",
+      "id": "kuandonghua.wu.xuanshen",
+      "other": "herb-xuanshen",
+      "says": "款冬花惡玄參、皂莢、硝石",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "款冬花（杏仁为之使。得紫菀良。恶玄参、皂荚、硝石。畏贝母、麻黄、辛夷、黄芩、黄、黄连、青葙。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相惡"
+    },
+    {
+      "herb": "herb-kuandonghua",
+      "id": "kuandonghua.wu.zaojia",
+      "other": "herb-zaojia",
+      "says": "款冬花惡玄參、皂莢、硝石",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "款冬花（杏仁为之使。得紫菀良。恶玄参、皂荚、硝石。畏贝母、麻黄、辛夷、黄芩、黄、黄连、青葙。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相惡"
+    },
+    {
+      "herb": "herb-kuandonghua",
+      "id": "kuandonghua.wei.huanglian",
+      "other": "herb-huanglian",
+      "says": "款冬花畏貝母、麻黃、辛夷、黃芩、黃、黃連、青葙",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "款冬花（杏仁为之使。得紫菀良。恶玄参、皂荚、硝石。畏贝母、麻黄、辛夷、黄芩、黄、黄连、青葙。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相畏"
+    },
+    {
+      "herb": "herb-kuandonghua",
+      "id": "kuandonghua.wei.huangqin",
+      "other": "herb-huangqin",
+      "says": "款冬花畏貝母、麻黃、辛夷、黃芩、黃、黃連、青葙",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "款冬花（杏仁为之使。得紫菀良。恶玄参、皂荚、硝石。畏贝母、麻黄、辛夷、黄芩、黄、黄连、青葙。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相畏"
+    },
+    {
+      "herb": "herb-kuandonghua",
+      "id": "kuandonghua.wei.mahuang",
+      "other": "herb-mahuang",
+      "says": "款冬花畏貝母、麻黃、辛夷、黃芩、黃、黃連、青葙",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "款冬花（杏仁为之使。得紫菀良。恶玄参、皂荚、硝石。畏贝母、麻黄、辛夷、黄芩、黄、黄连、青葙。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相畏"
+    },
+    {
+      "herb": "herb-kuandonghua",
+      "id": "kuandonghua.wei.xinyi",
+      "other": "herb-xinyi",
+      "says": "款冬花畏貝母、麻黃、辛夷、黃芩、黃、黃連、青葙",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "款冬花（杏仁为之使。得紫菀良。恶玄参、皂荚、硝石。畏贝母、麻黄、辛夷、黄芩、黄、黄连、青葙。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相畏"
+    },
+    {
+      "herb": "herb-kushen",
+      "id": "kushen.shi.xuanshen",
+      "other": "herb-xuanshen",
+      "says": "苦參玄參為之使",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "苦参（玄参为之使。恶贝母、漏芦、菟丝子。伏汞、雌黄、焰硝。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相使"
+    },
+    {
+      "herb": "herb-kushen",
+      "id": "kushen.wu.loulu",
+      "other": "herb-loulu",
+      "says": "苦參惡貝母、漏蘆、菟絲子",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "苦参（玄参为之使。恶贝母、漏芦、菟丝子。伏汞、雌黄、焰硝。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相惡"
+    },
+    {
+      "herb": "herb-kushen",
+      "id": "kushen.wu.tusizi",
+      "other": "herb-tusizi",
+      "says": "苦參惡貝母、漏蘆、菟絲子",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "苦参（玄参为之使。恶贝母、漏芦、菟丝子。伏汞、雌黄、焰硝。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相惡"
+    },
+    {
+      "herb": "herb-kuxingren",
+      "id": "kuxingren.wu.gegen",
+      "other": "herb-gegen",
+      "says": "杏仁惡黃芩、黃、葛根",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "杏仁（得火良。恶黄芩、黄、葛根。畏草。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相惡"
+    },
+    {
+      "herb": "herb-kuxingren",
+      "id": "kuxingren.wu.huangqin",
+      "other": "herb-huangqin",
+      "says": "杏仁惡黃芩、黃、葛根",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "杏仁（得火良。恶黄芩、黄、葛根。畏草。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相惡"
+    },
+    {
+      "herb": "herb-leiwan",
+      "id": "leiwan.shi.houpo",
+      "other": "herb-houpo",
+      "says": "雷丸荔實、濃樸、芫花、為之使",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "雷丸（荔实、浓朴、芫花、为之使。恶蓄根葛根。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相使"
+    },
+    {
+      "herb": "herb-leiwan",
+      "id": "leiwan.shi.yuanhua",
+      "other": "herb-yuanhua",
+      "says": "雷丸荔實、濃樸、芫花、為之使",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "雷丸（荔实、浓朴、芫花、为之使。恶蓄根葛根。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相使"
+    },
+    {
+      "herb": "herb-lilu",
+      "id": "lilu.shi.huanglian",
+      "other": "herb-huanglian",
+      "says": "藜蘆黃連為之使",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "藜芦（黄连为之使。恶大黄。畏葱白。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相使"
+    },
+    {
+      "herb": "herb-lilu",
+      "id": "lilu.wu.dahuang",
+      "other": "herb-dahuang",
+      "says": "藜蘆惡大黃",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "藜芦（黄连为之使。恶大黄。畏葱白。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相惡"
+    },
+    {
+      "herb": "herb-lilu",
+      "id": "lilu.wei.congbai",
+      "other": "herb-congbai",
+      "says": "藜蘆畏蔥白",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "藜芦（黄连为之使。恶大黄。畏葱白。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相畏"
+    },
+    {
+      "herb": "herb-longchi",
+      "id": "longchi.shi.heidou",
+      "other": "herb-heidou",
+      "says": "龍齒得人參、牛黃、黑豆良",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "龙骨、龙齿（得人参、牛黄、黑豆良。畏石膏、铁器。忌鱼。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相使"
+    },
+    {
+      "herb": "herb-longchi",
+      "id": "longchi.shi.niuhuang",
+      "other": "herb-niuhuang",
+      "says": "龍齒得人參、牛黃、黑豆良",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "龙骨、龙齿（得人参、牛黄、黑豆良。畏石膏、铁器。忌鱼。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相使"
+    },
+    {
+      "herb": "herb-longchi",
+      "id": "longchi.shi.renshen",
+      "other": "herb-renshen",
+      "says": "龍齒得人參、牛黃、黑豆良",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "龙骨、龙齿（得人参、牛黄、黑豆良。畏石膏、铁器。忌鱼。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相使"
+    },
+    {
+      "herb": "herb-longchi",
+      "id": "longchi.wei.shigao",
+      "other": "herb-shigao",
+      "says": "龍齒畏石膏、鐵器",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "龙骨、龙齿（得人参、牛黄、黑豆良。畏石膏、铁器。忌鱼。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相畏"
+    },
+    {
+      "herb": "herb-longdan",
+      "id": "longdan.shi.chixiaodou",
+      "other": "herb-chixiaodou",
+      "says": "龍膽貫眾、赤小豆為之使",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "龙胆（贯众、赤小豆为之使。恶地黄、防葵。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相使"
+    },
+    {
+      "herb": "herb-longdan",
+      "id": "longdan.wu.dihuang",
+      "other": "herb-dihuang",
+      "says": "龍膽惡地黃、防葵",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "龙胆（贯众、赤小豆为之使。恶地黄、防葵。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相惡"
+    },
+    {
+      "herb": "herb-longgu",
+      "id": "longgu.shi.heidou",
+      "other": "herb-heidou",
+      "says": "龍骨得人參、牛黃、黑豆良",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "龙骨、龙齿（得人参、牛黄、黑豆良。畏石膏、铁器。忌鱼。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相使"
+    },
+    {
+      "herb": "herb-longgu",
+      "id": "longgu.shi.niuhuang",
+      "other": "herb-niuhuang",
+      "says": "龍骨得人參、牛黃、黑豆良",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "龙骨、龙齿（得人参、牛黄、黑豆良。畏石膏、铁器。忌鱼。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相使"
+    },
+    {
+      "herb": "herb-longgu",
+      "id": "longgu.shi.renshen",
+      "other": "herb-renshen",
+      "says": "龍骨得人參、牛黃、黑豆良",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "龙骨、龙齿（得人参、牛黄、黑豆良。畏石膏、铁器。忌鱼。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相使"
+    },
+    {
+      "herb": "herb-longgu",
+      "id": "longgu.wei.shigao",
+      "other": "herb-shigao",
+      "says": "龍骨畏石膏、鐵器",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "龙骨、龙齿（得人参、牛黄、黑豆良。畏石膏、铁器。忌鱼。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相畏"
+    },
+    {
+      "herb": "herb-longgu",
+      "id": "longgu.xu.muli",
+      "other": "herb-muli",
+      "says": "龍骨、牡蠣：重鎮安神、斂陰潛陽",
+      "source": {
+        "book": "教材",
+        "chapter": "七情配伍·相須",
+        "note": "textbook example, unverified"
+      },
+      "status": "curated-draft",
+      "type": "相須"
+    },
+    {
+      "herb": "herb-loulu",
+      "id": "loulu.shi.lianqiao",
+      "other": "herb-lianqiao",
+      "says": "漏蘆連翹為之使",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "漏芦（连翘为之使。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相使"
+    },
+    {
+      "herb": "herb-lujiao",
+      "id": "lujiao.shi.duzhong",
+      "other": "herb-duzhong",
+      "says": "鹿角杜仲為之使",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "鹿角（杜仲为之使。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相使"
+    },
+    {
+      "herb": "herb-lujiaojiao",
+      "id": "lujiaojiao.wei.dahuang",
+      "other": "herb-dahuang",
+      "says": "鹿角膠畏大黃",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "鹿角胶（得火良。畏大黄。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相畏"
+    },
+    {
+      "herb": "herb-mahuang",
+      "id": "mahuang.shi.baiwei",
+      "other": "herb-baiwei",
+      "says": "麻黃濃樸、白薇為之使",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "麻黄（浓朴、白薇为之使。恶辛夷、石苇。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相使"
+    },
+    {
+      "herb": "herb-mahuang",
+      "id": "mahuang.shi.houpo",
+      "other": "herb-houpo",
+      "says": "麻黃濃樸、白薇為之使",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "麻黄（浓朴、白薇为之使。恶辛夷、石苇。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相使"
+    },
+    {
+      "herb": "herb-mahuang",
+      "id": "mahuang.wu.xinyi",
+      "other": "herb-xinyi",
+      "says": "麻黃惡辛夷、石葦",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "麻黄（浓朴、白薇为之使。恶辛夷、石苇。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相惡"
+    },
+    {
+      "herb": "herb-mahuang",
+      "id": "mahuang.xu.guizhi",
+      "other": "herb-guizhi",
+      "says": "麻黃、桂枝：發汗解表 — 麻黃湯",
+      "source": {
+        "book": "教材",
+        "chapter": "七情配伍·相須",
+        "note": "textbook example, unverified"
+      },
+      "status": "curated-draft",
+      "type": "相須"
+    },
+    {
+      "herb": "herb-maidong",
+      "id": "maidong.shi.dihuang",
+      "other": "herb-dihuang",
+      "says": "麥門冬地黃、車前為之使",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "麦门冬（地黄、车前为之使。恶款冬、苦、苦瓠。畏苦参、青、木耳。伏石钟乳。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相使"
+    },
+    {
+      "herb": "herb-maidong",
+      "id": "maidong.wei.kushen",
+      "other": "herb-kushen",
+      "says": "麥門冬畏苦參、青、木耳",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "麦门冬（地黄、车前为之使。恶款冬、苦、苦瓠。畏苦参、青、木耳。伏石钟乳。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相畏"
+    },
+    {
+      "herb": "herb-manjingzi",
+      "id": "manjingzi.wu.shigao",
+      "other": "herb-shigao",
+      "says": "蔓荊子惡烏頭、石膏",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "蔓荆子（恶乌头、石膏。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相惡"
+    },
+    {
+      "herb": "herb-mudanpi",
+      "id": "mudanpi.wei.dahuang",
+      "other": "herb-dahuang",
+      "says": "牡丹畏菟絲子、貝母、大黃",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "牡丹（忌蒜、胡荽。伏砒。畏菟丝子、贝母、大黄。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相畏"
+    },
+    {
+      "herb": "herb-mudanpi",
+      "id": "mudanpi.wei.tusizi",
+      "other": "herb-tusizi",
+      "says": "牡丹畏菟絲子、貝母、大黃",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "牡丹（忌蒜、胡荽。伏砒。畏菟丝子、贝母、大黄。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相畏"
+    },
+    {
+      "herb": "herb-muli",
+      "id": "muli.shi.gancao",
+      "other": "herb-gancao",
+      "says": "牡蠣得甘草、牛膝、遠志、蛇床子良",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "牡蛎（贝母为之使。得甘草、牛膝、远志、蛇床子良。恶麻黄、吴茱萸、辛夷。伏砂。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相使"
+    },
+    {
+      "herb": "herb-muli",
+      "id": "muli.shi.niuxi",
+      "other": "herb-niuxi",
+      "says": "牡蠣得甘草、牛膝、遠志、蛇床子良",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "牡蛎（贝母为之使。得甘草、牛膝、远志、蛇床子良。恶麻黄、吴茱萸、辛夷。伏砂。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相使"
+    },
+    {
+      "herb": "herb-muli",
+      "id": "muli.shi.shechuangzi",
+      "other": "herb-shechuangzi",
+      "says": "牡蠣得甘草、牛膝、遠志、蛇床子良",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "牡蛎（贝母为之使。得甘草、牛膝、远志、蛇床子良。恶麻黄、吴茱萸、辛夷。伏砂。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相使"
+    },
+    {
+      "herb": "herb-muli",
+      "id": "muli.shi.yuanzhi",
+      "other": "herb-yuanzhi",
+      "says": "牡蠣得甘草、牛膝、遠志、蛇床子良",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "牡蛎（贝母为之使。得甘草、牛膝、远志、蛇床子良。恶麻黄、吴茱萸、辛夷。伏砂。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相使"
+    },
+    {
+      "herb": "herb-muli",
+      "id": "muli.wu.mahuang",
+      "other": "herb-mahuang",
+      "says": "牡蠣惡麻黃、吳茱萸、辛夷",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "牡蛎（贝母为之使。得甘草、牛膝、远志、蛇床子良。恶麻黄、吴茱萸、辛夷。伏砂。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相惡"
+    },
+    {
+      "herb": "herb-muli",
+      "id": "muli.wu.wuzhuyu",
+      "other": "herb-wuzhuyu",
+      "says": "牡蠣惡麻黃、吳茱萸、辛夷",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "牡蛎（贝母为之使。得甘草、牛膝、远志、蛇床子良。恶麻黄、吴茱萸、辛夷。伏砂。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相惡"
+    },
+    {
+      "herb": "herb-muli",
+      "id": "muli.wu.xinyi",
+      "other": "herb-xinyi",
+      "says": "牡蠣惡麻黃、吳茱萸、辛夷",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "牡蛎（贝母为之使。得甘草、牛膝、远志、蛇床子良。恶麻黄、吴茱萸、辛夷。伏砂。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相惡"
+    },
+    {
+      "herb": "herb-niuhuang",
+      "id": "niuhuang.shi.renshen",
+      "other": "herb-renshen",
+      "says": "牛黃人參為之使",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "牛黄（人参为之使。得牡丹、菖蒲，利耳目。恶龙骨、龙胆、地黄、常山、蜚蠊。畏牛膝、干漆。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相使"
+    },
+    {
+      "herb": "herb-niuhuang",
+      "id": "niuhuang.wu.changshan",
+      "other": "herb-changshan",
+      "says": "牛黃惡龍骨、龍膽、地黃、常山、蜚蠊",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "牛黄（人参为之使。得牡丹、菖蒲，利耳目。恶龙骨、龙胆、地黄、常山、蜚蠊。畏牛膝、干漆。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相惡"
+    },
+    {
+      "herb": "herb-niuhuang",
+      "id": "niuhuang.wu.dihuang",
+      "other": "herb-dihuang",
+      "says": "牛黃惡龍骨、龍膽、地黃、常山、蜚蠊",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "牛黄（人参为之使。得牡丹、菖蒲，利耳目。恶龙骨、龙胆、地黄、常山、蜚蠊。畏牛膝、干漆。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相惡"
+    },
+    {
+      "herb": "herb-niuhuang",
+      "id": "niuhuang.wu.longdan",
+      "other": "herb-longdan",
+      "says": "牛黃惡龍骨、龍膽、地黃、常山、蜚蠊",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "牛黄（人参为之使。得牡丹、菖蒲，利耳目。恶龙骨、龙胆、地黄、常山、蜚蠊。畏牛膝、干漆。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相惡"
+    },
+    {
+      "herb": "herb-niuhuang",
+      "id": "niuhuang.wu.longgu",
+      "other": "herb-longgu",
+      "says": "牛黃惡龍骨、龍膽、地黃、常山、蜚蠊",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "牛黄（人参为之使。得牡丹、菖蒲，利耳目。恶龙骨、龙胆、地黄、常山、蜚蠊。畏牛膝、干漆。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相惡"
+    },
+    {
+      "herb": "herb-niuhuang",
+      "id": "niuhuang.wei.ganqi",
+      "other": "herb-ganqi",
+      "says": "牛黃畏牛膝、乾漆",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "牛黄（人参为之使。得牡丹、菖蒲，利耳目。恶龙骨、龙胆、地黄、常山、蜚蠊。畏牛膝、干漆。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相畏"
+    },
+    {
+      "herb": "herb-niuhuang",
+      "id": "niuhuang.wei.niuxi",
+      "other": "herb-niuxi",
+      "says": "牛黃畏牛膝、乾漆",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "牛黄（人参为之使。得牡丹、菖蒲，利耳目。恶龙骨、龙胆、地黄、常山、蜚蠊。畏牛膝、干漆。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相畏"
+    },
+    {
+      "herb": "herb-niuxi",
+      "id": "niuxi.wu.guijia",
+      "other": "herb-guijia",
+      "says": "牛膝惡螢火、龜甲、陸英",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "牛膝（恶萤火、龟甲、陆英。畏白前。忌牛肉。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相惡"
+    },
+    {
+      "herb": "herb-niuxi",
+      "id": "niuxi.wei.baizhiqian",
+      "other": "herb-baizhiqian",
+      "says": "牛膝畏白前",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "牛膝（恶萤火、龟甲、陆英。畏白前。忌牛肉。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相畏"
+    },
+    {
+      "herb": "herb-qianhu",
+      "id": "qianhu.shi.banxia",
+      "other": "herb-banxia",
+      "says": "前胡半夏為之使",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "前胡（半夏为之使。恶皂荚。畏藜芦。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相使"
+    },
+    {
+      "herb": "herb-qianhu",
+      "id": "qianhu.wu.zaojia",
+      "other": "herb-zaojia",
+      "says": "前胡惡皂莢",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "前胡（半夏为之使。恶皂荚。畏藜芦。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相惡"
+    },
+    {
+      "herb": "herb-qianhu",
+      "id": "qianhu.wei.lilu",
+      "other": "herb-lilu",
+      "says": "前胡畏藜蘆",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "前胡（半夏为之使。恶皂荚。畏藜芦。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相畏"
+    },
+    {
+      "herb": "herb-qianniuzi",
+      "id": "qianniuzi.shi.ganjiang",
+      "other": "herb-ganjiang",
+      "says": "牽牛子得乾薑、青木香良",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "牵牛子（得干姜、青木香良。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相使"
+    },
+    {
+      "herb": "herb-qinjiao",
+      "id": "qinjiao.shi.shichangpu",
+      "other": "herb-shichangpu",
+      "says": "秦艽菖蒲為之使",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "秦艽（菖蒲为之使。畏牛乳。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相使"
+    },
+    {
+      "herb": "herb-qinpi",
+      "id": "qinpi.wu.wuzhuyu",
+      "other": "herb-wuzhuyu",
+      "says": "秦皮惡吳茱萸、苦瓠、防葵",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "秦皮（大戟为之使。恶吴茱萸、苦瓠、防葵）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相惡"
+    },
+    {
+      "herb": "herb-quanxie",
+      "id": "quanxie.xu.wugong",
+      "other": "herb-wugong",
+      "says": "全蠍、蜈蚣：息風止痙",
+      "source": {
+        "book": "教材",
+        "chapter": "七情配伍·相須",
+        "note": "textbook example, unverified"
+      },
+      "status": "curated-draft",
+      "type": "相須"
+    },
+    {
+      "herb": "herb-qumai",
+      "id": "qumai.shi.mudanpi",
+      "other": "herb-mudanpi",
+      "says": "瞿麥牡丹、草為之使",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "瞿麦（牡丹、草为之使。恶螵蛸。伏丹砂。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相使"
+    },
+    {
+      "herb": "herb-renshen",
+      "id": "renshen.shi.fuling",
+      "other": "herb-fuling",
+      "says": "人參茯苓、馬藺為之使",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "人参（茯苓、马蔺为之使。恶卤咸、溲疏。畏五灵脂。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相使"
+    },
+    {
+      "herb": "herb-renshen",
+      "id": "renshen.wei.wulingzhi",
+      "other": "herb-wulingzhi",
+      "says": "人參畏五靈脂",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "人参（茯苓、马蔺为之使。恶卤咸、溲疏。畏五灵脂。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相畏"
+    },
+    {
+      "herb": "herb-renshen",
+      "id": "renshen.xu.huangqi",
+      "other": "herb-huangqi",
+      "says": "人參、黃耆：補氣",
+      "source": {
+        "book": "教材",
+        "chapter": "七情配伍·相須",
+        "note": "textbook example, unverified"
+      },
+      "status": "curated-draft",
+      "type": "相須"
+    },
+    {
+      "herb": "herb-ruxiang",
+      "id": "ruxiang.xu.moyao",
+      "other": "herb-moyao",
+      "says": "乳香、沒藥：活血止痛",
+      "source": {
+        "book": "教材",
+        "chapter": "七情配伍·相須",
+        "note": "textbook example, unverified"
+      },
+      "status": "curated-draft",
+      "type": "相須"
+    },
+    {
+      "herb": "herb-sanleng",
+      "id": "sanleng.xu.ezhu",
+      "other": "herb-ezhu",
+      "says": "三稜、莪術：破血行氣",
+      "source": {
+        "book": "教材",
+        "chapter": "七情配伍·相須",
+        "note": "textbook example, unverified"
+      },
+      "status": "curated-draft",
+      "type": "相須"
+    },
+    {
+      "herb": "herb-shanglu",
+      "id": "shanglu.shi.dasuan",
+      "other": "herb-dasuan",
+      "says": "商陸得大蒜良",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "商陆（得大蒜良。忌犬肉。伏砂、砒石、雌黄。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相使"
+    },
+    {
+      "herb": "herb-shanzhuyu",
+      "id": "shanzhuyu.wu.fangfeng",
+      "other": "herb-fangfeng",
+      "says": "山茱萸惡桔梗、防風、防己",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "山茱萸（蓼实为之使。恶桔梗、防风、防己。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相惡"
+    },
+    {
+      "herb": "herb-shanzhuyu",
+      "id": "shanzhuyu.wu.fangji",
+      "other": "herb-fangji",
+      "says": "山茱萸惡桔梗、防風、防己",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "山茱萸（蓼实为之使。恶桔梗、防风、防己。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相惡"
+    },
+    {
+      "herb": "herb-shanzhuyu",
+      "id": "shanzhuyu.wu.jiegeng",
+      "other": "herb-jiegeng",
+      "says": "山茱萸惡桔梗、防風、防己",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "山茱萸（蓼实为之使。恶桔梗、防风、防己。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相惡"
+    },
+    {
+      "herb": "herb-shengjiang",
+      "id": "shengjiang.shi.qinjiao",
+      "other": "herb-qinjiao",
+      "says": "生薑秦椒、秦艽為之使",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "生姜（秦椒、秦艽为之使。恶黄芩、黄连、天鼠粪。杀半夏、南星、莨菪毒。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相使"
+    },
+    {
+      "herb": "herb-shengjiang",
+      "id": "shengjiang.wu.huanglian",
+      "other": "herb-huanglian",
+      "says": "生薑惡黃芩、黃連、天鼠糞",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "生姜（秦椒、秦艽为之使。恶黄芩、黄连、天鼠粪。杀半夏、南星、莨菪毒。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相惡"
+    },
+    {
+      "herb": "herb-shengjiang",
+      "id": "shengjiang.wu.huangqin",
+      "other": "herb-huangqin",
+      "says": "生薑惡黃芩、黃連、天鼠糞",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "生姜（秦椒、秦艽为之使。恶黄芩、黄连、天鼠粪。杀半夏、南星、莨菪毒。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相惡"
+    },
+    {
+      "herb": "herb-shetui",
+      "id": "shetui.wei.cishi",
+      "other": "herb-cishi",
+      "says": "蛇蛻畏磁石及酒",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "蛇蜕（得火良。畏磁石及酒。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相畏"
+    },
+    {
+      "herb": "herb-shichangpu",
+      "id": "shichangpu.shi.qinjiao",
+      "other": "herb-qinjiao",
+      "says": "石菖蒲秦皮、秦艽為之使",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "石菖蒲（秦皮、秦艽为之使。恶麻黄、地胆。忌饴糖、羊肉、铁器。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相使"
+    },
+    {
+      "herb": "herb-shichangpu",
+      "id": "shichangpu.shi.qinpi",
+      "other": "herb-qinpi",
+      "says": "石菖蒲秦皮、秦艽為之使",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "石菖蒲（秦皮、秦艽为之使。恶麻黄、地胆。忌饴糖、羊肉、铁器。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相使"
+    },
+    {
+      "herb": "herb-shichangpu",
+      "id": "shichangpu.wu.mahuang",
+      "other": "herb-mahuang",
+      "says": "石菖蒲惡麻黃、地膽",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "石菖蒲（秦皮、秦艽为之使。恶麻黄、地胆。忌饴糖、羊肉、铁器。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相惡"
+    },
+    {
+      "herb": "herb-shigao",
+      "id": "shigao.wu.badou",
+      "other": "herb-badou",
+      "says": "石膏惡莽草、巴豆、馬目毒公",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "石膏（鸡子为之使。畏铁。恶莽草、巴豆、马目毒公。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相惡"
+    },
+    {
+      "herb": "herb-shigao",
+      "id": "shigao.xu.zhimu",
+      "other": "herb-zhimu",
+      "says": "石膏、知母：清熱瀉火 — 白虎湯",
+      "source": {
+        "book": "教材",
+        "chapter": "七情配伍·相須",
+        "note": "textbook example, unverified"
+      },
+      "status": "curated-draft",
+      "type": "相須"
+    },
+    {
+      "herb": "herb-shihu",
+      "id": "shihu.wu.badou",
+      "other": "herb-badou",
+      "says": "石斛惡凝水石、巴豆",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "石斛（陆英为之使。恶凝水石、巴豆。畏雷丸、僵蚕。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相惡"
+    },
+    {
+      "herb": "herb-shihu",
+      "id": "shihu.wei.jiangcan",
+      "other": "herb-jiangcan",
+      "says": "石斛畏雷丸、殭蠶",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "石斛（陆英为之使。恶凝水石、巴豆。畏雷丸、僵蚕。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相畏"
+    },
+    {
+      "herb": "herb-shihu",
+      "id": "shihu.wei.leiwan",
+      "other": "herb-leiwan",
+      "says": "石斛畏雷丸、殭蠶",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "石斛（陆英为之使。恶凝水石、巴豆。畏雷丸、僵蚕。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相畏"
+    },
+    {
+      "herb": "herb-taoren",
+      "id": "taoren.shi.xiangfu",
+      "other": "herb-xiangfu",
+      "says": "桃仁香附為之使",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "桃仁（香附为之使。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相使"
+    },
+    {
+      "herb": "herb-taoren",
+      "id": "taoren.xu.honghua",
+      "other": "herb-honghua",
+      "says": "桃仁、紅花：活血祛瘀 — 桃紅四物湯",
+      "source": {
+        "book": "教材",
+        "chapter": "七情配伍·相須",
+        "note": "textbook example, unverified"
+      },
+      "status": "curated-draft",
+      "type": "相須"
+    },
+    {
+      "herb": "herb-tiandong",
+      "id": "tiandong.shi.dihuang",
+      "other": "herb-dihuang",
+      "says": "天門冬地黃、貝母、垣衣為之使",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "天门冬（地黄、贝母、垣衣为之使。忌鲤鱼。畏曾青、浮萍。制雄黄、砂。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相使"
+    },
+    {
+      "herb": "herb-tiandong",
+      "id": "tiandong.wei.fuping",
+      "other": "herb-fuping",
+      "says": "天門冬畏曾青、浮萍",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "天门冬（地黄、贝母、垣衣为之使。忌鲤鱼。畏曾青、浮萍。制雄黄、砂。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相畏"
+    },
+    {
+      "herb": "herb-tiannanxing",
+      "id": "tiannanxing.wei.fangfeng",
+      "other": "herb-fangfeng",
+      "says": "天南星畏附子、乾薑、防風、生薑",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "天南星（蜀漆为之使。得火、牛胆良。恶莽草。畏附子、干姜、防风、生姜。伏雄黄、丹砂、焰硝。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相畏"
+    },
+    {
+      "herb": "herb-tiannanxing",
+      "id": "tiannanxing.wei.fuzi",
+      "other": "herb-fuzi",
+      "says": "天南星畏附子、乾薑、防風、生薑",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "天南星（蜀漆为之使。得火、牛胆良。恶莽草。畏附子、干姜、防风、生姜。伏雄黄、丹砂、焰硝。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相畏"
+    },
+    {
+      "herb": "herb-tiannanxing",
+      "id": "tiannanxing.wei.ganjiang",
+      "other": "herb-ganjiang",
+      "says": "天南星畏附子、乾薑、防風、生薑",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "天南星（蜀漆为之使。得火、牛胆良。恶莽草。畏附子、干姜、防风、生姜。伏雄黄、丹砂、焰硝。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相畏"
+    },
+    {
+      "herb": "herb-tiannanxing",
+      "id": "tiannanxing.wei.shengjiang",
+      "other": "herb-shengjiang",
+      "says": "天南星畏附子、乾薑、防風、生薑",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "天南星（蜀漆为之使。得火、牛胆良。恶莽草。畏附子、干姜、防风、生姜。伏雄黄、丹砂、焰硝。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相畏"
+    },
+    {
+      "herb": "herb-wugong",
+      "id": "wugong.wei.sangbaipi",
+      "other": "herb-sangbaipi",
+      "says": "蜈蚣畏蛞蝓、蜘蛛、白鹽、雞屎、桑白皮",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "蜈蚣（畏蛞蝓、蜘蛛、白盐、鸡屎、桑白皮。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相畏"
+    },
+    {
+      "herb": "herb-wujiapi",
+      "id": "wujiapi.shi.yuanzhi",
+      "other": "herb-yuanzhi",
+      "says": "五加皮遠志為之使",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "五加皮（远志为之使。畏玄参、蛇皮。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相使"
+    },
+    {
+      "herb": "herb-wujiapi",
+      "id": "wujiapi.wei.xuanshen",
+      "other": "herb-xuanshen",
+      "says": "五加皮畏玄參、蛇皮",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "五加皮（远志为之使。畏玄参、蛇皮。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相畏"
+    },
+    {
+      "herb": "herb-wulingzhi",
+      "id": "wulingzhi.wu.renshen",
+      "other": "herb-renshen",
+      "says": "五靈脂惡人參",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "五灵脂（恶人参。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相惡"
+    },
+    {
+      "herb": "herb-wuzhuyu",
+      "id": "wuzhuyu.wu.danshen",
+      "other": "herb-danshen",
+      "says": "吳茱萸惡丹參、硝石、白堊",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "吴茱萸（蓼实为之使。恶丹参、硝石、白垩。畏紫石英。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相惡"
+    },
+    {
+      "herb": "herb-wuzhuyu",
+      "id": "wuzhuyu.wei.zishiying",
+      "other": "herb-zishiying",
+      "says": "吳茱萸畏紫石英",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "吴茱萸（蓼实为之使。恶丹参、硝石、白垩。畏紫石英。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相畏"
+    },
+    {
+      "herb": "herb-xinyi",
+      "id": "xinyi.wei.huanglian",
+      "other": "herb-huanglian",
+      "says": "辛夷畏菖蒲、黃連、蒲黃、石膏、黃環",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "辛夷（芎为之使。恶五石脂。畏菖蒲、黄连、蒲黄、石膏、黄环。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相畏"
+    },
+    {
+      "herb": "herb-xinyi",
+      "id": "xinyi.wei.puhuang",
+      "other": "herb-puhuang",
+      "says": "辛夷畏菖蒲、黃連、蒲黃、石膏、黃環",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "辛夷（芎为之使。恶五石脂。畏菖蒲、黄连、蒲黄、石膏、黄环。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相畏"
+    },
+    {
+      "herb": "herb-xinyi",
+      "id": "xinyi.wei.shichangpu",
+      "other": "herb-shichangpu",
+      "says": "辛夷畏菖蒲、黃連、蒲黃、石膏、黃環",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "辛夷（芎为之使。恶五石脂。畏菖蒲、黄连、蒲黄、石膏、黄环。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相畏"
+    },
+    {
+      "herb": "herb-xinyi",
+      "id": "xinyi.wei.shigao",
+      "other": "herb-shigao",
+      "says": "辛夷畏菖蒲、黃連、蒲黃、石膏、黃環",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "辛夷（芎为之使。恶五石脂。畏菖蒲、黄连、蒲黄、石膏、黄环。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相畏"
+    },
+    {
+      "herb": "herb-xionghuang",
+      "id": "xionghuang.wei.baizhi",
+      "other": "herb-baizhi",
+      "says": "雄黃畏南星、地黃、萵苣、地榆、黃芩、白芷、當歸、地錦、苦參、五加皮、紫河車、五葉藤、鵝腸草、雞腸草、鵝不食草、圓桑葉、脂",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "雄黄（畏南星、地黄、莴苣、地榆、黄芩、白芷、当归、地锦、苦参、五加皮、紫河车、五叶藤、鹅肠草、鸡肠草、鹅不食草、圆桑叶、脂。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相畏"
+    },
+    {
+      "herb": "herb-xionghuang",
+      "id": "xionghuang.wei.danggui",
+      "other": "herb-danggui",
+      "says": "雄黃畏南星、地黃、萵苣、地榆、黃芩、白芷、當歸、地錦、苦參、五加皮、紫河車、五葉藤、鵝腸草、雞腸草、鵝不食草、圓桑葉、脂",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "雄黄（畏南星、地黄、莴苣、地榆、黄芩、白芷、当归、地锦、苦参、五加皮、紫河车、五叶藤、鹅肠草、鸡肠草、鹅不食草、圆桑叶、脂。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相畏"
+    },
+    {
+      "herb": "herb-xionghuang",
+      "id": "xionghuang.wei.dihuang",
+      "other": "herb-dihuang",
+      "says": "雄黃畏南星、地黃、萵苣、地榆、黃芩、白芷、當歸、地錦、苦參、五加皮、紫河車、五葉藤、鵝腸草、雞腸草、鵝不食草、圓桑葉、脂",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "雄黄（畏南星、地黄、莴苣、地榆、黄芩、白芷、当归、地锦、苦参、五加皮、紫河车、五叶藤、鹅肠草、鸡肠草、鹅不食草、圆桑叶、脂。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相畏"
+    },
+    {
+      "herb": "herb-xionghuang",
+      "id": "xionghuang.wei.diyu",
+      "other": "herb-diyu",
+      "says": "雄黃畏南星、地黃、萵苣、地榆、黃芩、白芷、當歸、地錦、苦參、五加皮、紫河車、五葉藤、鵝腸草、雞腸草、鵝不食草、圓桑葉、脂",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "雄黄（畏南星、地黄、莴苣、地榆、黄芩、白芷、当归、地锦、苦参、五加皮、紫河车、五叶藤、鹅肠草、鸡肠草、鹅不食草、圆桑叶、脂。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相畏"
+    },
+    {
+      "herb": "herb-xionghuang",
+      "id": "xionghuang.wei.ebushicao",
+      "other": "herb-ebushicao",
+      "says": "雄黃畏南星、地黃、萵苣、地榆、黃芩、白芷、當歸、地錦、苦參、五加皮、紫河車、五葉藤、鵝腸草、雞腸草、鵝不食草、圓桑葉、脂",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "雄黄（畏南星、地黄、莴苣、地榆、黄芩、白芷、当归、地锦、苦参、五加皮、紫河车、五叶藤、鹅肠草、鸡肠草、鹅不食草、圆桑叶、脂。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相畏"
+    },
+    {
+      "herb": "herb-xionghuang",
+      "id": "xionghuang.wei.huangqin",
+      "other": "herb-huangqin",
+      "says": "雄黃畏南星、地黃、萵苣、地榆、黃芩、白芷、當歸、地錦、苦參、五加皮、紫河車、五葉藤、鵝腸草、雞腸草、鵝不食草、圓桑葉、脂",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "雄黄（畏南星、地黄、莴苣、地榆、黄芩、白芷、当归、地锦、苦参、五加皮、紫河车、五叶藤、鹅肠草、鸡肠草、鹅不食草、圆桑叶、脂。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相畏"
+    },
+    {
+      "herb": "herb-xionghuang",
+      "id": "xionghuang.wei.kushen",
+      "other": "herb-kushen",
+      "says": "雄黃畏南星、地黃、萵苣、地榆、黃芩、白芷、當歸、地錦、苦參、五加皮、紫河車、五葉藤、鵝腸草、雞腸草、鵝不食草、圓桑葉、脂",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "雄黄（畏南星、地黄、莴苣、地榆、黄芩、白芷、当归、地锦、苦参、五加皮、紫河车、五叶藤、鹅肠草、鸡肠草、鹅不食草、圆桑叶、脂。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相畏"
+    },
+    {
+      "herb": "herb-xionghuang",
+      "id": "xionghuang.wei.wujiapi",
+      "other": "herb-wujiapi",
+      "says": "雄黃畏南星、地黃、萵苣、地榆、黃芩、白芷、當歸、地錦、苦參、五加皮、紫河車、五葉藤、鵝腸草、雞腸草、鵝不食草、圓桑葉、脂",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "雄黄（畏南星、地黄、莴苣、地榆、黄芩、白芷、当归、地锦、苦参、五加皮、紫河车、五叶藤、鹅肠草、鸡肠草、鹅不食草、圆桑叶、脂。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相畏"
+    },
+    {
+      "herb": "herb-xionghuang",
+      "id": "xionghuang.wei.ziheche",
+      "other": "herb-ziheche",
+      "says": "雄黃畏南星、地黃、萵苣、地榆、黃芩、白芷、當歸、地錦、苦參、五加皮、紫河車、五葉藤、鵝腸草、雞腸草、鵝不食草、圓桑葉、脂",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "雄黄（畏南星、地黄、莴苣、地榆、黄芩、白芷、当归、地锦、苦参、五加皮、紫河车、五叶藤、鹅肠草、鸡肠草、鹅不食草、圆桑叶、脂。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相畏"
+    },
+    {
+      "herb": "herb-xixin",
+      "id": "xixin.wu.shanzhuyu",
+      "other": "herb-shanzhuyu",
+      "says": "細辛惡黃、野狼毒、山茱萸",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "细辛（曾青、枣根为之使。忌生菜、狸肉。恶黄、野狼毒、山茱萸。畏滑石、硝石。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相惡"
+    },
+    {
+      "herb": "herb-xixin",
+      "id": "xixin.wei.huashi",
+      "other": "herb-huashi",
+      "says": "細辛畏滑石、硝石",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "细辛（曾青、枣根为之使。忌生菜、狸肉。恶黄、野狼毒、山茱萸。畏滑石、硝石。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相畏"
+    },
+    {
+      "herb": "herb-xuanshen",
+      "id": "xuanshen.wu.dazao",
+      "other": "herb-dazao",
+      "says": "玄參惡黃、乾薑、大棗、山茱萸",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "玄参（恶黄、干姜、大枣、山茱萸。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相惡"
+    },
+    {
+      "herb": "herb-xuanshen",
+      "id": "xuanshen.wu.ganjiang",
+      "other": "herb-ganjiang",
+      "says": "玄參惡黃、乾薑、大棗、山茱萸",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "玄参（恶黄、干姜、大枣、山茱萸。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相惡"
+    },
+    {
+      "herb": "herb-xuanshen",
+      "id": "xuanshen.wu.shanzhuyu",
+      "other": "herb-shanzhuyu",
+      "says": "玄參惡黃、乾薑、大棗、山茱萸",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "玄参（恶黄、干姜、大枣、山茱萸。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相惡"
+    },
+    {
+      "herb": "herb-xuduan",
+      "id": "xuduan.shi.dihuang",
+      "other": "herb-dihuang",
+      "says": "續斷地黃為之使",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "续断（地黄为之使。恶雷丸。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相使"
+    },
+    {
+      "herb": "herb-xuduan",
+      "id": "xuduan.wu.leiwan",
+      "other": "herb-leiwan",
+      "says": "續斷惡雷丸",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "续断（地黄为之使。恶雷丸。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相惡"
+    },
+    {
+      "herb": "herb-yangqishi",
+      "id": "yangqishi.shi.sangpiaoxiao",
+      "other": "herb-sangpiaoxiao",
+      "says": "陽起石桑螵蛸為之使",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "阳起石（桑螵蛸为之使。恶泽泻、雷丸、菌桂、石葵、蛇蜕皮。畏菟丝子。忌羊血。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相使"
+    },
+    {
+      "herb": "herb-yangqishi",
+      "id": "yangqishi.wu.leiwan",
+      "other": "herb-leiwan",
+      "says": "陽起石惡澤瀉、雷丸、菌桂、石葵、蛇蛻皮",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "阳起石（桑螵蛸为之使。恶泽泻、雷丸、菌桂、石葵、蛇蜕皮。畏菟丝子。忌羊血。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相惡"
+    },
+    {
+      "herb": "herb-yangqishi",
+      "id": "yangqishi.wu.zexie",
+      "other": "herb-zexie",
+      "says": "陽起石惡澤瀉、雷丸、菌桂、石葵、蛇蛻皮",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "阳起石（桑螵蛸为之使。恶泽泻、雷丸、菌桂、石葵、蛇蜕皮。畏菟丝子。忌羊血。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相惡"
+    },
+    {
+      "herb": "herb-yangqishi",
+      "id": "yangqishi.wei.tusizi",
+      "other": "herb-tusizi",
+      "says": "陽起石畏菟絲子",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "阳起石（桑螵蛸为之使。恶泽泻、雷丸、菌桂、石葵、蛇蜕皮。畏菟丝子。忌羊血。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相畏"
+    },
+    {
+      "herb": "herb-yingsuqiao",
+      "id": "yingsuqiao.shi.wumei",
+      "other": "herb-wumei",
+      "says": "罌粟殼得醋、烏梅、橘皮良",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "罂粟壳（得醋、乌梅、橘皮良。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相使"
+    },
+    {
+      "herb": "herb-yuanzhi",
+      "id": "yuanzhi.shi.fuling",
+      "other": "herb-fuling",
+      "says": "遠志得茯苓、龍骨、冬葵子良",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "远志（得茯苓、龙骨、冬葵子良。畏真珠、蜚蠊、藜芦、齐蛤。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相使"
+    },
+    {
+      "herb": "herb-yuanzhi",
+      "id": "yuanzhi.shi.longgu",
+      "other": "herb-longgu",
+      "says": "遠志得茯苓、龍骨、冬葵子良",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "远志（得茯苓、龙骨、冬葵子良。畏真珠、蜚蠊、藜芦、齐蛤。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相使"
+    },
+    {
+      "herb": "herb-yuanzhi",
+      "id": "yuanzhi.wei.lilu",
+      "other": "herb-lilu",
+      "says": "遠志畏真珠、蜚蠊、藜蘆、齊蛤",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "远志（得茯苓、龙骨、冬葵子良。畏真珠、蜚蠊、藜芦、齐蛤。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相畏"
+    },
+    {
+      "herb": "herb-yuyuliang",
+      "id": "yuyuliang.shi.mudanpi",
+      "other": "herb-mudanpi",
+      "says": "禹餘糧牡丹為之使",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "禹余粮（牡丹为之使。制五金、三黄。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相使"
+    },
+    {
+      "herb": "herb-zaojia",
+      "id": "zaojia.wu.maidong",
+      "other": "herb-maidong",
+      "says": "皂莢惡麥門冬",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "皂荚（柏实为之使。恶麦门冬。畏人参、苦参、空青。伏丹砂、粉霜、硫黄、砂。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相惡"
+    },
+    {
+      "herb": "herb-zaojia",
+      "id": "zaojia.wei.kushen",
+      "other": "herb-kushen",
+      "says": "皂莢畏人參、苦參、空青",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "皂荚（柏实为之使。恶麦门冬。畏人参、苦参、空青。伏丹砂、粉霜、硫黄、砂。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相畏"
+    },
+    {
+      "herb": "herb-zaojia",
+      "id": "zaojia.wei.renshen",
+      "other": "herb-renshen",
+      "says": "皂莢畏人參、苦參、空青",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "皂荚（柏实为之使。恶麦门冬。畏人参、苦参、空青。伏丹砂、粉霜、硫黄、砂。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相畏"
+    },
+    {
+      "herb": "herb-zelan",
+      "id": "zelan.shi.fangji",
+      "other": "herb-fangji",
+      "says": "澤蘭防己為之使",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "泽兰（防己为之使。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相使"
+    },
+    {
+      "herb": "herb-zhimu",
+      "id": "zhimu.shi.huangbai",
+      "other": "herb-huangbai",
+      "says": "知母得黃柏及酒良",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "知母（得黄柏及酒良。伏蓬砂、盐。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相使"
+    },
+    {
+      "herb": "herb-zishiying",
+      "id": "zishiying.wu.huanglian",
+      "other": "herb-huanglian",
+      "says": "紫石英惡甲、黃連、麥句姜",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "紫石英（长石为之使。得茯苓、人参、芍药，主心中结气。得天雄、菖蒲，主霍乱。恶甲、黄连、麦句姜。畏扁青、附子及酒。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相惡"
+    },
+    {
+      "herb": "herb-zishiying",
+      "id": "zishiying.wei.fuzi",
+      "other": "herb-fuzi",
+      "says": "紫石英畏扁青、附子及酒",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "紫石英（长石为之使。得茯苓、人参、芍药，主心中结气。得天雄、菖蒲，主霍乱。恶甲、黄连、麦句姜。畏扁青、附子及酒。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相畏"
+    },
+    {
+      "herb": "herb-ziwan",
+      "id": "ziwan.wu.leiwan",
+      "other": "herb-leiwan",
+      "says": "紫菀惡天雄、本、雷丸、遠志、瞿麥",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "紫菀（款冬为之使。恶天雄、本、雷丸、远志、瞿麦。畏茵陈。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相惡"
+    },
+    {
+      "herb": "herb-ziwan",
+      "id": "ziwan.wu.qumai",
+      "other": "herb-qumai",
+      "says": "紫菀惡天雄、本、雷丸、遠志、瞿麥",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "紫菀（款冬为之使。恶天雄、本、雷丸、远志、瞿麦。畏茵陈。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相惡"
+    },
+    {
+      "herb": "herb-ziwan",
+      "id": "ziwan.wu.yuanzhi",
+      "other": "herb-yuanzhi",
+      "says": "紫菀惡天雄、本、雷丸、遠志、瞿麥",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "紫菀（款冬为之使。恶天雄、本、雷丸、远志、瞿麦。畏茵陈。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相惡"
+    },
+    {
+      "herb": "herb-ziwan",
+      "id": "ziwan.wei.yinchen",
+      "other": "herb-yinchen",
+      "says": "紫菀畏茵陳",
+      "source": {
+        "book": "本草綱目",
+        "chapter": "序例下·相須相使相畏相惡諸藥",
+        "entry_zh_hans": "紫菀（款冬为之使。恶天雄、本、雷丸、远志、瞿麦。畏茵陈。）",
+        "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt"
+      },
+      "status": "derived",
+      "type": "相畏"
+    }
+  ]
+}

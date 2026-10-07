@@ -2,8 +2,8 @@
 
 | | |
 |---|---|
-| **Version** | 0.2 (draft) |
-| **Status** | Design for Release E (FR-36 … FR-38; tasks PM-36 … PM-41). **Built: the herb property model (PM-36, §3.6)** |
+| **Version** | 0.3 (draft) |
+| **Status** | Design for Release E (FR-36 … FR-38; tasks PM-36 … PM-41). **Built: the herb property model (PM-36, §3.6); dose–response, pairings and processing (PM-37, §3.7)** |
 | **Last updated** | 2026-10-07 |
 | **Audience** | Engineers, the clinical content owner, the pharmacy reviewer, a legal adviser (for §7) |
 | **Related** | [Knowledge base v2](knowledge-base-v2.md) · [AI-assisted intake](ai-assisted-intake.md) · [Requirements FR-36 … FR-38](../requirements.md) · [Decisions PD-13 … PD-18](../decisions.md) · [Diagnosis SOP §12](../../diagnosis-sop.zh-TW.md) · [Safety policy §2](../../safety-policy.md) · [PRD G10](../../PRD.md) |
@@ -104,6 +104,16 @@ Every herb of the knowledge base now carries `props` — 陰陽, 五行 shares, 
 - **Twelve new verified quotations** ground the rules: 《素問》 on 氣味厚薄, on 陰陽 and 寒熱, on the flavours' yin and yang, on 燥潤, on 高者抑之，下者舉之, on 燥者濡之, on 實則瀉之，虛則補之 and on the four grades of 毒; 《神農本草經·序錄》 (四氣五味 and 有毒無毒); 《本草綱目》 (升降浮沉); 《本草備要》 (輕重, 燥潤 and 氣血分). The knowledge base now quotes 139 passages from 14 works.
 
 First reading over the 703 herbs: 80 rise (> 0.2), 373 are even, 250 descend (< −0.2); 106 are 補, 555 瀉, 42 平; 156 dry, 104 moisten. Each is a derived draft until the pharmacy review (class C).
+
+### 3.7 As built: dose–response, 量效, 炮製 and 七情 (PM-37)
+
+The engine's [`prescription/herbs.ts`](../../../packages/engine/src/prescription/herbs.ts) computes what a herb does at an amount (`herbAtDose`), after its dose band and its processing, and what a composition does with its pairings (`applyPairings`, `compositionAction`); the tables are in `data/herbs/{pairings,processing,dose-bands}.json` and the parameters in `data/treatment/prescription.json` ([KB schema §4.3](../../kb-schema.md)).
+
+- **Dose–response as designed** (κ = 1, γ = 1.5; x = amount ÷ the middle of the Pharmacopoeia range). At the typical dose a herb does exactly what its record says — a test over all 703.
+- **量效 from the classics, not from guesses:** five herbs whose action the books say changes with the amount — 葛根 「少用則浮而外散，多用則沉而內降」 and 人參 「少用則泛上，多用則沉下」 (《本草新編》), 升麻 「多用則散，少用則升」 (《得配本草》), 蘇木 「少用則和血，多用則破血」 (《本經逢原》), 紅花 「少用通經活血，多用破血」 (《外科全生集》). 少用 is below 0.75 of the typical dose, 多用 above 1.25 (`[calibrate]`).
+- **炮製** follows 《本草蒙筌》's rhyme (酒製升提，薑製發散，入鹽走腎…蜜製甘緩…去瓤免脹，去心除煩): 13 methods quoted, 煨 marked unverified. The library's own formulas mostly carry cleaning words (去皮, 去節, 湯去皮尖), which change nothing; 炙甘草 is its own herb record.
+- **七情 read from the classical table:** 238 relations parsed from 《本草綱目·序例下》「相須相使相畏相惡諸藥」 (after 徐之才《藥對》), every one keeping the entry it came from; names the knowledge base lacks or that are ambiguous are skipped, never guessed; and the 11 textbook 相須 pairs, unverified. **23 relations fall inside the library's own formulas**, among them 半夏畏生薑 (小柴胡湯, 溫膽湯 — the classical reason for the ginger), 茯苓為人參之使 (四君子湯, 八珍湯, 天王補心丹) — and a classical 相惡 inside a classic: 生薑惡黃芩 in 小柴胡湯, which the verification (PM-39) will list for a reviewer rather than silently weaken the formula.
+- **The pairings never compound and their order never matters:** each is applied to the actions as they were before any pairing; a herb's benefit on a shared dimension grows by (1 + σ) at most once, its burden or benefit falls by (1 − τ) at most once. 相反 is listed as a conflict and never computed.
 
 ## 4. The formula: effect, structure and the 方解 in numbers
 
@@ -269,3 +279,4 @@ PM-36 (herb property model v2), PM-37 (dose–response, pairings, processing in 
 |---|---|---|
 | 0.1 | 2026-10-07 | Initial design, from the owner's direction of 2026-10-07 |
 | 0.2 | 2026-10-07 | §3.6: the property model as built (PM-36) |
+| 0.3 | 2026-10-07 | §3.7: dose–response, dose bands, processing and pairings as built (PM-37) |

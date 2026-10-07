@@ -359,6 +359,56 @@ def validate(load: Loader = load, check_sources: bool = True) -> list[str]:
         if rule["citation"] is not None and rule["citation"] not in cit_ids:
             err(f"herb property rule {rid}: unknown citation {rule['citation']}")
     herbs_by_id = {h["id"]: h for h in herbs}
+
+    # ── 4b. the prescription model's tables (PM-37) ─────────────────────────
+    pairs = load("herbs/pairings.json")
+    for c in pairs["_meta"]["citations"]:
+        if c not in cit_ids:
+            err(f"pairings: unknown citation {c}")
+    seen_pairs: set[tuple[str, str, str]] = set()
+    pairing_text = None
+    for pr in pairs["items"]:
+        if pr["herb"] not in herb_ids or pr["other"] not in herb_ids or pr["herb"] == pr["other"]:
+            err(f"pairing {pr['id']}: its herbs must be two different herbs of the knowledge base")
+        if (pr["herb"], pr["other"], pr["type"]) in seen_pairs:
+            err(f"pairing {pr['id']}: listed twice")
+        seen_pairs.add((pr["herb"], pr["other"], pr["type"]))
+        if check_sources and "entry_zh_hans" in pr["source"]:
+            if pairing_text is None:
+                from .common import norm_ws, read_book
+                from .curated.prescription import PAIRING_BOOK
+                pairing_text = norm_ws(read_book(PAIRING_BOOK))
+            if pr["source"]["entry_zh_hans"] not in pairing_text:
+                err(f"pairing {pr['id']}: its entry is not in 本草綱目")
+        if pr["status"] == "derived" and "entry_zh_hans" not in pr["source"]:
+            err(f"pairing {pr['id']}: a derived pairing must keep the entry it was read from")
+    proc = load("herbs/processing.json")
+    words = [w for m in proc["methods"] for w in m["words"]] + proc["cleaning"]
+    for dup in duplicates(words):
+        err(f"processing: the word {dup} belongs to two methods")
+    for m in proc["methods"]:
+        if m["citation"] is not None and m["citation"] not in cit_ids:
+            err(f"processing {m['id']}: unknown citation {m['citation']}")
+        if m["citation"] is None and "unverified" not in m["says"]:
+            err(f"processing {m['id']}: a method without a quotation must say it is unverified")
+        mod = m["modifiers"]
+        if not 0 < mod.get("harms_scale", 1) <= 1 or not -1 <= mod.get("direction", 0) <= 1 or any(o not in ORGANS for o in mod.get("tropism", {})):
+            err(f"processing {m['id']}: a modifier is out of range or names an unknown organ")
+    rx_params = load("treatment/prescription.json")["params"]
+    if not 0 < rx_params["bands"]["small_below"] < 1 < rx_params["bands"]["large_above"]:
+        err("prescription params: dose bands must lie on each side of the typical dose")
+    if not (rx_params["dose"]["kappa"] > 0 and rx_params["dose"]["gamma"] >= 1 and 0 <= rx_params["pairs"]["sigma"] < 1 and 0 <= rx_params["pairs"]["tau"] < 1):
+        err("prescription params: κ > 0, γ ≥ 1, 0 ≤ σ, τ < 1")
+    for b in load("herbs/dose-bands.json")["items"]:
+        if b["herb"] not in herb_ids or b["citation"] not in cit_ids:
+            err(f"dose band {b['name']}: unknown herb or citation")
+        for side in (b["small"], b["large"]):
+            for key in ("effects_add", "effects_scale", "harms_add"):
+                for t in side.get(key, {}):
+                    if not valid_target(t):
+                        err(f"dose band {b['name']}: invalid panel target {t}")
+            if not -1 <= side.get("direction", 0) <= 1 or any(o not in ORGANS for o in side.get("tropism", {})):
+                err(f"dose band {b['name']}: direction out of range or unknown organ")
     interaction_vocab = {i for h in herbs for i in h["interactions"]}
 
     # ── 5. formulas ────────────────────────────────────────────────────────

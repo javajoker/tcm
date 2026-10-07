@@ -166,4 +166,15 @@ CITATIONS = [
     ("bencao-gangmu-shengjiang", "book:013|本草綱目|序例上·升降浮沉", "酸咸无升，甘辛无降，寒无浮，热无沉，其性然也"),
     ("bencao-beiyao-xingzhi-1", "book:018|本草備要|藥性總義", "凡药轻虚者浮而升，重实者沉而降"),
     ("bencao-beiyao-xingzhi-2", "book:018|本草備要|藥性總義", "枯燥者入气分，润泽者入血分"),
+    # the prescription model (PM-37): 七情, processing (炮製) and the amount (量效)
+    ("shennong-xulu-qiqing-1", "book:000|神農本草經|序錄", "有单行者，有相须者，有相使者，有相畏者，有相恶者，有相反者，有相杀者"),
+    ("shennong-xulu-qiqing-2", "book:000|神農本草經|序錄", "当用相须、相使者良，勿用相恶、相反者。若有毒宜制，可用相畏、相杀者"),
+    ("bencao-jizhu-banxia", "book:002|本草經集注|序錄上", "半夏有毒，用之必须生姜，此是取其所畏，以相制耳"),
+    ("bencao-mengquan-zhizao-1", "book:012|本草蒙筌|總論·製造資水火", "酒制升提，姜制发散。入盐走肾脏，仍使软坚；用醋注肝经，且资住痛。童便制，除劣性降下；米泔制，去燥性和中。乳制滋润回枯，助生阴血；蜜制甘缓难化，增益元阳。陈壁土制，窃真气骤补中焦；麦麸皮制，抑酷性勿伤上膈。乌豆汤，甘草汤渍曝，并解毒致令平和"),
+    ("bencao-mengquan-zhizao-2", "book:012|本草蒙筌|總論·製造資水火", "有剜去瓤免胀，有抽去心除烦"),
+    ("bencao-xinbian-gegen-1", "book:017|本草新編|葛根", "葛根轻浮，少用则浮而外散，多用则沉而内降矣"),
+    ("bencao-xinbian-renshen-1", "book:017|本草新編|人參", "人参气味阳多于阴，少用则泛上，多用则沉下"),
+    ("depei-bencao-shengma-1", "book:036|得配本草|升麻", "多用则散，少用则升，蜜炙使不骤升"),
+    ("benjing-fengyuan-sumu-1", "book:019|本經逢原|蘇方木", "少用则和血，多用则破血"),
+    ("waike-quansheng-honghua-1", "book:239|外科全生集|諸藥法制及藥性·紅花", "酒洒焙，少用通经活血，多用破血，去瘀血"),
 ]

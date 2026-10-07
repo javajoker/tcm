@@ -1,11 +1,11 @@
 {
   "_meta": {
-    "count": 139,
+    "count": 149,
     "description": "Registry of quotations cited by the SOP and knowledge base. Every quote is checked against the source text.",
     "note": "shanghan-NNN ids carry the standard Song-edition clause number; the number is not verified against the data.",
     "schema": 1,
     "unverified": [],
-    "verified": 139
+    "verified": 149
   },
   "items": [
     {
@@ -49,6 +49,66 @@
       "verified": true
     },
     {
+      "book": "本草經集注",
+      "chapter": "序錄上",
+      "id": "bencao-jizhu-banxia",
+      "quote_source_zh_hans": "半夏有毒，用之必须生姜，此是取其所畏，以相制耳",
+      "quote_zh_hant": "半夏有毒，用之必須生薑，此是取其所畏，以相制耳",
+      "source_path": "reference/sources/TCM-Ancient-Books/002-本草经集注.txt",
+      "source_repo": "TCM-Ancient-Books (no upstream licence: reference only)",
+      "verified": true
+    },
+    {
+      "book": "本草蒙筌",
+      "chapter": "總論·製造資水火",
+      "id": "bencao-mengquan-zhizao-1",
+      "quote_source_zh_hans": "酒制升提，姜制发散。入盐走肾脏，仍使软坚；用醋注肝经，且资住痛。童便制，除劣性降下；米泔制，去燥性和中。乳制滋润回枯，助生阴血；蜜制甘缓难化，增益元阳。陈壁土制，窃真气骤补中焦；麦麸皮制，抑酷性勿伤上膈。乌豆汤，甘草汤渍曝，并解毒致令平和",
+      "quote_zh_hant": "酒制升提，姜制發散。入鹽走腎臟，仍使軟堅；用醋注肝經，且資住痛。童便制，除劣性降下；米泔制，去燥性和中。乳制滋潤回枯，助生陰血；蜜制甘緩難化，增益元陽。陳壁土製，竊真氣驟補中焦；麥麩皮製，抑酷性勿傷上膈。烏豆湯，甘草湯漬曝，並解毒致令平和",
+      "source_path": "reference/sources/TCM-Ancient-Books/012-本草蒙筌.txt",
+      "source_repo": "TCM-Ancient-Books (no upstream licence: reference only)",
+      "verified": true
+    },
+    {
+      "book": "本草蒙筌",
+      "chapter": "總論·製造資水火",
+      "id": "bencao-mengquan-zhizao-2",
+      "quote_source_zh_hans": "有剜去瓤免胀，有抽去心除烦",
+      "quote_zh_hant": "有剜去瓤免脹，有抽去心除煩",
+      "source_path": "reference/sources/TCM-Ancient-Books/012-本草蒙筌.txt",
+      "source_repo": "TCM-Ancient-Books (no upstream licence: reference only)",
+      "verified": true
+    },
+    {
+      "book": "本草新編",
+      "chapter": "葛根",
+      "id": "bencao-xinbian-gegen-1",
+      "quote_source_zh_hans": "葛根轻浮，少用则浮而外散，多用则沉而内降矣",
+      "quote_zh_hant": "葛根輕浮，少用則浮而外散，多用則沉而內降矣",
+      "source_path": "reference/sources/TCM-Ancient-Books/017-本草新编.txt",
+      "source_repo": "TCM-Ancient-Books (no upstream licence: reference only)",
+      "verified": true
+    },
+    {
+      "book": "本草新編",
+      "chapter": "人參",
+      "id": "bencao-xinbian-renshen-1",
+      "quote_source_zh_hans": "人参气味阳多于阴，少用则泛上，多用则沉下",
+      "quote_zh_hant": "人參氣味陽多於陰，少用則泛上，多用則沉下",
+      "source_path": "reference/sources/TCM-Ancient-Books/017-本草新编.txt",
+      "source_repo": "TCM-Ancient-Books (no upstream licence: reference only)",
+      "verified": true
+    },
+    {
+      "book": "本經逢原",
+      "chapter": "蘇方木",
+      "id": "benjing-fengyuan-sumu-1",
+      "quote_source_zh_hans": "少用则和血，多用则破血",
+      "quote_zh_hant": "少用則和血，多用則破血",
+      "source_path": "reference/sources/TCM-Ancient-Books/019-本经逢原.txt",
+      "source_repo": "TCM-Ancient-Books (no upstream licence: reference only)",
+      "verified": true
+    },
+    {
       "book": "瀕湖脈學",
       "chapter": "四言舉要",
       "id": "binhu-maixue-sanbu",
@@ -65,6 +125,16 @@
       "quote_source_zh_hans": "有诸内者形诸外",
       "quote_zh_hant": "有諸內者形諸外",
       "source_path": "reference/sources/TCM-Ancient-Books/570-丹溪心法.txt",
+      "source_repo": "TCM-Ancient-Books (no upstream licence: reference only)",
+      "verified": true
+    },
+    {
+      "book": "得配本草",
+      "chapter": "升麻",
+      "id": "depei-bencao-shengma-1",
+      "quote_source_zh_hans": "多用则散，少用则升，蜜炙使不骤升",
+      "quote_zh_hant": "多用則散，少用則升，蜜炙使不驟升",
+      "source_path": "reference/sources/TCM-Ancient-Books/036-得配本草.txt",
       "source_repo": "TCM-Ancient-Books (no upstream licence: reference only)",
       "verified": true
     },
@@ -540,6 +610,26 @@
       "id": "shennong-xulu-1",
       "quote_source_zh_hans": "药有酸、咸、甘、苦、辛五味，又有寒、热、温、凉四气，及有毒无毒",
       "quote_zh_hant": "藥有酸、鹹、甘、苦、辛五味，又有寒、熱、溫、涼四氣，及有毒無毒",
+      "source_path": "reference/sources/TCM-Ancient-Books/000-神农本草经.txt",
+      "source_repo": "TCM-Ancient-Books (no upstream licence: reference only)",
+      "verified": true
+    },
+    {
+      "book": "神農本草經",
+      "chapter": "序錄",
+      "id": "shennong-xulu-qiqing-1",
+      "quote_source_zh_hans": "有单行者，有相须者，有相使者，有相畏者，有相恶者，有相反者，有相杀者",
+      "quote_zh_hant": "有單行者，有相須者，有相使者，有相畏者，有相惡者，有相反者，有相殺者",
+      "source_path": "reference/sources/TCM-Ancient-Books/000-神农本草经.txt",
+      "source_repo": "TCM-Ancient-Books (no upstream licence: reference only)",
+      "verified": true
+    },
+    {
+      "book": "神農本草經",
+      "chapter": "序錄",
+      "id": "shennong-xulu-qiqing-2",
+      "quote_source_zh_hans": "当用相须、相使者良，勿用相恶、相反者。若有毒宜制，可用相畏、相杀者",
+      "quote_zh_hant": "當用相須、相使者良，勿用相惡、相反者。若有毒宜制，可用相畏、相殺者",
       "source_path": "reference/sources/TCM-Ancient-Books/000-神农本草经.txt",
       "source_repo": "TCM-Ancient-Books (no upstream licence: reference only)",
       "verified": true
@@ -1412,6 +1502,16 @@
       "quote_zh_hant": "逆者正治，從者反治",
       "source_path": "reference/sources/TCM-Library/raw/neijing/suwen/suwen_074.txt",
       "source_repo": "TCM-Library (MIT)",
+      "verified": true
+    },
+    {
+      "book": "外科全生集",
+      "chapter": "諸藥法制及藥性·紅花",
+      "id": "waike-quansheng-honghua-1",
+      "quote_source_zh_hans": "酒洒焙，少用通经活血，多用破血，去瘀血",
+      "quote_zh_hant": "酒灑焙，少用通經活血，多用破血，去瘀血",
+      "source_path": "reference/sources/TCM-Ancient-Books/239-外科全生集.txt",
+      "source_repo": "TCM-Ancient-Books (no upstream licence: reference only)",
       "verified": true
     },
     {

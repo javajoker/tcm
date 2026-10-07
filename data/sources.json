@@ -3,8 +3,8 @@
     "corpus_categories": {
       "專科": {
         "books": 89,
-        "drawn_on": 0,
-        "registered": 0
+        "drawn_on": 1,
+        "registered": 1
       },
       "方劑": {
         "books": 88,
@@ -13,13 +13,13 @@
       },
       "本草": {
         "books": 47,
-        "drawn_on": 4,
-        "registered": 19
+        "drawn_on": 8,
+        "registered": 20
       },
       "綜合": {
         "books": 333,
-        "drawn_on": 10,
-        "registered": 22
+        "drawn_on": 11,
+        "registered": 23
       },
       "診法": {
         "books": 11,
@@ -47,7 +47,7 @@
         "registered": 0
       }
     },
-    "count": 87,
+    "count": 90,
     "description": "Sources registry: every work the knowledge base draws on or, by its design, should draw on (docs/post-mvp/design/knowledge-base-v2.md), with how the data uses it. Build-time only; never in the bundle.",
     "domains": {
       "acupuncture": {
@@ -87,11 +87,11 @@
         "zh-Hant": "治則治法"
       }
     },
-    "drawn_on": 36,
+    "drawn_on": 43,
     "schema": 1,
     "status_counts": {
       "bibliography": 7,
-      "in-corpus": 72,
+      "in-corpus": 75,
       "not-in-corpus": 8
     },
     "unresolved": []
@@ -1023,8 +1023,10 @@
       "id": "shennong",
       "kind": "classic",
       "names": [],
-      "quotations": 1,
-      "references": {},
+      "quotations": 3,
+      "references": {
+        "herbs/pairings.json": 2
+      },
       "status": "in-corpus",
       "title": "神農本草經",
       "use": "The three grades; 七情 (序例); the oldest statements of properties"
@@ -1041,7 +1043,7 @@
       "domains": [
         "materia-medica"
       ],
-      "drawn_on": false,
+      "drawn_on": true,
       "edition": {
         "author": "陶弘景",
         "category": "本草",
@@ -1052,8 +1054,10 @@
       "id": "bencaojing-jizhu",
       "kind": "classic",
       "names": [],
-      "quotations": 0,
-      "references": {},
+      "quotations": 1,
+      "references": {
+        "herbs/pairings.json": 1
+      },
       "status": "in-corpus",
       "title": "本草經集注",
       "use": "陶弘景's commentary; the 七情 table"
@@ -1141,7 +1145,8 @@
       "names": [],
       "quotations": 1,
       "references": {
-        "herbs/herbs.json": 1
+        "herbs/herbs.json": 1,
+        "herbs/pairings.json": 476
       },
       "status": "in-corpus",
       "title": "本草綱目",
@@ -1338,7 +1343,7 @@
       "domains": [
         "materia-medica"
       ],
-      "drawn_on": false,
+      "drawn_on": true,
       "edition": {
         "author": "嚴西亭",
         "category": "本草",
@@ -1349,8 +1354,10 @@
       "id": "depei-bencao",
       "kind": "classic",
       "names": [],
-      "quotations": 0,
-      "references": {},
+      "quotations": 1,
+      "references": {
+        "herbs/dose-bands.json": 1
+      },
       "status": "in-corpus",
       "title": "得配本草",
       "use": "Pairings (得、配、佐、和) for the 七情 table (PM-37)"
@@ -1572,7 +1579,7 @@
       "domains": [
         "materia-medica"
       ],
-      "drawn_on": false,
+      "drawn_on": true,
       "edition": {
         "author": "陳嘉謨",
         "category": "本草",
@@ -1583,8 +1590,10 @@
       "id": "bencao-mengquan",
       "kind": "classic",
       "names": [],
-      "quotations": 0,
-      "references": {},
+      "quotations": 2,
+      "references": {
+        "herbs/processing.json": 13
+      },
       "status": "in-corpus",
       "title": "本草蒙筌",
       "use": "Properties; processing"
@@ -1618,6 +1627,100 @@
       "status": "in-corpus",
       "title": "食療本草",
       "use": "Foods as medicine"
+    },
+    {
+      "author": null,
+      "corpus": [
+        {
+          "exists": true,
+          "path": "reference/sources/TCM-Ancient-Books/017-本草新编.txt",
+          "repo": "TCM-Ancient-Books"
+        }
+      ],
+      "domains": [
+        "materia-medica"
+      ],
+      "drawn_on": true,
+      "edition": {
+        "author": "陳士鐸",
+        "category": "本草",
+        "dynasty": "清·公元1644-1911年",
+        "year": null
+      },
+      "era": null,
+      "id": "bencao-xinbian",
+      "kind": "classic",
+      "names": [],
+      "quotations": 2,
+      "references": {
+        "herbs/dose-bands.json": 2
+      },
+      "status": "in-corpus",
+      "title": "本草新編",
+      "use": "量效: how the action of 葛根 and 人參 changes with the amount (PM-37)"
+    },
+    {
+      "author": null,
+      "corpus": [
+        {
+          "exists": true,
+          "path": "reference/sources/TCM-Ancient-Books/019-本经逢原.txt",
+          "repo": "TCM-Ancient-Books"
+        }
+      ],
+      "domains": [
+        "materia-medica"
+      ],
+      "drawn_on": true,
+      "edition": {
+        "author": "張璐",
+        "category": "綜合",
+        "dynasty": "清",
+        "year": "公元1617－1700年"
+      },
+      "era": null,
+      "id": "benjing-fengyuan",
+      "kind": "classic",
+      "names": [],
+      "quotations": 1,
+      "references": {
+        "herbs/dose-bands.json": 1
+      },
+      "status": "in-corpus",
+      "title": "本經逢原",
+      "use": "量效: 蘇木 少用和血、多用破血 (PM-37)"
+    },
+    {
+      "author": null,
+      "corpus": [
+        {
+          "exists": true,
+          "path": "reference/sources/TCM-Ancient-Books/239-外科全生集.txt",
+          "repo": "TCM-Ancient-Books"
+        }
+      ],
+      "domains": [
+        "materia-medica",
+        "formulas"
+      ],
+      "drawn_on": true,
+      "edition": {
+        "author": "王洪緒",
+        "category": "專科",
+        "dynasty": "清",
+        "year": "公元1740年"
+      },
+      "era": null,
+      "id": "waike-quansheng",
+      "kind": "classic",
+      "names": [],
+      "quotations": 1,
+      "references": {
+        "herbs/dose-bands.json": 1
+      },
+      "status": "in-corpus",
+      "title": "外科全生集",
+      "use": "量效: 紅花 少用通經活血、多用破血 (PM-37)"
     },
     {
       "author": null,
@@ -2522,14 +2625,18 @@
         "formulas",
         "treatment"
       ],
-      "drawn_on": false,
+      "drawn_on": true,
       "edition": null,
       "era": "current editions",
       "id": "textbooks",
       "kind": "textbook",
-      "names": [],
+      "names": [
+        "教材"
+      ],
       "quotations": 0,
-      "references": {},
+      "references": {
+        "herbs/pairings.json": 11
+      },
       "status": "bibliography",
       "title": "全國中醫藥行業高等教育規劃教材（中醫基礎理論、中醫診斷學、中藥學、方劑學、中醫內科學）",
       "use": "The standard teaching statements a reviewer checks against (dose bands, 三因制宜); copyrighted: cited, never copied"

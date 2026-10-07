@@ -26,6 +26,10 @@ import type { Symptoms } from "./generated/symptoms.ts";
 import type { Tongue } from "./generated/tongue.ts";
 import type { TreatmentGuidance } from "./generated/treatment-guidance.ts";
 import type { Yunqi } from "./generated/yunqi.ts";
+import type { DoseBands } from "./generated/dose-bands.ts";
+import type { Pairings } from "./generated/pairings.ts";
+import type { Prescription } from "./generated/prescription.ts";
+import type { Processing } from "./generated/processing.ts";
 
 export type { Level, Notice };
 export type ProfileName = "release" | "dev";
@@ -53,9 +57,15 @@ export type EmergencyRegion = Emergency["regions"][number];
 export type SafetyRule = SafetyRules["rules"][number];
 export type ScopeProfile = ScopeProfiles["profiles"]["release"];
 export type Bilingual = Herb["name"];
+// the prescription model (PM-37): the herb's properties, the 七情 pairings, processing, dose bands and the parameters
+export type HerbProps = Herb["props"];
+export type Pairing = Pairings["items"][number];
+export type ProcessingMethod = Processing["methods"][number];
+export type DoseBand = DoseBands["items"][number];
+export type PrescriptionParams = Prescription["params"];
 
 export type { Citations, Cities, ConstitutionItems, Constitutions, Correspondences, Emergency, Exclusions, Formulas, Glossary, NameFold, Herbs, Orientation, PanelSchema, PatternElements, Patterns, Pulse, Questions, RedFlags, SafetyRules };
-export type { ScopeProfiles, ScoringParams, Susceptibility, Symptoms, Tongue, TreatmentGuidance, Yunqi };
+export type { ScopeProfiles, ScoringParams, Susceptibility, Symptoms, Tongue, TreatmentGuidance, Yunqi, DoseBands, Pairings, Prescription, Processing };
 
 // ── chunks (what the bundler writes and the loader reads; tech spec §5) ─────
 /** The active application configuration: only the selected profile is present in a built bundle (tech spec T9). */

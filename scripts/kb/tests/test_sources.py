@@ -49,9 +49,9 @@ class Registry(unittest.TestCase):
         # the quotation books, the pulse book, the formula books, the herb sources and the standards
         for sid in ("suwen", "lingshu", "nanjing", "shanghan", "jingui", "binhu-maixue", "hejiju-fang", "chp-2025", "who-istm-2007", "who-acupoints-2008"):
             self.assertIn(sid, drawn)
-        # the gap knowledge base v2 closes: herb theory is barely used
-        herbal = [i for i in registry()["items"] if "materia-medica" in i["domains"] and i["kind"] == "classic" and i["status"] == "in-corpus"]
-        self.assertLess(sum(i["drawn_on"] for i in herbal), len(herbal) / 4)
+        # the gap knowledge base v2 closes: the herb property model (PM-36) and the prescription tables (PM-37) rest on the herb classics
+        for sid in ("shennong", "bencao-gangmu", "bencao-beiyao", "bencaojing-jizhu", "bencao-mengquan", "depei-bencao", "bencao-xinbian"):
+            self.assertIn(sid, drawn)
 
 
 class Resolution(unittest.TestCase):
