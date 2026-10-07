@@ -45,6 +45,8 @@ Versions are assigned when a release is tagged ([release process §1](../release
 | **B** | **Learn and follow up** | Knowledge browser (FR-14) with pattern comparison (FR-25) · structured practitioner export (FR-26) · follow-up nudge, calendar reminder and trends (FR-27) · local data lock (FR-24) | N, L | 1.2 |
 | **C** | **Breadth** | Library expansion in waves (FR-30) · herb browser · five-phase extensions: southern hemisphere, ambiguous hour pillars, astronomy data regeneration, season model (FR-31) | C (some N) | 1.3 |
 | **D** | **Research** | Tongue-photo assistance (FR-32) · camera pulse (FR-33) · file-based sync (FR-34) — each starts as an evaluated spike; shipping is a separate go decision | R | 2.x |
+| **E** | **Knowledge and prescription** | Knowledge base v2: sources and theory (FR-35) · herb property model (FR-36) · formula mechanism and verification (FR-37) · personalised prescription by 三因制宜 (FR-38) · the learning book in Traditional Chinese (FR-39) | C (R for amounts) | 2.x |
+| **F** | **AI-assisted intake** | Conversational intake (FR-40) · AI observation of tongue and face (FR-41) · configuration, gateway and consent (FR-42) — an input aid; the engine decides | R | 2.x |
 
 ### 3.1 Release A — Reach and resilience
 
@@ -90,9 +92,17 @@ Versions are assigned when a release is tagged ([release process §1](../release
 
 Each item starts as a time-boxed spike with a written evaluation protocol and stop conditions ([research-tracks design](design/research-tracks.md)). A spike that fails its protocol is closed, not extended. A spike that passes becomes a requirement with its own review and legal gates; nothing in this release ships by default.
 
+### 3.4a Release E — Knowledge and prescription (from the owner's direction of 2026-10-07)
+
+*The app diagnoses first, then makes the medicament for each person.* The corpus already holds the classics; the knowledge base starts to **use** them ([knowledge base v2](design/knowledge-base-v2.md)). Each herb gets coordinates in the tradition's own terms and an effect that depends on the dose; each formula's effect is computed from its herbs, its roles are measured, and the app says **why** it fits a diagnosis; the library's 33 formulas are verified against their own indications; and the formula is **personalised** by 三因制宜 — herbs and amounts — under the safety layer ([prescription model](design/prescription-model.md)). Local and deterministic. **Amounts stay behind the output levels** (L3 and a proposed practitioner profile) until a legal view says otherwise. A short book in Traditional Chinese explains the model to a culturally fluent reader.
+
+### 3.4b Release F — AI-assisted intake (from the owner's direction of 2026-10-07)
+
+Fewer options, more conversation; AI looks at the tongue and the face — **as an input aid**: the person confirms what the AI understood, and the deterministic engine decides ([AI-assisted intake](design/ai-assisted-intake.md)). A gateway in this repository holds the provider key; off by default in the public build, opt-in per person, nothing identifying sent, nothing stored. It changes the local-first promise for the people who use it, so it waits for the owner's decision, a privacy redesign and a legal view before reaching the public.
+
 ### 3.5 Not planned
 
-Accounts or server-side sync, e-commerce or practitioner marketplaces, telemedicine, LLM-generated diagnosis or advice, automatic telemetry, native app wrappers. The reasons are recorded in [decisions](decisions.md) so that they are revisited with evidence, not by habit.
+Accounts or server-side sync, e-commerce or practitioner marketplaces, telemedicine, LLM-generated diagnosis or advice (an AI *input aid* is Release F; the diagnosis stays deterministic), automatic telemetry, native app wrappers. The reasons are recorded in [decisions](decisions.md) so that they are revisited with evidence, not by habit.
 
 ## 4. Sequencing
 
@@ -122,15 +132,33 @@ flowchart LR
     PP[Pulse spike]
     FS[File sync]
   end
+  subgraph E[Release E]
+    SRC[Sources registry] --> HPM[Herb property model] --> DOSE[Dose, pairings, processing] --> FEF[Formula effect, roles, 方解]
+    FEF --> VER[Library verification]
+    FEF --> PER[Personalisation 三因制宜] --> RX[Prescription on the result + gate]
+    PER --> BOOK[Learning book] --> BOOKA[Book in Learn]
+  end
+  subgraph F[Release F]
+    DEC[Owner's decisions + privacy redesign]
+    GW[Gateway + mock provider] --> CFG[Configuration, consent] --> CONV[Conversational intake] --> EVAL[Evaluation]
+    GW --> PRV[Provider adapter]
+    CONV --> OBS[Observation, dev only]
+  end
   BKE --> LK
   BK --> PX
   BK --> FS
   LRN --> HB
   SWU --> FS
   I18NU -. glossary column .-> LRN
+  HP --> HPM
+  PX --> RX
+  LRN --> BOOKA
+  TG -. gates .-> OBS
+  RX --> GW
+  DEC -. before public use .-> CONV
 ```
 
-Rules of thumb behind the order: the backup comes before the lock (restore is the recovery path); the learn shell comes before the herb browser (it provides the routes and the search); file sync builds on the backup format and the installed app; library waves start only when the admission tooling and at least a clinical reviewer exist.
+Rules of thumb behind the order: the backup comes before the lock (restore is the recovery path); the learn shell comes before the herb browser (it provides the routes and the search); file sync builds on the backup format and the installed app; library waves start only when the admission tooling and at least a clinical reviewer exist; in Release E the herb model comes before the formula and the prescription (each builds on the one before) and the learning book after the model it explains; Release F follows E (an input aid is worth building on a prescription that is already explained) and begins with a mock provider, so the whole flow is built and tested before any key, deployment or data leaves a device.
 
 ## 5. Effort
 
@@ -142,6 +170,8 @@ Rough sizes from [`TASKS.md`](../../TASKS.md) §PM, one engineer, no waiting tim
 | B | 8 | 3 L · 4 M · 1 S | 18 |
 | C | 9 | 2 XL · 1 L · 4 M · 2 S | 27 or more (the XL tasks are content, bounded by review) |
 | D | 3 | 1 L · 2 M | 7 (spikes) |
+| E | 10 | 6 L · 3 M · 1 S | 29 (the review of the new content is separate) |
+| F | 7 | 1 XL · 3 L · 3 M | 25 or more (waits for the owner's decisions, a deployment and the evaluation) |
 
 ## 6. Quality debt carried into the post-MVP period
 
@@ -171,6 +201,11 @@ Known and recorded, not new. Items that need people stay with the review track a
 | New dependencies | Supply-chain and licence exposure | Prefer platform APIs (WebCrypto, Cache API, Intl); every new dependency goes through the licence allow-list and needs approval to download |
 | Storage eviction (notably Safari's seven-day rule for sites that are not visited) | History disappears without notice | Storage health view, persistence request, installed-app guidance, backup nudges |
 | Regional regulation differs (Mainland, Hong Kong, Singapore) | Notices or claims unfit for the region | A region is enabled only with verified numbers and a legal check; the language does not imply the region |
+| Reference amounts read as a prescription by a layperson (Release E) | Harm; an act regulated as prescribing | Amounts are computed for all and shown only at L3 and in a practitioner profile until a legal view (PD-13); every prescription says a practitioner decides |
+| Derived herb properties or a formula's measured roles are wrong | A wrong explanation or 加減 | Every value names its rule; the library's verification report; the draft label; pharmacy and clinical review; failures are listed, never auto-fixed |
+| The AI invents or misses a finding, or an emergency is told in conversation (Release F) | A wrong result; a missed urgency | Findings with quoted evidence confirmed by the person; the deterministic red flags first and re-opened by a matching statement; evaluation per language before public use |
+| Data leaves the device for AI help | The local-first promise broken for that person | Off by default; opt-in per module with consent; minimisation enforced in code; nothing stored; the privacy redesign before public use (PD-21) |
+| Cost of model calls | Running cost grows with use | A per-session budget and a daily ceiling at the gateway; the app works fully without it |
 
 ## 8. Success measures
 
@@ -182,6 +217,8 @@ No telemetry: each measure is a test, a review result or a study.
 | B | Every knowledge page names its sources and carries its cautions (test over all pages); the learn routes are axe-clean in light and dark; an encrypted store never contains plaintext sensitive fields (test over the raw IndexedDB); usability round R2 includes the learner and the practitioner tasks |
 | C | Every added pattern passes the admission checklist in the build; vignettes and golden cases exist for it; reviewers have signed its area |
 | D | Each spike reports against its protocol; no spike ships without a go decision |
+| E | Every derived herb value names its rule (validator); the library's verification report is generated in the build; property tests: no excluded herb ever appears in a prescription, amounts never leave their range, toxic herbs are never raised; the diagnosis and the golden results are unchanged; no amount in a public build; the learning book passes the Traditional-only and quotation checks |
+| F | Per-language evaluation against scripted personas meets the design's lines; no red-flag vignette ends without the deterministic notice; nothing identifying is sent (test); nothing is stored |
 
 ## 9. Needs input from outside the repository
 
@@ -194,10 +231,15 @@ These cannot be decided or verified by engineering and are recorded as open unti
 | A Mainland-Mandarin bilingual reviewer | FR-21 |
 | The final product name and domain | Public release (UQ1) |
 | Clinical and pharmacy reviewers for each wave | FR-30, herb browser |
-| Approval before downloading anything new (datasets, models, archives, tools) | PM-28, Release D |
+| Approval before downloading anything new (datasets, models, archives, tools) | PM-28, Release D, Release E (§3 of knowledge base v2) |
+| A legal view on showing reference amounts to anyone but a practitioner, and on a practitioner profile | FR-38 |
+| The owner's decision on AI help: data leaving the device for those who opt in, the provider, the gateway's deployment and key | FR-40 … FR-42 |
+| A privacy redesign (DPIA-style) and a data-processing agreement with the model provider | FR-40 … FR-42 |
+| Clinical and pharmacy reviewers for the herb properties, pairings, processing, dose bands and 三因 rules | FR-35 … FR-38 |
 
 ## 10. Changelog
 
 | Version | Date | Change |
 |---|---|---|
 | 0.1 | 2026-10-05 | Initial post-MVP roadmap |
+| 0.2 | 2026-10-07 | Releases E (knowledge and prescription) and F (AI-assisted intake), from the owner's direction of 2026-10-07 |

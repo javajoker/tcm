@@ -2,9 +2,9 @@
 
 | | |
 |---|---|
-| **Version** | 0.8 (draft) |
+| **Version** | 0.9 (draft) |
 | **Status** | Every item the MVP documents recorded as "to be revisited after the MVP" is answered here with the recommended default; new decisions that came out of the post-MVP design are PD-01 … PD-12 |
-| **Last updated** | 2026-10-06 |
+| **Last updated** | 2026-10-07 |
 | **Audience** | Project owner, maintainers, reviewers |
 | **Related** | [Roadmap](roadmap.md) · [Requirements](requirements.md) · [PRD §14](../PRD.md#14-decisions-and-open-questions) · [Tech spec §13](../tech-spec.md#13-open-technical-questions) · [UX spec §15](../ux-spec.md#15-open-design-questions) · [Safety policy §10](../safety-policy.md#10-open-questions) · [Privacy §9](../privacy.md#9-open-questions) · [Release process §13](../release-process.md#13-open-questions) |
 
@@ -121,10 +121,34 @@ An *unchanged* decision means the MVP answer still holds and the reason is state
 | PD-06 | Follow-up is an in-app nudge plus a calendar file with no health content; no push and no notifications | Push needs a server and would carry health timing |
 | PD-07 | Knowledge pages use an anonymous, conservative context and never speak to "you" | They are not an assessment and must not read as advice |
 | PD-08 | Acute febrile stages beyond the early exterior (營分, 血分) are red flags, not patterns | A self-assessment must not stage a serious acute illness |
-| PD-09 | Releases are named A–D by theme; version numbers are assigned when tagged; a feature ships when its class gates are met | The review track sets the pace, not this plan |
+| PD-09 | Releases are named by theme (A–D; E and F added 2026-10-07); version numbers are assigned when tagged; a feature ships when its class gates are met | The review track sets the pace, not this plan |
 | PD-10 | Research items begin as spikes with a written protocol and stop conditions; shipping is a separate decision | Unknown accuracy must be measured before it is offered |
 | PD-11 | Any new download — dataset, model, archive, tool, browser — is approved by the owner first, with filename, source and size | Standing safety rule |
 | PD-12 | The all-JavaScript budget rises with each release by the lazy budgets that release declares (260 KB for the MVP → 300 KB for Release A: Simplified catalogue ≈ 20, service worker ≤ 10, backup ≈ 10 → **350 KB for Release B, decided 2026-10-06**: Learn ≈ 12 (measured 9.2 with all seven kinds and the comparison), practitioner export ≈ 10, trends ≈ 13, data lock ≈ 15); the initial 200 KB and the 50 KB per lazy chunk do not change | The figure bounds growth, not a visit: nobody downloads every lazy feature. Release A already uses 21 of the 37 KB the MVP left, so keeping 260 would have meant refusing the language |
+
+### 2.8 Decisions for Releases E and F (the owner's direction of 2026-10-07)
+
+**Decided 2026-10-07 — defaults of the designs; ⚑ marks the decisions that need the owner, and nothing marked ⚑ reaches a public build before it is confirmed.**
+
+| ID | Question | Default | Design | Revisit when |
+|---|---|---|---|---|
+| PD-13 ⚑ | Reference amounts in a personalised prescription | Computed for everyone; **shown only at L3 (development) and in a practitioner profile**; the public build shows the personalised herbs and the reasons, not grams | [Prescription model §7](design/prescription-model.md) | A legal view on amounts for laypeople in each region |
+| PD-14 ⚑ | A practitioner profile | Proposed: L3 without the developer tools, for licensed practitioners; how a practitioner is recognised is open | [Prescription model §7.1](design/prescription-model.md) | The owner decides the audience and the recognition |
+| PD-15 | Where a prescription is computed | A pure function after `assess`, stored with the saved result; the diagnosis and its replay are unchanged | [Prescription model §6.5](design/prescription-model.md) | — |
+| PD-16 | Base of a prescription | Always a classical formula of the library; at most 3 herbs added and 2 removed | [Prescription model §6.2](design/prescription-model.md) | Reviewers ask for wider 加減 |
+| PD-17 | Dose model | Saturating benefit, super-linear burden, the Pharmacopoeia range as a hard bound; toxic herbs never raised | [Prescription model §3.3, §6.3](design/prescription-model.md) | Calibration with practitioners |
+| PD-18 | Formula verification failures | Listed for review, never auto-fixed | [Prescription model §5](design/prescription-model.md) | — |
+| PD-19 | New sources | The corpus first; each public-domain addition is a download asked for separately; modern textbooks are bibliography only | [Knowledge base v2 §3](design/knowledge-base-v2.md) | — |
+| PD-20 | The learning book | Traditional Chinese only, in `docs/book/zh-Hant/` and in Learn for every interface language with a note | [Knowledge base v2 §6](design/knowledge-base-v2.md) | The owner wants other languages |
+| PD-21 ⚑ | AI help and the local-first promise | Off by default in the public build; opt-in per person and per module, with consent; for those who opt in, conversation and photos go to the project's gateway and the provider for the request only | [AI-assisted intake §2, §5](design/ai-assisted-intake.md) | The owner's decision, a privacy redesign and a legal view |
+| PD-22 | Provider | Anthropic's API through the project's own gateway, model configurable; another provider or an on-device model plugs into the same interface | [AI-assisted intake §3](design/ai-assisted-intake.md) | Cost, terms or a better option |
+| PD-23 | What the AI may do | Ask questions and propose findings with the person's own words as evidence; never a pattern, a herb or an amount; the deterministic engine decides on confirmed findings | [AI-assisted intake §4](design/ai-assisted-intake.md) | — (this keeps Q3's substance) |
+| PD-24 | Storage of AI data | None: no content logged by the gateway, the provider's zero-retention terms, no photo on disk | [AI-assisted intake §5](design/ai-assisted-intake.md) | — |
+| PD-25 ⚑ | Photos of tongue and face | Development profile only until the tongue-photo spike's gates (legal view, evaluation) are met | [AI-assisted intake §6](design/ai-assisted-intake.md) | The gates are met |
+| PD-26 | Who may use AI help | Adults (18 and over) | [AI-assisted intake §4](design/ai-assisted-intake.md) | A reviewed design for minors |
+| PD-27 | Order | Release E (local, deterministic) before Release F; within F, conversation before observation | [Roadmap §3.4a, §3.4b](roadmap.md) | — |
+
+These revisit three earlier answers: **Q3** (LLM involvement) keeps its substance — no model decides a diagnosis — but an input aid is now planned; **Q4** (tongue photo) is joined by a general-purpose vision model under the same gates; **Q5** and standing constraint 2 (local-first) gain an exception for the people who opt in to AI help (PD-21, ⚑).
 
 ## 3. Changelog
 
@@ -138,3 +162,4 @@ An *unchanged* decision means the MVP answer still holds and the reason is state
 | 0.6 | 2026-10-06 | Q5: file-based sync built (PM-32) — the spike's stop conditions were not met |
 | 0.7 | 2026-10-06 | Q4: the camera-pulse spike's protocol fixed before any measurement (PM-31); not run |
 | 0.8 | 2026-10-06 | Q4: the tongue-photo spike's protocol fixed and its desk research on datasets done (PM-30); stopped at step 1 |
+| 0.9 | 2026-10-07 | §2.8: decisions PD-13 … PD-27 for Releases E and F (tasks PM-34 … PM-50), from the owner's direction of 2026-10-07; Q3, Q4, Q5 revisited |

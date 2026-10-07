@@ -127,6 +127,25 @@ A release is ticked item by item as features ship; a feature ships when the gate
 - [ ] Each spike has a report against its written protocol and a recorded go or no-go *(PM-32 file sync: the protocol was run and no stop condition was met — [research tracks §4.1](docs/post-mvp/design/research-tracks.md#41-as-built-pm-32), a feature behind the draft label; the check with a real cloud client in the folder is the owner's. PM-30 and PM-31 are not started: they need datasets, an advisor, volunteers, reference devices and legal and ethics approvals, none of which is in place)*
 - [ ] A go decision names the review class, the privacy and legal review, and the new requirement before any code ships
 
+**Release E — Knowledge and prescription** (FR-35 … FR-39)
+- [ ] Every new knowledge record names a verified passage or a rule and is `derived` or `curated-draft` until reviewed; the sources registry covers every quotation; no pattern added outside admission (PM-21)
+- [ ] Herb property and dose–response property tests green; every derived value names its rule
+- [ ] Formula attributions are exact; the library's verification report is generated in the build, its failures listed for review and none auto-fixed
+- [ ] Personalisation: no excluded herb ever appears, amounts never leave their range, toxic herbs are never raised (property tests); the diagnosis, its replay and the golden results unchanged
+- [ ] No reference amount in a public build (`check-release`) unless the owner decides otherwise after a legal view (PD-13 ⚑); a practitioner profile only as decided (PD-14 ⚑)
+- [ ] Clinical and pharmacy review of the property rules, pairings, processing, dose bands and 三因 factors, or the draft label shown
+- [ ] The learning book: Traditional Chinese only, quotations from the verified set, no doses and no prescriptive wording; linguistic review (class L)
+- [ ] Budgets hold; folded into the PRD, the SOP §12 (owner of the logic) and specs; `CHANGELOG.md` updated
+
+**Release F — AI-assisted intake** (FR-40 … FR-42; nothing public before its gates)
+- [ ] The owner's decisions recorded (PD-21 data leaving the device for those who opt in, PD-25 photos); privacy redesign (inventory, statement, DPIA-style review, data-processing agreement with the provider) and legal view done
+- [ ] Off by default in the public build; consent per module; nothing identifying sent (test); nothing stored by the app or the gateway, and the provider's zero-retention terms in place
+- [ ] Red-flag screening deterministic and first; a matching statement re-opens the notice; the model never names a pattern, a herb or an amount (schema and wording lint, in the gateway and the app)
+- [ ] The evaluation passes per language; a language below the line keeps AI help off
+- [ ] Observation of tongue and face only after the tongue-photo spike's gates; until then development profile only
+- [ ] The app works fully without the gateway, and offline says so
+- [ ] Folded into the PRD, the privacy documents and specs; `CHANGELOG.md` updated
+
 ---
 
 ## 4. Feature acceptance (PRD requirements)

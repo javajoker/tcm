@@ -3,7 +3,7 @@
 | | |
 |---|---|
 | **Version** | 0.1 (draft) |
-| **Status** | Proposed requirements for Releases A–D; they enter the [PRD](../PRD.md) FR list as each feature ships (fold-in, [README §2](README.md#2-standing-constraints)) |
+| **Status** | Proposed requirements for Releases A–F; they enter the [PRD](../PRD.md) FR list as each feature ships (fold-in, [README §2](README.md#2-standing-constraints)) |
 | **Last updated** | 2026-10-05 |
 | **Audience** | Product, engineering, reviewers |
 | **Related** | [Roadmap](roadmap.md) · [Decision register](decisions.md) · [PRD §6, §7](../PRD.md#6-functional-requirements) · [Privacy](../privacy.md) · [Safety policy](../safety-policy.md) |
@@ -150,9 +150,49 @@ Acceptance, per item: (a) **Southern hemisphere** — the season follows a `seas
 
 The designs, protocols and stop conditions are in the [research-tracks design](design/research-tracks.md). Shipping any of them is a separate decision with its own review class and gates.
 
+## 4a. Release E — Knowledge and prescription model (the owner's direction of 2026-10-07)
+
+*The app diagnoses first, then makes the medicament for each person.* Local and deterministic, like the engine.
+
+### FR-35 Knowledge base v2: sources and theory — Release E · Class C · refines G5, K-xx
+
+The knowledge base draws on the classics of each domain the corpus already holds (theory, diagnosis, pattern systems, herb and formula theory, treatment principles) through a **sources registry**, new verified quotations, and the tables the prescription model needs (herb properties, 七情 pairings, processing, dose bands, 治法, pattern mechanisms, 三因 rules). Acceptance: every new record keeps a pointer to a verified passage or a named rule, is `derived` or `curated-draft` until reviewed, and passes the validator; a coverage report says which domain draws on which books; no new pattern is admitted outside PM-21's rules ([design](design/knowledge-base-v2.md)).
+
+### FR-36 Herb property model — Release E · Class C · refines G10
+
+Each herb has 陰陽, 五行, 升降浮沉, 毒性 grade, 補瀉, 潤燥, 氣血分 (derived by named rules) besides 四氣、五味、歸經; its effect depends on the dose (saturating benefit, super-linear burden, the Pharmacopoeia range as a hard bound), on processing, and on pairings. Acceptance: every derived value names its rule; the property tests of [the design](design/prescription-model.md) §8 pass; the diagnosis is unchanged.
+
+### FR-37 Formula mechanism and verification — Release E · Class C · refines G10, SOP §12
+
+A formula's effect is computed from its herbs at their doses; the roles are measured against the labelled 君臣佐使; for a diagnosis, the app explains **why** the formula fits (病機 → 治法 → 方 → 藥 with each herb's share). The 33 formulas are verified by a self-test against their own indications. Acceptance: the attributions sum exactly; the verification report is produced in the build and every failure is listed for review, never auto-fixed.
+
+### FR-38 Personalised prescription (三因制宜) — Release E · Class C, and R for amounts beyond L3 · refines FR-9, SOP §12.5
+
+For the person's diagnosis, profile, constitution, season and region the app makes a personalised prescription: the base classical formula, 加減 (herbs added and removed with reasons), roles, proportions and reference amounts within the Pharmacopoeia ranges, after the full safety layer. Acceptance: what is shown follows the output levels — **no amounts in a public build** unless the owner decides otherwise after a legal view (decision PD-13); the property tests (no excluded herb ever appears; amounts never leave their range; toxic herbs never raised) pass; the prescription is stored with the saved result and the diagnosis and its replay are unchanged.
+
+### FR-39 The learning book — Release E · Class L · refines FR-14
+
+A short book in **Traditional Chinese only**, for a reader with a strong grounding in Chinese culture, explaining the app's model chapter by chapter (陰陽 as an axis, 五行, the panel, 病因, 四診 as measurement, 辨證 as inference, priors, the herb's coordinates, the formula as a division of labour, 三因制宜, safety). Acceptance: about a dozen chapters, quotations taken from the verified set, no doses and no prescriptive wording; in `docs/book/zh-Hant/` and in the app's Learn section.
+
+## 4b. Release F — AI-assisted intake (the owner's direction of 2026-10-07)
+
+*Fewer options to pick, more conversation, and AI looking at the tongue and the face* — as an input aid; the engine still decides. Changes the local-first promise for the people who turn it on (decision PD-21).
+
+### FR-40 Conversational intake — Release F · Class R · refines FR-5, Q3
+
+A conversation in the person's language proposes findings from the app's vocabulary, each with the person's words as evidence; the person confirms before anything is decided; the classic questions remain available and can be mixed in. Acceptance: the red-flag screening stays deterministic and first; the model never names a pattern, a herb or an amount; the evaluation of [the design](design/ai-assisted-intake.md) §6 passes per language before public use.
+
+### FR-41 AI observation of the tongue and the face — Release F · Class R · refines FR-6, Q4
+
+Photos of the tongue and the face give suggested features from the app's lists, confirmed by the person, at a quality no higher than self-observation. Acceptance: no photo is stored; the tongue-photo spike's gates (legal view, evaluation against practitioners' labels) are met before the module leaves the development profile.
+
+### FR-42 Configuration, gateway and consent — Release F · Class R · refines G7, G8
+
+A configurable `ai` section per profile, a stateless gateway holding the provider key (no content logged, rate-limited, schema-validated replies), consent per module, an indicator while on, the privacy inventory and statement redesigned. Acceptance: off by default in the public build; nothing identifying is ever sent; the app works fully without the gateway.
+
 ## 5. Not planned
 
-Accounts and server-side sync · e-commerce, herb sales, practitioner marketplaces, telemedicine · LLM-generated diagnosis or advice · automatic telemetry or analytics · native app wrappers. Reasons and what would change them: [decision register](decisions.md).
+Accounts and server-side sync · e-commerce, herb sales, practitioner marketplaces, telemedicine · LLM-generated diagnosis or advice (an AI input aid is Release F; the diagnosis stays deterministic) · automatic telemetry or analytics · native app wrappers. Reasons and what would change them: [decision register](decisions.md).
 
 ## 6. Non-functional changes
 
@@ -182,9 +222,13 @@ Accounts and server-side sync · e-commerce, herb sales, practitioner marketplac
 | Herb browser | C | C | [Knowledge browser](design/knowledge-browser.md) | PM-24, PM-25 |
 | FR-31 | C | N, C | [Five-phase extensions](design/five-phase-extensions.md) | PM-26 … PM-29 |
 | FR-32 … FR-34 | D | R | [Research tracks](design/research-tracks.md) | PM-30 … PM-32 |
+| FR-35, FR-39 | E | C, L | [Knowledge base v2](design/knowledge-base-v2.md) | PM-35, PM-42, PM-43 |
+| FR-36 … FR-38 | E | C (R for amounts) | [Prescription model](design/prescription-model.md) | PM-36 … PM-41 |
+| FR-40 … FR-42 | F | R | [AI-assisted intake](design/ai-assisted-intake.md) | PM-44 … PM-50 |
 
 ## 8. Changelog
 
 | Version | Date | Change |
 |---|---|---|
 | 0.1 | 2026-10-05 | Initial post-MVP requirements (FR-21 … FR-34) |
+| 0.2 | 2026-10-07 | Releases E (FR-35 … FR-39: knowledge base v2, herb and formula model, personalised prescription, the learning book) and F (FR-40 … FR-42: AI-assisted intake), from the owner's direction of 2026-10-07 |

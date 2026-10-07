@@ -3,9 +3,9 @@
 | | |
 |---|---|
 | **Working title** | TCM Self-Assessment App (name TBD) |
-| **Version** | 0.6 (draft) |
+| **Version** | 0.7 (draft) |
 | **Status** | Draft — documentation set complete (M0); open questions resolved with MVP defaults (§14.2), supporting-document proposals confirmed (§14.3); all to be revisited after the MVP — the post-MVP answers are in the [decision register](post-mvp/decisions.md) |
-| **Last updated** | 2026-10-05 |
+| **Last updated** | 2026-10-07 |
 | **Related docs** | [Documentation index](README.md) · [Post-MVP set](post-mvp/README.md) · [Diagnosis SOP v0.2 (繁體中文)](diagnosis-sop.zh-TW.md) · [Algorithm spec](wuxing-algorithm.md) ([繁中](wuxing-algorithm.zh-TW.md)) · [Tech spec](tech-spec.md) · [UI/UX spec](ux-spec.md) · [KB schema](kb-schema.md) · [i18n guide](i18n-guide.md) · [Content review](content-review.md) · [Safety policy](safety-policy.md) · [Privacy](privacy.md) · [Test plan](test-plan.md) · [Release process](release-process.md) · [Tasks](../TASKS.md) · [Checklist](../CHECKLIST.md) · [Knowledge base (`data/`)](../data/README.md) · [Reference sources](../reference/README.md) |
 
 > **Source-of-truth rule.** The diagnosis logic (what is asked, how answers become a pattern and a body panel, how that becomes a
@@ -105,8 +105,10 @@ Planned in the [post-MVP document set](post-mvp/README.md): the [roadmap](post-m
 | **B** | Learn and follow up | Knowledge browser (FR-14) and pattern comparison · structured practitioner export · follow-up reminders and trends · local data lock |
 | **C** | Breadth | More complaint modules and patterns in reviewed waves (acute febrile stages stay red flags; 三焦 is considered as a location axis later) · herb browser · five-phase extensions |
 | **D** | Research | On-device tongue-photo assistance · camera pulse · file-based sync — each an evaluated spike first |
+| **E** | Knowledge and prescription | Knowledge base v2 (sources and theory) · herb property model · formula mechanism and verification · personalised prescription by 三因制宜 (amounts behind the output levels) · a learning book in Traditional Chinese |
+| **F** | AI-assisted intake | Conversation instead of option lists · AI observation of tongue and face · an opt-in gateway — an input aid the person confirms; the engine decides |
 
-Not planned: accounts or server-side sync (portability is by backup file), LLM-generated diagnosis, e-commerce, automatic telemetry.
+Not planned: accounts or server-side sync (portability is by backup file), LLM-generated diagnosis (the Release F input aid proposes findings the person confirms; the diagnosis stays deterministic), e-commerce, automatic telemetry.
 
 ---
 
@@ -356,7 +358,7 @@ Design consequences: the questionnaire is adaptive; the engine exposes per-evide
 | **M2 — MVP app** | Responsive UI, bilingual, intake → engine → panel/report (dev builds; no public release) | **technically complete** (2026-10-05): every build task of [`TASKS.md`](../TASKS.md) done; the CI, Lighthouse and deploy workflows are written and have not run |
 | **M3 — Review & hardening** | Practitioner review ([process](content-review.md)), golden-case calibration, a11y/perf passes | not started — needs people (Q8) |
 | **M4 — Beta** | Limited release, feedback loop, weight calibration | — |
-| **Post-MVP A–D** | [Roadmap](post-mvp/roadmap.md): reach and resilience · learn and follow up · breadth · research | planned; designed in [`docs/post-mvp/design/`](post-mvp/README.md); runs in parallel with M3 and never lowers a gate |
+| **Post-MVP A–F** | [Roadmap](post-mvp/roadmap.md): reach and resilience · learn and follow up · breadth · research · knowledge and prescription · AI-assisted intake | planned; designed in [`docs/post-mvp/design/`](post-mvp/README.md); runs in parallel with M3 and never lowers a gate |
 
 Implementation proceeds from [`TASKS.md`](../TASKS.md) with acceptance in [`CHECKLIST.md`](../CHECKLIST.md). One commit per finished task.
 
@@ -447,3 +449,4 @@ The project owner confirmed P1–P10 on 2026-10-04 (to be revisited after the MV
 | 0.4 | 2026-10-04 | Documentation set completed (tech spec, UX spec, KB schema, i18n guide, content review, safety policy, privacy, test plan, release process, contributing, task list, checklist); related-docs header, M0–M3 status, performance NFR and FR-4 cross-references updated; new §14.3 lists the decisions proposed by those documents for confirmation |
 | 0.5 | 2026-10-04 | Owner decisions recorded: P1–P10 of §14.3 confirmed; §14.2 questions resolved with the recommended MVP defaults (Q1 Taiwan-first; Q8 reviewers appointed before M3, MVP runs as dev builds); all to be revisited after the MVP |
 | 0.6 | 2026-10-05 | Post-MVP document set linked: §4.3 rewritten as releases A–D, §13 milestone statuses brought up to date (M1, M2) with the post-MVP row, FR-14 points to its refinement; the post-MVP answers to the §14.2 questions are in the decision register |
+| 0.7 | 2026-10-07 | §4.3 and §13: Releases E (knowledge and prescription) and F (AI-assisted intake) from the owner's direction of 2026-10-07; requirements FR-35 … FR-42 in the post-MVP set |
