@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 0.7 (draft) |
+| **Version** | 0.8 (draft) |
 | **Status** | Plan — only `packages/wuxing` (74 tests) and the KB validation/self-test exist today |
 | **Last updated** | 2026-10-06 |
 | **Audience** | Developers, QA, content reviewers |
@@ -186,6 +186,7 @@ The protocol of the track ([research tracks §4](post-mvp/design/research-tracks
 | E18 | Release bundle | `check-release.ts` passes; no dev profile, amounts, tier C or inspector route |
 | E19 | Privacy | No cross-origin request after load; no marker value in URL/history/console |
 | E20 | Storage blocked | "Not saved" chip; flow and result still work |
+| E39 | AI help's conversation ([design §1, §4](post-mvp/design/ai-assisted-intake.md#4-safety), PM-47) | **Development**, desktop in three languages and the phone in Traditional Chinese, with the mock gateway: the consent; profile and screening as always; the card on the module chooser; the person's words sent — with the session's language, nothing of the profile — and two proposals with their words; one confirmed, one rejected, only the confirmed one recorded; a red flag in the words is **not sent** and re-opens that item of the screening, which says why; answered again, back in the conversation the words wait; then the questions, the confirmed finding in the rail. Unit tests (in-process gateway with the mock or a rogue provider): what a turn sends, the model's flag, the profile notice, the device's second check of a reply, the errors, Simplified; the red-flag words in three languages (`packages/ai`) |
 | E38 | AI help's consent ([design §5](post-mvp/design/ai-assisted-intake.md#5-privacy), PM-46) | **Development**, desktop and phone, with the mock gateway Playwright starts (`apps/ai-gateway`, `--dev`): the Settings card is off; its switch opens the statement and stays off; *Do not turn on* changes nothing and **no request reaches the gateway**; *Agree and turn on* — then, and only then, one `GET /v1/config`, the service's state in words and the header's *AI help: on*; a reload keeps it; one switch withdraws it, the indicator goes and nothing more is sent. axe on the statement and on the card. A release has no card and no gateway (check-release rule 17) |
 | E37 | The learning book ([design §7.3](post-mvp/design/knowledge-browser.md#73-as-built-pm-43-the-learning-book)) | **Release (closed beta)**, desktop and phone, three languages: the hub lists the book first with its twelve chapters; its one file is asked for when the book is opened, never before, and once; contents → 二、陰陽：一把尺 (focus on the heading) → the next chapter → the previous → Back → the contents; a quotation's source opens its page (《素問·六元正紀大論》 發表不遠熱，攻裡不遠寒); a deep link in a fresh browser; a chapter the book does not have is not found; a fetch that fails says so and comes on *Try again*. In English a line says the book is in Traditional Chinese only. **Simplified**: no Traditional text on the hub or the book's page, the file never asked for, and the link opens the same page in Traditional Chinese. axe in both colour schemes. E22 passes with the book in the offline copy |
 | E36 | The personalised prescription ([design §7.3](post-mvp/design/prescription-model.md)) | **Development** (English, Traditional Chinese): a whole assessment, then the first formula's page has the card *Modifications for this person (for a practitioner's judgement)* — the changes and why, grams with the Pharmacopoeia range and what adjusted each — and the practitioner summary its section, as made when the result was saved. **Release**, three languages: the formula page has none of it and no quantities |
@@ -304,3 +305,4 @@ Blocking: everything except golden concordance (until M3), nightly, and visual-r
 | 0.5 | 2026-10-06 | PM-32: E35 and the tests of the file sync (§4.4) |
 | 0.6 | 2026-10-07 | PM-43: E37, the learning book; E36's row (PM-41) |
 | 0.7 | 2026-10-08 | PM-46: E38, AI help's consent |
+| 0.8 | 2026-10-08 | PM-47: E39, AI help's conversation; a Simplified development project for E38 and E39 |

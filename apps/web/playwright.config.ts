@@ -18,6 +18,8 @@ const sizes = {
 const langs: readonly [string, Lang][] = [["en", "en"], ["zh", "zh-Hant"], ["hans", "zh-Hans"]];
 // Simplified Chinese is derived from the Traditional text (docs/post-mvp/design/simplified-chinese.md): the release build, desktop and mobile, with the scenarios that walk the whole flow and every screen.
 const HANS_SCENARIOS = /E1:|E2:|E5:|E9:|E10:|E11:|E24:|E26:|E27:|E28:|E29:|E30:|E31:|E32:|E33:|E34:|E35:|E36:|E37:|axe, /;
+// AI help (Release F) exists only in the development build: its scenarios run there in Simplified too, on desktop.
+const DEV_HANS_SCENARIOS = /E38:|E39:/;
 // The release scenarios. E22 (offline) has projects of its own: it starts its own server, so that it can stop it, and it needs the service worker that every other scenario keeps out (below).
 const RELEASE_SPECS = /^(?!.*\/(dev\.|visual\.|e22-)).*\.spec\.ts$/;
 const OFFLINE_SPEC = /e22-offline\.spec\.ts$/;
@@ -26,10 +28,10 @@ const projects = (["release", "dev"] as const).flatMap((profile) =>
   (["desktop", "mobile"] as const).flatMap((size) =>
     langs
       // the dev profile is exercised on desktop in both languages and on mobile in Chinese only: the same code, a smaller matrix
-      .filter(([short]) => (short !== "hans" || profile === "release") && (profile === "release" || size === "desktop" || short === "zh"))
+      .filter(([short]) => (short !== "hans" || profile === "release" || size === "desktop") && (profile === "release" || size === "desktop" || short === "zh"))
       .map(([short, lang]) => ({
         name: `${profile}-${size}-${short}`,
-        ...(short === "hans" ? { grep: HANS_SCENARIOS } : {}),
+        ...(short === "hans" ? { grep: profile === "release" ? HANS_SCENARIOS : DEV_HANS_SCENARIOS } : {}),
         testMatch: profile === "dev" ? /dev\..*\.spec\.ts$/ : RELEASE_SPECS,
         use: { ...sizes[size], baseURL: profile === "dev" ? DEV : RELEASE, lang, locale: lang === "en" ? "en-US" : lang === "zh-Hans" ? "zh-CN" : "zh-TW", timezoneId: "Asia/Taipei" },
       }))));

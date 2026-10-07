@@ -1,0 +1,582 @@
+{
+  "_meta": {
+    "description": "Words that re-open the red-flag screening during AI help's conversation (Release F; docs/post-mvp/design/ai-assisted-intake.md §4): matched on the device before anything is sent; a level-A or -B match asks that item again, a level-C match asks the person to check their profile. A term is a phrase, or a list of phrases that must all occur in one message. Negations are not read: it errs on the side of asking again. Simplified is converted from the Traditional.",
+    "schema": 1,
+    "status": "draft"
+  },
+  "items": [
+    {
+      "en": [
+        "chest pain",
+        "pain in my chest",
+        "chest pressure",
+        "pressure in my chest",
+        [
+          "chest",
+          "cold sweat"
+        ]
+      ],
+      "id": "RF_A_CHEST_PAIN",
+      "zh-Hant": [
+        "胸痛",
+        "胸口痛",
+        "心口痛",
+        "胸前痛",
+        "胸口壓",
+        "胸口被壓",
+        "胸口好緊",
+        "胸口很緊",
+        [
+          "胸悶",
+          "冷汗"
+        ],
+        [
+          "胸口",
+          "冷汗"
+        ]
+      ]
+    },
+    {
+      "en": [
+        "can't breathe",
+        "cannot breathe",
+        "can not breathe",
+        "difficulty breathing",
+        "trouble breathing",
+        "struggling to breathe",
+        "gasping",
+        "suffocat"
+      ],
+      "id": "RF_A_DYSPNEA",
+      "zh-Hant": [
+        "呼吸困難",
+        "喘不過氣",
+        "透不過氣",
+        "吸不到氣",
+        "上氣不接下氣",
+        "不能呼吸",
+        "無法呼吸",
+        "快窒息"
+      ]
+    },
+    {
+      "en": [
+        "fainted",
+        "fainting",
+        "passed out",
+        "pass out",
+        "blacked out",
+        "black out",
+        "unconscious",
+        "lost consciousness"
+      ],
+      "id": "RF_A_CONSCIOUSNESS",
+      "zh-Hant": [
+        "昏倒",
+        "暈倒",
+        "昏厥",
+        "暈厥",
+        "昏迷",
+        "失去意識",
+        "意識不清",
+        "不省人事",
+        "叫不醒"
+      ]
+    },
+    {
+      "en": [
+        "stroke",
+        "weakness on one side",
+        "one side is weak",
+        "face drooping",
+        "facial droop",
+        "slurred speech",
+        "slurring"
+      ],
+      "id": "RF_A_STROKE",
+      "zh-Hant": [
+        "中風",
+        "半邊無力",
+        "一邊無力",
+        "半身無力",
+        "單側無力",
+        "嘴歪",
+        "口角歪斜",
+        "臉歪",
+        "說話不清",
+        "口齒不清",
+        "講話不清楚"
+      ]
+    },
+    {
+      "en": [
+        "heavy bleeding",
+        "bleeding heavily",
+        "won't stop bleeding",
+        "vomiting blood",
+        "vomited blood",
+        "throwing up blood",
+        "black stool",
+        "tarry stool",
+        "blood in my stool",
+        "bloody stool"
+      ],
+      "id": "RF_A_BLEEDING",
+      "zh-Hant": [
+        "大量出血",
+        "流血不止",
+        "血流不止",
+        "吐血",
+        "嘔血",
+        "黑便",
+        "大便黑",
+        "便血",
+        "血便",
+        "大便有血"
+      ]
+    },
+    {
+      "en": [
+        "worst headache",
+        "sudden severe headache",
+        "thunderclap"
+      ],
+      "id": "RF_A_THUNDERCLAP",
+      "zh-Hant": [
+        "頭痛欲裂",
+        "劇烈頭痛",
+        "最痛的頭痛",
+        "從來沒有這麼痛",
+        "爆炸般的頭痛"
+      ]
+    },
+    {
+      "en": [
+        "seizure",
+        "convulsion",
+        "epileptic"
+      ],
+      "id": "RF_A_SEIZURE",
+      "zh-Hant": [
+        "抽搐",
+        "癲癇",
+        "羊癲瘋",
+        "口吐白沫",
+        "全身抽動"
+      ]
+    },
+    {
+      "en": [
+        "anaphylaxis",
+        "anaphylactic",
+        "throat swelling",
+        "throat is closing",
+        "throat closing",
+        [
+          "hives",
+          "breath"
+        ],
+        [
+          "allergic",
+          "can't breathe"
+        ]
+      ],
+      "id": "RF_A_ANAPHYLAXIS",
+      "zh-Hant": [
+        "過敏性休克",
+        "喉嚨腫",
+        "喉頭腫",
+        "喉嚨緊縮",
+        "喉頭緊",
+        [
+          "蕁麻疹",
+          "呼吸"
+        ],
+        [
+          "過敏",
+          "呼吸困難"
+        ],
+        [
+          "過敏",
+          "喘不過氣"
+        ]
+      ]
+    },
+    {
+      "en": [
+        "suicide",
+        "suicidal",
+        "kill myself",
+        "end my life",
+        "want to die",
+        "don't want to live",
+        "self-harm",
+        "self harm",
+        "hurt myself",
+        "harm myself",
+        "hurt someone",
+        "kill someone"
+      ],
+      "id": "RF_A_SELF_HARM",
+      "zh-Hant": [
+        "自殺",
+        "想死",
+        "不想活",
+        "活不下去",
+        "結束生命",
+        "了結自己",
+        "自殘",
+        "傷害自己",
+        "割腕",
+        "輕生",
+        "傷害別人",
+        "想殺"
+      ]
+    },
+    {
+      "en": [
+        "high fever",
+        [
+          "fever",
+          "39"
+        ],
+        [
+          "fever",
+          "40"
+        ],
+        [
+          "fever",
+          "102"
+        ],
+        [
+          "fever",
+          "103"
+        ],
+        [
+          "fever",
+          "three days"
+        ],
+        [
+          "fever",
+          "3 days"
+        ],
+        [
+          "fever",
+          "for days"
+        ]
+      ],
+      "id": "RF_B_HIGH_FEVER",
+      "zh-Hant": [
+        "高燒",
+        "高熱",
+        [
+          "燒",
+          "39"
+        ],
+        [
+          "燒",
+          "40"
+        ],
+        [
+          "發燒",
+          "三天"
+        ],
+        [
+          "發燒",
+          "3天"
+        ],
+        [
+          "燒了",
+          "幾天"
+        ],
+        "發燒超過"
+      ]
+    },
+    {
+      "en": [
+        "keep vomiting",
+        "can't stop vomiting",
+        "vomiting all day",
+        "can't keep anything down",
+        "can't keep water down",
+        "dehydrated"
+      ],
+      "id": "RF_B_VOMITING",
+      "zh-Hant": [
+        "一直吐",
+        "吐個不停",
+        "不停嘔吐",
+        "持續嘔吐",
+        "吃什麼吐什麼",
+        "喝水也吐",
+        "脫水"
+      ]
+    },
+    {
+      "en": [
+        "severe abdominal pain",
+        "severe stomach pain",
+        "severe belly pain",
+        "doubled over"
+      ],
+      "id": "RF_B_SEVERE_ABD_PAIN",
+      "zh-Hant": [
+        "劇烈腹痛",
+        "肚子劇痛",
+        "腹部劇痛",
+        "痛到打滾",
+        "肚子痛得很厲害"
+      ]
+    },
+    {
+      "en": [
+        "losing weight",
+        "lost a lot of weight",
+        "weight loss"
+      ],
+      "id": "RF_B_WEIGHT_LOSS",
+      "zh-Hant": [
+        "體重一直掉",
+        "體重下降很多",
+        "瘦了很多",
+        "莫名變瘦",
+        "體重減輕",
+        "暴瘦"
+      ]
+    },
+    {
+      "en": [
+        "blood in my urine",
+        "blood in urine",
+        "bloody urine",
+        "red urine",
+        "pink urine"
+      ],
+      "id": "RF_B_HEMATURIA",
+      "zh-Hant": [
+        "血尿",
+        "尿血",
+        "小便有血",
+        "尿中帶血",
+        "尿是紅色"
+      ]
+    },
+    {
+      "en": [
+        "lump",
+        "a mass",
+        "tumour",
+        "tumor"
+      ],
+      "id": "RF_B_NEW_MASS",
+      "zh-Hant": [
+        "腫塊",
+        "硬塊",
+        "摸到一顆",
+        "長了一顆",
+        "腫瘤"
+      ]
+    },
+    {
+      "en": [
+        "jaundice",
+        "yellow eyes",
+        "eyes are yellow",
+        "yellow skin"
+      ],
+      "id": "RF_B_JAUNDICE",
+      "zh-Hant": [
+        "黃疸",
+        "眼白發黃",
+        "眼睛發黃",
+        "眼睛變黃",
+        "皮膚發黃",
+        "皮膚變黃"
+      ]
+    },
+    {
+      "en": [
+        "coughing blood",
+        "coughing up blood",
+        "coughed up blood",
+        "blood in my phlegm",
+        "blood in my sputum"
+      ],
+      "id": "RF_B_HEMOPTYSIS",
+      "zh-Hant": [
+        "咳血",
+        "咯血",
+        "痰中帶血",
+        "痰裡有血",
+        "咳出血"
+      ]
+    },
+    {
+      "en": [
+        "sudden loss of vision",
+        "suddenly can't see",
+        "lost my vision",
+        "double vision",
+        "went blind"
+      ],
+      "id": "RF_B_VISION",
+      "zh-Hant": [
+        "突然看不見",
+        "突然看不清",
+        "視力突然",
+        "失明",
+        "視野缺",
+        "看東西變兩個",
+        "複視"
+      ]
+    },
+    {
+      "en": [
+        "irregular heartbeat",
+        "irregular pulse",
+        "heart skipping",
+        "skipped beats",
+        "skipping beats"
+      ],
+      "id": "RF_B_IRREGULAR_PULSE",
+      "zh-Hant": [
+        "心跳不規則",
+        "心律不整",
+        "心跳很亂",
+        "心跳忽快忽慢",
+        "漏跳",
+        "脈搏不規則"
+      ]
+    },
+    {
+      "en": [
+        "pregnant",
+        "pregnancy",
+        "expecting a baby"
+      ],
+      "id": "RF_C_PREGNANT",
+      "zh-Hant": [
+        "懷孕",
+        "有孕",
+        "孕期",
+        "妊娠",
+        "懷胎"
+      ]
+    },
+    {
+      "en": [
+        "breastfeeding",
+        "breast-feeding",
+        "nursing my baby",
+        "breast milk"
+      ],
+      "id": "RF_C_LACTATING",
+      "zh-Hant": [
+        "哺乳",
+        "餵奶",
+        "喂奶",
+        "餵母乳",
+        "母乳"
+      ]
+    },
+    {
+      "en": [
+        "chemotherapy",
+        "chemo",
+        "radiotherapy",
+        "radiation therapy",
+        "cancer treatment",
+        "immunotherapy"
+      ],
+      "id": "RF_C_CANCER_TREATMENT",
+      "zh-Hant": [
+        "化療",
+        "放療",
+        "標靶治療",
+        "癌症治療",
+        "免疫治療"
+      ]
+    },
+    {
+      "en": [
+        "dialysis",
+        "kidney failure",
+        "renal failure"
+      ],
+      "id": "RF_C_KIDNEY",
+      "zh-Hant": [
+        "洗腎",
+        "透析",
+        "腎衰竭",
+        "腎功能衰竭",
+        "尿毒"
+      ]
+    },
+    {
+      "en": [
+        "cirrhosis",
+        "liver failure",
+        "liver cancer",
+        "severe liver disease"
+      ],
+      "id": "RF_C_LIVER",
+      "zh-Hant": [
+        "肝硬化",
+        "肝衰竭",
+        "肝癌",
+        "嚴重肝病"
+      ]
+    },
+    {
+      "en": [
+        "transplant",
+        "anti-rejection"
+      ],
+      "id": "RF_C_TRANSPLANT",
+      "zh-Hant": [
+        "器官移植",
+        "換腎",
+        "換肝",
+        "移植手術",
+        "抗排斥"
+      ]
+    },
+    {
+      "en": [
+        "schizophrenia",
+        "bipolar",
+        "psychosis",
+        "psychiatric"
+      ],
+      "id": "RF_C_PSYCHIATRIC",
+      "zh-Hant": [
+        "思覺失調",
+        "精神分裂",
+        "躁鬱",
+        "雙相",
+        "重度憂鬱"
+      ]
+    },
+    {
+      "en": [
+        "heart failure",
+        "heart disease",
+        "heart attack",
+        "copd",
+        "emphysema",
+        "pulmonary fibrosis"
+      ],
+      "id": "RF_C_CARDIOPULMONARY",
+      "zh-Hant": [
+        "心臟衰竭",
+        "心衰竭",
+        "心臟病",
+        "冠心病",
+        "心肌梗塞",
+        "慢性阻塞性肺病",
+        "肺氣腫",
+        "肺纖維化"
+      ]
+    }
+  ]
+}

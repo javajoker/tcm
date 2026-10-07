@@ -181,6 +181,17 @@ def validate(load: Loader = load, check_sources: bool = True) -> list[str]:
             err(f"profile {pname}: the observation of tongue and face is not built (decision PD-25, task PM-50)")
     if scope["profiles"]["release"]["ai"] != {"enabled": False, "endpoint": None, "modules": {"conversation": False, "tongue": False, "face": False}}:
         err("profile release: AI help must be off, with no gateway, until its gates (docs/post-mvp/design/ai-assisted-intake.md §6)")
+    # the words that re-open the screening during AI help's conversation: one entry per red flag (the minor's comes from the age), words in both languages for every A and B item
+    terms = load("safety/red-flag-terms.json")["items"]
+    flags = {f["id"]: f["level"] for f in load("diagnosis/red-flags.json")["items"]}
+    for t in terms:
+        if t["id"] not in flags:
+            err(f"red-flag-terms: {t['id']} is not a red flag")
+        elif flags[t["id"]] in ("A", "B") and (not t["zh-Hant"] or not t["en"]):
+            err(f"red-flag-terms: {t['id']} needs words in Traditional Chinese and in English")
+    missing = sorted(set(flags) - {t["id"] for t in terms} - {"RF_C_MINOR"})
+    if missing:
+        err(f"red-flag-terms: no words for {', '.join(missing)}")
 
     # ── 3. identity and uniqueness ─────────────────────────────────────────
     herbs = load("herbs/herbs.json")["items"]

@@ -9,6 +9,7 @@ import { AI_CONVERSATION, AI_ENDPOINT } from "./build.ts";
 import { aiI18n, type Ai } from "./catalog.ts";
 import { serviceState, type ServiceState } from "./client.ts";
 import { AI_STATEMENT_VERSION, consentOf, withConsent, withoutConsent } from "./consent.ts";
+import { useConversation } from "./conversation.ts";
 
 /** Whether the gateway serves the conversation now. Mounted only once the person has consented, so nothing is asked of the gateway before. */
 function ServiceStatus({ a }: { a: Ai }): ReactNode {
@@ -40,7 +41,7 @@ export default function AiCard(): ReactNode {
         <Tile type="checkbox" name="aiConversation" value="on" checked={consent !== null} label={a.t("ai.settings.conversation")} description={a.t("ai.settings.conversation.hint")}
           onChange={(on) => {
             if (on) setAsking(true);
-            else { setPrefs(withoutConsent(prefs, "conversation")); setWithdrawn(true); }
+            else { setPrefs(withoutConsent(prefs, "conversation")); useConversation.getState().reset(null); setWithdrawn(true); }       // the conversation goes with the consent
           }} />
       ) : null}
       {consent !== null ? <ServiceStatus key={consent.at} a={a} /> : withdrawn ? <p role="status">{a.t("ai.settings.off")}</p> : null}

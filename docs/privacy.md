@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 0.8 (draft) |
+| **Version** | 0.9 (draft) |
 | **Status** | Design document; the user-facing statement (§8) needs legal review before release |
 | **Last updated** | 2026-10-07 |
 | **Audience** | Developers, reviewers, whoever writes the public privacy statement |
@@ -54,7 +54,7 @@
 | Follow-up date | A day the person chose (in 2, 4 or 8 weeks) and, if they said "not now", when — stored inside the saved result | Low | Shows the card on the start page and in History when the day has passed; nothing is sent and no timer runs. A calendar file for that day, if the person asks, holds only a date and the title "time to look again" | IndexedDB | Same | Deleted with the result; included in a backup |
 | Technical | app/KB/engine versions, profile | Low | Reproducibility | Inside saved results | Same | — |
 | **AI help consent** (Release F; development builds until its gates) | which module (conversation), when, which version of the statement | Low | Records the person's choice; nothing is sent before it | `localStorage` key `tcm.prefs` (`ai`) | Until withdrawn or erased | Settings → AI help: one switch per module |
-| **The conversation** (AI help) | the words the person types and the assistant's questions | **Sensitive (health)** | Proposes findings the person confirms ([AI-assisted intake](post-mvp/design/ai-assisted-intake.md)) | **Memory only** on the device, for the session — never in storage, a backup or a result; **sent**, for the time of each request, to the project's gateway and on to the model provider | None on the gateway (counts only in its log); the provider's zero-retention terms | Do not turn it on; withdraw in Settings; close the page |
+| **The conversation** (AI help) | the words the person types and the assistant's questions | **Sensitive (health)** | Proposes findings the person confirms ([AI-assisted intake](post-mvp/design/ai-assisted-intake.md)) | **Memory only** on the device, for the session — never in storage, a backup or a result (words that named a red flag wait there, unsent, while the screening is answered again); **sent**, for the time of each request, to the project's gateway and on to the model provider | None on the gateway (counts only in its log); the provider's zero-retention terms | Do not turn it on; withdraw in Settings; close the page |
 | What travels with each turn (AI help) | the app's own vocabulary of findings in the session's language (public) and the ids already confirmed | Sensitive (health) together with the conversation | Lets the reply name findings from the app's list | Sent with each request; nothing stored | None | As above |
 | AI session token | a random token the gateway issues for the session (no account) | Low | Budgets and rate limits per session | Memory only | The session; expires | Close the page |
 | Confirmed findings from the conversation | symptom ids and a severity, the same as an answered question | **Sensitive (health)** | Pattern differentiation | IndexedDB (draft, history), like every finding | Same as findings | Same |
@@ -179,3 +179,4 @@ Since then (post-MVP, [decisions register](post-mvp/decisions.md)): PQ2 and PQ3 
 | 0.6 | 2026-10-06 | The kept backup file (PM-32): the encrypted file in a folder the person chose, its record in IndexedDB (the handle and a hash — never the passphrase) and the passphrase held in memory only |
 | 0.7 | 2026-10-07 | The personalised prescription (PM-41): a derived field inside a saved result, made only by a development build (a release build has no herb records and refuses a record that holds one on import); nothing new is collected — it is computed from the result and the inputs the result already holds |
 | 0.8 | 2026-10-08 | AI help (PM-44; PD-21 approved by the owner): inventory rows for the consent, the conversation (memory only on the device; sent per request, kept nowhere), what travels with a turn, the session token and the confirmed findings; the network exception and the one exception to *health data is never transmitted*; consent per module; developer rule 7 and the verification row; the redesign trigger and the impact assessment's draft ([`post-mvp/privacy/ai-help-dpia.md`](post-mvp/privacy/ai-help-dpia.md)); the statement's draft paragraph. To be reviewed with the assessment |
+| 0.9 | 2026-10-08 | The conversation built (PM-47): a message that names a red flag is not sent, and waits in memory; the request carries the whole vocabulary so that it says nothing of the profile |

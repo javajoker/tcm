@@ -6,7 +6,7 @@ type CryptoKey = Awaited<ReturnType<typeof crypto.subtle.importKey>>;
 
 const b64url = (bytes: Uint8Array): string => btoa(String.fromCharCode(...bytes)).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
 
-function unb64url(s: string): Uint8Array | null {
+function unb64url(s: string): Uint8Array<ArrayBuffer> | null {
   if (!/^[A-Za-z0-9_-]*$/.test(s)) return null;
   try {
     const bin = atob(s.replace(/-/g, "+").replace(/_/g, "/") + "=".repeat((4 - (s.length % 4)) % 4));

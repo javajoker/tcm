@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 from .common import DATA, dump
-from .curated import glossary, policy
+from .curated import glossary, policy, red_flag_terms
 
 
 def main() -> None:
@@ -23,6 +23,13 @@ def main() -> None:
         "dose_references": {"minor_fractions": policy.MINOR_DOSE_FRACTIONS, "elderly": policy.ELDERLY_DOSE_FRACTION,
                             "note": "Textbook rules of thumb; never shown as a recommendation (practitioner decides)."},
         "pregnancy_acupoints": policy.PREGNANCY_ACUPOINTS,
+    })
+    dump(DATA / "safety" / "red-flag-terms.json", {
+        "_meta": {"description": "Words that re-open the red-flag screening during AI help's conversation (Release F; docs/post-mvp/design/ai-assisted-intake.md §4): matched on the device "
+                                 "before anything is sent; a level-A or -B match asks that item again, a level-C match asks the person to check their profile. A term is a phrase, or a list of "
+                                 "phrases that must all occur in one message. Negations are not read: it errs on the side of asking again. Simplified is converted from the Traditional.",
+                  "status": "draft", "schema": 1},
+        "items": red_flag_terms.items(),
     })
     dump(DATA / "glossary.json", {"_meta": {"description": "zh-Hant ⇄ English glossary (English follows WHO ISTM where known; needs review).", "count": len(glossary.GLOSSARY)},
                                   "items": glossary.GLOSSARY})

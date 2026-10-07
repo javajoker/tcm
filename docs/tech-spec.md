@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 0.10 (draft) |
+| **Version** | 0.11 (draft) |
 | **Status** | Draft — implementation not started (only `packages/wuxing`, `data/` and `scripts/kb` exist) |
 | **Last updated** | 2026-10-06 |
 | **Derives from** | [PRD v0.3](PRD.md) · [Diagnosis SOP v0.2](diagnosis-sop.zh-TW.md) · [Algorithm spec](wuxing-algorithm.md) |
@@ -72,7 +72,7 @@ apps/ai-gateway  →  @tcm/ai only; its clock is injected; never the knowledge b
 for a person who turns it on, the app sends the conversation, the app's own vocabulary and the confirmed ids to `apps/ai-gateway`, which holds the provider's key,
 counts each session's turns (an HMAC-signed session token, no account), passes the turn to the provider and returns only what `@tcm/ai`'s validator lets through —
 findings of the vocabulary with the person's own words as evidence, and a question that passes the wording lint. It stores nothing and logs counts and codes only.
-Its routes are `GET /v1/config`, `POST /v1/session` and `POST /v1/intake/turn`; its configuration and limits are in [`apps/ai-gateway/README.md`](../apps/ai-gateway/README.md).
+Its routes are `GET /v1/config`, `POST /v1/session` and `POST /v1/intake/turn`; its configuration and limits are in [`apps/ai-gateway/README.md`](../apps/ai-gateway/README.md). The web app's side is `apps/web/src/ai/` — the consent, the card, the client, the one request builder (`request.ts`), the conversation (`/talk`, S25) with its state in a memory-only store (`conversation.ts`, never persisted), the device's red-flag check (`@tcm/ai` `matchRedFlags`) before every send, and the reply validated a second time on the device.
 
 The engine takes **all** of its inputs as arguments (knowledge base, subject, findings, `now`, profile) and returns plain
 data. That makes it trivially testable, usable in a Web Worker later, and re-runnable on a saved assessment.
@@ -689,3 +689,4 @@ Colour: one sequential hue per quantity family, never red/green as good/bad; sig
 | 0.8 | 2026-10-07 | §5.2: the learning book's file (PM-43) |
 | 0.9 | 2026-10-08 | §2: AI help (PM-45) — `@tcm/ai` and `apps/ai-gateway`, their layering rules, the gateway's routes |
 | 0.10 | 2026-10-08 | §6.1, §11: AI help's build constants and the gateway in `connect-src` of a build with AI help only (PM-46) |
+| 0.11 | 2026-10-08 | §2: the web app's side of AI help — the conversation, its memory-only state, the device's checks (PM-47) |

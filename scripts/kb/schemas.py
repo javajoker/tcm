@@ -191,6 +191,12 @@ def red_flags() -> dict:
     return envelope(item, meta({"flow": STR}, ["flow"]))
 
 
+def red_flag_terms() -> dict:
+    term = {"oneOf": [{"type": "string", "minLength": 2}, {"type": "array", "items": {"type": "string", "minLength": 1}, "minItems": 2}]}
+    item = obj({"id": ref("redFlagId"), "zh-Hant": arr(term), "en": arr(term)})
+    return envelope(item, meta({"status": ref("reviewStatus")}, ["status"]))
+
+
 def tongue() -> dict:
     zone = obj({"classical": arr(STR), "en": STR, "id": enum("tip", "center", "root", "edge", "border", "all"), "textbook": arr(STR), "zh": STR})
     feature = obj({"category": enum("body", "shape", "special", "zone-body", "coat", "zone-coat"), "id": ref("symptomId"), "meaning": STR, "name": ref("bilingualNamed"),
@@ -593,6 +599,7 @@ SCHEMAS = {
     "config/scope-profiles.json": ("scope-profiles", scope_profiles, "Application configuration (profiles)"),
     "safety/rules.json": ("safety-rules", safety_rules, "Safety rules"),
     "safety/emergency.json": ("emergency", emergency, "Emergency and crisis numbers"),
+    "safety/red-flag-terms.json": ("red-flag-terms", red_flag_terms, "Words that re-open the red-flag screening (AI help)"),
     "safety/name-fold.json": ("name-fold", name_fold, "Character fold of the names an allergy can match"),
     "treatment/guidance.json": ("treatment-guidance", treatment_guidance, "Treatment guidance"),
     "review/records.json": ("review-records", review_records, "Review records and what they cover"),

@@ -102,7 +102,7 @@ class TheBuild(unittest.TestCase):
     def test_no_traditional_only_character_in_a_simplified_catalogue_message(self):
         bad = []
         for p, text in self.files.items():
-            if p in (hans.DICTIONARY, ai_wording.OUTPUT):
+            if p in (hans.DICTIONARY, ai_wording.OUTPUT, ai_wording.RED_FLAGS_OUTPUT):
                 continue
             for key, msg in json.loads(text).items():
                 for t in ([msg] if isinstance(msg, str) else msg.values()):

@@ -132,7 +132,16 @@ def red_flags(ctx: Context) -> Pack:
     em = ctx.data["safety/emergency.json"]
     rows = [[f"`{r['id']}`", both(r["name"]), ", ".join(f"{n['number']} ({n['label']['en']})" for n in r["emergency"]) or "—", ", ".join(f"{n['number']} ({n['label']['en']})" for n in r["crisis"]) or "—", r["status"]] for r in em["regions"]]
     md += "\n## Emergency numbers (`safety/emergency.json`)\n\nThere is no default region: numbers are shown for a region the person chose or whose time zone matches, otherwise \"call your local emergency number\". A wrong number is a safety incident; a row is verified only when a regional owner has checked it against an official source (the `verification` record), and a public build ships only verified rows.\n\n" + table(["Region", "Name", "Emergency", "Crisis support", "Status"], rows)
-    scope = [(rel, ctx.units(rel)), ("config/scope-profiles.json", ctx.units("config/scope-profiles.json", "*")), ("safety/emergency.json", ctx.units("safety/emergency.json"))]
+    terms = ctx.data["safety/red-flag-terms.json"]["items"]
+    level = {rf["id"]: rf["level"] for rf in ctx.data[rel]["items"]}
+    words = lambda ts: " · ".join(t if isinstance(t, str) else " + ".join(t) for t in ts) or "—"
+    md += ("\n## The words that re-open the screening (`safety/red-flag-terms.json`, AI help — Release F)\n\n"
+           "During AI help's conversation (development builds only) the device checks what the person types, **before it is sent**: a level-A or -B item answered *no* is asked "
+           "again, a level-C item asks the person to check the profile. A word joined with *+* needs every part in one message. Negations are not read, on purpose. Look at: an item "
+           "a person would describe in words the list misses, in either language; and ordinary complaints the list would catch (the cost of a catch is one more question).\n\n"
+           + table(["Id", "Level", "zh-Hant", "English"], [[f"`{t['id']}`", level[t["id"]], words(t["zh-Hant"]), words(t["en"])] for t in terms]))
+    scope = [(rel, ctx.units(rel)), ("config/scope-profiles.json", ctx.units("config/scope-profiles.json", "*")), ("safety/emergency.json", ctx.units("safety/emergency.json")),
+             ("safety/red-flag-terms.json", ctx.units("safety/red-flag-terms.json"))]
     return Pack("red-flags", "red flags and scope", "physician + a second reviewer", md, scope)
 
 

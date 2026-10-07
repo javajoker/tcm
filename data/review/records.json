@@ -291,6 +291,20 @@
       "units": 0,
       "whole_file_reviewed": false
     },
+    "safety/red-flag-terms.json": {
+      "required_roles": [
+        [
+          "physician"
+        ],
+        [
+          "pharmacy",
+          "tcm-clinical"
+        ]
+      ],
+      "reviewed": 0,
+      "units": 27,
+      "whole_file_reviewed": false
+    },
     "safety/rules.json": {
       "required_roles": [
         [

@@ -62,6 +62,14 @@ class Packs(unittest.TestCase):
         self.assertIn("`TW`", t)
         self.assertIn("1925", t)
 
+    def test_the_red_flag_pack_shows_the_words_that_re_open_the_screening_and_covers_their_file(self):
+        t = self.packs["red-flags"]
+        self.assertIn("## The words that re-open the screening", t)
+        self.assertIn("胸悶 + 冷汗", t)
+        self.assertIn("chest pain", t)
+        scope = {rel for rel, _ in pack.red_flags(CTX).scope}
+        self.assertIn("safety/red-flag-terms.json", scope)
+
     def test_safety_rules_list_what_they_currently_affect(self):
         t = self.packs["safety-rules"]
         anticoag = next(l for l in t.splitlines() if l.startswith("| `R_ANTICOAGULANT`"))

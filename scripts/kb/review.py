@@ -45,13 +45,14 @@ UNITS: dict[str, list[tuple[str, str | tuple[str, ...]]]] = {
     "glossary.json": [("items", ("domain", "zh-Hant"))],        # the same term can occur in two domains (火)
     "herbs/herbs.json": [("items", "id")],
     "safety/emergency.json": [("regions", "id")],
+    "safety/red-flag-terms.json": [("items", "id")],
     "safety/rules.json": [("rules", "id")],
 }
 
 # The roles a unit's file needs before it counts as reviewed: every group must be matched by at least one valid, current record of a role in the group (content review §2, §7).
 PHYSICIAN_AND_SECOND = [{"physician"}, {"pharmacy", "tcm-clinical"}]
 REQUIRED_ROLES: dict[str, list[set[str]]] = {
-    "diagnosis/red-flags.json": PHYSICIAN_AND_SECOND, "safety/rules.json": PHYSICIAN_AND_SECOND, "config/scope-profiles.json": PHYSICIAN_AND_SECOND, "safety/emergency.json": [{"physician"}],
+    "diagnosis/red-flags.json": PHYSICIAN_AND_SECOND, "safety/red-flag-terms.json": PHYSICIAN_AND_SECOND, "safety/rules.json": PHYSICIAN_AND_SECOND, "config/scope-profiles.json": PHYSICIAN_AND_SECOND, "safety/emergency.json": [{"physician"}],
     "formulas/formulas.json": [{"tcm-clinical"}, {"pharmacy"}], "herbs/herbs.json": [{"tcm-clinical"}, {"pharmacy"}], "treatment/guidance.json": [{"tcm-clinical"}, {"pharmacy"}],
     "glossary.json": [{"linguistic"}],
 }

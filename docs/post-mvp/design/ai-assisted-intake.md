@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 0.5 (draft) |
+| **Version** | 0.6 (draft) |
 | **Status** | Design for Release F (FR-40 … FR-42; tasks PM-44 … PM-50). **Approved by the owner on 2026-10-07** (PD-21, PD-25): the mock-provider parts are built first; a privacy redesign and a legal view still come before anything reaches the public |
 | **Last updated** | 2026-10-07 |
 | **Audience** | The owner, engineers, a privacy and a legal reviewer, the clinical content owner |
@@ -72,6 +72,8 @@ confirm ─► findings into the draft ─► the engine (unchanged) ─► resu
 
 The engine, the levels, the notices and the prescription gate are unchanged: whatever the intake, the same findings give the same result.
 
+*Built (PM-47, 2026-10-08; development profile, mock provider):* the conversation (`/talk`, UX spec S25) from a card on the module chooser, for an adult who agreed. **Before anything is sent** the device matches the words against `data/safety/red-flag-terms.json` (draft, for the physician and the second reviewer; generated into `@tcm/ai`): an A or B item answered *no* is asked again — the message is not sent, the screening says why, the words wait in memory; a C item asks the person to check the profile; negations are not read; each item is re-opened once per conversation; the model's own flag re-opens every A and B item answered *no*. The request carries the **whole** vocabulary (leaving out the menses would tell the provider the person's sex) and the device drops what does not apply to the person. The reply is validated a second time on the device. A confirmed proposal becomes a finding of the draft like an answer; a question counts as asked once any of its findings is known (the engine's `isAsked`), so the conversation asks topic by topic and the questions fill in the rest. The conversation's state is a memory-only store, dropped with the consent or with another assessment. Tests: E39 in three languages; unit tests with the gateway in process.
+
 ## 5. Privacy
 
 Turning AI help on is **a change of the privacy promise for that person**, and the interface says it in those words.
@@ -129,3 +131,4 @@ PM-44 (the owner's decisions and the privacy redesign), PM-45 (the gateway with 
 | 0.3 | 2026-10-08 | §5: the privacy documents drafted (PM-44) — privacy v0.8 and the impact assessment's draft |
 | 0.4 | 2026-10-08 | §3: the gateway and `@tcm/ai` built with the mock provider (PM-45) |
 | 0.5 | 2026-10-08 | §5: configuration, consent and Settings built (PM-46) |
+| 0.6 | 2026-10-08 | §4: the conversation built, with the device's red-flag check (PM-47) |

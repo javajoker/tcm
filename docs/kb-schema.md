@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 0.5 (draft) |
+| **Version** | 0.6 (draft) |
 | **Status** | Documents the first-pass `data/` as generated today, plus the files the engine and UI still need (§9) |
 | **Last updated** | 2026-10-07 |
 | **Audience** | Engine and UI developers, content reviewers, anyone adding or changing knowledge |
@@ -48,7 +48,7 @@ packages/wuxing (export tables) ─────┘
 | `build_formulas.py` | `formulas/formulas.json` | `curated/formulas.py` (33 formulas; amounts parsed from the classical text) |
 | `build_diagnosis.py` | `diagnosis/*.json` | `curated/{symptoms,patterns,exam,panel}.py` |
 | `build_wuxing.py` + `export_wuxing_tables.ts` | `wuxing/*.json` | parsed from 《素問》 raw text; exported from `packages/wuxing` |
-| `build_policy.py` | `config/scope-profiles.json`, `safety/rules.json`, `treatment/guidance.json`, `glossary.json` | `curated/{policy,glossary,treatment}.py` |
+| `build_policy.py` | `config/scope-profiles.json`, `safety/rules.json`, `safety/red-flag-terms.json`, `treatment/guidance.json`, `glossary.json` | `curated/{policy,glossary,treatment,red_flag_terms}.py` |
 | `build_constitution_items.py` | `diagnosis/constitution-items.json` (own-written questionnaire: nine types, 1–5 frequency scale, a description per type; scoring rule of the national standard, wording ours; draft) | `curated/constitution_items.py` |
 | `build_emergency.py` | `safety/emergency.json` (regional emergency and crisis numbers; default TW; every row `draft` until verified) | `curated/emergency.py` |
 | `build_name_fold.py` | `safety/name-fold.json` (the characters of the herb, formula-herb and food names that have another Simplified form, as `FROM:TO` code points in hex; the allergy rule folds both sides with it — PM-33; `derived`, checked by the build against the names) | the names in `herbs/`, `formulas/`, `diagnosis/patterns.json`, `treatment/guidance.json`; OpenCC `t2s` |
@@ -300,6 +300,10 @@ Each profile also has `ai: { enabled, endpoint: origin | null, modules{conversat
 Also: `dose_references` (age fractions for minors, elderly note — never shown as advice), `incompatibilities` (十八反 and 十九畏 pair lists; the 十九畏 list is textbook, unverified),
 `pregnancy_acupoints[9]`. `_meta.clinical_review_required` lists what a practitioner must review.
 
+### 6.2b `safety/red-flag-terms.json` — the words that re-open the screening (AI help, PM-47)
+
+`items[{ id: RF_*, "zh-Hant": term[], en: term[] }]`, where a term is a phrase or a list of phrases that must all occur in one message. One entry per red flag but the minor's (it comes from the age); every A and B item has words in both languages (checked); Simplified is converted by the display pipeline into `packages/ai/src/generated/redflags.ts`. Draft; reviewed with the red flags (physician and a second reviewer). Not bundled into the knowledge base: the device's check reads the generated module.
+
 ### 6.3 `treatment/guidance.json`
 
 `acupoints{ zhName: { code (WHO), meridian, pregnancy_avoid, location{zh-Hant,en}, cautions[{zh-Hant,en}], status, basis } }` (31) · `acupressure{ how, cautions[] }` (the notes that apply to every point) · `foods{ name: { id (PM-13: a stable ASCII id from a curated table, for the Learn address; unique, never changed), herb (id | null), nature, flavors[], functions[], rationale{zh-Hant,en}, cautions[], pregnancy_caution, basis (pharmacopoeia | textbook), citations[], status } }` (47, every food a pattern lists) · `lifestyle{ patternId: { zh-Hant, en } }` (23) · `general{ text, source[] }` · `food_pregnancy_caution[]` (the list the safety rule reads). A food that is also a herb takes `nature`, `flavors` and `functions` from the herb record (`basis: pharmacopoeia`); the others state them from the general textbook teaching (`basis: textbook`). Point locations follow the WHO standard descriptions in the project's own words. Everything is `draft`; `validate_kb` checks that everything a pattern refers to has bilingual text, that the pregnancy flags match the safety rule, the herb-backed entries and the citations. Illustrations are not yet included (U-25).
@@ -449,3 +453,4 @@ Pharmacopoeia facts are used as structured data. The Sources screen lists each b
 | 0.3 | 2026-10-07 | PM-35: the sources registry `sources.json` (§3.1b) and its coverage report; §8.1 item 9. PM-36: the herb property model (`props`, `props_rules`; §4.1). PM-37: the prescription model's tables (§4.3) |
 | 0.4 | 2026-10-07 | PM-52: 營衛 — the `yingwei` panel group (§3.10), `diagnosis/yingwei.json` (§3.11), the dimension weight |
 | 0.5 | 2026-10-08 | PM-46: the profiles' `ai` section (§6.1) |
+| 0.6 | 2026-10-08 | PM-47: `safety/red-flag-terms.json` (§6.2b) |

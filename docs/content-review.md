@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 0.3 (draft) |
+| **Version** | 0.4 (draft) |
 | **Status** | Proposed process — **no reviewer has been appointed yet** (PRD Q8 blocks milestone M3) |
 | **Last updated** | 2026-10-04 |
 | **Audience** | Maintainers, clinical and linguistic reviewers |
@@ -44,7 +44,7 @@ One person may hold several roles if qualified; the physician and the TCM clinic
 
 | Area | Files | What the reviewer decides | Primary reviewer |
 |---|---|---|---|
-| **Red flags and scope** | `diagnosis/red-flags.json`, `config/scope-profiles.json` | Completeness and levels of A/B/C items; which populations/conditions block; wording | Physician |
+| **Red flags and scope** | `diagnosis/red-flags.json`, `config/scope-profiles.json`, `safety/red-flag-terms.json` (the words that re-open the screening during AI help's conversation, PM-47) | Completeness and levels of A/B/C items; which populations/conditions block; wording; for the words: that each item is found by what a person would write, in both languages, and that ordinary complaints are not | Physician |
 | **Safety rules** | `safety/rules.json` | Each rule's condition, target, severity (hard/soft) and message; interaction classes; 十九畏 list; dose references; pregnancy acupoints | Pharmacy + physician |
 | **Patterns** | `diagnosis/patterns.json`, `pattern-elements.json` | Symptom weights, `against`, `required_any`, panel projection, linked formulas; closest confusable pairs and discriminating questions | TCM clinical |
 | **Symptoms and questions** | `symptoms.json`, `questions.json` (planned), `exclusions.json` (planned) | Wording in plain language, synonym splits, exclusivity, severity options | TCM clinical + linguistic |
@@ -210,3 +210,4 @@ A release build **must fail** (`check-release.ts`) if a required area has no val
 | 0.1 | 2026-10-04 | Initial proposal |
 | 0.2 | 2026-10-07 | §3, §7: the learning book (PM-42, PM-43) — reviewed by a linguist and a TCM clinician; a public build carries it only once reviewed |
 | 0.3 | 2026-10-07 | §3: the 營衛 readings and weights join the panel model's review (PM-52) |
+| 0.4 | 2026-10-08 | §3: the words that re-open the red-flag screening (`safety/red-flag-terms.json`, PM-47) join the red flags' review |

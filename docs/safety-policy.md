@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 0.3 (draft) |
+| **Version** | 0.4 (draft) |
 | **Status** | Draft — **all clinical content and wording require physician, pharmacy and legal review before any public release** ([content review](content-review.md)) |
 | **Last updated** | 2026-10-04 |
 | **Audience** | Developers, content reviewers, whoever answers user reports |
@@ -74,6 +74,8 @@ Source: `data/diagnosis/red-flags.json` (28 items). Reproduced for review; the d
 **C — Outside the intended scope (blocking; level per profile)** — under 18 · pregnant · breastfeeding · under cancer treatment · dialysis or kidney failure · cirrhosis or severe liver disease · organ transplant recipient · severe psychiatric illness · diagnosed severe heart or lung disease.
 
 Rules: C items are mostly pre-filled from the profile and shown for confirmation. A positive A or B item **cannot be un-set later in the same assessment without an explicit "I made a mistake" action** (it is recorded). The *self-harm* item additionally shows the region's crisis line (§5). Review focuses on completeness, wording in plain language, and the A/B boundary ([content review](content-review.md) §3).
+
+**During AI help's conversation** (Release F, development builds only; [design §4](post-mvp/design/ai-assisted-intake.md#4-safety), PM-47). The screening stays deterministic and first. What a person types is checked **on the device, before it is sent**, against a list of words per item (`data/safety/red-flag-terms.json`, draft — reviewed like this list, by a physician and a second reviewer): a level-A or -B item they answered *no* is asked again — the message is not sent, the screening says why and the words wait; an item answered *yes* or *not sure* has raised its notice already and stays; a level-C match (pregnancy, breastfeeding, chemotherapy, dialysis …) is sent and the person is asked to check the profile, on which the safety filter depends. Negations are not read ("no chest pain" asks again): the list errs on the side of asking. The model's own flag can only raise: every A or B item answered *no* is asked again. Each item is re-opened once per conversation. A test keeps every item findable by its own words in three languages, and the app's own words for ordinary complaints finding none.
 
 ---
 
@@ -240,3 +242,4 @@ Vignette suites in the [test plan §3.3](test-plan.md): every red-flag item, eve
 | 0.1 | 2026-10-04 | Initial policy, notice catalogue (draft wording), filter semantics, incident process |
 | 0.2 | 2026-10-04 | Open-question defaults confirmed for the MVP (SQ1–SQ7) |
 | 0.3 | 2026-10-04 | Notice N-CONFLICT added (contradictory answers); notices of one id are merged (e.g. anticoagulant + other medication → one N-MED) |
+| 0.4 | 2026-10-08 | §3: the red flags during AI help's conversation — checked on the device before sending, A/B answered no asked again, C asks for the profile, the model's flag raises only (PM-47) |

@@ -29,6 +29,7 @@ test("E38: no request to the gateway before consent; after it, the service's sta
   await expect(dialog).toContainText(app.t("ai.consent.never"));
   await axeClean(page, "the consent statement");
   await dialog.getByRole("button", { name: app.t("ai.consent.cancel") }).click();
+  await expect(dialog).toBeHidden();                       // (a modal that is still closing would take the next click)
   await expect(box).not.toBeChecked();
   expect(sent, "nothing is sent before consent").toEqual([]);
 

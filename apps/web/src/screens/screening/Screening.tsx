@@ -1,5 +1,5 @@
-import { useState, type ReactNode } from "react";
-import { useLocation } from "wouter";
+import { lazy, Suspense, useState, type ReactNode } from "react";
+import { useLocation, useSearch } from "wouter";
 import { useI18n } from "../../i18n/I18nProvider.tsx";
 import { NeedsKnowledge, useLoaded } from "../../app/knowledge.tsx";
 import { useApp } from "../../app/store.tsx";
@@ -12,6 +12,9 @@ import { NoticeScreen } from "./NoticeScreen.tsx";
 
 const ANSWERS: readonly RedFlagAnswer[] = ["no", "yes", "unsure"];
 
+// Why the screening is open again when AI help's conversation sent the person back (Release F): only in a build with AI help (check-release rule 17)
+const Reopened = __APP_AI_ENABLED__ ? lazy(() => import("../../ai/Reopened.tsx")) : null;
+
 function Body({ draft }: { draft: Draft }): ReactNode {
   const { t } = useI18n();
   const { kb } = useLoaded();
@@ -19,6 +22,7 @@ function Body({ draft }: { draft: Draft }): ReactNode {
   const updateDraft = useApp((s) => s.updateDraft);
   const [confirm, setConfirm] = useState<{ id: string } | null>(null);
   const [showing, setShowing] = useState(false);
+  const reopened = new URLSearchParams(useSearch()).get("reopened") === "talk";
 
   const { A, B } = askedItems(kb);
   const missing = unanswered(kb, draft);
@@ -49,6 +53,7 @@ function Body({ draft }: { draft: Draft }): ReactNode {
   return (
     <>
       <h1>{t.t("intake.screen.title")}</h1>
+      {Reopened !== null && reopened ? <Suspense fallback={null}><Reopened /></Suspense> : null}
       <p>{t.t("intake.screen.intro")}</p>
       <div style={{ display: "grid", gap: "var(--space-4)" }}>
         {group("A", A)}

@@ -22,6 +22,7 @@ def outputs() -> tuple[dict[Path, str], Counter]:
     for name, text in hans.convert_catalogs(conv).items():
         files[hans.CATALOGS / "zh-Hans" / name] = text
     files[ai_wording.OUTPUT] = ai_wording.build(conv)
+    files[ai_wording.RED_FLAGS_OUTPUT] = ai_wording.build_red_flags(conv)
     return files, Counter(rules.values())
 
 

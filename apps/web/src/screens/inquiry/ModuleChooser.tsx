@@ -1,9 +1,12 @@
-import { useState, type ReactNode } from "react";
+import { lazy, Suspense, useState, type ReactNode } from "react";
 import type { KnowledgeBase } from "@tcm/kb";
 import { useI18n } from "../../i18n/I18nProvider.tsx";
 import type { Draft } from "../../storage/types.ts";
 import { Button, LinkButton, Tile } from "../../ui/index.ts";
 import { availableModules } from "./model.ts";
+
+// AI help's way into the conversation (Release F): only in a build with AI help — the build constant is the condition, so a release makes no chunk for it (check-release rule 17)
+const AiEntry = __APP_AI_ENABLED__ ? lazy(() => import("../../ai/AiEntry.tsx")) : null;
 
 /** S06: the complaint modules (multi-select) or "nothing in particular"; at least one choice is needed. */
 export function ModuleChooser({ kb, draft, onConfirm }: { kb: KnowledgeBase; draft: Draft; onConfirm: (modules: readonly string[]) => void }): ReactNode {
@@ -16,6 +19,7 @@ export function ModuleChooser({ kb, draft, onConfirm }: { kb: KnowledgeBase; dra
   return (
     <>
       <h1>{t.t("intake.inquiry.modules.title")}</h1>
+      {AiEntry !== null ? <Suspense fallback={null}><AiEntry draft={draft} /></Suspense> : null}
       <p>{t.t("intake.inquiry.modules.intro")}</p>
       <fieldset style={{ border: 0, padding: 0, margin: 0, display: "grid", gap: "var(--space-2)" }}>
         <legend className="visually-hidden">{t.t("intake.inquiry.modules.title")}</legend>
