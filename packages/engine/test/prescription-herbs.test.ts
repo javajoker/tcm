@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { test } from "node:test";
 import type { DoseBands, Herb, Herbs, Pairing, Pairings, Prescription, Processing } from "@tcm/kb";
-import { applyPairings, doseBandOf, burdenGrowth, compositionAction, herbAtDose, processingOf, saturation, typicalDose, type PrescriptionTables } from "../src/index.ts";
+import { applyPairings, doseBandOf, burdenGrowth, compositionAction, herbAtDose, processingOf, saturation, typicalDose, type PrescriptionTables } from "../src/prescription/index.ts";
 
 const data = <T>(rel: string): T => JSON.parse(readFileSync(new URL(`../../../data/${rel}`, import.meta.url), "utf8")) as T;
 const herbs: Herb[] = data<Herbs>("herbs/herbs.json").items;

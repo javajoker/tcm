@@ -8,7 +8,8 @@ import { fileURLToPath } from "node:url";
 import type { DoseBands, Herb, Herbs, KnowledgeBase, Mechanisms, Pairings, Prescription, Processing, Yinjing } from "../packages/kb/src/types.ts";
 import { indexKnowledgeBase } from "../packages/kb/src/indexer.ts";
 import { rawChunksFromDisk } from "../packages/kb/node/fromDisk.ts";
-import { normalize, scorePatterns, synthesizePanel, verifyLibrary, type FormulaVerification, type PanelVector, type PrescriptionTables } from "../packages/engine/src/index.ts";
+import { normalize, scorePatterns, synthesizePanel, type PanelVector } from "../packages/engine/src/index.ts";
+import { verifyLibrary, type FormulaVerification, type PrescriptionTables } from "../packages/engine/src/prescription/index.ts";
 import type { Findings } from "../packages/engine/src/index.ts";
 import { PARITY } from "../packages/engine/test/parity.ts";
 

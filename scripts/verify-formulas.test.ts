@@ -4,7 +4,7 @@ import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { test } from "node:test";
-import { verifyLibrary } from "../packages/engine/src/index.ts";
+import { verifyLibrary } from "../packages/engine/src/prescription/index.ts";
 import type { Formula } from "../packages/kb/src/types.ts";
 import { REPORT, build, inputs, render } from "./verify-formulas.ts";
 
