@@ -15,6 +15,8 @@ export const ELEMENT_SLUG = { 木: "wood", 火: "fire", 土: "earth", 金: "meta
 export const ORGAN_SLUG = { 肝: "gan", 心: "xin", 脾: "pi", 肺: "fei", 腎: "shen", 膽: "dan", 小腸: "xiaochang", 胃: "wei", 大腸: "dachang", 膀胱: "pangguang" } as const;
 export const LIUXIE_SLUG = { 風: "wind", 寒: "cold", 暑: "summerheat", 濕: "damp", 燥: "dry", 火: "fire" } as const;
 export const PRODUCT_SLUG = { 痰: "phlegm", 飲: "fluid", 瘀: "stasis", 食積: "food" } as const;
+/** The 營衛 block of the panel (PM-52): 衛氣, 營氣 and the opening and closing of the pores. */
+export const YINGWEI_SLUG = { 衛: "wei", 營: "ying", 開闔: "kaihe" } as const;
 export const RULE_SLUG = { 制己所勝: "restrain", 侮所不勝: "insult", 子盜母氣: "drain", 乘侮自深: "deepen", 母病及子: "fail" } as const;
 export const CHANNELS = ["qi", "blood", "yin", "yang", "stasis"] as const;
 

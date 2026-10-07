@@ -46,7 +46,8 @@
       "bagang": 0.0,
       "liuxie": 0.7,
       "organ": 1.0,
-      "product": 0.7
+      "product": 0.7,
+      "yingwei": 0.7
     },
     "noisy_or_floor": 20.0,
     "wuxing_function": {

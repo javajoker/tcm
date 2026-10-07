@@ -46,9 +46,14 @@ test("an incompatible pair is a safety finding: 人參 with 藜蘆 (諸參辛芍
   assert.deepEqual(r.safety.incompatible, [["藜蘆", "人參"]]);
 });
 
-test("the findings the first reading reported stay visible: 桂枝湯 for its own patterns, the classical 相惡 inside 小柴胡湯", () => {
+test("the first reading's findings: 桂枝湯 now serves its own patterns — the panel holds 營衛 (PM-52) — and the classical 相惡 inside 小柴胡湯 stays visible", () => {
   const guizhi = report.find((r) => r.formula === "F_GUIZHI")!;
-  assert.ok(guizhi.findings.includes("indication:EX2"));
+  for (const p of ["EX2", "EX4"]) {
+    const check = guizhi.indications.find((x) => x.pattern === p)!;
+    assert.ok(check.pass && check.explained > 0, `桂枝湯 corrects part of the typical ${p} patient and ranks among the first`);
+    assert.ok(!guizhi.findings.includes(`indication:${p}`));
+  }
+  assert.equal(guizhi.indications.find((x) => x.pattern === "EX2")!.rank, 1, "the first formula of the library for 太陽中風");
   const xiaochaihu = report.find((r) => r.formula === "F_XIAOCHAIHU")!;
   assert.ok(xiaochaihu.safety.opposed.some((p) => p.herb === idOf("生薑") && p.other === idOf("黃芩")));
 });

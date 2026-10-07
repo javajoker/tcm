@@ -15,7 +15,7 @@ const AUGUST = Date.UTC(2026, 7, 1, 12);          // 長夏 and the days of 土 
 const run = (kb: typeof dev, options: Partial<AssessInput["options"]> = {}, birth = true, now = AUGUST) => assess(kb, {
   subject: person(birth ? { birth: BIRTH } : {}), redFlags: new Set(), findings: worked, options: { now, birthModule: birth, ...options },
 });
-const NORTH = "366e19e0+4c3e3303";                 // result-stability.test.ts pins the same string
+const NORTH = "c4504d83+4c3e3303";                 // result-stability.test.ts pins the same string (recorded again at PM-52, a knowledge-base change)
 
 test("the default model leaves no trace: naming it is the same as not naming it, and the stamp is the one it always was", () => {
   const plain = run(dev);

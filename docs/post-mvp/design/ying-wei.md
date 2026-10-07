@@ -2,8 +2,8 @@
 
 | | |
 |---|---|
-| **Version** | 0.1 (draft) |
-| **Status** | Design for task PM-52 (requirement FR-43, decision PD-28), from the owner's direction of 2026-10-07: *supplement what concerns 營衛 from the classics into the model, keep the model self-consistent and complete; where the classics contradict each other, weight them by applicability.* |
+| **Version** | 0.2 (draft) |
+| **Status** | **Built** (PM-52, §6) — task PM-52 (requirement FR-43, decision PD-28), from the owner's direction of 2026-10-07: *supplement what concerns 營衛 from the classics into the model, keep the model self-consistent and complete; where the classics contradict each other, weight them by applicability.* |
 | **Last updated** | 2026-10-07 |
 | **Audience** | The clinical content owner, a TCM clinical reviewer, engineers |
 | **Related** | [Prescription model §5 (the verification that found the gap)](prescription-model.md) · [Formula verification report](../../formula-verification.md) · [Knowledge base v2](knowledge-base-v2.md) · [SOP §10 (the panel)](../../diagnosis-sop.zh-TW.md) · [Decision PD-28](../decisions.md) |
@@ -66,7 +66,7 @@ The 營衛 patterns of the library are made of these 證素 natures (per unit de
 |---|---|---|---|---|---|
 | **營弱衛強** | EX2 太陽中風 | **−0.3** (c 0.65) | −1.0 | −1.0 | 營 and 開闔: 傷寒論 12 「陰弱者，汗自出」, 成無己 「陰脈弱者，荣氣弱也」「腠理疏」 — all agree. 衛: question Q3 below |
 | **衛閉** | EX1 太陽傷寒 | **−0.4** (c 0.76) | **+0.4** (c 0.76) | +1.0 | 開闔: 傷寒論 35 「惡風無汗而喘者」, 成無己 「當與麻黃湯發汗」. 營 and 衛: question Q4 |
-| **衛氣不和** | EX4 營衛不和 | −1.0 | 0 | −1.0 | 傷寒論 53 「營氣和…以衛氣不共營氣和諧」、54 「此衛氣不和也」, 成無己 「不能衛護皮腠，是以常自汗出」 |
+| **衛氣不和** | EX4 營衛不和 | −1.0 | 0 | −1.0 | 傷寒論 53 「營氣和…以衛氣不共營氣和諧」、54 「此衛氣不和也」, 成無己 「不能衛護皮腠，是以常自汗出」; and **風 +0.4** (c 0.76): question Q7 |
 | **衛弱** (肺衛不固) | LG1 肺氣虛（衛表不固） | −1.0 | 0 | −1.0 | 生氣通天論 「陽者，衛外而為固也」, 本藏 「司開闔」 |
 
 ### 2.4 The questions on which the classics disagree
@@ -78,6 +78,7 @@ The 營衛 patterns of the library are made of these 證素 natures (per unit de
 | **Q3** | In 太陽中風, what is 「衛強」? | Literally 衛 strong — 傷寒論 95 (**0.2**: it describes 陽浮 and the fever, the fight at the surface) → +1 · The evil is strong in the 衛 — 成無己 「風并於衛，則衛實」 (**0.3**: the panel already holds that evil as 風) → 0 · The 衛陽 is hindered by the wind — 醫宗金鑑 「衛陽為風邪所干，不能敷布」 (**0.5**: what the treatment acts on, 「溫通衛陽」) → −1 | **衛 −0.3**, confidence 0.65 |
 | **Q4** | Does cold harm the 營 in 太陽傷寒 (風傷衛、寒傷營)? | Yes — 成無己 「寒并於荣者，為荣強衛弱」 (**0.4**: a commentator's scheme, disputed by later ones) → 營 +1, 衛 −1 · The clause names no 營衛 — 傷寒論 35 (**0.6**: the classic itself; its pains are the cold's) → 0 | **營 +0.4, 衛 −0.4**, confidence 0.76 |
 | **Q5** | Does the 衛 stage of a warm disease sweat? | It must be opened — 溫熱論 「在衛汗之可也」 (**0.5**) → 開闔 +1 · It sweats — 溫病條辨 「身熱自汗」 (**0.5**) → 開闔 −1 | **0**, confidence 0.5: no 營衛 nature for EX3 風熱犯表; the readings cancel and the panel says nothing it cannot support |
+| **Q7** | Is a wind lodged in the 衛 of 營衛不和 without another disease? | Yes — 成無己 「衛受風邪而荣不病者，為荣氣和也。衛既客邪」 (**0.4**: the reason 桂枝湯 「解散風邪、調和荣衛」) → 風 +1 · No — 傷寒論 54 「病人藏無他病…此衛氣不和也」 (**0.6**: the clause names no evil, and the pattern's evidence counts a recent wind or cold against it) → 0 | **風 +0.4**, confidence 0.76 |
 | **Q6** | Are 營 and 衛 qi of the body or stages of a warm disease? | Qi — 營衛生會 「營在脈中，衛在脈外」 · Stages — 溫熱論 「衛之後方言氣，營之後方言血」 | Not a conflict once the uses are separated (each 1.0 for its use): the panel holds the qi; the stages name where a warm disease is — 衛分 is EX3, and the 氣、營、血 stages are fevers the red-flag screening sends to a doctor (RF_B_HIGH_FEVER, RF_A_CONSCIOUSNESS, RF_A_BLEEDING, RF_A_SEIZURE) |
 
 ### 2.5 Where 營 and 衛 come from
@@ -101,7 +102,7 @@ The commentaries state the 營衛 actions of the formula herbs (hand-set, like e
 
 | Herb | 營衛 effect | Basis |
 |---|---|---|
-| 桂枝 | 衛 +0.4, 開闔 −0.2; and 風 −0.3, which it lacked | 「溫通衛陽」「於發汗中寓斂汗」 (醫宗金鑑); 「和荣衛而散風邪」 (成無己) |
+| 桂枝 | 衛 +0.4, 開闔 −0.1; and 風 −0.3, which it lacked | 「溫通衛陽」「於發汗中寓斂汗」 (醫宗金鑑); 「和荣衛而散風邪」 (成無己); it opens the pores only a little — its sweat needs 「啜熱稀粥…以助藥力。溫覆令一時許」 (傷寒論 12) |
 | 芍藥 (白芍) | 營 +0.4, 開闔 +0.3 | 「酸能收斂，寒走荣陰」 (醫宗金鑑) |
 | 生薑 | 衛 +0.2, 風 −0.2 | 「佐桂枝以解表」 |
 | 大棗 | 營 +0.3 | 「佐芍藥以和中」 |
@@ -118,7 +119,7 @@ The keyword rules of the other herbs gain the same words (固表、止汗、斂�
 |---|---|---|
 | EX1 太陽傷寒 | 風, 寒, exterior | + 衛閉 (開闔 +1, 營 +0.4, 衛 −0.4) |
 | EX2 太陽中風 | 風, exterior | + 營弱衛強 (衛 −0.3, 營 −1, 開闔 −1) |
-| EX4 營衛不和 | 肺 qi −1 (表 × 氣虛), exterior | **衛氣不和** instead (衛 −1, 開闔 −1), exterior: 「臟無他病」 (傷寒論 54) — no organ is deficient |
+| EX4 營衛不和 | 肺 qi −1 (表 × 氣虛), exterior | **衛氣不和** instead (衛 −1, 開闔 −1, 風 +0.4), exterior: 「臟無他病」 (傷寒論 54) — no organ is deficient |
 | LG1 肺氣虛（衛表不固） | 肺 qi −1 | + 衛弱 (衛 −1, 開闔 −1) and its source (衛 −0.15) |
 | SP1, SP2, SP3, HT1, QB1, KD2 | — | small 衛 and 營 deficits from their organs (§2.5) |
 | EX3 風熱犯表 | — | unchanged (Q5) |
@@ -143,12 +144,22 @@ Expected: 桂枝湯 corrects the 營 and 開闔 of 太陽中風 and the 衛 of �
 - The result page shows the block (three rows, with their words and numbers); the labels in three languages; `dimLabel` for the 方解.
 - The SOP §10 (the logic owner) and the algorithm document's §9 panel; the book (chapters 4, 10); the verification report regenerated; the parity cases, the result pins and the golden results re-recorded as a knowledge-base change, each change explained.
 
-## 4. Review
+## 4. As built (PM-52)
+
+- **Data.** `scripts/kb/curated/yingwei.py` → `data/diagnosis/yingwei.json` (3 dimensions, 4 natures, 7 questions, the couplings, the stages, what is not modelled); the panel schema carries the `yingwei` group, the four natures' projections and the coupling; `validate_kb` recomputes every value, confidence, projection and source weight and every pattern's projection from its elements and the coupling. **27 new verified quotations** (183 in all): 《素問》生氣通天論、痺論, 《靈樞》營衛生會、決氣、本藏、邪客、大惑論, 《傷寒論》12、53、54、95 and the 桂枝湯 aftercare, and four later works — 成無己《註解傷寒論》 (new in the sources registry), 《醫宗金鑑》, 《溫熱論》, 《溫病條辨》. Five glossary terms: 衛氣, 營氣, 營衛, 營衛不和, 腠理. The Traditional conversion gained three fixes (水穀, 五臟, 所干).
+- **Engine.** The 八綱 deficiency–excess axis counts the 營衛 block, in the engine and the Python oracle alike (parity 1e-9). Run against the knowledge base as it was before, the changed engine gives every pinned result exactly as recorded — what changed is the knowledge only; the pins, the parameter stamp and the SOP's worked examples were recorded again, each change explained (the worked 脾氣虛 patient: 營 −0.56, 衛 −0.13, 虛實 −0.46 → −0.58; the formulas keep their order).
+- **The result page** shows the block — 衛氣, 營氣 and the pores, the pores in words of their own (open, sweating · closed, no sweat) — when a person's panel has it; the 方解 names its dimensions; three languages.
+- **Diagnosis unchanged:** the pattern self-test and the golden results are exactly as before (85 % pattern first over the 30 cases).
+- **Verification** ([report](../../formula-verification.md)): 桂枝湯 is the first formula of the library for the typical 太陽中風 (it corrects 16 %, from 0) and the third for 營衛不和 (6 %); 麻黃湯 the first for 太陽傷寒 (56 %); 玉屏風散 the first for 衛表不固 (25 %). Findings by kind: indication 10 → 8, role 24 → 23; **6 of 33 formulas still pass every check** — the other findings (balance, 玉屏風散's direction, the two classical 相惡) are not about 營衛.
+- **Calibration, stated:** two values were set from the classics after the first reading, not to pass a check: 桂枝's opening of the pores (−0.2 → −0.1; 傷寒論 12 says its sweat needs the porridge and the covering) and the lodged wind of 營衛不和 (Q7). Every weight remains `[calibrate]` for the clinical reviewer.
+
+## 5. Review
 
 Class C — a TCM clinical reviewer checks the readings, the applicability weights and the herb effects (all `[calibrate]`); until then everything is a draft, like the rest of the panel.
 
-## 5. Changelog
+## 6. Changelog
 
 | Version | Date | Change |
 |---|---|---|
 | 0.1 | 2026-10-07 | Initial design, from the owner's direction of 2026-10-07 |
+| 0.2 | 2026-10-07 | §4: as built (PM-52); Q7, the lodged wind of 營衛不和; 桂枝's opening of the pores −0.1 |

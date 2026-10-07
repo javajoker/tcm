@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 0.3 (draft) |
+| **Version** | 0.4 (draft) |
 | **Status** | Documents the first-pass `data/` as generated today, plus the files the engine and UI still need (§9) |
 | **Last updated** | 2026-10-07 |
 | **Audience** | Engine and UI developers, content reviewers, anyone adding or changing knowledge |
@@ -181,9 +181,21 @@ Shared by the Python oracle (`scripts/kb/oracle.py`) and the TypeScript engine; 
 
 ### 3.10 `diagnosis/panel-schema.json`
 
-The panel model: `organs.{zang, fu, element_of}`, `channels` (ranges), `liuxie` (six), `products` (痰 飲 瘀 食積), `location_organs` (證素 location → organs), `nature_projection`
-(nature → panel targets; `{organ}` is a placeholder), `exterior_locations`, `derived` (formulas for `bagang.cold_heat`, `deficiency_excess`, `exterior`, `yin_yang` — the rule is in the text and uses `scoring-params panel.bagang.yin_yang_axis_threshold` —, `wuxing_function`),
-`offsets` (definition of the primary and secondary offset).
+The panel model: `organs.{zang, fu, element_of}`, `channels` (ranges), `liuxie` (six), `products` (痰 飲 瘀 食積), `yingwei` (PM-52: the dimensions 衛 營 開闔 with
+their scales, and the coupling — its strength and, for each 營衛 dimension, the weights of the organ dimensions it is made from), `location_organs` (證素 location → organs), `nature_projection`
+(nature → panel targets; `{organ}` is a placeholder; the four 營衛 natures 營弱衛強 衛閉 衛氣不和 衛弱 are computed from their readings), `exterior_locations`, `derived` (formulas for `bagang.cold_heat`,
+`deficiency_excess` — which counts the 營衛 block —, `exterior`, `yin_yang` — the rule is in the text and uses `scoring-params panel.bagang.yin_yang_axis_threshold` —, `wuxing_function`,
+`yingwei.coupling`), `offsets` (definition of the primary and secondary offset). Panel dimensions are `<organ>.<qi|blood|yin|yang|stasis>`, `liuxie.<evil>`, `product.<product>`,
+`yingwei.<衛|營|開闔>` and `bagang.exterior`; `scoring-params panel.dimension_weights` gives each group its weight (`yingwei` 0.7).
+
+### 3.11 `diagnosis/yingwei.json` — 營衛 (PM-52)
+
+Built from `scripts/kb/curated/yingwei.py` ([design](post-mvp/design/ying-wei.md)); build-time reasoning, not bundled. `dimensions[]` `{ id (yingwei.衛|營|開闔), zh, en, scale, basis: citationId[] }` ·
+`natures{}` keyed by nature `{ name, pattern, location, says, dimensions{dim → { readings[], value, confidence }}, projection_per_degree }` — a dimension is a short 營衛 name or a full
+panel key (`liuxie.風`) · `questions[]` `{ id (Q1…), question, en, result, readings?, dimension?, pattern?, value?, confidence? }` · `coupling` `{ strength, targets{yingwei.<dim> → { readings[]
+{ citations, says, applicability, dims[], why }, sources{panel dimension → weight} }} }` · `stages[]` (衛氣營血 → the app: a pattern or red flags) · `not_modelled[]`. A reading is
+`{ citations: citationId[], says, applicability, value, why }`; the applicabilities of one set sum to 1; `value = Σ w·v`, `confidence = 1 − Σ w·|v − value| / 2`. `validate_kb` recomputes every
+value, confidence, projection and source weight, checks them against the panel schema, and recomputes every pattern's projection from its elements plus the coupling.
 
 ---
 
@@ -434,3 +446,4 @@ Pharmacopoeia facts are used as structured data. The Sources screen lists each b
 | 0.1 | 2026-10-04 | Initial schema reference for the first-pass `data/` |
 | 0.2 | 2026-10-06 | PM-21: the admission checklist (§8.4) and `review/admission.json`; §8.1 item 10; the extension procedure for a pattern |
 | 0.3 | 2026-10-07 | PM-35: the sources registry `sources.json` (§3.1b) and its coverage report; §8.1 item 9. PM-36: the herb property model (`props`, `props_rules`; §4.1). PM-37: the prescription model's tables (§4.3) |
+| 0.4 | 2026-10-07 | PM-52: 營衛 — the `yingwei` panel group (§3.10), `diagnosis/yingwei.json` (§3.11), the dimension weight |

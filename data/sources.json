@@ -28,8 +28,8 @@
       },
       "醫經": {
         "books": 95,
-        "drawn_on": 7,
-        "registered": 9
+        "drawn_on": 9,
+        "registered": 10
       },
       "針灸": {
         "books": 25,
@@ -47,7 +47,7 @@
         "registered": 0
       }
     },
-    "count": 90,
+    "count": 91,
     "description": "Sources registry: every work the knowledge base draws on or, by its design, should draw on (docs/post-mvp/design/knowledge-base-v2.md), with how the data uses it. Build-time only; never in the bundle.",
     "domains": {
       "acupuncture": {
@@ -87,11 +87,11 @@
         "zh-Hant": "治則治法"
       }
     },
-    "drawn_on": 43,
+    "drawn_on": 45,
     "schema": 1,
     "status_counts": {
       "bibliography": 7,
-      "in-corpus": 75,
+      "in-corpus": 76,
       "not-in-corpus": 8
     },
     "unresolved": []
@@ -129,9 +129,10 @@
       "names": [
         "素問"
       ],
-      "quotations": 93,
+      "quotations": 96,
       "references": {
         "diagnosis/patterns.json": 8,
+        "diagnosis/yingwei.json": 6,
         "formulas/formulas.json": 68,
         "herbs/herbs.json": 16,
         "safety/rules.json": 6,
@@ -167,9 +168,10 @@
       "names": [
         "靈樞"
       ],
-      "quotations": 14,
+      "quotations": 21,
       "references": {
         "diagnosis/patterns.json": 3,
+        "diagnosis/yingwei.json": 15,
         "treatment/sanyin.json": 1,
         "wuxing/susceptibility.json": 1
       },
@@ -605,9 +607,10 @@
       "id": "shanghan",
       "kind": "classic",
       "names": [],
-      "quotations": 18,
+      "quotations": 23,
       "references": {
         "diagnosis/patterns.json": 8,
+        "diagnosis/yingwei.json": 12,
         "formulas/formulas.json": 10
       },
       "status": "in-corpus",
@@ -659,6 +662,38 @@
       "corpus": [
         {
           "exists": true,
+          "path": "reference/sources/TCM-Ancient-Books/461-注解伤寒论.txt",
+          "repo": "TCM-Ancient-Books"
+        }
+      ],
+      "domains": [
+        "pattern-systems",
+        "formulas"
+      ],
+      "drawn_on": true,
+      "edition": {
+        "author": "成無己",
+        "category": "醫經",
+        "dynasty": "金",
+        "year": "公元1144年"
+      },
+      "era": null,
+      "id": "zhujie-shanghan",
+      "kind": "classic",
+      "names": [],
+      "quotations": 6,
+      "references": {
+        "diagnosis/yingwei.json": 9
+      },
+      "status": "in-corpus",
+      "title": "註解傷寒論",
+      "use": "成無己's commentary: the 營衛 readings of 太陽中風 and 傷寒 (營衛 in the model)"
+    },
+    {
+      "author": null,
+      "corpus": [
+        {
+          "exists": true,
           "path": "reference/sources/TCM-Ancient-Books/544-温热论.txt",
           "repo": "TCM-Ancient-Books"
         }
@@ -666,7 +701,7 @@
       "domains": [
         "pattern-systems"
       ],
-      "drawn_on": false,
+      "drawn_on": true,
       "edition": {
         "author": "葉桂",
         "category": "醫經",
@@ -677,8 +712,10 @@
       "id": "wenre-lun",
       "kind": "classic",
       "names": [],
-      "quotations": 0,
-      "references": {},
+      "quotations": 2,
+      "references": {
+        "diagnosis/yingwei.json": 6
+      },
       "status": "in-corpus",
       "title": "溫熱論",
       "use": "Defence, qi, nutrient and blood (衛氣營血)"
@@ -739,8 +776,9 @@
       "id": "wenbing-tiaobian",
       "kind": "classic",
       "names": [],
-      "quotations": 0,
+      "quotations": 1,
       "references": {
+        "diagnosis/yingwei.json": 1,
         "formulas/formulas.json": 15
       },
       "status": "in-corpus",
@@ -1958,8 +1996,9 @@
       "id": "yizong-jinjian",
       "kind": "classic",
       "names": [],
-      "quotations": 0,
+      "quotations": 3,
       "references": {
+        "diagnosis/yingwei.json": 3,
         "formulas/formulas.json": 1
       },
       "status": "in-corpus",

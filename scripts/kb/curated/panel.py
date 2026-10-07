@@ -6,10 +6,13 @@ The panel (盤面) is expressed as DEVIATIONS from the average healthy person (a
   wuxing   derived five-element function vigour W_e
   liuxie   six pathogenic qi 風寒暑濕燥火 (0 … 3)
   products pathological products 痰 飲 瘀 食積 (0 … 3)
+  yingwei  營衛 (PM-52, curated/yingwei.py): 衛氣, 營氣 and the opening and closing of the pores (開闔), each −3 … +3
   bagang   exterior / cold-heat / deficiency-excess / yin-yang (derived scalars)
 Pattern elements (證素 = location × nature) project onto it; herbs act on the same dimensions with
 opposite sign, which is what makes formula matching and modification (加減) computable.
 """
+from . import yingwei
+
 
 ZANG = ["肝", "心", "脾", "肺", "腎"]
 FU = ["膽", "小腸", "胃", "大腸", "膀胱"]
@@ -17,6 +20,7 @@ ORGAN_ELEMENT = {"肝": "木", "膽": "木", "心": "火", "小腸": "火", "脾
 CHANNELS = ["qi", "blood", "yin", "yang"]
 LIUXIE = ["風", "寒", "暑", "濕", "燥", "火"]
 PRODUCTS = ["痰", "飲", "瘀", "食積"]
+YINGWEI = yingwei.DIMENSIONS                # 衛 營 開闔 (panel keys yingwei.<name>)
 
 # 證素 location → organs it acts on ("表" acts on the exterior and, for qi/yang natures, on the lung/defensive qi)
 LOCATION_ORGANS = {
@@ -42,6 +46,8 @@ NATURE_PROJECTION = {
     "瘀": {"product.瘀": 1.0},
     "食積": {"product.食積": 1.0},
     "氣滯": {"{organ}.stasis": 1.0},
+    # 營衛 (PM-52): the four natures of the library's 營衛 patterns, each value the applicability-weighted mean of its readings (curated/yingwei.py)
+    **{nature: yingwei.nature_projection(nature) for nature in yingwei.NATURES},
 }
 
 # Derived quantities (documented as formulas; evaluated by the diagnosis engine, not stored).
@@ -49,7 +55,8 @@ DERIVED = {
     "wuxing_function": "W_e = 0.7·mean(zang_e.qi, zang_e.yang) + 0.3·mean(fu_e.qi, fu_e.yang)",
     "bagang.exterior": "clamp(0…1) = Pct(表 location elements) / 100",
     "bagang.cold_heat": "clamp(−1…1) = (liuxie.火 + liuxie.暑 − liuxie.寒 − 0.5·Σ yang deficit + 0.5·Σ yin deficit) / 3",
-    "bagang.deficiency_excess": "clamp(−1…1) = (Σ positive channel excess + products + stasis − Σ negative channel deficit) / 6",
+    "bagang.deficiency_excess": "clamp(−1…1) = (Σ positive channel excess + products + stasis + Σ positive 營衛 − Σ negative channel deficit − Σ negative 營衛) / 6",
+    "yingwei.coupling": "each pattern's 營衛 also gains c · Σ w·min(source, 0) from its own organ deficits: 衛 ← 0.5·肺.qi + 0.15·脾.qi + 0.15·脾.yang + 0.2·腎.yang; 營 ← 0.6·脾.qi + 0.4·心.blood; c = 0.3 (data/diagnosis/yingwei.json)",
     "bagang.yin_yang": "derived summary (axes beyond scoring-params panel.bagang.yin_yang_axis_threshold): hot and not deficient → yang; cold and not excess, or hot with deficiency (陰虛內熱) → yin; only excess → yang; only deficiency → yin; cold with excess (寒實) → mixed; nothing beyond the threshold → balanced",
     "degree_from_pct": "degree = 3 · Pct / 100 for each pattern element",
 }

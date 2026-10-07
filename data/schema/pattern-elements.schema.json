@@ -111,7 +111,7 @@
       ]
     },
     "panelDim": {
-      "pattern": "^((肝|心|脾|肺|腎|膽|小腸|胃|大腸|膀胱)\\.(qi|blood|yin|yang|stasis)|liuxie\\.(風|寒|暑|濕|燥|火)|product\\.(痰|飲|瘀|食積)|bagang\\.exterior)$",
+      "pattern": "^((肝|心|脾|肺|腎|膽|小腸|胃|大腸|膀胱)\\.(qi|blood|yin|yang|stasis)|liuxie\\.(風|寒|暑|濕|燥|火)|product\\.(痰|飲|瘀|食積)|yingwei\\.(衛|營|開闔)|bagang\\.exterior)$",
       "type": "string"
     },
     "panelMap": {
@@ -218,7 +218,11 @@
               "血虛",
               "陰虛",
               "陽虛",
-              "風"
+              "風",
+              "營弱衛強",
+              "衛閉",
+              "衛氣不和",
+              "衛弱"
             ]
           },
           "patterns": {

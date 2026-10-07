@@ -1,11 +1,11 @@
 {
   "_meta": {
-    "count": 156,
+    "count": 183,
     "description": "Registry of quotations cited by the SOP and knowledge base. Every quote is checked against the source text.",
     "note": "shanghan-NNN ids carry the standard Song-edition clause number; the number is not verified against the data.",
     "schema": 1,
     "unverified": [],
-    "verified": 156
+    "verified": 183
   },
   "items": [
     {
@@ -290,6 +290,36 @@
     },
     {
       "book": "靈樞",
+      "chapter": "營衛生會",
+      "id": "lingshu-018-2",
+      "quote_source_zh_hans": "其清者为营，浊者为卫，营在脉中，卫在脉外",
+      "quote_zh_hant": "其清者為營，濁者為衛，營在脈中，衛在脈外",
+      "source_path": "reference/sources/TCM-Library/raw/neijing/lingshu/lingshu_018.txt",
+      "source_repo": "TCM-Library (MIT)",
+      "verified": true
+    },
+    {
+      "book": "靈樞",
+      "chapter": "營衛生會",
+      "id": "lingshu-018-3",
+      "quote_source_zh_hans": "营出于中焦，卫出于下焦",
+      "quote_zh_hant": "營出於中焦，衛出於下焦",
+      "source_path": "reference/sources/TCM-Library/raw/neijing/lingshu/lingshu_018.txt",
+      "source_repo": "TCM-Library (MIT)",
+      "verified": true
+    },
+    {
+      "book": "靈樞",
+      "chapter": "營衛生會",
+      "id": "lingshu-018-4",
+      "quote_source_zh_hans": "卫气行于阴二十五度，行于阳二十五度，分为昼夜",
+      "quote_zh_hant": "衛氣行於陰二十五度，行於陽二十五度，分為晝夜",
+      "source_path": "reference/sources/TCM-Library/raw/neijing/lingshu/lingshu_018.txt",
+      "source_repo": "TCM-Library (MIT)",
+      "verified": true
+    },
+    {
+      "book": "靈樞",
       "chapter": "口問",
       "id": "lingshu-028-1",
       "quote_source_zh_hans": "中气不足，溲便为之变",
@@ -300,11 +330,31 @@
     },
     {
       "book": "靈樞",
+      "chapter": "決氣",
+      "id": "lingshu-030-1",
+      "quote_source_zh_hans": "上焦开发，宣五谷味，熏肤、充身、泽毛，若雾露之溉，是谓气",
+      "quote_zh_hant": "上焦開發，宣五穀味，燻膚、充身、澤毛，若霧露之溉，是謂氣",
+      "source_path": "reference/sources/TCM-Library/raw/neijing/lingshu/lingshu_030.txt",
+      "source_repo": "TCM-Library (MIT)",
+      "verified": true
+    },
+    {
+      "book": "靈樞",
       "chapter": "五變",
       "id": "lingshu-046-1",
       "quote_source_zh_hans": "同时得病，其病各异",
       "quote_zh_hant": "同時得病，其病各異",
       "source_path": "reference/sources/TCM-Library/raw/neijing/lingshu/lingshu_046.txt",
+      "source_repo": "TCM-Library (MIT)",
+      "verified": true
+    },
+    {
+      "book": "靈樞",
+      "chapter": "本藏",
+      "id": "lingshu-047-1",
+      "quote_source_zh_hans": "卫气者，所以温分肉，充皮肤，肥腠理，司开阖者也",
+      "quote_zh_hant": "衛氣者，所以溫分肉，充皮膚，肥腠理，司開闔者也",
+      "source_path": "reference/sources/TCM-Library/raw/neijing/lingshu/lingshu_047.txt",
       "source_repo": "TCM-Library (MIT)",
       "verified": true
     },
@@ -350,11 +400,31 @@
     },
     {
       "book": "靈樞",
+      "chapter": "邪客",
+      "id": "lingshu-071-2",
+      "quote_source_zh_hans": "营气者，泌其津液，注之于脉，化以为血",
+      "quote_zh_hant": "營氣者，泌其津液，注之於脈，化以為血",
+      "source_path": "reference/sources/TCM-Library/raw/neijing/lingshu/lingshu_071.txt",
+      "source_repo": "TCM-Library (MIT)",
+      "verified": true
+    },
+    {
+      "book": "靈樞",
       "chapter": "通天",
       "id": "lingshu-072-1",
       "quote_source_zh_hans": "太阴之人",
       "quote_zh_hant": "太陰之人",
       "source_path": "reference/sources/TCM-Library/raw/neijing/lingshu/lingshu_072.txt",
+      "source_repo": "TCM-Library (MIT)",
+      "verified": true
+    },
+    {
+      "book": "靈樞",
+      "chapter": "大惑論",
+      "id": "lingshu-080-1",
+      "quote_source_zh_hans": "卫气不得入于阴，常留于阳",
+      "quote_zh_hant": "衛氣不得入於陰，常留於陽",
+      "source_path": "reference/sources/TCM-Library/raw/neijing/lingshu/lingshu_080.txt",
       "source_repo": "TCM-Library (MIT)",
       "verified": true
     },
@@ -451,6 +521,30 @@
     {
       "book": "傷寒論",
       "chapter": "辨太陽病脈證並治上",
+      "clause_no": 12,
+      "clause_no_verified": false,
+      "id": "shanghan-012",
+      "quote_source_zh_hans": "太阳中风，阳浮而阴弱。阳浮者，热自发；阴弱者，汗自出",
+      "quote_zh_hant": "太陽中風，陽浮而陰弱。陽浮者，熱自發；陰弱者，汗自出",
+      "source_path": "reference/sources/TCM-Library/raw/shanghan/shanghan_05.txt",
+      "source_repo": "TCM-Library (MIT)",
+      "verified": true
+    },
+    {
+      "book": "傷寒論",
+      "chapter": "辨太陽病脈證並治上",
+      "clause_no": 12,
+      "clause_no_verified": false,
+      "id": "shanghan-012-2",
+      "quote_source_zh_hans": "服已须臾，啜热稀粥一升余，以助药力。温覆令一时许",
+      "quote_zh_hant": "服已須臾，啜熱稀粥一升餘，以助藥力。溫覆令一時許",
+      "source_path": "reference/sources/TCM-Library/raw/shanghan/shanghan_05.txt",
+      "source_repo": "TCM-Library (MIT)",
+      "verified": true
+    },
+    {
+      "book": "傷寒論",
+      "chapter": "辨太陽病脈證並治上",
       "clause_no": 16,
       "clause_no_verified": false,
       "id": "shanghan-016",
@@ -480,6 +574,42 @@
       "id": "shanghan-053",
       "quote_source_zh_hans": "病常自汗出者",
       "quote_zh_hant": "病常自汗出者",
+      "source_path": "reference/sources/TCM-Library/raw/shanghan/shanghan_06.txt",
+      "source_repo": "TCM-Library (MIT)",
+      "verified": true
+    },
+    {
+      "book": "傷寒論",
+      "chapter": "辨太陽病脈證並治中",
+      "clause_no": 53,
+      "clause_no_verified": false,
+      "id": "shanghan-053-2",
+      "quote_source_zh_hans": "此为营气和。营气和者，外不谐，以卫气不共营气和谐故尔。以营行脉中，卫行脉外，复发其汗，营卫和则愈，宜桂枝汤",
+      "quote_zh_hant": "此為營氣和。營氣和者，外不諧，以衛氣不共營氣和諧故爾。以營行脈中，衛行脈外，復發其汗，營衛和則愈，宜桂枝湯",
+      "source_path": "reference/sources/TCM-Library/raw/shanghan/shanghan_06.txt",
+      "source_repo": "TCM-Library (MIT)",
+      "verified": true
+    },
+    {
+      "book": "傷寒論",
+      "chapter": "辨太陽病脈證並治中",
+      "clause_no": 54,
+      "clause_no_verified": false,
+      "id": "shanghan-054",
+      "quote_source_zh_hans": "病人藏无他病，时发热，自汗出，而不愈者，此卫气不和也",
+      "quote_zh_hant": "病人藏無他病，時發熱，自汗出，而不愈者，此衛氣不和也",
+      "source_path": "reference/sources/TCM-Library/raw/shanghan/shanghan_06.txt",
+      "source_repo": "TCM-Library (MIT)",
+      "verified": true
+    },
+    {
+      "book": "傷寒論",
+      "chapter": "辨太陽病脈證並治中",
+      "clause_no": 95,
+      "clause_no_verified": false,
+      "id": "shanghan-095",
+      "quote_source_zh_hans": "太阳病，发热汗出者，此为荣弱卫强，故使汗出",
+      "quote_zh_hant": "太陽病，發熱汗出者，此為榮弱衛強，故使汗出",
       "source_path": "reference/sources/TCM-Library/raw/shanghan/shanghan_06.txt",
       "source_repo": "TCM-Library (MIT)",
       "verified": true
@@ -700,6 +830,16 @@
       "id": "suwen-003-1",
       "quote_source_zh_hans": "味过于酸，肝气以津，脾气乃绝",
       "quote_zh_hant": "味過於酸，肝氣以津，脾氣乃絕",
+      "source_path": "reference/sources/TCM-Library/raw/neijing/suwen/suwen_003.txt",
+      "source_repo": "TCM-Library (MIT)",
+      "verified": true
+    },
+    {
+      "book": "素問",
+      "chapter": "生氣通天論",
+      "id": "suwen-003-10",
+      "quote_source_zh_hans": "阳者，卫外而为固也",
+      "quote_zh_hant": "陽者，衛外而為固也",
       "source_path": "reference/sources/TCM-Library/raw/neijing/suwen/suwen_003.txt",
       "source_repo": "TCM-Library (MIT)",
       "verified": true
@@ -1146,6 +1286,26 @@
     },
     {
       "book": "素問",
+      "chapter": "痺論",
+      "id": "suwen-043-1",
+      "quote_source_zh_hans": "荣者，水谷之精气也，和调于五脏，洒陈于六腑，乃能入于脉也",
+      "quote_zh_hant": "榮者，水穀之精氣也，和調於五臟，灑陳於六腑，乃能入於脈也",
+      "source_path": "reference/sources/TCM-Library/raw/neijing/suwen/suwen_043.txt",
+      "source_repo": "TCM-Library (MIT)",
+      "verified": true
+    },
+    {
+      "book": "素問",
+      "chapter": "痺論",
+      "id": "suwen-043-2",
+      "quote_source_zh_hans": "卫者，水谷之悍气也，其气慓疾滑利，不能入于脉也",
+      "quote_zh_hant": "衛者，水穀之悍氣也，其氣慓疾滑利，不能入於脈也",
+      "source_path": "reference/sources/TCM-Library/raw/neijing/suwen/suwen_043.txt",
+      "source_repo": "TCM-Library (MIT)",
+      "verified": true
+    },
+    {
+      "book": "素問",
       "chapter": "調經論",
       "id": "suwen-062-1",
       "quote_source_zh_hans": "阳虚则外寒，阴虚则内热",
@@ -1585,6 +1745,36 @@
       "verified": true
     },
     {
+      "book": "溫病條辨",
+      "chapter": "上焦篇·風溫、溫熱、溫疫、溫毒、冬溫",
+      "id": "wenbing-tiaobian-shangjiao-3",
+      "quote_source_zh_hans": "头痛，微恶风寒，身热自汗，口渴",
+      "quote_zh_hant": "頭痛，微惡風寒，身熱自汗，口渴",
+      "source_path": "reference/sources/TCM-Ancient-Books/526-温病条辨.txt",
+      "source_repo": "TCM-Ancient-Books (no upstream licence: reference only)",
+      "verified": true
+    },
+    {
+      "book": "溫熱論",
+      "chapter": "溫病大綱",
+      "id": "wenre-lun-1",
+      "quote_source_zh_hans": "肺主气属卫；心主血属营",
+      "quote_zh_hant": "肺主氣屬衛；心主血屬營",
+      "source_path": "reference/sources/TCM-Ancient-Books/544-温热论.txt",
+      "source_repo": "TCM-Ancient-Books (no upstream licence: reference only)",
+      "verified": true
+    },
+    {
+      "book": "溫熱論",
+      "chapter": "衛、氣、營、血看法",
+      "id": "wenre-lun-6",
+      "quote_source_zh_hans": "卫之后方言气，营之后方言血。在卫汗之可也",
+      "quote_zh_hant": "衛之後方言氣，營之後方言血。在衛汗之可也",
+      "source_path": "reference/sources/TCM-Ancient-Books/544-温热论.txt",
+      "source_repo": "TCM-Ancient-Books (no upstream licence: reference only)",
+      "verified": true
+    },
+    {
       "book": "醫學心悟",
       "chapter": "醫門八法",
       "id": "yixue-xinwu-bafa",
@@ -1601,6 +1791,96 @@
       "quote_source_zh_hans": "病有总要，寒、热、虚、实、表、里、阴、阳，八字而已",
       "quote_zh_hant": "病有總要，寒、熱、虛、實、表、裡、陰、陽，八字而已",
       "source_path": "reference/sources/TCM-Ancient-Books/601-医学心悟.txt",
+      "source_repo": "TCM-Ancient-Books (no upstream licence: reference only)",
+      "verified": true
+    },
+    {
+      "book": "醫宗金鑑",
+      "chapter": "訂正仲景全書傷寒論註·桂枝湯方",
+      "id": "yizong-jinjian-guizhi",
+      "quote_source_zh_hans": "桂枝辛温，辛能发散，温通卫阳。芍药酸寒，酸能收敛，寒走荣阴。桂枝君芍药，是于发汗中寓敛汗之旨；芍药、臣桂枝，是于和荣中有调卫之功。生姜之辛，佐桂枝以解表；大枣之甘，佐芍药以和中",
+      "quote_zh_hant": "桂枝辛溫，辛能發散，溫通衛陽。芍藥酸寒，酸能收斂，寒走榮陰。桂枝君芍藥，是於發汗中寓斂汗之旨；芍藥、臣桂枝，是於和榮中有調衛之功。生薑之辛，佐桂枝以解表；大棗之甘，佐芍藥以和中",
+      "source_path": "reference/sources/TCM-Ancient-Books/575-医宗金鉴.txt",
+      "source_repo": "TCM-Ancient-Books (no upstream licence: reference only)",
+      "verified": true
+    },
+    {
+      "book": "醫宗金鑑",
+      "chapter": "訂正仲景全書傷寒論註·辨太陽病脈證並治上篇",
+      "id": "yizong-jinjian-taiyang-1",
+      "quote_source_zh_hans": "卫为风客，则卫邪强而发热矣",
+      "quote_zh_hant": "衛為風客，則衛邪強而發熱矣",
+      "source_path": "reference/sources/TCM-Ancient-Books/575-医宗金鉴.txt",
+      "source_repo": "TCM-Ancient-Books (no upstream licence: reference only)",
+      "verified": true
+    },
+    {
+      "book": "醫宗金鑑",
+      "chapter": "訂正仲景全書傷寒論註·辨太陽病脈證並治上篇",
+      "id": "yizong-jinjian-taiyang-2",
+      "quote_source_zh_hans": "卫阳为风邪所干，不能敷布",
+      "quote_zh_hant": "衛陽為風邪所干，不能敷布",
+      "source_path": "reference/sources/TCM-Ancient-Books/575-医宗金鉴.txt",
+      "source_repo": "TCM-Ancient-Books (no upstream licence: reference only)",
+      "verified": true
+    },
+    {
+      "book": "註解傷寒論",
+      "chapter": "辨太陽病脈證並治法上第五",
+      "id": "zhujie-shanghan-012-1",
+      "quote_source_zh_hans": "阴脉弱者，荣气弱也。风并于卫，则卫实而荣虚",
+      "quote_zh_hant": "陰脈弱者，榮氣弱也。風並於衛，則衛實而榮虛",
+      "source_path": "reference/sources/TCM-Ancient-Books/461-注解伤寒论.txt",
+      "source_repo": "TCM-Ancient-Books (no upstream licence: reference only)",
+      "verified": true
+    },
+    {
+      "book": "註解傷寒論",
+      "chapter": "辨太陽病脈證並治法上第五",
+      "id": "zhujie-shanghan-012-2",
+      "quote_source_zh_hans": "以自汗出，则皮肤缓，腠理疏",
+      "quote_zh_hant": "以自汗出，則皮膚緩，腠理疏",
+      "source_path": "reference/sources/TCM-Ancient-Books/461-注解伤寒论.txt",
+      "source_repo": "TCM-Ancient-Books (no upstream licence: reference only)",
+      "verified": true
+    },
+    {
+      "book": "註解傷寒論",
+      "chapter": "辨太陽病脈證並治法上第五",
+      "id": "zhujie-shanghan-012-3",
+      "quote_source_zh_hans": "与桂枝汤和荣卫而散风邪也",
+      "quote_zh_hant": "與桂枝湯和榮衛而散風邪也",
+      "source_path": "reference/sources/TCM-Ancient-Books/461-注解伤寒论.txt",
+      "source_repo": "TCM-Ancient-Books (no upstream licence: reference only)",
+      "verified": true
+    },
+    {
+      "book": "註解傷寒論",
+      "chapter": "辨太陽病脈證並治法第六",
+      "id": "zhujie-shanghan-038",
+      "quote_source_zh_hans": "寒并于荣者，为荣强卫弱",
+      "quote_zh_hant": "寒並於榮者，為榮強衛弱",
+      "source_path": "reference/sources/TCM-Ancient-Books/461-注解伤寒论.txt",
+      "source_repo": "TCM-Ancient-Books (no upstream licence: reference only)",
+      "verified": true
+    },
+    {
+      "book": "註解傷寒論",
+      "chapter": "辨太陽病脈證並治法第六",
+      "id": "zhujie-shanghan-053",
+      "quote_source_zh_hans": "卫受风邪而荣不病者，为荣气和也。卫既客邪，则不能与荣气和谐，亦不能卫护皮腠，是以常自汗出",
+      "quote_zh_hant": "衛受風邪而榮不病者，為榮氣和也。衛既客邪，則不能與榮氣和諧，亦不能衛護皮腠，是以常自汗出",
+      "source_path": "reference/sources/TCM-Ancient-Books/461-注解伤寒论.txt",
+      "source_repo": "TCM-Ancient-Books (no upstream licence: reference only)",
+      "verified": true
+    },
+    {
+      "book": "註解傷寒論",
+      "chapter": "辨太陽病脈證並治法第六",
+      "id": "zhujie-shanghan-055",
+      "quote_source_zh_hans": "伤寒脉浮紧，邪在表也，当与麻黄汤发汗",
+      "quote_zh_hant": "傷寒脈浮緊，邪在表也，當與麻黃湯發汗",
+      "source_path": "reference/sources/TCM-Ancient-Books/461-注解伤寒论.txt",
       "source_repo": "TCM-Ancient-Books (no upstream licence: reference only)",
       "verified": true
     }

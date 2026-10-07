@@ -12,11 +12,12 @@
   },
   "derived": {
     "bagang.cold_heat": "clamp(−1…1) = (liuxie.火 + liuxie.暑 − liuxie.寒 − 0.5·Σ yang deficit + 0.5·Σ yin deficit) / 3",
-    "bagang.deficiency_excess": "clamp(−1…1) = (Σ positive channel excess + products + stasis − Σ negative channel deficit) / 6",
+    "bagang.deficiency_excess": "clamp(−1…1) = (Σ positive channel excess + products + stasis + Σ positive 營衛 − Σ negative channel deficit − Σ negative 營衛) / 6",
     "bagang.exterior": "clamp(0…1) = Pct(表 location elements) / 100",
     "bagang.yin_yang": "derived summary (axes beyond scoring-params panel.bagang.yin_yang_axis_threshold): hot and not deficient → yang; cold and not excess, or hot with deficiency (陰虛內熱) → yin; only excess → yang; only deficiency → yin; cold with excess (寒實) → mixed; nothing beyond the threshold → balanced",
     "degree_from_pct": "degree = 3 · Pct / 100 for each pattern element",
-    "wuxing_function": "W_e = 0.7·mean(zang_e.qi, zang_e.yang) + 0.3·mean(fu_e.qi, fu_e.yang)"
+    "wuxing_function": "W_e = 0.7·mean(zang_e.qi, zang_e.yang) + 0.3·mean(fu_e.qi, fu_e.yang)",
+    "yingwei.coupling": "each pattern's 營衛 also gains c · Σ w·min(source, 0) from its own organ deficits: 衛 ← 0.5·肺.qi + 0.15·脾.qi + 0.15·脾.yang + 0.2·腎.yang; 營 ← 0.6·脾.qi + 0.4·心.blood; c = 0.3 (data/diagnosis/yingwei.json)"
   },
   "exterior_locations": [
     "表"
@@ -79,6 +80,11 @@
       "liuxie.火": 1.0,
       "{organ}.yang": 0.5
     },
+    "營弱衛強": {
+      "yingwei.營": -1.0,
+      "yingwei.衛": -0.3,
+      "yingwei.開闔": -1.0
+    },
     "燥": {
       "liuxie.燥": 1.0
     },
@@ -90,6 +96,20 @@
     },
     "血虛": {
       "{organ}.blood": -1.0
+    },
+    "衛弱": {
+      "yingwei.衛": -1.0,
+      "yingwei.開闔": -1.0
+    },
+    "衛氣不和": {
+      "liuxie.風": 0.4,
+      "yingwei.衛": -1.0,
+      "yingwei.開闔": -1.0
+    },
+    "衛閉": {
+      "yingwei.營": 0.4,
+      "yingwei.衛": -0.4,
+      "yingwei.開闔": 1.0
     },
     "陰虛": {
       "{organ}.yin": -1.0
@@ -145,5 +165,32 @@
     "飲",
     "瘀",
     "食積"
-  ]
+  ],
+  "yingwei": {
+    "coupling": {
+      "sources": {
+        "yingwei.營": {
+          "心.blood": 0.4,
+          "脾.qi": 0.6
+        },
+        "yingwei.衛": {
+          "肺.qi": 0.5,
+          "脾.qi": 0.15,
+          "脾.yang": 0.15,
+          "腎.yang": 0.2
+        }
+      },
+      "strength": 0.3
+    },
+    "dimensions": [
+      "衛",
+      "營",
+      "開闔"
+    ],
+    "scale": {
+      "營": "−3 營弱（不能內守）… +3 營強（營鬱）",
+      "衛": "−3 衛弱（衛外不固）… +3 衛實",
+      "開闔": "−3 開（腠理疏，汗出）… +3 闔（腠理閉，無汗）"
+    }
+  }
 }

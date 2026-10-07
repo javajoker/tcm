@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 0.2 (draft) |
+| **Version** | 0.3 (draft) |
 | **Status** | Proposed process — **no reviewer has been appointed yet** (PRD Q8 blocks milestone M3) |
 | **Last updated** | 2026-10-04 |
 | **Audience** | Maintainers, clinical and linguistic reviewers |
@@ -50,7 +50,7 @@ One person may hold several roles if qualified; the physician and the TCM clinic
 | **Symptoms and questions** | `symptoms.json`, `questions.json` (planned), `exclusions.json` (planned) | Wording in plain language, synonym splits, exclusivity, severity options | TCM clinical + linguistic |
 | **Tongue and pulse** | `tongue.json`, `pulse.json` | Zone assignments (classical vs textbook), feature meanings, quality coefficients, the educational note | TCM clinical |
 | **Constitutions** | `constitutions.json`, `constitution-items.json` (planned), `susceptibility.json` | Feature lists, susceptibility values, items and scoring | TCM clinical |
-| **Panel model** | `panel-schema.json`, nature projection, `scoring-params.json` (planned) | Projection per nature, dimension weights, thresholds, noisy-OR floor, confidence cut-offs | TCM clinical (with developer present) |
+| **Panel model** | `panel-schema.json`, nature projection, `scoring-params.json` (planned), `yingwei.json` (營衛, PM-52) | Projection per nature, dimension weights, thresholds, noisy-OR floor, confidence cut-offs; the 營衛 readings, their applicability weights and the coupling | TCM clinical (with developer present) |
 | **Herbs** | `herbs/herbs.json` | `effects`, `harms`, `tags`, `pregnancy`, `toxic`, `interactions`, `dose_g_reference` — for the 94 curated herbs in full; the 609 derived herbs by **sampling** (§4.3) and by rule review | Pharmacy + TCM clinical |
 | **Formulas** | `formulas/formulas.json` | Composition, roles, proportions, `core_indications`, pattern links, classical modifications, computed tier outcome (does the tier match practice?) | TCM clinical + pharmacy |
 | **Treatment guidance** | `treatment/guidance.json`, pattern `treatment` | Foods, acupoints (location text, cautions, **and where the schematic drawings mark them** — the dev inspector's *Figures* tab shows all of them; the placements are in `apps/web/src/screens/result/figures/acupointSpots.ts`, a web-app file outside the content hash), lifestyle advice, pregnancy cautions | TCM clinical + pharmacy |
@@ -209,3 +209,4 @@ A release build **must fail** (`check-release.ts`) if a required area has no val
 |---|---|---|
 | 0.1 | 2026-10-04 | Initial proposal |
 | 0.2 | 2026-10-07 | §3, §7: the learning book (PM-42, PM-43) — reviewed by a linguist and a TCM clinician; a public build carries it only once reviewed |
+| 0.3 | 2026-10-07 | §3: the 營衛 readings and weights join the panel model's review (PM-52) |

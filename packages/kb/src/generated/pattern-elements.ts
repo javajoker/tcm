@@ -17,7 +17,22 @@ export interface PatternElements {
     id: ElementId;
     location: "全身" | "心" | "肝" | "肺" | "胃" | "脾" | "腎" | "表";
     name: Bilingual;
-    nature: "寒" | "氣滯" | "氣虛" | "濕" | "火" | "痰" | "瘀" | "血虛" | "陰虛" | "陽虛" | "風";
+    nature:
+      | "寒"
+      | "氣滯"
+      | "氣虛"
+      | "濕"
+      | "火"
+      | "痰"
+      | "瘀"
+      | "血虛"
+      | "陰虛"
+      | "陽虛"
+      | "風"
+      | "營弱衛強"
+      | "衛閉"
+      | "衛氣不和"
+      | "衛弱";
     patterns: PatternId[];
     projection_per_degree: PanelMap;
     weights: {

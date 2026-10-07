@@ -26,15 +26,17 @@ test("parity with the Python oracle: observed panel, W and 八綱 of every case 
   }
 });
 
-test("SOP §10.6 worked example: 脾.氣 −2.16, 心.血 −0.61, 土 −0.76, 虛實 −0.46; 土 opposed to the reference; 乘侮自深 土 −0.15, 母病及子 金 −0.19", () => {
+test("SOP §10.6 worked example: 脾.氣 −2.16, 心.血 −0.61, 營 −0.56, 衛 −0.13, 土 −0.76, 虛實 −0.58; 土 opposed to the reference; 乘侮自深 土 −0.15, 母病及子 金 −0.19", () => {
   const c = PARITY.cases.find((x) => x.id === "worked-example")!;
   const ref = buildReference(dev, { birth: BIRTH, birthModule: false, now: NOW })!;
   const p = synthesizePanel(dev, scored(c.findings), ref.panel);
   const r = (x: number): number => Math.round(x * 100) / 100;
   assert.deepEqual([r(p.observed["脾.qi"]!), r(p.observed["心.blood"]!)], [-2.16, -0.61]);
+  // PM-52: the 營 and 衛 made from the deficient 脾 and 心 (營 ← 0.6·脾.qi + 0.4·心.blood, 衛 ← 0.15·脾.qi, both × 0.3), saturated like every dimension
+  assert.deepEqual([r(p.observed["yingwei.營"]!), r(p.observed["yingwei.衛"]!)], [-0.56, -0.13]);
   assert.equal(r(p.wuxingFunction["土"]), -0.76);
   assert.deepEqual(ELEMENTS.filter((e) => e !== "土").map((e) => p.wuxingFunction[e]), [0, 0, 0, 0]);
-  assert.equal(r(p.bagang.deficiencyExcess), -0.46);
+  assert.equal(r(p.bagang.deficiencyExcess), -0.58);
   assert.equal(p.bagang.coldHeat, 0);
   assert.equal(p.bagang.exterior, 0);
   assert.equal(p.bagang.yinYang, "yin");

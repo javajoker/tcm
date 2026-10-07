@@ -51,6 +51,12 @@ EFFECT_RULES = [
     (["消食", "消积", "健胃消食", "化食", "消食化积"], "product.食積", -0.5, "none"),
     (["利水", "逐饮", "利水渗湿", "温化水饮"], "product.飲", -0.3, "none"),
     (["解表", "发表", "发汗", "疏散风热", "疏散风寒", "发散风寒", "发散"], "bagang.exterior", -0.5, "none"),
+    # 營衛 (PM-52; docs/post-mvp/design/ying-wei.md §2.7): 衛 secures the surface and governs the opening and closing of the pores (《靈樞·本藏》「司開闔」)
+    (["固表", "益卫固表"], "yingwei.衛", +0.4, "none"),
+    (["固表止汗", "止汗", "敛汗", "敛阴止汗", "收敛止汗", "固表敛汗"], "yingwei.開闔", +0.3, "none"),
+    (["发汗"], "yingwei.開闔", -0.5, "none"),
+    (["调和营卫"], "yingwei.衛", +0.2, "none"),
+    (["调和营卫", "和营", "养营", "敛阴"], "yingwei.營", +0.2, "none"),
 ]
 
 CATEGORY_PREGNANCY_FLOOR = {"活血化瘀药": "caution", "泻下药": "caution", "开窍药": "caution", "涌吐药": "caution", "攻毒杀虫止痒药": "caution"}

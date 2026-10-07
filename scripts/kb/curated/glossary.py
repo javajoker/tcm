@@ -176,6 +176,11 @@ _TABLE = """
 苔乾|dry coating|tāi gān|tongue||
 往來寒熱|alternating chills and fever|wǎng lái hán rè|diagnosis||The shaoyang pattern; distinct from 寒熱 (cold and heat) as a pair of poles.
 五味子|schisandra (wuweizi)|wǔ wèi zǐ|herb|wuweizi|The herb, not the five flavours (五味).
+衛氣|defensive qi (wei)|wèi qì|theory|defense qi; defence qi; wei qi|The qi outside the vessels that guards the surface and opens and closes the pores (營衛, PM-52).
+營氣|nutrient qi (ying)|yíng qì|theory|nutritive qi; construction qi; ying qi|The qi inside the vessels from which blood is made (營衛, PM-52).
+營衛|ying and wei (nutrient and defensive qi)|yíng wèi|theory|nutrient and defensive qi; construction and defence; construction and defense|
+營衛不和|disharmony of nutrient and defensive qi|yíng wèi bù hé|nature|nutrient-defense disharmony; disharmony of construction and defence|
+腠理|interstices (pores)|còu lǐ|theory|striae and interstices; pores|
 """
 
 

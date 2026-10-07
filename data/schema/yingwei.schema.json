@@ -1,0 +1,530 @@
+{
+  "$defs": {
+    "bilingual": {
+      "additionalProperties": false,
+      "properties": {
+        "en": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "zh-Hant": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "en",
+        "zh-Hant"
+      ],
+      "type": "object"
+    },
+    "bilingualNamed": {
+      "additionalProperties": false,
+      "properties": {
+        "en": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "zh-Hant": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "en",
+        "zh-Hant"
+      ],
+      "type": "object"
+    },
+    "citationId": {
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+      "type": "string"
+    },
+    "constitutionId": {
+      "pattern": "^C_[A-Z]+$",
+      "type": "string"
+    },
+    "element": {
+      "enum": [
+        "木",
+        "火",
+        "土",
+        "金",
+        "水"
+      ]
+    },
+    "elementId": {
+      "pattern": "^PE_.+$",
+      "type": "string"
+    },
+    "enStatus": {
+      "enum": [
+        "machine-draft",
+        "reviewed"
+      ]
+    },
+    "evil": {
+      "enum": [
+        "風",
+        "寒",
+        "暑",
+        "濕",
+        "燥",
+        "火"
+      ]
+    },
+    "formulaId": {
+      "pattern": "^F_[A-Z0-9_]+$",
+      "type": "string"
+    },
+    "herbId": {
+      "pattern": "^herb-[a-z0-9_]+$",
+      "type": "string"
+    },
+    "level": {
+      "enum": [
+        "L0",
+        "L1",
+        "L2",
+        "L3"
+      ]
+    },
+    "moduleId": {
+      "enum": [
+        "sleep",
+        "fatigue",
+        "digestion",
+        "cold-heat-sweat",
+        "head-body-pain",
+        "mood-stress",
+        "womens-cycle",
+        "early-external"
+      ]
+    },
+    "notice": {
+      "enum": [
+        "none",
+        "inline",
+        "blocking_ack"
+      ]
+    },
+    "panelDim": {
+      "pattern": "^((肝|心|脾|肺|腎|膽|小腸|胃|大腸|膀胱)\\.(qi|blood|yin|yang|stasis)|liuxie\\.(風|寒|暑|濕|燥|火)|product\\.(痰|飲|瘀|食積)|yingwei\\.(衛|營|開闔)|bagang\\.exterior)$",
+      "type": "string"
+    },
+    "panelMap": {
+      "additionalProperties": {
+        "type": "number"
+      },
+      "propertyNames": {
+        "$ref": "#/$defs/panelDim"
+      },
+      "type": "object"
+    },
+    "patternId": {
+      "pattern": "^(EX|SP|LV|HT|LG|KD|QB)[0-9]$",
+      "type": "string"
+    },
+    "questionId": {
+      "pattern": "^Q_[A-Z_]+$",
+      "type": "string"
+    },
+    "redFlagId": {
+      "pattern": "^RF_[ABC]_[A-Z_]+$",
+      "type": "string"
+    },
+    "reviewStatus": {
+      "enum": [
+        "derived",
+        "curated-draft",
+        "draft",
+        "reviewed"
+      ]
+    },
+    "ruleId": {
+      "pattern": "^R_[A-Z_]+$",
+      "type": "string"
+    },
+    "symptomId": {
+      "pattern": "^[STP]_[A-Z0-9_]+$",
+      "type": "string"
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "_meta": {
+      "additionalProperties": true,
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "rule": {
+          "type": "string"
+        },
+        "schema": {
+          "type": "integer"
+        },
+        "status": {
+          "$ref": "#/$defs/reviewStatus"
+        }
+      },
+      "required": [
+        "description",
+        "rule",
+        "schema",
+        "status"
+      ],
+      "type": "object"
+    },
+    "coupling": {
+      "additionalProperties": false,
+      "properties": {
+        "strength": {
+          "type": "number"
+        },
+        "targets": {
+          "additionalProperties": {
+            "additionalProperties": false,
+            "properties": {
+              "readings": {
+                "items": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "applicability": {
+                      "type": "number"
+                    },
+                    "citations": {
+                      "items": {
+                        "$ref": "#/$defs/citationId"
+                      },
+                      "minItems": 1,
+                      "type": "array"
+                    },
+                    "dims": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "minItems": 1,
+                      "type": "array"
+                    },
+                    "says": {
+                      "type": "string"
+                    },
+                    "why": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "applicability",
+                    "citations",
+                    "dims",
+                    "says",
+                    "why"
+                  ],
+                  "type": "object"
+                },
+                "minItems": 1,
+                "type": "array"
+              },
+              "sources": {
+                "additionalProperties": {
+                  "type": "number"
+                },
+                "type": "object"
+              }
+            },
+            "required": [
+              "readings",
+              "sources"
+            ],
+            "type": "object"
+          },
+          "type": "object"
+        }
+      },
+      "required": [
+        "strength",
+        "targets"
+      ],
+      "type": "object"
+    },
+    "dimensions": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "basis": {
+            "items": {
+              "$ref": "#/$defs/citationId"
+            },
+            "minItems": 1,
+            "type": "array"
+          },
+          "en": {
+            "type": "string"
+          },
+          "id": {
+            "pattern": "^yingwei\\.(衛|營|開闔)$",
+            "type": "string"
+          },
+          "scale": {
+            "type": "string"
+          },
+          "zh": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "basis",
+          "en",
+          "id",
+          "scale",
+          "zh"
+        ],
+        "type": "object"
+      },
+      "minItems": 3,
+      "type": "array"
+    },
+    "natures": {
+      "additionalProperties": {
+        "additionalProperties": false,
+        "properties": {
+          "dimensions": {
+            "additionalProperties": {
+              "additionalProperties": false,
+              "properties": {
+                "confidence": {
+                  "type": "number"
+                },
+                "readings": {
+                  "items": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "applicability": {
+                        "type": "number"
+                      },
+                      "citations": {
+                        "items": {
+                          "$ref": "#/$defs/citationId"
+                        },
+                        "minItems": 1,
+                        "type": "array"
+                      },
+                      "says": {
+                        "type": "string"
+                      },
+                      "value": {
+                        "type": "number"
+                      },
+                      "why": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "applicability",
+                      "citations",
+                      "says",
+                      "value",
+                      "why"
+                    ],
+                    "type": "object"
+                  },
+                  "minItems": 1,
+                  "type": "array"
+                },
+                "value": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "confidence",
+                "readings",
+                "value"
+              ],
+              "type": "object"
+            },
+            "minProperties": 1,
+            "type": "object"
+          },
+          "location": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "pattern": {
+            "type": "string"
+          },
+          "projection_per_degree": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "type": "object"
+          },
+          "says": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "dimensions",
+          "location",
+          "name",
+          "pattern",
+          "projection_per_degree",
+          "says"
+        ],
+        "type": "object"
+      },
+      "minProperties": 1,
+      "type": "object"
+    },
+    "not_modelled": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "citations": {
+            "items": {
+              "$ref": "#/$defs/citationId"
+            },
+            "minItems": 1,
+            "type": "array"
+          },
+          "what": {
+            "type": "string"
+          },
+          "why": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "citations",
+          "what",
+          "why"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "questions": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "confidence": {
+            "type": "number"
+          },
+          "dimension": {
+            "type": "string"
+          },
+          "en": {
+            "type": "string"
+          },
+          "id": {
+            "pattern": "^Q[0-9]+$",
+            "type": "string"
+          },
+          "pattern": {
+            "type": "string"
+          },
+          "question": {
+            "type": "string"
+          },
+          "readings": {
+            "items": {
+              "additionalProperties": false,
+              "properties": {
+                "applicability": {
+                  "type": "number"
+                },
+                "citations": {
+                  "items": {
+                    "$ref": "#/$defs/citationId"
+                  },
+                  "minItems": 1,
+                  "type": "array"
+                },
+                "says": {
+                  "type": "string"
+                },
+                "value": {
+                  "type": "number"
+                },
+                "why": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "applicability",
+                "citations",
+                "says",
+                "value",
+                "why"
+              ],
+              "type": "object"
+            },
+            "minItems": 1,
+            "type": "array"
+          },
+          "result": {
+            "type": "string"
+          },
+          "value": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "en",
+          "id",
+          "question",
+          "result"
+        ],
+        "type": "object"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "stages": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "app": {
+            "type": "string"
+          },
+          "citation": {
+            "$ref": "#/$defs/citationId"
+          },
+          "red_flags": {
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1,
+            "type": "array"
+          },
+          "stage": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "app",
+          "stage"
+        ],
+        "type": "object"
+      },
+      "minItems": 1,
+      "type": "array"
+    }
+  },
+  "required": [
+    "_meta",
+    "coupling",
+    "dimensions",
+    "natures",
+    "not_modelled",
+    "questions",
+    "stages"
+  ],
+  "title": "營衛 in the panel",
+  "type": "object"
+}

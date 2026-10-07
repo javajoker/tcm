@@ -18,7 +18,7 @@ Needs Node ≥ 22.18 for the one TypeScript export step (`scripts/kb/export_wuxi
 
 | File | Records | What it holds | Built from |
 |---|---:|---|---|
-| `citations.json` | 127 | Quotation registry (id, book, chapter, zh-Hant and source-script text, source path). **Every quote is machine-checked against the source text** (`verified: true`). Ids: `suwen-005-1`, `shanghan-035` … | TCM-Library raw text, TCM-Ancient-Books |
+| `citations.json` | 183 | Quotation registry (id, book, chapter, zh-Hant and source-script text, source path). **Every quote is machine-checked against the source text** (`verified: true`). Ids: `suwen-005-1`, `shanghan-035` … | TCM-Library raw text, TCM-Ancient-Books |
 | `sources.json` | 87 works | **Sources registry** (PM-35): every work the knowledge base draws on or should draw on, by domain — the classics in the corpus, 8 famous works the corpus lacks, the Pharmacopoeia, standards and modern references — with how the data uses each (33 drawn on). Report: [`docs/kb-sources.md`](../docs/kb-sources.md). Build-time only | `scripts/kb/curated/sources.py` + tcm-mkg's catalogue + the other data files |
 | `herbs/herbs.json` | 703 | Herb model: 四氣 (signed warmth), 五味→五行, 歸經 organs, functions, **panel effects**, **burden weights (利弊)**, tags, pregnancy / interaction / toxicity flags; **the property model v2** (`props`, PM-36): 陰陽, 五行 shares, 升降浮沉, 毒性 grade, 補瀉, 潤燥, 氣血分, weighted 歸經 and the part used, each with the rules that made it (`props_rules`) | TCM-Library (Pharmacopoeia 2025 + textbook entries) → derived rules; 94 curated herbs override |
 | `herbs/herb-index.json` | 714 | zh-Hant name / alias → herb id | same |
@@ -35,7 +35,8 @@ Needs Node ≥ 22.18 for the one TypeScript export step (`scripts/kb/export_wuxi
 | `diagnosis/exclusions.json` | 23 groups, 10 splits | Mutually exclusive symptom groups (incl. pulse), soft conflicts, and look-alike symptom splits with their distinguishing hints | curated draft |
 | `diagnosis/orientation.json` | 4 sign lists | 八綱 first-impression signs (cold/heat, deficiency/excess), external triggers, 表/半表半裡 rule — routing and consistency only | curated draft |
 | `diagnosis/patterns.json` | 23 | MVP patterns with weighted evidence, required symptoms, panel projection, formulas, diet/acupoints/lifestyle, citations | curated |
-| `diagnosis/pattern-elements.json` | 24 | 證素 decomposition (location × nature) with symptom weights derived from the patterns | derived from patterns |
+| `diagnosis/pattern-elements.json` | 27 | 證素 decomposition (location × nature) with symptom weights derived from the patterns | derived from patterns |
+| `diagnosis/yingwei.json` | 3 dimensions, 4 natures, 7 questions | 營衛 in the panel (PM-52): the readings of the classics behind each 營衛 value, their applicability weights and confidences, where 營 and 衛 come from, the stages of a warm disease — build-time, not bundled | curated draft; every value recomputed by the build |
 | `diagnosis/tongue.json` | 6 zones, 32 features | Tongue zones (classical + textbook), zone-specific features, special signs (tooth marks, cracks, red dots, ecchymosis…) | curated; zone statement verified in 《傷寒指掌》 |
 | `diagnosis/pulse.json` | 28 + 6 positions | Pulses with yin/yang class, features, indications; optional-input guidance and quality coefficient | 《瀕湖脈學》 (headings verified) + 《診家正眼》 |
 | `diagnosis/constitutions.json` | 9 | Nine constitutions, features, nature priors, susceptibility (questionnaire items deliberately excluded) | curated |
@@ -57,7 +58,7 @@ Needs Node ≥ 22.18 for the one TypeScript export step (`scripts/kb/export_wuxi
 | `geo/cities.json` | 484 cities | birth-place picker: English and Traditional-Chinese names, latitude, longitude, IANA time zone; **GeoNames `cities15000`, CC BY 4.0** (K-10), built from `reference/geonames/cities-extract.tsv` | derived |
 | `safety/name-fold.json` | 182 characters | the characters of the herb and food names that have another Simplified form (`FROM:TO` code points in hex), so an allergy typed in either script is matched (PM-33) | derived from the names |
 | `safety/emergency.json` | 12 regions | regional emergency / crisis numbers (safety policy §5; unverified) | curated |
-| `glossary.json` | 163 | zh-Hant ⇄ English ⇄ pinyin with `source` (`who-istm-2007` = the WHO standard term, known with confidence; `textbook` = an established rendering not confirmed as the WHO term; `project` = a gloss coined for this app), accepted alternative English (`alt`) and a `note`; all needs-review until the linguistic review (V-06) checks them against the standard | curated |
+| `glossary.json` | 168 | zh-Hant ⇄ English ⇄ pinyin with `source` (`who-istm-2007` = the WHO standard term, known with confidence; `textbook` = an established rendering not confirmed as the WHO term; `project` = a gloss coined for this app), accepted alternative English (`alt`) and a `note`; all needs-review until the linguistic review (V-06) checks them against the standard | curated |
 
 ## Core modelling conventions
 
@@ -88,10 +89,10 @@ most restrictive of all matched dimensions. `safety_enforcement`: `suppress_hard
 | Source | Licence | Used for | In the shipped data |
 |---|---|---|---|
 | TCM-Library (submodule, v1.0.0) | MIT, © 2026 TCM-Library contributors | quoted passages (source text, not the 白話提要 summaries), herb properties/functions, 經方 composition text | yes — attribution in `NOTICE` |
-| TCM-Ancient-Books (submodule) | none declared — reference only | verification of later formulas and of quoted passages | **no files**; only short quotations of public-domain texts (7 citations name it) |
+| TCM-Ancient-Books (submodule) | none declared — reference only | verification of later formulas and of quoted passages | **no files**; only short quotations of public-domain texts (33 citations name it) |
 | tcm-mkg (submodule) | MIT | candidate for English/Latin herb names | **not used yet**; `NOTICE` is updated if it is |
 | 《中華人民共和國藥典》 facts via TCM-Library | official publication | properties, functions, cautions as structured facts only | yes, as `derived` facts |
-| Classical texts (素問, 傷寒論, …) | public domain | the 127 quotations | yes |
+| Classical texts (素問, 傷寒論, …) | public domain | the 183 quotations | yes |
 | `packages/wuxing`, `scripts/kb/curated`, `diagnosis/constitution-items.json`, UI and English text | Apache-2.0 (project) | everything original | yes |
 | GeoNames `cities15000` (K-10) | CC BY 4.0 — attribution required | city → coordinates and time zone for the birth card | yes — `geo/cities.json` (484 places, a reduced extract); attribution in `NOTICE`, in the file's `_meta` and on the Sources screen |
 
@@ -99,7 +100,7 @@ Every herb carries `source.path` and the submodule commit; every formula carries
 
 ## Verification summary (at generation time)
 
-- Citations: **127 / 127 verified** against the source text.
+- Citations: **183 / 183 verified** against the source text.
 - Formulas: composition verified for all 33 — 9 against the original classical text (amounts parsed), 18 against the named source book, **5 against a second
   source** and **1 partially**. Six had herbs not found near the heading in the reference copy (lost characters of the GB18030 compilation such as 芪 and 芎, or herbs
   added after the original). K-14 looked each one up in an independent edition on Wikisource (`curated/second_source.py`, recorded as `verification.second_source`;

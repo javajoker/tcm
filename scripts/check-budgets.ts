@@ -11,7 +11,8 @@ export interface Budgets {
   readonly initialJs: number;
   /** Any one lazy JavaScript chunk (a screen, the engine, the five-phase module). */
   readonly lazyJsChunk: number;
-  /** All JavaScript of the app together. 260 KB for the MVP, raised by what each post-MVP release declares for its lazy features (Release A: 40 KB — the Simplified catalogue ≈ 20, the service worker ≤ 10, backup ≈ 10; Release B: 50 KB — Learn ≈ 12, practitioner export ≈ 10, trends ≈ 13, data lock ≈ 15); nobody downloads it all, so it bounds growth rather than a visit (decision PD-12). */
+  /** All JavaScript of the app together. 260 KB for the MVP, raised by what each post-MVP release declares for its lazy features (Release A: 40 KB — the Simplified catalogue ≈ 20, the service worker ≤ 10, backup ≈ 10; Release B: 50 KB — Learn ≈ 12, practitioner export ≈ 10, trends ≈ 13, data lock ≈ 15; Release E: 20 KB — the learning book's pages and the 營衛 block ≈ 3, the learners' and practitioners'
+   * prescription in the release build ≈ 15, PM-53); nobody downloads it all, so it bounds growth rather than a visit (decision PD-12). */
   readonly totalJs: number;
   /** All CSS together. */
   readonly totalCss: number;
@@ -25,7 +26,7 @@ export interface Budgets {
   readonly book: number;
 }
 const KB = 1024;
-export const BUDGETS: Budgets = { initialJs: 200 * KB, lazyJsChunk: 50 * KB, totalJs: 350 * KB, totalCss: 20 * KB, kbSession: 100 * KB, hansList: 30 * KB, herbBrowser: 140 * KB, book: 20 * KB };
+export const BUDGETS: Budgets = { initialJs: 200 * KB, lazyJsChunk: 50 * KB, totalJs: 370 * KB, totalCss: 20 * KB, kbSession: 100 * KB, hansList: 30 * KB, herbBrowser: 140 * KB, book: 20 * KB };
 
 const walk = (dir: string): string[] => readdirSync(dir).flatMap((n) => { const p = join(dir, n); return statSync(p).isDirectory() ? walk(p) : [p]; });
 const gz = (p: string): number => gzipSync(readFileSync(p), { level: 9 }).length;

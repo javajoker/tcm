@@ -31,7 +31,7 @@ PARAMS = {
         "degree_max": 3.0,
         # noisy-OR saturation per sign: O = degree_max · (1 − Π(1 − min(x, degree_max) / degree_max)).
         # Weights of the panel dimensions in the formula-fit cost ‖·‖²_w (SOP §12.4).
-        "dimension_weights": {"organ": 1.0, "liuxie": 0.7, "product": 0.7, "bagang": 0.0},
+        "dimension_weights": {"organ": 1.0, "liuxie": 0.7, "product": 0.7, "yingwei": 0.7, "bagang": 0.0},
         # W(e) = zang · mean(zang.qi, zang.yang) + fu · mean(fu.qi, fu.yang)
         "wuxing_function": {"zang": 0.7, "fu": 0.3},
         # 八綱 derived scalars (SOP §10.4)

@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 0.9 (draft) |
+| **Version** | 0.10 (draft) |
 | **Status** | Design for Release E (FR-36 … FR-38; tasks PM-36 … PM-41). **Built: the herb property model (PM-36, §3.6); dose–response, pairings and processing (PM-37, §3.7); the formula's effect, roles and 方解 (PM-38, §4.4); the verification of the library and its first report (PM-39, §5.1); the personalised prescription (PM-40, §6.6); in the app, gated (PM-41, §7.3)** |
 | **Last updated** | 2026-10-07 |
 | **Audience** | Engineers, the clinical content owner, the pharmacy reviewer, a legal adviser (for §7) |
@@ -186,7 +186,7 @@ A failure is **listed, never auto-fixed**: it means a herb's property, a role, a
 
 **First report: 6 of the 33 formulas pass every check** (柴胡疏肝散, 麻黃湯, 沙參麥冬湯, 參苓白朮散, 四物湯, 血府逐瘀湯). What the others show, for the reviewers:
 
-- **Own patterns (10 formulas).** The strictest check — among the first three of the *whole* library for its own typical patient — and the stored effects fail it almost as often (the report shows both ranks). 桂枝湯 corrects nothing of the typical 太陽中風 and 營衛不和 patients: the panel has no 營衛, and the panel model cannot see what 桂枝湯 is for. 腎氣丸 corrects 2 % of the typical 腎陽虛 deviation (its 滋陰 herbs work against the cold the panel sees: 陰中求陽 is not linear). The recommendation itself is not affected: it starts from the formulas of the leading patterns, not from the whole library.
+- **Own patterns (10 formulas).** The strictest check — among the first three of the *whole* library for its own typical patient — and the stored effects fail it almost as often (the report shows both ranks). 桂枝湯 corrects nothing of the typical 太陽中風 and 營衛不和 patients: the panel has no 營衛, and the panel model cannot see what 桂枝湯 is for. *Since PM-52 the panel holds 營衛 ([營衛 in the model](ying-wei.md)): 桂枝湯 is the first formula of the library for 太陽中風 (16 %) and the third for 營衛不和 (6 %).* 腎氣丸 corrects 2 % of the typical 腎陽虛 deviation (its 滋陰 herbs work against the cold the panel sees: 陰中求陽 is not linear). The recommendation itself is not affected: it starts from the formulas of the leading patterns, not from the whole library.
 - **Balance (10).** Where the classical amount is far above the Pharmacopoeia range — 黃連 at 3.4 times the typical dose in 黃連阿膠湯, 麥冬 at 4.7 times in 麥門冬湯 — the burden, growing faster than the dose, overtakes the benefit. The model is doing what it was built to do; whether those amounts are what a practitioner would give today is the pharmacy reviewer's question.
 - **Effect (4).** 麥門冬湯 (0.68), 小柴胡湯 (0.74), 酸棗仁湯 (0.79) and 六味地黃丸 (0.88): the amounts change the balance of the herbs from the role weights the stored effect was built with.
 - **Direction (2).** 玉屏風散 points upward (黃耆 升陽, 防風 散) where 固表 asks 收 — the classical 「散中寓收」 is a balance the axis cannot hold; 天王補心丹 points nowhere where 降火 asks 降.
@@ -349,3 +349,4 @@ PM-36 (herb property model v2), PM-37 (dose–response, pairings, processing in 
 | 0.7 | 2026-10-07 | §7.3: the prescription in the app, gated (PM-41) |
 | 0.8 | 2026-10-07 | §6.2, §6.6, §10: the limit on additions corrected to the one built and the SOP's (two, `max_add`; the text said three); 發表不遠熱，攻裡不遠寒 (《素問·六元正紀大論》) as the source for sparing the 君 from the season factor — found while checking the learning book against the model (PM-42) |
 | 0.9 | 2026-10-07 | §7, §7.4: learners and practitioners — the owner's decision (PD-13, PD-14) and its design (PM-53) |
+| 0.10 | 2026-10-07 | §5.1: the 營衛 finding answered by PM-52 |

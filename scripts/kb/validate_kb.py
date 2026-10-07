@@ -26,6 +26,7 @@ ORGANS = set(panel_cfg.ZANG) | set(panel_cfg.FU)
 CHANNELS = {"qi", "blood", "yin", "yang", "stasis"}
 LIUXIE = set(panel_cfg.LIUXIE)
 PRODUCTS = set(panel_cfg.PRODUCTS)
+YINGWEI = set(panel_cfg.YINGWEI)
 PREG_ORDER = {"ok": 0, "ok-unreviewed": 1, "caution": 2, "avoid": 3}
 
 Loader = Callable[[str], dict]
@@ -43,6 +44,8 @@ def valid_target(t: str) -> bool:
         return rest in LIUXIE
     if kind == "product":
         return rest in PRODUCTS
+    if kind == "yingwei":
+        return rest in YINGWEI
     return t.split(".")[0] in ORGANS and t.split(".")[1] in CHANNELS if "." in t else False
 
 
@@ -558,6 +561,86 @@ def validate(load: Loader = load, check_sources: bool = True) -> list[str]:
         for s in c["features"]:
             if s not in sym_ids:
                 err(f"constitution {c['id']}: unknown symptom {s}")
+
+    # ── 6b. 營衛 (PM-52): every reading cites a verified quotation; each set of weights sums to 1; the values, confidences and projections are what the
+    #        weights give; the panel schema holds the same natures and sources; and every pattern's projection is its elements' plus the coupling ──
+    yw = load("diagnosis/yingwei.json")
+    panel_doc = load("diagnosis/panel-schema.json")
+
+    def weighted(rs: list[dict]) -> tuple[float, float]:
+        v = sum(r["applicability"] * r["value"] for r in rs)
+        return round(v, 3), round(1 - sum(r["applicability"] * abs(r["value"] - v) for r in rs) / 2, 3)
+
+    def cites(where: str, ids: list[str]) -> None:
+        for c in ids:
+            if c not in cit_ids:
+                err(f"yingwei {where}: unknown citation {c}")
+
+    for d in yw["dimensions"]:
+        cites(d["id"], d["basis"])
+    for key, n in yw["natures"].items():
+        proj = {}
+        for dim, dv in n["dimensions"].items():
+            if dim not in YINGWEI and not ("." in dim and valid_target(dim)):
+                err(f"yingwei nature {key}: unknown dimension {dim}")
+            if abs(sum(r["applicability"] for r in dv["readings"]) - 1) > 1e-9:
+                err(f"yingwei nature {key}.{dim}: the applicability weights do not sum to 1")
+            for r in dv["readings"]:
+                cites(f"nature {key}.{dim}", r["citations"])
+            if (dv["value"], dv["confidence"]) != weighted(dv["readings"]):
+                err(f"yingwei nature {key}.{dim}: value and confidence are not what the readings give")
+            if dv["value"] != 0:
+                proj[dim if "." in dim else f"yingwei.{dim}"] = dv["value"]
+        if proj != n["projection_per_degree"] or proj != panel_doc["nature_projection"].get(key):
+            err(f"yingwei nature {key}: the projection is not the weighted values, or differs from the panel schema")
+        if n["pattern"] not in pattern_ids:
+            err(f"yingwei nature {key}: unknown pattern {n['pattern']}")
+        elif f"PE_{n['location']}_{key}" not in next(p for p in patterns if p["id"] == n["pattern"])["elements"]:
+            err(f"yingwei nature {key}: pattern {n['pattern']} does not hold the element PE_{n['location']}_{key}")
+    for q in yw["questions"]:
+        for r in q.get("readings", []):
+            cites(q["id"], r["citations"])
+        if "dimension" in q and (q.get("value"), q.get("confidence")) != weighted(q["readings"]):
+            err(f"yingwei {q['id']}: value and confidence are not what the readings give")
+    strength = yw["coupling"]["strength"]
+    couplings = {}
+    for target, c in yw["coupling"]["targets"].items():
+        if abs(sum(r["applicability"] for r in c["readings"]) - 1) > 1e-9:
+            err(f"yingwei coupling {target}: the applicability weights do not sum to 1")
+        expected: dict[str, float] = {}
+        for r in c["readings"]:
+            cites(f"coupling {target}", r["citations"])
+            for dim in r["dims"]:
+                if not valid_target(dim):
+                    err(f"yingwei coupling {target}: invalid source {dim}")
+                expected[dim] = round(expected.get(dim, 0) + r["applicability"] / len(r["dims"]), 6)
+        if expected != c["sources"] or c["sources"] != panel_doc["yingwei"]["coupling"]["sources"].get(target):
+            err(f"yingwei coupling {target}: the sources are not the readings' weights, or differ from the panel schema")
+        couplings[target] = c["sources"]
+    if panel_doc["yingwei"]["coupling"]["strength"] != strength:
+        err("yingwei: the coupling strength differs between yingwei.json and the panel schema")
+    element_proj = {e["id"]: e["projection_per_degree"] for e in elements}
+    for p in patterns:
+        unit: dict[str, float] = {}
+        for e in p["elements"]:
+            for k, v in element_proj.get(e, {}).items():
+                unit[k] = unit.get(k, 0) + v
+        for target, srcs in couplings.items():
+            x = sum(w * min(unit.get(src, 0), 0) for src, w in srcs.items())
+            if x < 0:
+                unit[target] = unit.get(target, 0) + round(strength * x, 3)
+        if "bagang.exterior" in unit:
+            unit["bagang.exterior"] = 1.0
+        if any(abs(round(v, 3) - p["panel_projection_per_degree"].get(k, 0)) > 1e-9 for k, v in unit.items()) or set(k for k, v in unit.items() if round(v, 3) != 0) != set(p["panel_projection_per_degree"]):
+            err(f"pattern {p['id']}: the panel projection is not its elements' plus the 營衛 coupling")
+    for st in yw["stages"]:
+        if "citation" in st and st["citation"] not in cit_ids:
+            err(f"yingwei stage {st['stage']}: unknown citation")
+        for rf in st.get("red_flags", []):
+            if rf not in {r["id"] for r in load("diagnosis/red-flags.json")["items"]}:
+                err(f"yingwei stage {st['stage']}: unknown red flag {rf}")
+    for nm in yw["not_modelled"]:
+        cites("not_modelled", nm["citations"])
 
     # ── 7. examination data ────────────────────────────────────────────────
     tongue = load("diagnosis/tongue.json")

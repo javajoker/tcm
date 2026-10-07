@@ -172,8 +172,8 @@
       "value": -0.6
     },
     "deficiencyExcess": {
-      "band": "normal",
-      "value": 0
+      "band": "somewhatHigh",
+      "value": 0.3
     }
   },
   "patterns": {

@@ -17,7 +17,7 @@ const run = (kb: typeof dev, seasons: AssessInput["options"]["seasons"], now = M
   options: { now, birthModule: birth, ...(seasons ? { seasons } : {}) },
 });
 
-const NORTH_FINGERPRINT = "366e19e0+4c3e3303";          // result-stability.test.ts pins the same string
+const NORTH_FINGERPRINT = "c4504d83+4c3e3303";          // result-stability.test.ts pins the same string (recorded again at PM-52, a knowledge-base change)
 
 test("naming the northern calendar is the same as not naming a basis: the same result, no key in the stamp", () => {
   const plain = run(dev, undefined);

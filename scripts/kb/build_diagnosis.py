@@ -8,11 +8,14 @@ import subprocess
 from collections import defaultdict
 
 from .common import DATA, LIB, ROOT, dump, i18n, read_lib, submodule_commits, tw
-from .curated import exam, panel, patterns as pat, prose_en, symptoms, treatment, treatment_text
+from .curated import exam, panel, patterns as pat, prose_en, symptoms, treatment, treatment_text, yingwei
 from .curated.formulas import FORMULAS
 
 NATURE_ZH = {"風": "風", "寒": "寒", "火": "火熱", "暑": "暑", "濕": "濕", "燥": "燥", "痰": "痰", "飲": "飲", "瘀": "血瘀", "食積": "食積",
-             "氣滯": "氣滯", "氣虛": "氣虛", "血虛": "血虛", "陰虛": "陰虛", "陽虛": "陽虛"}
+             "氣滯": "氣滯", "氣虛": "氣虛", "血虛": "血虛", "陰虛": "陰虛", "陽虛": "陽虛",
+             # 營衛 (PM-52): the element is named by the nature alone (營弱衛強, 衛閉, 衛氣不和) or by its classical name (肺衛不固)
+             **{n: v["name"] for n, v in yingwei.NATURES.items()}}
+YINGWEI_NATURES = set(yingwei.NATURES)
 
 
 def project(location: str, nature: str) -> dict[str, float]:
@@ -64,13 +67,17 @@ def build_patterns(formula_ids: set[str], citation_ids: set[str]) -> tuple[dict,
             proj = project(loc, nature)
             for k, v in proj.items():
                 unit_projection[k] += v
-            e = elements.setdefault(eid, {"id": eid, "location": loc, "nature": nature, "name": {"zh-Hant": f"{loc}{NATURE_ZH[nature]}", "en": None},
+            name = NATURE_ZH[nature] if nature in YINGWEI_NATURES else f"{loc}{NATURE_ZH[nature]}"
+            e = elements.setdefault(eid, {"id": eid, "location": loc, "nature": nature, "name": {"zh-Hant": name, "en": None},
                                           "weights": {}, "against": {}, "patterns": [], "projection_per_degree": proj})
             e["patterns"].append(p["id"])
             for s, w in p["weights"].items():
                 e["weights"][s] = max(e["weights"].get(s, 0), w)
             for s, v in p["against"].items():
                 e["against"][s] = max(e["against"].get(s, 0), v)
+        # 營衛 (PM-52): the organs a pattern finds deficient weaken the 營 and 衛 made from them (deficits only; curated/yingwei.py)
+        for k, v in yingwei.coupled(unit_projection).items():
+            unit_projection[k] += v
         if any(loc in panel.EXTERIOR_LOCATIONS for loc, _ in p["elements"]):
             unit_projection["bagang.exterior"] = 1.0       # a pattern is "exterior" once, however many natures it has
         grp_formulas = p["formulas"]
@@ -135,6 +142,8 @@ def build_panel_schema() -> dict:
             "organs": {"zang": panel.ZANG, "fu": panel.FU, "element_of": panel.ORGAN_ELEMENT},
             "channels": {"qi": "−3 deficient … +3 excess", "blood": "−3 … +3", "yin": "−3 … +3", "yang": "−3 … +3", "stasis": "0 … 3 (qi stagnation)"},
             "liuxie": panel.LIUXIE, "products": panel.PRODUCTS,
+            "yingwei": {"dimensions": panel.YINGWEI, "scale": {d: yingwei.DIMENSION_INFO[d]["scale"] for d in panel.YINGWEI},
+                        "coupling": {"strength": yingwei.COUPLING_STRENGTH, "sources": {f"yingwei.{d}": yingwei.sources(d) for d in yingwei.COUPLING}}},
             "location_organs": panel.LOCATION_ORGANS, "exterior_locations": panel.EXTERIOR_LOCATIONS,
             "nature_projection": panel.NATURE_PROJECTION, "derived": panel.DERIVED,
             "offsets": {"primary": "observed − 0 (deviation from the average healthy person; drives diagnosis)",
@@ -216,6 +225,7 @@ def main() -> None:
     dump(DATA / "diagnosis" / "constitutions.json", build_constitutions())
     dump(DATA / "diagnosis" / "red-flags.json", build_red_flags())
     dump(DATA / "diagnosis" / "panel-schema.json", build_panel_schema())
+    dump(DATA / "diagnosis" / "yingwei.json", yingwei.data())
     dump(DATA / "wuxing" / "susceptibility.json", build_susceptibility())
     dump(DATA / "treatment" / "guidance.json", build_guidance())
 

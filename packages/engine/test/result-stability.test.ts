@@ -33,18 +33,23 @@ const CASES: readonly (readonly [string, () => unknown])[] = [
 ];
 
 /** Recorded from the unmodified engine; `RECORD=1 node --test test/result-stability.test.ts` prints them again (never to be done after the southern basis exists, but to be read against). */
+//
+// Recorded again at PM-52, when the knowledge base gained 營衛 (docs/post-mvp/design/ying-wei.md): a change of the knowledge base, so a new version — a result saved
+// before it is an older result, kept as it was made and imported unchecked rather than replayed (backup plan.ts). The engine's own change (the 八綱 axis counts the
+// 營衛 block) was checked first against the data as it was: with it, every pin below hashed to the value recorded before (73a0fb6eb26fe0a7, 544d5f962db9b054,
+// 0eb560c892edaf24, a2a321102220c366, 76a0dee8da92d3c0, 18ecb824d0190064, 78658bf0e53e6988; the stamp 366e19e0+4c3e3303), so what changed is the knowledge only.
 const PINNED: Readonly<Record<string, string>> = {
-  "dev, spring, no birth data": "73a0fb6eb26fe0a7",
-  "dev, long summer, no birth data": "544d5f962db9b054",
-  "dev, autumn, birth data": "0eb560c892edaf24",
+  "dev, spring, no birth data": "533e44c5573881f4",
+  "dev, long summer, no birth data": "544af6ffe549d8dc",
+  "dev, autumn, birth data": "e1b7dbb2cda9af65",
   // The two cases of the other season model were recorded again at PM-29, when that model began to end the stamp of the parameters ("+tuwang18"): with the ending removed they hash to the values first
-  // recorded here (46d6b887e505bc42 and 853933c63a8260dc), so nothing else changed. The app has never offered a way to ask for that model, so no saved result of it exists to be replayed.
-  "dev, winter, birth data, the other season model": "a2a321102220c366",
-  "dev, the days before a season change under the other model": "76a0dee8da92d3c0",
-  "release, autumn, birth module on": "18ecb824d0190064",
-  "release, summer, no birth data": "78658bf0e53e6988",
+  // recorded here, so nothing else changed. The app has never offered a way to ask for that model, so no saved result of it exists to be replayed.
+  "dev, winter, birth data, the other season model": "035a8216c64d298f",
+  "dev, the days before a season change under the other model": "2c5f40567f3de180",
+  "release, autumn, birth module on": "36c3140ded06f5a1",
+  "release, summer, no birth data": "241ada7f46f91005",
   /** The stamp of the parameters of a result with birth data: the knowledge base's parameters, then the five-phase module's. */
-  paramsFingerprint: "366e19e0+4c3e3303",
+  paramsFingerprint: "c4504d83+4c3e3303",
 };
 
 if (process.env["RECORD"] === "1") {

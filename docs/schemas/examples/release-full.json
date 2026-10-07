@@ -139,7 +139,7 @@
     },
     "deficiencyExcess": {
       "band": "somewhatLow",
-      "value": -0.2
+      "value": -0.3
     }
   },
   "patterns": {

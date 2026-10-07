@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "count": 163,
+    "count": 168,
     "description": "zh-Hant ⇄ English glossary (English follows WHO ISTM where known; needs review).",
     "schema": 1
   },
@@ -1878,6 +1878,79 @@
       "source": "textbook",
       "status": "needs-review",
       "zh-Hant": "五味子"
+    },
+    {
+      "alt": [
+        "defense qi",
+        "defence qi",
+        "wei qi"
+      ],
+      "domain": "theory",
+      "en": "defensive qi (wei)",
+      "id": "wei-qi",
+      "note": "The qi outside the vessels that guards the surface and opens and closes the pores (營衛, PM-52).",
+      "pinyin": "wèi qì",
+      "source": "textbook",
+      "status": "needs-review",
+      "zh-Hant": "衛氣"
+    },
+    {
+      "alt": [
+        "nutritive qi",
+        "construction qi",
+        "ying qi"
+      ],
+      "domain": "theory",
+      "en": "nutrient qi (ying)",
+      "id": "ying-qi",
+      "note": "The qi inside the vessels from which blood is made (營衛, PM-52).",
+      "pinyin": "yíng qì",
+      "source": "textbook",
+      "status": "needs-review",
+      "zh-Hant": "營氣"
+    },
+    {
+      "alt": [
+        "nutrient and defensive qi",
+        "construction and defence",
+        "construction and defense"
+      ],
+      "domain": "theory",
+      "en": "ying and wei (nutrient and defensive qi)",
+      "id": "ying-wei",
+      "note": null,
+      "pinyin": "yíng wèi",
+      "source": "textbook",
+      "status": "needs-review",
+      "zh-Hant": "營衛"
+    },
+    {
+      "alt": [
+        "nutrient-defense disharmony",
+        "disharmony of construction and defence"
+      ],
+      "domain": "nature",
+      "en": "disharmony of nutrient and defensive qi",
+      "id": "ying-wei-bu-he",
+      "note": null,
+      "pinyin": "yíng wèi bù hé",
+      "source": "textbook",
+      "status": "needs-review",
+      "zh-Hant": "營衛不和"
+    },
+    {
+      "alt": [
+        "striae and interstices",
+        "pores"
+      ],
+      "domain": "theory",
+      "en": "interstices (pores)",
+      "id": "cou-li",
+      "note": null,
+      "pinyin": "còu lǐ",
+      "source": "textbook",
+      "status": "needs-review",
+      "zh-Hant": "腠理"
     }
   ]
 }

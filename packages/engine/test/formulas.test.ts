@@ -24,16 +24,17 @@ test("parity with the oracle: k*, explained fraction and core fit of every MVP f
   }
 });
 
-test("SOP §12.4 worked example: 參苓白朮散 k*=2.93 64.7 %, 四君子湯 1.94 62.6 %, 補中益氣湯 2.14 61.1 %, 玉屏風散 1.91 60.4 %, 歸脾湯 3.00 51.3 %, 理中丸 1.45 26.9 %", () => {
+// The numbers moved at PM-52, when the panel gained 營衛: the patient's 脾 deficit also weakens the 營 and 衛 made from it, and 黃耆 and 白朮 act on them (the order is unchanged).
+test("SOP §12.4 worked example: 參苓白朮散 k*=2.93 61.9 %, 四君子湯 1.93 59.9 %, 補中益氣湯 1.85 51.4 %, 玉屏風散 1.52 47.0 %, 歸脾湯 3.00 46.2 %, 理中丸 1.45 25.8 %", () => {
   const { n, panel } = prep(PARITY.cases.find((c) => c.id === "worked-example")!.findings);
   const fits = Object.fromEntries(fitFormulas(dev, panel.observed, n).map((f) => [f.id, f]));
   const r2 = (x: number): number => Math.round(x * 100) / 100, pc = (x: number): number => Math.round(x * 1000) / 10;
-  assert.deepEqual([r2(fits["F_SHENLING"]!.k), pc(fits["F_SHENLING"]!.explained)], [2.93, 64.7]);
-  assert.deepEqual([r2(fits["F_SIJUNZI"]!.k), pc(fits["F_SIJUNZI"]!.explained)], [1.94, 62.6]);
-  assert.deepEqual([r2(fits["F_BUZHONG"]!.k), pc(fits["F_BUZHONG"]!.explained)], [2.14, 61.1]);
-  assert.deepEqual([r2(fits["F_YUPINGFENG"]!.k), pc(fits["F_YUPINGFENG"]!.explained)], [1.91, 60.4]);
-  assert.deepEqual([r2(fits["F_GUIPI"]!.k), pc(fits["F_GUIPI"]!.explained)], [3, 51.3]);
-  assert.deepEqual([r2(fits["F_LIZHONG"]!.k), pc(fits["F_LIZHONG"]!.explained)], [1.45, 26.9]);
+  assert.deepEqual([r2(fits["F_SHENLING"]!.k), pc(fits["F_SHENLING"]!.explained)], [2.93, 61.9]);
+  assert.deepEqual([r2(fits["F_SIJUNZI"]!.k), pc(fits["F_SIJUNZI"]!.explained)], [1.93, 59.9]);
+  assert.deepEqual([r2(fits["F_BUZHONG"]!.k), pc(fits["F_BUZHONG"]!.explained)], [1.85, 51.4]);
+  assert.deepEqual([r2(fits["F_YUPINGFENG"]!.k), pc(fits["F_YUPINGFENG"]!.explained)], [1.52, 47]);
+  assert.deepEqual([r2(fits["F_GUIPI"]!.k), pc(fits["F_GUIPI"]!.explained)], [3, 46.2]);
+  assert.deepEqual([r2(fits["F_LIZHONG"]!.k), pc(fits["F_LIZHONG"]!.explained)], [1.45, 25.8]);
   assert.equal(fits["F_SHENLING"]!.tier, "A");
 });
 

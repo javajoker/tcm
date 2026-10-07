@@ -104,7 +104,7 @@ A vignette is `{ input, expect: { level, notice, suppressed[], mustShow[], mustN
 
 ### 3.4 Parity with the Python oracle
 
-`scripts/kb/export_parity_cases.py` ([tech spec §7.4](tech-spec.md)) writes `packages/engine/test/fixtures/parity.json` with: the SOP worked example (SP1 55.8 %, formula matches 64.7 % / 62.6 %), the 23 typical-patient cases, ≥ 200 seeded random finding sets, and edge cases. Tolerance 1e-9 on all numbers; identical rankings; identical greedy 加減 steps. CI regenerates the fixture and fails on `git diff`.
+`scripts/kb/export_parity_cases.py` ([tech spec §7.4](tech-spec.md)) writes `packages/engine/test/fixtures/parity.json` with: the SOP worked example (SP1 55.8 %, formula matches 61.9 % / 59.9 % since PM-52's 營衛; 64.7 % / 62.6 % before), the 23 typical-patient cases, ≥ 200 seeded random finding sets, and edge cases. Tolerance 1e-9 on all numbers; identical rankings; identical greedy 加減 steps. CI regenerates the fixture and fails on `git diff`.
 
 ### 3.5 Golden cases (practitioner-agreed)
 
@@ -230,7 +230,7 @@ Viewports 320, 375, 600, 900, 1200, 1920; landscape phone; touch targets ≥ 44 
 
 | Test | Budget |
 |---|---|
-| `scripts/check-budgets.ts` | Initial JS ≤ 200 KB gzip; any lazy chunk ≤ 50 KB; all JS ≤ 350 KB (260 for the MVP plus what each post-MVP release declares for its lazy features: 40 for Release A, 50 for Release B); all CSS ≤ 20 KB; knowledge base per session ≤ 100 KB (the per-chunk KB budgets are in `bundle-data.ts`) |
+| `scripts/check-budgets.ts` | Initial JS ≤ 200 KB gzip; any lazy chunk ≤ 50 KB; all JS ≤ 370 KB (260 for the MVP plus what each post-MVP release declares for its lazy features: 40 for Release A, 50 for Release B, 20 for Release E); all CSS ≤ 20 KB; knowledge base per session ≤ 100 KB (the per-chunk KB budgets are in `bundle-data.ts`) |
 | Lighthouse CI (mobile, throttled) | Performance ≥ 90, Accessibility ≥ 95, LCP ≤ 2.5 s, INP ≤ 200 ms on landing and result routes |
 | Engine bench | `assess` ≤ 50 ms p95 (reference mid-range device profile, CPU throttled); regression > 20 % fails |
 

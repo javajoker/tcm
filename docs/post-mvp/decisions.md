@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 0.11 (draft) |
+| **Version** | 0.12 (draft) |
 | **Status** | Every item the MVP documents recorded as "to be revisited after the MVP" is answered here with the recommended default; new decisions that came out of the post-MVP design are PD-01 … PD-12 |
 | **Last updated** | 2026-10-07 |
 | **Audience** | Project owner, maintainers, reviewers |
@@ -124,7 +124,7 @@ An *unchanged* decision means the MVP answer still holds and the reason is state
 | PD-09 | Releases are named by theme (A–D; E and F added 2026-10-07); version numbers are assigned when tagged; a feature ships when its class gates are met | The review track sets the pace, not this plan |
 | PD-10 | Research items begin as spikes with a written protocol and stop conditions; shipping is a separate decision | Unknown accuracy must be measured before it is offered |
 | PD-11 | Any new download — dataset, model, archive, tool, browser — is approved by the owner first, with filename, source and size | Standing safety rule |
-| PD-12 | The all-JavaScript budget rises with each release by the lazy budgets that release declares (260 KB for the MVP → 300 KB for Release A: Simplified catalogue ≈ 20, service worker ≤ 10, backup ≈ 10 → **350 KB for Release B, decided 2026-10-06**: Learn ≈ 12 (measured 9.2 with all seven kinds and the comparison), practitioner export ≈ 10, trends ≈ 13, data lock ≈ 15); the initial 200 KB and the 50 KB per lazy chunk do not change | The figure bounds growth, not a visit: nobody downloads every lazy feature. Release A already uses 21 of the 37 KB the MVP left, so keeping 260 would have meant refusing the language |
+| PD-12 | The all-JavaScript budget rises with each release by the lazy budgets that release declares (260 KB for the MVP → 300 KB for Release A: Simplified catalogue ≈ 20, service worker ≤ 10, backup ≈ 10 → **350 KB for Release B, decided 2026-10-06**: Learn ≈ 12 (measured 9.2 with all seven kinds and the comparison), practitioner export ≈ 10, trends ≈ 13, data lock ≈ 15 → **370 KB for Release E, approved by the owner 2026-10-07** (§2.9): the learning book's pages and the 營衛 block ≈ 3, the learners' and practitioners' prescription in the release build ≈ 15); the initial 200 KB and the 50 KB per lazy chunk do not change | The figure bounds growth, not a visit: nobody downloads every lazy feature. Release A already uses 21 of the 37 KB the MVP left, so keeping 260 would have meant refusing the language |
 
 ### 2.8 Decisions for Releases E and F (the owner's direction of 2026-10-07)
 
@@ -182,3 +182,4 @@ The ⚑ items PD-13, PD-14, PD-21 and PD-25 were decided by the owner on 2026-10
 | 0.9 | 2026-10-07 | §2.8: decisions PD-13 … PD-27 for Releases E and F (tasks PM-34 … PM-50), from the owner's direction of 2026-10-07; Q3, Q4, Q5 revisited |
 | 0.10 | 2026-10-07 | PD-16 corrected to the limits built and stated by the SOP: two herbs added in all (the text said three added and two removed) |
 | 0.11 | 2026-10-07 | §2.9: the owner's decisions of 2026-10-07 (second) — PD-13, PD-14, PD-19, PD-21, PD-25 decided; PD-12 extended; PD-28 (營衛 in the model) and PD-29 (order) |
+| 0.12 | 2026-10-07 | PD-12: 370 KB for Release E (the 營衛 block took all JS to 350.1 KB) |

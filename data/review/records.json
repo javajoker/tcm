@@ -14,7 +14,7 @@
         ]
       ],
       "reviewed": 0,
-      "units": 156,
+      "units": 183,
       "whole_file_reviewed": false
     },
     "config/scope-profiles.json": {
@@ -88,7 +88,7 @@
         ]
       ],
       "reviewed": 0,
-      "units": 24,
+      "units": 27,
       "whole_file_reviewed": false
     },
     "diagnosis/patterns.json": {
@@ -165,6 +165,16 @@
       "units": 38,
       "whole_file_reviewed": false
     },
+    "diagnosis/yingwei.json": {
+      "required_roles": [
+        [
+          "tcm-clinical"
+        ]
+      ],
+      "reviewed": 0,
+      "units": 0,
+      "whole_file_reviewed": false
+    },
     "formulas/formulas.json": {
       "required_roles": [
         [
@@ -195,7 +205,7 @@
         ]
       ],
       "reviewed": 0,
-      "units": 163,
+      "units": 168,
       "whole_file_reviewed": false
     },
     "herbs/dose-bands.json": {

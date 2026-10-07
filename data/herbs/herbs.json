@@ -2369,6 +2369,8 @@
         15.0
       ],
       "effects": {
+        "yingwei.營": 0.4,
+        "yingwei.開闔": 0.3,
         "肝.blood": 0.5,
         "肝.stasis": -0.3,
         "肝.yang": -0.3,
@@ -3072,6 +3074,8 @@
       ],
       "effects": {
         "liuxie.濕": -0.5,
+        "yingwei.衛": 0.2,
+        "yingwei.開闔": 0.2,
         "脾.qi": 0.8
       },
       "flavors": [
@@ -10876,7 +10880,8 @@
       ],
       "effects": {
         "bagang.exterior": -0.5,
-        "liuxie.寒": -0.5
+        "liuxie.寒": -0.5,
+        "yingwei.開闔": -0.5
       },
       "flavors": [
         {
@@ -13492,6 +13497,7 @@
         15.0
       ],
       "effects": {
+        "yingwei.營": 0.3,
         "心.blood": 0.3,
         "脾.blood": 0.2,
         "脾.qi": 0.4
@@ -19376,6 +19382,8 @@
         30.0
       ],
       "effects": {
+        "yingwei.衛": 0.4,
+        "yingwei.開闔": 0.3,
         "心.qi": 0.5
       },
       "flavors": [
@@ -23400,7 +23408,10 @@
       "effects": {
         "bagang.exterior": -0.6,
         "liuxie.寒": -0.5,
+        "liuxie.風": -0.3,
         "product.飲": -0.3,
+        "yingwei.衛": 0.4,
+        "yingwei.開闔": -0.1,
         "心.yang": 0.5,
         "脾.yang": 0.2,
         "膀胱.yang": 0.3
@@ -27413,6 +27424,8 @@
       "effects": {
         "liuxie.濕": -0.5,
         "product.飲": -0.3,
+        "yingwei.衛": 0.4,
+        "yingwei.開闔": 0.3,
         "肺.blood": 0.5,
         "肺.qi": 0.5,
         "肺.yin": 0.5,
@@ -28798,6 +28811,8 @@
       ],
       "effects": {
         "liuxie.濕": -0.3,
+        "yingwei.衛": 0.6,
+        "yingwei.開闔": 0.5,
         "肺.qi": 0.7,
         "脾.qi": 0.8
       },
@@ -43285,6 +43300,7 @@
         "liuxie.寒": -0.6,
         "liuxie.風": -0.4,
         "product.飲": -0.2,
+        "yingwei.開闔": -1.0,
         "肺.stasis": -0.5
       },
       "flavors": [
@@ -43404,7 +43420,10 @@
         3.0,
         9.0
       ],
-      "effects": {},
+      "effects": {
+        "yingwei.衛": 0.4,
+        "yingwei.開闔": 0.3
+      },
       "flavors": [
         {
           "element": "土",
@@ -48258,6 +48277,8 @@
       ],
       "effects": {
         "liuxie.火": -0.5,
+        "yingwei.衛": 0.4,
+        "yingwei.開闔": 0.3,
         "心.yin": 0.5,
         "肝.yin": 0.5,
         "肺.yin": 0.5
@@ -56881,7 +56902,9 @@
       "effects": {
         "bagang.exterior": -0.3,
         "liuxie.寒": -0.4,
+        "liuxie.風": -0.2,
         "product.痰": -0.2,
+        "yingwei.衛": 0.2,
         "胃.yang": 0.3
       },
       "flavors": [
@@ -63905,7 +63928,9 @@
         3.0,
         6.0
       ],
-      "effects": {},
+      "effects": {
+        "yingwei.開闔": 0.3
+      },
       "flavors": [
         {
           "element": "木",
@@ -64698,6 +64723,7 @@
         6.0
       ],
       "effects": {
+        "yingwei.開闔": 0.3,
         "心.yin": 0.2,
         "肺.qi": 0.3,
         "腎.qi": 0.3
@@ -65542,7 +65568,8 @@
       "effects": {
         "bagang.exterior": -0.5,
         "liuxie.濕": -0.5,
-        "product.飲": -0.3
+        "product.飲": -0.3,
+        "yingwei.開闔": -0.5
       },
       "flavors": [
         {
@@ -75711,6 +75738,8 @@
         30.0
       ],
       "effects": {
+        "yingwei.衛": 0.4,
+        "yingwei.開闔": 0.3,
         "肺.qi": 0.5,
         "脾.qi": 0.5
       },

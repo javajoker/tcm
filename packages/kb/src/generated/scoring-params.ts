@@ -48,6 +48,7 @@ export interface ScoringParams {
       liuxie: number;
       organ: number;
       product: number;
+      yingwei: number;
     };
     noisy_or_floor: number;
     wuxing_function: {

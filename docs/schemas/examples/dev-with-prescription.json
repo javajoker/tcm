@@ -165,7 +165,7 @@
     },
     "deficiencyExcess": {
       "band": "low",
-      "value": -0.7
+      "value": -0.9
     }
   },
   "patterns": {
@@ -340,7 +340,7 @@
         "improves": [
           "心.blood",
           "脾.qi",
-          "liuxie.濕"
+          "yingwei.營"
         ]
       },
       {

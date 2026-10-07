@@ -161,19 +161,23 @@ OVERLAY = parse()
 
 
 # Hand-set panel effects for the formula herbs (override the keyword-derived ones). Units: 0.2–0.3 mild,
-# 0.5 moderate, 0.8+ strong. Targets: <organ>.qi|blood|yin|yang|stasis, liuxie.<風寒暑濕燥火>, product.<痰飲瘀食積>, bagang.exterior.
+# 0.5 moderate, 0.8+ strong. Targets: <organ>.qi|blood|yin|yang|stasis, liuxie.<風寒暑濕燥火>, product.<痰飲瘀食積>, yingwei.<衛營開闔>, bagang.exterior.
+# 營衛 (PM-52; docs/post-mvp/design/ying-wei.md §2.7) as the commentaries state them: 桂枝「溫通衛陽」、芍藥「酸能收斂，寒走荣陰」、生薑「佐桂枝以解表」、
+# 大棗「佐芍藥以和中」 (醫宗金鑑); 桂枝湯「和荣衛而散風邪」 (成無己); 桂枝 opens the pores only a little — its sweat needs the porridge and the covering
+# (「啜熱稀粥…以助藥力。溫覆令一時許」, 傷寒論 12), so 桂枝湯 「於發汗中寓斂汗」 closes them on balance; 麻黃 opens them; 黃耆 固表止汗; 白朮 健脾 (衛 from the
+# 中焦), 止汗; 五味子 斂汗.
 # Direction = change made to the panel of the person taking the herb (− on an excess dimension reduces it).
 _EFFECTS = """
-mahuang|bagang.exterior:-0.9,liuxie.寒:-0.6,liuxie.風:-0.4,肺.stasis:-0.5,product.飲:-0.2
-guizhi|bagang.exterior:-0.6,liuxie.寒:-0.5,心.yang:0.5,脾.yang:0.2,膀胱.yang:0.3,product.飲:-0.3
+mahuang|bagang.exterior:-0.9,liuxie.寒:-0.6,liuxie.風:-0.4,肺.stasis:-0.5,product.飲:-0.2,yingwei.開闔:-1.0
+guizhi|bagang.exterior:-0.6,liuxie.寒:-0.5,心.yang:0.5,脾.yang:0.2,膀胱.yang:0.3,product.飲:-0.3,liuxie.風:-0.3,yingwei.衛:0.4,yingwei.開闔:-0.1
 kuxingren|肺.stasis:-0.5,大腸.yin:0.2,product.痰:-0.3,liuxie.燥:-0.2
 gancao|脾.qi:0.5,心.qi:0.3,肺.qi:0.2,product.痰:-0.2,liuxie.火:-0.2
 zhigancao|脾.qi:0.6,心.qi:0.4,肺.qi:0.2
-baishao|肝.blood:0.5,肝.yin:0.4,肝.stasis:-0.3,肝.yang:-0.3
+baishao|肝.blood:0.5,肝.yin:0.4,肝.stasis:-0.3,肝.yang:-0.3,yingwei.營:0.4,yingwei.開闔:0.3
 chishao|product.瘀:-0.5,liuxie.火:-0.3,肝.yang:-0.2
-shengjiang|bagang.exterior:-0.3,liuxie.寒:-0.4,胃.yang:0.3,product.痰:-0.2
+shengjiang|bagang.exterior:-0.3,liuxie.寒:-0.4,胃.yang:0.3,product.痰:-0.2,liuxie.風:-0.2,yingwei.衛:0.2
 ganjiang|脾.yang:0.8,胃.yang:0.5,liuxie.寒:-0.8,肺.yang:0.3,product.飲:-0.3
-dazao|脾.qi:0.4,心.blood:0.3,脾.blood:0.2
+dazao|脾.qi:0.4,心.blood:0.3,脾.blood:0.2,yingwei.營:0.3
 jinyinhua|liuxie.火:-0.6,bagang.exterior:-0.2,肺.yang:-0.2
 lianqiao|liuxie.火:-0.6,心.yang:-0.3,product.痰:-0.2
 jiegeng|肺.stasis:-0.4,product.痰:-0.4
@@ -186,14 +190,14 @@ lugen|liuxie.火:-0.4,胃.yin:0.3,肺.yin:0.2
 sangye|liuxie.風:-0.4,liuxie.火:-0.3,肺.yin:0.3,肝.yang:-0.2
 juhua|liuxie.風:-0.4,liuxie.火:-0.3,肝.yang:-0.4
 renshen|脾.qi:0.9,肺.qi:0.7,心.qi:0.5,腎.qi:0.3,脾.yin:0.2,肺.yin:0.2
-baizhu|脾.qi:0.8,liuxie.濕:-0.5
+baizhu|脾.qi:0.8,liuxie.濕:-0.5,yingwei.衛:0.2,yingwei.開闔:0.2
 fuling|liuxie.濕:-0.6,product.飲:-0.4,脾.qi:0.3
 shangyao|脾.qi:0.4,脾.yin:0.3,肺.yin:0.2,腎.yin:0.3,腎.qi:0.2
 baibiandou|脾.qi:0.3,liuxie.濕:-0.3,liuxie.暑:-0.2
 lianzi|脾.qi:0.2,腎.qi:0.2,心.yin:0.2
 yiyiren|liuxie.濕:-0.6,脾.qi:0.2,product.飲:-0.3,liuxie.火:-0.1
 sharen|脾.stasis:-0.4,胃.stasis:-0.4,liuxie.濕:-0.4,脾.yang:0.2
-huangqi|脾.qi:0.8,肺.qi:0.7,liuxie.濕:-0.3
+huangqi|脾.qi:0.8,肺.qi:0.7,liuxie.濕:-0.3,yingwei.衛:0.6,yingwei.開闔:0.5
 danggui|肝.blood:0.6,心.blood:0.5,脾.blood:0.3,product.瘀:-0.4
 chenpi|脾.stasis:-0.5,肺.stasis:-0.4,liuxie.濕:-0.4,product.痰:-0.4
 juhong|product.痰:-0.5,肺.stasis:-0.4,liuxie.濕:-0.3
@@ -237,7 +241,7 @@ huangbai|liuxie.火:-0.6,liuxie.濕:-0.7,腎.yang:-0.3,膀胱.yang:-0.3
 ejiao|肝.blood:0.7,肺.yin:0.5,腎.yin:0.4,心.blood:0.4
 danshen|product.瘀:-0.6,心.blood:0.2,liuxie.火:-0.2
 xuanshen|腎.yin:0.5,liuxie.火:-0.5,肺.yin:0.3
-wuweizi|肺.qi:0.3,腎.qi:0.3,心.yin:0.2
+wuweizi|肺.qi:0.3,腎.qi:0.3,心.yin:0.2,yingwei.開闔:0.3
 tiandong|肺.yin:0.6,腎.yin:0.5,liuxie.燥:-0.3,liuxie.火:-0.2
 baiziren|心.blood:0.4,心.yin:0.3,大腸.yin:0.3
 zhuru|product.痰:-0.5,liuxie.火:-0.3,胃.stasis:-0.3

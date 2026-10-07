@@ -83,7 +83,8 @@ export function wuxingFunction(kb: KnowledgeBase, panel: Readonly<Record<string,
 
 const clamp = (x: number, lo: number, hi: number): number => Math.max(lo, Math.min(hi, x));
 
-/** SOP §10.4 — the three scalars follow the oracle exactly (including that product values count in the excess sum whatever their sign). */
+/** SOP §10.4 — the three scalars follow the oracle exactly (including that product values count in the excess sum whatever their sign). The 營衛 block counts in
+ * the deficiency–excess axis (PM-52): a weak 衛 or 營 and open pores as deficiency, closed pores and a strong 營 as excess — 表虛 and 表實. */
 export function bagang(kb: KnowledgeBase, panel: Readonly<Record<string, number>>): BagangScalars {
   const c = kb.params.panel.bagang;
   const channels = new Set(["qi", "blood", "yin", "yang", "stasis"]);
@@ -95,6 +96,7 @@ export function bagang(kb: KnowledgeBase, panel: Readonly<Record<string, number>
     const parts = k.split(".");
     if (((parts[1] !== undefined && channels.has(parts[1])) && v > 0) || k.startsWith("product.")) excess += v;
     if (fourChannels.has(parts[parts.length - 1]!) && v < 0) deficit += -v;
+    if (parts[0] === "yingwei") { if (v > 0) excess += v; else deficit += -v; }
   }
   const heat = (panel["liuxie.火"] ?? 0) + (panel["liuxie.暑"] ?? 0) - (panel["liuxie.寒"] ?? 0) - c.yang_deficit_weight * yangDef + c.yin_deficit_weight * yinDef;
   const coldHeat = clamp(heat / c.heat_divisor, -1, 1);

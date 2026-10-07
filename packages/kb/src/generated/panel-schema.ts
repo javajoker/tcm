@@ -37,4 +37,18 @@ export interface PanelSchema {
     zang: string[];
   };
   products: string[];
+  yingwei: {
+    coupling: {
+      sources: {
+        [k: string]: {
+          [k: string]: number;
+        };
+      };
+      strength: number;
+    };
+    dimensions: string[];
+    scale: {
+      [k: string]: string;
+    };
+  };
 }

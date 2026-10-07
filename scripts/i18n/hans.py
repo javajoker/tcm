@@ -95,8 +95,9 @@ def overrides_digest() -> str:
 
 # ── the data ────────────────────────────────────────────────────────────────
 
-# Build-time files that are never bundled or shown: the sources registry (PM-35) is a bibliography for maintainers.
-NOT_SHOWN = {"sources.json"}
+# Build-time files that are never bundled or shown: the sources registry (PM-35) is a bibliography for maintainers; the 營衛 readings (PM-52) are the
+# reasoning behind values the panel schema and the patterns carry.
+NOT_SHOWN = {"sources.json", "diagnosis/yingwei.json"}
 
 
 def data_files() -> list[Path]:

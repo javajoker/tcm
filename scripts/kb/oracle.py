@@ -135,6 +135,9 @@ def bagang(panel: dict, p: dict | None = None) -> dict[str, float]:
     heat = panel.get("liuxie.火", 0) + panel.get("liuxie.暑", 0) - panel.get("liuxie.寒", 0) - c["yang_deficit_weight"] * yang_def + c["yin_deficit_weight"] * yin_def
     excess = sum(v for k, v in panel.items() if (k.split(".")[1] in ("qi", "blood", "yin", "yang", "stasis") and v > 0) or k.startswith("product."))
     deficit = sum(-v for k, v in panel.items() if k.split(".")[-1] in ("qi", "blood", "yin", "yang") and v < 0)
+    # 營衛 (PM-52): a weak 衛 or 營 and open pores count as deficiency, closed pores and a strong 營 as excess (表虛, 表實)
+    excess += sum(v for k, v in panel.items() if k.startswith("yingwei.") and v > 0)
+    deficit += sum(-v for k, v in panel.items() if k.startswith("yingwei.") and v < 0)
     return {
         "cold_heat": max(-1.0, min(1.0, heat / c["heat_divisor"])),
         "deficiency_excess": max(-1.0, min(1.0, (excess - deficit) / c["excess_divisor"])),

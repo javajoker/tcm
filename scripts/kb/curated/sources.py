@@ -66,6 +66,7 @@ SOURCES: list[dict] = [
     # ── pattern systems ───────────────────────────────────────────────────────────────────────────────────────
     src("shanghan", "傷寒論", ["pattern-systems", "formulas"], book="457", lib=("raw/shanghan",), use="The six channels; 經方 and their indications"),
     src("jingui", "金匱要略", ["pattern-systems", "formulas"], book="499", lib=("raw/jingui",), names=("金匱要略方論",), use="Miscellaneous diseases; 經方"),
+    src("zhujie-shanghan", "註解傷寒論", ["pattern-systems", "formulas"], book="461", use="成無己's commentary: the 營衛 readings of 太陽中風 and 傷寒 (營衛 in the model)"),
     src("wenre-lun", "溫熱論", ["pattern-systems"], book="544", use="Defence, qi, nutrient and blood (衛氣營血)"),
     src("wenre-jingwei", "溫熱經緯", ["pattern-systems", "formulas"], book="543", use="The warm-disease classics gathered"),
     src("wenbing-tiaobian", "溫病條辨", ["pattern-systems", "formulas"], book="526", use="The triple burner (三焦); formulas of warm disease"),

@@ -33,6 +33,7 @@ CITATIONS = [
     ("suwen-003-7", SW.format(3), "夏伤于暑，秋为痎疟"),
     ("suwen-003-8", SW.format(3), "秋伤于湿，上逆而咳，发为痿厥"),
     ("suwen-003-9", SW.format(3), "冬伤于寒，春必温病"),
+    ("suwen-003-10", SW.format(3), "阳者，卫外而为固也"),                          # 營衛 (PM-52): what 衛 is for
     ("suwen-004-1", SW.format(4), "故春善病鼽衄"),
     ("suwen-004-2", SW.format(4), "故春善病鼽衄，仲夏善病胸胁，长夏善病洞泄寒中，秋善病风疟，冬善病痹厥"),
     ("suwen-004-3", SW.format(4), "南方赤色，入通于心，开窍于耳，藏精于心"),
@@ -114,6 +115,9 @@ CITATIONS = [
     ("suwen-074-14", SW.format(74), "六者或收或散，或缓或急，或燥或润"),     # stops before 或軟或坚: the source's Simplified text has a stray Traditional 軟
     ("suwen-074-15", SW.format(74), "高者抑之，下者举之，有余折之，不足补之"),
     ("suwen-074-16", SW.format(74), "燥者濡之，急者缓之，散者收之，损者温之"),
+    # 營衛 in the model (PM-52; docs/post-mvp/design/ying-wei.md): where 營 and 衛 come from
+    ("suwen-043-1", SW.format(43), "荣者，水谷之精气也，和调于五脏，洒陈于六腑，乃能入于脉也"),
+    ("suwen-043-2", SW.format(43), "卫者，水谷之悍气也，其气慓疾滑利，不能入于脉也"),
     # ── 靈樞 ──────────────────────────────────────────────────────────────
     ("lingshu-004-1", LS.format(4), "见其色，知其病，命曰明"),
     ("lingshu-008-1", LS.format(8), "脾气虚则四肢不用"),
@@ -122,12 +126,19 @@ CITATIONS = [
     ("lingshu-017-1", LS.format(17), "脾气通于口"),
     ("lingshu-017-2", LS.format(17), "肾气通于耳"),
     ("lingshu-018-1", LS.format(18), "气至阳而起，至阴而止"),
+    ("lingshu-018-2", LS.format(18), "其清者为营，浊者为卫，营在脉中，卫在脉外"),         # 營衛 (PM-52)
+    ("lingshu-018-3", LS.format(18), "营出于中焦，卫出于下焦"),
+    ("lingshu-018-4", LS.format(18), "卫气行于阴二十五度，行于阳二十五度，分为昼夜"),
     ("lingshu-028-1", LS.format(28), "中气不足，溲便为之变"),
+    ("lingshu-030-1", LS.format(30), "上焦开发，宣五谷味，熏肤、充身、泽毛，若雾露之溉，是谓气"),   # 營衛 (PM-52)
     ("lingshu-046-1", LS.format(46), "同时得病，其病各异"),
+    ("lingshu-047-1", LS.format(47), "卫气者，所以温分肉，充皮肤，肥腠理，司开阖者也"),          # 營衛 (PM-52)
     ("lingshu-049-1", LS.format(49), "五色独决于明堂"),
     ("lingshu-064-1", LS.format(64), "木形之人"),
     ("lingshu-071-1", LS.format(71), "目不瞑"),
+    ("lingshu-071-2", LS.format(71), "营气者，泌其津液，注之于脉，化以为血"),                    # 營衛 (PM-52)
     ("lingshu-072-1", LS.format(72), "太阴之人"),
+    ("lingshu-080-1", LS.format(80), "卫气不得入于阴，常留于阳"),                              # 營衛 (PM-52): 衛 and sleep, an explanation only
     ("lingshu-053-1", LS.format(53), "胃厚、色黑、大骨及肥骨者，皆胜毒；故其瘦而薄胃者，皆不胜毒也"),   # 因人 (PM-40)
     # ── 難經 ──────────────────────────────────────────────────────────────
     ("nanjing-061-1", NJ.format(61), "望而知之谓之神"),
@@ -139,9 +150,14 @@ CITATIONS = [
     ("shanghan-003", SH.format(5), "脉阴阳俱紧者，名为伤寒"),
     ("shanghan-006", SH.format(5), "发热而渴，不恶寒者，为温病"),
     ("shanghan-007", SH.format(5), "发热恶寒者，发于阳也"),
+    ("shanghan-012", SH.format(5), "太阳中风，阳浮而阴弱。阳浮者，热自发；阴弱者，汗自出"),     # 營衛 (PM-52)
+    ("shanghan-012-2", SH.format(5), "服已须臾，啜热稀粥一升余，以助药力。温覆令一时许"),   # 桂枝湯 makes a sweat only with the porridge and the covering
     ("shanghan-016", SH.format(5), "观其脉证，知犯何逆，随证治之"),
     ("shanghan-035", SH.format(6), "无汗而喘者，麻黄汤主之"),
     ("shanghan-053", SH.format(6), "病常自汗出者"),
+    ("shanghan-053-2", SH.format(6), "此为营气和。营气和者，外不谐，以卫气不共营气和谐故尔。以营行脉中，卫行脉外，复发其汗，营卫和则愈，宜桂枝汤"),
+    ("shanghan-054", SH.format(6), "病人藏无他病，时发热，自汗出，而不愈者，此卫气不和也"),
+    ("shanghan-095", SH.format(6), "太阳病，发热汗出者，此为荣弱卫强，故使汗出"),
     ("shanghan-096", SH.format(6), "往来寒热，胸胁苦满"),
     ("shanghan-101", SH.format(6), "但见一证便是，不必悉具"),
     ("shanghan-180", SH.format(8), "阳明之为病，胃家实"),
@@ -168,6 +184,19 @@ CITATIONS = [
     ("danxi-xinfa-1", "book:570|丹溪心法|能合色脉可以万全", "有诸内者形诸外"),
     ("bencao-bianxue-18fan-1", "book:031|本草便讀|十八反歌訣", "藻戟遂芫俱战草。诸参辛芍叛藜芦"),
     ("binhu-maixue-sanbu", "book:506|瀕湖脈學|四言舉要", "心肝居左肺脾居右肾与命门居两尺部"),
+    # 營衛 in the model (PM-52): the commentaries that read 傷寒論 in 營衛 terms, and the warm-disease texts
+    ("zhujie-shanghan-012-1", "book:461|註解傷寒論|辨太陽病脈證並治法上第五", "阴脉弱者，荣气弱也。风并于卫，则卫实而荣虚"),
+    ("zhujie-shanghan-012-2", "book:461|註解傷寒論|辨太陽病脈證並治法上第五", "以自汗出，则皮肤缓，腠理疏"),
+    ("zhujie-shanghan-012-3", "book:461|註解傷寒論|辨太陽病脈證並治法上第五", "与桂枝汤和荣卫而散风邪也"),
+    ("zhujie-shanghan-038", "book:461|註解傷寒論|辨太陽病脈證並治法第六", "寒并于荣者，为荣强卫弱"),
+    ("zhujie-shanghan-053", "book:461|註解傷寒論|辨太陽病脈證並治法第六", "卫受风邪而荣不病者，为荣气和也。卫既客邪，则不能与荣气和谐，亦不能卫护皮腠，是以常自汗出"),
+    ("zhujie-shanghan-055", "book:461|註解傷寒論|辨太陽病脈證並治法第六", "伤寒脉浮紧，邪在表也，当与麻黄汤发汗"),
+    ("yizong-jinjian-taiyang-1", "book:575|醫宗金鑑|訂正仲景全書傷寒論註·辨太陽病脈證並治上篇", "卫为风客，则卫邪强而发热矣"),
+    ("yizong-jinjian-taiyang-2", "book:575|醫宗金鑑|訂正仲景全書傷寒論註·辨太陽病脈證並治上篇", "卫阳为风邪所干，不能敷布"),
+    ("yizong-jinjian-guizhi", "book:575|醫宗金鑑|訂正仲景全書傷寒論註·桂枝湯方", "桂枝辛温，辛能发散，温通卫阳。芍药酸寒，酸能收敛，寒走荣阴。桂枝君芍药，是于发汗中寓敛汗之旨；芍药、臣桂枝，是于和荣中有调卫之功。生姜之辛，佐桂枝以解表；大枣之甘，佐芍药以和中"),
+    ("wenre-lun-1", "book:544|溫熱論|溫病大綱", "肺主气属卫；心主血属营"),
+    ("wenre-lun-6", "book:544|溫熱論|衛、氣、營、血看法", "卫之后方言气，营之后方言血。在卫汗之可也"),
+    ("wenbing-tiaobian-shangjiao-3", "book:526|溫病條辨|上焦篇·風溫、溫熱、溫疫、溫毒、冬溫", "头痛，微恶风寒，身热自汗，口渴"),
     # the herb property model (PM-36)
     ("shennong-xulu-1", "book:000|神農本草經|序錄", "药有酸、咸、甘、苦、辛五味，又有寒、热、温、凉四气，及有毒无毒"),
     ("bencao-gangmu-shengjiang", "book:013|本草綱目|序例上·升降浮沉", "酸咸无升，甘辛无降，寒无浮，热无沉，其性然也"),

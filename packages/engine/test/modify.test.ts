@@ -32,16 +32,17 @@ test("parity with the oracle: greedy 加減 steps (op, herb, gain) and residual 
   assert.ok(compared >= 40, `compared ${compared} cases`);
 });
 
-test("SOP §12.5 worked example: 參苓白朮散 + 大棗 (0.33) + 炙甘草 (0.09) − 薏苡仁 (0.04); residual 5.04 → 1.31", () => {
+// PM-52: 大棗 also nourishes the 營 (「佐芍藥以和中」), so it gains more; the residual counts the 營衛 block.
+test("SOP §12.5 worked example: 參苓白朮散 + 大棗 (0.41) + 炙甘草 (0.09) − 薏苡仁 (0.04); residual 5.27 → 1.47", () => {
   const { n, panel } = prep(PARITY.cases.find((c) => c.id === "worked-example")!.findings);
   const top = fitFormulas(dev, panel.observed, n)[0]!;
   assert.equal(top.id, "F_SHENLING");
   const r = greedyModify(dev, dev.formulas.get(top.id)!, panel.observed, top.k, pool);
   assert.deepEqual(r.steps.map((s) => [s.op, dev.herbName(s.herb)!.name["zh-Hant"]]), [["add", "大棗"], ["add", "炙甘草"], ["remove", "薏苡仁"]]);
-  assert.deepEqual(r.steps.map((s) => Math.round(s.gain * 100) / 100), [0.33, 0.09, 0.04]);
-  assert.deepEqual([Math.round(r.costNone * 100) / 100, Math.round(r.costAfter * 100) / 100], [5.04, 1.31]);
+  assert.deepEqual(r.steps.map((s) => Math.round(s.gain * 100) / 100), [0.41, 0.09, 0.04]);
+  assert.deepEqual([Math.round(r.costNone * 100) / 100, Math.round(r.costAfter * 100) / 100], [5.27, 1.47]);
   assert.ok(r.costFormula < r.costNone && r.costAfter < r.costFormula);
-  assert.ok(r.steps[0]!.improves.includes("心.blood"), "大棗 nourishes the heart blood that the formula leaves uncorrected");
+  assert.ok(r.steps[0]!.improves.includes("心.blood") && r.steps[0]!.improves.includes("yingwei.營"), "大棗 nourishes the heart blood and the 營 that the formula leaves uncorrected");
   assert.ok(r.steps.every((s) => s.improves.length > 0 && s.improves.length <= 3));
 });
 

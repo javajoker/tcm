@@ -11,7 +11,7 @@ import { OffsetCompare } from "./figures/OffsetCompare.tsx";
 import { OrganHeat } from "./figures/OrganHeat.tsx";
 import { HourNote } from "./HourNote.tsx";
 import { SeasonLine } from "./SeasonLine.tsx";
-import { ELEMENT_SLUG, level5, LIUXIE_SLUG, ORGAN_SLUG, PRODUCT_SLUG, signed } from "./words.ts";
+import { ELEMENT_SLUG, level5, LIUXIE_SLUG, ORGAN_SLUG, PRODUCT_SLUG, signed, YINGWEI_SLUG } from "./words.ts";
 
 const th = { textAlign: "start", padding: "0.4rem 0.6rem", borderBottom: "2px solid var(--border-strong)" } as const;
 const td = { padding: "0.4rem 0.6rem", borderBottom: "1px solid var(--border)" } as const;
@@ -44,6 +44,18 @@ export function Panel({ saved }: { saved: SavedAssessment }): ReactNode {
   const strongestBar = [...bars].sort((a, b) => Math.abs(b.v) - Math.abs(a.v))[0];
   const barSummary = strongestBar !== undefined && level5(strongestBar.v) !== "normal" ? t.t("report.figure.bars.summary.some", { item: strongestBar.label, level: level(strongestBar.v) }) : t.t("report.figure.bars.summary.none");
 
+  // 營衛 (PM-52): 衛氣, 營氣 and the pores, in words; the pores read as open (sweating) or closed (no sweat) rather than low or high
+  const yingwei = (Object.keys(YINGWEI_SLUG) as (keyof typeof YINGWEI_SLUG)[]).map((k) => ({ key: k, label: t.t(`report.yingwei.${YINGWEI_SLUG[k]}` as MessageKey), v: p.observed[`yingwei.${k}`] ?? 0 }));
+  const yingweiLevel = (k: keyof typeof YINGWEI_SLUG, v: number): string => {
+    if (k !== "開闔") return level(v);
+    const l = level5(v);
+    return l === "normal" ? level(v) : t.t(`report.yingwei.kaihe.${l === "low" ? "open" : l === "somewhatLow" ? "somewhatOpen" : l === "somewhatHigh" ? "somewhatClosed" : "closed"}` as MessageKey);
+  };
+  const strongestYingwei = [...yingwei].sort((a, c) => Math.abs(c.v) - Math.abs(a.v))[0];
+  const yingweiSummary = strongestYingwei !== undefined && level5(strongestYingwei.v) !== "normal"
+    ? t.t("report.figure.yingwei.summary.some", { item: strongestYingwei.label, level: yingweiLevel(strongestYingwei.key, strongestYingwei.v) }) : t.t("report.figure.yingwei.summary.none");
+  const showYingwei = yingwei.some((r) => r.v !== 0);
+
   const b = p.bagang;
   const axis = (key: "coldHeat" | "deficiencyExcess", v: number): string => t.t(`report.axis.${key}.${level5(v, 1)}` as MessageKey);
   const exterior = b.exterior < 0.2 ? "none" : b.exterior < 0.5 ? "slight" : "clear";
@@ -66,6 +78,10 @@ export function Panel({ saved }: { saved: SavedAssessment }): ReactNode {
         table={<DataTable caption={t.t("report.panel.caption.wuxing")} head={itemHead} rows={ELEMENTS.map((e) => [element(e), level(p.offsetPopulation[e]), num(p.offsetPopulation[e])])} />} />
       <FigureBlock summary={barSummary} figure={<SignedBars title={t.t("report.figure.bars.title")} rows={bars.map((r) => ({ label: r.label, value: r.v }))} description={barSummary} />}
         table={<DataTable caption={t.t("report.panel.caption.liuxie")} head={itemHead} rows={bars.map((r) => [r.label, level(r.v), num(r.v)])} />} />
+      {showYingwei ? (
+        <FigureBlock summary={yingweiSummary} figure={<SignedBars title={t.t("report.figure.yingwei.title")} rows={yingwei.map((r) => ({ label: r.label, value: r.v }))} description={yingweiSummary} />}
+          table={<DataTable caption={t.t("report.panel.caption.yingwei")} head={itemHead} rows={yingwei.map((r) => [r.label, yingweiLevel(r.key, r.v), num(r.v)])} />} />
+      ) : null}
       <FigureBlock summary={axesSummary}
         figure={<BagangAxes title={t.t("report.figure.axes.title")} description={axesSummary} axes={[{ key: "coldHeat", value: b.coldHeat, min: -1, max: 1 }, { key: "deficiencyExcess", value: b.deficiencyExcess, min: -1, max: 1 }, { key: "exterior", value: b.exterior, min: 0, max: 1 }]} />}
         table={<DataTable caption={t.t("report.panel.caption.bagang")} head={itemHead} rows={[

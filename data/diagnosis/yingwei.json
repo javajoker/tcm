@@ -1,0 +1,603 @@
+{
+  "_meta": {
+    "description": "營衛 in the panel (PM-52; docs/post-mvp/design/ying-wei.md): the dimensions, the natures with the readings that set their values, the questions on which the classics disagree (applicability-weighted, with a confidence), where 營 and 衛 come from, the stages of a warm disease, and what is not modelled. Weights are [calibrate]; every value is recomputed by the build.",
+    "rule": "value = Σ w·v; confidence = 1 − Σ w·|v − value| / 2; the weights of one reading set sum to 1",
+    "schema": 1,
+    "status": "draft"
+  },
+  "coupling": {
+    "strength": 0.3,
+    "targets": {
+      "yingwei.營": {
+        "readings": [
+          {
+            "applicability": 0.6,
+            "citations": [
+              "lingshu-018-3",
+              "suwen-043-1"
+            ],
+            "dims": [
+              "脾.qi"
+            ],
+            "says": "營出於中焦 · 榮者，水穀之精氣也",
+            "why": "中焦, 脾: where 營 is made"
+          },
+          {
+            "applicability": 0.4,
+            "citations": [
+              "wenre-lun-1",
+              "lingshu-071-2"
+            ],
+            "dims": [
+              "心.blood"
+            ],
+            "says": "心主血屬營 · 營氣者…化以為血",
+            "why": "心 and its blood: what 營 belongs with"
+          }
+        ],
+        "sources": {
+          "心.blood": 0.4,
+          "脾.qi": 0.6
+        }
+      },
+      "yingwei.衛": {
+        "readings": [
+          {
+            "applicability": 0.5,
+            "citations": [
+              "lingshu-030-1",
+              "wenre-lun-1"
+            ],
+            "dims": [
+              "肺.qi"
+            ],
+            "says": "上焦開發…是謂氣 · 肺主氣屬衛",
+            "why": "上焦, 肺: the source the library can observe — 肺 signs go with a weak 衛 in its own 衛表不固 pattern"
+          },
+          {
+            "applicability": 0.3,
+            "citations": [
+              "lingshu-018-2",
+              "suwen-043-2"
+            ],
+            "dims": [
+              "脾.qi",
+              "脾.yang"
+            ],
+            "says": "濁者為衛 · 衛者，水穀之悍氣也",
+            "why": "中焦, 脾胃: what 衛 is made of"
+          },
+          {
+            "applicability": 0.2,
+            "citations": [
+              "lingshu-018-3"
+            ],
+            "dims": [
+              "腎.yang"
+            ],
+            "says": "營出於中焦，衛出於下焦",
+            "why": "下焦, 腎: the received text of the chapter itself, which sits uneasily with 決氣's 上焦; kept as the root (腎陽), at a low weight"
+          }
+        ],
+        "sources": {
+          "肺.qi": 0.5,
+          "脾.qi": 0.15,
+          "脾.yang": 0.15,
+          "腎.yang": 0.2
+        }
+      }
+    }
+  },
+  "dimensions": [
+    {
+      "basis": [
+        "suwen-003-10",
+        "lingshu-047-1",
+        "suwen-043-2"
+      ],
+      "en": "Defensive qi (wei)",
+      "id": "yingwei.衛",
+      "scale": "−3 衛弱（衛外不固）… +3 衛實",
+      "zh": "衛氣"
+    },
+    {
+      "basis": [
+        "lingshu-018-2",
+        "suwen-043-1",
+        "lingshu-071-2"
+      ],
+      "en": "Nutrient qi (ying)",
+      "id": "yingwei.營",
+      "scale": "−3 營弱（不能內守）… +3 營強（營鬱）",
+      "zh": "營氣"
+    },
+    {
+      "basis": [
+        "lingshu-047-1"
+      ],
+      "en": "Opening and closing of the pores",
+      "id": "yingwei.開闔",
+      "scale": "−3 開（腠理疏，汗出）… +3 闔（腠理閉，無汗）",
+      "zh": "腠理開闔"
+    }
+  ],
+  "natures": {
+    "營弱衛強": {
+      "dimensions": {
+        "營": {
+          "confidence": 1.0,
+          "readings": [
+            {
+              "applicability": 0.5,
+              "citations": [
+                "shanghan-012"
+              ],
+              "says": "陰弱者，汗自出",
+              "value": -1.0,
+              "why": "The 陰 that is weak is the 營"
+            },
+            {
+              "applicability": 0.5,
+              "citations": [
+                "zhujie-shanghan-012-1"
+              ],
+              "says": "陰脈弱者，荣氣弱也",
+              "value": -1.0,
+              "why": "成無己 names it"
+            }
+          ],
+          "value": -1.0
+        },
+        "衛": {
+          "confidence": 0.65,
+          "readings": [
+            {
+              "applicability": 0.2,
+              "citations": [
+                "shanghan-095"
+              ],
+              "says": "此為榮弱衛強，故使汗出",
+              "value": 1.0,
+              "why": "Literally the 衛 is strong: it describes 陽浮 and the fever (「陽浮者，熱自發」), the fight at the surface"
+            },
+            {
+              "applicability": 0.3,
+              "citations": [
+                "zhujie-shanghan-012-1",
+                "yizong-jinjian-taiyang-1"
+              ],
+              "says": "風并於衛，則衛實 · 衛為風客，則衛邪強",
+              "value": 0.0,
+              "why": "The strength is the evil's; the panel already holds that evil as 風 (liuxie.風), so the 衛's own state is neither strong nor weak"
+            },
+            {
+              "applicability": 0.5,
+              "citations": [
+                "yizong-jinjian-taiyang-2",
+                "yizong-jinjian-guizhi"
+              ],
+              "says": "衛陽為風邪所干，不能敷布 · 桂枝…溫通衛陽",
+              "value": -1.0,
+              "why": "The 衛陽 is hindered and cannot spread: what the treatment acts on, 「溫通衛陽」"
+            }
+          ],
+          "value": -0.3
+        },
+        "開闔": {
+          "confidence": 1.0,
+          "readings": [
+            {
+              "applicability": 0.5,
+              "citations": [
+                "shanghan-012"
+              ],
+              "says": "陰弱者，汗自出",
+              "value": -1.0,
+              "why": "Sweating: the pores are open"
+            },
+            {
+              "applicability": 0.5,
+              "citations": [
+                "zhujie-shanghan-012-2"
+              ],
+              "says": "以自汗出，則皮膚緩，腠理疏",
+              "value": -1.0,
+              "why": "The pores are loose"
+            }
+          ],
+          "value": -1.0
+        }
+      },
+      "location": "表",
+      "name": "營弱衛強",
+      "pattern": "EX2",
+      "projection_per_degree": {
+        "yingwei.營": -1.0,
+        "yingwei.衛": -0.3,
+        "yingwei.開闔": -1.0
+      },
+      "says": "太陽中風: the 營 is weak and cannot keep the sweat in; the wind sits in the 衛"
+    },
+    "衛弱": {
+      "dimensions": {
+        "衛": {
+          "confidence": 1.0,
+          "readings": [
+            {
+              "applicability": 0.5,
+              "citations": [
+                "suwen-003-10"
+              ],
+              "says": "陽者，衛外而為固也",
+              "value": -1.0,
+              "why": "What 衛 is for: securing the outside"
+            },
+            {
+              "applicability": 0.5,
+              "citations": [
+                "lingshu-047-1"
+              ],
+              "says": "衛氣者，所以溫分肉，充皮膚，肥腠理，司開闔者也",
+              "value": -1.0,
+              "why": "and filling the skin"
+            }
+          ],
+          "value": -1.0
+        },
+        "開闔": {
+          "confidence": 1.0,
+          "readings": [
+            {
+              "applicability": 1.0,
+              "citations": [
+                "lingshu-047-1"
+              ],
+              "says": "司開闔",
+              "value": -1.0,
+              "why": "A weak 衛 does not keep the pores closed"
+            }
+          ],
+          "value": -1.0
+        }
+      },
+      "location": "肺",
+      "name": "肺衛不固",
+      "pattern": "LG1",
+      "projection_per_degree": {
+        "yingwei.衛": -1.0,
+        "yingwei.開闔": -1.0
+      },
+      "says": "衛表不固: the 衛 is weak and cannot secure the surface"
+    },
+    "衛氣不和": {
+      "dimensions": {
+        "liuxie.風": {
+          "confidence": 0.76,
+          "readings": [
+            {
+              "applicability": 0.4,
+              "citations": [
+                "zhujie-shanghan-053"
+              ],
+              "says": "衛受風邪而荣不病者，為荣氣和也。衛既客邪",
+              "value": 1.0,
+              "why": "成無己: a wind lodged in the 衛 is what keeps it from the 營 — the reason 桂枝湯 「解散風邪、調和荣衛」"
+            },
+            {
+              "applicability": 0.6,
+              "citations": [
+                "shanghan-054"
+              ],
+              "says": "病人藏無他病，時發熱，自汗出，而不愈者，此衛氣不和也",
+              "value": 0.0,
+              "why": "The clause names no evil, and the pattern's own evidence counts a recent wind or cold against it"
+            }
+          ],
+          "value": 0.4
+        },
+        "營": {
+          "confidence": 1.0,
+          "readings": [
+            {
+              "applicability": 1.0,
+              "citations": [
+                "shanghan-053-2"
+              ],
+              "says": "此為營氣和",
+              "value": 0.0,
+              "why": "The 營 is in order"
+            }
+          ],
+          "value": 0.0
+        },
+        "衛": {
+          "confidence": 1.0,
+          "readings": [
+            {
+              "applicability": 0.5,
+              "citations": [
+                "shanghan-053-2",
+                "shanghan-054"
+              ],
+              "says": "以衛氣不共營氣和諧故爾 · 此衛氣不和也",
+              "value": -1.0,
+              "why": "The 衛 is out of step"
+            },
+            {
+              "applicability": 0.5,
+              "citations": [
+                "zhujie-shanghan-053"
+              ],
+              "says": "不能與荣氣和諧，亦不能衛護皮腠",
+              "value": -1.0,
+              "why": "and cannot guard the skin"
+            }
+          ],
+          "value": -1.0
+        },
+        "開闔": {
+          "confidence": 1.0,
+          "readings": [
+            {
+              "applicability": 0.5,
+              "citations": [
+                "shanghan-053-2",
+                "shanghan-054"
+              ],
+              "says": "病常自汗出 · 自汗出",
+              "value": -1.0,
+              "why": "Sweating"
+            },
+            {
+              "applicability": 0.5,
+              "citations": [
+                "zhujie-shanghan-053"
+              ],
+              "says": "是以常自汗出",
+              "value": -1.0,
+              "why": "because the skin is not guarded"
+            }
+          ],
+          "value": -1.0
+        }
+      },
+      "location": "表",
+      "name": "衛氣不和",
+      "pattern": "EX4",
+      "projection_per_degree": {
+        "liuxie.風": 0.4,
+        "yingwei.衛": -1.0,
+        "yingwei.開闔": -1.0
+      },
+      "says": "營衛不和 without another disease: the 營 is in order, the 衛 does not keep pace with it, and the person sweats"
+    },
+    "衛閉": {
+      "dimensions": {
+        "營": {
+          "confidence": 0.76,
+          "readings": [
+            {
+              "applicability": 0.4,
+              "citations": [
+                "zhujie-shanghan-038"
+              ],
+              "says": "寒并於荣者，為荣強衛弱",
+              "value": 1.0,
+              "why": "A commentator's scheme (風傷衛、寒傷營) that later commentators disputed"
+            },
+            {
+              "applicability": 0.6,
+              "citations": [
+                "shanghan-035"
+              ],
+              "says": "the clause names no 營衛",
+              "value": 0.0,
+              "why": "The classic itself: its pains are the cold's, which the panel holds as 寒"
+            }
+          ],
+          "value": 0.4
+        },
+        "衛": {
+          "confidence": 0.76,
+          "readings": [
+            {
+              "applicability": 0.4,
+              "citations": [
+                "zhujie-shanghan-038"
+              ],
+              "says": "寒并於荣者，為荣強衛弱",
+              "value": -1.0,
+              "why": "The same scheme: the 衛 is the weaker"
+            },
+            {
+              "applicability": 0.6,
+              "citations": [
+                "shanghan-035"
+              ],
+              "says": "the clause names no 營衛",
+              "value": 0.0,
+              "why": "The classic itself"
+            }
+          ],
+          "value": -0.4
+        },
+        "開闔": {
+          "confidence": 1.0,
+          "readings": [
+            {
+              "applicability": 0.6,
+              "citations": [
+                "shanghan-035"
+              ],
+              "says": "無汗而喘者，麻黃湯主之",
+              "value": 1.0,
+              "why": "No sweat: the pores are closed"
+            },
+            {
+              "applicability": 0.4,
+              "citations": [
+                "zhujie-shanghan-055"
+              ],
+              "says": "傷寒脈浮緊，邪在表也，當與麻黃湯發汗",
+              "value": 1.0,
+              "why": "The treatment opens them"
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      "location": "表",
+      "name": "衛閉",
+      "pattern": "EX1",
+      "projection_per_degree": {
+        "yingwei.營": 0.4,
+        "yingwei.衛": -0.4,
+        "yingwei.開闔": 1.0
+      },
+      "says": "太陽傷寒: cold closes the pores; whether it also harms the 營 is disputed"
+    }
+  },
+  "not_modelled": [
+    {
+      "citations": [
+        "lingshu-018-4",
+        "lingshu-080-1"
+      ],
+      "what": "衛氣's day and night course, and sleep",
+      "why": "It would need a pattern of its own (不寐 from a 衛 that cannot enter the 陰); no pattern enters the library outside admission (PM-21, PM-22). The reasoning text may cite it; the panel does not hold it"
+    },
+    {
+      "citations": [
+        "wenre-lun-6"
+      ],
+      "what": "營分、血分 heat and 清營",
+      "why": "A stage of a warm disease that the red-flag screening sends to a doctor (Q6), never a state the app treats"
+    },
+    {
+      "citations": [
+        "lingshu-071-2"
+      ],
+      "what": "營 from blood, the other way (血虛 → 營虛)",
+      "why": "「化以為血」 says that 營 makes blood; only the 心-blood link of 溫熱論 is used (Q2)"
+    }
+  ],
+  "questions": [
+    {
+      "en": "From which 焦 does 衛 come?",
+      "id": "Q1",
+      "question": "衛出何焦",
+      "result": "coupling yingwei.衛 (below)"
+    },
+    {
+      "en": "From what does 營 come?",
+      "id": "Q2",
+      "question": "營從何來",
+      "result": "coupling yingwei.營 (below)"
+    },
+    {
+      "en": "In 太陽中風, what is 「衛強」?",
+      "id": "Q3",
+      "question": "太陽中風之「衛強」",
+      "result": "natures.營弱衛強.衛"
+    },
+    {
+      "en": "Does cold harm the 營 in 太陽傷寒?",
+      "id": "Q4",
+      "question": "風傷衛、寒傷營",
+      "result": "natures.衛閉.營, natures.衛閉.衛"
+    },
+    {
+      "confidence": 0.5,
+      "dimension": "開闔",
+      "en": "Does the 衛 stage of a warm disease sweat?",
+      "id": "Q5",
+      "pattern": "EX3",
+      "question": "溫病衛分之汗",
+      "readings": [
+        {
+          "applicability": 0.5,
+          "citations": [
+            "wenre-lun-6"
+          ],
+          "says": "在衛汗之可也",
+          "value": 1.0,
+          "why": "It must be opened: the pores are not open enough"
+        },
+        {
+          "applicability": 0.5,
+          "citations": [
+            "wenbing-tiaobian-shangjiao-3"
+          ],
+          "says": "頭痛，微惡風寒，身熱自汗",
+          "value": -1.0,
+          "why": "It sweats"
+        }
+      ],
+      "result": "the readings cancel: no 營衛 nature for 風熱犯表 (EX3); the panel says nothing it cannot support",
+      "value": 0.0
+    },
+    {
+      "en": "Are 營 and 衛 qi of the body or stages of a warm disease?",
+      "id": "Q6",
+      "question": "營衛：氣，或層次",
+      "readings": [
+        {
+          "applicability": 1.0,
+          "citations": [
+            "lingshu-018-2"
+          ],
+          "says": "營在脈中，衛在脈外",
+          "value": 0.0,
+          "why": "The qi: what the panel holds"
+        },
+        {
+          "applicability": 1.0,
+          "citations": [
+            "wenre-lun-6"
+          ],
+          "says": "衛之後方言氣，營之後方言血",
+          "value": 0.0,
+          "why": "The stages: where a warm disease is"
+        }
+      ],
+      "result": "not a conflict once the uses are separated: the panel holds the qi; the stages name where a warm disease is (see STAGES)"
+    },
+    {
+      "en": "Is a wind lodged in the 衛 of 營衛不和 without another disease?",
+      "id": "Q7",
+      "question": "雜病營衛不和有無風邪",
+      "result": "natures.衛氣不和.liuxie.風"
+    }
+  ],
+  "stages": [
+    {
+      "app": "EX3 風熱犯表",
+      "citation": "wenre-lun-6",
+      "stage": "衛分"
+    },
+    {
+      "app": "not a library pattern: a high fever goes to the red-flag screening",
+      "red_flags": [
+        "RF_B_HIGH_FEVER"
+      ],
+      "stage": "氣分"
+    },
+    {
+      "app": "red flags: a doctor, never the app's treatment",
+      "red_flags": [
+        "RF_B_HIGH_FEVER",
+        "RF_A_CONSCIOUSNESS"
+      ],
+      "stage": "營分"
+    },
+    {
+      "app": "red flags: a doctor, never the app's treatment",
+      "red_flags": [
+        "RF_A_BLEEDING",
+        "RF_A_SEIZURE",
+        "RF_A_CONSCIOUSNESS"
+      ],
+      "stage": "血分"
+    }
+  ]
+}

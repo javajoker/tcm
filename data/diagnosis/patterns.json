@@ -19,7 +19,8 @@
       ],
       "elements": [
         "PE_表_風",
-        "PE_表_寒"
+        "PE_表_寒",
+        "PE_表_衛閉"
       ],
       "en_status": "machine-draft",
       "formulas": [
@@ -35,7 +36,10 @@
       "panel_projection_per_degree": {
         "bagang.exterior": 1.0,
         "liuxie.寒": 1.0,
-        "liuxie.風": 1.0
+        "liuxie.風": 1.0,
+        "yingwei.營": 0.4,
+        "yingwei.衛": -0.4,
+        "yingwei.開闔": 1.0
       },
       "principle": "辛溫解表、發汗",
       "principle_en": "Release the exterior with pungent-warm herbs; induce sweating",
@@ -83,7 +87,8 @@
         "shanghan-002"
       ],
       "elements": [
-        "PE_表_風"
+        "PE_表_風",
+        "PE_表_營弱衛強"
       ],
       "en_status": "machine-draft",
       "formulas": [
@@ -98,7 +103,10 @@
       },
       "panel_projection_per_degree": {
         "bagang.exterior": 1.0,
-        "liuxie.風": 1.0
+        "liuxie.風": 1.0,
+        "yingwei.營": -1.0,
+        "yingwei.衛": -0.3,
+        "yingwei.開闔": -1.0
       },
       "principle": "解肌發表、調和營衛",
       "principle_en": "Release the muscle layer and the exterior; harmonise the construction and defence",
@@ -219,7 +227,7 @@
         "shanghan-053"
       ],
       "elements": [
-        "PE_表_氣虛"
+        "PE_表_衛氣不和"
       ],
       "en_status": "machine-draft",
       "formulas": [
@@ -234,7 +242,9 @@
       },
       "panel_projection_per_degree": {
         "bagang.exterior": 1.0,
-        "肺.qi": -1.0
+        "liuxie.風": 0.4,
+        "yingwei.衛": -1.0,
+        "yingwei.開闔": -1.0
       },
       "principle": "調和營衛",
       "principle_en": "Harmonise the construction and defence",
@@ -292,6 +302,8 @@
         "zh-Hant": "脾氣虛"
       },
       "panel_projection_per_degree": {
+        "yingwei.營": -0.18,
+        "yingwei.衛": -0.045,
         "脾.qi": -1.0
       },
       "principle": "益氣健脾",
@@ -363,6 +375,7 @@
       },
       "panel_projection_per_degree": {
         "liuxie.寒": 1.5,
+        "yingwei.衛": -0.045,
         "脾.yang": -1.0
       },
       "principle": "溫中健脾",
@@ -428,6 +441,8 @@
         "zh-Hant": "中氣下陷"
       },
       "panel_projection_per_degree": {
+        "yingwei.營": -0.18,
+        "yingwei.衛": -0.045,
         "脾.qi": -1.0
       },
       "principle": "補中益氣、升陽舉陷",
@@ -959,6 +974,8 @@
         "zh-Hant": "心脾兩虛"
       },
       "panel_projection_per_degree": {
+        "yingwei.營": -0.3,
+        "yingwei.衛": -0.045,
         "心.blood": -1.0,
         "脾.qi": -1.0
       },
@@ -1145,7 +1162,8 @@
       },
       "citations": [],
       "elements": [
-        "PE_肺_氣虛"
+        "PE_肺_氣虛",
+        "PE_肺_衛弱"
       ],
       "en_status": "machine-draft",
       "formulas": [
@@ -1159,6 +1177,8 @@
         "zh-Hant": "肺氣虛（衛表不固）"
       },
       "panel_projection_per_degree": {
+        "yingwei.衛": -1.15,
+        "yingwei.開闔": -1.0,
         "肺.qi": -1.0
       },
       "principle": "益氣固表",
@@ -1358,6 +1378,7 @@
       },
       "panel_projection_per_degree": {
         "liuxie.寒": 1.5,
+        "yingwei.衛": -0.06,
         "腎.yang": -1.0
       },
       "principle": "溫補腎陽",
@@ -1424,6 +1445,8 @@
         "zh-Hant": "氣血兩虛"
       },
       "panel_projection_per_degree": {
+        "yingwei.營": -0.3,
+        "yingwei.衛": -0.045,
         "心.blood": -1.0,
         "脾.qi": -1.0
       },

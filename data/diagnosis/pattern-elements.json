@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "count": 24,
+    "count": 27,
     "description": "Decomposed pattern elements (證素 = location × nature) with symptom weights taken as the maximum over the patterns that contain them. Used when no library pattern fits (compose from the top elements) and for formula modification.",
     "schema": 1
   },
@@ -295,6 +295,42 @@
       ],
       "projection_per_degree": {
         "肺.qi": -1.0
+      },
+      "weights": {
+        "P_DEFICIENT": 2,
+        "S_AVERSION_WIND": 2,
+        "S_BREATH_ON_EXERTION": 2,
+        "S_COLD_EVERY_SEASON_CHANGE": 2,
+        "S_COUGH_WEAK": 1,
+        "S_EASY_COLD": 3,
+        "S_FATIGUE": 1,
+        "S_LOW_VOICE": 2,
+        "S_SHORT_BREATH": 3,
+        "S_SPEAKING_TIRES": 1,
+        "S_SPONTANEOUS_SWEAT": 3,
+        "T_BODY_PALE": 1,
+        "T_COAT_THIN_WHITE": 1
+      }
+    },
+    {
+      "against": {
+        "S_NIGHT_SWEAT": 1,
+        "S_PERIODIC_FEVER_SWEAT": 1,
+        "T_BODY_RED": 2
+      },
+      "id": "PE_肺_衛弱",
+      "location": "肺",
+      "name": {
+        "en": null,
+        "zh-Hant": "肺衛不固"
+      },
+      "nature": "衛弱",
+      "patterns": [
+        "LG1"
+      ],
+      "projection_per_degree": {
+        "yingwei.衛": -1.0,
+        "yingwei.開闔": -1.0
       },
       "weights": {
         "P_DEFICIENT": 2,
@@ -840,41 +876,6 @@
     },
     {
       "against": {
-        "S_BREATH_ON_EXERTION": 1,
-        "S_LOW_VOICE": 1,
-        "S_NASAL_NOISE_DRY_RETCH": 1,
-        "S_NIGHT_SWEAT": 1,
-        "S_NO_SWEAT": 2,
-        "S_THIRST_COLD_DRINK": 1,
-        "S_WIND_COLD_TRIGGER": 1
-      },
-      "id": "PE_表_氣虛",
-      "location": "表",
-      "name": {
-        "en": null,
-        "zh-Hant": "表氣虛"
-      },
-      "nature": "氣虛",
-      "patterns": [
-        "EX4"
-      ],
-      "projection_per_degree": {
-        "bagang.exterior": 1.0,
-        "肺.qi": -1.0
-      },
-      "weights": {
-        "P_FLOAT": 1,
-        "P_MODERATE": 1,
-        "S_AVERSION_WIND": 3,
-        "S_EASY_COLD": 2,
-        "S_FATIGUE": 1,
-        "S_PERIODIC_FEVER_SWEAT": 3,
-        "S_SPONTANEOUS_SWEAT": 3,
-        "T_COAT_THIN_WHITE": 1
-      }
-    },
-    {
-      "against": {
         "S_NO_THIRST": 2,
         "T_COAT_WHITE_GREASY": 1
       },
@@ -908,6 +909,118 @@
         "T_EDGE_RED": 2,
         "T_RED_DOTS_TIP": 2,
         "T_TIP_RED": 2
+      }
+    },
+    {
+      "against": {
+        "S_NO_SWEAT": 3,
+        "S_PERIODIC_FEVER_SWEAT": 1,
+        "S_THIRST_COLD_DRINK": 2
+      },
+      "id": "PE_表_營弱衛強",
+      "location": "表",
+      "name": {
+        "en": null,
+        "zh-Hant": "營弱衛強"
+      },
+      "nature": "營弱衛強",
+      "patterns": [
+        "EX2"
+      ],
+      "projection_per_degree": {
+        "bagang.exterior": 1.0,
+        "yingwei.營": -1.0,
+        "yingwei.衛": -0.3,
+        "yingwei.開闔": -1.0
+      },
+      "weights": {
+        "P_FLOAT": 2,
+        "P_MODERATE": 2,
+        "S_AVERSION_COLD": 1,
+        "S_AVERSION_WIND": 3,
+        "S_FEVER": 2,
+        "S_HEADACHE": 1,
+        "S_NASAL_CONGESTION": 1,
+        "S_NASAL_NOISE_DRY_RETCH": 2,
+        "S_NECK_STIFF": 1,
+        "S_SPONTANEOUS_SWEAT": 3,
+        "S_WIND_COLD_TRIGGER": 2,
+        "T_COAT_THIN_WHITE": 1
+      }
+    },
+    {
+      "against": {
+        "S_BREATH_ON_EXERTION": 1,
+        "S_LOW_VOICE": 1,
+        "S_NASAL_NOISE_DRY_RETCH": 1,
+        "S_NIGHT_SWEAT": 1,
+        "S_NO_SWEAT": 2,
+        "S_THIRST_COLD_DRINK": 1,
+        "S_WIND_COLD_TRIGGER": 1
+      },
+      "id": "PE_表_衛氣不和",
+      "location": "表",
+      "name": {
+        "en": null,
+        "zh-Hant": "衛氣不和"
+      },
+      "nature": "衛氣不和",
+      "patterns": [
+        "EX4"
+      ],
+      "projection_per_degree": {
+        "bagang.exterior": 1.0,
+        "liuxie.風": 0.4,
+        "yingwei.衛": -1.0,
+        "yingwei.開闔": -1.0
+      },
+      "weights": {
+        "P_FLOAT": 1,
+        "P_MODERATE": 1,
+        "S_AVERSION_WIND": 3,
+        "S_EASY_COLD": 2,
+        "S_FATIGUE": 1,
+        "S_PERIODIC_FEVER_SWEAT": 3,
+        "S_SPONTANEOUS_SWEAT": 3,
+        "T_COAT_THIN_WHITE": 1
+      }
+    },
+    {
+      "against": {
+        "S_SORE_THROAT": 1,
+        "S_SPONTANEOUS_SWEAT": 2,
+        "S_THIRST_COLD_DRINK": 2,
+        "T_BODY_RED": 1
+      },
+      "id": "PE_表_衛閉",
+      "location": "表",
+      "name": {
+        "en": null,
+        "zh-Hant": "衛閉"
+      },
+      "nature": "衛閉",
+      "patterns": [
+        "EX1"
+      ],
+      "projection_per_degree": {
+        "bagang.exterior": 1.0,
+        "yingwei.營": 0.4,
+        "yingwei.衛": -0.4,
+        "yingwei.開闔": 1.0
+      },
+      "weights": {
+        "P_FLOAT": 2,
+        "P_TIGHT": 2,
+        "S_AVERSION_COLD": 3,
+        "S_BODY_ACHE": 2,
+        "S_FEVER": 2,
+        "S_HEADACHE": 2,
+        "S_NASAL_CONGESTION": 1,
+        "S_NO_SWEAT": 3,
+        "S_NO_THIRST": 1,
+        "S_RUNNY_NOSE_CLEAR": 2,
+        "S_WIND_COLD_TRIGGER": 1,
+        "T_COAT_THIN_WHITE": 1
       }
     },
     {

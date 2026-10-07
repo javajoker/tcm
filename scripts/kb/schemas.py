@@ -93,7 +93,7 @@ DEFS = {
     "moduleId": enum("sleep", "fatigue", "digestion", "cold-heat-sweat", "head-body-pain", "mood-stress", "womens-cycle", "early-external"),
     "evil": enum("風", "寒", "暑", "濕", "燥", "火"),
     "element": enum("木", "火", "土", "金", "水"),
-    "panelDim": pattern(rf"^(({ORGANS})\.(qi|blood|yin|yang|stasis)|liuxie\.(風|寒|暑|濕|燥|火)|product\.(痰|飲|瘀|食積)|bagang\.exterior)$"),
+    "panelDim": pattern(rf"^(({ORGANS})\.(qi|blood|yin|yang|stasis)|liuxie\.(風|寒|暑|濕|燥|火)|product\.(痰|飲|瘀|食積)|yingwei\.(衛|營|開闔)|bagang\.exterior)$"),
     "panelMap": {"type": "object", "propertyNames": {"$ref": "#/$defs/panelDim"}, "additionalProperties": NUM},
     "reviewStatus": enum("derived", "curated-draft", "draft", "reviewed"),
     "enStatus": enum("machine-draft", "reviewed"),
@@ -174,7 +174,7 @@ def patterns() -> dict:
 def pattern_elements() -> dict:
     item = obj({
         "against": dictionary(NUM, ref("symptomId")), "id": ref("elementId"), "location": enum("全身", "心", "肝", "肺", "胃", "脾", "腎", "表"), "name": ref("bilingual"),
-        "nature": enum("寒", "氣滯", "氣虛", "濕", "火", "痰", "瘀", "血虛", "陰虛", "陽虛", "風"), "patterns": arr(ref("patternId"), 1),
+        "nature": enum("寒", "氣滯", "氣虛", "濕", "火", "痰", "瘀", "血虛", "陰虛", "陽虛", "風", "營弱衛強", "衛閉", "衛氣不和", "衛弱"), "patterns": arr(ref("patternId"), 1),
         "projection_per_degree": ref("panelMap"), "weights": dictionary(NUM, ref("symptomId"), 1),
     })
     return envelope(item, meta({"count": INT}, ["count"]))
@@ -216,8 +216,29 @@ def panel_schema() -> dict:
         "nature_projection": dictionary(dictionary(NUM)),
         "offsets": obj({"primary": STR, "secondary": STR}),
         "organs": obj({"element_of": dictionary(ref("element")), "fu": arr(STR, 5), "zang": arr(STR, 5)}),
-        "products": arr(STR, 4)},
-        "required": ["_meta", "channels", "derived", "exterior_locations", "liuxie", "location_organs", "nature_projection", "offsets", "organs", "products"], "additionalProperties": False}
+        "products": arr(STR, 4),
+        "yingwei": obj({"dimensions": arr(STR, 3), "scale": dictionary(STR), "coupling": obj({"strength": NUM, "sources": dictionary(dictionary(NUM))})})},
+        "required": ["_meta", "channels", "derived", "exterior_locations", "liuxie", "location_organs", "nature_projection", "offsets", "organs", "products", "yingwei"], "additionalProperties": False}
+
+
+def yingwei() -> dict:
+    """data/diagnosis/yingwei.json (PM-52): 營衛 in the panel — readings with applicability weights, the values and confidences computed from them."""
+    citations = arr(ref("citationId"), 1)
+    reading = obj({"citations": citations, "says": STR, "applicability": NUM, "value": NUM, "why": STR})
+    dim_values = obj({"readings": arr(reading, 1), "value": NUM, "confidence": NUM})
+    nature = obj({"name": STR, "pattern": STR, "location": STR, "says": STR, "dimensions": dictionary(dim_values, min_props=1),
+                  "projection_per_degree": dictionary(NUM)})
+    question = obj({"id": pattern(r"^Q[0-9]+$"), "question": STR, "en": STR, "result": STR, "readings": arr(reading, 1), "dimension": STR, "pattern": STR,
+                    "value": NUM, "confidence": NUM}, ["id", "question", "en", "result"])
+    source = obj({"citations": citations, "says": STR, "applicability": NUM, "dims": arr(STR, 1), "why": STR})
+    coupling = obj({"strength": NUM, "targets": dictionary(obj({"readings": arr(source, 1), "sources": dictionary(NUM)}))})
+    stage = obj({"stage": STR, "app": STR, "citation": ref("citationId"), "red_flags": arr(STR, 1)}, ["stage", "app"])
+    dimension = obj({"id": pattern(r"^yingwei\.(衛|營|開闔)$"), "zh": STR, "en": STR, "scale": STR, "basis": citations})
+    return {"type": "object", "properties": {
+        "_meta": meta({"rule": STR, "status": ref("reviewStatus")}, ["rule", "status"]),
+        "dimensions": arr(dimension, 3), "natures": dictionary(nature, min_props=1), "questions": arr(question, 1), "coupling": coupling,
+        "stages": arr(stage, 1), "not_modelled": arr(obj({"what": STR, "citations": citations, "why": STR}))},
+        "required": ["_meta", "coupling", "dimensions", "natures", "not_modelled", "questions", "stages"], "additionalProperties": False}
 
 
 def scoring_params() -> dict:
@@ -225,7 +246,7 @@ def scoring_params() -> dict:
     quality = obj({"by_source": obj({"inquiry": NUM, "measured": NUM, "guided": NUM, "pulse": NUM}), "by_prefix": dictionary(enum("inquiry", "measured", "guided", "pulse")),
                    "default_source": enum("inquiry", "measured", "guided", "pulse")})
     pattern_ = obj({"required_any_missing_factor": NUM, "bands": obj({"high": NUM, "medium": NUM, "weak": NUM})})
-    panel = obj({"noisy_or_floor": NUM, "degree_max": NUM, "dimension_weights": obj({"organ": NUM, "liuxie": NUM, "product": NUM, "bagang": NUM}),
+    panel = obj({"noisy_or_floor": NUM, "degree_max": NUM, "dimension_weights": obj({"organ": NUM, "liuxie": NUM, "product": NUM, "yingwei": NUM, "bagang": NUM}),
                  "wuxing_function": obj({"zang": NUM, "fu": NUM}),
                  "bagang": obj({"heat_divisor": NUM, "yang_deficit_weight": NUM, "yin_deficit_weight": NUM, "excess_divisor": NUM, "exterior_divisor": NUM,
                                 "yin_yang_axis_threshold": NUM})})
@@ -561,6 +582,7 @@ SCHEMAS = {
     "diagnosis/tongue.json": ("tongue", tongue, "Tongue zones and features"),
     "diagnosis/pulse.json": ("pulse", pulse, "Pulses and positions"),
     "diagnosis/panel-schema.json": ("panel-schema", panel_schema, "Panel schema"),
+    "diagnosis/yingwei.json": ("yingwei", yingwei, "營衛 in the panel"),
     "diagnosis/scoring-params.json": ("scoring-params", scoring_params, "Diagnosis engine parameters"),
     "wuxing/correspondences.json": ("correspondences", correspondences, "Five-phase correspondences"),
     "wuxing/ganzhi.json": ("ganzhi", ganzhi, "Stems, branches, solar terms"),
