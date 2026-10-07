@@ -1,6 +1,7 @@
 """Build the Simplified Chinese display dictionary and the zh-Hans UI catalogues (docs/post-mvp/design/simplified-chinese.md §5.1).
 
-    .venv/bin/python -m scripts.i18n.build_hans            # write scripts/i18n/zh-Hans.dictionary.json and apps/web/src/i18n/zh-Hans/*.json
+    .venv/bin/python -m scripts.i18n.build_hans            # write scripts/i18n/zh-Hans.dictionary.json, apps/web/src/i18n/zh-Hans/*.json and the assistant's wording rules
+                                                           # (packages/ai/src/generated/wording.json, scripts/i18n/ai_wording.py)
     .venv/bin/python -m scripts.i18n.build_hans --check    # exit 1 if the committed files differ from what the build produces (CI)
 
 Deterministic: no timestamps, sorted keys. Run it after any change to data/, to the zh-Hant catalogues or to hans-overrides.json.
@@ -11,7 +12,7 @@ import sys
 from collections import Counter
 from pathlib import Path
 
-from . import hans
+from . import ai_wording, hans
 
 
 def outputs() -> tuple[dict[Path, str], Counter]:
@@ -20,6 +21,7 @@ def outputs() -> tuple[dict[Path, str], Counter]:
     files: dict[Path, str] = {hans.DICTIONARY: hans.serialize_dictionary(entries, rules)}
     for name, text in hans.convert_catalogs(conv).items():
         files[hans.CATALOGS / "zh-Hans" / name] = text
+    files[ai_wording.OUTPUT] = ai_wording.build(conv)
     return files, Counter(rules.values())
 
 

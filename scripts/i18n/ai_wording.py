@@ -1,0 +1,111 @@
+"""The wording rules of the assistant's questions (Release F; docs/post-mvp/design/ai-assisted-intake.md §4, docs/i18n-guide.md §5.1).
+
+Written by `build_hans` (and checked by `build_hans --check`) to packages/ai/src/generated/wording.ts, which the gateway and the app read:
+
+  · rules    — the app's forbidden-wording rules a question must also keep (`assistant.reuse` of scripts/i18n-wording.json) and the assistant's own
+               (`assistant.rules`), in Traditional Chinese, in Simplified Chinese (converted by the display pipeline, like the test that keeps the two scripts equal)
+               and in English;
+  · names    — every pattern, pattern-element, constitution, formula and herb name of the knowledge base, in both Chinese scripts and in English where the
+               knowledge base has an English name: an assistant that names one of them in a question has said more than it may;
+  · excluded — the names the app's own questions and symptom labels use as ordinary words (they would fire on the app's own wording), each with where.
+
+Deterministic: sorted, no timestamps.
+"""
+from __future__ import annotations
+
+import json
+import re
+
+from . import hans
+
+OUTPUT = hans.ROOT / "packages" / "ai" / "src" / "generated" / "wording.ts"
+WORDING = hans.ROOT / "scripts" / "i18n-wording.json"
+SCHEMA = 1
+
+
+def _items(rel: str) -> list[dict]:
+    return json.loads((hans.DATA / rel).read_text(encoding="utf-8"))["items"]
+
+
+def _parts(name: str | None) -> list[str]:
+    """A name and the names inside its brackets: 風寒束表（太陽傷寒） → 風寒束表, 太陽傷寒; Mahuang Tang (Ephedra Decoction) → Mahuang Tang, Ephedra Decoction."""
+    if not name:
+        return []
+    return [p.strip() for p in re.split(r"[（）()]", name) if p.strip()]
+
+
+def kb_names() -> tuple[list[str], list[str]]:
+    """(Traditional names, English names) of the knowledge base, each once."""
+    zh: set[str] = set()
+    en: set[str] = set()
+    for rel in ("diagnosis/patterns.json", "diagnosis/pattern-elements.json", "diagnosis/constitutions.json", "formulas/formulas.json", "herbs/herbs.json"):
+        for item in _items(rel):
+            zh.update(_parts(item["name"].get("zh-Hant")))
+            en.update(_parts(item["name"].get("en")))
+    return sorted(zh), sorted(en)
+
+
+def clinical_wording() -> tuple[list[str], list[str]]:
+    """The app's own clinical wording in both languages: the symptom labels and the questions' prompts and options."""
+    zh: list[str] = []
+    en: list[str] = []
+    for s in _items("diagnosis/symptoms.json"):
+        zh.append(s["zh-Hant"])
+        en.append(s["en"])
+    for q in _items("diagnosis/questions.json"):
+        for text in [q["prompt"], *(o["label"] for o in q["options"])]:
+            zh.append(text["zh-Hant"])
+            en.append(text["en"])
+    return zh, en
+
+
+def _en_word(name: str) -> re.Pattern[str]:
+    return re.compile(r"\b" + re.escape(name) + r"\b", re.I)
+
+
+def data(conv: hans.Converter) -> dict:
+    wording = json.loads(WORDING.read_text(encoding="utf-8"))
+    assistant = wording["assistant"]
+    authored = [r for r in wording["rules"] if r["id"] in assistant["reuse"]] + assistant["rules"]
+    rules: list[dict[str, str]] = []
+    for r in authored:
+        rules.append({"id": r["id"], "lang": r["lang"], "pattern": r["pattern"]})
+        if r["lang"] == "zh-Hant":
+            rules.append({"id": r["id"], "lang": "zh-Hans", "pattern": conv.convert(r["pattern"]).text})
+    order = {"zh-Hant": 0, "zh-Hans": 1, "en": 2}
+    rules.sort(key=lambda r: (r["id"], order[r["lang"]]))
+
+    zh_names, en_names = kb_names()
+    zh_text, en_text = clinical_wording()
+    excluded: list[dict[str, str]] = []
+    keep_zh: list[str] = []
+    for n in zh_names:
+        where = next((t for t in zh_text if n in t), None)
+        if where is None:
+            keep_zh.append(n)
+        else:
+            excluded.append({"name": n, "in": where})
+    keep_en: list[str] = []
+    for n in en_names:
+        where = next((t for t in en_text if _en_word(n).search(t)), None)
+        if where is None:
+            keep_en.append(n)
+        else:
+            excluded.append({"name": n, "in": where})
+    hans_names = sorted({conv.convert(n).text for n in keep_zh} - set(keep_zh))
+    out = {
+        "_meta": {"schema": SCHEMA, "generated_by": "scripts/i18n/ai_wording.py (run by scripts/i18n/build_hans.py)", "converter": "OpenCC tw2sp",
+                  "reuse": assistant["reuse"], "names": len(keep_zh) + len(keep_en)},
+        "rules": rules,
+        "names": {"zh-Hant": keep_zh, "zh-Hans": hans_names, "en": sorted(keep_en, key=str.lower)},
+        "excluded": sorted(excluded, key=lambda e: e["name"]),
+    }
+    return out
+
+
+def build(conv: hans.Converter) -> str:
+    """The TypeScript module: the data as one typed constant (a module rather than JSON, so that Node, the bundler and a Worker read it alike)."""
+    return ("// Generated by scripts/i18n/ai_wording.py (run by `pnpm i18n:hans`) from scripts/i18n-wording.json and the knowledge base's names — do not edit.\n"
+            "import type { WordingData } from \"../protocol.ts\";\n\n"
+            "export const WORDING_DATA: WordingData = " + json.dumps(data(conv), ensure_ascii=False, indent=1) + ";\n")
+

@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 0.3 (draft) |
+| **Version** | 0.4 (draft) |
 | **Status** | Design for Release F (FR-40 … FR-42; tasks PM-44 … PM-50). **Approved by the owner on 2026-10-07** (PD-21, PD-25): the mock-provider parts are built first; a privacy redesign and a legal view still come before anything reaches the public |
 | **Last updated** | 2026-10-07 |
 | **Audience** | The owner, engineers, a privacy and a legal reviewer, the clinical content owner |
@@ -55,6 +55,8 @@ confirm ─► findings into the draft ─► the engine (unchanged) ─► resu
 | **Configuration** | A profile section `ai` (`enabled`, `modules: { conversation, tongue, face }`, `endpoint`) in `scope-profiles.json`; the gateway's `/v1/config` can switch a module off without a release. The release profile ships with `enabled: false` |
 | **Offline** | AI help needs the network; offline, the classic flow is the only flow and says so |
 | **Content-security policy** | `connect-src` gains the gateway's origin **only in builds with AI enabled**, justified in the tech spec |
+
+*Built (PM-45, 2026-10-08):* the protocol, the validator, the questions' wording lint and the mock provider are `@tcm/ai` ([`packages/ai`](../../../packages/ai)); the gateway is [`apps/ai-gateway`](../../../apps/ai-gateway/README.md) — the three routes, HMAC-signed session tokens, budgets per session, per minute and per day, a kill switch, the app's origins only, a body limit, a provider timeout and a log of counts and codes. Its contract tests run with `pnpm check`. The wording rules are in the [i18n guide §5.1](../../i18n-guide.md).
 
 ## 4. Safety
 
@@ -124,3 +126,4 @@ PM-44 (the owner's decisions and the privacy redesign), PM-45 (the gateway with 
 | 0.1 | 2026-10-07 | Initial design, from the owner's direction of 2026-10-07 |
 | 0.2 | 2026-10-07 | The owner's approval (PD-21, PD-25): the mock-provider parts first |
 | 0.3 | 2026-10-08 | §5: the privacy documents drafted (PM-44) — privacy v0.8 and the impact assessment's draft |
+| 0.4 | 2026-10-08 | §3: the gateway and `@tcm/ai` built with the mock provider (PM-45) |

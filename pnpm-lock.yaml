@@ -30,6 +30,12 @@ importers:
         specifier: ^8.46.0
         version: 8.71.0(eslint@9.39.5)(typescript@5.9.3)
 
+  apps/ai-gateway:
+    dependencies:
+      '@tcm/ai':
+        specifier: workspace:*
+        version: link:../../packages/ai
+
   apps/web:
     dependencies:
       '@tcm/engine':
@@ -99,6 +105,8 @@ importers:
       vitest-axe:
         specifier: ^0.1.0
         version: 0.1.0(vitest@5.0.3(@types/node@22.20.5)(jsdom@30.1.1)(vite@8.3.2(@types/node@22.20.5)))
+
+  packages/ai: {}
 
   packages/engine:
     dependencies:

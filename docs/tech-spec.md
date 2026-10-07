@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 0.8 (draft) |
+| **Version** | 0.9 (draft) |
 | **Status** | Draft — implementation not started (only `packages/wuxing`, `data/` and `scripts/kb` exist) |
 | **Last updated** | 2026-10-06 |
 | **Derives from** | [PRD v0.3](PRD.md) · [Diagnosis SOP v0.2](diagnosis-sop.zh-TW.md) · [Algorithm spec](wuxing-algorithm.md) |
@@ -64,7 +64,15 @@ apps/web  →  @tcm/engine  →  @tcm/kb (types only)  and  @tcm/wuxing
 apps/web  →  @tcm/kb (loader)   apps/web  →  @tcm/i18n
 @tcm/engine never imports react, the DOM, fetch, IndexedDB, Date.now(), Math.random(), or apps/*
 @tcm/wuxing imports nothing (zero dependencies)  ✔
+@tcm/ai imports nothing (protocol, validator, wording lint, mock provider; pure)            — Release F
+apps/ai-gateway  →  @tcm/ai only; its clock is injected; never the knowledge base, the engine or the app   — Release F
 ```
+
+**AI help (Release F, development until its gates — [design](post-mvp/design/ai-assisted-intake.md), [impact assessment](post-mvp/privacy/ai-help-dpia.md)).** The one exception to *browser only*:
+for a person who turns it on, the app sends the conversation, the app's own vocabulary and the confirmed ids to `apps/ai-gateway`, which holds the provider's key,
+counts each session's turns (an HMAC-signed session token, no account), passes the turn to the provider and returns only what `@tcm/ai`'s validator lets through —
+findings of the vocabulary with the person's own words as evidence, and a question that passes the wording lint. It stores nothing and logs counts and codes only.
+Its routes are `GET /v1/config`, `POST /v1/session` and `POST /v1/intake/turn`; its configuration and limits are in [`apps/ai-gateway/README.md`](../apps/ai-gateway/README.md).
 
 The engine takes **all** of its inputs as arguments (knowledge base, subject, findings, `now`, profile) and returns plain
 data. That makes it trivially testable, usable in a Web Worker later, and re-runnable on a saved assessment.
@@ -78,7 +86,9 @@ tcm-app/
 │  ├─ wuxing/        ✔        # yin-yang / five-phase engine (zero deps, 103 tests)
 │  ├─ kb/                     # KB types (generated from JSON Schema), loader, indices, versioning, pruning rules
 │  ├─ engine/                 # diagnosis pipeline: policy → … → explanation (pure, deterministic)
-│  └─ i18n/                   # tiny typed message formatter + catalog checker
+│  ├─ i18n/                   # tiny typed message formatter + catalog checker
+│  └─ ai/                     # Release F: the AI help protocol, the reply validator, the questions' wording lint, the mock provider
+├─ apps/ai-gateway/           # Release F: the gateway between the app and a model provider (Node or a Worker; mock provider first)
 ├─ data/             ✔        # generated knowledge base (JSON) + data/schema/*.schema.json (new)
 ├─ reference/        ✔        # source texts (git submodules)
 ├─ scripts/
@@ -676,3 +686,4 @@ Colour: one sequential hue per quantity family, never red/green as good/bad; sig
 | 0.6 | 2026-10-06 | §7, §8.2: the season model declared (PM-29): the stamp `+tuwang18`, the development-only `seasonModel` preference, replay on the model in the stamp; the summary file's optional `exportedFrom.seasonModel` and `seasons` |
 | 0.7 | 2026-10-06 | §8.3: the file sync (PM-32): `meta/sync`, `Persistence.syncFile` and `onAssessmentsChanged`; `apps/web/src/sync/` (the file layer, the session, the provider); the File System Access save picker needs no Permissions-Policy or CSP entry |
 | 0.8 | 2026-10-07 | §5.2: the learning book's file (PM-43) |
+| 0.9 | 2026-10-08 | §2: AI help (PM-45) — `@tcm/ai` and `apps/ai-gateway`, their layering rules, the gateway's routes |

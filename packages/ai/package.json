@@ -1,0 +1,18 @@
+{
+  "name": "@tcm/ai",
+  "version": "0.1.0",
+  "private": true,
+  "description": "AI help (Release F): the protocol between the app and its gateway, the validator every reply passes, the wording lint of the assistant's questions and a deterministic mock provider. Pure, zero dependencies.",
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./mock": "./src/mock.ts"
+  },
+  "sideEffects": false,
+  "scripts": {
+    "test": "node --test \"test/*.test.ts\"",
+    "typecheck": "tsc -p tsconfig.json"
+  }
+}

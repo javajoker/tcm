@@ -300,5 +300,79 @@
       ],
       "reason": "The diff view is titled \"Before and after\" for lay readers; the term 加減 is shown in the formula's own heading."
     }
-  ]
+  ],
+  "assistant": {
+    "_comment": "The assistant's questions (Release F; docs/post-mvp/design/ai-assisted-intake.md §4; i18n guide §5.1). A question passes when none of these fires: the rules of `reuse` above, the rules below, and every pattern, pattern-element, constitution, formula and herb name of the knowledge base. build_hans writes them, with the Simplified patterns converted and the names in both scripts, to packages/ai/src/generated/wording.json. `label`, `dose` and `judgement` are replaced or left out on purpose: a question may ask \"are you often tired?\", about the amount of sweat, or whether a complaint gets worse.",
+    "reuse": [
+      "diagnosis",
+      "prescription",
+      "cure",
+      "certainty",
+      "fate",
+      "natural",
+      "fear"
+    ],
+    "rules": [
+      {
+        "id": "label",
+        "lang": "en",
+        "pattern": "\\byou (are|have) (a |an |the )?([a-z-]+ )?(deficiency|excess|constitution|syndrome|pattern|disease|illness)\\b|\\byour (pattern|constitution|syndrome) (is|was)\\b",
+        "why": "The assistant names no pattern or constitution for the person"
+      },
+      {
+        "id": "label",
+        "lang": "zh-Hant",
+        "pattern": "(你|您)(是|屬於)[^，。？！]{0,8}(體質|證|型)|(你|您)(患有|得了)",
+        "why": "The assistant names no pattern or constitution for the person; 「你是不是常覺得累？」 is a question and passes"
+      },
+      {
+        "id": "dose",
+        "lang": "en",
+        "pattern": "\\b(dose|doses|dosage|dosing)\\b",
+        "why": "No dose: \"amount\" is allowed, a question may ask about the amount of sweat"
+      },
+      {
+        "id": "dose",
+        "lang": "zh-Hant",
+        "pattern": "劑量|用量|服用",
+        "why": "No dose; 量 alone (汗量、尿量) is allowed"
+      },
+      {
+        "id": "amount",
+        "lang": "en",
+        "pattern": "\\d+(\\.\\d+)?\\s*(g|mg|grams?|ml|millilit(er|re)s?|tablets?|capsules?|pills?)\\b",
+        "why": "No amount of anything to take"
+      },
+      {
+        "id": "amount",
+        "lang": "zh-Hant",
+        "pattern": "[0-9０-９一二三四五六七八九十半]+\\s*(克|公克|毫克|錢|毫升|帖|劑)",
+        "why": "No amount of anything to take; 「一兩天」「一片紅疹」 are ordinary words and pass"
+      },
+      {
+        "id": "medicine",
+        "lang": "en",
+        "pattern": "\\b(herbal|herbs?|decoctions?|formulas?)\\b",
+        "why": "The assistant recommends no herb or formula"
+      },
+      {
+        "id": "medicine",
+        "lang": "zh-Hant",
+        "pattern": "中藥|草藥|藥方|方劑|湯劑|藥材",
+        "why": "The assistant recommends no herb or formula"
+      },
+      {
+        "id": "pattern",
+        "lang": "en",
+        "pattern": "\\b(syndromes?|pattern differentiation|constitution type)\\b",
+        "why": "The assistant does not differentiate patterns"
+      },
+      {
+        "id": "pattern",
+        "lang": "zh-Hant",
+        "pattern": "證型|辨證|證候|體質類型",
+        "why": "The assistant does not differentiate patterns"
+      }
+    ]
+  }
 }

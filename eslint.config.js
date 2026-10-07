@@ -23,7 +23,7 @@ const purity = (extraImportPatterns) => ({
 });
 
 export default tseslint.config(
-  { ignores: ["**/node_modules/**", "**/dist/**", "**/dist-dev/**", "**/coverage/**", "apps/web/e2e/.results/**", "apps/web/e2e/.report/**", "apps/web/e2e/__screenshots__/**", "reference/**", "data/**", ".venv/**", "**/*.generated.ts", "packages/kb/src/generated/**", "packages/wuxing/src/astro/vsop87-earth.ts"] },
+  { ignores: ["**/node_modules/**", "**/dist/**", "**/dist-dev/**", "**/coverage/**", "apps/web/e2e/.results/**", "apps/web/e2e/.report/**", "apps/web/e2e/__screenshots__/**", "reference/**", "data/**", ".venv/**", "**/*.generated.ts", "packages/kb/src/generated/**", "packages/ai/src/generated/**", "packages/wuxing/src/astro/vsop87-earth.ts"] },
   ...tseslint.configs.recommended,
   {
     files: ["**/*.ts", "**/*.tsx"],
@@ -49,6 +49,20 @@ export default tseslint.config(
   {
     files: ["packages/i18n/src/**/*.ts"],
     rules: purity(["@tcm/*"]),
+  },
+  // @tcm/ai: the protocol, the validator, the wording lint and the mock — pure, no workspace imports (its wording data is generated into it).
+  {
+    files: ["packages/ai/src/**/*.ts"],
+    rules: purity(["@tcm/*"]),
+  },
+  // The AI gateway: only @tcm/ai; the clock is injected (`now`) except in its two entry points, and it never imports the knowledge base, the engine or the app.
+  {
+    files: ["apps/ai-gateway/src/**/*.ts"],
+    ignores: ["apps/ai-gateway/src/node.ts", "apps/ai-gateway/src/worker.ts"],
+    rules: {
+      "no-restricted-properties": ["error", { object: "Date", property: "now", message: "The gateway's clock is injected (`now`)." }, { object: "Math", property: "random", message: "Use crypto.getRandomValues." }],
+      "no-restricted-imports": ["error", { patterns: ["node:*", "@tcm/engine", "@tcm/engine/*", "@tcm/kb", "@tcm/kb/*", "@tcm/web", "**/apps/web/**", "react", "react/*"] }],
+    },
   },
   // @tcm/kb: loader may use fetch (injected) but never the DOM or the clock; types only from itself.
   {

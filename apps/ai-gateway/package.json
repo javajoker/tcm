@@ -1,0 +1,17 @@
+{
+  "name": "@tcm/ai-gateway",
+  "version": "0.1.0",
+  "private": true,
+  "description": "The AI help gateway (Release F; docs/post-mvp/design/ai-assisted-intake.md §3): a small stateless service between the app and a model provider — session tokens, budgets and rate limits, every reply validated, no content logged, a kill switch. Runs on Node or as a Worker; the mock provider needs no key.",
+  "type": "module",
+  "main": "./src/gateway.ts",
+  "scripts": {
+    "start": "node src/node.ts",
+    "dev": "node src/node.ts --dev",
+    "test": "node --test \"test/*.test.ts\"",
+    "typecheck": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@tcm/ai": "workspace:*"
+  }
+}

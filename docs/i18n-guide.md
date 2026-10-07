@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 0.1 (draft) |
+| **Version** | 0.2 (draft) |
 | **Status** | Draft — the lint (`scripts/check-i18n.ts`) and the catalogs are specified here, not yet implemented |
 | **Last updated** | 2026-10-04 |
 | **Audience** | Developers writing UI strings, translators, content reviewers |
@@ -154,6 +154,24 @@ Enforced for **all user-visible strings in both languages** (UI catalogs, KB dis
 
 Allowed in **developer-facing** strings and in this documentation. The lint has an `allow` annotation for the rare legitimate use (e.g. quoting a classical sentence or the legal disclaimer) that must be justified in review.
 
+### 5.1 The assistant's questions (AI help, Release F)
+
+The model behind AI help writes questions the person reads ([AI-assisted intake §4](post-mvp/design/ai-assisted-intake.md#4-safety)). They are not catalog strings, so they are checked
+at run time, on the gateway and again in the app, by `lintQuestion` of `@tcm/ai`; a question that fails is not shown. A question fails when:
+
+- one of the rules above fires that applies to a question — *diagnosis, prescription, cure, certainty, fate, natural, fear* (`assistant.reuse` in `scripts/i18n-wording.json`);
+- one of the assistant's own rules fires (`assistant.rules`): **label** (「你是陽虛體質」, "you have a … pattern"), **dose** (劑量、用量、服用; "dose"), **amount** (a number with
+  克、錢、毫升、帖、劑, g, mg, ml, tablets …), **medicine** (中藥、草藥、方劑 …; herbal, decoction, formula), **pattern** (證型、辨證; syndrome);
+- it names a **pattern, a pattern element, a constitution, a formula or a herb** of the knowledge base, in either Chinese script or in English.
+
+Three rules of the table are replaced on purpose, because a good question needs what they forbid in a statement: *judgement* is left out (「什麼情況下會痛得更厲害？」,
+"does it get worse after meals?"), the app's *label* rule is replaced by one that lets 「你是不是常覺得累？」 through, and *dose* no longer forbids "amount" or 量 alone
+(「汗量多嗎？」, "the amount of sweat").
+
+`build_hans` writes the rules — the Simplified ones converted by the display pipeline, as for the catalogues — and the names to `packages/ai/src/generated/wording.ts`
+(`scripts/i18n/ai_wording.py`); `build_hans --check` keeps it current. A name the app's own questions or symptom labels use as an ordinary word would be left out of the list
+with where it appears (none is today); a test checks that the app's own questions pass every rule.
+
 ---
 
 ## 6. Numbers, dates, formatting
@@ -229,6 +247,7 @@ UI strings, disclaimers and all notices exist in both languages with `reviewed` 
 | Version | Date | Change |
 |---|---|---|
 | 0.1 | 2026-10-04 | Initial guide |
+| 0.2 | 2026-10-08 | §5.1: the assistant's questions (AI help, PM-45) — the rules that apply, the assistant's own, the knowledge base's names, where they are generated |
 
 > **Implementation (K-12).** The glossary rows carry `source`, `alt` and `note`; `source` is the *best-known* basis — the 90 terms the author knows to be the WHO ISTM (2007) wording are `who-istm-2007`, the BaZi / five-periods-and-six-qi / season / calendar glosses are `project`, the rest `textbook` — and **all rows stay `needs-review`**: the bilingual linguistic reviewer verifies the WHO alignment against the standard itself (V-06), which is not in the repository. 22 terms the UI copy needed were added (證型, 氣血, 臟腑, 穴位, 舌象, 中醫師, 惡寒 / 畏寒 kept apart, 自汗, 盜汗 …). `validate_kb` checks the glossary: pinyin with tone marks, alternatives that differ from the main English, and agreement with the names the data files use for the same term (patterns, formulas, constitutions, symptoms) — which found and fixed "coat" → "coating" in the tongue symptoms. `check-i18n` enforces conformance in the catalogs; checking it found an English notice (N-MINOR) that omitted a sentence the Chinese had, now corrected in the safety policy. The glossary popover (`<Term>`) shows the note.
 

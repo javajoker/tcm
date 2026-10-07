@@ -15,3 +15,9 @@
 /SECURITY.md                       @javajoker
 /.github/                          @javajoker
 /scripts/check-release.ts          @javajoker
+
+# AI help (Release F): what leaves the device, and what may come back
+/packages/ai/                      @javajoker
+/apps/ai-gateway/                  @javajoker
+/docs/post-mvp/privacy/            @javajoker
+/scripts/i18n-wording.json         @javajoker

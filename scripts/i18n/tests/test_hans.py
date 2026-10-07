@@ -3,7 +3,7 @@ import json
 import re
 import unittest
 
-from scripts.i18n import build_hans, hans
+from scripts.i18n import ai_wording, build_hans, hans
 
 CONV = hans.Converter()
 PLACEHOLDER = re.compile(r"\{[A-Za-z0-9_]+\}|</?[a-z]+>")
@@ -102,7 +102,7 @@ class TheBuild(unittest.TestCase):
     def test_no_traditional_only_character_in_a_simplified_catalogue_message(self):
         bad = []
         for p, text in self.files.items():
-            if p == hans.DICTIONARY:
+            if p in (hans.DICTIONARY, ai_wording.OUTPUT):
                 continue
             for key, msg in json.loads(text).items():
                 for t in ([msg] if isinstance(msg, str) else msg.values()):

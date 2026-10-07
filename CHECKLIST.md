@@ -142,7 +142,7 @@ A release is ticked item by item as features ship; a feature ships when the gate
 **Release F — AI-assisted intake** (FR-40 … FR-42; nothing public before its gates)
 - [ ] The owner's decisions recorded (PD-21 data leaving the device for those who opt in, PD-25 photos); privacy redesign (inventory, statement, DPIA-style review, data-processing agreement with the provider) and legal view done — *the decisions were recorded on 2026-10-07; the redesign is drafted ([privacy v0.8](docs/privacy.md), [impact assessment](docs/post-mvp/privacy/ai-help-dpia.md)), the reviews, the agreement and the signatures are open*
 - [ ] Off by default in the public build; consent per module; nothing identifying sent (test); nothing stored by the app or the gateway, and the provider's zero-retention terms in place
-- [ ] Red-flag screening deterministic and first; a matching statement re-opens the notice; the model never names a pattern, a herb or an amount (schema and wording lint, in the gateway and the app)
+- [ ] Red-flag screening deterministic and first; a matching statement re-opens the notice; the model never names a pattern, a herb or an amount (schema and wording lint, in the gateway and the app) — *the gateway's side is built (PM-45): the validator and the wording lint*
 - [ ] The evaluation passes per language; a language below the line keeps AI help off
 - [ ] Observation of tongue and face only after the tongue-photo spike's gates; until then development profile only
 - [ ] The app works fully without the gateway, and offline says so
