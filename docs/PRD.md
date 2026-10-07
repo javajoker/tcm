@@ -3,7 +3,7 @@
 | | |
 |---|---|
 | **Working title** | TCM Self-Assessment App (name TBD) |
-| **Version** | 0.7 (draft) |
+| **Version** | 0.8 (draft) |
 | **Status** | Draft — documentation set complete (M0); open questions resolved with MVP defaults (§14.2), supporting-document proposals confirmed (§14.3); all to be revisited after the MVP — the post-MVP answers are in the [decision register](post-mvp/decisions.md) |
 | **Last updated** | 2026-10-07 |
 | **Related docs** | [Documentation index](README.md) · [Post-MVP set](post-mvp/README.md) · [Diagnosis SOP v0.2 (繁體中文)](diagnosis-sop.zh-TW.md) · [Algorithm spec](wuxing-algorithm.md) ([繁中](wuxing-algorithm.zh-TW.md)) · [Tech spec](tech-spec.md) · [UI/UX spec](ux-spec.md) · [KB schema](kb-schema.md) · [i18n guide](i18n-guide.md) · [Content review](content-review.md) · [Safety policy](safety-policy.md) · [Privacy](privacy.md) · [Test plan](test-plan.md) · [Release process](release-process.md) · [Tasks](../TASKS.md) · [Checklist](../CHECKLIST.md) · [Knowledge base (`data/`)](../data/README.md) · [Reference sources](../reference/README.md) |
@@ -38,6 +38,11 @@ An **educational self-assessment and decision-support tool**, not a diagnostic o
 suggests for the information you gave", always paired with safety guidance. How much it outputs, for whom, is **configurable** (§6 FR-17):
 the development profile opens everything, the release profile restricts.
 
+**The owner's decision of 2026-10-07:** the app serves **those who study Chinese medicine** and **practitioners** as a reference — the
+medication plan (用藥方案) and the reasons for its modifications (加減理由) — besides the general reader. A person declares the role with an
+attestation; a general reader keeps the education levels; the safety layer applies to every role (post-MVP FR-44,
+[prescription model §7.4](post-mvp/design/prescription-model.md)).
+
 ---
 
 ## 2. Goals and non-goals
@@ -65,7 +70,7 @@ the development profile opens everything, the release profile restricts.
 - No Simplified Chinese UI in MVP (data is converted from Simplified sources but only zh-Hant and en are offered).
 - No LLM-generated diagnosis. The diagnostic core is deterministic and explainable (§9, Q3).
 - No fate/fortune prediction. Birth data is used **only** as a bounded, optional tendency prior for the five-phase panel.
-- Dosing: the release profile never shows amounts; amounts and ratios are a development / practitioner feature (FR-10, FR-17).
+- Dosing: a general reader never sees amounts; amounts and ratios are shown in development and to declared learners and practitioners, for study and clinical reference (FR-10, FR-17, post-MVP FR-44).
 
 ---
 
@@ -73,10 +78,10 @@ the development profile opens everything, the release profile restricts.
 
 | Persona | Description | Needs |
 |---|---|---|
-| **Curious Health-Seeker** (primary) | Adult, 25–60, chronic "sub-health" complaints (sleep, fatigue, bloating, cold hands/feet …), curious about TCM | Simple questions, plain language, clear next steps, safety |
-| **TCM Learner** | Student or hobbyist studying 四診/辨證 | See *why* a pattern was chosen; the panel; citations; formula structure; compare differentials |
+| **TCM Learner** (primary, since 2026-10-07) | Student or hobbyist studying 四診/辨證 | See *why* a pattern was chosen; the panel; citations; formula structure; the medication plan and the reasons for its modifications, as study (learner role, FR-44); compare differentials |
+| **Practitioner** (primary for reference, since 2026-10-07) | Licensed TCM practitioner | Structured intake summary and panel; the medication plan with reference amounts and 加減 reasons, for the practitioner's judgement (practitioner role, FR-44) |
+| **Curious Health-Seeker** (general reader) | Adult, 25–60, chronic "sub-health" complaints (sleep, fatigue, bloating, cold hands/feet …), curious about TCM | Simple questions, plain language, clear next steps, safety; education-level output |
 | **English-speaking User** | Interested in TCM, cannot read classical Chinese | Accurate English terms (with Chinese + pinyin), translated citations |
-| **Practitioner (secondary)** | Licensed TCM practitioner | Structured intake summary and panel; formula modification suggestions (dev / L2–L3 profile) |
 
 ---
 
@@ -105,7 +110,7 @@ Planned in the [post-MVP document set](post-mvp/README.md): the [roadmap](post-m
 | **B** | Learn and follow up | Knowledge browser (FR-14) and pattern comparison · structured practitioner export · follow-up reminders and trends · local data lock |
 | **C** | Breadth | More complaint modules and patterns in reviewed waves (acute febrile stages stay red flags; 三焦 is considered as a location axis later) · herb browser · five-phase extensions |
 | **D** | Research | On-device tongue-photo assistance · camera pulse · file-based sync — each an evaluated spike first |
-| **E** | Knowledge and prescription | Knowledge base v2 (sources and theory) · herb property model · formula mechanism and verification · personalised prescription by 三因制宜 (amounts behind the output levels) · a learning book in Traditional Chinese |
+| **E** | Knowledge and prescription | Knowledge base v2 (sources and theory) · herb property model · formula mechanism and verification · personalised prescription by 三因制宜 · a learning book in Traditional Chinese · 營衛 in the panel · learners and practitioners see the medication plan |
 | **F** | AI-assisted intake | Conversation instead of option lists · AI observation of tongue and face · an opt-in gateway — an input aid the person confirms; the engine decides |
 
 Not planned: accounts or server-side sync (portability is by backup file), LLM-generated diagnosis (the Release F input aid proposes findings the person confirms; the diagnosis stays deterministic), e-commerce, automatic telemetry.
@@ -450,3 +455,4 @@ The project owner confirmed P1–P10 on 2026-10-04 (to be revisited after the MV
 | 0.5 | 2026-10-04 | Owner decisions recorded: P1–P10 of §14.3 confirmed; §14.2 questions resolved with the recommended MVP defaults (Q1 Taiwan-first; Q8 reviewers appointed before M3, MVP runs as dev builds); all to be revisited after the MVP |
 | 0.6 | 2026-10-05 | Post-MVP document set linked: §4.3 rewritten as releases A–D, §13 milestone statuses brought up to date (M1, M2) with the post-MVP row, FR-14 points to its refinement; the post-MVP answers to the §14.2 questions are in the decision register |
 | 0.7 | 2026-10-07 | §4.3 and §13: Releases E (knowledge and prescription) and F (AI-assisted intake) from the owner's direction of 2026-10-07; requirements FR-35 … FR-42 in the post-MVP set |
+| 0.8 | 2026-10-07 | §1.3, §2.2, §3, §4.3: the owner's decisions of 2026-10-07 (second) — learners and practitioners as primary users with the medication plan behind a declared role; 營衛 in the panel |

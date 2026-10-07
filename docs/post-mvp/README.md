@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 0.2 (draft) |
+| **Version** | 0.3 (draft) |
 | **Status** | Plan for Releases A–F: product documents (A-19), twelve design documents (A-20 … A-28; PM-34 for Releases E and F) and two spike protocols. Releases A and B are built, C and D in part, E and F are planned; the implementation tasks are section PM of `TASKS.md` |
 | **Last updated** | 2026-10-07 |
 | **Audience** | Maintainers, reviewers, whoever plans the next releases |
@@ -39,6 +39,7 @@ Design documents (one per feature area, tasks A-20 … A-28 and PM-34 in [`TASKS
 | [Knowledge base v2: sources, theory and the learning book](design/knowledge-base-v2.md) | E | PM-34 |
 | [Herb, formula and personalised prescription model](design/prescription-model.md) | E | PM-34 |
 | [AI-assisted intake: conversation and observation](design/ai-assisted-intake.md) | F | PM-34 |
+| [營衛 in the model](design/ying-wei.md) | E | PM-51 |
 
 Spike protocols and reports (Release D; [how a spike works](design/research-tracks.md#1-how-a-spike-works)):
 
@@ -86,3 +87,4 @@ A feature of class N can still contain a class-C part (a knowledge page that sho
 |---|---|---|
 | 0.1 | 2026-10-05 | Roadmap, requirements and decision register; nine design documents |
 | 0.2 | 2026-10-07 | Releases E and F from the owner's direction of 2026-10-07: three design documents, requirements FR-35 … FR-42, decisions PD-13 … PD-27, tasks PM-34 … PM-50 |
+| 0.3 | 2026-10-07 | The design of 營衛 in the model; the owner's decisions of 2026-10-07 (second) |

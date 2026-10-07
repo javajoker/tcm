@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 0.1 (draft) |
+| **Version** | 0.3 (draft) |
 | **Status** | Plan; nothing in it is built yet. Decisions are defaults and are recorded in the [decision register](decisions.md) |
 | **Last updated** | 2026-10-05 |
 | **Audience** | Maintainers, reviewers, whoever funds or schedules the work |
@@ -96,9 +96,11 @@ Each item starts as a time-boxed spike with a written evaluation protocol and st
 
 *The app diagnoses first, then makes the medicament for each person.* The corpus already holds the classics; the knowledge base starts to **use** them ([knowledge base v2](design/knowledge-base-v2.md)). Each herb gets coordinates in the tradition's own terms and an effect that depends on the dose; each formula's effect is computed from its herbs, its roles are measured, and the app says **why** it fits a diagnosis; the library's 33 formulas are verified against their own indications; and the formula is **personalised** by 三因制宜 — herbs and amounts — under the safety layer ([prescription model](design/prescription-model.md)). Local and deterministic. **Amounts stay behind the output levels** (L3 and a proposed practitioner profile) until a legal view says otherwise. A short book in Traditional Chinese explains the model to a culturally fluent reader.
 
+*Added by the owner's decisions of 2026-10-07 (second, [PD-28, PD-13, PD-14](decisions.md)):* the panel gains **營衛** from the classics, contradictory readings weighted by applicability ([營衛 in the model](design/ying-wei.md), FR-43); and the app serves **learners and practitioners** — declared with an attestation — with the full medication plan and the reasons for its modifications, while a general reader keeps today's levels ([prescription model §7.4](design/prescription-model.md), FR-44).
+
 ### 3.4b Release F — AI-assisted intake (from the owner's direction of 2026-10-07)
 
-Fewer options, more conversation; AI looks at the tongue and the face — **as an input aid**: the person confirms what the AI understood, and the deterministic engine decides ([AI-assisted intake](design/ai-assisted-intake.md)). A gateway in this repository holds the provider key; off by default in the public build, opt-in per person, nothing identifying sent, nothing stored. It changes the local-first promise for the people who use it, so it waits for the owner's decision, a privacy redesign and a legal view before reaching the public.
+Fewer options, more conversation; AI looks at the tongue and the face — **as an input aid**: the person confirms what the AI understood, and the deterministic engine decides ([AI-assisted intake](design/ai-assisted-intake.md)). A gateway in this repository holds the provider key; off by default in the public build, opt-in per person, nothing identifying sent, nothing stored. It changes the local-first promise for the people who use it, so it waits for the owner's decision, a privacy redesign and a legal view before reaching the public. *The owner approved the design on 2026-10-07 (PD-21, PD-25): its mock-provider parts are built first (PM-44 … PM-48); the real provider waits for the owner's key and deployment (PM-49), photos for the spike's gates (PM-50).*
 
 ### 3.5 Not planned
 
@@ -231,11 +233,11 @@ These cannot be decided or verified by engineering and are recorded as open unti
 | A Mainland-Mandarin bilingual reviewer | FR-21 |
 | The final product name and domain | Public release (UQ1) |
 | Clinical and pharmacy reviewers for each wave | FR-30, herb browser |
-| Approval before downloading anything new (datasets, models, archives, tools) | PM-28, Release D, Release E (§3 of knowledge base v2) |
-| A legal view on showing reference amounts to anyone but a practitioner, and on a practitioner profile | FR-38 |
-| The owner's decision on AI help: data leaving the device for those who opt in, the provider, the gateway's deployment and key | FR-40 … FR-42 |
+| Approval before downloading anything new (datasets, models, archives, tools) — *given by the owner 2026-10-07 for `VSOP87D.ear` and the eight works of knowledge base v2 §3 (PD-19)* | PM-28, Release D, Release E (§3 of knowledge base v2) |
+| A legal view on showing reference amounts to declared learners and practitioners, per market, before a public launch — *the owner decided the audience (PD-13, PD-14); the view remains advisable* | FR-38, FR-44 |
+| The gateway's deployment and the provider key — *the owner approved the design (PD-21)* | FR-40 … FR-42 |
 | A privacy redesign (DPIA-style) and a data-processing agreement with the model provider | FR-40 … FR-42 |
-| Clinical and pharmacy reviewers for the herb properties, pairings, processing, dose bands and 三因 rules | FR-35 … FR-38 |
+| Clinical and pharmacy reviewers for the herb properties, pairings, processing, dose bands and 三因 rules, and for the 營衛 readings and weights | FR-35 … FR-38, FR-43 |
 
 ## 10. Changelog
 
@@ -243,3 +245,4 @@ These cannot be decided or verified by engineering and are recorded as open unti
 |---|---|---|
 | 0.1 | 2026-10-05 | Initial post-MVP roadmap |
 | 0.2 | 2026-10-07 | Releases E (knowledge and prescription) and F (AI-assisted intake), from the owner's direction of 2026-10-07 |
+| 0.3 | 2026-10-07 | §3.4a, §3.4b, §9: the owner's decisions of 2026-10-07 (second) — 營衛 in the model, learners and practitioners, approvals, Release F's design approved |

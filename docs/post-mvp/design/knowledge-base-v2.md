@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 0.4 (draft) |
+| **Version** | 0.5 (draft) |
 | **Status** | Design for Release E (FR-35, FR-39; tasks PM-35, PM-42, PM-43). **Built: the sources registry and its coverage report (PM-35, §4.1)** |
 | **Last updated** | 2026-10-07 |
 | **Audience** | The clinical content owner, reviewers, engineers |
@@ -126,7 +126,7 @@ Learn → the book, from the hub, in every interface: [knowledge browser §7.3](
 
 | Question | Default |
 |---|---|
-| New downloads | None needed to start; the seven public-domain works of §3 are asked for one by one when a task needs them (PD-19) |
+| New downloads | None needed to start; the public-domain works of §3 are fetched when a task needs one — **approved by the owner on 2026-10-07** (PD-19), each from a source whose licence fits, its filename, source and size recorded in the registry |
 | Modern textbooks | Bibliography for facts a reviewer checks; never copied (PD-19) |
 | New content status | `derived` / `curated-draft` until reviewed; no new pattern |
 | Book language | Traditional Chinese only; in-app in every interface, with a note where the interface is not Traditional Chinese (PD-20) |
@@ -143,3 +143,4 @@ PM-35 (sources registry and coverage report), PM-36 … PM-40 (the tables above,
 | 0.2 | 2026-10-07 | §4.1: the sources registry as built (PM-35) and its first reading |
 | 0.3 | 2026-10-07 | §6.1: the learning book as built (PM-42) |
 | 0.4 | 2026-10-07 | §6.2: the book in the app (PM-43) |
+| 0.5 | 2026-10-07 | §7: the owner approved the downloads (PD-19) |

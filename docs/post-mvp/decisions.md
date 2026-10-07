@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 0.10 (draft) |
+| **Version** | 0.11 (draft) |
 | **Status** | Every item the MVP documents recorded as "to be revisited after the MVP" is answered here with the recommended default; new decisions that came out of the post-MVP design are PD-01 … PD-12 |
 | **Last updated** | 2026-10-07 |
 | **Audience** | Project owner, maintainers, reviewers |
@@ -150,6 +150,23 @@ An *unchanged* decision means the MVP answer still holds and the reason is state
 
 These revisit three earlier answers: **Q3** (LLM involvement) keeps its substance — no model decides a diagnosis — but an input aid is now planned; **Q4** (tongue photo) is joined by a general-purpose vision model under the same gates; **Q5** and standing constraint 2 (local-first) gain an exception for the people who opt in to AI help (PD-21, ⚑).
 
+The ⚑ items PD-13, PD-14, PD-21 and PD-25 were decided by the owner on 2026-10-07 (§2.9).
+
+### 2.9 The owner's decisions of 2026-10-07 (second)
+
+**Decided by the owner, 2026-10-07:** *approve everything that needs approval (VSOP87D.ear, for example); the app may serve those who study Chinese medicine and practitioners as a reference, giving the medication plan and the reasons for its modifications; supplement what concerns 營衛 from the classics into the model, self-consistent and complete, weighting contradictory classics by applicability; agreed with the design of AI help — first its mock-provider parts.*
+
+| ID | Question | Decision | Design | Revisit when |
+|---|---|---|---|---|
+| PD-13 ✓ | Reference amounts | Shown to those who **declare themselves learners or practitioners**, with an attestation; a general reader keeps today's levels | [Prescription model §7.4](design/prescription-model.md) | A legal view per market before a public launch (advisable, kept as a risk) |
+| PD-14 ✓ | A practitioner profile | Not a third build: a **role** in the release build (general, learner, practitioner), declared with an attestation; no licence check — the app has no accounts | [Prescription model §7.4](design/prescription-model.md) | An institution wants verified practitioners |
+| PD-19 ✓ | New sources | The owner approves the downloads the plan names: `VSOP87D.ear` (PM-28) and the eight public-domain works of knowledge base v2 §3 when a task needs one — each from a source whose licence fits, with its filename, source and size recorded in the registry | [Knowledge base v2 §3](design/knowledge-base-v2.md) | — |
+| PD-21 ✓ | AI help and the local-first promise | **Approved as designed**: off by default in public builds; opt-in per person and per module with consent; adults; nothing identifying sent; nothing stored. The privacy redesign and a legal view still come before any public use | [AI-assisted intake §2, §5](design/ai-assisted-intake.md) | — |
+| PD-25 ✓ | Photos of tongue and face | As designed: development profile only until the tongue-photo spike's gates | [AI-assisted intake §6](design/ai-assisted-intake.md) | The gates are met |
+| PD-12 (extended) | All-JavaScript budget | Raises stay declared per feature; the owner approved those the next features need — the release build's prescription chunk (PM-53). Release F adds nothing to a release build until it ships publicly | [Roadmap §2](roadmap.md) | — |
+| PD-28 | 營衛 in the model | Three dimensions (衛, 營, 開闔), four natures, the sources of 營 and 衛 as a coupling, the 八綱 虛實 axis counting them; where readings disagree, the applicability-weighted mean with a confidence; no pattern added | [營衛 in the model](design/ying-wei.md) | The clinical reviewer moves a weight |
+| PD-29 | Order | Plan (PM-51) → 營衛 (PM-52) → the VSOP87 tables (PM-28) → Release F's mock-provider parts (PM-44 … PM-48) → learners and practitioners in the app (PM-53). PM-49 (the real provider) waits for the owner's key and deployment; PM-50 (photos) for the spike's gates | [Roadmap §4](roadmap.md) | — |
+
 ## 3. Changelog
 
 | Version | Date | Change |
@@ -164,3 +181,4 @@ These revisit three earlier answers: **Q3** (LLM involvement) keeps its substanc
 | 0.8 | 2026-10-06 | Q4: the tongue-photo spike's protocol fixed and its desk research on datasets done (PM-30); stopped at step 1 |
 | 0.9 | 2026-10-07 | §2.8: decisions PD-13 … PD-27 for Releases E and F (tasks PM-34 … PM-50), from the owner's direction of 2026-10-07; Q3, Q4, Q5 revisited |
 | 0.10 | 2026-10-07 | PD-16 corrected to the limits built and stated by the SOP: two herbs added in all (the text said three added and two removed) |
+| 0.11 | 2026-10-07 | §2.9: the owner's decisions of 2026-10-07 (second) — PD-13, PD-14, PD-19, PD-21, PD-25 decided; PD-12 extended; PD-28 (營衛 in the model) and PD-29 (order) |

@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 0.1 (draft) |
+| **Version** | 0.3 (draft) |
 | **Status** | Proposed requirements for Releases A–F; they enter the [PRD](../PRD.md) FR list as each feature ships (fold-in, [README §2](README.md#2-standing-constraints)) |
 | **Last updated** | 2026-10-05 |
 | **Audience** | Product, engineering, reviewers |
@@ -174,6 +174,14 @@ For the person's diagnosis, profile, constitution, season and region the app mak
 
 A short book in **Traditional Chinese only**, for a reader with a strong grounding in Chinese culture, explaining the app's model chapter by chapter (陰陽 as an axis, 五行, the panel, 病因, 四診 as measurement, 辨證 as inference, priors, the herb's coordinates, the formula as a division of labour, 三因制宜, safety). Acceptance: about a dozen chapters, quotations taken from the verified set, no doses and no prescriptive wording; in `docs/book/zh-Hant/` and in the app's Learn section.
 
+### FR-43 營衛 in the model — Release E · Class C · refines FR-19, FR-37
+
+The panel holds 營衛 from the classics — 衛氣, 營氣 and the opening and closing of the pores that 衛 governs; the library's 營衛 patterns project onto them, the organs that make 營 and 衛 weaken them a little, the formula herbs act on them as the commentaries state, and the 八綱 deficiency–excess axis counts them. Where the classics disagree, every reading carries an applicability weight; the value is their weighted mean and a confidence says how far they agree. Acceptance: every value traces to verified quotations; the build recomputes the weighted values and checks the weights; the pattern scores and the inquiry are unchanged; the formula verification is regenerated and nothing is tuned to pass; no pattern is added.
+
+### FR-44 Learners and practitioners — Release E · Class R · refines FR-10, FR-17, PRD §3
+
+The release build serves three roles: **general** (today's levels), **learner** and **practitioner**, the last two declared with an attestation. For an adult without a blocking condition, learners and practitioners see the full medication plan — the composition with its roles and proportions, reference amounts within the Pharmacopoeia range, the classical 加減, and the personalised plan with its quantities and the reason for every change — as study and clinical reference; the safety layer applies to every role unchanged. Acceptance: the general role can never reach L2 or amounts (`check-release`); the attestation's wording is the safety policy's; budgets within the declared raise; three languages; end-to-end tests.
+
 ## 4b. Release F — AI-assisted intake (the owner's direction of 2026-10-07)
 
 *Fewer options to pick, more conversation, and AI looking at the tongue and the face* — as an input aid; the engine still decides. Changes the local-first promise for the people who turn it on (decision PD-21).
@@ -224,6 +232,8 @@ Accounts and server-side sync · e-commerce, herb sales, practitioner marketplac
 | FR-32 … FR-34 | D | R | [Research tracks](design/research-tracks.md) | PM-30 … PM-32 |
 | FR-35, FR-39 | E | C, L | [Knowledge base v2](design/knowledge-base-v2.md) | PM-35, PM-42, PM-43 |
 | FR-36 … FR-38 | E | C (R for amounts) | [Prescription model](design/prescription-model.md) | PM-36 … PM-41 |
+| FR-43 | E | C | [營衛 in the model](design/ying-wei.md) | PM-52 |
+| FR-44 | E | R | [Prescription model §7.4](design/prescription-model.md) | PM-53 |
 | FR-40 … FR-42 | F | R | [AI-assisted intake](design/ai-assisted-intake.md) | PM-44 … PM-50 |
 
 ## 8. Changelog
@@ -232,3 +242,4 @@ Accounts and server-side sync · e-commerce, herb sales, practitioner marketplac
 |---|---|---|
 | 0.1 | 2026-10-05 | Initial post-MVP requirements (FR-21 … FR-34) |
 | 0.2 | 2026-10-07 | Releases E (FR-35 … FR-39: knowledge base v2, herb and formula model, personalised prescription, the learning book) and F (FR-40 … FR-42: AI-assisted intake), from the owner's direction of 2026-10-07 |
+| 0.3 | 2026-10-07 | FR-43 (營衛 in the model) and FR-44 (learners and practitioners), from the owner's decisions of 2026-10-07 (second) |

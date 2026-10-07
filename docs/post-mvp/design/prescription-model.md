@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 0.8 (draft) |
+| **Version** | 0.9 (draft) |
 | **Status** | Design for Release E (FR-36 … FR-38; tasks PM-36 … PM-41). **Built: the herb property model (PM-36, §3.6); dose–response, pairings and processing (PM-37, §3.7); the formula's effect, roles and 方解 (PM-38, §4.4); the verification of the library and its first report (PM-39, §5.1); the personalised prescription (PM-40, §6.6); in the app, gated (PM-41, §7.3)** |
 | **Last updated** | 2026-10-07 |
 | **Audience** | Engineers, the clinical content owner, the pharmacy reviewer, a legal adviser (for §7) |
@@ -263,13 +263,13 @@ The output levels of the safety policy decide, as today:
 | L1 | tier A, by name | — | — | — |
 | L2 | tier A and B | ✓ | roles ✓ | — |
 | L3 (development) | all, tier C as study | ✓ | ✓ | ✓ |
-| **Practitioner** (proposed profile, §7.1) | all | ✓ | ✓ | ✓, as "for the practitioner's judgement" |
+| **Learner, practitioner** (roles, §7.4) | all, tier C as study | ✓ | ✓ | ✓, as "for study and a practitioner's judgement" |
 
-**Recommended default (PD-13): amounts are computed for everyone and shown only at L3 and in a practitioner profile.** The public release shows the personalised formula — which herbs, which changed and why — but no grams, and every prescription says that a licensed practitioner decides after seeing the person. The owner asked for "medicament for different users"; this gives every user their own composition and reasons, and keeps the grams with a professional, which is the line most jurisdictions draw (prescribing herbal medicine is a regulated act in Taiwan, Hong Kong and the Mainland). **A legal view decides whether amounts may ever reach a layperson**; until then the switch exists only in the profile configuration.
+**Recommended default (PD-13): amounts are computed for everyone and shown only at L3 and in a practitioner profile.** *Decided by the owner, 2026-10-07: shown to those who declare themselves learners or practitioners (§7.4); a general reader keeps the levels below.* The public release shows the personalised formula — which herbs, which changed and why — but no grams, and every prescription says that a licensed practitioner decides after seeing the person. The owner asked for "medicament for different users"; this gives every user their own composition and reasons, and keeps the grams with a professional, which is the line most jurisdictions draw (prescribing herbal medicine is a regulated act in Taiwan, Hong Kong and the Mainland). **A legal view decides whether amounts may ever reach a layperson**; until then the switch exists only in the profile configuration.
 
 ### 7.1 A practitioner profile (proposed)
 
-A third profile beside `dev` and `release`: everything of L3 except the developer tools, for licensed practitioners using the app with their patients. Whether and how a practitioner is recognised (an attestation, a separate build, an institution's deployment) is a decision for the owner (PD-14).
+A third profile beside `dev` and `release`: everything of L3 except the developer tools, for licensed practitioners using the app with their patients. Whether and how a practitioner is recognised (an attestation, a separate build, an institution's deployment) is a decision for the owner (PD-14). *Decided by the owner, 2026-10-07: not a third build but a role in the release build, declared with an attestation (§7.4).*
 
 ### 7.2 The practitioner summary and its file
 
@@ -283,6 +283,23 @@ The personalised prescription goes into the practitioner summary (a new section)
 - **A backup** carries the prescription with its result; the importer rebuilds it field by field, refuses one whose versions are not its record's, and a release build refuses a record that holds one.
 - **Words.** The card avoids 處方, prescription, 劑量 and dose: it speaks of 加減 (modifications) and 份量 (quantities in grams), and of a practitioner's judgement — the forbidden-wording lint applies to it unchanged. The `rx` messages exist in Traditional Chinese, English and the generated Simplified Chinese.
 - **Tests.** 14 web tests (made at save, absent without herb records, the card in English and Traditional Chinese, absent elsewhere, every text in three languages, a withheld prescription, the summary section and file, the backup round trip and refusals), the schema tests for version 2, `check-release` rule 2's seeded cases, and E36 in a real browser (development: the card and the summary section; release, in three languages: none of it).
+
+### 7.4 Learners and practitioners (the owner's decision of 2026-10-07; PM-53)
+
+**Decided by the owner, 2026-10-07 (PD-13, PD-14):** *the app may serve those who study Chinese medicine and practitioners as a reference — giving the medication plan and the reasons for its modifications.* The design that follows is the default for it; PM-53 builds it.
+
+| | Design |
+|---|---|
+| **Roles** | Three: *general* (the default — today's levels), *learner* (學習中醫者) and *practitioner* (醫師). Offered once on the landing page and kept in Settings; a local preference like the language, carried in a backup. The app has no accounts and cannot check a licence, so the role is a **declaration with an attestation**, never a verification |
+| **Attestation** | One time, for the learner and practitioner roles, worded by the safety policy (§ roles): the plans and quantities are for study and clinical reference; before they are used for anyone, a licensed practitioner examines the person and decides; they are not for taking or giving medicine on one's own. Withdrawn by choosing *general* again |
+| **Levels** | For an adult without a blocking condition: learner and practitioner reach **L3** — the composition with its roles and proportions, reference amounts within the Pharmacopoeia range, the classical 加減, and the personalised plan with its quantities and the reason for every change (§6); tier C formulas as study. The population and condition rules of the scope profile apply to **every role unchanged** (minors, pregnancy, breastfeeding, red flags, serious chronic disease: the blocking notice and their level) — the safety layer does not depend on who reads |
+| **Words** | The card becomes **用藥方案（供學習與臨床參考）** for these roles; it keeps saying that a licensed practitioner decides after examining the person; the forbidden-wording lint applies unchanged |
+| **Release build** | Carries the herb records and the prescription tables as an **on-demand file**, fetched only when a learner or practitioner opens a result (a general session fetches what it fetches today), and the prescription's code as a lazy chunk. `check-release`: the general role can never reach L2 or amounts (a seeded test); doses only in that file; the `rx` texts only in the lazy chunk |
+| **Budget** | A declared raise under PD-12 for the release build's prescription chunk (about 15 KB of JavaScript), measured and recorded by PM-53 |
+| **Review** | A public build shows L2/L3 content only once the clinical and pharmacy reviews of content review §7 (the L2 and L3 rows) exist; the closed beta shows it with the draft label |
+| **Not changed** | No diagnosis or cure claims, no sales, no telemedicine; the deterministic engine and the safety layer; the practitioner summary carries the plan for these roles as it does in development |
+
+*Risk kept on record:* showing quantities to people who declare themselves learners is the owner's decision; a legal view per market remains advisable before a public launch (roadmap §7).
 
 ## 8. Tests
 
@@ -331,3 +348,4 @@ PM-36 (herb property model v2), PM-37 (dose–response, pairings, processing in 
 | 0.6 | 2026-10-07 | §6.6: the personalised prescription as built (PM-40); the 三因 rules in `data/treatment/sanyin.json` |
 | 0.7 | 2026-10-07 | §7.3: the prescription in the app, gated (PM-41) |
 | 0.8 | 2026-10-07 | §6.2, §6.6, §10: the limit on additions corrected to the one built and the SOP's (two, `max_add`; the text said three); 發表不遠熱，攻裡不遠寒 (《素問·六元正紀大論》) as the source for sparing the 君 from the season factor — found while checking the learning book against the model (PM-42) |
+| 0.9 | 2026-10-07 | §7, §7.4: learners and practitioners — the owner's decision (PD-13, PD-14) and its design (PM-53) |

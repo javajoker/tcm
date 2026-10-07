@@ -2,8 +2,8 @@
 
 | | |
 |---|---|
-| **Version** | 0.1 (draft) |
-| **Status** | Design for Release F (FR-40 … FR-42; tasks PM-44 … PM-50). Nothing is built. **It changes two standing decisions** (§2) and needs the owner's confirmation, a privacy redesign and a legal view before anything reaches the public |
+| **Version** | 0.2 (draft) |
+| **Status** | Design for Release F (FR-40 … FR-42; tasks PM-44 … PM-50). **Approved by the owner on 2026-10-07** (PD-21, PD-25): the mock-provider parts are built first; a privacy redesign and a legal view still come before anything reaches the public |
 | **Last updated** | 2026-10-07 |
 | **Audience** | The owner, engineers, a privacy and a legal reviewer, the clinical content owner |
 | **Related** | [Research tracks §2, §5](research-tracks.md) · [Tongue-photo spike](../spikes/tongue-photo.md) · [Privacy](../../privacy.md) · [Safety policy](../../safety-policy.md) · [Decisions Q3, Q4, PD-21 … PD-27](../decisions.md) · [Requirements FR-40 … FR-42](../requirements.md) |
@@ -30,9 +30,9 @@ At any point the person can switch to the classic questions; the two can be mixe
 
 | Standing decision | What it said | What this design proposes | Owner's call |
 |---|---|---|---|
-| **Local-first** (standing constraint 2; PRD G7) | No server that receives answers | For the people who turn AI help on, their conversation and photos go to the project's gateway and on to a model provider, for the time of the request only | ⚑ PD-21 |
-| **Q3 — LLM involvement** | Not in the core; an LLM never decides a diagnosis | Unchanged in substance: the model is an **input aid**; the deterministic engine decides. The model's words reach the person only as questions and as quoted evidence, never as a conclusion | ⚑ PD-21, PD-23 |
-| **Q4 / research tracks §2 — tongue photo** | A spike with hard gates: legal view, datasets, evaluation | The observation module is the same idea with a general-purpose vision model instead of a trained one: **the same gates apply** (legal view, evaluation against practitioners' labels) before it leaves the development profile | ⚑ PD-25 |
+| **Local-first** (standing constraint 2; PRD G7) | No server that receives answers | For the people who turn AI help on, their conversation and photos go to the project's gateway and on to a model provider, for the time of the request only | ✓ PD-21, approved 2026-10-07 |
+| **Q3 — LLM involvement** | Not in the core; an LLM never decides a diagnosis | Unchanged in substance: the model is an **input aid**; the deterministic engine decides. The model's words reach the person only as questions and as quoted evidence, never as a conclusion | ✓ PD-21, PD-23 |
+| **Q4 / research tracks §2 — tongue photo** | A spike with hard gates: legal view, datasets, evaluation | The observation module is the same idea with a general-purpose vision model instead of a trained one: **the same gates apply** (legal view, evaluation against practitioners' labels) before it leaves the development profile | ✓ PD-25, as designed |
 
 ## 3. Architecture
 
@@ -100,16 +100,16 @@ Model calls cost money per conversation; the gateway enforces a per-session budg
 
 ## 9. Decided defaults
 
-**Decided 2026-10-07 — default of this design; the items marked ⚑ need the owner.**
+**Decided 2026-10-07 — default of this design; the items that were marked ⚑ were decided by the owner the same day, as designed (decision register §2.9).**
 
 | Question | Default |
 |---|---|
-| ⚑ Data leaving the device | Only for people who turn a module on, with consent; off by default in the public build (PD-21) |
+| Data leaving the device | Only for people who turn a module on, with consent; off by default in the public build (PD-21, the owner's decision) |
 | What the model may say | Questions and quoted evidence only; never a pattern, a herb or an amount (PD-23) |
 | Who decides | The deterministic engine, on confirmed findings (PD-23) |
 | Provider | Anthropic's API through the project's own gateway; configurable (PD-22) |
 | Storage | None, anywhere (PD-24) |
-| ⚑ Photos | Development profile only until the legal view and the evaluation (PD-25) |
+| Photos | Development profile only until the legal view and the evaluation (PD-25, the owner's decision) |
 | Who may use it | Adults (PD-26) |
 | First module | Conversation; observation second (PD-27) |
 
@@ -122,3 +122,4 @@ PM-44 (the owner's decisions and the privacy redesign), PM-45 (the gateway with 
 | Version | Date | Change |
 |---|---|---|
 | 0.1 | 2026-10-07 | Initial design, from the owner's direction of 2026-10-07 |
+| 0.2 | 2026-10-07 | The owner's approval (PD-21, PD-25): the mock-provider parts first |
