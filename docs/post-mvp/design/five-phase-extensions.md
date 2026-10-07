@@ -2,8 +2,8 @@
 
 | | |
 |---|---|
-| **Version** | 0.4 (draft) |
-| **Status** | Design for Release C (FR-31; tasks PM-26 … PM-29). **PM-26 (the southern hemisphere and the person's choice) is built** ([§4.4](#44-as-built-pm-26)) **PM-27 (the hour near a boundary) is built** ([§5.1](#51-as-built-pm-27)) and **PM-29 (the declared 長夏 model) is built** ([§7.1](#71-as-built-pm-29)); PM-28 is not (it needs the owner's approval to download the archive) |
+| **Version** | 0.5 (draft) |
+| **Status** | Design for Release C (FR-31; tasks PM-26 … PM-29). **PM-26 (the southern hemisphere and the person's choice) is built** ([§4.4](#44-as-built-pm-26)) **PM-27 (the hour near a boundary) is built** ([§5.1](#51-as-built-pm-27)) **PM-29 (the declared 長夏 model) is built** ([§7.1](#71-as-built-pm-29)) and **PM-28 (the astronomy tables regenerated from the official archive) is built** ([§6.1](#61-as-built-pm-28)) |
 | **Last updated** | 2026-10-06 |
 | **Audience** | Engineers, the clinical content owner (school choices) |
 | **Related** | [Requirements FR-31](../requirements.md#fr-31-five-phase-extensions--release-c--class-n-or-c-by-item--refines-algorithm-spec-14) · [Algorithm spec §9, §14](../../wuxing-algorithm.md) · [PRD FR-18](../../PRD.md#fr-18-birth-based-five-phase-module--p1-new) · [Decisions W-1 … W-7, Q11](../decisions.md) |
@@ -114,6 +114,15 @@ Why keep the computed hour by default: a quarter of birth times fall in a window
 | Verification | The existing checks stand: oracle parity (10 births and 168 solar-term instants), HKO's 240 solar terms within 60 seconds, calendar anchors, invariants |
 | Result | The data is reproducible from the official source in this repository; the open item in the spec is closed and the note in the file header is removed |
 
+### 6.1 As built (PM-28)
+
+| | |
+|---|---|
+| Download | Approved by the owner on 2026-10-07 (PD-19): `VSOP87D.ear` from CDS/VizieR VI/81, **324 786 bytes**, SHA-256 `8b160c85…ca91` — the pinned value. It is not in the repository |
+| Script | `scripts/astro/gen-vsop87.ts <archive> [--write]`: refuses any other archive, parses the archive's blocks (the header's term counts checked), keeps L and R at the thresholds, writes the table; without `--write` it says whether the committed table is what the archive gives |
+| First run | All 818 + 213 terms equal to the committed ones — **relative difference 0** over 3 093 numbers — and the body of the generated file byte-identical, so the file was replaced and **only its header changed** (the generator named, the TODO removed). The discarded residuals at \|τ\| = 1 are those the header stated: 0.029″ (≈ 0.7 s of time) for L, 1.4e-6 AU for R |
+| Tests | `scripts/astro/gen-vsop87.test.ts` in `pnpm test:scripts`: the parser on a small archive of the same shape (blocks, order, the header's counts, refusals), the thresholds and the residual, the table's form, a wrong archive refused, the committed header; and, when `VSOP87D_EAR` names the archive, the committed table byte for byte. The five-phase tests (oracle parity, HKO's 240 solar terms, anchors) pass unchanged: the series are the same numbers |
+
 ## 7. The 長夏 model, declared (FR-31d, PM-29)
 
 `seasonModel` (`changxia` default, `tuwang18`) is a school choice recorded in every saved result. The design makes it **visible**: the season section of a result states the model in a line ("長夏 counted as its own season") with a plain explanation reachable from it, and the practitioner summary and the summary file carry it. The **development profile** can switch the model (to test both); the **release profile shows the declared one and offers no switch** (Q11 stays decided until calibration). Switching in dev is a parameter change and so a different fingerprint.
@@ -209,3 +218,4 @@ PM-26 (hemisphere, preference, labels), PM-27 (hour alternatives and the choice)
 | 0.2 | 2026-10-06 | PM-26 built ([§4.4](#44-as-built-pm-26)): the southern basis in `seasonAt` and the forecast, the `seasons` choice and its stamp, the replay on the stamped basis, the Settings card and the season line, the recorded northern results; the decisions made at build time in §10 |
 | 0.3 | 2026-10-06 | PM-27 built ([§5.1](#51-as-built-pm-27)): `hourAlternatives` and `BirthInput.hourPick`, the question on the birth card and its three outcomes, the choice kept with the draft and the saved result, the sentence on the result; the importer no longer drops `fold`; the decisions made at build time in §10 |
 | 0.4 | 2026-10-06 | PM-29 built ([§7.1](#71-as-built-pm-29)): the declared model on every result with a disclosure, the stamp of the other model, the development switch and its absence from a release, the foot of the practitioner summary and the file's optional fields, *Earth days*; the fingerprint's coverage found and recorded |
+| 0.5 | 2026-10-07 | PM-28 built ([§6.1](#61-as-built-pm-28)): the download approved, the generator, the first run (every term equal; only the header changed), the tests |
