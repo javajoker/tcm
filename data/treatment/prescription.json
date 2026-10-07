@@ -14,9 +14,17 @@
       "kappa": 1.0,
       "reference": "the middle of the Pharmacopoeia range (dose_g_reference)"
     },
+    "mechanism": {
+      "theta": 0.2,
+      "top": 6
+    },
     "pairs": {
       "sigma": 0.2,
       "tau": 0.5
+    },
+    "roles": {
+      "carrier_min": 0.5,
+      "fanzuo_below": 0.75
     }
   }
 }

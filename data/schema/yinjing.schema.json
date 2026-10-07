@@ -158,10 +158,16 @@
     "_meta": {
       "additionalProperties": true,
       "properties": {
+        "book": {
+          "type": "string"
+        },
+        "chapter": {
+          "type": "string"
+        },
         "description": {
           "type": "string"
         },
-        "design": {
+        "path": {
           "type": "string"
         },
         "schema": {
@@ -169,114 +175,55 @@
         }
       },
       "required": [
+        "book",
+        "chapter",
         "description",
-        "design",
         "schema"
       ],
       "type": "object"
     },
-    "params": {
-      "additionalProperties": false,
-      "properties": {
-        "bands": {
-          "additionalProperties": false,
-          "properties": {
-            "large_above": {
-              "type": "number"
-            },
-            "small_below": {
-              "type": "number"
-            }
+    "channels": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "channel": {
+            "type": "string"
           },
-          "required": [
-            "large_above",
-            "small_below"
-          ],
-          "type": "object"
+          "entry_zh_hans": {
+            "type": "string"
+          },
+          "herbs": {
+            "items": {
+              "$ref": "#/$defs/herbId"
+            },
+            "type": "array",
+            "uniqueItems": true
+          },
+          "organ": {
+            "pattern": "^(肝|心|脾|肺|腎|膽|小腸|胃|大腸|膀胱|心包|三焦)$",
+            "type": "string"
+          },
+          "unread": {
+            "type": "string"
+          }
         },
-        "dose": {
-          "additionalProperties": false,
-          "properties": {
-            "gamma": {
-              "type": "number"
-            },
-            "kappa": {
-              "type": "number"
-            },
-            "reference": {
-              "type": "string"
-            }
-          },
-          "required": [
-            "gamma",
-            "kappa",
-            "reference"
-          ],
-          "type": "object"
-        },
-        "mechanism": {
-          "additionalProperties": false,
-          "properties": {
-            "theta": {
-              "type": "number"
-            },
-            "top": {
-              "type": "integer"
-            }
-          },
-          "required": [
-            "theta",
-            "top"
-          ],
-          "type": "object"
-        },
-        "pairs": {
-          "additionalProperties": false,
-          "properties": {
-            "sigma": {
-              "type": "number"
-            },
-            "tau": {
-              "type": "number"
-            }
-          },
-          "required": [
-            "sigma",
-            "tau"
-          ],
-          "type": "object"
-        },
-        "roles": {
-          "additionalProperties": false,
-          "properties": {
-            "carrier_min": {
-              "type": "number"
-            },
-            "fanzuo_below": {
-              "type": "number"
-            }
-          },
-          "required": [
-            "carrier_min",
-            "fanzuo_below"
-          ],
-          "type": "object"
-        }
+        "required": [
+          "channel",
+          "entry_zh_hans",
+          "herbs",
+          "organ",
+          "unread"
+        ],
+        "type": "object"
       },
-      "required": [
-        "bands",
-        "dose",
-        "mechanism",
-        "pairs",
-        "roles"
-      ],
-      "type": "object"
+      "minItems": 12,
+      "type": "array"
     }
   },
   "required": [
     "_meta",
-    "params"
+    "channels"
   ],
-  "title": "Parameters of the prescription model",
+  "title": "引經報使: the herbs that lead to each channel",
   "type": "object"
 }

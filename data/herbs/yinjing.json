@@ -1,0 +1,142 @@
+{
+  "_meta": {
+    "book": "本草綱目",
+    "chapter": "序例上·引經報使",
+    "description": "引經報使: the herbs that lead a formula to each channel, from 《本草綱目·序例上》 (after 潔古《珍珠囊》); `unread` keeps what the build could not match to a herb of the knowledge base.",
+    "path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt",
+    "schema": 1
+  },
+  "channels": [
+    {
+      "channel": "手少陰心",
+      "entry_zh_hans": "手少阴心（黄连细辛）",
+      "herbs": [
+        "herb-huanglian",
+        "herb-xixin"
+      ],
+      "organ": "心",
+      "unread": ""
+    },
+    {
+      "channel": "手太陽小腸",
+      "entry_zh_hans": "手太阳小肠（本黄柏）",
+      "herbs": [
+        "herb-huangbai"
+      ],
+      "organ": "小腸",
+      "unread": "本"
+    },
+    {
+      "channel": "足少陰腎",
+      "entry_zh_hans": "足少阴肾（独活桂知母细辛）",
+      "herbs": [
+        "herb-duhuo",
+        "herb-zhimu",
+        "herb-xixin"
+      ],
+      "organ": "腎",
+      "unread": "桂"
+    },
+    {
+      "channel": "足太陽膀胱",
+      "entry_zh_hans": "足太阳膀胱（羌活）",
+      "herbs": [
+        "herb-qianghuo"
+      ],
+      "organ": "膀胱",
+      "unread": ""
+    },
+    {
+      "channel": "手太陰肺",
+      "entry_zh_hans": "手太阴肺（桔梗升麻葱白白芷）",
+      "herbs": [
+        "herb-jiegeng",
+        "herb-shengma",
+        "herb-congbai",
+        "herb-baizhi"
+      ],
+      "organ": "肺",
+      "unread": ""
+    },
+    {
+      "channel": "手陽明大腸",
+      "entry_zh_hans": "手阳明大肠（白芷升麻石膏）",
+      "herbs": [
+        "herb-baizhi",
+        "herb-shengma",
+        "herb-shigao"
+      ],
+      "organ": "大腸",
+      "unread": ""
+    },
+    {
+      "channel": "足太陰脾",
+      "entry_zh_hans": "足太阴脾（升麻苍术葛根白芍）",
+      "herbs": [
+        "herb-shengma",
+        "herb-cangzhu",
+        "herb-gegen",
+        "herb-baishao"
+      ],
+      "organ": "脾",
+      "unread": ""
+    },
+    {
+      "channel": "足陽明胃",
+      "entry_zh_hans": "足阳明胃（白芷升麻石膏葛根）",
+      "herbs": [
+        "herb-baizhi",
+        "herb-shengma",
+        "herb-shigao",
+        "herb-gegen"
+      ],
+      "organ": "胃",
+      "unread": ""
+    },
+    {
+      "channel": "手厥陰心包絡",
+      "entry_zh_hans": "手厥阴心包络（柴胡牡丹皮）",
+      "herbs": [
+        "herb-chaihu",
+        "herb-mudanpi"
+      ],
+      "organ": "心包",
+      "unread": ""
+    },
+    {
+      "channel": "手少陽三焦",
+      "entry_zh_hans": "手少阳三焦（连翘柴胡上地骨皮中青皮下附子）",
+      "herbs": [
+        "herb-lianqiao",
+        "herb-chaihu",
+        "herb-digupi",
+        "herb-qingpi",
+        "herb-fuzi"
+      ],
+      "organ": "三焦",
+      "unread": "上中下"
+    },
+    {
+      "channel": "足厥陰肝",
+      "entry_zh_hans": "足厥阴肝（青皮吴茱萸川芎柴胡）",
+      "herbs": [
+        "herb-qingpi",
+        "herb-wuzhuyu",
+        "herb-chuanxiong",
+        "herb-chaihu"
+      ],
+      "organ": "肝",
+      "unread": ""
+    },
+    {
+      "channel": "足少陽膽",
+      "entry_zh_hans": "足少阳胆（柴胡青皮）",
+      "herbs": [
+        "herb-chaihu",
+        "herb-qingpi"
+      ],
+      "organ": "膽",
+      "unread": ""
+    }
+  ]
+}

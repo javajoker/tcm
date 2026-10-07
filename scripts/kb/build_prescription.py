@@ -97,6 +97,36 @@ def build_pairings(index: dict[str, str]) -> dict:
     }
 
 
+def build_yinjing(index: dict[str, str]) -> dict:
+    """The 引經報使 table: channel → the herbs that lead to it, the names split by the longest knowledge-base name (in the source script)."""
+    from opencc import OpenCC
+    t2s = OpenCC("t2s")
+    text = norm_ws(read_book(cp.PAIRING_BOOK))
+    start = text.index(cp.YINJING_SECTION["start"]) + len(cp.YINJING_SECTION["start"])
+    section = text[start:text.index(cp.YINJING_SECTION["end"], start)]
+    names = sorted({t2s.convert(n): n for n in index}.items(), key=lambda t: -len(t[0]))
+    channels = []
+    for m in re.finditer(r"([^（）]+?)（([^（）]*)）", section):
+        channel, run = m.group(1), m.group(2)
+        found, skipped, i = [], [], 0
+        while i < len(run):
+            hit = next((n for n in names if run.startswith(n[0], i)), None)
+            if hit:
+                hid = index[hit[1]]
+                if hid not in found:
+                    found.append(hid)
+                i += len(hit[0])
+            else:
+                skipped.append(run[i])
+                i += 1
+        channels.append({"channel": tw(channel), "organ": cp.CHANNEL_ORGAN[channel], "herbs": found, "unread": "".join(skipped), "entry_zh_hans": m.group(0)})
+    return {
+        "_meta": {"description": "引經報使: the herbs that lead a formula to each channel, from 《本草綱目·序例上》 (after 潔古《珍珠囊》); `unread` keeps what the build could "
+                                 "not match to a herb of the knowledge base.", "book": "本草綱目", "chapter": cp.YINJING_CHAPTER, "path": book_path(cp.PAIRING_BOOK)},
+        "channels": channels,
+    }
+
+
 def build_processing() -> dict:
     methods = [{**{k: m[k] for k in ("id", "name", "words", "says", "modifiers", "citation")}, "status": "curated-draft"} for m in cp.PROCESSING]
     return {
@@ -131,6 +161,7 @@ def main() -> None:
     dump(DATA / "herbs" / "pairings.json", pairings)
     dump(DATA / "herbs" / "processing.json", build_processing())
     dump(DATA / "herbs" / "dose-bands.json", build_dose_bands(index))
+    dump(DATA / "herbs" / "yinjing.json", build_yinjing(index))
     dump(DATA / "treatment" / "prescription.json", {
         "_meta": {"description": "Parameters of the prescription model ([calibrate]): the dose–response of a herb, the pairings and the dose bands.",
                   "design": "docs/post-mvp/design/prescription-model.md §3.3, §4.1"},

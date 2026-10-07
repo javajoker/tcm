@@ -67,6 +67,23 @@ class Pairings(unittest.TestCase):
         self.assertEqual(json.loads(json.dumps(bp.build_pairings(INDEX), ensure_ascii=False)), committed)
 
 
+class Yinjing(unittest.TestCase):
+    def test_the_table_of_the_twelve_channels(self):
+        y = load("herbs/yinjing.json")["channels"]
+        self.assertEqual(len(y), 12)
+        by_organ = {c["organ"]: c for c in y}
+        self.assertIn(INDEX["升麻"], by_organ["脾"]["herbs"])            # 足太陰脾（升麻蒼朮葛根白芍）
+        self.assertIn(INDEX["柴胡"], by_organ["膽"]["herbs"])            # 足少陽膽（柴胡青皮）
+        self.assertIn(INDEX["桔梗"], by_organ["肺"]["herbs"])
+        self.assertEqual(by_organ["小腸"]["unread"], "本")                # 藁本, whose first character the source lost
+        text = norm_ws(read_book(cp.PAIRING_BOOK))
+        self.assertTrue(all(c["entry_zh_hans"] in text for c in y))
+
+    def test_the_validator_rejects_an_entry_not_in_the_book(self):
+        problems = validate_with({"herbs/yinjing.json": lambda d: d["channels"][0].update(entry_zh_hans="手少阴心（人参）")}, check_sources=True)
+        self.assertTrue(any("its entry is not in 本草綱目" in p for p in problems), problems[:3])
+
+
 class ProcessingAndBands(unittest.TestCase):
     def test_every_method_rests_on_the_rhyme_or_says_it_is_unverified(self):
         for m in load("herbs/processing.json")["methods"]:

@@ -25,7 +25,8 @@ Needs Node ≥ 22.18 for the one TypeScript export step (`scripts/kb/export_wuxi
 | `herbs/pairings.json` | 249 | **七情** between herbs (PM-37): 相使 70, 相惡 81, 相畏 87 read from 《本草綱目·序例下》「相須相使相畏相惡諸藥」 (each keeps its entry), 相須 11 textbook examples (unverified) | `scripts/kb/build_prescription.py` |
 | `herbs/processing.json` | 14 methods | **炮製** and what each does to a herb, from 《本草蒙筌·製造資水火》 | `scripts/kb/curated/prescription.py` |
 | `herbs/dose-bands.json` | 5 | **量效**: herbs whose action changes with the amount (葛根, 人參, 升麻, 蘇木, 紅花), each from a verified passage | `scripts/kb/curated/prescription.py` |
-| `treatment/prescription.json` | — | Parameters of the prescription model (dose–response κ, γ; pairings σ, τ; dose bands) | `scripts/kb/curated/prescription.py` |
+| `herbs/yinjing.json` | 12 channels | **引經報使**: the herbs that lead a formula to each channel, from 《本草綱目·序例上》 (after 《珍珠囊》), each channel keeping its entry | `scripts/kb/build_prescription.py` |
+| `treatment/prescription.json` | — | Parameters of the prescription model (dose–response κ, γ; pairings σ, τ; dose bands; the 方解 threshold; the role readings) | `scripts/kb/curated/prescription.py` |
 | `formulas/formulas.json` | 33 | Formulas: composition with 君臣佐使 roles and proportions, aggregate panel effect and burden, flavour profile, computed tier A/B/C, pregnancy and interaction flags, modifications (加減), verification record | curated + verified against the classics |
 | `diagnosis/symptoms.json` | 184 | 12-dimension symptom registry + 32 tongue features + 28 pulses (zh-Hant / English) | curated |
 | `diagnosis/questions.json` | 36 questions, 8 modules | **Question bank** for the adaptive inquiry: plain-language prompts (zh-Hant, en), options → symptom ids, severity grading, exclusivity, prerequisites, follow-up triggers; all 124 inquiry symptoms reachable | curated draft (`scripts/kb/curated/questions.py`) |

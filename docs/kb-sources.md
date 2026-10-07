@@ -72,7 +72,7 @@ TCM-Ancient-Books, by the category of tcm-mkg's catalogue: how many books it hol
 | 本草經集注 | 本草 | classic | 陶弘景（南朝·梁） | 1 quotation · `herbs/pairings.json` 1 | 陶弘景's commentary; the 七情 table |
 | 新修本草 | 本草 | classic | 蘇敬等20餘人編寫（唐） | — | The Tang pharmacopoeia |
 | 證類本草 | 本草 | classic | 唐慎微（宋） | — | The Song compendium |
-| 本草綱目 | 本草 | classic | 李時珍（明·萬曆六年） | 1 quotation · `herbs/herbs.json` 1 · `herbs/pairings.json` 476 | 李時珍's compendium: properties, 升降浮沉, processing |
+| 本草綱目 | 本草 | classic | 李時珍（明·萬曆六年） | 1 quotation · `herbs/herbs.json` 1 · `herbs/pairings.json` 476 · `herbs/yinjing.json` 2 | 李時珍's compendium: properties, 升降浮沉, processing |
 | 本草綱目拾遺 | 本草 | classic | 趙學敏（清） | — | Herbs added after 本草綱目 |
 | 珍珠囊補遺藥性賦 | 本草 | classic | 李東垣（元） | — | 引經 and the property rhymes |
 | 醫學啟源 | 本草、基礎理論 | classic | 張元素（金） | — | 升降浮沉 and 氣味厚薄 (PM-36) |

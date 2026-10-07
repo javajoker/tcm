@@ -17,9 +17,17 @@ export interface Prescription {
       kappa: number;
       reference: string;
     };
+    mechanism: {
+      theta: number;
+      top: number;
+    };
     pairs: {
       sigma: number;
       tau: number;
+    };
+    roles: {
+      carrier_min: number;
+      fanzuo_below: number;
     };
   };
 }

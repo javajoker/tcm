@@ -5,7 +5,7 @@
 //   burden   = harms · x^γ,      γ ≥ 1                                at least as fast as the amount
 // A dose band (量效) switches part of the herb's action below or above the typical dose; a processing method (炮製) shifts its direction, channels,
 // moisture or burden. Pure and deterministic. Amounts exist only where the knowledge base carries the Pharmacopoeia range (the development profile).
-import type { DoseBand, Herb, HerbProps, Pairing, PrescriptionParams, ProcessingMethod } from "@tcm/kb";
+import type { DoseBand, Herb, HerbProps, Pairing, PrescriptionParams, ProcessingMethod, YinjingChannel } from "@tcm/kb";
 
 export type AmountBand = "small" | "large";
 
@@ -202,10 +202,15 @@ export interface PrescriptionTables {
   readonly pairings: readonly Pairing[];
   readonly processing: readonly ProcessingMethod[];
   readonly doseBands: readonly DoseBand[];
+  /** 引經報使: the herbs that lead to each channel (used to read the role 使). */
+  readonly yinjing?: readonly YinjingChannel[];
 }
 
 export interface CompositionAction {
+  /** Each herb's action after the pairings, in the order of the rows. */
   readonly herbs: readonly HerbAction[];
+  /** The same before the pairings (what each herb does on its own). */
+  readonly before: readonly HerbAction[];
   readonly benefit: Readonly<Record<string, number>>;
   readonly burden: Readonly<Record<string, number>>;
   /** benefit + burden: what the composition does to the panel. */
@@ -242,5 +247,5 @@ export function compositionAction(herbs: ReadonlyMap<string, Herb>, rows: readon
     weighted += w * a.direction;
     weight += w;
   }
-  return { herbs: actions, benefit: sortedRecord(benefit), burden: sortedRecord(burden), total: sortedRecord(total), direction: weight > 0 ? weighted / weight : 0, applied, conflicts };
+  return { herbs: actions, before: single, benefit: sortedRecord(benefit), burden: sortedRecord(burden), total: sortedRecord(total), direction: weight > 0 ? weighted / weight : 0, applied, conflicts };
 }

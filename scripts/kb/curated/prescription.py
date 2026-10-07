@@ -20,6 +20,14 @@ PARAMS = {
         "small_below": 0.75,    # 少用: below three quarters of the typical dose
         "large_above": 1.25,    # 多用: above a quarter more than the typical dose
     },
+    "mechanism": {
+        "theta": 0.2,           # 治法: a formula addresses a component of the deviation when it removes at least this share of it
+        "top": 6,               # 病機 and 未盡: the largest components shown
+    },
+    "roles": {
+        "fanzuo_below": 0.75,   # 反佐: a herb of the opposite nature to the 君, given below this share of its typical dose
+        "carrier_min": 0.5,     # 載藥: a herb whose own 升降浮沉 is at least this strong carries the formula up or down (桔梗 舟楫之劑, 牛膝 引血下行)
+    },
 }
 
 # ── 七情 ───────────────────────────────────────────────────────────────────
@@ -56,6 +64,14 @@ XIANGXU = [
     ("龍骨", "牡蠣", "重鎮安神、斂陰潛陽"),
 ]
 PAIRING_CITATIONS = ["shennong-xulu-qiqing-1", "shennong-xulu-qiqing-2", "bencao-jizhu-banxia"]
+
+# ── 引經報使 ────────────────────────────────────────────────────────────────
+# 《本草綱目·序例上》「引經報使（潔古《珍珠囊》）」: the herbs that lead a formula to each channel. The names are written without separators
+# (黄连细辛); the build splits them by the longest knowledge-base name, and skips what it cannot read (本 for 藁本, 桂, the 上中下 of 三焦).
+YINJING_SECTION = {"start": "<篇名>引经报使（洁古《珍珠囊》）内容：", "end": "<目录>"}
+YINJING_CHAPTER = "序例上·引經報使"
+CHANNEL_ORGAN = {"手少阴心": "心", "手太阳小肠": "小腸", "足少阴肾": "腎", "足太阳膀胱": "膀胱", "手太阴肺": "肺", "手阳明大肠": "大腸", "足太阴脾": "脾",
+                 "足阳明胃": "胃", "手厥阴心包络": "心包", "手少阳三焦": "三焦", "足厥阴肝": "肝", "足少阳胆": "膽"}
 
 # ── 炮製 ───────────────────────────────────────────────────────────────────
 # 《本草蒙筌·總論·製造資水火》: 酒製升提，薑製發散。入鹽走腎臟，仍使軟堅；用醋注肝經，且資住痛。童便製，除劣性降下；米泔製，去燥性和中。

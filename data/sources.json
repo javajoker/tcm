@@ -1146,7 +1146,8 @@
       "quotations": 1,
       "references": {
         "herbs/herbs.json": 1,
-        "herbs/pairings.json": 476
+        "herbs/pairings.json": 476,
+        "herbs/yinjing.json": 2
       },
       "status": "in-corpus",
       "title": "本草綱目",

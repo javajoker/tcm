@@ -287,6 +287,12 @@ def pairings() -> dict:
                                 "types": dictionary(STR)}, ["citations", "count", "entries_read", "type_counts", "types"]))
 
 
+def yinjing() -> dict:
+    channel = obj({"channel": STR, "entry_zh_hans": STR, "herbs": arr(ref("herbId"), None, True), "organ": pattern(r"^(肝|心|脾|肺|腎|膽|小腸|胃|大腸|膀胱|心包|三焦)$"), "unread": STR})
+    return {"type": "object", "properties": {"_meta": meta({"book": STR, "chapter": STR, "path": STR}, ["book", "chapter"]), "channels": arr(channel, 12)},
+            "required": ["_meta", "channels"], "additionalProperties": False}
+
+
 def processing() -> dict:
     modifiers = obj({"bu_xie": enum("補", "瀉", "平"), "direction": NUM, "harms_scale": NUM, "run_zao": enum("潤", "燥", "平"), "temperature": NUM, "tropism": dictionary(NUM)}, [])
     method = obj({"citation": {"oneOf": [{"type": "null"}, ref("citationId")]}, "id": pattern(r"^[a-z]+$"), "modifiers": modifiers, "name": STR, "says": STR,
@@ -303,7 +309,8 @@ def dose_bands() -> dict:
 
 def prescription() -> dict:
     params = obj({
-        "bands": obj({"large_above": NUM, "small_below": NUM}), "dose": obj({"gamma": NUM, "kappa": NUM, "reference": STR}), "pairs": obj({"sigma": NUM, "tau": NUM}),
+        "bands": obj({"large_above": NUM, "small_below": NUM}), "dose": obj({"gamma": NUM, "kappa": NUM, "reference": STR}), "mechanism": obj({"theta": NUM, "top": INT}),
+        "pairs": obj({"sigma": NUM, "tau": NUM}), "roles": obj({"carrier_min": NUM, "fanzuo_below": NUM}),
     })
     return {"type": "object", "properties": {"_meta": meta({"design": STR}, ["design"]), "params": params}, "required": ["_meta", "params"], "additionalProperties": False}
 
@@ -515,6 +522,7 @@ SCHEMAS = {
     "herbs/pairings.json": ("pairings", pairings, "七情 pairings between herbs"),
     "herbs/processing.json": ("processing", processing, "Processing (炮製) methods"),
     "herbs/dose-bands.json": ("dose-bands", dose_bands, "Dose bands (量效)"),
+    "herbs/yinjing.json": ("yinjing", yinjing, "引經報使: the herbs that lead to each channel"),
     "treatment/prescription.json": ("prescription", prescription, "Parameters of the prescription model"),
     "formulas/formulas.json": ("formulas", formulas, "Formulas"),
     "diagnosis/symptoms.json": ("symptoms", symptoms, "Symptom registry"),

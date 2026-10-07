@@ -2,8 +2,8 @@
 
 | | |
 |---|---|
-| **Version** | 0.3 (draft) |
-| **Status** | Design for Release E (FR-36 … FR-38; tasks PM-36 … PM-41). **Built: the herb property model (PM-36, §3.6); dose–response, pairings and processing (PM-37, §3.7)** |
+| **Version** | 0.4 (draft) |
+| **Status** | Design for Release E (FR-36 … FR-38; tasks PM-36 … PM-41). **Built: the herb property model (PM-36, §3.6); dose–response, pairings and processing (PM-37, §3.7); the formula's effect, roles and 方解 (PM-38, §4.4)** |
 | **Last updated** | 2026-10-07 |
 | **Audience** | Engineers, the clinical content owner, the pharmacy reviewer, a legal adviser (for §7) |
 | **Related** | [Knowledge base v2](knowledge-base-v2.md) · [AI-assisted intake](ai-assisted-intake.md) · [Requirements FR-36 … FR-38](../requirements.md) · [Decisions PD-13 … PD-18](../decisions.md) · [Diagnosis SOP §12](../../diagnosis-sop.zh-TW.md) · [Safety policy §2](../../safety-policy.md) · [PRD G10](../../PRD.md) |
@@ -155,6 +155,16 @@ For a diagnosis with deviation D and a formula at scale k:
 
 The attribution is exact for the additive part (linear contributions at the chosen doses) and assigns the pair terms in equal halves to the two herbs. The output is **structured data** (ids, numbers, rule ids); the sentences are written from message keys, in all three languages, and pass the wording lint — no efficacy claim, no "cures".
 
+### 4.4 As built: the formula from its herbs (PM-38)
+
+[`prescription/formula.ts`](../../../packages/engine/src/prescription/formula.ts): `classicalRows` (the formula at its own amounts, each relative to the herb's typical dose; herbs the Pharmacopoeia gives no range — 冰糖, 地黃, 粳米, 雞子黃 — at their typical dose; **null in a bundle without amounts**, so nothing below L3 is computed), `contributions`, `measureRoles`, `formulaMechanism` and `analyseFormula`.
+
+- **Each herb's share is exact.** A herb's contribution is its own action plus **half of every change a pairing made to it and half of every change it made to a partner** (茯苓 shares in the strengthening it gives 人參); the shares sum to the formula's action to 1e-9 for all 33 formulas. A herb's part of the reduction of a component is `−w·k·c·(2D + kT)`, which sums exactly to the component's reduction.
+- **The principal target** is the component of the formula's **own pattern** (its typical patient) that it brings back the most; without a pattern (小柴胡湯) the formula's largest action. With the pattern as the target the 君 is read where the classics put it — 麻黃 for 風寒表實 (liuxie.寒), 乾薑 for 脾陽虛, 柴胡 for 肝鬱 (肝.stasis), 黃耆 for 表虛 (肺.qi).
+- **The readings of a role**: 主 (the largest share of the principal target), 助主 and 主次 (臣), 佐助 (another target, or the formula's action elsewhere), 佐制 (offsets another herb's burden, or restrains it through 相畏), 反佐 (the opposite nature to the 君 at a small amount), and for 使: **引經** — from the classical table 《本草綱目·序例上》「引經報使」 (after 《珍珠囊》; `data/herbs/yinjing.json`, twelve channels, each keeping its entry) or the formula's most channel-focused herb — **載藥** (its own 升降浮沉 at least ±0.5: 桔梗 舟楫之劑, 牛膝 引血下行, 升麻、柴胡 升陽), **調和** (offsets the others' burdens, or its record says 調和) and **為之使** (it serves another herb in the 七情 table).
+- **First measurement over the library: 187 of the 232 labels are supported by a reading; 45 are not.** They are findings, never relabelled (§5): some show the model's limits — the panel has no 少陽 and no 營衛, and 補中益氣湯's 黃耆 does less for 脾.qi than 人參 in the panel, the 升陽 being direction rather than quantity; some show data — 炙甘草's Pharmacopoeia record has no 調和, so it reads as a 使 only where it offsets a burden. PM-39 lists them for the reviewers.
+- **The 方解 is structured data** (`Mechanism`: 病機, 治法 with the components it addresses at θ = 0.2, 方 per component, 藥 per herb with what it reduces, what it worsens and which herbs offset that, 未盡). The sentences are written where the explanation is shown (PM-41): the i18n check rejects a message key that nothing uses.
+
 ## 5. Verifying the existing formulas
 
 A **self-test over the library** (like the pattern self-test), run in the build and reported:
@@ -280,3 +290,4 @@ PM-36 (herb property model v2), PM-37 (dose–response, pairings, processing in 
 | 0.1 | 2026-10-07 | Initial design, from the owner's direction of 2026-10-07 |
 | 0.2 | 2026-10-07 | §3.6: the property model as built (PM-36) |
 | 0.3 | 2026-10-07 | §3.7: dose–response, dose bands, processing and pairings as built (PM-37) |
+| 0.4 | 2026-10-07 | §4.4: the formula's effect, the herbs' exact shares, the roles measured and the 方解 as built (PM-38) |

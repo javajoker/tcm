@@ -251,6 +251,16 @@
       "units": 0,
       "whole_file_reviewed": false
     },
+    "herbs/yinjing.json": {
+      "required_roles": [
+        [
+          "tcm-clinical"
+        ]
+      ],
+      "reviewed": 0,
+      "units": 0,
+      "whole_file_reviewed": false
+    },
     "safety/emergency.json": {
       "required_roles": [
         [

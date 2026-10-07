@@ -394,6 +394,19 @@ def validate(load: Loader = load, check_sources: bool = True) -> list[str]:
         mod = m["modifiers"]
         if not 0 < mod.get("harms_scale", 1) <= 1 or not -1 <= mod.get("direction", 0) <= 1 or any(o not in ORGANS for o in mod.get("tropism", {})):
             err(f"processing {m['id']}: a modifier is out of range or names an unknown organ")
+    guides = load("herbs/yinjing.json")
+    if sorted(c["organ"] for c in guides["channels"]) != sorted(set(c["organ"] for c in guides["channels"])) or len(guides["channels"]) != 12:
+        err("yinjing: one row for each of the twelve channels")
+    for c in guides["channels"]:
+        if any(h not in herb_ids for h in c["herbs"]):
+            err(f"yinjing {c['channel']}: unknown herb")
+        if check_sources:
+            if pairing_text is None:
+                from .common import norm_ws, read_book
+                from .curated.prescription import PAIRING_BOOK
+                pairing_text = norm_ws(read_book(PAIRING_BOOK))
+            if c["entry_zh_hans"] not in pairing_text:
+                err(f"yinjing {c['channel']}: its entry is not in 本草綱目")
     rx_params = load("treatment/prescription.json")["params"]
     if not 0 < rx_params["bands"]["small_below"] < 1 < rx_params["bands"]["large_above"]:
         err("prescription params: dose bands must lie on each side of the typical dose")

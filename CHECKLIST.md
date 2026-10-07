@@ -130,7 +130,7 @@ A release is ticked item by item as features ship; a feature ships when the gate
 **Release E — Knowledge and prescription** (FR-35 … FR-39)
 - [ ] Every new knowledge record names a verified passage or a rule and is `derived` or `curated-draft` until reviewed; the sources registry covers every quotation; no pattern added outside admission (PM-21) *(PM-35 built: the registry covers every quotation, `book` name and corpus path, and the validator enforces it)*
 - [ ] Herb property and dose–response property tests green; every derived value names its rule *(PM-36 and PM-37 built: the property model, the dose–response, dose bands, processing and pairings, with their tests)*
-- [ ] Formula attributions are exact; the library's verification report is generated in the build, its failures listed for review and none auto-fixed
+- [ ] Formula attributions are exact; the library's verification report is generated in the build, its failures listed for review and none auto-fixed *(PM-38 built: exact attributions and the roles measured; the report is PM-39)*
 - [ ] Personalisation: no excluded herb ever appears, amounts never leave their range, toxic herbs are never raised (property tests); the diagnosis, its replay and the golden results unchanged
 - [ ] No reference amount in a public build (`check-release`) unless the owner decides otherwise after a legal view (PD-13 ⚑); a practitioner profile only as decided (PD-14 ⚑)
 - [ ] Clinical and pharmacy review of the property rules, pairings, processing, dose bands and 三因 factors, or the draft label shown

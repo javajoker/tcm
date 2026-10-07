@@ -30,6 +30,7 @@ import type { DoseBands } from "./generated/dose-bands.ts";
 import type { Pairings } from "./generated/pairings.ts";
 import type { Prescription } from "./generated/prescription.ts";
 import type { Processing } from "./generated/processing.ts";
+import type { Yinjing } from "./generated/yinjing.ts";
 
 export type { Level, Notice };
 export type ProfileName = "release" | "dev";
@@ -63,9 +64,10 @@ export type Pairing = Pairings["items"][number];
 export type ProcessingMethod = Processing["methods"][number];
 export type DoseBand = DoseBands["items"][number];
 export type PrescriptionParams = Prescription["params"];
+export type YinjingChannel = Yinjing["channels"][number];
 
 export type { Citations, Cities, ConstitutionItems, Constitutions, Correspondences, Emergency, Exclusions, Formulas, Glossary, NameFold, Herbs, Orientation, PanelSchema, PatternElements, Patterns, Pulse, Questions, RedFlags, SafetyRules };
-export type { ScopeProfiles, ScoringParams, Susceptibility, Symptoms, Tongue, TreatmentGuidance, Yunqi, DoseBands, Pairings, Prescription, Processing };
+export type { ScopeProfiles, ScoringParams, Susceptibility, Symptoms, Tongue, TreatmentGuidance, Yunqi, DoseBands, Pairings, Prescription, Processing, Yinjing };
 
 // ── chunks (what the bundler writes and the loader reads; tech spec §5) ─────
 /** The active application configuration: only the selected profile is present in a built bundle (tech spec T9). */
