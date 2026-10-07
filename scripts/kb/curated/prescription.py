@@ -24,6 +24,12 @@ PARAMS = {
         "theta": 0.2,           # 治法: a formula addresses a component of the deviation when it removes at least this share of it
         "top": 6,               # 病機 and 未盡: the largest components shown
     },
+    "verification": {
+        "cosine_min": 0.9,      # the effect computed from the herbs agrees with the stored one
+        "rank_max": 3,          # the formula ranks among the first three of the library for each of its own patterns
+        "burden_ratio_max": 0.5,    # its burden is at most half its benefit (weighted norms)
+        "flat_below": 0.05,     # a formula direction weaker than this points nowhere
+    },
     "roles": {
         "fanzuo_below": 0.75,   # 反佐: a herb of the opposite nature to the 君, given below this share of its typical dose
         "carrier_min": 0.5,     # 載藥: a herb whose own 升降浮沉 is at least this strong carries the formula up or down (桔梗 舟楫之劑, 牛膝 引血下行)
@@ -72,6 +78,19 @@ YINJING_SECTION = {"start": "<篇名>引经报使（洁古《珍珠囊》）内�
 YINJING_CHAPTER = "序例上·引經報使"
 CHANNEL_ORGAN = {"手少阴心": "心", "手太阳小肠": "小腸", "足少阴肾": "腎", "足太阳膀胱": "膀胱", "手太阴肺": "肺", "手阳明大肠": "大腸", "足太阴脾": "脾",
                  "足阳明胃": "胃", "手厥阴心包络": "心包", "手少阳三焦": "三焦", "足厥阴肝": "肝", "足少阳胆": "膽"}
+
+# ── the direction a pattern's treatment asks for (§3.4) ──────────────────────
+# Only where the classics state it. 宣 and 升 point up and out (+), 降 and 收 down and in (−).
+MECHANISMS = [
+    dict(pattern="EX1", direction="宣", says="其在皮者，汗而發之 — 辛溫解表", citation="suwen-005-13"),
+    dict(pattern="EX2", direction="宣", says="其在皮者，汗而發之 — 解肌發表", citation="suwen-005-13"),
+    dict(pattern="EX3", direction="宣", says="其在皮者，汗而發之 — 辛涼解表", citation="suwen-005-13"),
+    dict(pattern="SP3", direction="升", says="下者舉之 — 升陽舉陷", citation="suwen-074-15"),
+    dict(pattern="LV2", direction="降", says="高者抑之 — 肝火上炎，清而降之", citation="suwen-074-15"),
+    dict(pattern="HT2", direction="降", says="高者抑之 — 滋陰降火", citation="suwen-074-15"),
+    dict(pattern="LG1", direction="收", says="散者收之 — 衛表不固，益氣固表", citation="suwen-074-16"),
+]
+DIRECTION_SIGN = {"宣": 1, "升": 1, "降": -1, "收": -1}
 
 # ── 炮製 ───────────────────────────────────────────────────────────────────
 # 《本草蒙筌·總論·製造資水火》: 酒製升提，薑製發散。入鹽走腎臟，仍使軟堅；用醋注肝經，且資住痛。童便製，除劣性降下；米泔製，去燥性和中。

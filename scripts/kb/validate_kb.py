@@ -407,6 +407,15 @@ def validate(load: Loader = load, check_sources: bool = True) -> list[str]:
                 pairing_text = norm_ws(read_book(PAIRING_BOOK))
             if c["entry_zh_hans"] not in pairing_text:
                 err(f"yinjing {c['channel']}: its entry is not in 本草綱目")
+    pattern_ids = {p["id"] for p in load("diagnosis/patterns.json")["items"]}
+    mech = load("treatment/mechanisms.json")["items"]
+    for dup in duplicates([m["pattern"] for m in mech]):
+        err(f"mechanisms: pattern {dup} listed twice")
+    for m in mech:
+        if m["pattern"] not in pattern_ids or m["citation"] not in cit_ids:
+            err(f"mechanism {m['pattern']}: unknown pattern or citation")
+        if m["sign"] != (1 if m["direction"] in ("升", "宣") else -1):
+            err(f"mechanism {m['pattern']}: {m['direction']} has the sign {m['sign']}")
     rx_params = load("treatment/prescription.json")["params"]
     if not 0 < rx_params["bands"]["small_below"] < 1 < rx_params["bands"]["large_above"]:
         err("prescription params: dose bands must lie on each side of the typical dose")

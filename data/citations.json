@@ -1,11 +1,11 @@
 {
   "_meta": {
-    "count": 149,
+    "count": 150,
     "description": "Registry of quotations cited by the SOP and knowledge base. Every quote is checked against the source text.",
     "note": "shanghan-NNN ids carry the standard Song-edition clause number; the number is not verified against the data.",
     "schema": 1,
     "unverified": [],
-    "verified": 149
+    "verified": 150
   },
   "items": [
     {
@@ -850,6 +850,16 @@
       "id": "suwen-005-12",
       "quote_source_zh_hans": "阴胜则阳病，阳胜则阴病。阳胜则热，阴胜则寒",
       "quote_zh_hant": "陰勝則陽病，陽勝則陰病。陽勝則熱，陰勝則寒",
+      "source_path": "reference/sources/TCM-Library/raw/neijing/suwen/suwen_005.txt",
+      "source_repo": "TCM-Library (MIT)",
+      "verified": true
+    },
+    {
+      "book": "素問",
+      "chapter": "陰陽應象大論",
+      "id": "suwen-005-13",
+      "quote_source_zh_hans": "其在皮者，汗而发之",
+      "quote_zh_hant": "其在皮者，汗而發之",
       "source_path": "reference/sources/TCM-Library/raw/neijing/suwen/suwen_005.txt",
       "source_repo": "TCM-Library (MIT)",
       "verified": true

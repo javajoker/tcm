@@ -307,10 +307,17 @@ def dose_bands() -> dict:
     return envelope(item, meta({"fields": dictionary(STR)}, ["fields"]))
 
 
+def mechanisms() -> dict:
+    item = obj({"citation": ref("citationId"), "direction": enum("升", "降", "宣", "收"), "pattern": ref("patternId"), "says": STR, "sign": enum(1, -1),
+                "status": enum("curated-draft", "reviewed")})
+    return envelope(item, meta({"design": STR}, ["design"]))
+
+
 def prescription() -> dict:
     params = obj({
         "bands": obj({"large_above": NUM, "small_below": NUM}), "dose": obj({"gamma": NUM, "kappa": NUM, "reference": STR}), "mechanism": obj({"theta": NUM, "top": INT}),
         "pairs": obj({"sigma": NUM, "tau": NUM}), "roles": obj({"carrier_min": NUM, "fanzuo_below": NUM}),
+        "verification": obj({"burden_ratio_max": NUM, "cosine_min": NUM, "flat_below": NUM, "rank_max": INT}),
     })
     return {"type": "object", "properties": {"_meta": meta({"design": STR}, ["design"]), "params": params}, "required": ["_meta", "params"], "additionalProperties": False}
 
@@ -524,6 +531,7 @@ SCHEMAS = {
     "herbs/dose-bands.json": ("dose-bands", dose_bands, "Dose bands (量效)"),
     "herbs/yinjing.json": ("yinjing", yinjing, "引經報使: the herbs that lead to each channel"),
     "treatment/prescription.json": ("prescription", prescription, "Parameters of the prescription model"),
+    "treatment/mechanisms.json": ("mechanisms", mechanisms, "The direction a pattern's treatment asks for"),
     "formulas/formulas.json": ("formulas", formulas, "Formulas"),
     "diagnosis/symptoms.json": ("symptoms", symptoms, "Symptom registry"),
     "diagnosis/questions.json": ("questions", questions, "Question bank"),

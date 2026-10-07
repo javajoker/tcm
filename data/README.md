@@ -26,6 +26,7 @@ Needs Node ≥ 22.18 for the one TypeScript export step (`scripts/kb/export_wuxi
 | `herbs/processing.json` | 14 methods | **炮製** and what each does to a herb, from 《本草蒙筌·製造資水火》 | `scripts/kb/curated/prescription.py` |
 | `herbs/dose-bands.json` | 5 | **量效**: herbs whose action changes with the amount (葛根, 人參, 升麻, 蘇木, 紅花), each from a verified passage | `scripts/kb/curated/prescription.py` |
 | `herbs/yinjing.json` | 12 channels | **引經報使**: the herbs that lead a formula to each channel, from 《本草綱目·序例上》 (after 《珍珠囊》), each channel keeping its entry | `scripts/kb/build_prescription.py` |
+| `treatment/mechanisms.json` | 7 | The direction of qi a pattern's treatment asks for (宣 for the exterior patterns, 升 for 中氣下陷, 降 for 肝火上炎 and 陰虛火旺, 收 for 衛表不固), each from a verified quotation (PM-39) | `scripts/kb/curated/prescription.py` |
 | `treatment/prescription.json` | — | Parameters of the prescription model (dose–response κ, γ; pairings σ, τ; dose bands; the 方解 threshold; the role readings) | `scripts/kb/curated/prescription.py` |
 | `formulas/formulas.json` | 33 | Formulas: composition with 君臣佐使 roles and proportions, aggregate panel effect and burden, flavour profile, computed tier A/B/C, pregnancy and interaction flags, modifications (加減), verification record | curated + verified against the classics |
 | `diagnosis/symptoms.json` | 184 | 12-dimension symptom registry + 32 tongue features + 28 pulses (zh-Hant / English) | curated |

@@ -29,5 +29,11 @@ export interface Prescription {
       carrier_min: number;
       fanzuo_below: number;
     };
+    verification: {
+      burden_ratio_max: number;
+      cosine_min: number;
+      flat_below: number;
+      rank_max: number;
+    };
   };
 }

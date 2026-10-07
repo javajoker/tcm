@@ -14,7 +14,7 @@
         ]
       ],
       "reviewed": 0,
-      "units": 149,
+      "units": 150,
       "whole_file_reviewed": false
     },
     "config/scope-profiles.json": {
@@ -312,6 +312,16 @@
         ],
         [
           "pharmacy"
+        ]
+      ],
+      "reviewed": 0,
+      "units": 0,
+      "whole_file_reviewed": false
+    },
+    "treatment/mechanisms.json": {
+      "required_roles": [
+        [
+          "tcm-clinical"
         ]
       ],
       "reviewed": 0,

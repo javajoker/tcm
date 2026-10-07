@@ -25,6 +25,12 @@
     "roles": {
       "carrier_min": 0.5,
       "fanzuo_below": 0.75
+    },
+    "verification": {
+      "burden_ratio_max": 0.5,
+      "cosine_min": 0.9,
+      "flat_below": 0.05,
+      "rank_max": 3
     }
   }
 }

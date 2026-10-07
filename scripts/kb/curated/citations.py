@@ -50,6 +50,7 @@ CITATIONS = [
     # the herb property model (PM-36): 氣味厚薄, and 寒熱 as 陰陽
     ("suwen-005-11", SW.format(5), "味厚者为阴，薄为阴之阳；气厚者为阳，薄为阳之阴。味厚则泄，薄则通。气薄则发泄，厚则发热"),
     ("suwen-005-12", SW.format(5), "阴胜则阳病，阳胜则阴病。阳胜则热，阴胜则寒"),
+    ("suwen-005-13", SW.format(5), "其在皮者，汗而发之"),     # the direction of treating the exterior (PM-39)
     ("suwen-007-1", SW.format(7), "阳加于阴，谓之汗"),
     ("suwen-010-1", SW.format(10), "青如草兹者死"),
     ("suwen-010-2", SW.format(10), "肝受血而能视"),

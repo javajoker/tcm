@@ -1,0 +1,65 @@
+{
+  "_meta": {
+    "description": "The direction of qi a pattern's treatment asks for (升 · 降 · 宣 · 收), only where the classics state it; `sign` +1 up and out, −1 down and in. Read by the prescription model (design §3.4), never by the diagnosis.",
+    "design": "docs/post-mvp/design/prescription-model.md §3.4",
+    "schema": 1
+  },
+  "items": [
+    {
+      "citation": "suwen-005-13",
+      "direction": "宣",
+      "pattern": "EX1",
+      "says": "其在皮者，汗而發之 — 辛溫解表",
+      "sign": 1,
+      "status": "curated-draft"
+    },
+    {
+      "citation": "suwen-005-13",
+      "direction": "宣",
+      "pattern": "EX2",
+      "says": "其在皮者，汗而發之 — 解肌發表",
+      "sign": 1,
+      "status": "curated-draft"
+    },
+    {
+      "citation": "suwen-005-13",
+      "direction": "宣",
+      "pattern": "EX3",
+      "says": "其在皮者，汗而發之 — 辛涼解表",
+      "sign": 1,
+      "status": "curated-draft"
+    },
+    {
+      "citation": "suwen-074-15",
+      "direction": "升",
+      "pattern": "SP3",
+      "says": "下者舉之 — 升陽舉陷",
+      "sign": 1,
+      "status": "curated-draft"
+    },
+    {
+      "citation": "suwen-074-15",
+      "direction": "降",
+      "pattern": "LV2",
+      "says": "高者抑之 — 肝火上炎，清而降之",
+      "sign": -1,
+      "status": "curated-draft"
+    },
+    {
+      "citation": "suwen-074-15",
+      "direction": "降",
+      "pattern": "HT2",
+      "says": "高者抑之 — 滋陰降火",
+      "sign": -1,
+      "status": "curated-draft"
+    },
+    {
+      "citation": "suwen-074-16",
+      "direction": "收",
+      "pattern": "LG1",
+      "says": "散者收之 — 衛表不固，益氣固表",
+      "sign": -1,
+      "status": "curated-draft"
+    }
+  ]
+}

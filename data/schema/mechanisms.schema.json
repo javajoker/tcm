@@ -175,133 +175,57 @@
       ],
       "type": "object"
     },
-    "params": {
-      "additionalProperties": false,
-      "properties": {
-        "bands": {
-          "additionalProperties": false,
-          "properties": {
-            "large_above": {
-              "type": "number"
-            },
-            "small_below": {
-              "type": "number"
-            }
+    "items": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "citation": {
+            "$ref": "#/$defs/citationId"
           },
-          "required": [
-            "large_above",
-            "small_below"
-          ],
-          "type": "object"
+          "direction": {
+            "enum": [
+              "升",
+              "降",
+              "宣",
+              "收"
+            ]
+          },
+          "pattern": {
+            "$ref": "#/$defs/patternId"
+          },
+          "says": {
+            "type": "string"
+          },
+          "sign": {
+            "enum": [
+              1,
+              -1
+            ]
+          },
+          "status": {
+            "enum": [
+              "curated-draft",
+              "reviewed"
+            ]
+          }
         },
-        "dose": {
-          "additionalProperties": false,
-          "properties": {
-            "gamma": {
-              "type": "number"
-            },
-            "kappa": {
-              "type": "number"
-            },
-            "reference": {
-              "type": "string"
-            }
-          },
-          "required": [
-            "gamma",
-            "kappa",
-            "reference"
-          ],
-          "type": "object"
-        },
-        "mechanism": {
-          "additionalProperties": false,
-          "properties": {
-            "theta": {
-              "type": "number"
-            },
-            "top": {
-              "type": "integer"
-            }
-          },
-          "required": [
-            "theta",
-            "top"
-          ],
-          "type": "object"
-        },
-        "pairs": {
-          "additionalProperties": false,
-          "properties": {
-            "sigma": {
-              "type": "number"
-            },
-            "tau": {
-              "type": "number"
-            }
-          },
-          "required": [
-            "sigma",
-            "tau"
-          ],
-          "type": "object"
-        },
-        "roles": {
-          "additionalProperties": false,
-          "properties": {
-            "carrier_min": {
-              "type": "number"
-            },
-            "fanzuo_below": {
-              "type": "number"
-            }
-          },
-          "required": [
-            "carrier_min",
-            "fanzuo_below"
-          ],
-          "type": "object"
-        },
-        "verification": {
-          "additionalProperties": false,
-          "properties": {
-            "burden_ratio_max": {
-              "type": "number"
-            },
-            "cosine_min": {
-              "type": "number"
-            },
-            "flat_below": {
-              "type": "number"
-            },
-            "rank_max": {
-              "type": "integer"
-            }
-          },
-          "required": [
-            "burden_ratio_max",
-            "cosine_min",
-            "flat_below",
-            "rank_max"
-          ],
-          "type": "object"
-        }
+        "required": [
+          "citation",
+          "direction",
+          "pattern",
+          "says",
+          "sign",
+          "status"
+        ],
+        "type": "object"
       },
-      "required": [
-        "bands",
-        "dose",
-        "mechanism",
-        "pairs",
-        "roles",
-        "verification"
-      ],
-      "type": "object"
+      "type": "array"
     }
   },
   "required": [
     "_meta",
-    "params"
+    "items"
   ],
-  "title": "Parameters of the prescription model",
+  "title": "The direction a pattern's treatment asks for",
   "type": "object"
 }

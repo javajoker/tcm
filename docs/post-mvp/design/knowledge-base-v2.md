@@ -63,7 +63,7 @@ Each public-domain addition is a **download that needs the owner's approval** (f
 | **Processing** ✔ | `data/herbs/processing.json` (PM-37) | 炮製 methods and their modifiers | `curated-draft` |
 | **Dose bands (量效)** ✔ | `data/herbs/dose-bands.json` (PM-37) | Herbs whose action changes with the dose, with the source | `curated-draft`, few entries |
 | **治法 taxonomy** | `data/formulas/methods.json` | 八法 and the formula classes; each formula tagged | `curated-draft` |
-| **Pattern mechanisms** | `data/diagnosis/patterns.json` (new optional field) | 病機 direction (升降宣收) where the classics state it | `curated-draft` |
+| **Pattern mechanisms** ✔ | `data/treatment/mechanisms.json` (PM-39; a file of its own so that the diagnosis data stays as it is) | 病機 direction (升降宣收) where the classics state it | `curated-draft` |
 | **三因制宜 rules** | `data/treatment/sanyin.json` | The factors of the prescription model (age, constitution, season, region) with sources | `curated-draft` |
 | **Quotations** | `data/citations.json` | New verified passages for the above (target: about 60) | `verified` once matched in the corpus |
 
