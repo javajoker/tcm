@@ -13,7 +13,7 @@ Reading order for a new contributor: **PRD → Diagnosis SOP → Tech spec → U
 | [i18n, terminology and copy guide](i18n-guide.md) | English | Languages, glossary rules, message catalogs, forbidden wording, translation workflow | Terminology and wording | 0.1 |
 | [Content review process](content-review.md) | English | Who reviews which medical content, records, release gates | Review status and gates | 0.1 |
 | [Safety policy](safety-policy.md) | English | Who gets what output, notice wording, filter semantics, emergency resources, incidents | **Notice wording** and safety behaviour | 0.1 |
-| [Privacy and data handling](privacy.md) | English | Data inventory, storage, erase, compliance posture, developer rules | Privacy decisions | 0.1 |
+| [Privacy and data handling](privacy.md) | English | Data inventory, storage, erase, compliance posture, developer rules; the AI help impact assessment's draft is in the post-MVP set | Privacy decisions | 0.8 |
 | [Test plan](test-plan.md) | English | Test layers, properties, safety vignettes, golden cases, E2E, usability | Quality strategy | 0.1 |
 | [Accessibility protocol](accessibility-protocol.md) | English | What is automated, the manual assistive-technology pass per release, findings and severity, the record template | Accessibility acceptance | 0.1 |
 | [Release process](release-process.md) | English | Versions, environments, gates, deployment, rollback | Release rules | 0.1 |

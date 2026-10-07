@@ -140,7 +140,7 @@ A release is ticked item by item as features ship; a feature ships when the gate
 - [ ] Budgets hold; folded into the PRD, the SOP §12 (owner of the logic) and specs; `CHANGELOG.md` updated *(after PM-52: all JS 350.1 of 370 KB — Release E's raise, PD-12 —, the book 13.8 of 20 KB on demand, 91.4 of 100 KB per session)*
 
 **Release F — AI-assisted intake** (FR-40 … FR-42; nothing public before its gates)
-- [ ] The owner's decisions recorded (PD-21 data leaving the device for those who opt in, PD-25 photos); privacy redesign (inventory, statement, DPIA-style review, data-processing agreement with the provider) and legal view done
+- [ ] The owner's decisions recorded (PD-21 data leaving the device for those who opt in, PD-25 photos); privacy redesign (inventory, statement, DPIA-style review, data-processing agreement with the provider) and legal view done — *the decisions were recorded on 2026-10-07; the redesign is drafted ([privacy v0.8](docs/privacy.md), [impact assessment](docs/post-mvp/privacy/ai-help-dpia.md)), the reviews, the agreement and the signatures are open*
 - [ ] Off by default in the public build; consent per module; nothing identifying sent (test); nothing stored by the app or the gateway, and the provider's zero-retention terms in place
 - [ ] Red-flag screening deterministic and first; a matching statement re-opens the notice; the model never names a pattern, a herb or an amount (schema and wording lint, in the gateway and the app)
 - [ ] The evaluation passes per language; a language below the line keeps AI help off

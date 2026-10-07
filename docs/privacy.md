@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 0.7 (draft) |
+| **Version** | 0.8 (draft) |
 | **Status** | Design document; the user-facing statement (§8) needs legal review before release |
 | **Last updated** | 2026-10-07 |
 | **Audience** | Developers, reviewers, whoever writes the public privacy statement |
@@ -53,10 +53,17 @@
 | Feedback marks | match / partly / no, per result, pattern and formula (stored inside the saved result) | Low | Optional calibration export (marks + result summary; the answers only if the user ticks "include my answers") | IndexedDB | Same | Export or delete |
 | Follow-up date | A day the person chose (in 2, 4 or 8 weeks) and, if they said "not now", when — stored inside the saved result | Low | Shows the card on the start page and in History when the day has passed; nothing is sent and no timer runs. A calendar file for that day, if the person asks, holds only a date and the title "time to look again" | IndexedDB | Same | Deleted with the result; included in a backup |
 | Technical | app/KB/engine versions, profile | Low | Reproducibility | Inside saved results | Same | — |
+| **AI help consent** (Release F; development builds until its gates) | which module (conversation), when, which version of the statement | Low | Records the person's choice; nothing is sent before it | `localStorage` key `tcm.prefs` (`ai`) | Until withdrawn or erased | Settings → AI help: one switch per module |
+| **The conversation** (AI help) | the words the person types and the assistant's questions | **Sensitive (health)** | Proposes findings the person confirms ([AI-assisted intake](post-mvp/design/ai-assisted-intake.md)) | **Memory only** on the device, for the session — never in storage, a backup or a result; **sent**, for the time of each request, to the project's gateway and on to the model provider | None on the gateway (counts only in its log); the provider's zero-retention terms | Do not turn it on; withdraw in Settings; close the page |
+| What travels with each turn (AI help) | the app's own vocabulary of findings in the session's language (public) and the ids already confirmed | Sensitive (health) together with the conversation | Lets the reply name findings from the app's list | Sent with each request; nothing stored | None | As above |
+| AI session token | a random token the gateway issues for the session (no account) | Low | Budgets and rate limits per session | Memory only | The session; expires | Close the page |
+| Confirmed findings from the conversation | symptom ids and a severity, the same as an answered question | **Sensitive (health)** | Pattern differentiation | IndexedDB (draft, history), like every finding | Same as findings | Same |
 
 **With the lock on** ([design](post-mvp/design/backup-and-data-lock.md#5-the-local-data-lock-fr-24-release-b)) every row above that is stored in IndexedDB — the profile, medicines and allergies, red-flag answers, findings, birth data if remembered, results, notes, feedback marks, the follow-up date, and the unfinished assessment — is stored **encrypted** (AES-256-GCM, a fresh random IV for every write, the store, key and version of the record bound in as additional data). What is not encrypted: the preferences and the disclaimer record (no health data, and the lock screen needs the language and theme), the lock record and the lock marker. The lock does not protect against malware or a malicious browser extension, and it does not replace the device's own screen lock and disk encryption.
 
-**Never collected:** name, email, phone, account identifiers, device identifiers, precise location, IP addresses by the app, contacts, photos (no photo upload in MVP).
+**Never collected:** name, email, phone, account identifiers, device identifiers, precise location, IP addresses by the app, contacts, photos (no photo upload; the tongue and face module of Release F is development-only until its gates, PD-25).
+
+**AI help (Release F, decision PD-21, approved by the owner on 2026-10-07):** the only exception to *nothing is sent*. For a person who turns it on, the conversation, the vocabulary and the confirmed ids go to the project's gateway and on to the model provider, for the time of each request; nothing identifying is in a request (the request builder cannot reach the profile or birth data — tested); nothing is stored on either side. The impact assessment's draft is [`post-mvp/privacy/ai-help-dpia.md`](post-mvp/privacy/ai-help-dpia.md); it must be signed before any public use.
 
 ---
 
@@ -64,7 +71,7 @@
 
 | Topic | Design |
 |---|---|
-| **Network** | After the page and knowledge-base chunks load, the app makes no requests; CSP `connect-src 'self'` prevents anything else ([tech spec §11](tech-spec.md)). The KB chunks are static files that contain no user data and are fetched with no user-specific parameters |
+| **Network** | After the page and knowledge-base chunks load, the app makes no requests; CSP `connect-src 'self'` prevents anything else ([tech spec §11](tech-spec.md)). *Exception:* a build with AI help adds the gateway's origin to `connect-src`, and the app calls it only for a person who consented, during the conversation; a public build has AI help off and no gateway origin (`check-release`). The KB chunks are static files that contain no user data and are fetched with no user-specific parameters |
 | **Third parties** | None: no analytics, fonts, CDNs, tag managers, error-reporting services or embedded media in MVP |
 | **Cookies** | None |
 | **URLs and logs** | Routes contain only a random local assessment id; birth data, answers and notes never appear in URLs, titles, history state or console output in release |
@@ -84,7 +91,7 @@
 ## 4. Special categories
 
 ### 4.1 Health data
-Sensitive in every context. It is (a) never transmitted, (b) never written to logs or error messages, (c) never used in tests (tests use **synthetic vignettes only**, [test plan §3](test-plan.md)), (d) never put in screenshots or bug reports without the user explicitly exporting it.
+Sensitive in every context. It is (a) never transmitted — the one exception is the conversation of a person who turned on AI help, sent per request and kept nowhere (§2, [impact assessment](post-mvp/privacy/ai-help-dpia.md)) — (b) never written to logs or error messages, (c) never used in tests (tests use **synthetic vignettes only**, [test plan §3](test-plan.md)), (d) never put in screenshots or bug reports without the user explicitly exporting it.
 
 ### 4.2 Birth data
 Optional; not medically necessary; not clinically validated for health use. The release build keeps the module **off until the user turns it on**, with the N-BIRTH statement. Consent is a visible, specific toggle on the Birth card (not buried in general terms) and may be withdrawn at any time (turning it off clears the in-memory birth data and any remembered copy).
@@ -104,9 +111,9 @@ Collected only for the safety filter; subject to the same local-only handling.
 | GDPR (EU/UK) | Health data is a special category; but with no controller-side processing there is no data held by the project | Local-only, no accounts; hosting logs minimised; a short statement explaining that the user holds the data; revisit if any server component or sync is added |
 | Taiwan PDPA (個人資料保護法), Hong Kong PDPO, mainland PIPL | Same | Same; the statement is provided in zh-Hant first |
 | US state health-privacy laws | Wellness app positioning | Same; no sale, no sharing, no tracking |
-| Consent | Needed only where data would leave the device | Not applicable in MVP; birth-data opt-in is a UX consent for local processing |
+| Consent | Needed only where data would leave the device | Not applicable in MVP; birth-data opt-in is a UX consent for local processing. **AI help (Release F):** explicit consent per module before anything is sent, with the statement's version recorded; withdrawal is one switch in Settings ([impact assessment §8](post-mvp/privacy/ai-help-dpia.md#8-rights-of-the-person)) |
 
-**Triggers for a full privacy and consent redesign (DPIA-style review):** accounts or cloud sync, any analytics beyond aggregate opt-in counters, server-side processing, error reporting that might include inputs, tongue-photo analysis (image data), or sharing features.
+**Triggers for a full privacy and consent redesign (DPIA-style review):** accounts or cloud sync, any analytics beyond aggregate opt-in counters, server-side processing, error reporting that might include inputs, tongue-photo analysis (image data), or sharing features. **AI help is such a trigger**: server-side processing of health data, with consent, for those who opt in — the owner is the controller, the gateway's host and the model provider are processors; the draft assessment and the data-processing agreement's checklist are in [`post-mvp/privacy/ai-help-dpia.md`](post-mvp/privacy/ai-help-dpia.md) (task PM-44, to be reviewed).
 
 ---
 
@@ -118,6 +125,7 @@ Collected only for the safety filter; subject to the same local-only handling.
 4. Storage access only through `storage.ts`; keys and schema are documented there; every new stored field is added to the inventory in §2 in the same change.
 5. Tests, fixtures, screenshots and golden cases contain **synthetic** data only; the dev "export case" tool strips free text and birth data by default.
 6. Crash and bug reports use ids and versions only; the "Report a problem" link pre-fills KB/engine versions and item ids, never inputs.
+7. AI help: one request builder is the only code that sends health data, and it is given the conversation, the vocabulary and the confirmed ids — never the profile, birth data, notes or the history (tested); the gateway logs counts and status codes, never content (tested); the conversation text is held in memory, never in storage.
 
 ---
 
@@ -131,12 +139,15 @@ Collected only for the safety filter; subject to the same local-only handling.
 | Birth data not persisted by default | E2E with "remember" off (also with the Settings default off): reload → birth data absent, saved result holds no birth moment |
 | Storage failure | Unit tests for `storage.ts` with throwing storage; E2E in a context with blocked storage shows "Not saved" and still produces a result |
 | Dependency review | Lockfile, `pnpm audit`, license check in CI |
+| AI help sends only what it should | A unit test of the request builder (a profile, birth data and a note with marker values never appear in a request); the gateway's contract tests (no content in its log, the kill switch, the limits); `check-release`: a public build has AI help off and no gateway origin in its CSP |
 
 ---
 
 ## 8. User-facing privacy statement (draft outline)
 
 The public text (zh-Hant first, then English) will cover: what the app is; **what stays on your device** (everything you enter, including birth data if you choose to enter it); that **nothing is sent** to us or anyone else; what is stored and for how long; how to delete it; shared-device and backup caveats; hosting logs; birth data is optional and not clinically validated; children; how to report a problem (no health data needed); contact; change history. Draft headline: *「您輸入的資料只會留在您自己的裝置上，不會傳送給我們或任何第三方。」* / *"What you enter stays on your own device and is not sent to us or to any third party."*
+
+**AI help (draft wording, for the reviewers):** *If you turn on AI help, what you type in the conversation is sent — only while you use it — to our service and to the AI provider we name, to suggest findings you then confirm. Nothing is kept by us or by them, and nothing that identifies you is sent: please do not type your name or contact details. You can turn it off at any time in Settings; the questions without AI give the same result.* · 「開啟 AI 協助後，您在對話中輸入的文字會在使用當下傳送到本服務與我們指明的 AI 服務商，用來提出由您確認的症狀；我們與服務商都不保存，也不傳送可辨識您身分的資料——請勿輸入姓名或聯絡方式。您可隨時在設定中關閉；不用 AI 的問答會得到相同的結果。」
 
 ---
 
@@ -165,5 +176,6 @@ Since then (post-MVP, [decisions register](post-mvp/decisions.md)): PQ2 and PQ3 
 | 0.3 | 2026-10-06 | How seasons are counted (PM-26): the `seasons` preference (low sensitivity; travels in a backup when chosen), the basis stamped on a result made on another basis, and the device's time zone read only to suggest a default |
 | 0.4 | 2026-10-06 | The hour near a change (PM-27): the answer *which hour is nearer the truth* is kept with the unfinished assessment only together with the birth data, and a saved result keeps the choice — `primary`, `alternative` or `unknown` — and never the time; the pillars and the true solar time are still removed unless the birth data is remembered |
 | 0.5 | 2026-10-06 | The season model (PM-29): the development profile's `seasonModel` preference (low sensitivity, never in a backup, not read by a release); the summary file's optional `exportedFrom.seasonModel` and `seasons` say how the season was counted and hold nothing about the person |
-| 0.7 | 2026-10-07 | The personalised prescription (PM-41): a derived field inside a saved result, made only by a development build (a release build has no herb records and refuses a record that holds one on import); nothing new is collected — it is computed from the result and the inputs the result already holds |
 | 0.6 | 2026-10-06 | The kept backup file (PM-32): the encrypted file in a folder the person chose, its record in IndexedDB (the handle and a hash — never the passphrase) and the passphrase held in memory only |
+| 0.7 | 2026-10-07 | The personalised prescription (PM-41): a derived field inside a saved result, made only by a development build (a release build has no herb records and refuses a record that holds one on import); nothing new is collected — it is computed from the result and the inputs the result already holds |
+| 0.8 | 2026-10-08 | AI help (PM-44; PD-21 approved by the owner): inventory rows for the consent, the conversation (memory only on the device; sent per request, kept nowhere), what travels with a turn, the session token and the confirmed findings; the network exception and the one exception to *health data is never transmitted*; consent per module; developer rule 7 and the verification row; the redesign trigger and the impact assessment's draft ([`post-mvp/privacy/ai-help-dpia.md`](post-mvp/privacy/ai-help-dpia.md)); the statement's draft paragraph. To be reviewed with the assessment |

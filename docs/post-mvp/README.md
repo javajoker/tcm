@@ -2,9 +2,9 @@
 
 | | |
 |---|---|
-| **Version** | 0.3 (draft) |
+| **Version** | 0.4 (draft) |
 | **Status** | Plan for Releases A–F: product documents (A-19), twelve design documents (A-20 … A-28; PM-34 for Releases E and F) and two spike protocols. Releases A and B are built, C and D in part, E and F are planned; the implementation tasks are section PM of `TASKS.md` |
-| **Last updated** | 2026-10-07 |
+| **Last updated** | 2026-10-08 |
 | **Audience** | Maintainers, reviewers, whoever plans the next releases |
 | **Related** | [PRD](../PRD.md) · [Release process](../release-process.md) · [Content review](../content-review.md) · [`TASKS.md`](../../TASKS.md) §PM · [`CHECKLIST.md`](../../CHECKLIST.md) §3 |
 
@@ -48,12 +48,18 @@ Spike protocols and reports (Release D; [how a spike works](design/research-trac
 | [Camera pulse and heart-rate-strap prefill](spikes/camera-pulse.md) | PM-31 | Protocol fixed; **not run** — needs a reference device, volunteers with consent, phones and an ethics approval |
 | [Tongue-photo assistance](spikes/tongue-photo.md) | PM-30 | Protocol fixed; desk research on datasets done; **stopped at step 1** — the licence and consent gap and the open gates (legal view, advisor, approvals) |
 
+Privacy assessments (the redesign the [privacy design](../privacy.md) §5 asks for when data leaves the device):
+
+| Assessment | Task | State |
+|---|---|---|
+| [AI help — data-protection impact assessment](privacy/ai-help-dpia.md) | PM-44 | **Draft, not reviewed** — needs a privacy and a legal reviewer, the provider's data-processing agreement and the owner's signature |
+
 ## 2. Standing constraints
 
 Every post-MVP feature keeps these; a design that needs to break one says so in its first section and needs a recorded decision.
 
 1. **Gates do not move.** Output levels, notices, the draft label and the review-gated release ([content review §7](../content-review.md)) apply to new features exactly as to old ones. A feature never lowers a gate to ship earlier.
-2. **Local-first.** No accounts, no server that receives answers, no third-party scripts, no analytics. A feature that seems to need a server is redesigned as a file the person holds. *(Release F proposes one exception — AI help, opt-in per person, nothing stored — recorded as decision PD-21 ⚑ and not in force until the owner confirms it.)* Any new network request, `connect-src` entry or stored field is a privacy change: [privacy §2](../privacy.md) and [tech spec §11](../tech-spec.md) are edited in the same commit.
+2. **Local-first.** No accounts, no server that receives answers, no third-party scripts, no analytics. A feature that seems to need a server is redesigned as a file the person holds. *(Release F makes one exception — AI help, opt-in per person, nothing stored — approved by the owner on 2026-10-07 as decision PD-21; it reaches no public build before the privacy and legal reviews of its [impact assessment](privacy/ai-help-dpia.md) and the evaluation.)* Any new network request, `connect-src` entry or stored field is a privacy change: [privacy §2](../privacy.md) and [tech spec §11](../tech-spec.md) are edited in the same commit.
 3. **Deterministic, explainable core.** The engine stays pure and the same input gives the same output; nothing generated at run time decides a diagnosis or a recommendation (an AI input aid may *propose* findings that the person confirms; the engine decides — PD-23).
 4. **Budgets.** Initial JavaScript ≤ 200 KB gzip and the knowledge base per session ≤ 100 KB stay. New languages, features and data load lazily and only for the people who use them.
 5. **Review class.** Each feature is classified by the review it needs before it can reach people (see §3). The class decides what blocks the release, not how interesting the feature is.
@@ -88,3 +94,4 @@ A feature of class N can still contain a class-C part (a knowledge page that sho
 | 0.1 | 2026-10-05 | Roadmap, requirements and decision register; nine design documents |
 | 0.2 | 2026-10-07 | Releases E and F from the owner's direction of 2026-10-07: three design documents, requirements FR-35 … FR-42, decisions PD-13 … PD-27, tasks PM-34 … PM-50 |
 | 0.3 | 2026-10-07 | The design of 營衛 in the model; the owner's decisions of 2026-10-07 (second) |
+| 0.4 | 2026-10-08 | The AI help impact assessment's draft (PM-44); standing constraint 2 states the approved exception |
