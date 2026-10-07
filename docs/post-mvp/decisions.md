@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 0.12 (draft) |
+| **Version** | 0.13 (draft) |
 | **Status** | Every item the MVP documents recorded as "to be revisited after the MVP" is answered here with the recommended default; new decisions that came out of the post-MVP design are PD-01 … PD-12 |
 | **Last updated** | 2026-10-07 |
 | **Audience** | Project owner, maintainers, reviewers |
@@ -183,3 +183,4 @@ The ⚑ items PD-13, PD-14, PD-21 and PD-25 were decided by the owner on 2026-10
 | 0.10 | 2026-10-07 | PD-16 corrected to the limits built and stated by the SOP: two herbs added in all (the text said three added and two removed) |
 | 0.11 | 2026-10-07 | §2.9: the owner's decisions of 2026-10-07 (second) — PD-13, PD-14, PD-19, PD-21, PD-25 decided; PD-12 extended; PD-28 (營衛 in the model) and PD-29 (order) |
 | 0.12 | 2026-10-07 | PD-12: 370 KB for Release E (the 營衛 block took all JS to 350.1 KB) |
+| 0.13 | 2026-10-08 | PD-12 measured for PM-53: the release build's prescription chunk about 17 KB; all JavaScript 367.6 of 370 KB |

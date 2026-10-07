@@ -4,6 +4,7 @@ import { canonicalJson } from "./canonical.ts";
 import { ASSESSMENT_MIGRATIONS, ASSESSMENT_VERSION, DRAFT_MIGRATIONS, DRAFT_VERSION, migrate, wrap, type Envelope } from "../migrations.ts";
 import { toStored } from "../draft.ts";
 import type { Draft, SavedAssessment } from "../types.ts";
+import type { Role } from "@tcm/kb";
 import type { BackupDocument } from "./format.ts";
 import { isPlainRecord } from "./plain.ts";
 import { validateAssessment, validateDraft, validatePrefs, type BackupPrefs } from "./validate.ts";
@@ -26,9 +27,11 @@ export interface ImportContext {
    */
   readonly replay: (saved: SavedAssessment) => ReplayOutcome;
   readonly now: number;
+  /** The roles THIS build serves (PM-53): a record made for a role the build cannot show is refused — it may hold content its general bundle does not have. */
+  readonly roles?: readonly Role[];
 }
 
-export type RejectReason = "invalid" | "altered" | "development-build" | "duplicate";
+export type RejectReason = "invalid" | "altered" | "development-build" | "duplicate" | "role";
 export interface Rejected { readonly id: string | null; readonly reason: RejectReason; readonly detail: string }
 export interface PreparedRecord {
   readonly saved: SavedAssessment;
@@ -60,6 +63,7 @@ export function prepareImport(document: BackupDocument, ctx: ImportContext): Pre
     if (seen.has(saved.id)) { rejected.push({ id: saved.id, reason: "duplicate", detail: "the file holds this id twice" }); continue; }
     seen.add(saved.id);
     if (ctx.profile === "release" && saved.profile !== "release") { rejected.push({ id: saved.id, reason: "development-build", detail: `made by a ${saved.profile} build` }); continue; }
+    if (saved.role !== undefined && ctx.profile === "release" && !(ctx.roles ?? []).includes(saved.role)) { rejected.push({ id: saved.id, reason: "role", detail: `made for a ${saved.role}` }); continue; }
     const sameVersions = saved.engineVersion === ctx.current.engineVersion && saved.kbVersion === ctx.current.kbVersion && saved.profile === ctx.current.profile;
     const outcome: ReplayOutcome = sameVersions ? ctx.replay(saved) : "cannot";
     if (outcome === "different") { rejected.push({ id: saved.id, reason: "altered", detail: "its result does not follow from its answers" }); continue; }

@@ -33,6 +33,8 @@
   "safety.notice.pregnancy.body": "Many herbs and acupressure points should be avoided in pregnancy; please consult your obstetric doctor and a licensed practitioner first. You can continue with gentle lifestyle and diet information; other content will not be shown.",
   "safety.notice.pregnancy.title": "Please talk to your doctor first during pregnancy",
   "safety.notice.pulseEducation.text": "Feeling the pulse reliably takes trained fingers and a lot of practice. What you enter counts for less in the calculation and is marked in the result; please do not draw conclusions from a self-assessed pulse alone, and do not worry if you cannot feel it.",
+  "safety.notice.role.body": "The formulas' quantities, modifications and medication plans are study and clinical references put together from the classics and by rules, not yet reviewed by a practitioner. Before any of it is used for anyone, a licensed practitioner examines the person and decides; do not take or give medicine on its strength. The notices and limits for pregnancy, breastfeeding, children, red flags and serious illness apply to every role alike.",
+  "safety.notice.role.title": "For study and clinical reference",
   "safety.notice.selfObserved.text": "Tongue and pulse are self-observed and count for less in the calculation.",
   "safety.notice.serious.body": "You mentioned \"{reason}\". Care for conditions like this should be decided by your medical team; this app cannot replace it and will not offer formulas. You can continue to read educational content.",
   "safety.notice.serious.title": "Your medical team should lead on this",

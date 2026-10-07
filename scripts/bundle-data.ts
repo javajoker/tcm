@@ -20,6 +20,8 @@ export const BUDGET_GZ = {
   herbIndex: 36 * 1024, herbShard: 8 * 1024, hansHerbIndex: 8 * 1024, hansHerbShard: 3 * 1024,
   // the learning book (PM-43): fetched when a reader opens it, never part of the per-session figure
   book: 20 * 1024,
+  // the reference for learners and practitioners (PM-53): fetched for those roles only, never part of a general reader's session
+  reference: 60 * 1024, hansReference: 12 * 1024,
 } as const;
 
 /** The committed Simplified display dictionary (Traditional string → Simplified string), written by `python -m scripts.i18n.build_hans`. */
@@ -49,6 +51,8 @@ export interface WriteBundleResult {
   readonly herbBrowser: { readonly count: number; readonly files: number } | null;
   /** The learning book (PM-43): how many chapters it has (null for a build that carries no book). */
   readonly book: { readonly chapters: number } | null;
+  /** The reference for learners and practitioners (PM-53): how many formulas and herb records it holds (null for a build that serves no role). */
+  readonly reference: { readonly formulas: number; readonly herbs: number } | null;
   readonly hans: { readonly main: HansRef; readonly cities: HansRef };
   readonly report: string[];
   readonly overBudget: string[];
@@ -58,7 +62,7 @@ export function writeBundle(opts: WriteBundleOptions): WriteBundleResult {
   const { profile } = opts;
   const out = resolve(opts.out);
   const overrides = opts.overridesPath ? (JSON.parse(readFileSync(resolve(opts.overridesPath), "utf8")) as unknown) : undefined;
-  const { chunks, reach, herbFiles, bookFile } = buildChunks(readDataFiles(), { profile, overrides, version: "pending", draftLabel: opts.draftLabel ?? process.env.APP_DRAFT_LABEL === "on" });
+  const { chunks, reach, herbFiles, bookFile, referenceFile } = buildChunks(readDataFiles(), { profile, overrides, version: "pending", draftLabel: opts.draftLabel ?? process.env.APP_DRAFT_LABEL === "on" });
 
   const serialized: Record<string, string> = {
     core: JSON.stringify(chunks.core),
@@ -96,10 +100,13 @@ export function writeBundle(opts: WriteBundleOptions): WriteBundleResult {
   // the learning book (PM-43): one file, hash-addressed like every chunk but NOT part of the knowledge-base version (it changes nothing a result says); Traditional Chinese only, so no display list
   const bookRef = bookFile === null ? null : { ...emit("book", JSON.stringify(bookFile), "book"), chapters: bookFile.chapters.map((c) => c.id) };
 
+  // the reference for learners and practitioners (PM-53): one file, hash-addressed and PART of the knowledge-base version (it changes what a role's result says), with its own display list
+  const referenceRef = referenceFile === null ? null : { ...emit("reference", JSON.stringify(referenceFile), "reference"), roles: Object.keys(referenceFile.roles) as ("learner" | "practitioner")[] };
+
   // the Simplified display lists: aligned with the Chinese strings of exactly these chunks. They are display only, so they are NOT part of the knowledge-base version
   // (a wording change in the dictionary must not make saved results look as if they were made with another knowledge base).
   const dictionary = (JSON.parse(readFileSync(resolve(opts.dictionaryPath ?? DICTIONARY_PATH), "utf8")) as { entries: Record<string, string> }).entries;
-  const hansRef = (name: string, budgetKey: "hansMain" | "hansCities" | "hansHerbIndex" | "hansHerbShard", list: string[]): HansRef => {
+  const hansRef = (name: string, budgetKey: "hansMain" | "hansCities" | "hansHerbIndex" | "hansHerbShard" | "hansReference", list: string[]): HansRef => {
     const body = alignedList(list, dictionary);
     const hash = sha256(body);
     const file = `hans-${name}.${hash.slice(0, 10)}.txt`;
@@ -113,6 +120,7 @@ export function writeBundle(opts: WriteBundleOptions): WriteBundleResult {
   const hans = {
     main: hansRef("main", "hansMain", chineseStrings(chunks.core, chunks.formulas, chunks.citations, chunks.guidance, chunks.herbs ?? null)),
     cities: hansRef("cities", "hansCities", chineseStrings(chunks.cities)),
+    ...(referenceFile ? { reference: hansRef("reference", "hansReference", chineseStrings(referenceFile)) } : {}),
   };
 
   const herbHans = herbFiles === null ? null : {
@@ -120,16 +128,17 @@ export function writeBundle(opts: WriteBundleOptions): WriteBundleResult {
     shards: Object.fromEntries(Object.entries(herbFiles.shards).map(([key, shard]) => [key, hansRef(`herbs-${key}`, "hansHerbShard", chineseStrings(shard))])),
   };
 
-  const version = sha256([profile, chunks.schemaVersion, ...Object.values(refs).map((r) => r.sha256)].join("|")).slice(0, 12);
+  const version = sha256([profile, chunks.schemaVersion, ...Object.values(refs).map((r) => r.sha256), ...(referenceRef ? [referenceRef.sha256] : [])].join("|")).slice(0, 12);
   const manifest: Manifest = {
     schema: chunks.schemaVersion, version, profile,
     chunks: { core: refs.core!, formulas: refs.formulas!, citations: refs.citations!, guidance: refs.guidance!, cities: refs.cities!, ...(refs.herbs ? { herbs: refs.herbs } : {}) },
     ...(herbRefs && herbFiles ? { herbBrowser: { count: herbFiles.index.count, index: herbRefs.index, shards: herbRefs.shards } } : {}),
     ...(bookRef ? { book: bookRef } : {}),
+    ...(referenceRef ? { reference: referenceRef } : {}),
     variants: { "zh-Hans": { ...hans, ...(herbHans ? { herbs: herbHans } : {}) } },
   };
   writeFileSync(join(out, "manifest.json"), JSON.stringify(manifest, null, 2) + "\n");
-  return { manifest, reach, formulas: chunks.formulas.items.length, herbRecords: chunks.herbs ? chunks.herbs.items.length : 0, herbBrowser: herbRefs && herbFiles ? { count: herbFiles.index.count, files: 1 + Object.keys(herbRefs.shards).length } : null, book: bookFile ? { chapters: bookFile.chapters.length } : null, hans, report, overBudget };
+  return { manifest, reach, formulas: chunks.formulas.items.length, herbRecords: chunks.herbs ? chunks.herbs.items.length : 0, herbBrowser: herbRefs && herbFiles ? { count: herbFiles.index.count, files: 1 + Object.keys(herbRefs.shards).length } : null, book: bookFile ? { chapters: bookFile.chapters.length } : null, reference: referenceFile ? { formulas: referenceFile.formulas.items.length, herbs: referenceFile.herbs.items.length } : null, hans, report, overBudget };
 }
 
 if (import.meta.main) {
@@ -141,7 +150,7 @@ if (import.meta.main) {
   if (profile !== "release" && profile !== "dev") throw new Error(`unknown profile ${profile} (use release or dev)`);
   const out = resolve(arg("out") ?? "dist/kb");
   const r = writeBundle({ profile, out, overridesPath: arg("overrides") ?? process.env.APP_OVERRIDES });
-  console.log(`kb bundle ${r.manifest.version} — profile ${profile}, max level ${r.reach.maxLevel}, ${r.formulas} formulas, ${r.herbRecords} herb records, ${r.herbBrowser ? `${r.herbBrowser.count} herbs in ${r.herbBrowser.files} browser files` : "no herb browser"}, ${r.book ? `the book in ${r.book.chapters} chapters` : "no book"} → ${out}`);
+  console.log(`kb bundle ${r.manifest.version} — profile ${profile}, max level ${r.reach.maxLevel}, ${r.formulas} formulas, ${r.herbRecords} herb records, ${r.herbBrowser ? `${r.herbBrowser.count} herbs in ${r.herbBrowser.files} browser files` : "no herb browser"}, ${r.book ? `the book in ${r.book.chapters} chapters` : "no book"}, ${r.reference ? `a reference for learners and practitioners (${r.reference.formulas} formulas, ${r.reference.herbs} herb records)` : "no reference"} → ${out}`);
   console.log(r.report.join("\n"));
   if (r.overBudget.length) {
     console.error(`BUDGET EXCEEDED:\n - ${r.overBudget.join("\n - ")}`);

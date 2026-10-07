@@ -107,8 +107,9 @@ test("a public build has no herb browser; the closed beta and the dev build have
 test("the herb browser is not part of the knowledge-base version, so a herb page changing marks no saved result as old", () => {
   const { manifest } = bundle(["--profile", "release"], BETA);
   assert.ok(manifest.herbBrowser);
-  // the version is the hash of the profile, the schema and the hashes of the chunks that results depend on — recomputed here without a single herb file or display list
-  const expected = createHash("sha256").update([manifest.profile, manifest.schema, ...Object.values(manifest.chunks).map((r) => r.sha256)].join("|")).digest("hex").slice(0, 12);
+  // the version is the hash of the profile, the schema and the hashes of the chunks that results depend on (the reference for learners and practitioners among them) — recomputed
+  // here without a single herb file or display list
+  const expected = createHash("sha256").update([manifest.profile, manifest.schema, ...Object.values(manifest.chunks).map((r) => r.sha256), ...(manifest.reference ? [manifest.reference.sha256] : [])].join("|")).digest("hex").slice(0, 12);
   assert.equal(manifest.version, expected);
   const again = bundle(["--profile", "release"], BETA);
   assert.equal(again.manifest.version, manifest.version, "deterministic");
@@ -203,7 +204,7 @@ test("a public build has no book; the closed beta and the dev build carry its tw
     assert.equal(b.manifest.book?.chapters.length, 12);
     assert.equal(b.manifest.book?.chapters[0], "model");
     assert.match(b.stdout, /the book in 12 chapters/);
-    const expected = createHash("sha256").update([b.manifest.profile, b.manifest.schema, ...Object.values(b.manifest.chunks).map((r) => r.sha256)].join("|")).digest("hex").slice(0, 12);
+    const expected = createHash("sha256").update([b.manifest.profile, b.manifest.schema, ...Object.values(b.manifest.chunks).map((r) => r.sha256), ...(b.manifest.reference ? [b.manifest.reference.sha256] : [])].join("|")).digest("hex").slice(0, 12);
     assert.equal(b.manifest.version, expected, "the version is made without the book");
     assert.equal(b.manifest.variants?.["zh-Hans"] !== undefined && JSON.stringify(b.manifest.variants).includes("book"), false, "Traditional only: no Simplified list");
   }
@@ -231,6 +232,54 @@ test("a manifest whose book entry is malformed is refused before anything is fet
     const net = network(dir);
     const fetched = (async (url: string) => (url.endsWith("manifest.json") ? new Response(JSON.stringify({ ...manifest, book })) : net.fetch(url))) as unknown as typeof fetch;
     await assert.rejects(loadKnowledgeBase({ baseUrl: "/kb", fetch: fetched }), (e: unknown) => e instanceof KbError && e.code === "manifest-invalid", JSON.stringify(book).slice(0, 60));
+    assert.deepEqual(net.asked, []);
+  }
+});
+
+test("the reference for learners and practitioners: none in a public build or the dev build; one file in the closed beta, part of the knowledge-base version, with its own Simplified list", async () => {
+  for (const [env, profile] of [[{ APP_DRAFT_LABEL: "off" }, "release"], [{}, "dev"]] as const) {
+    const b = bundle(["--profile", profile], env);
+    assert.equal(b.manifest.reference, undefined, profile);
+    assert.equal(readdirSync(b.dir).filter((f) => f.startsWith("reference.")).length, 0, profile);
+    assert.match(b.stdout, /no reference/);
+    assert.deepEqual((await loadKnowledgeBase({ baseUrl: "/kb", fetch: network(b.dir).fetch })).roles, [], profile);
+  }
+  const beta = bundle(["--profile", "release"], BETA);
+  assert.match(beta.manifest.reference?.file ?? "", /^reference\.[0-9a-f]{10}\.json$/);
+  assert.deepEqual(beta.manifest.reference?.roles, ["learner", "practitioner"]);
+  assert.match(beta.manifest.variants?.["zh-Hans"]?.reference?.file ?? "", /^hans-reference\.[0-9a-f]{10}\.txt$/);
+  assert.match(beta.stdout, /a reference for learners and practitioners \(33 formulas, 94 herb records\)/);
+  const without = createHash("sha256").update([beta.manifest.profile, beta.manifest.schema, ...Object.values(beta.manifest.chunks).map((r) => r.sha256)].join("|")).digest("hex").slice(0, 12);
+  assert.notEqual(beta.manifest.version, without, "the reference changes what a role's result says: it is part of the version");
+  assert.equal(beta.manifest.chunks.herbs, undefined, "no herb records with the general chunks");
+});
+
+test("nothing of the reference is fetched with the knowledge base; a role asks for its file and its Simplified list once; a damaged file is refused and asked for again", async () => {
+  const { dir, manifest } = bundle(["--profile", "release"], BETA);
+  const net = network(dir);
+  const kb = await loadKnowledgeBase({ baseUrl: "/kb", fetch: net.fetch, script: "Hans" });
+  assert.deepEqual(net.asked.filter((f) => f.includes("reference")), []);
+  assert.deepEqual(kb.roles, ["learner", "practitioner"], "the roles are known without a fetch");
+  net.damaged.add(manifest.reference!.file);
+  await assert.rejects(kb.forRole("learner"), (e: unknown) => e instanceof KbError && e.code === "chunk-hash-mismatch");
+  net.damaged.clear();
+  const learner = await kb.forRole("learner");
+  assert.equal(learner.formulas.size, 33);
+  assert.equal(learner.script, "Hans");
+  const mahuang = learner.formulas.get("F_MAHUANG")!;
+  assert.equal(learner.zh(mahuang.name["zh-Hant"]), "麻黄汤", "a formula only the reference holds is shown in Simplified");
+  await kb.forRole("learner");
+  await kb.forRole("practitioner");
+  assert.equal(net.asked.filter((f) => f.startsWith("reference.")).length, 3, "the damaged try, then once per role");
+  assert.equal(net.asked.filter((f) => f.startsWith("hans-reference.")).length, 2);
+});
+
+test("a manifest whose reference entry is malformed is refused before anything is fetched", async () => {
+  const { dir, manifest } = bundle(["--profile", "release"], BETA);
+  for (const reference of [{ ...manifest.reference, roles: [] }, { ...manifest.reference, roles: ["doctor"] }, { ...manifest.reference, roles: ["learner", "learner"] }, { roles: ["learner"] }]) {
+    const net = network(dir);
+    const fetched = (async (url: string) => (url.endsWith("manifest.json") ? new Response(JSON.stringify({ ...manifest, reference })) : net.fetch(url))) as unknown as typeof fetch;
+    await assert.rejects(loadKnowledgeBase({ baseUrl: "/kb", fetch: fetched }), (e: unknown) => e instanceof KbError && e.code === "manifest-invalid", JSON.stringify(reference).slice(0, 60));
     assert.deepEqual(net.asked, []);
   }
 });

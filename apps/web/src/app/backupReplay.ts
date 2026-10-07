@@ -13,8 +13,14 @@ export interface Engine { assess(kb: KnowledgeBase, input: NonNullable<ReturnTyp
 /** What this build is, for deciding which records can be replayed. */
 export const currentOf = (kb: KnowledgeBase, engineVersion: string): Current => ({ engineVersion, kbVersion: kb.version, profile: kb.profile });
 
-export function makeReplay(kb: KnowledgeBase, engine: Engine): (saved: SavedAssessment) => ReplayOutcome {
+/**
+ * `kbFor` gives the knowledge base a record was made with: the general one, or — for a record made for a learner or a practitioner (PM-53) — that role's; `null` where this build
+ * cannot have it, and then the record cannot be replayed.
+ */
+export function makeReplay(kbFor: KnowledgeBase | ((saved: SavedAssessment) => KnowledgeBase | null), engine: Engine): (saved: SavedAssessment) => ReplayOutcome {
   return (saved) => {
+    const kb = typeof kbFor === "function" ? kbFor(saved) : kbFor;
+    if (kb === null) return "cannot";
     // a result that used a birth moment the person did not choose to keep has had the moment removed (privacy §3): the answers no longer suffice to make it again
     if (saved.result.reference?.birth.requested === true && saved.input.birth === undefined) return "cannot";
     try {

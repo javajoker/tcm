@@ -15,7 +15,7 @@ export default function PrescriptionCard({ saved, kb }: { saved: SavedAssessment
   const rx = useMemo(() => rxI18n(t.lang, (s) => t.zh(s)), [t]);
   const p = saved.prescription;
   if (p === undefined) return null;
-  const v = rxView(p, kb, t, rx);
+  const v = rxView(p, kb, t, rx, saved.role !== undefined);
   return (
     <Card title={v.title} headingLevel={2} id="formula-rx">
       <p>{v.intro}</p>

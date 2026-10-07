@@ -245,6 +245,40 @@ export interface ScopeProfiles {
   resolution: {
     [k: string]: unknown;
   };
+  roles: {
+    learner: {
+      features: {
+        show_dosage_reference: boolean;
+        show_formula_modification: boolean;
+        show_herb_weights: boolean;
+        show_tier_c: boolean;
+      };
+      population: {
+        adult: {
+          level: Level;
+        };
+        elderly_65_plus: {
+          level: Level;
+        };
+      };
+    };
+    practitioner: {
+      features: {
+        show_dosage_reference: boolean;
+        show_formula_modification: boolean;
+        show_herb_weights: boolean;
+        show_tier_c: boolean;
+      };
+      population: {
+        adult: {
+          level: Level;
+        };
+        elderly_65_plus: {
+          level: Level;
+        };
+      };
+    };
+  };
 }
 export interface BilingualNamed {
   en: string;

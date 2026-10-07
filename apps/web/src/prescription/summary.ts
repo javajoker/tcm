@@ -14,8 +14,8 @@ export function prescriptionSection(saved: SavedAssessment, kb: KnowledgeBase, t
   const p = saved.prescription;
   if (p === undefined) return null;
   const rx = rxI18n(t.lang, (s) => t.zh(s));
-  const v = rxView(p, kb, t, rx);
-  const title = rx.t("rx.summary.title");
+  const v = rxView(p, kb, t, rx, saved.role !== undefined);
+  const title = saved.role !== undefined ? rx.t("rx.title.study") : rx.t("rx.summary.title");
   if (v.withheld !== null) return { id: "rx", title, items: [v.withheld, v.draft, v.footer] };
   return {
     id: "rx", title,

@@ -24,23 +24,23 @@ export interface Budgets {
   readonly herbBrowser: number;
   /** The learning book (PM-43): one file in Traditional Chinese, fetched only when someone opens the book — never part of the session figure. */
   readonly book: number;
+  /** The reference for learners and practitioners (PM-53): fetched for those roles only, never part of a general reader's session. */
+  readonly reference: number;
 }
 const KB = 1024;
-export const BUDGETS: Budgets = { initialJs: 200 * KB, lazyJsChunk: 50 * KB, totalJs: 370 * KB, totalCss: 20 * KB, kbSession: 100 * KB, hansList: 30 * KB, herbBrowser: 140 * KB, book: 20 * KB };
+export const BUDGETS: Budgets = { initialJs: 200 * KB, lazyJsChunk: 50 * KB, totalJs: 370 * KB, totalCss: 20 * KB, kbSession: 100 * KB, hansList: 30 * KB, herbBrowser: 140 * KB, book: 20 * KB, reference: 60 * KB };
 
 const walk = (dir: string): string[] => readdirSync(dir).flatMap((n) => { const p = join(dir, n); return statSync(p).isDirectory() ? walk(p) : [p]; });
 const gz = (p: string): number => gzipSync(readFileSync(p), { level: 9 }).length;
 const kb = (n: number): string => `${(n / KB).toFixed(1)} KB`;
 
-export interface Measure { readonly initialJs: number; readonly totalJs: number; readonly totalCss: number; readonly kbSession: number; readonly hansList: number; readonly herbBrowser: number; readonly book: number; readonly lazy: { readonly file: string; readonly bytes: number }[] }
+export interface Measure { readonly initialJs: number; readonly totalJs: number; readonly totalCss: number; readonly kbSession: number; readonly hansList: number; readonly herbBrowser: number; readonly book: number; readonly reference: number; readonly lazy: { readonly file: string; readonly bytes: number }[] }
 
-export function measure(distDir: string): Measure {
+/** The scripts of the first load: those the page names, and every script they import statically (part of the initial load even without a <link rel="modulepreload">). */
+export function initialScripts(distDir: string): Set<string> {
   const dist = resolve(distDir);
   const html = readFileSync(join(dist, "index.html"), "utf8");
   const initial = new Set([...html.matchAll(/(?:src|href)="(\/assets\/[^"]+\.js)"/g)].map((m) => join(dist, m[1]!)));
-  const js = walk(join(dist, "assets")).filter((f) => f.endsWith(".js"));
-  const css = walk(join(dist, "assets")).filter((f) => f.endsWith(".css"));
-  // the entry script imports its static dependencies; they are part of the initial load even without a <link rel="modulepreload">
   const queue = [...initial];
   for (let f = queue.pop(); f !== undefined; f = queue.pop()) {
     for (const m of readFileSync(f, "utf8").matchAll(/(?:from\s*|import\s*)["']\.\/([^"']+\.js)["']/g)) {
@@ -48,14 +48,24 @@ export function measure(distDir: string): Measure {
       if (existsSync(dep) && !initial.has(dep)) { initial.add(dep); queue.push(dep); }
     }
   }
+  return initial;
+}
+
+export function measure(distDir: string): Measure {
+  const dist = resolve(distDir);
+  const initial = initialScripts(dist);
+  const js = walk(join(dist, "assets")).filter((f) => f.endsWith(".js"));
+  const css = walk(join(dist, "assets")).filter((f) => f.endsWith(".css"));
   const kbDir = join(dist, "kb");
-  const kbFiles = existsSync(kbDir) ? readdirSync(kbDir).filter((f) => f.endsWith(".json") && f !== "manifest.json" && !f.startsWith("cities.") && !f.startsWith("herbs-") && !f.startsWith("book.")).map((f) => join(kbDir, f)) : [];
+  // a general reader's session: the reference for learners and practitioners (PM-53) is theirs only, and measured on its own
+  const kbFiles = existsSync(kbDir) ? readdirSync(kbDir).filter((f) => f.endsWith(".json") && f !== "manifest.json" && !f.startsWith("cities.") && !f.startsWith("herbs-") && !f.startsWith("book.") && !f.startsWith("reference.")).map((f) => join(kbDir, f)) : [];
+  const referenceFiles = existsSync(kbDir) ? readdirSync(kbDir).filter((f) => /^reference\.[0-9a-f]+\.json$/.test(f)).map((f) => join(kbDir, f)) : [];
   const hansFiles = existsSync(kbDir) ? readdirSync(kbDir).filter((f) => /^hans-main\.[0-9a-f]+\.txt$/.test(f)).map((f) => join(kbDir, f)) : [];
   const herbFiles = existsSync(kbDir) ? readdirSync(kbDir).filter((f) => /^(hans-)?herbs-(index|[0-9a-f])\.[0-9a-f]+\.(json|txt)$/.test(f)).map((f) => join(kbDir, f)) : [];
   const bookFiles = existsSync(kbDir) ? readdirSync(kbDir).filter((f) => /^book\.[0-9a-f]+\.json$/.test(f)).map((f) => join(kbDir, f)) : [];
   return {
     initialJs: [...initial].reduce((n, f) => n + gz(f), 0), totalJs: js.reduce((n, f) => n + gz(f), 0), totalCss: css.reduce((n, f) => n + gz(f), 0),
-    kbSession: kbFiles.reduce((n, f) => n + gz(f), 0), hansList: hansFiles.reduce((n, f) => n + gz(f), 0), herbBrowser: herbFiles.reduce((n, f) => n + gz(f), 0), book: bookFiles.reduce((n, f) => n + gz(f), 0), lazy: js.filter((f) => !initial.has(f)).map((f) => ({ file: f.slice(dist.length + 1), bytes: gz(f) })).sort((a, b) => b.bytes - a.bytes),
+    kbSession: kbFiles.reduce((n, f) => n + gz(f), 0), hansList: hansFiles.reduce((n, f) => n + gz(f), 0), herbBrowser: herbFiles.reduce((n, f) => n + gz(f), 0), book: bookFiles.reduce((n, f) => n + gz(f), 0), reference: referenceFiles.reduce((n, f) => n + gz(f), 0), lazy: js.filter((f) => !initial.has(f)).map((f) => ({ file: f.slice(dist.length + 1), bytes: gz(f) })).sort((a, b) => b.bytes - a.bytes),
   };
 }
 
@@ -71,9 +81,10 @@ export function checkBudgets(distDir: string, budgets: Budgets = BUDGETS): { fai
   over("Simplified display list", m.hansList, budgets.hansList);
   over("herb browser", m.herbBrowser, budgets.herbBrowser);
   over("learning book", m.book, budgets.book);
+  over("reference for learners and practitioners", m.reference, budgets.reference);
   for (const c of m.lazy) over(`lazy chunk ${c.file}`, c.bytes, budgets.lazyJsChunk);
   const report = [
-    `initial JS ${kb(m.initialJs)} / ${kb(budgets.initialJs)} · all JS ${kb(m.totalJs)} / ${kb(budgets.totalJs)} · CSS ${kb(m.totalCss)} / ${kb(budgets.totalCss)} · KB per session ${kb(m.kbSession)} / ${kb(budgets.kbSession)} · Simplified list ${kb(m.hansList)} / ${kb(budgets.hansList)}${m.herbBrowser > 0 ? ` · herb browser (on demand) ${kb(m.herbBrowser)} / ${kb(budgets.herbBrowser)}` : ""}${m.book > 0 ? ` · book (on demand) ${kb(m.book)} / ${kb(budgets.book)}` : ""}`,
+    `initial JS ${kb(m.initialJs)} / ${kb(budgets.initialJs)} · all JS ${kb(m.totalJs)} / ${kb(budgets.totalJs)} · CSS ${kb(m.totalCss)} / ${kb(budgets.totalCss)} · KB per session ${kb(m.kbSession)} / ${kb(budgets.kbSession)} · Simplified list ${kb(m.hansList)} / ${kb(budgets.hansList)}${m.herbBrowser > 0 ? ` · herb browser (on demand) ${kb(m.herbBrowser)} / ${kb(budgets.herbBrowser)}` : ""}${m.book > 0 ? ` · book (on demand) ${kb(m.book)} / ${kb(budgets.book)}` : ""}${m.reference > 0 ? ` · reference for learners and practitioners (on demand) ${kb(m.reference)} / ${kb(budgets.reference)}` : ""}`,
     `${m.lazy.length} lazy chunks, largest: ${m.lazy.slice(0, 3).map((c) => `${c.file.replace(/^assets\//, "")} ${kb(c.bytes)}`).join(", ")}`,
   ];
   return { failures, report };

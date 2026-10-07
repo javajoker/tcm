@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 0.4 (draft) |
+| **Version** | 0.5 (draft) |
 | **Status** | Proposed process — **no reviewer has been appointed yet** (PRD Q8 blocks milestone M3) |
 | **Last updated** | 2026-10-04 |
 | **Audience** | Maintainers, clinical and linguistic reviewers |
@@ -159,6 +159,7 @@ What must be `reviewed` before each output level is enabled in a **release** bui
 | **L1** (+ diet, acupoints, tier-A formulas without dose) | + treatment guidance (diet, acupoints, pregnancy cautions) · the tier-A formulas (composition, roles, indications) · **the herbs in those formulas** (effects, burdens, flags) · the safety rules those formulas can trigger |
 | **L2** (+ tier B, modification, herb weights) | + tier-B formulas and their herbs · classical modifications · the residual-modification candidate pool · herb weight display text |
 | **L3** (dev only) | None required, but items remain labelled *draft* in the UI |
+| **L3 for learners and practitioners** (PM-53) | + everything of L2 · the tier-C formulas · the amounts and dose bands · the herb records and the prescription tables — a public build carries the reference only once every formula and herb record in it is `reviewed` (`check-release` rule 18); the closed beta carries it with the draft label |
 
 A release build **must fail** (`check-release.ts`) if a required area has no valid review record for the shipped KB version, or if the record's covered content hash differs from the shipped content (§5). Until the reviews exist, the release configuration is lowered to the highest level whose gates are satisfied — in the current state, **no clinical output is releasable**; only the dev profile runs.
 
@@ -211,3 +212,4 @@ A release build **must fail** (`check-release.ts`) if a required area has no val
 | 0.2 | 2026-10-07 | §3, §7: the learning book (PM-42, PM-43) — reviewed by a linguist and a TCM clinician; a public build carries it only once reviewed |
 | 0.3 | 2026-10-07 | §3: the 營衛 readings and weights join the panel model's review (PM-52) |
 | 0.4 | 2026-10-08 | §3: the words that re-open the red-flag screening (`safety/red-flag-terms.json`, PM-47) join the red flags' review |
+| 0.5 | 2026-10-08 | §7: L3 for learners and practitioners, and what a public build needs before it serves them (PM-53) |

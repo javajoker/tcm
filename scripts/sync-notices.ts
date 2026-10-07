@@ -16,7 +16,7 @@ export const SLUG: Readonly<Record<string, string>> = {
   "N-A": "a", "N-B": "b", "N-MINOR": "minor", "N-PREG": "pregnancy", "N-LACT": "lactation", "N-SERIOUS": "serious",
   "N-ELDERLY": "elderly", "N-MED": "medication", "N-MED-UNKNOWN": "medicationUnknown", "N-ALLERGY": "allergy", "N-ALLERGY-UNKNOWN": "allergyUnknown",
   "N-ACUTE": "acute", "N-LOWCONF": "lowConfidence", "N-CONFLICT": "conflict", "N-SUPPRESSED": "suppressed", "N-SELFOBS": "selfObserved", "N-PULSE-EDU": "pulseEducation",
-  "N-BIRTH": "birth", "N-DRAFT": "draft", "N-TIERC": "tierC", "N-FORMULA": "formula",
+  "N-BIRTH": "birth", "N-DRAFT": "draft", "N-TIERC": "tierC", "N-FORMULA": "formula", "N-ROLE": "role",
 };
 
 export interface NoticeRow { readonly id: string; readonly zh: string; readonly en: string }

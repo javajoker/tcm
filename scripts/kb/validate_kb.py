@@ -181,6 +181,17 @@ def validate(load: Loader = load, check_sources: bool = True) -> list[str]:
             err(f"profile {pname}: the observation of tongue and face is not built (decision PD-25, task PM-50)")
     if scope["profiles"]["release"]["ai"] != {"enabled": False, "endpoint": None, "modules": {"conversation": False, "tongue": False, "face": False}}:
         err("profile release: AI help must be off, with no gateway, until its gates (docs/post-mvp/design/ai-assisted-intake.md §6)")
+    # the roles (PM-53): an overlay over the release profile that may only raise an adult's level and switch study features on (the schema admits nothing else)
+    rank = {"L0": 0, "L1": 1, "L2": 2, "L3": 3}
+    release = scope["profiles"]["release"]
+    for rname, overlay in scope["roles"].items():
+        for key, cell in overlay["population"].items():
+            if rank[cell["level"]] < rank[release["population"][key]["level"]]:
+                err(f"role {rname}: population.{key} would lower the release level (an overlay only raises an adult's level)")
+        for key, on in overlay["features"].items():
+            if not on:
+                err(f"role {rname}: features.{key} is false (an overlay only switches study features on)")
+
     # the words that re-open the screening during AI help's conversation: one entry per red flag (the minor's comes from the age), words in both languages for every A and B item
     terms = load("safety/red-flag-terms.json")["items"]
     flags = {f["id"]: f["level"] for f in load("diagnosis/red-flags.json")["items"]}

@@ -11,8 +11,9 @@ import { reachOf } from "../packages/kb/src/bundle.ts";
 import { chineseStrings, digestInput } from "../packages/kb/src/hans.ts";
 import { HERB_STATUS, shardOf } from "../packages/kb/src/herbs.ts";
 import { SUPPORTED_SCHEMA_VERSION } from "../packages/kb/src/indexer.ts";
-import type { BookChunk, ChunkRef, CitationsChunk, CoreChunk, FormulasChunk, HansRef, HerbIndexChunk, HerbShardChunk, Manifest } from "../packages/kb/src/types.ts";
+import type { BookChunk, ChunkRef, CitationsChunk, CoreChunk, FormulasChunk, HansRef, HerbIndexChunk, HerbShardChunk, Manifest, ReferenceChunk, ScopeProfile } from "../packages/kb/src/types.ts";
 import { BUDGET_GZ } from "./bundle-data.ts";
+import { initialScripts } from "./check-budgets.ts";
 import { cspHeader, IMMUTABLE, LANGUAGE_SEGMENTS } from "./deploy-files.ts";
 import { parseHeaders, parseRedirects } from "./serve-dist.ts";
 import { buildFacts, parseWorker } from "./sw-build.ts";
@@ -38,10 +39,13 @@ const rel = (dist: string, p: string): string => p.slice(dist.length + 1);
 /** Field names that mean a dose or amount (rule 3). */
 const DOSE_FIELDS = ["classical_amounts", "classical_amount", "typical_g", "dose_g_reference", "dose_references"];
 /**
- * Texts that exist only in dev builds (rule 2) — in the app: the profile badge, the component catalogue, the developer route, the pseudo-locales and the personalised prescription's
- * own messages (PM-41: a build that cannot reach L3 never loads them); in the knowledge base: the non-enforcing safety mode and the prescription's 三因 table (it travels with the herb records).
+ * Texts that exist only in dev builds (rule 2) — in the app: the profile badge, the component catalogue, the developer route and the pseudo-locales; in the knowledge base: the
+ * non-enforcing safety mode and the prescription's 三因 table (it travels with the herb records). The personalised prescription's messages are a lazy chunk of every build since
+ * the roles (PM-53) and are rule 18's: never in the first load.
  */
-const DEV_APP_MARKERS = ["DEV · ", "Component catalogue", "/_dev", "en-xa", "zh-xl", "rx.title"];
+const DEV_APP_MARKERS = ["DEV · ", "Component catalogue", "/_dev", "en-xa", "zh-xl"];
+/** The personalised prescription's own messages (rule 18): only in a lazy chunk, loaded for a result that holds a plan. */
+const RX_MARKERS = ["rx.title", "rx.changes.title"];
 const DEV_KB_MARKERS = ["annotate_only", "\"sanyin\":"];
 /** What only a build with AI help holds (rule 17): the gateway's routes, the card's and the consent's messages. */
 const AI_MARKERS = ["/v1/intake/turn", "/v1/session", "/v1/config", "ai.settings.title", "ai.consent.title"];
@@ -57,7 +61,7 @@ export function checkRelease(distDir: string, opts: CheckOptions = {}): Failure[
   const files = walk(dist);
   const html = read(join(dist, "index.html"));
   const js = files.filter((f) => f.endsWith(".js"));
-  const kbFiles = files.filter((f) => rel(dist, f).startsWith("kb/") && f.endsWith(".json"));
+  const kbFiles = files.filter((f) => rel(dist, f).startsWith("kb/") && f.endsWith(".json") && !/^kb\/reference\./.test(rel(dist, f)));        // a general reader's files; the reference is rule 18's
 
   // ── the knowledge base: manifest, chunks, hashes, schema ─────────────────────────────────────────────
   const manifestPath = join(dist, "kb", "manifest.json");
@@ -367,6 +371,7 @@ export function checkRelease(distDir: string, opts: CheckOptions = {}): Failure[
     for (const f of hansFiles) if (cache(`/kb/${f}`) !== IMMUTABLE) fail(11, `_headers: the Simplified display list /kb/${f} must be cached as immutable`);
     for (const f of herbFiles) if (cache(`/kb/${f}`) !== IMMUTABLE) fail(11, `_headers: the herb browser file /kb/${f} must be cached as immutable`);
     if (bk !== undefined && cache(`/kb/${bk.file}`) !== IMMUTABLE) fail(11, `_headers: the book /kb/${bk.file} must be cached as immutable`);
+    for (const f of [manifest.reference?.file, manifest.variants?.["zh-Hans"]?.reference?.file]) if (f !== undefined && cache(`/kb/${f}`) !== IMMUTABLE) fail(11, `_headers: the reference file /kb/${f} must be cached as immutable`);
   }
   if (existsSync(join(dist, "_redirects"))) {
     const redirects = parseRedirects(read(join(dist, "_redirects")));
@@ -389,6 +394,44 @@ export function checkRelease(distDir: string, opts: CheckOptions = {}): Failure[
   const connect = csp === undefined ? undefined : /connect-src ([^;]*)/.exec(csp)?.[1]?.trim();
   if (connect !== undefined && connect !== "'self'") fail(17, `the page may connect to ${connect}: a release connects to its own origin only`);
   for (const f of js) for (const m of AI_MARKERS) if (read(f).includes(m)) fail(17, `${rel(dist, f)} contains AI help's "${m}"`);
+
+  // 18 — learners and practitioners (PM-53; docs/post-mvp/design/prescription-model.md §7.4): the general reader's profile never reaches L2 or amounts; a reference for the roles only where
+  // L2 and L3 content may ship (the draft label on, or every formula and herb record in it reviewed — content review §7), in its own file, never in the worker's lists; each role's profile
+  // keeps the safety layer of the general one; the prescription's messages never in the first load
+  if (core !== null) {
+    const general = core.config.profile;
+    const reach = reachOf(general);
+    if (reach.maxLevel !== "L0" && reach.maxLevel !== "L1") fail(18, `the general reader's profile reaches ${reach.maxLevel}: a general reader never reaches L2 or amounts`);
+    if (reach.dosage || reach.herbRecords) fail(18, "the general reader's profile can show amounts or herb records");
+    const rf = manifest.reference;
+    if (rf !== undefined) {
+      const p = join(dist, "kb", rf.file);
+      if (!existsSync(p)) fail(18, `manifest lists the reference → ${rf.file}, which is not in the output`);
+      else {
+        const bytes = readFileSync(p);
+        if (createHash("sha256").update(bytes).digest("hex") !== rf.sha256) fail(18, `kb/${rf.file}: the SHA-256 differs from the manifest`);
+        if (!/^reference\.[0-9a-f]{8,}\.json$/.test(rf.file)) fail(18, `kb/${rf.file} is not a content-hashed reference`);
+        if (gzipSync(bytes).length > BUDGET_GZ.reference) fail(18, `kb/${rf.file}: ${gzipSync(bytes).length} B gzip exceeds the ${BUDGET_GZ.reference} B budget of the reference`);
+        const ref = JSON.parse(bytes.toString("utf8")) as ReferenceChunk;
+        const reviewed = ref.formulas.items.every((f) => f.status === "reviewed") && ref.herbs.items.every((h) => h.status === "reviewed");
+        if (!opts.draftLabel && !reviewed) fail(18, "a public build ships the reference for learners and practitioners before its formulas and herb records are reviewed (content review §7)");
+        for (const [role, prof] of Object.entries(ref.roles) as [string, ScopeProfile][]) {
+          for (const [dim, key] of BLOCKING) { const c = (prof[dim] as Record<string, { level: string; notice: string }>)[key]!; if (c.level !== "L0" || c.notice !== "blocking_ack") fail(18, `the ${role}'s ${dim}.${key} is ${c.level} · ${c.notice}: the safety layer is every role's`); }
+          for (const dim of ["condition", "state"] as const) if (JSON.stringify(prof[dim]) !== JSON.stringify(general[dim])) fail(18, `the ${role}'s ${dim} cells differ from the general reader's`);
+          for (const key of Object.keys(general.population) as (keyof ScopeProfile["population"])[]) if (key !== "adult" && key !== "elderly_65_plus" && JSON.stringify(prof.population[key]) !== JSON.stringify(general.population[key])) fail(18, `the ${role}'s population.${key} differs from the general reader's`);
+          if (prof.safety_enforcement !== general.safety_enforcement) fail(18, `the ${role}'s safety enforcement is ${prof.safety_enforcement}`);
+        }
+      }
+      const hr = manifest.variants?.["zh-Hans"]?.reference;
+      if (hr === undefined) fail(18, "the reference has no Simplified display list");
+      else {
+        const hp = join(dist, "kb", hr.file);
+        if (!existsSync(hp)) fail(18, `manifest lists the reference's display list → ${hr.file}, which is not in the output`);
+        else if (createHash("sha256").update(readFileSync(hp)).digest("hex") !== hr.sha256) fail(18, `kb/${hr.file}: the SHA-256 differs from the manifest`);
+      }
+    } else if (files.some((f) => /^kb\/(hans-)?reference\./.test(rel(dist, f)))) fail(18, "a reference file is in the output but not in the manifest");
+  }
+  for (const f of initialScripts(dist)) for (const m of RX_MARKERS) if (read(f).includes(m)) fail(18, `${rel(dist, f)} is part of the first load and holds the prescription's "${m}": it must stay a lazy chunk`);
 
   // 9 — no source maps
   for (const f of files.filter((x) => x.endsWith(".map"))) fail(9, `${rel(dist, f)}: source maps must not be served`);

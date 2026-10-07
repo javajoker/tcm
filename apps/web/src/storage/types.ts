@@ -4,6 +4,7 @@ import type { Assessment, AssessContext, FindingState, Subject } from "@tcm/engi
 import type { Finding } from "@tcm/engine";
 import type { BirthInput } from "@tcm/wuxing";
 import type { Lang } from "@tcm/i18n";
+import type { Role } from "@tcm/kb";
 
 export type { FindingState };
 
@@ -44,7 +45,17 @@ export interface Prefs {
    * travels in a backup. Low sensitivity: it records a choice, not health data.
    */
   readonly ai?: Readonly<Partial<Record<AiModule, AiConsent>>>;
+  /**
+   * The reading role (PM-53; prescription model §7.4): absent for a general reader. A learner or a practitioner declared it with the attestation of the safety policy (N-ROLE), whose
+   * version is kept; a new version asks again. Low sensitivity; it travels in a backup like the language.
+   */
+  readonly role?: RoleChoice | undefined;
+  /** The one-time offer of a role on the landing page was answered or put aside. */
+  readonly roleOffered?: boolean;
 }
+
+export interface RoleChoice { readonly role: Role; readonly at: number; readonly version: string }
+export const ROLE_VALUES = ["learner", "practitioner"] as const satisfies readonly Role[];
 
 /** The modules of AI help a person can consent to; the observation of tongue and face is not built (PD-25). */
 export type AiModule = "conversation";
@@ -161,6 +172,8 @@ export interface SavedAssessment {
    * prescription tables (the development profile today), and kept as it was made. Absent everywhere else. It is derived from the result and the inputs; the result never depends on it.
    */
   readonly prescription?: Prescription;
+  /** The role the result was made for (PM-53): absent for a general reader's. A result is shown with the knowledge base of its role — as it was made — whoever opens it. */
+  readonly role?: Role;
   /** Present on a record that came from a backup and could not be checked against its answers (made by another version): shown as saved, marked *Imported* (backup design §3.4 stage 8). */
   readonly imported?: { readonly at: number; readonly from: { readonly appVersion: string; readonly kbVersion: string; readonly engineVersion: string; readonly profile: string } };
 }

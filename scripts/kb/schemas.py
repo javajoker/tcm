@@ -444,14 +444,18 @@ def scope_profiles() -> dict:
         "ai": obj({"enabled": BOOL, "endpoint": {"type": ["string", "null"], "pattern": "^https?://[^/?#]+$"}, "modules": obj({"conversation": BOOL, "tongue": BOOL, "face": BOOL})}),
     })
     level_def = obj({"includes": arr(STR, 1), "name": ref("bilingualNamed")})
+    raise_to = obj({"level": ref("level")})
+    overlay = obj({"population": obj({"adult": raise_to, "elderly_65_plus": raise_to}),
+                   "features": obj({"show_dosage_reference": BOOL, "show_formula_modification": BOOL, "show_herb_weights": BOOL, "show_tier_c": BOOL})})
     return {"type": "object", "properties": {
         "_meta": meta({"version": INT}, ["version"]),
         "dimensions": obj({"condition": arr(STR, 7), "population": arr(STR, 5), "state": arr(STR, 3)}),
         "levels": obj({"L0": level_def, "L1": level_def, "L2": level_def, "L3": level_def}),
         "notice_kinds": obj({"blocking_ack": STR, "inline": STR, "none": STR}),
         "profiles": obj({"dev": profile, "release": profile}),
+        "roles": obj({"learner": overlay, "practitioner": overlay}),
         "resolution": loose(["effective_level", "effective_notice", "flow"])},
-        "required": ["_meta", "dimensions", "levels", "notice_kinds", "profiles", "resolution"], "additionalProperties": False}
+        "required": ["_meta", "dimensions", "levels", "notice_kinds", "profiles", "resolution", "roles"], "additionalProperties": False}
 
 
 def safety_rules() -> dict:

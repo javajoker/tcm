@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 0.3 (draft) |
+| **Version** | 0.4 (draft) |
 | **Status** | Proposed requirements for Releases A–F; they enter the [PRD](../PRD.md) FR list as each feature ships (fold-in, [README §2](README.md#2-standing-constraints)) |
 | **Last updated** | 2026-10-05 |
 | **Audience** | Product, engineering, reviewers |
@@ -233,7 +233,7 @@ Accounts and server-side sync · e-commerce, herb sales, practitioner marketplac
 | FR-35, FR-39 | E | C, L | [Knowledge base v2](design/knowledge-base-v2.md) | PM-35, PM-42, PM-43 |
 | FR-36 … FR-38 | E | C (R for amounts) | [Prescription model](design/prescription-model.md) | PM-36 … PM-41 |
 | FR-43 | E | C | [營衛 in the model](design/ying-wei.md) | PM-52 |
-| FR-44 | E | R | [Prescription model §7.4](design/prescription-model.md) | PM-53 |
+| FR-44 | E | R | [Prescription model §7.4](design/prescription-model.md) | PM-53 ✔ (built 2026-10-08; public L2/L3 after the reviews) |
 | FR-40 … FR-42 | F | R | [AI-assisted intake](design/ai-assisted-intake.md) | PM-44 … PM-50 |
 
 ## 8. Changelog
@@ -243,3 +243,4 @@ Accounts and server-side sync · e-commerce, herb sales, practitioner marketplac
 | 0.1 | 2026-10-05 | Initial post-MVP requirements (FR-21 … FR-34) |
 | 0.2 | 2026-10-07 | Releases E (FR-35 … FR-39: knowledge base v2, herb and formula model, personalised prescription, the learning book) and F (FR-40 … FR-42: AI-assisted intake), from the owner's direction of 2026-10-07 |
 | 0.3 | 2026-10-07 | FR-43 (營衛 in the model) and FR-44 (learners and practitioners), from the owner's decisions of 2026-10-07 (second) |
+| 0.4 | 2026-10-08 | FR-44 built (PM-53): see prescription model §7.4 as built |

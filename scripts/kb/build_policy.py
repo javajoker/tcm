@@ -11,7 +11,7 @@ def main() -> None:
                                  "Risky populations/conditions always get a 'see a doctor' notice and the flow continues.",
                   "version": 1},
         "levels": policy.LEVELS, "dimensions": policy.DIMENSIONS, "notice_kinds": policy.NOTICE_KINDS,
-        "profiles": policy.PROFILES, "resolution": policy.RESOLUTION,
+        "profiles": policy.PROFILES, "roles": policy.ROLES, "resolution": policy.RESOLUTION,
     })
     dump(DATA / "safety" / "rules.json", {
         "_meta": {"description": "Safety filter rules. severity=hard rules remove the item when the profile suppresses (suppress_hard); a development profile annotates instead of removing. "

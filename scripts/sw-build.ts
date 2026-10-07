@@ -15,10 +15,13 @@ export type Part = "shell" | "common" | "hans" | "never";
 /**
  * Which list a file of the build belongs to (`path` has no leading slash). The Simplified display lists and the Simplified catalogue are fetched only for a person who reads Simplified
  * (about 43 KB the others do not download); the catalogue is the lazy chunk Vite names after its module, `hans-<hash>.js` — a rename would put it in the shell (harmless), and
- * `check-release` would say so.
+ * `check-release` would say so. The reference for learners and practitioners and its display list are in no list.
  */
 export function classify(path: string): Part {
   if ((NEVER_CACHED as readonly string[]).includes(path) || path.startsWith(".well-known/")) return "never";
+  // the reference for learners and practitioners (PM-53) is asked for by those roles only: the worker leaves it to the network and the browser's cache, so a general reader's offline
+  // copy holds no amount and no formula beyond the release profile
+  if (/^kb\/(hans-)?reference\.[0-9a-f]+\.(json|txt)$/.test(path)) return "never";
   if (path.startsWith("kb/hans-") || /^assets\/hans-[^/]+\.js$/.test(path)) return "hans";
   if (path.startsWith("kb/")) return "common";
   return "shell";

@@ -33,6 +33,8 @@
   "safety.notice.pregnancy.body": "懷孕期間許多中藥與穴位按壓需要避開，請先諮詢您的產科醫師和合格中醫師。您可以繼續閱讀溫和的生活與飲食資訊，其餘內容不會顯示。",
   "safety.notice.pregnancy.title": "懷孕期間請先諮詢醫師",
   "safety.notice.pulseEducation.text": "脈象需要受過訓練的手指與大量練習才能穩定分辨。您填寫的脈象以較低權重參與計算，結果頁會標示；請勿僅憑自測脈象下結論，也不要因為摸不到而擔心。",
+  "safety.notice.role.body": "方劑的份量、加減與用藥方案，是依古籍與規則整理的學習和臨床參考，尚未經醫師審閱。用於任何人之前，須由合格的醫師親自診察後決定；請勿據此自行用藥或給他人用藥。懷孕、哺乳、兒童、紅旗症狀與重大疾病的提醒與限制，對每一種身分都一樣適用。",
+  "safety.notice.role.title": "供學習與臨床參考",
   "safety.notice.selfObserved.text": "舌象與脈象屬自我觀察，在計算中的權重較低。",
   "safety.notice.serious.body": "您提到「{reason}」。這類疾病的處理應由您的醫療團隊決定，本應用程式不能代替，也不會提供方劑。您可以繼續閱讀教育內容。",
   "safety.notice.serious.title": "您的疾病需要由醫療團隊主導",

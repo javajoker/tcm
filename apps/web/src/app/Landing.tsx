@@ -6,6 +6,7 @@ import { Button, Card, Chip, ConfirmDialog, Dialog, DialogActions } from "../ui/
 import { DISCLAIMER_VERSION } from "./disclaimer.ts";
 import { BackupReminder } from "../backup/Reminder.tsx";
 import { FollowUpNudge } from "../followup/FollowUpNudge.tsx";
+import { RoleOffer } from "../role/RoleCard.tsx";
 import { UpdateLine } from "../offline/UpdateBanner.tsx";
 import { relativeTime } from "./format.ts";
 import { useApp } from "./store.tsx";
@@ -76,6 +77,7 @@ export function Landing(): ReactNode {
           <UpdateLine />
           <FollowUpNudge />
           <BackupReminder />
+          <RoleOffer />
 
           {draftLoaded && draft !== null && stageKey !== null ? (
             <Card title={t.t("intake.landing.resume.title")} headingLevel={2}>

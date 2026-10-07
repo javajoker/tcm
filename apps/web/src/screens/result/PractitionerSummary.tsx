@@ -1,7 +1,7 @@
 import { lazy, Suspense, useEffect, useState, type ReactNode } from "react";
 import { useI18n } from "../../i18n/I18nProvider.tsx";
 import { formatLocal } from "../../app/format.ts";
-import { NeedsKnowledge, useLoaded } from "../../app/knowledge.tsx";
+import { KnowledgeOf, NeedsKnowledge, useLoaded } from "../../app/knowledge.tsx";
 import { useApp } from "../../app/store.tsx";
 import { usePageTitle } from "../../app/usePageTitle.ts";
 import type { SavedAssessment } from "../../storage/types.ts";
@@ -19,10 +19,10 @@ function Page({ saved }: { saved: SavedAssessment }): ReactNode {
   const [copy, setCopy] = useState<"idle" | "ok" | "failed">("idle");
   const [fileOpen, setFileOpen] = useState(false);
   usePrintExpand();
-  // the personalised prescription's section (PM-41): loaded only by a build that can show it, for a result that holds one
+  // the personalised prescription's section (PM-41; the medication plan of a learner or a practitioner, PM-53): loaded only for a result that holds one
   const [rx, setRx] = useState<SummarySection | null>(null);
   useEffect(() => {
-    if (__APP_PROFILE__ !== "dev" || saved.prescription === undefined) return;
+    if (saved.prescription === undefined) return;
     let cancelled = false;
     void import("../../prescription/summary.ts").then((m) => { if (!cancelled) setRx(m.prescriptionSection(saved, kb, t)); });
     return () => { cancelled = true; };
@@ -77,5 +77,5 @@ export function PractitionerSummary({ id }: { id: string }): ReactNode {
   const saved = state.key === id ? state.saved : undefined;
   if (saved === undefined) return <div role="status" aria-busy="true"><span className="visually-hidden">{t.t("report.loading")}</span><Skeleton height="2rem" width="50%" /></div>;
   if (saved === null) return <><h1>{t.t("report.missing.title")}</h1><p>{t.t("report.missing.body")}</p><LinkButton href="/" variant="primary">{t.t("report.missing.home")}</LinkButton></>;
-  return <NeedsKnowledge><Page saved={saved} /></NeedsKnowledge>;
+  return <NeedsKnowledge><KnowledgeOf role={saved.role}><Page saved={saved} /></KnowledgeOf></NeedsKnowledge>;
 }

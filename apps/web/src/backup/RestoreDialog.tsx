@@ -1,5 +1,6 @@
-import { useEffect, useId, useMemo, useRef, useState, type ChangeEvent, type ReactNode } from "react";
+import { useEffect, useId, useRef, useState, type ChangeEvent, type ReactNode } from "react";
 import { ENGINE_VERSION } from "@tcm/engine";
+import type { KnowledgeBase, Role } from "@tcm/kb";
 import { useI18n } from "../i18n/I18nProvider.tsx";
 import type { MessageKey } from "../i18n/catalogs.ts";
 import { makeReplay, currentOf } from "../app/backupReplay.ts";
@@ -9,6 +10,7 @@ import { APP_PROFILE } from "../app/profile.ts";
 import { randomId } from "../storage/ids.ts";
 import { useApp } from "../app/store.tsx";
 import { applyPlan, openEncrypted, planImport, prepareImport, readBackup, type BackupDocument, type Conflict, type Plan, type Prepared } from "../storage/backup/index.ts";
+import type { SavedAssessment } from "../storage/types.ts";
 import { Button, ChoiceGroup, Dialog, DialogActions, Field, LinkButton, TextInput, Tile } from "../ui/index.ts";
 
 type Phase =
@@ -25,7 +27,7 @@ type Phase =
  */
 export interface Preloaded { readonly name: string; readonly text: string; readonly passphrase: string; readonly onMerged: () => void | Promise<void> }
 
-const REASON = { invalid: "common.backup.preview.reason.invalid", altered: "common.backup.preview.reason.altered", "development-build": "common.backup.preview.reason.development-build", duplicate: "common.backup.preview.reason.duplicate" } as const;
+const REASON = { invalid: "common.backup.preview.reason.invalid", altered: "common.backup.preview.reason.altered", "development-build": "common.backup.preview.reason.development-build", duplicate: "common.backup.preview.reason.duplicate", role: "common.backup.preview.reason.role" } as const;
 const CONFLICTS: readonly Conflict[] = ["skip", "keep-both", "replace-newer"];
 
 /**
@@ -48,12 +50,16 @@ function Body({ onClose, preloaded }: { onClose: () => void; preloaded?: Preload
   const [hasDraft, setHasDraft] = useState(false);
   const [passphrase, setPassphrase] = useState("");
   const [opening, setOpening] = useState(false);
-  const context = useMemo(() => ({ profile: APP_PROFILE, current: currentOf(kb, ENGINE_VERSION), replay: makeReplay(kb, engine) }), [kb, engine]);
+  const general = kb.general();
 
-  /** The file is a readable backup: check it and show what it holds. */
+  /** The file is a readable backup: check it and show what it holds. A record made for a learner or a practitioner is replayed with that role's knowledge base (PM-53). */
   const preview = async (document: BackupDocument): Promise<void> => {
     const source = await backupSource();
-    const prepared = prepareImport(document, { ...context, now: Date.now() });
+    const wanted = new Set(document.payload.assessments.map((e) => (e.data as { role?: unknown } | null)?.role).filter((r): r is Role => r === "learner" || r === "practitioner"));
+    const roleKbs = new Map<Role, KnowledgeBase>();
+    for (const r of wanted) if (general.roles.includes(r)) { try { roleKbs.set(r, await general.forRole(r)); } catch { /* not available now: those records cannot be replayed */ } }
+    const kbFor = (saved: SavedAssessment): KnowledgeBase | null => (saved.role === undefined ? general : roleKbs.get(saved.role) ?? null);
+    const prepared = prepareImport(document, { profile: APP_PROFILE, current: currentOf(general, ENGINE_VERSION), replay: makeReplay(kbFor, engine), roles: general.roles, now: Date.now() });
     setHasDraft(source.draft !== null);
     setConflict("skip");
     setPrefsOn(true);

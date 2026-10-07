@@ -3,7 +3,7 @@ import { useLocation } from "wouter";
 import { useI18n } from "../../i18n/I18nProvider.tsx";
 import type { MessageKey } from "../../i18n/catalogs.ts";
 import { draftFromSaved } from "../../app/assessment.ts";
-import { NeedsKnowledge, useLoaded } from "../../app/knowledge.tsx";
+import { KnowledgeOf, NeedsKnowledge, useLoaded } from "../../app/knowledge.tsx";
 import { useApp } from "../../app/store.tsx";
 import { usePageTitle } from "../../app/usePageTitle.ts";
 import { randomId } from "../../storage/ids.ts";
@@ -57,6 +57,7 @@ function Report({ saved }: { saved: SavedAssessment }): ReactNode {
         <Chip tone={storage === "persistent" ? "plain" : "notice"}>{storage === "persistent" ? `✓ ${t.t("report.saved")}` : `⚠ ${t.t("report.notSaved")}`}</Chip>
       </div>
       <Actions saved={saved} />
+      {saved.role !== undefined ? <p className="muted" data-testid="result-role">{t.t("report.role.made", { role: t.t(`common.settings.role.${saved.role}`) })}</p> : null}
       <nav aria-label={t.t("report.nav.label")} className={styles.chips}>
         {sections.map(([k, anchor]) => <a key={k} href={`#${anchor}`} className={styles.chip}>{t.t(`report.nav.${k}` as MessageKey)}</a>)}
       </nav>
@@ -94,5 +95,5 @@ export function Result({ id }: { id: string }): ReactNode {
       </>
     );
   }
-  return <NeedsKnowledge><Report saved={state.saved} /></NeedsKnowledge>;
+  return <NeedsKnowledge><KnowledgeOf role={state.saved.role}><Report saved={state.saved} /></KnowledgeOf></NeedsKnowledge>;
 }

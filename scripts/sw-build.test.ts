@@ -28,6 +28,7 @@ describe("classify", () => {
     for (const p of ["kb/manifest.json", "kb/core.0123456789.json", "kb/cities.0123456789.json", "kb/book.0123456789.json"]) assert.equal(classify(p), "common", p);          // the book too: read offline in every script that shows it
     for (const p of ["kb/hans-main.0123456789.txt", "kb/hans-cities.0123456789.txt", "assets/hans-B-z8IZ3g.js"]) assert.equal(classify(p), "hans", p);
     assert.equal(classify("assets/hans.module-AAAAAA.css"), "shell", "only the script chunk is the catalogue");
+    for (const p of ["kb/reference.0123456789.json", "kb/hans-reference.0123456789.txt"]) assert.equal(classify(p), "never", `${p}: asked for by learners and practitioners only, never in a general reader's offline copy`);
     assert.equal(classify("assets/Inquiry-AAAAAA.js"), "shell");
   });
   test("the worker itself and the host's own files are never cached", () => {

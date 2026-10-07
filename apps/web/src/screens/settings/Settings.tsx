@@ -17,6 +17,7 @@ import { useSync } from "../../sync/SyncContext.tsx";
 import { DataCard } from "./DataCard.tsx";
 import { InstallCard } from "./InstallCard.tsx";
 import { OfflineCard } from "./OfflineCard.tsx";
+import { RoleCard } from "../../role/RoleCard.tsx";
 // AI help (Release F): only a build with AI help has the card. The build constant itself (not a re-export of it) is the condition, so that a release build's bundler sees a literal
 // false before it makes chunks, and the card's chunk is not made (check-release rule 17).
 const AiCard = __APP_AI_ENABLED__ ? lazy(() => import("../../ai/AiCard.tsx")) : null;
@@ -63,6 +64,8 @@ export function Settings(): ReactNode {
         </Card>
 
         <SeasonsCard />
+
+        <RoleCard />
 
         {AiCard !== null ? <Suspense fallback={null}><AiCard /></Suspense> : null}
 

@@ -49,6 +49,7 @@
   "rx.summary.title": "因人加减（供中医师参考）",
   "rx.table.caption": "加减后的组成与份量",
   "rx.title": "因人加减（供中医师参考）",
+  "rx.title.study": "用药方案（供学习与临床参考）",
   "rx.version": "规则 {params} · 知识库 {kb}",
   "rx.why.bingji": "主要偏差（病机）：{dims}",
   "rx.why.herb": "{herb}：{dims}",

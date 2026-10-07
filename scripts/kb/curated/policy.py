@@ -79,6 +79,17 @@ PROFILES = {
     },
 }
 
+# Roles (PD-13, PD-14; the owner's decision of 2026-10-07; docs/post-mvp/design/prescription-model.md §7.4): a reader who declares, with an attestation, that they study Chinese
+# medicine or practise it reaches L3 in the release build — the composition with its roles, reference amounts, the classical 加減 and the personalised plan. An overlay over the
+# release profile that may only raise the levels of an adult (and an adult over 65) and switch the study features on: every other cell — minors, pregnancy, breastfeeding, the
+# red flags, serious chronic disease, the medicine and allergy conditions, the states — and the safety enforcement stay the release profile's, so the safety layer does not
+# depend on who reads (validated here and by check-release rule 18).
+ROLE_OVERLAY = {
+    "population": {"adult": {"level": "L3"}, "elderly_65_plus": {"level": "L3"}},
+    "features": {"show_dosage_reference": True, "show_formula_modification": True, "show_herb_weights": True, "show_tier_c": True},
+}
+ROLES = {"learner": ROLE_OVERLAY, "practitioner": ROLE_OVERLAY}
+
 RESOLUTION = {
     "flow": "continue",
     "effective_level": "the most restrictive level among all matched dimensions, then limited by feature flags",

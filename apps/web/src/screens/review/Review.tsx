@@ -92,7 +92,7 @@ function Body({ draft, onFinishing, onUnfinish }: { draft: Draft; onFinishing: (
       const result = eng.assess(kb, input);
       const id = randomId();
       // the personalised prescription is made with the record, where the build can make one (app/prescription.ts)
-      void attachPrescription(kb, toSaved(draft, result, { id, lang })).then(saveAssessment).then(() => navigate(`/result/${id}`));
+      void attachPrescription(kb, toSaved(draft, result, { id, lang, role: kb.role })).then(saveAssessment).then(() => navigate(`/result/${id}`));
     } catch {
       setBusy(false);
       setFailed(true);

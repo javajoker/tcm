@@ -1227,6 +1227,152 @@
         "flow"
       ],
       "type": "object"
+    },
+    "roles": {
+      "additionalProperties": false,
+      "properties": {
+        "learner": {
+          "additionalProperties": false,
+          "properties": {
+            "features": {
+              "additionalProperties": false,
+              "properties": {
+                "show_dosage_reference": {
+                  "type": "boolean"
+                },
+                "show_formula_modification": {
+                  "type": "boolean"
+                },
+                "show_herb_weights": {
+                  "type": "boolean"
+                },
+                "show_tier_c": {
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "show_dosage_reference",
+                "show_formula_modification",
+                "show_herb_weights",
+                "show_tier_c"
+              ],
+              "type": "object"
+            },
+            "population": {
+              "additionalProperties": false,
+              "properties": {
+                "adult": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "level": {
+                      "$ref": "#/$defs/level"
+                    }
+                  },
+                  "required": [
+                    "level"
+                  ],
+                  "type": "object"
+                },
+                "elderly_65_plus": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "level": {
+                      "$ref": "#/$defs/level"
+                    }
+                  },
+                  "required": [
+                    "level"
+                  ],
+                  "type": "object"
+                }
+              },
+              "required": [
+                "adult",
+                "elderly_65_plus"
+              ],
+              "type": "object"
+            }
+          },
+          "required": [
+            "features",
+            "population"
+          ],
+          "type": "object"
+        },
+        "practitioner": {
+          "additionalProperties": false,
+          "properties": {
+            "features": {
+              "additionalProperties": false,
+              "properties": {
+                "show_dosage_reference": {
+                  "type": "boolean"
+                },
+                "show_formula_modification": {
+                  "type": "boolean"
+                },
+                "show_herb_weights": {
+                  "type": "boolean"
+                },
+                "show_tier_c": {
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "show_dosage_reference",
+                "show_formula_modification",
+                "show_herb_weights",
+                "show_tier_c"
+              ],
+              "type": "object"
+            },
+            "population": {
+              "additionalProperties": false,
+              "properties": {
+                "adult": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "level": {
+                      "$ref": "#/$defs/level"
+                    }
+                  },
+                  "required": [
+                    "level"
+                  ],
+                  "type": "object"
+                },
+                "elderly_65_plus": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "level": {
+                      "$ref": "#/$defs/level"
+                    }
+                  },
+                  "required": [
+                    "level"
+                  ],
+                  "type": "object"
+                }
+              },
+              "required": [
+                "adult",
+                "elderly_65_plus"
+              ],
+              "type": "object"
+            }
+          },
+          "required": [
+            "features",
+            "population"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "learner",
+        "practitioner"
+      ],
+      "type": "object"
     }
   },
   "required": [
@@ -1235,7 +1381,8 @@
     "levels",
     "notice_kinds",
     "profiles",
-    "resolution"
+    "resolution",
+    "roles"
   ],
   "title": "Application configuration (profiles)",
   "type": "object"

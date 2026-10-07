@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 0.4 (draft) |
+| **Version** | 0.5 (draft) |
 | **Status** | Draft — **all clinical content and wording require physician, pharmacy and legal review before any public release** ([content review](content-review.md)) |
 | **Last updated** | 2026-10-04 |
 | **Audience** | Developers, content reviewers, whoever answers user reports |
@@ -47,6 +47,10 @@ Source of truth: `data/config/scope-profiles.json`. Effective level = the **most
 | | `conflicting_data` | engine, contradictory answers | inline | L1 | L3 |
 
 Output levels: **L0** education only · **L1** + diet, safe acupressure points, tier-A formulas without dose · **L2** + tier-B formulas, modification suggestions, herb weights · **L3** + tier-C (study only), proportions and reference amounts.
+
+### 2.1b Learners and practitioners (PM-53; prescription model §7.4)
+
+A reader may declare that they study Chinese medicine or practise it. The role is a **declaration with an attestation** (N-ROLE, §4.1), never a verification: the app has no accounts. For such a reader the release profile is raised for an **adult** (and an adult over 65) to **L3** — amounts, the classical 加減, the medication plan and its reasons — and **nothing else changes**: minors, pregnancy, breastfeeding, the red flags, serious chronic disease, the medicine and allergy conditions, the states and the safety enforcement stay as the release profile has them, so their notices and levels are every role's (`check-release` rule 18). A public build serves the roles only once the L2 and L3 content is reviewed (content review §7).
 
 ### 2.2 Inputs the app must collect to apply this
 
@@ -95,6 +99,7 @@ Notices use **您**; copy is calm and specific; `{reason}` is the user's own mat
 | **N-PREG** | pregnant / possibly pregnant | **懷孕期間請先諮詢醫師**<br>懷孕期間許多中藥與穴位按壓需要避開，請先諮詢您的產科醫師和合格中醫師。您可以繼續閱讀溫和的生活與飲食資訊，其餘內容不會顯示。 | **Please talk to your doctor first during pregnancy**<br>Many herbs and acupressure points should be avoided in pregnancy; please consult your obstetric doctor and a licensed practitioner first. You can continue with gentle lifestyle and diet information; other content will not be shown. |
 | **N-LACT** | breastfeeding | **哺乳期請先諮詢醫師**<br>部分中藥成分可能經乳汁影響嬰兒。請先諮詢醫師或合格中醫師；您可以繼續閱讀溫和的生活與飲食資訊。 | **Please talk to your doctor first while breastfeeding**<br>Some herbal ingredients may pass to the baby through milk. Please consult a doctor or licensed practitioner first; you can continue with gentle lifestyle and diet information. |
 | **N-SERIOUS** | serious chronic disease | **您的疾病需要由醫療團隊主導**<br>您提到「{reason}」。這類疾病的處理應由您的醫療團隊決定，本應用程式不能代替，也不會提供方劑。您可以繼續閱讀教育內容。 | **Your medical team should lead on this**<br>You mentioned "{reason}". Care for conditions like this should be decided by your medical team; this app cannot replace it and will not offer formulas. You can continue to read educational content. |
+| **N-ROLE** (attestation) | choosing the learner or practitioner role (PM-53) | **供學習與臨床參考**<br>方劑的份量、加減與用藥方案，是依古籍與規則整理的學習和臨床參考，尚未經醫師審閱。用於任何人之前，須由合格的醫師親自診察後決定；請勿據此自行用藥或給他人用藥。懷孕、哺乳、兒童、紅旗症狀與重大疾病的提醒與限制，對每一種身分都一樣適用。 | **For study and clinical reference**<br>The formulas' quantities, modifications and medication plans are study and clinical references put together from the classics and by rules, not yet reviewed by a practitioner. Before any of it is used for anyone, a licensed practitioner examines the person and decides; do not take or give medicine on its strength. The notices and limits for pregnancy, breastfeeding, children, red flags and serious illness apply to every role alike. |
 
 Buttons: **我已了解，繼續** / *I understand — continue* (primary, one deliberate action) · **顯示緊急聯絡電話** / *Show emergency numbers* (secondary, N-A/N-B). Multiple matches are merged: the most severe first, then the others as a list ([UX spec §4.3](ux-spec.md)).
 
@@ -243,3 +248,4 @@ Vignette suites in the [test plan §3.3](test-plan.md): every red-flag item, eve
 | 0.2 | 2026-10-04 | Open-question defaults confirmed for the MVP (SQ1–SQ7) |
 | 0.3 | 2026-10-04 | Notice N-CONFLICT added (contradictory answers); notices of one id are merged (e.g. anticoagulant + other medication → one N-MED) |
 | 0.4 | 2026-10-08 | §3: the red flags during AI help's conversation — checked on the device before sending, A/B answered no asked again, C asks for the profile, the model's flag raises only (PM-47) |
+| 0.5 | 2026-10-08 | §2.1b the roles (learners and practitioners) and N-ROLE, the attestation, in §4.1 (PM-53) |

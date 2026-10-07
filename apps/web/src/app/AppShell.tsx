@@ -5,6 +5,7 @@ import { APP_BUILD, APP_PROFILE, IS_DEV_PROFILE } from "./profile.ts";
 import { LanguageOffer } from "./LanguageOffer.tsx";
 import { LanguageToggle } from "./LanguageToggle.tsx";
 import { NotSavedChip } from "./NotSavedChip.tsx";
+import { RoleChip } from "../role/RoleChip.tsx";
 import { useApp } from "./store.tsx";
 import { UpdateBanner } from "../offline/UpdateBanner.tsx";
 import styles from "./AppShell.module.css";
@@ -26,6 +27,7 @@ export function AppShell({ children }: { children: ReactNode }): ReactNode {
           <Link className={styles.brand} href="/">{t.t("common.app.name")}</Link>
           {IS_DEV_PROFILE ? <Link href="/_dev" className={styles.badge} data-testid="profile-badge">{DEV_BADGE}</Link> : null}
           <NotSavedChip />
+          <RoleChip />
           {AiIndicator !== null ? <Suspense fallback={null}><AiIndicator /></Suspense> : null}
           <nav aria-label={t.t("common.nav.menu")} className={styles.menu}>
             <Link href="/learn">{t.t("learn.title")}</Link>

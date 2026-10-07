@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 0.11 (draft) |
+| **Version** | 0.12 (draft) |
 | **Status** | Draft — implementation not started (only `packages/wuxing`, `data/` and `scripts/kb` exist) |
 | **Last updated** | 2026-10-06 |
 | **Derives from** | [PRD v0.3](PRD.md) · [Diagnosis SOP v0.2](diagnosis-sop.zh-TW.md) · [Algorithm spec](wuxing-algorithm.md) |
@@ -273,6 +273,8 @@ Measured on the current `data/` (minified JSON, gzip):
 
 Total KB currently **≈ 143 KB gzip** for everything including all 703 herbs. With pruning (§5.3) a **release** session fetches roughly **55–65 KB gzip**
 (core, tier-A formulas without amounts, citations; no herb records), a **dev** session about 100 KB (plus `herbs-ext` on demand). The 975 KB `herbs.json` is never shipped whole. Per-chunk budgets are asserted by `bundle-data.ts` (fails the build on overrun).
+
+**The reference for learners and practitioners** ✔ (PM-53): `reference.<hash>.json` and `hans-reference.<hash>.txt` — what the role profile reaches beyond the release profile (every tier with amounts and 加減, each pattern's formulas, the herb records and prescription tables, the dose references, both role profiles). Fetched by `kb.forRole(role)` the first time a learner's or practitioner's page needs it, hash-checked, merged by `withReference` into a role's view (`kb.role`, `kb.general()`); part of the knowledge-base version; never in a general reader's session nor in the worker's lists. ≈ 51 KB gzip, budget 60 KB. Only in a release build that may ship L2/L3 content (the draft label, or every formula and herb record reviewed).
 
 ### 5.3 Profile pruning ✔ (task E-03: `packages/kb/src/bundle.ts`, `scripts/bundle-data.ts`)
 
@@ -690,3 +692,4 @@ Colour: one sequential hue per quantity family, never red/green as good/bad; sig
 | 0.9 | 2026-10-08 | §2: AI help (PM-45) — `@tcm/ai` and `apps/ai-gateway`, their layering rules, the gateway's routes |
 | 0.10 | 2026-10-08 | §6.1, §11: AI help's build constants and the gateway in `connect-src` of a build with AI help only (PM-46) |
 | 0.11 | 2026-10-08 | §2: the web app's side of AI help — the conversation, its memory-only state, the device's checks (PM-47) |
+| 0.12 | 2026-10-08 | §5.2: the reference for learners and practitioners, fetched on demand and merged into a role's view (PM-53) |

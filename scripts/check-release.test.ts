@@ -53,6 +53,18 @@ function edit(dir: string, name: string, fn: (data: any) => void): void {
   m.chunks[name]!.sha256 = createHash("sha256").update(text).digest("hex");
   saveManifest(dir, m);          // (also describes the changed files to the worker)
 }
+/** Rewrite the reference for learners and practitioners and keep its hash in the manifest right. */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any -- the tests damage arbitrary JSON shapes
+function editReference(dir: string, fn: (data: any) => void): void {
+  const m = JSON.parse(readFileSync(join(dir, "kb", "manifest.json"), "utf8"));
+  const file = join(dir, "kb", m.reference.file);
+  const data = JSON.parse(readFileSync(file, "utf8"));
+  fn(data);
+  const text = JSON.stringify(data);
+  writeFileSync(file, text);
+  m.reference.sha256 = createHash("sha256").update(text).digest("hex");
+  saveManifest(dir, m);
+}
 /** Rewrite one file of the herb browser ("index" or a shard key) and keep its hash in the manifest right, so only the intended rule can fail. */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any -- the tests damage arbitrary JSON shapes
 function editHerb(dir: string, which: string, fn: (data: any) => void): void {
@@ -82,6 +94,8 @@ const bookOf = (dir: string): { file: string; chapters: string[] } => (manifest(
 const firstShard = (dir: string): string => Object.keys((manifest(dir) as unknown as { herbBrowser: { shards: Record<string, unknown> } }).herbBrowser.shards)[0]!;
 const html = (dir: string, fn: (s: string) => string): void => { writeFileSync(join(dir, "index.html"), fn(readFileSync(join(dir, "index.html"), "utf8"))); resync(dir); };
 const entryJs = (dir: string): string => join(dir, readdirSync(join(dir, "assets")).filter((f) => f.endsWith(".js")).map((f) => `assets/${f}`).sort()[0]!);
+/** The script index.html loads first (the entry chunk). */
+const firstLoadJs = (dir: string): string => join(dir, /<script[^>]+type="module"[^>]+src="\/([^"]+\.js)"/.exec(readFileSync(join(dir, "index.html"), "utf8"))![1]!);
 /** Text that does not compress, for a file that is meant to be too big. */
 function noiseOf(words: number): string {
   let noise = "";
@@ -96,7 +110,7 @@ describe("check-release", () => {
   test("a real release build passes with the closed-beta exception and fails only the review gate without it", () => {
     assert.deepEqual(checkRelease(base, { draftLabel: true }), []);
     const f = checkRelease(base);
-    assert.deepEqual(rules(f), [12, 15, 16, 8]);          // the review gate, the draft emergency rows (a public build ships only verified ones), the herbs no sample review has covered and the draft book
+    assert.deepEqual(rules(f), [12, 15, 16, 18, 8]);      // the review gate, the draft emergency rows (a public build ships only verified ones), the herbs no sample review has covered, the draft book and the unreviewed reference for learners and practitioners
     assert.match(messages(f), /not reviewed/);
     assert.match(messages(f), /a public build shows only herbs a sample review has covered/);
     assert.match(messages(f), /the learning book is "draft"/);
@@ -132,8 +146,8 @@ describe("check-release", () => {
     writeFileSync(entryJs(c2), `${readFileSync(entryJs(c2), "utf8")}\n;"Component catalogue";`); resync(c2);
     assert.deepEqual(rules(checkRelease(c2, { draftLabel: true })), [2]);
     const rx = copy();
-    writeFileSync(entryJs(rx), `${readFileSync(entryJs(rx), "utf8")}\n;({"rx.title":"x"});`); resync(rx);
-    assert.deepEqual(rules(checkRelease(rx, { draftLabel: true })), [2], "the personalised prescription's messages in a release build");
+    writeFileSync(firstLoadJs(rx), `${readFileSync(firstLoadJs(rx), "utf8")}\n;({"rx.title":"x"});`); resync(rx);
+    assert.deepEqual(rules(checkRelease(rx, { draftLabel: true })), [18], "the personalised prescription's messages in the first load (rule 18 since the roles)");
     const sanyin = copy();
     edit(sanyin, "core", (c) => { c.config.extra = { sanyin: {} }; });
     assert.deepEqual(rules(checkRelease(sanyin, { draftLabel: true })), [2], "the prescription's tables in a release knowledge base");
@@ -368,6 +382,62 @@ describe("check-release", () => {
       writeFileSync(entryJs(code), `${readFileSync(entryJs(code), "utf8")}\n;fetch(${JSON.stringify(marker)});`); resync(code);
       assert.deepEqual(rules(checkRelease(code, { draftLabel: true })), [17], marker);
     }
+  });
+
+  test("18: the general reader never reaches L2 or amounts; the roles keep the safety layer; the reference is checked, and a public build carries none before the reviews", () => {
+    const real = checkRelease(base, { draftLabel: true });
+    assert.deepEqual(real, []);
+    assert.ok(manifest(base).chunks && JSON.parse(readFileSync(join(base, "kb", "manifest.json"), "utf8")).reference, "the closed beta serves learners and practitioners");
+    const raised = copy();
+    edit(raised, "core", (c) => { c.config.profile.population.adult.level = "L2"; });
+    assert.deepEqual(rules(checkRelease(raised, { draftLabel: true })), [18]);
+    assert.match(messages(checkRelease(raised, { draftLabel: true })), /general reader's profile reaches L2/);
+    const loosened = copy();
+    editReference(loosened, (r) => { r.roles.learner.population.pregnant = { level: "L3", notice: "none" }; r.roles.practitioner.condition.red_flag_A.level = "L3"; });
+    const f = messages(checkRelease(loosened, { draftLabel: true }));
+    assert.match(f, /learner's population\.pregnant is L3 · none: the safety layer is every role's/);
+    assert.match(f, /practitioner's condition\.red_flag_A is L3/);
+    assert.deepEqual(rules(checkRelease(loosened, { draftLabel: true })), [18]);
+    const enforcement = copy();
+    editReference(enforcement, (r) => { r.roles.learner.safety_enforcement = "annotate_only"; });
+    assert.match(messages(checkRelease(enforcement, { draftLabel: true })), /learner's safety enforcement is annotate_only/);
+    const damaged = copy();
+    const ref = JSON.parse(readFileSync(join(damaged, "kb", "manifest.json"), "utf8")).reference.file as string;
+    writeFileSync(join(damaged, "kb", ref), readFileSync(join(damaged, "kb", ref), "utf8").replace("\"L3\"", "\"L2\""));
+    assert.match(messages(checkRelease(damaged, { draftLabel: true })), /reference.*SHA-256 differs from the manifest/);
+    const stray = copy();
+    const m = JSON.parse(readFileSync(join(stray, "kb", "manifest.json"), "utf8"));
+    delete m.reference;
+    saveManifest(stray, m);
+    assert.match(messages(checkRelease(stray, { draftLabel: true })), /a reference file is in the output but not in the manifest/);
+    assert.match(messages(checkRelease(base)), /a public build ships the reference for learners and practitioners before its formulas and herb records are reviewed/);
+  });
+
+  test("18: a general reader's assessment from the built knowledge base reaches L1 and no amount; a learner's reaches L3 with amounts; a pregnant learner stays at L0", async () => {
+    const { indexKnowledgeBase } = await import("../packages/kb/src/indexer.ts");
+    const { assessGolden } = await import("../packages/engine/src/golden.ts");
+    const mf = JSON.parse(readFileSync(join(base, "kb", "manifest.json"), "utf8"));
+    const chunk = (name: string): unknown => JSON.parse(readFileSync(join(base, "kb", mf.chunks[name].file), "utf8"));
+    const raw = { version: mf.version, schemaVersion: mf.schema, core: chunk("core"), formulas: chunk("formulas"), herbs: null, citations: chunk("citations"), guidance: chunk("guidance"), cities: chunk("cities"), herbBrowser: null,
+      reference: { roles: mf.reference.roles, load: () => Promise.resolve(JSON.parse(readFileSync(join(base, "kb", mf.reference.file), "utf8"))) } } as never;
+    const kb = indexKnowledgeBase(raw);
+    const seed = JSON.parse(readFileSync(join(root, "packages", "engine", "test", "golden", "G-0005.json"), "utf8"));
+    const general = assessGolden(kb, seed.input);
+    assert.equal(general.policy.level, "L1");
+    assert.ok([...general.recommendations.formulas, ...general.recommendations.studyOnly].every((f) => f.composition.every((r) => r.typicalG === undefined && r.classicalAmount === undefined)), "no amount for a general reader");
+    const learner = await kb.forRole("learner");
+    const study = assessGolden(learner, seed.input);
+    assert.equal(study.policy.level, "L3");
+    assert.ok(study.recommendations.formulas.some((f) => f.composition.some((r) => r.typicalG !== undefined)), "a learner sees the reference amounts");
+    const pregnant = assessGolden(learner, { ...seed.input, subject: { ...seed.input.subject, sex: "female", pregnancy: "yes" } });
+    assert.equal(pregnant.policy.level, "L0", "pregnancy keeps its level for every role");
+  });
+
+  test("11: the reference and its display list are cached as immutable", () => {
+    const d = copy();
+    const m = JSON.parse(readFileSync(join(d, "kb", "manifest.json"), "utf8"));
+    writeFileSync(join(d, "_headers"), readFileSync(join(d, "_headers"), "utf8").replace(new RegExp(`(/kb/${m.reference.file.replace(/\./g, "\\.")}\n {2}Cache-Control: )[^\n]*`), "$1no-cache"));
+    assert.match(messages(checkRelease(d, { draftLabel: true })), /the reference file \/kb\/reference\.[0-9a-f]+\.json must be cached as immutable/);
   });
 
   test("9: source maps", () => {

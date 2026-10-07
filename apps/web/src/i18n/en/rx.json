@@ -49,6 +49,7 @@
   "rx.summary.title": "Modifications for this person (for a practitioner)",
   "rx.table.caption": "The composition after modification, with quantities",
   "rx.title": "Modifications for this person (for a practitioner)",
+  "rx.title.study": "Medication plan (for study and clinical reference)",
   "rx.version": "Rules {params} · knowledge base {kb}",
   "rx.why.bingji": "The main deviations: {dims}",
   "rx.why.herb": "{herb}: {dims}",

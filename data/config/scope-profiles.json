@@ -295,5 +295,39 @@
       "annotate_only": "never remove items; every triggered rule is shown as a warning on the item",
       "suppress_hard": "rules marked severity=hard remove the item and show the reason; severity=soft rules annotate"
     }
+  },
+  "roles": {
+    "learner": {
+      "features": {
+        "show_dosage_reference": true,
+        "show_formula_modification": true,
+        "show_herb_weights": true,
+        "show_tier_c": true
+      },
+      "population": {
+        "adult": {
+          "level": "L3"
+        },
+        "elderly_65_plus": {
+          "level": "L3"
+        }
+      }
+    },
+    "practitioner": {
+      "features": {
+        "show_dosage_reference": true,
+        "show_formula_modification": true,
+        "show_herb_weights": true,
+        "show_tier_c": true
+      },
+      "population": {
+        "adult": {
+          "level": "L3"
+        },
+        "elderly_65_plus": {
+          "level": "L3"
+        }
+      }
+    }
   }
 }

@@ -1,7 +1,7 @@
 // From the draft to an engine run, and from a saved result back to a draft (tech spec §8.3).
 import { isAsked, type AssessInput, type Assessment, type SeasonBasis } from "@tcm/engine";
 import type { SeasonModel } from "@tcm/wuxing";
-import type { KnowledgeBase } from "@tcm/kb";
+import type { KnowledgeBase, Role } from "@tcm/kb";
 import type { Lang } from "@tcm/i18n";
 import { subjectOf } from "../screens/profile/model.ts";
 import { newDraft } from "../storage/draft.ts";
@@ -33,7 +33,7 @@ export function withoutBirthMoment(result: Assessment): Assessment {
 }
 
 /** The record stored for a result. Birth data is kept only when the user chose to remember it (privacy §3). */
-export function toSaved(d: Draft, result: Assessment, ctx: { id: string; lang: Lang }): SavedAssessment {
+export function toSaved(d: Draft, result: Assessment, ctx: { id: string; lang: Lang; role?: Role | null }): SavedAssessment {
   return {
     id: ctx.id, createdAt: result.meta.computedAt, appVersion: APP_BUILD, kbVersion: result.meta.kbVersion, engineVersion: result.meta.engineVersion,
     paramsFingerprint: result.meta.paramsFingerprint, profile: result.meta.profile, lang: ctx.lang, seasonModel: result.meta.seasonModel,
@@ -41,6 +41,8 @@ export function toSaved(d: Draft, result: Assessment, ctx: { id: string; lang: L
     result: d.rememberBirth && d.birth !== undefined ? result : withoutBirthMoment(result),
     // which hour the birth blocks were made from, when the birth time was near a change of hour: the choice, not the time (five-phase design §5)
     ...(d.birth !== undefined && d.hourChoice !== undefined ? { hour: d.hourChoice } : {}),
+    // the role it was made for (PM-53): it is shown with that role's knowledge base, whoever opens it
+    ...(ctx.role ? { role: ctx.role } : {}),
   };
 }
 

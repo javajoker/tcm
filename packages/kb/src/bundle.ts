@@ -4,7 +4,7 @@
 // bundle that cannot use them.
 import type {
   BookChunk, Citations, Cities, ConstitutionItems, Constitutions, Correspondences, DoseBands, Emergency, Exclusions, NameFold, Formula, Formulas, Glossary, Herb, Herbs, Level, Orientation, Pairings, PanelSchema, PatternElements, Patterns, Prescription, PrescriptionChunk, Processing, ProfileName, Pulse, Questions, Sanyin, Yinjing,
-  RawKbChunks, RedFlags, SafetyRules, ScopeConfig, ScopeProfile, ScopeProfiles, ScoringParams, Susceptibility, Symptoms, Tongue, TreatmentGuidance, Yunqi, FormulasChunk, GuidanceChunk, HerbName, TreatmentCore,
+  RawKbChunks, RedFlags, ReferenceChunk, ReferenceSource, Role, SafetyRules, ScopeConfig, ScopeProfile, ScopeProfiles, ScoringParams, Susceptibility, Symptoms, Tongue, TreatmentGuidance, Yunqi, FormulasChunk, GuidanceChunk, HerbName, TreatmentCore,
 } from "./types.ts";
 import { memoryBook } from "./book.ts";
 import { buildHerbBrowser, memorySource, type HerbBrowserChunks } from "./herbs.ts";
@@ -137,6 +137,33 @@ export function applyOverrides(base: ScopeProfile, overrides: unknown): ScopePro
   return next;
 }
 
+// ── roles (PM-53): may only raise an adult's level and switch the study features on ──
+
+export const ROLES: readonly Role[] = ["learner", "practitioner"];
+export type RoleOverlay = ScopeProfiles["roles"]["learner"];
+
+/**
+ * The release profile with a role's overlay (PD-13, PD-14): an adult's level (and an adult's over 65) raised, the study features switched on — nothing else, so minors, pregnancy,
+ * breastfeeding, the red flags, serious chronic disease, the medicine and allergy conditions, the states and the safety enforcement stay as the release profile has them. The
+ * build's overrides then apply as to the profile itself: they may only restrict. Throws on an overlay that would lower a level or switch a feature off.
+ */
+export function roleProfile(base: ScopeProfile, overlay: RoleOverlay, overrides?: unknown): ScopeProfile {
+  const next = structuredClone(base) as ScopeProfile & { population: Record<string, Cell>; features: Record<string, boolean> };
+  const problems: string[] = [];
+  for (const [key, cell] of Object.entries(overlay.population) as [string, { level: Level }][]) {
+    const cur = next.population[key];
+    if (cur === undefined) problems.push(`population.${key}: unknown cell`);
+    else if (rank(cell.level) < rank(cur.level)) problems.push(`population.${key}: ${cell.level} would lower ${cur.level} (a role only raises an adult's level)`);
+    else cur.level = cell.level;
+  }
+  for (const [key, on] of Object.entries(overlay.features) as [string, boolean][]) {
+    if (!(key in next.features) || on !== true) problems.push(`features.${key}: a role only switches a study feature on`);
+    else next.features[key] = true;
+  }
+  if (problems.length) throw new Error(`invalid role overlay:\n - ${problems.join("\n - ")}`);
+  return applyOverrides(next, overrides);
+}
+
 // ── pruning ─────────────────────────────────────────────────────────────────
 
 function pruneFormula(f: Formula, reach: Reach, keepInternals: boolean): Formula {
@@ -161,39 +188,18 @@ function pruneFormula(f: Formula, reach: Reach, keepInternals: boolean): Formula
   return { ...base, source, verification, composition, modifications, classical_amounts: reach.dosage ? base.classical_amounts : null } as Formula;
 }
 
-export interface BuildOptions {
-  readonly profile: ProfileName;
-  /** Build-time override file contents (APP_OVERRIDES); may only restrict. */
-  readonly overrides?: unknown;
-  readonly version: string;
-  /**
-   * The closed-beta draft label is on (APP_DRAFT_LABEL), so draft content may ship. Without it — a public build — only emergency-number rows that a regional owner has verified are bundled (and the
-   * generic `OTHER`), because a wrong number is a safety incident (docs/post-mvp/design/tap-tempo-and-regions.md §2.4). The dev profile carries every row.
-   */
-  readonly draftLabel?: boolean;
+/** The formulas a reach keeps (pruned), the display names of their herbs, and — where the reach uses them — the herb records with the prescription tables. */
+interface FormulaSet {
+  readonly kept: readonly Formula[];
+  readonly herbNames: Readonly<Record<string, HerbName>>;
+  readonly herbs: readonly Herb[] | null;
+  readonly prescription: PrescriptionChunk | null;
 }
 
-export interface BuildResult {
-  readonly chunks: RawKbChunks;
-  readonly reach: Reach;
-  readonly profile: ScopeProfile;
-  /** What the bundler writes for the herb browser (PM-24); `chunks.herbBrowser` reads the same content from memory. Null when this build shows no herb page. */
-  readonly herbFiles: HerbBrowserChunks | null;
-  /** What the bundler writes for the learning book (PM-43); `chunks.book` reads the same from memory. Null when this build carries no book. */
-  readonly bookFile: BookChunk | null;
-}
-
-/** Resolve the profile, prune what it cannot reach and return the chunks of one knowledge-base version. */
-export function buildChunks(files: DataFiles, opts: BuildOptions): BuildResult {
-  const profile = applyOverrides(files.scope.profiles[opts.profile], opts.overrides);
-  const reach = reachOf(profile);
-  const dev = opts.profile === "dev";
-
+function formulaSet(files: DataFiles, reach: Reach, dev: boolean): FormulaSet {
   const kept: Formula[] = files.formulas.items
     .filter((f) => f.tier === "A" || (f.tier === "B" && reach.tierB) || (f.tier === "C" && reach.tierC))
     .map((f) => pruneFormula(f, reach, dev));
-  const keptIds = new Set(kept.map((f) => f.id));
-
   const herbById = new Map(files.herbs.items.map((h) => [h.id, h] as const));
   const herbNames: Record<string, HerbName> = {};
   for (const f of kept) {
@@ -218,6 +224,70 @@ export function buildChunks(files: DataFiles, opts: BuildOptions): BuildResult {
     yinjing: files.yinjing.channels.map((c) => ({ ...c, herbs: c.herbs.filter((h) => bundled.has(h)) })),
     sanyin: files.sanyin,
   } : null;
+  return { kept, herbNames, herbs, prescription };
+}
+
+/**
+ * The reference for learners and practitioners (PM-53): what the role profile reaches beyond the release profile, in a file of its own. Only for a release build, and only where
+ * L2 and L3 content may ship: with the draft label (the closed beta), or once every formula and herb record in it has been reviewed (content review §7) — none yet, so a public
+ * release has no reference and serves no role. The development profile reaches L3 for everyone and needs none.
+ */
+export function buildReference(files: DataFiles, opts: Pick<BuildOptions, "profile" | "overrides" | "draftLabel">): ReferenceChunk | null {
+  if (opts.profile !== "release") return null;
+  const base = files.scope.profiles.release;
+  const roles = { learner: roleProfile(base, files.scope.roles.learner, opts.overrides), practitioner: roleProfile(base, files.scope.roles.practitioner, opts.overrides) };
+  const reach = reachOf(roles.learner);
+  if (JSON.stringify(reach) !== JSON.stringify(reachOf(roles.practitioner))) throw new Error("the learner and the practitioner must reach the same content (one reference file serves both)");
+  if (!reach.dosage) return null;                                                               // an override took the study content away: no role to serve
+  const set = formulaSet(files, reach, false);
+  // fail-safe: the herb records are the curated drafts, so until a reviewed curated herb can be told from a reviewed derived one, a public build ships no reference at all
+  const reviewed = set.kept.every((f) => f.status === "reviewed") && (set.herbs ?? []).every((h) => h.status === "reviewed");
+  if (opts.draftLabel !== true && !reviewed) return null;
+  const keptIds = new Set(set.kept.map((f) => f.id));
+  return {
+    roles,
+    formulas: { items: set.kept, herbNames: set.herbNames },
+    patternFormulas: Object.fromEntries(files.patterns.items.map((p) => [p.id, p.formulas.filter((id) => keptIds.has(id))])),
+    herbs: { items: set.herbs ?? [], ...(set.prescription ? { prescription: set.prescription } : {}) },
+    doseReferences: files.safety.dose_references!,
+  };
+}
+
+/** The reference held in memory (tests, the dev server): the same shape as the fetched file. */
+export const memoryReference = (chunk: ReferenceChunk): ReferenceSource => ({ roles: ROLES, load: () => Promise.resolve(chunk) });
+
+export interface BuildOptions {
+  readonly profile: ProfileName;
+  /** Build-time override file contents (APP_OVERRIDES); may only restrict. */
+  readonly overrides?: unknown;
+  readonly version: string;
+  /**
+   * The closed-beta draft label is on (APP_DRAFT_LABEL), so draft content may ship. Without it — a public build — only emergency-number rows that a regional owner has verified are bundled (and the
+   * generic `OTHER`), because a wrong number is a safety incident (docs/post-mvp/design/tap-tempo-and-regions.md §2.4). The dev profile carries every row.
+   */
+  readonly draftLabel?: boolean;
+}
+
+export interface BuildResult {
+  readonly chunks: RawKbChunks;
+  readonly reach: Reach;
+  readonly profile: ScopeProfile;
+  /** What the bundler writes for the herb browser (PM-24); `chunks.herbBrowser` reads the same content from memory. Null when this build shows no herb page. */
+  readonly herbFiles: HerbBrowserChunks | null;
+  /** What the bundler writes for the learning book (PM-43); `chunks.book` reads the same from memory. Null when this build carries no book. */
+  readonly bookFile: BookChunk | null;
+  /** What the bundler writes for learners and practitioners (PM-53); `chunks.reference` reads the same from memory. Null when this build serves no role. */
+  readonly referenceFile: ReferenceChunk | null;
+}
+
+/** Resolve the profile, prune what it cannot reach and return the chunks of one knowledge-base version. */
+export function buildChunks(files: DataFiles, opts: BuildOptions): BuildResult {
+  const profile = applyOverrides(files.scope.profiles[opts.profile], opts.overrides);
+  const reach = reachOf(profile);
+  const dev = opts.profile === "dev";
+
+  const { kept, herbNames, herbs, prescription } = formulaSet(files, reach, dev);
+  const keptIds = new Set(kept.map((f) => f.id));
 
   const config: ScopeConfig = {
     profileName: opts.profile, profile, levels: files.scope.levels, dimensions: files.scope.dimensions, noticeKinds: files.scope.notice_kinds,
@@ -235,7 +305,7 @@ export function buildChunks(files: DataFiles, opts: BuildOptions): BuildResult {
   };
   const safety: SafetyRules = reach.dosage ? files.safety : (({ dose_references: _d, ...s }) => s)(files.safety);
   const patterns: Patterns = { ...files.patterns, items: files.patterns.items.map((p) => ({ ...p, formulas: p.formulas.filter((id) => keptIds.has(id)) })) };
-  const formulas: FormulasChunk = { items: kept, herbNames };
+  const formulas: FormulasChunk = { items: [...kept], herbNames };
 
   // the herb browser (PM-24): every herb in the dev profile and in the closed beta (draft label on, each page labelled as a draft); a public release only the herbs a sample review has covered —
   // none yet, so no herb file at all. It carries no dose and no herb weights whatever the profile, so a page can never show more than the bundle holds.
@@ -243,6 +313,9 @@ export function buildChunks(files: DataFiles, opts: BuildOptions): BuildResult {
 
   // the learning book (PM-43): every build that labels its content a draft carries it; a public release only a reviewed book — none yet, so no book file at all
   const bookFile = files.book && (dev || opts.draftLabel === true || files.book.status === "reviewed") ? files.book : null;
+
+  // the reference for learners and practitioners (PM-53): its own file, for a release build that may ship L2 and L3 content
+  const referenceFile = buildReference(files, opts);
 
   const emergency: Emergency = dev || opts.draftLabel === true ? files.emergency : { ...files.emergency, regions: files.emergency.regions.filter((r) => r.id === "OTHER" || r.verification !== undefined) };
 
@@ -257,11 +330,12 @@ export function buildChunks(files: DataFiles, opts: BuildOptions): BuildResult {
     formulas,
     guidance,
     cities: files.cities,
-    herbs: herbs ? { items: herbs, ...(prescription ? { prescription } : {}) } : null,
+    herbs: herbs ? { items: [...herbs], ...(prescription ? { prescription } : {}) } : null,
     herbBrowser: herbFiles ? memorySource(herbFiles) : null,
     book: bookFile ? memoryBook(bookFile) : null,
+    reference: referenceFile ? memoryReference(referenceFile) : null,
     // the source-script quotation and the repository path are verification aids: dev only
     citations: dev ? files.citations : { ...files.citations, items: files.citations.items.map(({ source_path: _p, quote_source_zh_hans: _q, ...c }) => c) },
   };
-  return { chunks, reach, profile, herbFiles, bookFile };
+  return { chunks, reach, profile, herbFiles, bookFile, referenceFile };
 }

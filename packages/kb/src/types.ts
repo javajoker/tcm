@@ -133,6 +133,25 @@ export interface PrescriptionChunk {
   readonly sanyin: Sanyin;
 }
 export interface HerbsChunk { readonly items: readonly Herb[]; readonly prescription?: PrescriptionChunk }
+
+// ── the reference for learners and practitioners (PM-53; docs/post-mvp/design/prescription-model.md §7.4) ──
+/** A reader who declared, with an attestation, that they study Chinese medicine or practise it (PD-13, PD-14). A general reader has no role. */
+export type Role = "learner" | "practitioner";
+/**
+ * What L3 reaches beyond the release profile — every tier, the amounts, the classical 加減, the herb records with the prescription tables, the dose references — in a file of its own,
+ * fetched only for a learner or a practitioner, never with the general knowledge base. Part of the knowledge-base version: it changes what a role's result says.
+ */
+export interface ReferenceChunk {
+  /** The release profile with each role's overlay: an adult's level raised and the study features on; every other cell, and the safety enforcement, the release profile's. */
+  readonly roles: Readonly<Record<Role, ScopeProfile>>;
+  readonly formulas: FormulasChunk;
+  /** Each pattern's formulas for these roles (the general core lists only the formulas it carries). */
+  readonly patternFormulas: Readonly<Record<string, readonly string[]>>;
+  readonly herbs: HerbsChunk;
+  readonly doseReferences: NonNullable<SafetyRules["dose_references"]>;
+}
+/** Where the reference comes from: the roles it serves (from the manifest, so a page knows them without a fetch) and the file, fetched and checked when first asked for. */
+export interface ReferenceSource { readonly roles: readonly Role[]; load(): Promise<ReferenceChunk> }
 export interface CitationsChunk { readonly items: readonly Citation[] }
 
 // ── the herb browser (PM-24; docs/post-mvp/design/knowledge-browser.md §7) ──
@@ -210,6 +229,8 @@ export interface RawKbChunks {
   readonly herbBrowser: HerbBrowserSource | null;
   /** The learning book (PM-43): absent or null when this build carries none. */
   readonly book?: BookSource | null;
+  /** The reference for learners and practitioners (PM-53): absent or null when this build serves no role — a public release before the reviews, and the development profile, which reaches L3 for everyone. */
+  readonly reference?: ReferenceSource | null;
 }
 
 // ── the learning book (PM-42, PM-43) ────────────────────────────────────────
@@ -252,8 +273,10 @@ export interface Manifest {
   readonly herbBrowser?: { readonly count: number; readonly index: ChunkRef; readonly shards: Readonly<Record<string, ChunkRef>> };
   /** The learning book's file (PM-43), with its chapter ids: absent when the build carries no book. Traditional Chinese only, so it has no Simplified display list. */
   readonly book?: ChunkRef & { readonly chapters: readonly string[] };
+  /** The reference for learners and practitioners (PM-53), with the roles it serves: absent when the build serves none. Part of the knowledge-base version. */
+  readonly reference?: ChunkRef & { readonly roles: readonly Role[] };
   /** Display lists for Simplified Chinese: one for the chunks loaded with the knowledge base, one for the lazy city list, and — with the herb browser — one for each of its files. The data itself is never converted. */
-  readonly variants?: { readonly "zh-Hans"?: { readonly main: HansRef; readonly cities: HansRef; readonly herbs?: { readonly index: HansRef; readonly shards: Readonly<Record<string, HansRef>> } } };
+  readonly variants?: { readonly "zh-Hans"?: { readonly main: HansRef; readonly cities: HansRef; readonly herbs?: { readonly index: HansRef; readonly shards: Readonly<Record<string, HansRef>> }; readonly reference?: HansRef } };
 }
 
 // ── runtime view ────────────────────────────────────────────────────────────
@@ -313,6 +336,14 @@ export interface KnowledgeBase {
   term(zhHant: string): GlossaryTerm | undefined;
   /** The script the Chinese text is shown in: `Hans` only when the Simplified display list was loaded and verified, else `Hant` (the data's own script). */
   readonly script: "Hant" | "Hans";
+  /** The reading role this view is for (PM-53): null for a general reader. */
+  readonly role: Role | null;
+  /** The roles this build can serve: none in a public release before the reviews, none in the development profile (it reaches L3 for everyone). */
+  readonly roles: readonly Role[];
+  /** This knowledge base for a learner or a practitioner: the reference fetched once, merged, and the profile with the role's overlay. Rejects where the build serves no role. */
+  forRole(role: Role): Promise<KnowledgeBase>;
+  /** The general reader's knowledge base: itself, or the one a role's view was made from. */
+  general(): KnowledgeBase;
   /** A Chinese string of the data, for display: the identity in `Hant`, the Simplified form in `Hans`. Never use its result as an identifier. */
   zh(text: string): string;
   /** What a person typed or picked in the display script, as the strings of the data it can stand for (the data's own script: the string itself). Use it before text meets a rule that matches by name. */

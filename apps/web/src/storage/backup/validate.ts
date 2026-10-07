@@ -3,7 +3,8 @@
 // made by this app pass unchanged, so a round trip gives deep-equal data (tested).
 import type { AssessContext, Finding, Subject } from "@tcm/engine";
 import type { BirthInput } from "@tcm/wuxing";
-import { HOUR_CHOICES, type Draft, type Prefs, type SavedAssessment } from "../types.ts";
+import { HOUR_CHOICES, ROLE_VALUES, type Draft, type Prefs, type SavedAssessment } from "../types.ts";
+import { roleChoice } from "../prefs.ts";
 import { LIMITS } from "./limits.ts";
 import { isPlainRecord, plainCopy, Unsafe } from "./plain.ts";
 
@@ -243,6 +244,7 @@ export function validateAssessment(raw: unknown): Valid<SavedAssessment> {
       id, createdAt: int(r["createdAt"], "the time", 0, 4_102_444_800_000), appVersion: stamp(r["appVersion"], "the app version"), kbVersion: stamp(r["kbVersion"], "the knowledge-base version"),
       engineVersion: stamp(r["engineVersion"], "the engine version"), paramsFingerprint: stamp(r["paramsFingerprint"], "the parameter stamp"), profile: stamp(r["profile"], "the profile"),
       lang: oneOf(r["lang"], LANGS, "the language"), seasonModel: stamp(r["seasonModel"], "the season model"),
+      ...(has(r, "role") ? { role: oneOf(r["role"], ROLE_VALUES, "the role the result was made for") } : {}),
     };
     const result = assessmentLike(r["result"]);
     const meta = result.meta as unknown as Record<string, unknown>;
@@ -265,8 +267,8 @@ export function validateAssessment(raw: unknown): Valid<SavedAssessment> {
       ...(has(r, "hour") ? { hour: oneOf(r["hour"], HOUR_CHOICES, "which hour the birth blocks were made from") } : {}),
       ...(has(r, "followUp") ? { followUp: ((f) => ({ dueAt: int(f["dueAt"], "the follow-up date", 0, 4_102_444_800_000), ...(has(f, "dismissedAt") ? { dismissedAt: int(f["dismissedAt"], "the dismissal time", 0, 4_102_444_800_000) } : {}) }))(record(r["followUp"], "the follow-up")) } : {}),
       ...(Object.keys(feedback).length > 0 ? { feedback } : {}),
-      // only a development build makes a prescription; a release build refuses the record (its importer refuses development records anyway) and carries no code to read one
-      ...(has(r, "prescription") ? { prescription: __APP_PROFILE__ === "dev" ? prescriptionOf(r["prescription"], base) : bad("a prescription is made only by a development build") } : {}),
+      // a prescription is made by a development build, or for a learner or a practitioner (PM-53): a general reader's record that holds one is refused
+      ...(has(r, "prescription") ? { prescription: __APP_PROFILE__ === "dev" || "role" in base ? prescriptionOf(r["prescription"], base) : bad("a prescription is made only by a development build or for a learner or a practitioner") } : {}),
       ...(imported ? { imported } : {}),
     } };
   } catch (e) {
@@ -302,7 +304,7 @@ export function validateDraft(raw: unknown): Valid<Draft> {
 }
 
 /** The preferences a backup carries: language, theme, text size, emergency-number region, how seasons are counted and the auto-advance switch — never the disclaimer acknowledgement or the one-time offer flags. */
-export type BackupPrefs = Pick<Prefs, "lang" | "theme" | "textScale" | "region" | "seasons" | "autoAdvance">;
+export type BackupPrefs = Pick<Prefs, "lang" | "theme" | "textScale" | "region" | "seasons" | "autoAdvance" | "role">;
 export function validatePrefs(raw: unknown): Valid<BackupPrefs> {
   try {
     const r = record(plainCopy(raw), "the preferences");
@@ -313,6 +315,7 @@ export function validatePrefs(raw: unknown): Valid<BackupPrefs> {
       ...(has(r, "region") ? { region: ((s) => (/^[A-Z]{2,5}$/.test(s) ? s : bad("the region is not valid")))(text(r["region"], "the region", 5)) } : {}),
       ...(has(r, "seasons") ? { seasons: oneOf(r["seasons"], ["north", "south", "off"] as const, "how seasons are counted") } : {}),
       autoAdvance: bool(r["autoAdvance"], "autoAdvance"),
+      ...(has(r, "role") ? { role: roleChoice(r["role"]) ?? bad("the reading role is not valid") } : {}),
     } };
   } catch (e) {
     if (e instanceof Bad || e instanceof Unsafe) return { ok: false, reason: e.message };

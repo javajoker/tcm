@@ -39,7 +39,8 @@ export interface RxView {
 }
 
 /** The view of a stored prescription in the page language. `t` is the app's translator, `rx` the prescription's own. */
-export function rxView(p: Prescription, kb: KnowledgeBase, t: T, rx: Rx): RxView {
+/** `study`: the plan of a learner or a practitioner (PM-53), titled for study and clinical reference. */
+export function rxView(p: Prescription, kb: KnowledgeBase, t: T, rx: Rx, study = false): RxView {
   const sep = t.lang === "en" ? ", " : "、";
   const k = (key: RxKey, params?: Record<string, string | number>): string => rx.t(key, params);
   const app = (key: string, params?: Record<string, string | number>): string => t.t(key as MessageKey, params);
@@ -88,7 +89,7 @@ export function rxView(p: Prescription, kb: KnowledgeBase, t: T, rx: Rx): RxView
     return `${label} ${times}`;
   };
 
-  const common = { title: k("rx.title"), intro: k("rx.intro"), draft: k("rx.draft"), footer: k("rx.footer"), version: k("rx.version", { params: p.version.params, kb: p.version.kb }) };
+  const common = { title: k(study ? "rx.title.study" : "rx.title"), intro: k("rx.intro"), draft: k("rx.draft"), footer: k("rx.footer"), version: k("rx.version", { params: p.version.params, kb: p.version.kb }) };
   if (p.withheld) {
     return { ...common, withheld: k("rx.withheld", { herb: herb(p.withheld.herb), reason: reason(p.withheld.rule) }), base: "", changes: [], amounts: p.amounts, rows: [], cautions: [], why: [] };
   }

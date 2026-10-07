@@ -4,7 +4,7 @@ import type { Formula, KnowledgeBase } from "@tcm/kb";
 import { useI18n } from "../../i18n/I18nProvider.tsx";
 import type { MessageKey, } from "../../i18n/catalogs.ts";
 import { CitationChip, CitationChips } from "../../app/citations.tsx";
-import { NeedsKnowledge, useLoaded } from "../../app/knowledge.tsx";
+import { KnowledgeOf, NeedsKnowledge, useLoaded } from "../../app/knowledge.tsx";
 import { useApp } from "../../app/store.tsx";
 import { usePageTitle } from "../../app/usePageTitle.ts";
 import type { SavedAssessment } from "../../storage/types.ts";
@@ -14,8 +14,9 @@ import { BilingualName, Prose } from "./shared.tsx";
 import { CHANNELS, COMPOSITION_STATUS, LIUXIE_SLUG, ORGAN_SLUG, PRODUCT_SLUG, ROLE_SLUG, SCHOOL_SLUG, tierReason, UNIT_ID, YINGWEI_SLUG } from "./words.ts";
 import { DataTable } from "./Panel.tsx";
 
-// the personalised prescription (PM-41): only a build that can show one loads the card, its words and the code that made it
-const PrescriptionCard = __APP_PROFILE__ === "dev" ? lazy(() => import("../../prescription/PrescriptionCard.tsx")) : null;
+// the personalised prescription (PM-41) — the medication plan of a learner or a practitioner (PM-53): the card, its words and the code that made it are a lazy chunk, loaded only
+// for a result that holds one (a general reader's never does)
+const PrescriptionCard = lazy(() => import("../../prescription/PrescriptionCard.tsx"));
 
 
 /** Label of a panel dimension (`肺.qi`, `liuxie.濕`, `product.痰`) in the page language. */
@@ -67,7 +68,7 @@ function Detail({ saved, rec, formula, kb }: { saved: SavedAssessment; rec: Form
           <p className="muted">{t.t("formula.composition.roleNote")}</p>
         </Card>
 
-        {PrescriptionCard !== null && saved.prescription?.base.formula === formula.id ? <Suspense fallback={null}><PrescriptionCard saved={saved} kb={kb} /></Suspense> : null}
+        {saved.prescription?.base.formula === formula.id ? <Suspense fallback={null}><PrescriptionCard saved={saved} kb={kb} /></Suspense> : null}
 
         <Card title={t.t("formula.fit.title")} headingLevel={2} id="formula-fit">
           <p><strong>{t.t("formula.fit.match", { word })}</strong> · {t.t("report.formula.explained", { pct: pct(rec.fit.explained) })}</p>
@@ -147,7 +148,9 @@ export function FormulaDetail({ id, fid }: { id: string; fid: string }): ReactNo
   const rec = [...saved.result.recommendations.formulas, ...saved.result.recommendations.studyOnly].find((f) => f.id === fid);
   return (
     <NeedsKnowledge>
-      <Inner saved={saved} rec={rec} fid={fid} back={back} />
+      <KnowledgeOf role={saved.role}>
+        <Inner saved={saved} rec={rec} fid={fid} back={back} />
+      </KnowledgeOf>
     </NeedsKnowledge>
   );
 }

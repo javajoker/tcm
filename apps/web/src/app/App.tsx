@@ -20,6 +20,7 @@ import { useI18n } from "../i18n/I18nProvider.tsx";
 import { Skeleton } from "../ui/index.ts";
 import { DEFAULT_LANG, pathForLang, splitLangPath } from "./routing.ts";
 import { useApp } from "./store.tsx";
+import { roleOf } from "./role.ts";
 
 // Every screen except the landing page is its own chunk (tech spec §12: the initial JavaScript is the shell and the landing page; the flow loads as the person walks through it).
 const Profile = lazy(() => import("../screens/profile/Profile.tsx").then((m) => ({ default: m.Profile })));
@@ -97,7 +98,9 @@ function Screens(): ReactNode {
 export function App({ load }: { load?: Loader }): ReactNode {
   const [location] = useLocation();
   const script = scriptOf(splitLangPath(location).lang ?? DEFAULT_LANG);
-  return <KnowledgeProvider script={script} {...(load ? { load } : {})}><LanguageRoutes /></KnowledgeProvider>;
+  // the reading role (PM-53): a learner or a practitioner reads with the reference of the role merged in
+  const role = useApp((s) => roleOf(s.prefs));
+  return <KnowledgeProvider script={script} role={role} {...(load ? { load } : {})}><LanguageRoutes /></KnowledgeProvider>;
 }
 
 function LanguageRoutes(): ReactNode {

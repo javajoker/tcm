@@ -1,7 +1,7 @@
 import { KbError } from "./errors.ts";
 import { bookOf } from "./book.ts";
 import { herbBrowser } from "./herbs.ts";
-import type { Cities, GlossaryTerm, KnowledgeBase, RawKbChunks, TreatmentGuidance } from "./types.ts";
+import type { Cities, GlossaryTerm, KnowledgeBase, RawKbChunks, ReferenceChunk, Role, TreatmentGuidance } from "./types.ts";
 
 /** The schema version this build of the app understands (data/schema, `_meta.schema`). A KB with another version is refused. */
 export const SUPPORTED_SCHEMA_VERSION = 1;
@@ -20,7 +20,27 @@ function toMap<T extends { readonly id: string }>(items: readonly T[], what: str
  * feeds it what the loader fetched. It checks only what the app depends on at run time (identity, a few references); the full validation
  * is done by the Python build (`scripts/kb/validate_kb.py`) and the bundler.
  */
-export function indexKnowledgeBase(raw: RawKbChunks, display?: { zh(text: string): string; traditional(text: string): readonly string[] }): KnowledgeBase {
+type Display = { zh(text: string): string; traditional(text: string): readonly string[] };
+
+/** The chunks of a role: the release profile with the role's overlay, every formula the role reaches with its amounts, the herb records and tables, the dose references (PM-53). */
+export function withReference(raw: RawKbChunks, ref: ReferenceChunk, role: Role): RawKbChunks {
+  const core = raw.core;
+  return {
+    ...raw,
+    core: {
+      ...core,
+      config: { ...core.config, profile: ref.roles[role] },
+      patterns: { ...core.patterns, items: core.patterns.items.map((p) => ({ ...p, formulas: [...(ref.patternFormulas[p.id] ?? p.formulas)] })) },
+      safety: { ...core.safety, dose_references: ref.doseReferences },
+    },
+    formulas: ref.formulas,
+    herbs: ref.herbs,
+    reference: null,
+  };
+}
+
+/** `role` and `base` make a role's view (PM-53): it serves the same roles as `base` and knows it as its general knowledge base. */
+export function indexKnowledgeBase(raw: RawKbChunks, display?: Display, role: Role | null = null, base?: KnowledgeBase): KnowledgeBase {
   if (raw.schemaVersion !== SUPPORTED_SCHEMA_VERSION || raw.core.params._meta.schema !== SUPPORTED_SCHEMA_VERSION) {
     throw new KbError("schema-mismatch", `knowledge base schema ${raw.schemaVersion} is not supported (expected ${SUPPORTED_SCHEMA_VERSION})`);
   }
@@ -73,7 +93,7 @@ export function indexKnowledgeBase(raw: RawKbChunks, display?: { zh(text: string
     return out;
   };
 
-  return {
+  const kb: KnowledgeBase = {
     version: raw.version,
     profile: core.config.profileName,
     schemaVersion: raw.schemaVersion,
@@ -111,8 +131,26 @@ export function indexKnowledgeBase(raw: RawKbChunks, display?: { zh(text: string
     citation: (id) => citations.get(id),
     citations: raw.citations.items,
     term: (zh) => terms.get(zh),
+    role,
+    roles: base?.roles ?? raw.reference?.roles ?? [],
+    forRole: base?.forRole ?? (() => {
+      const made = new Map<Role, Promise<KnowledgeBase>>();
+      const ref = raw.reference ?? null;
+      return (r: Role): Promise<KnowledgeBase> => {
+        if (ref === null || !ref.roles.includes(r)) return Promise.reject(new KbError("chunk-missing", `this build serves no ${r}`));
+        let p = made.get(r);
+        if (p === undefined) {
+          p = ref.load().then((chunk) => indexKnowledgeBase(withReference(raw, chunk, r), display, r, kb));
+          p.catch(() => made.delete(r));                                                   // a failed fetch is tried again next time
+          made.set(r, p);
+        }
+        return p;
+      };
+    })(),
+    general: () => base ?? kb,
     script: display ? "Hans" : "Hant",
     zh: display ? (text) => display.zh(text) : (text) => text,
     traditional: display ? (text) => display.traditional(text) : (text) => [text],
   };
+  return kb;
 }
