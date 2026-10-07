@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 0.4 (draft) |
+| **Version** | 0.5 (draft) |
 | **Status** | Documents the first-pass `data/` as generated today, plus the files the engine and UI still need (§9) |
 | **Last updated** | 2026-10-07 |
 | **Audience** | Engine and UI developers, content reviewers, anyone adding or changing knowledge |
@@ -284,6 +284,7 @@ Built by `build_prescription.py` from `curated/prescription.py`; read by the eng
 `profiles.{release, dev}`: `{ description, population{key: {level, notice}}, condition{…}, state{…}, features{show_acupoints, show_diet, show_dosage_reference,
 show_formula_modification, show_herb_weights, show_tier_c}, safety_enforcement: "suppress_hard" | "annotate_only" }` · `resolution{effective_level, effective_notice, flow: "continue", …}`.
 Every profile must define **every** dimension key (checked). `dev` must have level `L3` everywhere and keep every `blocking_ack` of `release` (checked).
+Each profile also has `ai: { enabled, endpoint: origin | null, modules{conversation, tongue, face} }` — AI help (Release F, PM-46): a module needs `enabled` and an `endpoint`; `tongue` and `face` stay off (not built, PD-25); `release` must be all off with no endpoint (checked here and by check-release rule 17). `dev` points at the local mock gateway.
 
 ### 6.2 `safety/rules.json` — 26 rules
 
@@ -447,3 +448,4 @@ Pharmacopoeia facts are used as structured data. The Sources screen lists each b
 | 0.2 | 2026-10-06 | PM-21: the admission checklist (§8.4) and `review/admission.json`; §8.1 item 10; the extension procedure for a pattern |
 | 0.3 | 2026-10-07 | PM-35: the sources registry `sources.json` (§3.1b) and its coverage report; §8.1 item 9. PM-36: the herb property model (`props`, `props_rules`; §4.1). PM-37: the prescription model's tables (§4.3) |
 | 0.4 | 2026-10-07 | PM-52: 營衛 — the `yingwei` panel group (§3.10), `diagnosis/yingwei.json` (§3.11), the dimension weight |
+| 0.5 | 2026-10-08 | PM-46: the profiles' `ai` section (§6.1) |

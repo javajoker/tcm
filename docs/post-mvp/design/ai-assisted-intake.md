@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 0.4 (draft) |
+| **Version** | 0.5 (draft) |
 | **Status** | Design for Release F (FR-40 … FR-42; tasks PM-44 … PM-50). **Approved by the owner on 2026-10-07** (PD-21, PD-25): the mock-provider parts are built first; a privacy redesign and a legal view still come before anything reaches the public |
 | **Last updated** | 2026-10-07 |
 | **Audience** | The owner, engineers, a privacy and a legal reviewer, the clinical content owner |
@@ -80,6 +80,7 @@ Turning AI help on is **a change of the privacy promise for that person**, and t
 - **Indicator** while a module is on; a session-only token, not an account.
 - **Minimisation**: §3's "never" list is enforced in the app (the request builder has no access to the profile's identifiers or birth data) and tested.
 - **No storage**: the gateway logs no content; the provider's zero-retention terms; photos are never written to disk in the app.
+- *Built (PM-46, 2026-10-08):* the profile's `ai` section (release: off, no gateway — `validate_kb` and check-release rule 17), the build constants and the gateway in `connect-src` only for a build with AI help, consent per module with the statement's version (`ai/consent.ts`; never in a backup), the Settings card with the statement, the service's state and the table of what is stored and sent, the header's indicator, withdrawal by one switch; E38 shows that no request leaves before consent.
 - **Privacy inventory**: new rows (the conversation, the photo, the session token) and the "what leaves the device" section; the user-facing statement changes. This triggers the **full privacy redesign** the privacy design names for server-side processing (DPIA-style review, a data-processing agreement with the provider, the region of processing). *Drafted with PM-44 (2026-10-08):* the inventory rows, the exception to *never transmitted*, consent, developer rule 7 and the verification row are in [privacy v0.8](../../privacy.md); the impact assessment's draft — flows, roles, risks, the agreement's checklist, nine open items — is [`../privacy/ai-help-dpia.md`](../privacy/ai-help-dpia.md), unsigned until the reviewers have read it.
 
 ## 6. Evaluation before any public use
@@ -127,3 +128,4 @@ PM-44 (the owner's decisions and the privacy redesign), PM-45 (the gateway with 
 | 0.2 | 2026-10-07 | The owner's approval (PD-21, PD-25): the mock-provider parts first |
 | 0.3 | 2026-10-08 | §5: the privacy documents drafted (PM-44) — privacy v0.8 and the impact assessment's draft |
 | 0.4 | 2026-10-08 | §3: the gateway and `@tcm/ai` built with the mock provider (PM-45) |
+| 0.5 | 2026-10-08 | §5: configuration, consent and Settings built (PM-46) |

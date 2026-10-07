@@ -77,6 +77,8 @@ export default defineConfig<Options>({
   webServer: [
     { command: "node ../../scripts/serve-dist.ts dist 4173", url: `${RELEASE}/en/`, reuseExistingServer: !process.env.CI, timeout: 60_000 },
     { command: "node ../../scripts/serve-dist.ts dist-dev 4174", url: `${DEV}/en/`, reuseExistingServer: !process.env.CI, timeout: 60_000 },
+    // AI help's gateway with the mock provider, for the development build (Release F): it answers 403 to a request without the app's origin, which tells Playwright it is up
+    { command: "node ../ai-gateway/src/node.ts --dev", url: "http://127.0.0.1:8787/v1/config", reuseExistingServer: !process.env.CI, timeout: 60_000 },
   ],
   projects: [...projects, ...visual, ...offline, ...cross, ...crossOffline],
 });

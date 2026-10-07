@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import { lazy, Suspense, type ReactNode } from "react";
 import { Link } from "wouter";
 import { useI18n } from "../i18n/I18nProvider.tsx";
 import { APP_BUILD, APP_PROFILE, IS_DEV_PROFILE } from "./profile.ts";
@@ -8,6 +8,8 @@ import { NotSavedChip } from "./NotSavedChip.tsx";
 import { useApp } from "./store.tsx";
 import { UpdateBanner } from "../offline/UpdateBanner.tsx";
 import styles from "./AppShell.module.css";
+// AI help's indicator (Release F): only in a build with AI help — the build constant itself is the condition, so a release makes no chunk for it (check-release rule 17)
+const AiIndicator = __APP_AI_ENABLED__ ? lazy(() => import("../ai/AiIndicator.tsx")) : null;
 
 const DEV_BADGE = `DEV · ${APP_PROFILE}`;        // developer-facing text, present only in dev builds
 
@@ -24,6 +26,7 @@ export function AppShell({ children }: { children: ReactNode }): ReactNode {
           <Link className={styles.brand} href="/">{t.t("common.app.name")}</Link>
           {IS_DEV_PROFILE ? <Link href="/_dev" className={styles.badge} data-testid="profile-badge">{DEV_BADGE}</Link> : null}
           <NotSavedChip />
+          {AiIndicator !== null ? <Suspense fallback={null}><AiIndicator /></Suspense> : null}
           <nav aria-label={t.t("common.nav.menu")} className={styles.menu}>
             <Link href="/learn">{t.t("learn.title")}</Link>
             <Link href="/history">{t.t("common.nav.history")}</Link>

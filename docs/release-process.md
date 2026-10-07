@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 0.2 (draft) |
+| **Version** | 0.3 (draft) |
 | **Status** | Partly implemented — CI workflow and `scripts/check-release.ts` exist (R-01…R-03); deployment, SBOM and the integration jobs do not yet |
 | **Last updated** | 2026-10-04 |
 | **Audience** | Maintainers |
@@ -92,6 +92,7 @@ Jobs and blocking rules are in the [test plan §6](test-plan.md). The pipeline p
 10. `NOTICE.txt` is shipped and carries the attributions (the MIT permission notice of TCM-Library, the Apache licence statement): material derived from MIT-licensed sources requires its notice to travel with the app.
 12. **Emergency numbers:** a build without the draft label ships only regions whose numbers a regional owner has verified (a dated `verification` record no older than 24 months) and the generic `OTHER` row that lists none; the closed beta may carry the draft rows ([design](post-mvp/design/tap-tempo-and-regions.md)).
 16. **The learning book** ([knowledge browser design](post-mvp/design/knowledge-browser.md) §7.3, PM-43): when the manifest lists it, its one file is in the output, content-hashed, within its budget and equal to the manifest; it is the book the manifest names (Traditional Chinese, the chapters in order); every quotation names a citation the build ships; no book file the manifest does not list; and a build **without the draft label carries it only once it is reviewed** (none yet, so a public build has no book).
+17. **AI help is off** ([AI-assisted intake](post-mvp/design/ai-assisted-intake.md) §6, PM-46): the profile's `ai` section turns no module on and names no gateway; the page's `connect-src` is `'self'` alone; no script holds AI help's client, card or messages (the gateway's routes, `ai.settings.title`, `ai.consent.title`) — with or without the draft label, until AI help's gates are passed.
 11. The host files are present and right: `_headers` (the CSP with `frame-ancestors`, `nosniff`, referrer policy, immutable caching for `/assets/*` and for each chunk of this build (the herb browser's files and the book included), `no-cache` for the manifest, no `Cache-Control` on `/*`), `_redirects` (every language falls back to the app, no catch-all), `404.html`, and an unexpired `security.txt` ([§6](#6-deployment)).
 
 ---
@@ -201,3 +202,4 @@ Issue templates: **Bug**, **Content problem** (item id, KB version, source), **S
 |---|---|---|
 | 0.1 | 2026-10-04 | Initial release process |
 | 0.2 | 2026-10-07 | §4.1 rule 16: the learning book (PM-43) |
+| 0.3 | 2026-10-08 | §4.1 rule 17: AI help is off in a release (PM-46) |

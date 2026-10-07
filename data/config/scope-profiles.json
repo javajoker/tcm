@@ -84,6 +84,15 @@
   },
   "profiles": {
     "dev": {
+      "ai": {
+        "enabled": true,
+        "endpoint": "http://127.0.0.1:8787",
+        "modules": {
+          "conversation": true,
+          "face": false,
+          "tongue": false
+        }
+      },
       "condition": {
         "acute_external_symptoms": {
           "level": "L3",
@@ -176,6 +185,15 @@
       }
     },
     "release": {
+      "ai": {
+        "enabled": false,
+        "endpoint": null,
+        "modules": {
+          "conversation": false,
+          "face": false,
+          "tongue": false
+        }
+      },
       "condition": {
         "acute_external_symptoms": {
           "level": "L1",

@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 0.9 (draft) |
+| **Version** | 0.10 (draft) |
 | **Status** | Draft — implementation not started (only `packages/wuxing`, `data/` and `scripts/kb` exist) |
 | **Last updated** | 2026-10-06 |
 | **Derives from** | [PRD v0.3](PRD.md) · [Diagnosis SOP v0.2](diagnosis-sop.zh-TW.md) · [Algorithm spec](wuxing-algorithm.md) |
@@ -319,6 +319,7 @@ APP_PROFILE=dev     pnpm --filter web dev|build:dev
 ```
 
 - The profile is injected as a compile-time constant (`__APP_PROFILE__`). `bundle-data.ts` emits **only** the selected profile (§5.3).
+- AI help (Release F) follows the profile's `ai` section: `__APP_AI_ENABLED__`, `__APP_AI_ENDPOINT__` (the gateway's origin; `APP_AI_ENDPOINT` may name another for a profile that turns AI help on — https, or a local http origin) and `__APP_AI_CONVERSATION__`. They are scalars so that a release's `__APP_AI_ENABLED__ ? lazy(() => import(…)) : null` is a literal false before chunking: no AI chunk is made (check-release rule 17).
 - "Overridable by environment configuration" (PRD FR-17) means **build-time environment variables** (`APP_PROFILE`, `APP_OVERRIDES` = path to a JSON file merged over the selected profile and re-validated). There is **no runtime override in release**: a static site cannot trust a runtime switch.
 - In `dev` builds only, the developer inspector (`/_dev`) can switch the active *sub-profile cell* (e.g. force L0 for a population) to test resolution; the code is behind `if (__APP_PROFILE__ === "dev")` and tree-shaken from release.
 - The active profile name is shown as a badge in dev builds, and is stored with every saved report.
@@ -630,7 +631,7 @@ Colour: one sequential hue per quantity family, never red/green as good/bad; sig
 
 | Topic | Design |
 |---|---|
-| Network | After the app and the KB are loaded the app makes **no requests**. CSP `connect-src 'self'` enforces it. No third-party scripts, fonts or analytics in MVP |
+| Network | After the app and the KB are loaded the app makes **no requests**. CSP `connect-src 'self'` enforces it. No third-party scripts, fonts or analytics in MVP. *Exception (Release F):* a build whose profile turns AI help on adds its gateway's origin to `connect-src` (meta and `_headers`), and calls it only for a person who consented (`apps/web/src/ai/client.ts`, the one module allowed to besides the KB loader and the service worker — privacy test); a release has none (check-release rule 17) |
 | CSP | `default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; worker-src 'self'; manifest-src 'self'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'; object-src 'none'`. No inline scripts (Vite built with `build.modulePreload.polyfill: false` as needed). Served via headers; when the host cannot set headers, an equivalent `<meta http-equiv>` is added (minus `frame-ancestors`) |
 | Data classes | Health answers, medications, birth moment: **sensitive**. Stored only in IndexedDB on the device (§8.3); never in URLs, logs, error messages or analytics; never sent anywhere |
 | Logging | `console` output in release contains no inputs; the error boundary logs error class and component only; dev builds may log more |
@@ -687,3 +688,4 @@ Colour: one sequential hue per quantity family, never red/green as good/bad; sig
 | 0.7 | 2026-10-06 | §8.3: the file sync (PM-32): `meta/sync`, `Persistence.syncFile` and `onAssessmentsChanged`; `apps/web/src/sync/` (the file layer, the session, the provider); the File System Access save picker needs no Permissions-Policy or CSP entry |
 | 0.8 | 2026-10-07 | §5.2: the learning book's file (PM-43) |
 | 0.9 | 2026-10-08 | §2: AI help (PM-45) — `@tcm/ai` and `apps/ai-gateway`, their layering rules, the gateway's routes |
+| 0.10 | 2026-10-08 | §6.1, §11: AI help's build constants and the gateway in `connect-src` of a build with AI help only (PM-46) |

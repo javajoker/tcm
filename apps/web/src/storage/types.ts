@@ -39,7 +39,17 @@ export interface Prefs {
    * it** — a release has the declared model and no switch — and it never travels in a backup.
    */
   readonly seasonModel?: "changxia" | "tuwang18";
+  /**
+   * Consent to AI help, per module (Release F; privacy §2, §5): when, and which version of the statement the person read. Only a build with AI help reads it (`ai/consent.ts`); it never
+   * travels in a backup. Low sensitivity: it records a choice, not health data.
+   */
+  readonly ai?: Readonly<Partial<Record<AiModule, AiConsent>>>;
 }
+
+/** The modules of AI help a person can consent to; the observation of tongue and face is not built (PD-25). */
+export type AiModule = "conversation";
+export const AI_MODULES = ["conversation"] as const satisfies readonly AiModule[];
+export interface AiConsent { readonly at: number; readonly version: string }
 
 /** The answer to *which hour is nearer the truth* when the birth time is near a change of hour. */
 export type HourChoice = "primary" | "alternative" | "unknown";

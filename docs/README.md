@@ -7,16 +7,16 @@ Reading order for a new contributor: **PRD → Diagnosis SOP → Tech spec → U
 | [PRD](PRD.md) | English | Why the product exists, who it is for, requirements (FR/NFR), scope, risks, decisions | Product requirements and priorities | 0.8 |
 | [Diagnosis SOP](diagnosis-sop.zh-TW.md) | **繁體中文** | What is asked, how answers become a pattern, a body panel and a formula suggestion, with classical sources | **The diagnosis logic** (source of truth) | 0.4 |
 | [Yin-yang / five-phase algorithm](wuxing-algorithm.md) · [繁體中文版](wuxing-algorithm.zh-TW.md) | English · **繁體中文** | The birth + annual + seasonal five-phase mathematics; extraction from the source engine; parameters; verification | The five-phase mathematics | 0.5 |
-| [Technical specification](tech-spec.md) | English | Architecture, packages, data delivery, profiles, engine contract, state, storage, security, performance | Technical decisions and contracts | 0.1 |
-| [UI/UX specification](ux-spec.md) | English | Screens, flows, components, design tokens, responsive and accessibility rules, copy rules | Interface behaviour and look | 0.1 |
-| [Knowledge-base schema](kb-schema.md) | English | Shape and integrity rules of every `data/` file; planned additions | Data contracts | 0.4 |
-| [i18n, terminology and copy guide](i18n-guide.md) | English | Languages, glossary rules, message catalogs, forbidden wording, translation workflow | Terminology and wording | 0.1 |
+| [Technical specification](tech-spec.md) | English | Architecture, packages, data delivery, profiles, engine contract, state, storage, security, performance | Technical decisions and contracts | 0.10 |
+| [UI/UX specification](ux-spec.md) | English | Screens, flows, components, design tokens, responsive and accessibility rules, copy rules | Interface behaviour and look | 0.9 |
+| [Knowledge-base schema](kb-schema.md) | English | Shape and integrity rules of every `data/` file; planned additions | Data contracts | 0.5 |
+| [i18n, terminology and copy guide](i18n-guide.md) | English | Languages, glossary rules, message catalogs, forbidden wording, translation workflow | Terminology and wording | 0.2 |
 | [Content review process](content-review.md) | English | Who reviews which medical content, records, release gates | Review status and gates | 0.1 |
 | [Safety policy](safety-policy.md) | English | Who gets what output, notice wording, filter semantics, emergency resources, incidents | **Notice wording** and safety behaviour | 0.1 |
 | [Privacy and data handling](privacy.md) | English | Data inventory, storage, erase, compliance posture, developer rules; the AI help impact assessment's draft is in the post-MVP set | Privacy decisions | 0.8 |
-| [Test plan](test-plan.md) | English | Test layers, properties, safety vignettes, golden cases, E2E, usability | Quality strategy | 0.1 |
+| [Test plan](test-plan.md) | English | Test layers, properties, safety vignettes, golden cases, E2E, usability | Quality strategy | 0.7 |
 | [Accessibility protocol](accessibility-protocol.md) | English | What is automated, the manual assistive-technology pass per release, findings and severity, the record template | Accessibility acceptance | 0.1 |
-| [Release process](release-process.md) | English | Versions, environments, gates, deployment, rollback | Release rules | 0.1 |
+| [Release process](release-process.md) | English | Versions, environments, gates, deployment, rollback | Release rules | 0.3 |
 | [Post-MVP set](post-mvp/README.md): [roadmap](post-mvp/roadmap.md) · [requirements](post-mvp/requirements.md) · [decision register](post-mvp/decisions.md) · design documents · [published schemas](schemas/README.md) | English | What is built after the MVP, in which order, under which review class; every "revisit after the MVP" decision answered; how each feature is designed | Post-MVP plan and designs (until a feature is folded into the PRD and specs) | 0.1 |
 | [`TASKS.md`](../TASKS.md) | English | The implementation task list (one commit per task), including the post-MVP releases (section PM) | Work breakdown | 0.1 |
 | [`CHECKLIST.md`](../CHECKLIST.md) | English | Definition of done and milestone/release checklists | Acceptance | 0.1 |

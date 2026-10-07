@@ -57,6 +57,8 @@ PROFILES = {
                      "show_acupoints": True, "show_diet": True},
         "wuxing": {"enabled": True, "season": True, "yunqi": True, "bazi_innate": "opt_in", "bazi_annual": "opt_in", "season_model": "changxia"},
         "tongue_pulse": {"tongue_zones": True, "tongue_special_signs": True, "pulse_input": True, "pulse_quality_coefficient": 0.5},
+        # AI help (Release F; docs/post-mvp/design/ai-assisted-intake.md §3): off in a release until its gates — no module, no gateway (check-release rule 17)
+        "ai": {"enabled": False, "endpoint": None, "modules": {"conversation": False, "tongue": False, "face": False}},
     },
     "dev": {
         "description": "Development default: everything open for every population, condition and state. The 'see a doctor' notices are still shown and acknowledged (flow continues); the safety filter annotates instead of removing.",
@@ -72,6 +74,8 @@ PROFILES = {
                      "show_acupoints": True, "show_diet": True},
         "wuxing": {"enabled": True, "season": True, "yunqi": True, "bazi_innate": True, "bazi_annual": True, "season_model": "changxia"},
         "tongue_pulse": {"tongue_zones": True, "tongue_special_signs": True, "pulse_input": True, "pulse_quality_coefficient": 0.5},
+        # the conversation with the local mock gateway (`pnpm --filter @tcm/ai-gateway dev`); the observation of tongue and face is not built (PD-25, PM-50)
+        "ai": {"enabled": True, "endpoint": "http://127.0.0.1:8787", "modules": {"conversation": True, "tongue": False, "face": False}},
     },
 }
 

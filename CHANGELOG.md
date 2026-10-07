@@ -86,6 +86,7 @@ Pre-release. The web app, the diagnosis engine and the knowledge base exist; not
 
 ### AI help (in progress, Release F; development only)
 - The privacy design for AI help (PM-44): the inventory rows, the one exception to *never transmitted*, consent per module and the impact assessment's draft — for the privacy and legal reviewers.
+- AI help's configuration and consent (PM-46): the profile's `ai` section (off in a release, checked by `check-release` rule 17), a Settings card that asks before anything is sent and says whether the service is on, an indicator in the header while it is on, withdrawal by one switch; the gateway's origin is in the CSP of a development build only.
 - `@tcm/ai` and the AI gateway with a mock provider (PM-45): the protocol, a validator that drops every part of a reply the request does not allow (a finding outside the vocabulary, words the person did not say, a question that names a pattern, a herb or an amount), signed session tokens, budgets and rate limits, a kill switch and a log of counts only. Nothing reaches a public build.
 
 ### Backup (in progress, Release A)

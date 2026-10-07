@@ -38,6 +38,9 @@ importers:
 
   apps/web:
     dependencies:
+      '@tcm/ai':
+        specifier: workspace:*
+        version: link:../../packages/ai
       '@tcm/engine':
         specifier: workspace:*
         version: link:../../packages/engine

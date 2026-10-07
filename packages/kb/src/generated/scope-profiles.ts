@@ -40,6 +40,15 @@ export interface ScopeProfiles {
   };
   profiles: {
     dev: {
+      ai: {
+        enabled: boolean;
+        endpoint: string | null;
+        modules: {
+          conversation: boolean;
+          face: boolean;
+          tongue: boolean;
+        };
+      };
       condition: {
         acute_external_symptoms: {
           level: Level;
@@ -132,6 +141,15 @@ export interface ScopeProfiles {
       };
     };
     release: {
+      ai: {
+        enabled: boolean;
+        endpoint: string | null;
+        modules: {
+          conversation: boolean;
+          face: boolean;
+          tongue: boolean;
+        };
+      };
       condition: {
         acute_external_symptoms: {
           level: Level;

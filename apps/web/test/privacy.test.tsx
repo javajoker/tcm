@@ -218,8 +218,11 @@ describe("the source cannot leak (test plan §5.6)", () => {
     // …and nothing but the storage layer reaches for the browser's own storage objects: the offline code receives them (index.ts reads the storage layer's environment)
     expect(offenders(/\b(window\.(localStorage|sessionStorage|indexedDB)|document\.cookie|globalThis\.caches|\bnew IDBRequest)\b/, (p) => p.startsWith("apps/web/src/storage/"))).toEqual([]);
   });
-  it("the only network access is the knowledge-base loader — and the service worker, which fetches the files of its own build", () => {
-    expect(offenders(/\b(fetch\s*\(|XMLHttpRequest|sendBeacon|new\s+WebSocket|EventSource|importScripts|navigator\.geolocation|new\s+Image\s*\()/, (p) => p === "packages/kb/src/loader.ts" || p.startsWith("apps/web/src/sw/"))).toEqual([]);
+  it("the only network access is the knowledge-base loader — and the service worker, which fetches the files of its own build, and AI help's client, for a person who agreed", () => {
+    expect(offenders(/\b(fetch\s*\(|XMLHttpRequest|sendBeacon|new\s+WebSocket|EventSource|importScripts|navigator\.geolocation|new\s+Image\s*\()/, (p) => p === "packages/kb/src/loader.ts" || p.startsWith("apps/web/src/sw/") || p === "apps/web/src/ai/client.ts")).toEqual([]);
+    // AI help (Release F; privacy §6 rule 7): its client is reached only from AI help's own code — which a release build leaves out (check-release rule 17) and which asks for consent first
+    expect(offenders(/from\s+"[^"]*\/ai\/client\.ts"/, (p) => p.startsWith("apps/web/src/ai/"))).toEqual([]);
+    for (const s of sources.filter((x) => x.path.startsWith("apps/web/src/ai/") && /from\s+"\.\/client\.ts"/.test(x.text))) expect(s.text, s.path).toMatch(/consentOf\(/);
     // the worker names no address and no cross-origin API, and takes no part of a request but its method, mode and path
     const worker = sources.filter((s) => s.path.startsWith("apps/web/src/sw/"));
     expect(worker.length).toBeGreaterThanOrEqual(3);

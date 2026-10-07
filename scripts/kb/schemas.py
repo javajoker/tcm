@@ -435,6 +435,7 @@ def scope_profiles() -> dict:
         "tongue_pulse": obj({"pulse_input": BOOL, "pulse_quality_coefficient": NUM, "tongue_special_signs": BOOL, "tongue_zones": BOOL}),
         "wuxing": obj({"bazi_annual": {"enum": [True, False, "opt_in"]}, "bazi_innate": {"enum": [True, False, "opt_in"]}, "enabled": BOOL, "season": BOOL,
                        "season_model": enum("changxia", "tuwang18"), "yunqi": BOOL}),
+        "ai": obj({"enabled": BOOL, "endpoint": {"type": ["string", "null"], "pattern": "^https?://[^/?#]+$"}, "modules": obj({"conversation": BOOL, "tongue": BOOL, "face": BOOL})}),
     })
     level_def = obj({"includes": arr(STR, 1), "name": ref("bilingualNamed")})
     return {"type": "object", "properties": {

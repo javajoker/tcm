@@ -43,6 +43,8 @@ const DOSE_FIELDS = ["classical_amounts", "classical_amount", "typical_g", "dose
  */
 const DEV_APP_MARKERS = ["DEV · ", "Component catalogue", "/_dev", "en-xa", "zh-xl", "rx.title"];
 const DEV_KB_MARKERS = ["annotate_only", "\"sanyin\":"];
+/** What only a build with AI help holds (rule 17): the gateway's routes, the card's and the consent's messages. */
+const AI_MARKERS = ["/v1/intake/turn", "/v1/session", "/v1/config", "ai.settings.title", "ai.consent.title"];
 /** Population / condition cells that must always raise a blocking notice in a release configuration (rule 7, safety policy §2). */
 const BLOCKING = [["population", "minor_under_18"], ["population", "pregnant"], ["population", "lactating"], ["condition", "red_flag_A"], ["condition", "red_flag_B"], ["condition", "serious_chronic_disease"]] as const;
 
@@ -377,6 +379,16 @@ export function checkRelease(distDir: string, opts: CheckOptions = {}): Failure[
     if (!/^Contact:\s*\S+/m.test(t)) fail(11, "security.txt has no Contact");
     if (expires === undefined || Date.parse(expires) <= Date.now()) fail(11, "security.txt has no Expires or it is in the past");
   }
+
+  // 17 — AI help is off (Release F; docs/post-mvp/design/ai-assisted-intake.md §6, privacy §3): the profile turns no module on and names no gateway, the page connects to its own origin
+  // only, and no script holds AI help's client, card or messages — whatever the label of the build, until the gates of AI help are passed
+  if (core !== null) {
+    const ai = core.config.profile.ai;
+    if (ai.enabled || ai.endpoint !== null || Object.values(ai.modules).some(Boolean)) fail(17, "the knowledge base's profile turns AI help on or names a gateway: a release has none until AI help's gates are passed");
+  }
+  const connect = csp === undefined ? undefined : /connect-src ([^;]*)/.exec(csp)?.[1]?.trim();
+  if (connect !== undefined && connect !== "'self'") fail(17, `the page may connect to ${connect}: a release connects to its own origin only`);
+  for (const f of js) for (const m of AI_MARKERS) if (read(f).includes(m)) fail(17, `${rel(dist, f)} contains AI help's "${m}"`);
 
   // 9 — no source maps
   for (const f of files.filter((x) => x.endsWith(".map"))) fail(9, `${rel(dist, f)}: source maps must not be served`);

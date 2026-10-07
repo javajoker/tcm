@@ -4,8 +4,13 @@
 
 /** The Content-Security-Policy directives (tech spec §11). The page's `<meta>` carries all but `frame-ancestors`, which only a header can set. */
 export const CSP_DIRECTIVES = ["default-src 'self'", "script-src 'self'", "style-src 'self'", "img-src 'self' data:", "font-src 'self'", "connect-src 'self'", "worker-src 'self'", "manifest-src 'self'", "base-uri 'none'", "form-action 'none'", "object-src 'none'"] as const;
-export const cspMeta = (): string => CSP_DIRECTIVES.join("; ");
-export const cspHeader = (): string => [...CSP_DIRECTIVES, "frame-ancestors 'none'"].join("; ");
+/**
+ * The directives with the origins a build may also connect to: none, except the AI help gateway in a build whose profile turns AI help on (Release F; privacy §3 — a release has none,
+ * check-release rule 17).
+ */
+const directives = (connect: readonly string[]): string[] => CSP_DIRECTIVES.map((d) => (d === "connect-src 'self'" && connect.length > 0 ? [d, ...connect].join(" ") : d));
+export const cspMeta = (connect: readonly string[] = []): string => directives(connect).join("; ");
+export const cspHeader = (connect: readonly string[] = []): string => [...directives(connect), "frame-ancestors 'none'"].join("; ");
 
 export const IMMUTABLE = "public, max-age=31536000, immutable";
 /** Every language segment the host passes to the app: the canonical tags and the lower-case aliases the app redirects to the canonical form (app/routing.ts). Anything else is a 404. */
@@ -16,12 +21,14 @@ export interface HeadersInput {
   readonly noindex: boolean;
   /** File names of the content-hashed knowledge-base chunks, e.g. "core.1a2b3c4d.json". */
   readonly kbChunks: readonly string[];
+  /** Origins the page may connect to besides its own: the AI help gateway, in a build with AI help only. */
+  readonly connect?: readonly string[];
 }
 
 /** The `_headers` file. Cache rules are per exact path and never overlap, because Cloudflare combines the values of every rule that matches. */
 export function headersFile(input: HeadersInput): string {
   const security = [
-    `Content-Security-Policy: ${cspHeader()}`,
+    `Content-Security-Policy: ${cspHeader(input.connect)}`,
     "X-Content-Type-Options: nosniff",
     "Referrer-Policy: no-referrer",
     "Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()",

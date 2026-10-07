@@ -100,6 +100,14 @@ describe("the generators", () => {
     assert.ok(!/unsafe|\*/.test(cspHeader()));
   });
 
+  test("a build with AI help may also connect to its gateway, and only there; any other build to its own origin only (privacy §3)", () => {
+    assert.match(cspMeta(), /connect-src 'self';/);
+    assert.match(cspMeta(["https://ai.example"]), /connect-src 'self' https:\/\/ai\.example;/);
+    assert.equal(cspHeader(["https://ai.example"]), `${cspMeta(["https://ai.example"])}; frame-ancestors 'none'`);
+    const star = parseHeaders(headersFile({ noindex: true, kbChunks: [], connect: ["http://127.0.0.1:8787"] })).find((r) => r.pattern === "/*")!;
+    assert.match(star.headers.find(([k]) => k === "Content-Security-Policy")![1], /connect-src 'self' http:\/\/127\.0\.0\.1:8787;/);
+  });
+
   test("cache rules never overlap: each exact path sits under at most one Cache-Control rule, and /* sets none", () => {
     const rules = parseHeaders(headersFile({ noindex: false, kbChunks: ["core.aaaa.json", "formulas.bbbb.json"] }));
     const star = rules.find((r) => r.pattern === "/*")!;

@@ -355,6 +355,21 @@ describe("check-release", () => {
     assert.match(messages(checkRelease(s, { draftLabel: true })), /no Expires or it is in the past/);
   });
 
+  test("17: AI help in a release — the profile, a gateway the page may connect to, or the client, card or messages in a script", () => {
+    const profile = copy();
+    edit(profile, "core", (c) => { c.config.profile.ai = { enabled: true, endpoint: "https://ai.example", modules: { conversation: true, tongue: false, face: false } }; });
+    assert.deepEqual(rules(checkRelease(profile, { draftLabel: true })), [17]);
+    const csp = copy();
+    html(csp, (s) => s.replace("connect-src 'self'", "connect-src 'self' https://ai.example"));
+    assert.deepEqual(rules(checkRelease(csp, { draftLabel: true })), [17, 5], "and rule 5: the page names another address");
+    assert.match(messages(checkRelease(csp, { draftLabel: true })), /may connect to 'self' https:\/\/ai\.example/);
+    for (const marker of ["/v1/intake/turn", "ai.consent.title"]) {
+      const code = copy();
+      writeFileSync(entryJs(code), `${readFileSync(entryJs(code), "utf8")}\n;fetch(${JSON.stringify(marker)});`); resync(code);
+      assert.deepEqual(rules(checkRelease(code, { draftLabel: true })), [17], marker);
+    }
+  });
+
   test("9: source maps", () => {
     const map = copy();
     writeFileSync(join(map, "assets", "index-abcdef12.js.map"), "{}");

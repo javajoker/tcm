@@ -39,9 +39,24 @@ function kbPlugin(profile: "release" | "dev"): Plugin {
   };
 }
 
+/**
+ * AI help in this build (Release F; docs/post-mvp/design/ai-assisted-intake.md §3): the profile's `ai` section of data/config/scope-profiles.json. APP_AI_ENDPOINT may name another gateway for a
+ * build whose profile turns AI help on (an https origin, or a local http one); a profile with AI help off has none, whatever the environment says.
+ */
+interface AiBuild { readonly enabled: boolean; readonly endpoint: string | null; readonly modules: { readonly conversation: boolean; readonly tongue: boolean; readonly face: boolean } }
+function aiBuild(profile: "release" | "dev"): AiBuild {
+  const scope = JSON.parse(readFileSync(resolve(here, "../../data/config/scope-profiles.json"), "utf8")) as { profiles: Record<string, { ai: AiBuild }> };
+  const ai = scope.profiles[profile]!.ai;
+  if (!ai.enabled) return { enabled: false, endpoint: null, modules: { conversation: false, tongue: false, face: false } };
+  const endpoint = process.env.APP_AI_ENDPOINT ?? ai.endpoint;
+  const url = endpoint === null ? null : new URL(endpoint);
+  if (url === null || url.origin !== endpoint || !(url.protocol === "https:" || /^(localhost|127\.0\.0\.1)$/.test(url.hostname))) throw new Error(`the AI gateway must be an https origin or a local one, not ${endpoint}`);
+  return { ...ai, endpoint };
+}
+
 /** Strict Content-Security-Policy for production builds (tech spec §11). Not applied to the dev server (Vite injects inline scripts for HMR). The header version adds `frame-ancestors` (deploy-files.ts). */
-function cspPlugin(): Plugin {
-  const csp = cspMeta();
+function cspPlugin(connect: readonly string[]): Plugin {
+  const csp = cspMeta(connect);
   return { name: "tcm-csp", apply: "build", transformIndexHtml: (html) => html.replace("<head>", `<head>\n    <meta http-equiv="Content-Security-Policy" content="${csp}" />`) };
 }
 
@@ -70,7 +85,7 @@ function robotsPlugin(noindex: boolean): Plugin {
 }
 
 /** The files a static host needs (`_headers`, `_redirects`, `404.html`, security.txt): see scripts/deploy-files.ts. */
-function deployPlugin(profile: "release" | "dev", noindex: boolean): Plugin {
+function deployPlugin(profile: "release" | "dev", noindex: boolean, connect: readonly string[]): Plugin {
   const kbDir = resolve(here, ".kb", profile);
   return {
     name: "tcm-deploy",
@@ -79,7 +94,7 @@ function deployPlugin(profile: "release" | "dev", noindex: boolean): Plugin {
       const kbChunks = readdirSync(kbDir).filter((f) => f !== "manifest.json" && (f.endsWith(".json") || f.endsWith(".txt")));
       const advisory = /https:\/\/github\.com\/[^\s)>]+\/security\/advisories\/new/.exec(readFileSync(resolve(here, "../../SECURITY.md"), "utf8"))?.[0];
       if (advisory === undefined) throw new Error("SECURITY.md does not give the private vulnerability-reporting address");
-      this.emitFile({ type: "asset", fileName: "_headers", source: headersFile({ noindex, kbChunks }) });
+      this.emitFile({ type: "asset", fileName: "_headers", source: headersFile({ noindex, kbChunks, connect }) });
       this.emitFile({ type: "asset", fileName: "_redirects", source: redirectsFile({ pseudo: profile === "dev" }) });
       this.emitFile({ type: "asset", fileName: "404.html", source: notFoundPage() });
       this.emitFile({ type: "asset", fileName: ".well-known/security.txt", source: securityTxt(advisory, new Date(), advisory.replace(/\/security\/advisories\/new$/, "/blob/main/SECURITY.md")) });
@@ -120,9 +135,15 @@ function workerPlugin(profile: "release" | "dev"): Plugin {
 export default defineConfig(({ command }) => {
   const profile = (process.env.APP_PROFILE ?? (command === "serve" ? "dev" : "release")) as "release" | "dev";
   if (profile !== "release" && profile !== "dev") throw new Error(`unknown APP_PROFILE ${profile}`);
+  const ai = aiBuild(profile);
+  const connect = ai.enabled && ai.endpoint !== null ? [ai.endpoint] : [];
   return {
-    plugins: [react(), kbPlugin(profile), cspPlugin(), noticePlugin(), robotsPlugin(profile === "dev" || process.env.APP_DRAFT_LABEL === "on"), deployPlugin(profile, profile === "dev" || process.env.APP_DRAFT_LABEL === "on"), workerPlugin(profile)],
-    define: { __APP_PROFILE__: JSON.stringify(profile), __APP_BUILD__: JSON.stringify(process.env.APP_BUILD_ID ?? "local") },
+    plugins: [react(), kbPlugin(profile), cspPlugin(connect), noticePlugin(), robotsPlugin(profile === "dev" || process.env.APP_DRAFT_LABEL === "on"), deployPlugin(profile, profile === "dev" || process.env.APP_DRAFT_LABEL === "on", connect), workerPlugin(profile)],
+    define: {
+      __APP_PROFILE__: JSON.stringify(profile), __APP_BUILD__: JSON.stringify(process.env.APP_BUILD_ID ?? "local"),
+      // three scalars rather than one object, so that a release build's `if (__APP_AI_ENABLED__)` is a constant false and everything behind it is left out
+      __APP_AI_ENABLED__: JSON.stringify(ai.enabled), __APP_AI_ENDPOINT__: JSON.stringify(ai.endpoint), __APP_AI_CONVERSATION__: JSON.stringify(ai.modules.conversation),
+    },
     build: { target: "es2022", modulePreload: { polyfill: false }, sourcemap: false },
     css: { modules: { localsConvention: "camelCaseOnly" } },
     // The whole suite shares the machine with the other packages' tests; a flow that takes half a second alone can take several when 50 workers compete.

@@ -139,7 +139,7 @@ Collected only for the safety filter; subject to the same local-only handling.
 | Birth data not persisted by default | E2E with "remember" off (also with the Settings default off): reload → birth data absent, saved result holds no birth moment |
 | Storage failure | Unit tests for `storage.ts` with throwing storage; E2E in a context with blocked storage shows "Not saved" and still produces a result |
 | Dependency review | Lockfile, `pnpm audit`, license check in CI |
-| AI help sends only what it should | A unit test of the request builder (a profile, birth data and a note with marker values never appear in a request); the gateway's contract tests (no content in its log, the kill switch, the limits); `check-release`: a public build has AI help off and no gateway origin in its CSP |
+| AI help sends only what it should | A unit test of the request builder (a profile, birth data and a note with marker values never appear in a request); the gateway's contract tests (no content in its log, the kill switch, the limits); `check-release` rule 17: a release has AI help off, no gateway origin in its CSP and none of AI help's code; E38: no request reaches the gateway before consent, and none after withdrawal |
 
 ---
 

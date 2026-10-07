@@ -16,6 +16,7 @@
     "e2e:visual": "pnpm build:e2e && playwright test --project=visual-320 --project=visual-1280"
   },
   "dependencies": {
+    "@tcm/ai": "workspace:*",
     "@tcm/engine": "workspace:*",
     "@tcm/i18n": "workspace:*",
     "@tcm/kb": "workspace:*",

@@ -10,8 +10,9 @@ import { placeholdersOf, type Message } from "../packages/i18n/src/index.ts";
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const catalogDir = join(root, "apps", "web", "src", "i18n");
 const srcDir = join(root, "apps", "web", "src");
-// `rx` (the personalised prescription, PM-41) is loaded only by a build that can show it (apps/web/src/prescription/catalog.ts), never by catalogs.ts: it is checked like the others
-const NAMESPACES = ["common", "intake", "inquiry", "observe", "constitution", "report", "feedback", "followup", "formula", "learn", "lock", "trends", "safety", "errors", "rx"] as const;
+// `rx` (the personalised prescription, PM-41) is loaded only by a build that can show it (apps/web/src/prescription/catalog.ts), never by catalogs.ts, and `ai` (AI help, PM-46) only by a build
+// with AI help (apps/web/src/ai/catalog.ts): they are checked like the others
+const NAMESPACES = ["common", "intake", "inquiry", "observe", "constitution", "report", "feedback", "followup", "formula", "learn", "lock", "trends", "safety", "errors", "rx", "ai"] as const;
 
 export type Severity = "error" | "warning";
 export interface Issue { readonly severity: Severity; readonly rule: string; readonly key?: string; readonly message: string }

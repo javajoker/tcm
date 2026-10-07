@@ -173,6 +173,14 @@ def validate(load: Loader = load, check_sources: bool = True) -> list[str]:
     for pname, prof in scope["profiles"].items():
         if prof["tongue_pulse"]["pulse_quality_coefficient"] != qual["by_source"]["pulse"]:
             err(f"profile {pname}: pulse_quality_coefficient differs from scoring-params")
+        # AI help (Release F): a module needs the help on and a gateway; the observation of tongue and face is not built (PD-25); a release has none of it until its gates
+        ai = prof["ai"]
+        if any(ai["modules"].values()) and not (ai["enabled"] and ai["endpoint"]):
+            err(f"profile {pname}: an AI module is on without AI help enabled and a gateway endpoint")
+        if ai["modules"]["tongue"] or ai["modules"]["face"]:
+            err(f"profile {pname}: the observation of tongue and face is not built (decision PD-25, task PM-50)")
+    if scope["profiles"]["release"]["ai"] != {"enabled": False, "endpoint": None, "modules": {"conversation": False, "tongue": False, "face": False}}:
+        err("profile release: AI help must be off, with no gateway, until its gates (docs/post-mvp/design/ai-assisted-intake.md §6)")
 
     # ── 3. identity and uniqueness ─────────────────────────────────────────
     herbs = load("herbs/herbs.json")["items"]

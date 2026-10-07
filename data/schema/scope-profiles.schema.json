@@ -325,6 +325,47 @@
         "dev": {
           "additionalProperties": false,
           "properties": {
+            "ai": {
+              "additionalProperties": false,
+              "properties": {
+                "enabled": {
+                  "type": "boolean"
+                },
+                "endpoint": {
+                  "pattern": "^https?://[^/?#]+$",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "modules": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "conversation": {
+                      "type": "boolean"
+                    },
+                    "face": {
+                      "type": "boolean"
+                    },
+                    "tongue": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "conversation",
+                    "face",
+                    "tongue"
+                  ],
+                  "type": "object"
+                }
+              },
+              "required": [
+                "enabled",
+                "endpoint",
+                "modules"
+              ],
+              "type": "object"
+            },
             "condition": {
               "additionalProperties": false,
               "properties": {
@@ -714,6 +755,7 @@
             }
           },
           "required": [
+            "ai",
             "condition",
             "description",
             "features",
@@ -728,6 +770,47 @@
         "release": {
           "additionalProperties": false,
           "properties": {
+            "ai": {
+              "additionalProperties": false,
+              "properties": {
+                "enabled": {
+                  "type": "boolean"
+                },
+                "endpoint": {
+                  "pattern": "^https?://[^/?#]+$",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "modules": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "conversation": {
+                      "type": "boolean"
+                    },
+                    "face": {
+                      "type": "boolean"
+                    },
+                    "tongue": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "conversation",
+                    "face",
+                    "tongue"
+                  ],
+                  "type": "object"
+                }
+              },
+              "required": [
+                "enabled",
+                "endpoint",
+                "modules"
+              ],
+              "type": "object"
+            },
             "condition": {
               "additionalProperties": false,
               "properties": {
@@ -1117,6 +1200,7 @@
             }
           },
           "required": [
+            "ai",
             "condition",
             "description",
             "features",
