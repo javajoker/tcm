@@ -191,8 +191,11 @@ export function buildChunks(files: DataFiles, opts: BuildOptions): BuildResult {
       herbNames[c.herb] = { name: h.name, latin: h.latin };
     }
   }
-  // herb records: only the curated herbs (the formula herbs and the modification pool); the derived herbs are a knowledge-browser concern (P2)
-  const herbs: Herb[] | null = reach.herbRecords ? files.herbs.items.filter((h) => h.status === "curated-draft") : null;
+  // herb records: only the curated herbs (the formula herbs and the modification pool); the derived herbs are a knowledge-browser concern (P2).
+  // The rule ids behind each derived property (`props_rules`) are provenance for reviewers: dev only.
+  const herbs: Herb[] | null = reach.herbRecords
+    ? files.herbs.items.filter((h) => h.status === "curated-draft").map((h) => (dev ? h : ((({ props_rules: _rules, ...rest }) => rest)(h) as Herb)))
+    : null;
 
   const config: ScopeConfig = {
     profileName: opts.profile, profile, levels: files.scope.levels, dimensions: files.scope.dimensions, noticeKinds: files.scope.notice_kinds,

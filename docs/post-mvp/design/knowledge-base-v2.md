@@ -58,7 +58,7 @@ Each public-domain addition is a **download that needs the owner's approval** (f
 | Data | File (proposed) | Content | Status of the content |
 |---|---|---|---|
 | **Sources registry** | `data/sources.json` | Every book the knowledge base draws on: id, title, author, dynasty, year, domain, corpus path, public-domain status, which records use it | Generated + curated |
-| **Herb properties v2** | `data/herbs/herbs.json` (new fields) | 陰陽、五行、升降浮沉、毒性 grade、補瀉、潤燥、氣血分, with the rule id of each derivation | `derived` |
+| **Herb properties v2** ✔ | `data/herbs/herbs.json` (`props`, `props_rules`) | 陰陽、五行、升降浮沉、毒性 grade、補瀉、潤燥、氣血分, with the rule id of each derivation — built (PM-36; [prescription model §3.6](prescription-model.md)) | `derived` |
 | **Pairings (七情)** | `data/herbs/pairings.json` | 相須 · 相使 · 相畏 · 相殺 · 相惡 · 相反 pairs, each with a verified source passage | `curated-draft` |
 | **Processing** | `data/herbs/processing.json` | 炮製 methods and their modifiers | `curated-draft` |
 | **Dose bands (量效)** | `data/herbs/dose-bands.json` | Herbs whose action changes with the dose, with the source | `curated-draft`, few entries |

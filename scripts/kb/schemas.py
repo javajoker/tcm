@@ -268,8 +268,14 @@ def herbs() -> dict:
         "effects": ref("panelMap"), "flavors": arr(flavor), "functions": arr(STR), "harms": ref("panelMap"), "id": ref("herbId"), "interactions": arr(STR), "latin": NSTR,
         "name": ref("bilingual"), "organs": arr(STR), "pregnancy": enum("ok", "ok-unreviewed", "caution", "avoid"), "siqi": arr(STR), "slug": STR, "source": source,
         "status": enum("derived", "curated-draft", "reviewed"), "tags": arr(STR), "temperature": NUM, "toxic": BOOL,
+        # the property model v2 (PM-36): derived by named rules (scripts/kb/herb_props.py); `props_rules` names them and stays out of a release bundle
+        "props": obj({
+            "bu_xie": enum("補", "瀉", "平"), "direction": NUM, "five_phase": {"oneOf": [{"type": "null"}, tup(NUM, 5)]}, "part": NSTR, "qi_xue": enum("氣", "血", "兼", None),
+            "run_zao": enum("潤", "燥", "平"), "toxicity": enum("無毒", "小毒", "有毒", "大毒"), "tropism": dictionary(NUM), "yinyang": NUM,
+        }),
+        "props_rules": dictionary(arr(STR, 1)),
     }, ["category", "caution", "classical_formulas", "data_quality", "dose_g_reference", "effects", "flavors", "functions", "harms", "id", "interactions", "latin", "name",
-        "organs", "pregnancy", "siqi", "slug", "source", "status", "tags", "temperature", "toxic"])
+        "organs", "pregnancy", "props", "siqi", "slug", "source", "status", "tags", "temperature", "toxic"])
     return envelope(item, meta({"conventions": loose(), "count": INT, "licence_note": STR, "status_counts": dictionary(INT)}, ["conventions", "count", "licence_note", "status_counts"]))
 
 

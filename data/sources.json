@@ -13,7 +13,7 @@
       },
       "本草": {
         "books": 47,
-        "drawn_on": 1,
+        "drawn_on": 4,
         "registered": 19
       },
       "綜合": {
@@ -87,7 +87,7 @@
         "zh-Hant": "治則治法"
       }
     },
-    "drawn_on": 33,
+    "drawn_on": 36,
     "schema": 1,
     "status_counts": {
       "bibliography": 7,
@@ -129,11 +129,11 @@
       "names": [
         "素問"
       ],
-      "quotations": 79,
+      "quotations": 87,
       "references": {
         "diagnosis/patterns.json": 8,
         "formulas/formulas.json": 68,
-        "herbs/herbs.json": 5,
+        "herbs/herbs.json": 16,
         "safety/rules.json": 6,
         "treatment/guidance.json": 52,
         "wuxing/correspondences.json": 5,
@@ -1012,7 +1012,7 @@
       "domains": [
         "materia-medica"
       ],
-      "drawn_on": false,
+      "drawn_on": true,
       "edition": {
         "author": "孫星衍",
         "category": "本草",
@@ -1023,7 +1023,7 @@
       "id": "shennong",
       "kind": "classic",
       "names": [],
-      "quotations": 0,
+      "quotations": 1,
       "references": {},
       "status": "in-corpus",
       "title": "神農本草經",
@@ -1128,7 +1128,7 @@
       "domains": [
         "materia-medica"
       ],
-      "drawn_on": false,
+      "drawn_on": true,
       "edition": {
         "author": "李時珍",
         "category": "本草",
@@ -1139,8 +1139,10 @@
       "id": "bencao-gangmu",
       "kind": "classic",
       "names": [],
-      "quotations": 0,
-      "references": {},
+      "quotations": 1,
+      "references": {
+        "herbs/herbs.json": 1
+      },
       "status": "in-corpus",
       "title": "本草綱目",
       "use": "李時珍's compendium: properties, 升降浮沉, processing"
@@ -1276,7 +1278,7 @@
       "domains": [
         "materia-medica"
       ],
-      "drawn_on": false,
+      "drawn_on": true,
       "edition": {
         "author": "汪昂",
         "category": "本草",
@@ -1287,8 +1289,10 @@
       "id": "bencao-beiyao",
       "kind": "classic",
       "names": [],
-      "quotations": 0,
-      "references": {},
+      "quotations": 2,
+      "references": {
+        "herbs/herbs.json": 2
+      },
       "status": "in-corpus",
       "title": "本草備要",
       "use": "Concise properties and actions"

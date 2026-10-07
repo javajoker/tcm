@@ -207,6 +207,8 @@ The panel model: `organs.{zang, fu, element_of}`, `channels` (ranges), `liuxie` 
 | `classical_formulas[]` | formula names | Where the herb appears in the classical corpus |
 | `status` | `curated-draft` (94) \| `derived` (609) | Derived = produced by transparent rules in `herb_model.py` |
 | `source`, `data_quality[]` | provenance | `source.entry_id`, `path`, `commit`; known data problems |
+| `props` | object | **The property model v2** (PM-36), derived by named rules in `herb_props.py`: `yinyang` (−1 陰 … +1 陽), `five_phase` (`[木, 火, 土, 金, 水]` shares summing to 1, or null without flavour and channel), `direction` (升降浮沉: −1 沉降 … +1 升浮, \|x\| < 0.2 reads 平), `toxicity` (`無毒 小毒 有毒 大毒`, agrees with `toxic`), `bu_xie` (`補 瀉 平`), `run_zao` (`潤 燥 平`), `qi_xue` (`氣 血 兼` or null), `tropism` (歸經 shares, the first listed weighted most), `part` (藥用部位) |
+| `props_rules` | `{ property: rule ids }` | The rules that produced each property (`dir.overlay`, `bx.category`, `qx.texture` …); `_meta.conventions.props` lists every rule with what it says, its quotation, and the weights. Not in a release bundle |
 
 `herbs/herb-index.json` maps a zh-Hant name or alias → herb id (714 entries).
 
@@ -309,7 +311,7 @@ Ids are **append-only**. A rename needs a new id plus an alias map so old saved 
 1. **Schema** — every file validates against its JSON Schema and carries `_meta.schema` = the current version.
 2. **Parameters** — severity factors ordered; quality coefficients in (0, 1]; pattern bands high > medium > weak; confidence thresholds non-increasing; role weights 君 > 臣 > 佐 > 使; the pulse coefficient equals the one in `pulse.json` and in both profiles.
 3. **Identity** — unique ids in every collection; unique herb names and glossary terms; every herb name and alias is in the herb index.
-4. **Herbs** — every panel key valid; every organ known; index entries resolve.
+4. **Herbs** — every panel key valid; every organ known; index entries resolve; the properties (PM-36) within their ranges, the five-phase and channel shares summing to 1 over the herb's own channels, the toxicity grade agreeing with `toxic`, every rule id known and every rule's quotation in `citations.json`.
 5. **Formulas** — proportions and effective weights sum to 1; no herb twice; role weights equal the parameter file; at least one 君; core indications, patterns (with back-links), modification symptoms/herbs and rationale citations exist; **stored tier, pregnancy level and interaction list equal the values recomputed from the herbs** (the interaction list since PM-15: a Learn page shows these stored flags as they are, so none may lag behind the herbs).
 6. **Patterns and elements** — every symptom id used in `weights`/`against`/`required_any` exists; `required_any ⊆ weights`; no symptom both for and against; `max_score = Σ weights`; formula and element links resolve and link back; citations and acupoints exist; projection targets valid; constitution features exist.
 7. **Examination data** — tongue features equal the tongue symptoms and their zones exist and agree; pulses equal the pulse symptoms; exclusive groups name real pulses; panel nature projections valid.
@@ -417,4 +419,4 @@ Pharmacopoeia facts are used as structured data. The Sources screen lists each b
 |---|---|---|
 | 0.1 | 2026-10-04 | Initial schema reference for the first-pass `data/` |
 | 0.2 | 2026-10-06 | PM-21: the admission checklist (§8.4) and `review/admission.json`; §8.1 item 10; the extension procedure for a pattern |
-| 0.3 | 2026-10-07 | PM-35: the sources registry `sources.json` (§3.1b) and its coverage report; §8.1 item 9 |
+| 0.3 | 2026-10-07 | PM-35: the sources registry `sources.json` (§3.1b) and its coverage report; §8.1 item 9. PM-36: the herb property model (`props`, `props_rules`; §4.1) |

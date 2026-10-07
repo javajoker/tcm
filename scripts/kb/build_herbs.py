@@ -9,6 +9,7 @@ import re
 
 from .common import DATA, LIB, dump, front_matter, submodule_commits, term
 from .curated.herbs import EFFECT_OVERRIDES, EXTRA, NAME_TO_LIB, OVERLAY
+from .herb_props import conventions as props_conventions, derive as derive_props
 from .herb_model import (
     FLAVOR_ELEMENT, FLAVOR_EXCESS_HARM, derive_effects, derive_harms, is_toxic, parse_flavors, parse_organs,
     parse_temps, pregnancy_level,
@@ -41,6 +42,10 @@ def parse_entries() -> list[dict]:
         m = re.search(r"用法与用量：\s*([\d\.]+)\s*[～~\-]\s*([\d\.]+)\s*g", body)
         if m:
             dose = [float(m.group(1)), float(m.group(2))]
+        part = None
+        m = re.search(r"药用部位：([^）)]+)[）)]", body)
+        if m:
+            part = m.group(1)
         latin = None
         m = re.search(r"\b([A-Z][a-z]+ [a-z\-]+)\b", body)
         if m:
@@ -57,6 +62,7 @@ def parse_entries() -> list[dict]:
             "zhifa": c.get("zhifa", []),
             "fangming": c.get("fangming", []),
             "property_sentence": prop,
+            "part_zh_hans": part,
             "note_zh_hans": note,
             "dose_g": dose,
             "latin": latin,
@@ -108,6 +114,9 @@ def build() -> tuple[list[dict], dict[str, str]]:
         preg = pregnancy_level(note_text, e["category_zh_hans"], (ov or {}).get("pregnancy"))
         toxic = is_toxic(e["property_sentence"], (ov or {}).get("toxic"))
         name = canonical(e["title_zh_hans"])
+        props, props_rules = derive_props(name=name, category=category, functions=[term(z) for z in zhifa], flavors=flavors, temperature=temp, organs=organs, tags=tags,
+                                          part=term(e["part_zh_hans"]) if e["part_zh_hans"] else None, property_sentence=e["property_sentence"],
+                                          curated_toxic=(ov or {}).get("toxic"))
         herb = {
             "id": f"herb-{lib}",
             "slug": lib,
@@ -129,6 +138,8 @@ def build() -> tuple[list[dict], dict[str, str]]:
             "caution": (ov or {}).get("note") or (term(note_text) if note_text else None),
             "classical_formulas": [term(f) for f in e["fangming"]],
             "status": "curated-draft" if ov else "derived",
+            "props": props,
+            "props_rules": props_rules,
             "data_quality": dq,
             "source": {"repo": "TCM-Library", "commit": commits.get("TCM-Library"), "path": e["path"], "entry_id": e["entry_id"],
                        "book": term(e["book"])},
@@ -142,13 +153,16 @@ def build() -> tuple[list[dict], dict[str, str]]:
     herbs = dedupe_by_name(herbs)
 
     for x in EXTRA:
+        x_flavors = [{"flavor": f, "weight": 1.0, "element": FLAVOR_ELEMENT[f]} for f in x["flavors"]]
+        props, props_rules = derive_props(name=x["zh"], category="藥食同源（人工補充）", functions=x["functions"], flavors=x_flavors, temperature=x["temp"], organs=x["organs"],
+                                          tags=x["tags"], part=None, property_sentence="", curated_toxic=False)
         herb = {
             "id": f"herb-{x['id']}", "slug": x["id"], "name": {"zh-Hant": x["zh"], "en": x["en"]}, "category": "藥食同源（人工補充）",
             "latin": None, "siqi": [], "temperature": x["temp"],
             "flavors": [{"flavor": f, "weight": 1.0, "element": FLAVOR_ELEMENT[f]} for f in x["flavors"]],
             "organs": x["organs"], "functions": x["functions"], "effects": x["effects"], "harms": derive_harms(x["temp"], [{"flavor": f, "weight": 1.0} for f in x["flavors"]], x["tags"], x["organs"]),
             "tags": x["tags"], "pregnancy": x["pregnancy"], "interactions": [], "toxic": False, "dose_g_reference": None,
-            "caution": x["caution"], "classical_formulas": [], "status": "curated-draft", "data_quality": ["not in TCM-Library; hand-curated"],
+            "caution": x["caution"], "classical_formulas": [], "status": "curated-draft", "props": props, "props_rules": props_rules, "data_quality": ["not in TCM-Library; hand-curated"],
             "source": {"repo": "curated", "commit": None, "path": "scripts/kb/curated/herbs.py", "entry_id": x["id"], "book": "—"},
         }
         herbs.append(herb)
@@ -179,6 +193,7 @@ def main() -> list[dict]:
                 "effects": "change the herb makes to the panel of the person taking it (e.g. 脾.qi +0.5, liuxie.火 −0.5)",
                 "harms": "burden weights, same units; negative lowers the named channel (e.g. 脾.yang −0.25)",
                 "flavor_excess_harm": FLAVOR_EXCESS_HARM,
+                "props": props_conventions(),
             },
             "licence_note": "Pharmacopoeia-derived facts (properties, functions, cautions) are used as structured data; whole source text is not redistributed.",
         },

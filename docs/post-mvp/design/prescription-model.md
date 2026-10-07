@@ -2,8 +2,8 @@
 
 | | |
 |---|---|
-| **Version** | 0.1 (draft) |
-| **Status** | Design for Release E (FR-36 … FR-38; tasks PM-36 … PM-41). Nothing is built yet |
+| **Version** | 0.2 (draft) |
+| **Status** | Design for Release E (FR-36 … FR-38; tasks PM-36 … PM-41). **Built: the herb property model (PM-36, §3.6)** |
 | **Last updated** | 2026-10-07 |
 | **Audience** | Engineers, the clinical content owner, the pharmacy reviewer, a legal adviser (for §7) |
 | **Related** | [Knowledge base v2](knowledge-base-v2.md) · [AI-assisted intake](ai-assisted-intake.md) · [Requirements FR-36 … FR-38](../requirements.md) · [Decisions PD-13 … PD-18](../decisions.md) · [Diagnosis SOP §12](../../diagnosis-sop.zh-TW.md) · [Safety policy §2](../../safety-policy.md) · [PRD G10](../../PRD.md) |
@@ -90,6 +90,20 @@ The panel is not changed: nothing about how the diagnosis is scored moves.
 ### 3.5 Processing (炮製)
 
 When a formula names a processing (the classical amounts carry it: 炙、去節、湯去皮尖、酒洗、炒…), the herb's record is the processed variant where the library has one (炙甘草), otherwise a modifier is applied: 酒製 (升、行血 ↑), 醋製 (入肝 ↑、止痛), 鹽製 (入腎、下行), 蜜炙 (潤肺、緩和、燥性 ↓), 薑製 (溫中止嘔 ↑), 炒炭 (止血 ↑、活血 ↓), 炒 (寒性 ↓). The table is curated from 《雷公炮炙論》《炮炙大法》 and the Pharmacopoeia's 炮製 notes, with sources, and is small.
+
+### 3.6 As built: the property model (PM-36)
+
+Every herb of the knowledge base now carries `props` — 陰陽, 五行 shares, 升降浮沉, 毒性 grade, 補瀉, 潤燥, 氣血分, weighted 歸經 and the part used — and `props_rules`, the ids of the rules that made each value ([`scripts/kb/herb_props.py`](../../../scripts/kb/herb_props.py); the rules, their quotations and the weights are written into `herbs.json` `_meta.conventions.props`). What differs from the sketch above, and why:
+
+- **`effects` and `harms` are not re-derived.** They stay what the diagnosis's formula ranking reads, so the ranking, the result-stability pins and the parity cases are unchanged; the properties are new fields that the prescription model reads (direction, the constitution rule, the explanation) beside them.
+- **五行 counts every channel, not only the zang:** a fu belongs to its phase (膽 木, 胃 土, 大腸 金, 膀胱 水; 心包 and 三焦 火), weighted by its place in the list; 0.6 flavours + 0.4 channels.
+- **升降浮沉** = 0.5 × (category prior + direction words of the functions, capped at ±0.6) + 0.3 × 氣味 (李時珍: 酸鹹無升，甘辛無降，寒無浮，熱無沉) + 0.2 × the part used (本草備要: 輕虛者浮而升，重實者沉而降 — the head of the 藥用部位 text decides: 花葉 +0.3, 子實 −0.2, minerals and shells −0.5); a **curated overlay of 24 herbs** the tradition singles out (旋覆花 the falling flower, 蔓荊子 the rising seed, 桔梗 載藥上行, 牛膝 引血下行, the settling minerals, the qi-lowering and the yang-raising herbs) — textbook statements, unverified like every curated draft.
+- **補瀉**: the category decides where it is clear (補虛 補; the categories that remove a pathogen or a product 瀉); 溫裡 herbs are 補 only when they tonify the fire (附子, 肉桂), otherwise 平 (warming is a method of its own); the other categories by the words of their functions.
+- **氣血分**: with both, the first-listed function decides, and 兼 when it names both — so 川芎 (活血行氣) comes out 兼, the 「血中氣藥」 of the textbooks; 瀉火 counts as 氣分 (石膏、知母 清氣分熱); only when nothing else decides, 本草備要's 枯燥者入氣分，潤澤者入血分.
+- **毒性** follows the Pharmacopoeia's sentence (有大毒 17, 有毒 44, 有小毒 34 herbs) — the classical four grades of 《五常政大論》 — and agrees with the old `toxic` flag by construction.
+- **Twelve new verified quotations** ground the rules: 《素問》 on 氣味厚薄, on 陰陽 and 寒熱, on the flavours' yin and yang, on 燥潤, on 高者抑之，下者舉之, on 燥者濡之, on 實則瀉之，虛則補之 and on the four grades of 毒; 《神農本草經·序錄》 (四氣五味 and 有毒無毒); 《本草綱目》 (升降浮沉); 《本草備要》 (輕重, 燥潤 and 氣血分). The knowledge base now quotes 139 passages from 14 works.
+
+First reading over the 703 herbs: 80 rise (> 0.2), 373 are even, 250 descend (< −0.2); 106 are 補, 555 瀉, 42 平; 156 dry, 104 moisten. Each is a derived draft until the pharmacy review (class C).
 
 ## 4. The formula: effect, structure and the 方解 in numbers
 
@@ -254,3 +268,4 @@ PM-36 (herb property model v2), PM-37 (dose–response, pairings, processing in 
 | Version | Date | Change |
 |---|---|---|
 | 0.1 | 2026-10-07 | Initial design, from the owner's direction of 2026-10-07 |
+| 0.2 | 2026-10-07 | §3.6: the property model as built (PM-36) |

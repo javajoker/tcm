@@ -38,6 +38,22 @@ export interface Herbs {
     name: Bilingual;
     organs: string[];
     pregnancy: "ok" | "ok-unreviewed" | "caution" | "avoid";
+    props: {
+      bu_xie: "補" | "瀉" | "平";
+      direction: number;
+      five_phase: null | [number, number, number, number, number];
+      part: string | null;
+      qi_xue: "氣" | "血" | "兼" | null;
+      run_zao: "潤" | "燥" | "平";
+      toxicity: "無毒" | "小毒" | "有毒" | "大毒";
+      tropism: {
+        [k: string]: number;
+      };
+      yinyang: number;
+    };
+    props_rules?: {
+      [k: string]: string[];
+    };
     siqi: string[];
     slug: string;
     source: {

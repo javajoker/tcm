@@ -16,7 +16,7 @@ from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 from jsonschema import Draft202012Validator
 
-from . import admission, build_name_fold
+from . import admission, build_name_fold, herb_props
 from .common import DATA, ROOT, submodule_commits
 from .curated import panel as panel_cfg
 from .schemas import SCHEMAS, SCHEMA_VERSION
@@ -337,6 +337,27 @@ def validate(load: Loader = load, check_sources: bool = True) -> list[str]:
         for o in h["organs"]:
             if o not in ORGANS and o not in ("心包", "三焦"):
                 err(f"herb {h['id']}: unknown organ {o!r}")
+        # the property model v2 (PM-36)
+        pr = h["props"]
+        if not (-1 <= pr["yinyang"] <= 1 and -1 <= pr["direction"] <= 1):
+            err(f"herb {h['id']}: yinyang or direction outside −1 … 1")
+        if pr["five_phase"] is not None and (min(pr["five_phase"]) < 0 or abs(sum(pr["five_phase"]) - 1) > 1e-6):
+            err(f"herb {h['id']}: five_phase shares must be ≥ 0 and sum to 1")
+        if (pr["five_phase"] is None) != (not h["flavors"] and not h["organs"]):
+            err(f"herb {h['id']}: five_phase is null exactly when the herb has no flavour and no channel")
+        if set(pr["tropism"]) != set(h["organs"]) or (pr["tropism"] and abs(sum(pr["tropism"].values()) - 1) > 1e-6):
+            err(f"herb {h['id']}: tropism must weigh exactly the herb's channels and sum to 1")
+        if h["toxic"] != (pr["toxicity"] != "無毒"):
+            err(f"herb {h['id']}: toxic is {h['toxic']} but the toxicity grade is {pr['toxicity']}")
+        for key, ids in h["props_rules"].items():
+            if key not in pr:
+                err(f"herb {h['id']}: props_rules names an unknown property {key}")
+            for rid in ids:
+                if rid not in herb_props.RULES:
+                    err(f"herb {h['id']}: unknown property rule {rid}")
+    for rid, rule in load("herbs/herbs.json")["_meta"]["conventions"]["props"]["rules"].items():
+        if rule["citation"] is not None and rule["citation"] not in cit_ids:
+            err(f"herb property rule {rid}: unknown citation {rule['citation']}")
     herbs_by_id = {h["id"]: h for h in herbs}
     interaction_vocab = {i for h in herbs for i in h["interactions"]}
 

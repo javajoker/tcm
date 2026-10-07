@@ -47,6 +47,9 @@ CITATIONS = [
     ("suwen-005-8", SW.format(5), "中央生湿，湿生土，土生甘，甘生脾，脾生肉，肉生肺，脾主口"),
     ("suwen-005-9", SW.format(5), "西方生燥，燥生金，金生辛，辛生肺，肺生皮毛，皮毛生肾，肺主鼻"),
     ("suwen-005-10", SW.format(5), "北方生寒，寒生水，水生咸，咸生肾，肾生骨髓，髓生肝，肾主耳"),
+    # the herb property model (PM-36): 氣味厚薄, and 寒熱 as 陰陽
+    ("suwen-005-11", SW.format(5), "味厚者为阴，薄为阴之阳；气厚者为阳，薄为阳之阴。味厚则泄，薄则通。气薄则发泄，厚则发热"),
+    ("suwen-005-12", SW.format(5), "阴胜则阳病，阳胜则阴病。阳胜则热，阴胜则寒"),
     ("suwen-007-1", SW.format(7), "阳加于阴，谓之汗"),
     ("suwen-010-1", SW.format(10), "青如草兹者死"),
     ("suwen-010-2", SW.format(10), "肝受血而能视"),
@@ -56,6 +59,7 @@ CITATIONS = [
     ("suwen-017-2", SW.format(17), "言而微，终日乃复言者"),
     ("suwen-018-1", SW.format(18), "人一呼脉再动，一吸脉亦再动，呼吸定息，脉五动，闰以太息，命曰平人"),
     ("suwen-019-1", SW.format(19), "五脏受气于其所生，传之于其所胜，气舍于其所生，死于其所不胜"),
+    ("suwen-020-1", SW.format(20), "实则泻之，虚则补之"),   # 補瀉 (PM-36)
     ("suwen-022-1", SW.format(22), "五谷为养，五果为助"),
     ("suwen-022-2", SW.format(22), "肝欲散，急食辛以散之"),
     ("suwen-023-1", SW.format(23), "酸入肝，辛入肺，苦入心，咸入肾，甘入脾"),
@@ -84,6 +88,7 @@ CITATIONS = [
     ("suwen-070-1", SW.format(70), "必先岁气，无伐天和"),
     ("suwen-070-2", SW.format(70), "大毒治病，十去其六"),
     ("suwen-070-3", SW.format(70), "无盛盛，无虚虚"),
+    ("suwen-070-4", SW.format(70), "大毒治病，十去其六；常毒治病，十去其七；小毒治病，十去其八；无毒治病，十去其九"),   # the four grades of 毒 (PM-36)
     ("suwen-071-1", SW.format(71), "有故无殒，亦无殒也"),
     ("suwen-071-2", SW.format(71), "木郁达之"),
     ("suwen-074-1", SW.format(74), "谨守病机，各司其属"),
@@ -98,6 +103,11 @@ CITATIONS = [
     ("suwen-074-10", SW.format(74), "主病之谓君，佐君之谓臣，应臣之谓使"),
     ("suwen-074-11", SW.format(74), "君一臣二，制之小也"),
     ("suwen-074-12", SW.format(74), "必伏其所主，而先其所因"),
+    # the herb property model and the methods (PM-36): the yin-yang of the flavours, 燥潤, the direction a treatment gives
+    ("suwen-074-13", SW.format(74), "辛甘发散为阳，酸苦涌泄为阴，咸味涌泄为阴，淡味渗泄为阳"),
+    ("suwen-074-14", SW.format(74), "六者或收或散，或缓或急，或燥或润"),     # stops before 或軟或坚: the source's Simplified text has a stray Traditional 軟
+    ("suwen-074-15", SW.format(74), "高者抑之，下者举之，有余折之，不足补之"),
+    ("suwen-074-16", SW.format(74), "燥者濡之，急者缓之，散者收之，损者温之"),
     # ── 靈樞 ──────────────────────────────────────────────────────────────
     ("lingshu-004-1", LS.format(4), "见其色，知其病，命曰明"),
     ("lingshu-008-1", LS.format(8), "脾气虚则四肢不用"),
@@ -151,4 +161,9 @@ CITATIONS = [
     ("danxi-xinfa-1", "book:570|丹溪心法|能合色脉可以万全", "有诸内者形诸外"),
     ("bencao-bianxue-18fan-1", "book:031|本草便讀|十八反歌訣", "藻戟遂芫俱战草。诸参辛芍叛藜芦"),
     ("binhu-maixue-sanbu", "book:506|瀕湖脈學|四言舉要", "心肝居左肺脾居右肾与命门居两尺部"),
+    # the herb property model (PM-36)
+    ("shennong-xulu-1", "book:000|神農本草經|序錄", "药有酸、咸、甘、苦、辛五味，又有寒、热、温、凉四气，及有毒无毒"),
+    ("bencao-gangmu-shengjiang", "book:013|本草綱目|序例上·升降浮沉", "酸咸无升，甘辛无降，寒无浮，热无沉，其性然也"),
+    ("bencao-beiyao-xingzhi-1", "book:018|本草備要|藥性總義", "凡药轻虚者浮而升，重实者沉而降"),
+    ("bencao-beiyao-xingzhi-2", "book:018|本草備要|藥性總義", "枯燥者入气分，润泽者入血分"),
 ]

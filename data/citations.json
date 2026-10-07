@@ -1,13 +1,33 @@
 {
   "_meta": {
-    "count": 127,
+    "count": 139,
     "description": "Registry of quotations cited by the SOP and knowledge base. Every quote is checked against the source text.",
     "note": "shanghan-NNN ids carry the standard Song-edition clause number; the number is not verified against the data.",
     "schema": 1,
     "unverified": [],
-    "verified": 127
+    "verified": 139
   },
   "items": [
+    {
+      "book": "本草備要",
+      "chapter": "藥性總義",
+      "id": "bencao-beiyao-xingzhi-1",
+      "quote_source_zh_hans": "凡药轻虚者浮而升，重实者沉而降",
+      "quote_zh_hant": "凡藥輕虛者浮而升，重實者沉而降",
+      "source_path": "reference/sources/TCM-Ancient-Books/018-本草备要.txt",
+      "source_repo": "TCM-Ancient-Books (no upstream licence: reference only)",
+      "verified": true
+    },
+    {
+      "book": "本草備要",
+      "chapter": "藥性總義",
+      "id": "bencao-beiyao-xingzhi-2",
+      "quote_source_zh_hans": "枯燥者入气分，润泽者入血分",
+      "quote_zh_hant": "枯燥者入氣分，潤澤者入血分",
+      "source_path": "reference/sources/TCM-Ancient-Books/018-本草备要.txt",
+      "source_repo": "TCM-Ancient-Books (no upstream licence: reference only)",
+      "verified": true
+    },
     {
       "book": "本草便讀",
       "chapter": "十八反歌訣",
@@ -15,6 +35,16 @@
       "quote_source_zh_hans": "藻戟遂芫俱战草。诸参辛芍叛藜芦",
       "quote_zh_hant": "藻戟遂芫俱戰草。諸參辛芍叛藜蘆",
       "source_path": "reference/sources/TCM-Ancient-Books/031-本草便读.txt",
+      "source_repo": "TCM-Ancient-Books (no upstream licence: reference only)",
+      "verified": true
+    },
+    {
+      "book": "本草綱目",
+      "chapter": "序例上·升降浮沉",
+      "id": "bencao-gangmu-shengjiang",
+      "quote_source_zh_hans": "酸咸无升，甘辛无降，寒无浮，热无沉，其性然也",
+      "quote_zh_hant": "酸鹹無升，甘辛無降，寒無浮，熱無沉，其性然也",
+      "source_path": "reference/sources/TCM-Ancient-Books/013-本草纲目.txt",
       "source_repo": "TCM-Ancient-Books (no upstream licence: reference only)",
       "verified": true
     },
@@ -505,6 +535,16 @@
       "verified": true
     },
     {
+      "book": "神農本草經",
+      "chapter": "序錄",
+      "id": "shennong-xulu-1",
+      "quote_source_zh_hans": "药有酸、咸、甘、苦、辛五味，又有寒、热、温、凉四气，及有毒无毒",
+      "quote_zh_hant": "藥有酸、鹹、甘、苦、辛五味，又有寒、熱、溫、涼四氣，及有毒無毒",
+      "source_path": "reference/sources/TCM-Ancient-Books/000-神农本草经.txt",
+      "source_repo": "TCM-Ancient-Books (no upstream licence: reference only)",
+      "verified": true
+    },
+    {
       "book": "素問",
       "chapter": "上古天真論",
       "id": "suwen-001-1",
@@ -707,6 +747,26 @@
     {
       "book": "素問",
       "chapter": "陰陽應象大論",
+      "id": "suwen-005-11",
+      "quote_source_zh_hans": "味厚者为阴，薄为阴之阳；气厚者为阳，薄为阳之阴。味厚则泄，薄则通。气薄则发泄，厚则发热",
+      "quote_zh_hant": "味厚者為陰，薄為陰之陽；氣厚者為陽，薄為陽之陰。味厚則洩，薄則通。氣薄則發洩，厚則發熱",
+      "source_path": "reference/sources/TCM-Library/raw/neijing/suwen/suwen_005.txt",
+      "source_repo": "TCM-Library (MIT)",
+      "verified": true
+    },
+    {
+      "book": "素問",
+      "chapter": "陰陽應象大論",
+      "id": "suwen-005-12",
+      "quote_source_zh_hans": "阴胜则阳病，阳胜则阴病。阳胜则热，阴胜则寒",
+      "quote_zh_hant": "陰勝則陽病，陽勝則陰病。陽勝則熱，陰勝則寒",
+      "source_path": "reference/sources/TCM-Library/raw/neijing/suwen/suwen_005.txt",
+      "source_repo": "TCM-Library (MIT)",
+      "verified": true
+    },
+    {
+      "book": "素問",
+      "chapter": "陰陽應象大論",
       "id": "suwen-005-2",
       "quote_source_zh_hans": "治病必求于本",
       "quote_zh_hant": "治病必求於本",
@@ -871,6 +931,16 @@
       "quote_source_zh_hans": "五脏受气于其所生，传之于其所胜，气舍于其所生，死于其所不胜",
       "quote_zh_hant": "五臟受氣於其所生，傳之於其所勝，氣舍於其所生，死於其所不勝",
       "source_path": "reference/sources/TCM-Library/raw/neijing/suwen/suwen_019.txt",
+      "source_repo": "TCM-Library (MIT)",
+      "verified": true
+    },
+    {
+      "book": "素問",
+      "chapter": "三部九候論",
+      "id": "suwen-020-1",
+      "quote_source_zh_hans": "实则泻之，虚则补之",
+      "quote_zh_hant": "實則瀉之，虛則補之",
+      "source_path": "reference/sources/TCM-Library/raw/neijing/suwen/suwen_020.txt",
       "source_repo": "TCM-Library (MIT)",
       "verified": true
     },
@@ -1156,6 +1226,16 @@
     },
     {
       "book": "素問",
+      "chapter": "五常政大論",
+      "id": "suwen-070-4",
+      "quote_source_zh_hans": "大毒治病，十去其六；常毒治病，十去其七；小毒治病，十去其八；无毒治病，十去其九",
+      "quote_zh_hant": "大毒治病，十去其六；常毒治病，十去其七；小毒治病，十去其八；無毒治病，十去其九",
+      "source_path": "reference/sources/TCM-Library/raw/neijing/suwen/suwen_070.txt",
+      "source_repo": "TCM-Library (MIT)",
+      "verified": true
+    },
+    {
+      "book": "素問",
       "chapter": "六元正紀大論",
       "id": "suwen-071-1",
       "quote_source_zh_hans": "有故无殒，亦无殒也",
@@ -1210,6 +1290,46 @@
       "id": "suwen-074-12",
       "quote_source_zh_hans": "必伏其所主，而先其所因",
       "quote_zh_hant": "必伏其所主，而先其所因",
+      "source_path": "reference/sources/TCM-Library/raw/neijing/suwen/suwen_074.txt",
+      "source_repo": "TCM-Library (MIT)",
+      "verified": true
+    },
+    {
+      "book": "素問",
+      "chapter": "至真要大論",
+      "id": "suwen-074-13",
+      "quote_source_zh_hans": "辛甘发散为阳，酸苦涌泄为阴，咸味涌泄为阴，淡味渗泄为阳",
+      "quote_zh_hant": "辛甘發散為陽，酸苦湧洩為陰，鹹味湧洩為陰，淡味滲洩為陽",
+      "source_path": "reference/sources/TCM-Library/raw/neijing/suwen/suwen_074.txt",
+      "source_repo": "TCM-Library (MIT)",
+      "verified": true
+    },
+    {
+      "book": "素問",
+      "chapter": "至真要大論",
+      "id": "suwen-074-14",
+      "quote_source_zh_hans": "六者或收或散，或缓或急，或燥或润",
+      "quote_zh_hant": "六者或收或散，或緩或急，或燥或潤",
+      "source_path": "reference/sources/TCM-Library/raw/neijing/suwen/suwen_074.txt",
+      "source_repo": "TCM-Library (MIT)",
+      "verified": true
+    },
+    {
+      "book": "素問",
+      "chapter": "至真要大論",
+      "id": "suwen-074-15",
+      "quote_source_zh_hans": "高者抑之，下者举之，有余折之，不足补之",
+      "quote_zh_hant": "高者抑之，下者舉之，有餘折之，不足補之",
+      "source_path": "reference/sources/TCM-Library/raw/neijing/suwen/suwen_074.txt",
+      "source_repo": "TCM-Library (MIT)",
+      "verified": true
+    },
+    {
+      "book": "素問",
+      "chapter": "至真要大論",
+      "id": "suwen-074-16",
+      "quote_source_zh_hans": "燥者濡之，急者缓之，散者收之，损者温之",
+      "quote_zh_hant": "燥者濡之，急者緩之，散者收之，損者溫之",
       "source_path": "reference/sources/TCM-Library/raw/neijing/suwen/suwen_074.txt",
       "source_repo": "TCM-Library (MIT)",
       "verified": true

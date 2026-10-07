@@ -313,6 +313,96 @@
               "avoid"
             ]
           },
+          "props": {
+            "additionalProperties": false,
+            "properties": {
+              "bu_xie": {
+                "enum": [
+                  "補",
+                  "瀉",
+                  "平"
+                ]
+              },
+              "direction": {
+                "type": "number"
+              },
+              "five_phase": {
+                "oneOf": [
+                  {
+                    "type": "null"
+                  },
+                  {
+                    "items": {
+                      "type": "number"
+                    },
+                    "maxItems": 5,
+                    "minItems": 5,
+                    "type": "array"
+                  }
+                ]
+              },
+              "part": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "qi_xue": {
+                "enum": [
+                  "氣",
+                  "血",
+                  "兼",
+                  null
+                ]
+              },
+              "run_zao": {
+                "enum": [
+                  "潤",
+                  "燥",
+                  "平"
+                ]
+              },
+              "toxicity": {
+                "enum": [
+                  "無毒",
+                  "小毒",
+                  "有毒",
+                  "大毒"
+                ]
+              },
+              "tropism": {
+                "additionalProperties": {
+                  "type": "number"
+                },
+                "type": "object"
+              },
+              "yinyang": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "bu_xie",
+              "direction",
+              "five_phase",
+              "part",
+              "qi_xue",
+              "run_zao",
+              "toxicity",
+              "tropism",
+              "yinyang"
+            ],
+            "type": "object"
+          },
+          "props_rules": {
+            "additionalProperties": {
+              "items": {
+                "type": "string"
+              },
+              "minItems": 1,
+              "type": "array"
+            },
+            "type": "object"
+          },
           "siqi": {
             "items": {
               "type": "string"
@@ -389,6 +479,7 @@
           "name",
           "organs",
           "pregnancy",
+          "props",
           "siqi",
           "slug",
           "source",
