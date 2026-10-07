@@ -3,14 +3,15 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import type { Lang, Message, TurnRequest, VocabItem } from "../src/protocol.ts";
+import { vocabularyFrom } from "../src/vocabulary.ts";
 
 const root = join(import.meta.dirname, "..", "..", "..");
 const read = <T>(rel: string): T => JSON.parse(readFileSync(join(root, rel), "utf8")) as T;
 
 interface Symptom { readonly id: string; readonly kind: string; readonly dimension: string; readonly "zh-Hant": string; readonly en: string }
-interface QuestionData { readonly options: readonly { readonly label: Readonly<Record<"zh-Hant" | "en", string>>; readonly symptoms: readonly string[] }[] }
+interface QuestionData { readonly options: readonly { readonly label: Readonly<Record<"zh-Hant" | "en", string>>; readonly symptoms: readonly string[]; readonly none: boolean }[] }
 
-const symptoms = read<{ items: Symptom[] }>("data/diagnosis/symptoms.json").items.filter((s) => s.kind === "symptom");
+const symptoms = read<{ items: Symptom[] }>("data/diagnosis/symptoms.json").items;
 const questions = read<{ items: QuestionData[] }>("data/diagnosis/questions.json").items;
 const hans = read<{ entries: Record<string, string> }>("scripts/i18n/zh-Hans.dictionary.json").entries;
 /** The Traditional-only characters (OpenCC's table): none may appear in Simplified text. */
@@ -18,12 +19,7 @@ export const TRADITIONAL_ONLY = read<{ _meta: { traditionalOnly: string } }>("sc
 
 const inLang = (zh: string, en: string, lang: Lang): string => (lang === "en" ? en : lang === "zh-Hans" ? (hans[zh] ?? zh) : zh);
 
-export function vocabulary(lang: Lang): VocabItem[] {
-  return symptoms.map((s) => {
-    const plain = questions.flatMap((q) => q.options.filter((o) => o.symptoms.length === 1 && o.symptoms[0] === s.id).map((o) => inLang(o.label["zh-Hant"], o.label.en, lang)));
-    return { id: s.id, label: inLang(s["zh-Hant"], s.en, lang), topic: s.dimension, ...(plain.length > 0 ? { plain: plain.slice(0, 4) } : {}) };
-  });
-}
+export const vocabulary = (lang: Lang): VocabItem[] => vocabularyFrom({ symptoms, questions }, (t) => inLang(t["zh-Hant"], t.en ?? t["zh-Hant"], lang));
 
 export const turn = (lang: Lang, messages: readonly Message[], confirmed: readonly string[] = []): TurnRequest => ({ v: 1, lang, messages, vocabulary: vocabulary(lang), confirmed });
 export const said = (text: string): Message => ({ role: "person", text });

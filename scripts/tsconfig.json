@@ -1,4 +1,9 @@
 {
   "extends": "../tsconfig.base.json",
-  "include": ["*.ts", "kb/*.ts"]
+  "include": [
+    "*.ts",
+    "kb/*.ts",
+    "ai/*.ts",
+    "astro/*.ts"
+  ]
 }

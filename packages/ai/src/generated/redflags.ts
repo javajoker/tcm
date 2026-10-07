@@ -72,7 +72,11 @@ export const RED_FLAG_TERMS: RedFlagTermsData = {
      "上氣不接下氣",
      "不能呼吸",
      "無法呼吸",
-     "快窒息"
+     "快窒息",
+     [
+      "呼吸",
+      "困難"
+     ]
     ],
     "zh-Hans": [
      "呼吸困难",
@@ -82,7 +86,11 @@ export const RED_FLAG_TERMS: RedFlagTermsData = {
      "上气不接下气",
      "不能呼吸",
      "无法呼吸",
-     "快窒息"
+     "快窒息",
+     [
+      "呼吸",
+      "困难"
+     ]
     ],
     "en": [
      "can't breathe",
@@ -92,7 +100,9 @@ export const RED_FLAG_TERMS: RedFlagTermsData = {
      "trouble breathing",
      "struggling to breathe",
      "gasping",
-     "suffocat"
+     "suffocat",
+     "catch my breath",
+     "hard to breathe"
     ]
    }
   },
@@ -109,7 +119,9 @@ export const RED_FLAG_TERMS: RedFlagTermsData = {
      "失去意識",
      "意識不清",
      "不省人事",
-     "叫不醒"
+     "叫不醒",
+     "暈過去",
+     "昏過去"
     ],
     "zh-Hans": [
      "昏倒",
@@ -120,7 +132,9 @@ export const RED_FLAG_TERMS: RedFlagTermsData = {
      "失去意识",
      "意识不清",
      "不省人事",
-     "叫不醒"
+     "叫不醒",
+     "晕过去",
+     "昏过去"
     ],
     "en": [
      "fainted",
@@ -149,7 +163,8 @@ export const RED_FLAG_TERMS: RedFlagTermsData = {
      "臉歪",
      "說話不清",
      "口齒不清",
-     "講話不清楚"
+     "講話不清楚",
+     "含糊不清"
     ],
     "zh-Hans": [
      "中风",
@@ -162,7 +177,8 @@ export const RED_FLAG_TERMS: RedFlagTermsData = {
      "脸歪",
      "说话不清",
      "口齿不清",
-     "讲话不清楚"
+     "讲话不清楚",
+     "含糊不清"
     ],
     "en": [
      "stroke",
@@ -170,7 +186,7 @@ export const RED_FLAG_TERMS: RedFlagTermsData = {
      "one side is weak",
      "face drooping",
      "facial droop",
-     "slurred speech",
+     "slurred",
      "slurring"
     ]
    }
@@ -187,9 +203,15 @@ export const RED_FLAG_TERMS: RedFlagTermsData = {
      "嘔血",
      "黑便",
      "大便黑",
+     "大便是黑色",
+     "黑色的大便",
      "便血",
      "血便",
-     "大便有血"
+     "大便有血",
+     [
+      "吐",
+      "血"
+     ]
     ],
     "zh-Hans": [
      "大量出血",
@@ -199,9 +221,15 @@ export const RED_FLAG_TERMS: RedFlagTermsData = {
      "呕血",
      "黑便",
      "大便黑",
+     "大便是黑色",
+     "黑色的大便",
      "便血",
      "血便",
-     "大便有血"
+     "大便有血",
+     [
+      "吐",
+      "血"
+     ]
     ],
     "en": [
      "heavy bleeding",
@@ -211,9 +239,15 @@ export const RED_FLAG_TERMS: RedFlagTermsData = {
      "vomited blood",
      "throwing up blood",
      "black stool",
+     "stools are black",
+     "stool is black",
      "tarry stool",
      "blood in my stool",
-     "bloody stool"
+     "bloody stool",
+     [
+      "vomit",
+      "blood"
+     ]
     ]
    }
   },
@@ -226,6 +260,8 @@ export const RED_FLAG_TERMS: RedFlagTermsData = {
      "劇烈頭痛",
      "最痛的頭痛",
      "從來沒有這麼痛",
+     "從來沒這麼痛",
+     "這輩子最痛",
      "爆炸般的頭痛"
     ],
     "zh-Hans": [
@@ -233,6 +269,8 @@ export const RED_FLAG_TERMS: RedFlagTermsData = {
      "剧烈头痛",
      "最痛的头痛",
      "从来没有这么痛",
+     "从来没这么痛",
+     "这辈子最痛",
      "爆炸般的头痛"
     ],
     "en": [
@@ -263,7 +301,8 @@ export const RED_FLAG_TERMS: RedFlagTermsData = {
     "en": [
      "seizure",
      "convulsion",
-     "epileptic"
+     "epileptic",
+     "had a fit"
     ]
    }
   },
@@ -279,6 +318,15 @@ export const RED_FLAG_TERMS: RedFlagTermsData = {
      "喉頭緊",
      [
       "蕁麻疹",
+      "呼吸"
+     ],
+     [
+      "疹子",
+      "呼吸"
+     ],
+     [
+      "喉嚨",
+      "腫",
       "呼吸"
      ],
      [
@@ -298,6 +346,15 @@ export const RED_FLAG_TERMS: RedFlagTermsData = {
      "喉头紧",
      [
       "荨麻疹",
+      "呼吸"
+     ],
+     [
+      "疹子",
+      "呼吸"
+     ],
+     [
+      "喉咙",
+      "肿",
       "呼吸"
      ],
      [
@@ -337,6 +394,10 @@ export const RED_FLAG_TERMS: RedFlagTermsData = {
      "活不下去",
      "結束生命",
      "了結自己",
+     "一了百了",
+     "活著沒意思",
+     "活著沒有意義",
+     "不如死了",
      "自殘",
      "傷害自己",
      "割腕",
@@ -351,6 +412,10 @@ export const RED_FLAG_TERMS: RedFlagTermsData = {
      "活不下去",
      "结束生命",
      "了结自己",
+     "一了百了",
+     "活着没意思",
+     "活着没有意义",
+     "不如死了",
      "自残",
      "伤害自己",
      "割腕",
@@ -370,7 +435,9 @@ export const RED_FLAG_TERMS: RedFlagTermsData = {
      "hurt myself",
      "harm myself",
      "hurt someone",
-     "kill someone"
+     "kill someone",
+     "no point in living",
+     "better off dead"
     ]
    }
   },
@@ -401,6 +468,18 @@ export const RED_FLAG_TERMS: RedFlagTermsData = {
       "燒了",
       "幾天"
      ],
+     [
+      "燒了",
+      "天"
+     ],
+     [
+      "燒",
+      "三十九"
+     ],
+     [
+      "燒",
+      "四十"
+     ],
      "發燒超過"
     ],
     "zh-Hans": [
@@ -425,6 +504,18 @@ export const RED_FLAG_TERMS: RedFlagTermsData = {
      [
       "烧了",
       "几天"
+     ],
+     [
+      "烧了",
+      "天"
+     ],
+     [
+      "烧",
+      "三十九"
+     ],
+     [
+      "烧",
+      "四十"
      ],
      "发烧超过"
     ],
@@ -501,14 +592,14 @@ export const RED_FLAG_TERMS: RedFlagTermsData = {
      "劇烈腹痛",
      "肚子劇痛",
      "腹部劇痛",
-     "痛到打滾",
+     "打滾",
      "肚子痛得很厲害"
     ],
     "zh-Hans": [
      "剧烈腹痛",
      "肚子剧痛",
      "腹部剧痛",
-     "痛到打滚",
+     "打滚",
      "肚子痛得很厉害"
     ],
     "en": [
@@ -529,7 +620,15 @@ export const RED_FLAG_TERMS: RedFlagTermsData = {
      "瘦了很多",
      "莫名變瘦",
      "體重減輕",
-     "暴瘦"
+     "暴瘦",
+     [
+      "瘦了",
+      "公斤"
+     ],
+     [
+      "瘦了",
+      "斤"
+     ]
     ],
     "zh-Hans": [
      "体重一直掉",
@@ -537,12 +636,32 @@ export const RED_FLAG_TERMS: RedFlagTermsData = {
      "瘦了很多",
      "莫名变瘦",
      "体重减轻",
-     "暴瘦"
+     "暴瘦",
+     [
+      "瘦了",
+      "公斤"
+     ],
+     [
+      "瘦了",
+      "斤"
+     ]
     ],
     "en": [
      "losing weight",
      "lost a lot of weight",
-     "weight loss"
+     "weight loss",
+     [
+      "lost",
+      "kilo"
+     ],
+     [
+      "lost",
+      "pounds"
+     ],
+     [
+      "lost",
+      "kg"
+     ]
     ]
    }
   },
@@ -555,21 +674,49 @@ export const RED_FLAG_TERMS: RedFlagTermsData = {
      "尿血",
      "小便有血",
      "尿中帶血",
-     "尿是紅色"
+     "尿是紅色",
+     [
+      "小便",
+      "紅"
+     ],
+     [
+      "尿",
+      "紅色"
+     ]
     ],
     "zh-Hans": [
      "血尿",
      "尿血",
      "小便有血",
      "尿中带血",
-     "尿是红色"
+     "尿是红色",
+     [
+      "小便",
+      "红"
+     ],
+     [
+      "尿",
+      "红色"
+     ]
     ],
     "en": [
      "blood in my urine",
      "blood in urine",
      "bloody urine",
      "red urine",
-     "pink urine"
+     "pink urine",
+     [
+      "pee",
+      "red"
+     ],
+     [
+      "urine",
+      "red"
+     ],
+     [
+      "pee",
+      "blood"
+     ]
     ]
    }
   },
@@ -581,6 +728,8 @@ export const RED_FLAG_TERMS: RedFlagTermsData = {
      "腫塊",
      "硬塊",
      "摸到一顆",
+     "摸到一個",
+     "摸到一塊",
      "長了一顆",
      "腫瘤"
     ],
@@ -588,6 +737,8 @@ export const RED_FLAG_TERMS: RedFlagTermsData = {
      "肿块",
      "硬块",
      "摸到一颗",
+     "摸到一个",
+     "摸到一块",
      "长了一颗",
      "肿瘤"
     ],
@@ -609,7 +760,19 @@ export const RED_FLAG_TERMS: RedFlagTermsData = {
      "眼睛發黃",
      "眼睛變黃",
      "皮膚發黃",
-     "皮膚變黃"
+     "皮膚變黃",
+     [
+      "眼睛",
+      "黃"
+     ],
+     [
+      "眼白",
+      "黃"
+     ],
+     [
+      "皮膚",
+      "黃"
+     ]
     ],
     "zh-Hans": [
      "黄疸",
@@ -617,13 +780,33 @@ export const RED_FLAG_TERMS: RedFlagTermsData = {
      "眼睛发黄",
      "眼睛变黄",
      "皮肤发黄",
-     "皮肤变黄"
+     "皮肤变黄",
+     [
+      "眼睛",
+      "黄"
+     ],
+     [
+      "眼白",
+      "黄"
+     ],
+     [
+      "皮肤",
+      "黄"
+     ]
     ],
     "en": [
      "jaundice",
      "yellow eyes",
      "eyes are yellow",
-     "yellow skin"
+     "yellow skin",
+     [
+      "eyes",
+      "yellow"
+     ],
+     [
+      "skin",
+      "yellow"
+     ]
     ]
    }
   },
@@ -636,21 +819,41 @@ export const RED_FLAG_TERMS: RedFlagTermsData = {
      "咯血",
      "痰中帶血",
      "痰裡有血",
-     "咳出血"
+     "咳出血",
+     [
+      "痰",
+      "血"
+     ],
+     [
+      "咳",
+      "血"
+     ]
     ],
     "zh-Hans": [
      "咳血",
      "咯血",
      "痰中带血",
      "痰里有血",
-     "咳出血"
+     "咳出血",
+     [
+      "痰",
+      "血"
+     ],
+     [
+      "咳",
+      "血"
+     ]
     ],
     "en": [
      "coughing blood",
      "coughing up blood",
      "coughed up blood",
      "blood in my phlegm",
-     "blood in my sputum"
+     "blood in my sputum",
+     [
+      "cough",
+      "blood"
+     ]
     ]
    }
   },
@@ -661,6 +864,7 @@ export const RED_FLAG_TERMS: RedFlagTermsData = {
     "zh-Hant": [
      "突然看不見",
      "突然看不清",
+     "突然看不到",
      "視力突然",
      "失明",
      "視野缺",
@@ -670,6 +874,7 @@ export const RED_FLAG_TERMS: RedFlagTermsData = {
     "zh-Hans": [
      "突然看不见",
      "突然看不清",
+     "突然看不到",
      "视力突然",
      "失明",
      "视野缺",
@@ -679,6 +884,11 @@ export const RED_FLAG_TERMS: RedFlagTermsData = {
     "en": [
      "sudden loss of vision",
      "suddenly can't see",
+     [
+      "suddenly",
+      "can't see"
+     ],
+     "can't see out of",
      "lost my vision",
      "double vision",
      "went blind"
@@ -708,6 +918,7 @@ export const RED_FLAG_TERMS: RedFlagTermsData = {
     "en": [
      "irregular heartbeat",
      "irregular pulse",
+     "irregularly",
      "heart skipping",
      "skipped beats",
      "skipping beats"
@@ -850,14 +1061,18 @@ export const RED_FLAG_TERMS: RedFlagTermsData = {
      "器官移植",
      "換腎",
      "換肝",
-     "移植手術",
+     "換過腎",
+     "換過肝",
+     "移植",
      "抗排斥"
     ],
     "zh-Hans": [
      "器官移植",
      "换肾",
      "换肝",
-     "移植手术",
+     "换过肾",
+     "换过肝",
+     "移植",
      "抗排斥"
     ],
     "en": [

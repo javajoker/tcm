@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 0.8 (draft) |
+| **Version** | 0.9 (draft) |
 | **Status** | Plan — only `packages/wuxing` (74 tests) and the KB validation/self-test exist today |
 | **Last updated** | 2026-10-06 |
 | **Audience** | Developers, QA, content reviewers |
@@ -149,6 +149,10 @@ For every pattern: the `against` list and the "what would change this" suggestio
 ### 4.3 Practitioner evaluation (M3, M4)
 
 Blinded vignettes (written, synthetic) are given to ≥ 3 practitioners **and** to the engine; practitioners choose pattern(s) and formula(s); concordance and inter-practitioner agreement are reported (disagreement among practitioners is expected and informs which cases are "contested"); results feed calibration, never silent tuning to the test half.
+
+### 4.5 AI help's evaluation (PM-48)
+
+The protocol is the design's §6 ([AI-assisted intake](post-mvp/design/ai-assisted-intake.md#6-evaluation-before-any-public-use)); the harness is `scripts/ai/eval.ts`. Scripted personas (the 23 typical patients × three languages) talk through the app's own protocol — the device's red-flag check before each message, the reply validated as the device does — and are scored on recall, precision, the engine's leading pattern on what was extracted, and the 27 red-flag vignettes per language. **In CI** (`pnpm test:scripts`): the mock run, whose report [`docs/ai-evaluation-mock.md`](ai-evaluation-mock.md) must be current, keeps the pipeline's gates (every vignette found, no false alarm on ordinary words, no error), and one persona's conversation through a gateway over HTTP equals the in-process one. **On demand**: a real provider through a deployed gateway, judged on the design's lines per language — a language below a line keeps AI help off. The personas speak the app's own words; personas written by people (paraphrase) come next.
 
 ### 4.4 The file sync (PM-32)
 
@@ -306,3 +310,4 @@ Blocking: everything except golden concordance (until M3), nightly, and visual-r
 | 0.6 | 2026-10-07 | PM-43: E37, the learning book; E36's row (PM-41) |
 | 0.7 | 2026-10-08 | PM-46: E38, AI help's consent |
 | 0.8 | 2026-10-08 | PM-47: E39, AI help's conversation; a Simplified development project for E38 and E39 |
+| 0.9 | 2026-10-08 | PM-48: §4.5, AI help's evaluation harness |

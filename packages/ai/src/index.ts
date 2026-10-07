@@ -5,4 +5,6 @@ export { fold, parseTurnRequest, validateReply } from "./validate.ts";
 export type { Validated } from "./validate.ts";
 export { lintQuestion } from "./wording.ts";
 export { matchRedFlags } from "./redflags.ts";
+export { vocabularyFrom } from "./vocabulary.ts";
+export type { Bilingual, VocabSource } from "./vocabulary.ts";
 export type { RedFlagLevel, RedFlagMatch } from "./redflags.ts";

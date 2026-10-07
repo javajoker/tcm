@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 0.6 (draft) |
+| **Version** | 0.7 (draft) |
 | **Status** | Design for Release F (FR-40 … FR-42; tasks PM-44 … PM-50). **Approved by the owner on 2026-10-07** (PD-21, PD-25): the mock-provider parts are built first; a privacy redesign and a legal view still come before anything reaches the public |
 | **Last updated** | 2026-10-07 |
 | **Audience** | The owner, engineers, a privacy and a legal reviewer, the clinical content owner |
@@ -92,6 +92,8 @@ Turning AI help on is **a change of the privacy promise for that person**, and t
 | **Conversation** | Scripted personas from the 23 patterns' typical patients and from the red-flag vignettes, written in Traditional Chinese, Simplified Chinese and English, played against the assistant; the extracted findings are compared with the persona's gold findings | Recall and precision of findings above a line set in the protocol (proposal: recall ≥ 0.85, precision ≥ 0.9 after confirmation); **no** red-flag vignette that ends without the deterministic notice; the engine's result on the extracted findings matches the gold result's leading pattern in ≥ 90 % of personas |
 | **Tongue and face** | The tongue-photo spike's protocol ([spikes/tongue-photo.md](../spikes/tongue-photo.md)): practitioners' labels on images with consent, strata for light, camera and skin tone | As in that protocol; until it runs, the module exists **only in the development profile** |
 
+*Built (PM-48, 2026-10-08):* the harness `scripts/ai/eval.ts`. **Personas** — the typical patient of each of the 23 patterns (the golden seed cases), in each language, saying each finding in the questions' plain words (the most telling three first, then topic by topic as asked; *nothing in particular* when a topic does not apply); they confirm what is true of them. **Red-flag vignettes** — 27 synthetic statements in each language (`scripts/ai/vignettes.ts`), each to be found on the device before anything is sent. Each conversation runs the app's protocol: the device's check before each message, the reply validated as the device does. **Scores** per language: recall (present findings proposed and confirmed), precision (proposals true of the persona), the engine's leading pattern on the extracted findings (with the gold tongue and pulse) against the one on the gold input, the vignettes found, false alarms of the device's check on ordinary words. The mock run is part of `pnpm test:scripts` and its report is [`docs/ai-evaluation-mock.md`](../../ai-evaluation-mock.md) — a check of the harness and the pipeline (red flags 27/27 in every language, no false alarm, no error), **not a measure of a model**. A real provider runs on demand against a deployed gateway — `node scripts/ai/eval.ts --gateway <url> --origin <origin> --out <file>` — and is judged on the lines above; ⚑ it needs the owner's deployment and key (PM-49). Personas written by people in each language, with free paraphrase, are the next step; they plug in through the harness's `Persona`.
+
 ## 7. What it costs to run
 
 Model calls cost money per conversation; the gateway enforces a per-session budget (turns and tokens), a daily ceiling and a rate limit; the owner sees counts, not content. The app works without the gateway.
@@ -132,3 +134,4 @@ PM-44 (the owner's decisions and the privacy redesign), PM-45 (the gateway with 
 | 0.4 | 2026-10-08 | §3: the gateway and `@tcm/ai` built with the mock provider (PM-45) |
 | 0.5 | 2026-10-08 | §5: configuration, consent and Settings built (PM-46) |
 | 0.6 | 2026-10-08 | §4: the conversation built, with the device's red-flag check (PM-47) |
+| 0.7 | 2026-10-08 | §6: the evaluation harness built (PM-48) |
