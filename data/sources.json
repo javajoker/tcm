@@ -129,7 +129,7 @@
       "names": [
         "素問"
       ],
-      "quotations": 92,
+      "quotations": 93,
       "references": {
         "diagnosis/patterns.json": 8,
         "formulas/formulas.json": 68,
@@ -137,7 +137,7 @@
         "safety/rules.json": 6,
         "treatment/guidance.json": 52,
         "treatment/mechanisms.json": 7,
-        "treatment/sanyin.json": 10,
+        "treatment/sanyin.json": 11,
         "wuxing/correspondences.json": 5,
         "wuxing/susceptibility.json": 5,
         "wuxing/yunqi.json": 14

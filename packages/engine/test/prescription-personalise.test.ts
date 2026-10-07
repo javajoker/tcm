@@ -83,7 +83,7 @@ test("因人 — the constitution: for 陽虛質 the cold herbs of the formula a
   assert.notDeepEqual(plain.composition, yang.composition);
 });
 
-test("因時 — 用熱遠熱 in summer, 用寒遠寒 in winter; the 君 keeps its amount whatever the season (有假者反常)", () => {
+test("因時 — 用熱遠熱 in summer, 用寒遠寒 in winter; the 君 keeps its amount whatever the season (發表不遠熱，攻裡不遠寒)", () => {
   const { a, subject } = assessed("SP2");                      // 脾陽虛: warm herbs
   const summer = run(withSeason(a, "火"), subject)!;
   const warm = summer.composition.filter((r) => herb(r.herb).temperature >= 1 && r.role !== "君");

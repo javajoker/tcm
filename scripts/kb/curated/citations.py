@@ -95,6 +95,7 @@ CITATIONS = [
     ("suwen-070-4", SW.format(70), "大毒治病，十去其六；常毒治病，十去其七；小毒治病，十去其八；无毒治病，十去其九"),   # the four grades of 毒 (PM-36)
     ("suwen-071-1", SW.format(71), "有故无殒，亦无殒也"),
     ("suwen-071-3", SW.format(71), "用寒远寒，用凉远凉，用温远温，用热远热，食宜同法"),   # 因時 (PM-40)
+    ("suwen-071-4", SW.format(71), "发表不远热，攻里不远寒"),     # when the treatment needs it the season does not hold it back (PM-40, PM-42)
     ("suwen-071-2", SW.format(71), "木郁达之"),
     ("suwen-074-1", SW.format(74), "谨守病机，各司其属"),
     ("suwen-074-2", SW.format(74), "寒者热之，热者寒之"),

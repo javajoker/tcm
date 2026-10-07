@@ -115,6 +115,10 @@
     }
   ],
   "season_citation": "suwen-071-3",
+  "season_exception": {
+    "citation": "suwen-071-4",
+    "says": "發表不遠熱，攻裡不遠寒 — when the treatment needs it, the season does not hold it back: the 君 keeps its amount"
+  },
   "season_spares_jun": true,
   "severity": {
     "citation": "suwen-070-5",

@@ -134,7 +134,7 @@ A release is ticked item by item as features ship; a feature ships when the gate
 - [ ] Personalisation: no excluded herb ever appears, amounts never leave their range, toxic herbs are never raised (property tests); the diagnosis, its replay and the golden results unchanged *(PM-40 built and tested; the golden results and the result pins are unchanged)*
 - [ ] No reference amount in a public build (`check-release`) unless the owner decides otherwise after a legal view (PD-13 ⚑); a practitioner profile only as decided (PD-14 ⚑) *(PM-41 built: a release build has no tables, no code and no words of the prescription; rule 2 of `check-release` enforces it; the decisions themselves are the owner's)*
 - [ ] Clinical and pharmacy review of the property rules, pairings, processing, dose bands and 三因 factors, or the draft label shown
-- [ ] The learning book: Traditional Chinese only, quotations from the verified set, no doses and no prescriptive wording; linguistic review (class L)
+- [ ] The learning book: Traditional Chinese only, quotations from the verified set, no doses and no prescriptive wording; linguistic review (class L) *(PM-42 built: twelve chapters, 53 verified quotations; `test_book.py` enforces all but the review)*
 - [ ] Budgets hold; folded into the PRD, the SOP §12 (owner of the logic) and specs; `CHANGELOG.md` updated
 
 **Release F — AI-assisted intake** (FR-40 … FR-42; nothing public before its gates)

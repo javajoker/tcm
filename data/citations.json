@@ -1,11 +1,11 @@
 {
   "_meta": {
-    "count": 155,
+    "count": 156,
     "description": "Registry of quotations cited by the SOP and knowledge base. Every quote is checked against the source text.",
     "note": "shanghan-NNN ids carry the standard Song-edition clause number; the number is not verified against the data.",
     "schema": 1,
     "unverified": [],
-    "verified": 155
+    "verified": 156
   },
   "items": [
     {
@@ -63,7 +63,7 @@
       "chapter": "總論·製造資水火",
       "id": "bencao-mengquan-zhizao-1",
       "quote_source_zh_hans": "酒制升提，姜制发散。入盐走肾脏，仍使软坚；用醋注肝经，且资住痛。童便制，除劣性降下；米泔制，去燥性和中。乳制滋润回枯，助生阴血；蜜制甘缓难化，增益元阳。陈壁土制，窃真气骤补中焦；麦麸皮制，抑酷性勿伤上膈。乌豆汤，甘草汤渍曝，并解毒致令平和",
-      "quote_zh_hant": "酒制升提，姜制發散。入鹽走腎臟，仍使軟堅；用醋注肝經，且資住痛。童便制，除劣性降下；米泔制，去燥性和中。乳制滋潤回枯，助生陰血；蜜制甘緩難化，增益元陽。陳壁土製，竊真氣驟補中焦；麥麩皮製，抑酷性勿傷上膈。烏豆湯，甘草湯漬曝，並解毒致令平和",
+      "quote_zh_hant": "酒製升提，薑製發散。入鹽走腎臟，仍使軟堅；用醋注肝經，且資住痛。童便製，除劣性降下；米泔製，去燥性和中。乳製滋潤回枯，助生陰血；蜜製甘緩難化，增益元陽。陳壁土製，竊真氣驟補中焦；麥麩皮製，抑酷性勿傷上膈。烏豆湯，甘草湯漬曝，並解毒致令平和",
       "source_path": "reference/sources/TCM-Ancient-Books/012-本草蒙筌.txt",
       "source_repo": "TCM-Ancient-Books (no upstream licence: reference only)",
       "verified": true
@@ -1400,6 +1400,16 @@
       "id": "suwen-071-3",
       "quote_source_zh_hans": "用寒远寒，用凉远凉，用温远温，用热远热，食宜同法",
       "quote_zh_hant": "用寒遠寒，用涼遠涼，用溫遠溫，用熱遠熱，食宜同法",
+      "source_path": "reference/sources/TCM-Library/raw/neijing/suwen/suwen_071.txt",
+      "source_repo": "TCM-Library (MIT)",
+      "verified": true
+    },
+    {
+      "book": "素問",
+      "chapter": "六元正紀大論",
+      "id": "suwen-071-4",
+      "quote_source_zh_hans": "发表不远热，攻里不远寒",
+      "quote_zh_hant": "發表不遠熱，攻裡不遠寒",
       "source_path": "reference/sources/TCM-Library/raw/neijing/suwen/suwen_071.txt",
       "source_repo": "TCM-Library (MIT)",
       "verified": true

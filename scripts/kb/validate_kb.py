@@ -419,7 +419,7 @@ def validate(load: Loader = load, check_sources: bool = True) -> list[str]:
             err(f"mechanism {m['pattern']}: {m['direction']} has the sign {m['sign']}")
     sy = load("treatment/sanyin.json")
     constitution_ids = {c["id"] for c in load("diagnosis/constitutions.json")["items"]}
-    said = [sy["severity"], sy["age"], sy["region"], sy["general"], *sy["constitution"]]
+    said = [sy["severity"], sy["age"], sy["region"], sy["general"], sy["season_exception"], *sy["constitution"]]
     if any(x["citation"] not in cit_ids for x in said) or sy["season_citation"] not in cit_ids:
         err("sanyin: unknown citation")
     for c in sy["constitution"]:

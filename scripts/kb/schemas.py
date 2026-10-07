@@ -317,9 +317,9 @@ def sanyin() -> dict:
         "constitution": arr(obj({"avoid": enum("寒涼", "溫熱", "溫", "溫燥", "滋膩", "補"), "constitution": pattern(r"^C_[A-Z]+$"), "factor": NUM, **said})),
         "heat_demand": NUM,
         "season": arr(obj({"element": enum("木", "火", "土", "金", "水"), "factor": NUM, "says": STR, "temperature_at_least": NUM, "temperature_at_most": NUM}, ["element", "factor", "says"])),
-        "season_citation": ref("citationId"), "season_spares_jun": BOOL,
+        "season_citation": ref("citationId"), "season_spares_jun": BOOL, "season_exception": obj(said),
         "region": obj({"rules": arr(loose()), **said}), "general": obj(said), "round_g": NUM,
-    }, "required": ["_meta", "age", "constitution", "general", "heat_demand", "region", "round_g", "season", "season_citation", "season_spares_jun", "severity"], "additionalProperties": False}
+    }, "required": ["_meta", "age", "constitution", "general", "heat_demand", "region", "round_g", "season", "season_citation", "season_exception", "season_spares_jun", "severity"], "additionalProperties": False}
 
 
 def mechanisms() -> dict:

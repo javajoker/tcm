@@ -32,6 +32,13 @@ _POST = [
     # 執行 ("execute") and 循环 (circulation) becomes 迴圈 ("loop"). Both are wrong in every source this project reads.
     ("執行", "運行"),
     ("迴圈", "循環"),
+    # processing (炮製) after its agent is 製, and the ginger of 薑製 is 薑: OpenCC keeps 制 and 姜 in 《本草蒙筌》's 「酒制升提，姜制發散…童便制…米泔制…乳制…蜜制」
+    ("姜制", "薑製"),
+    ("酒制", "酒製"),
+    ("童便制", "童便製"),
+    ("米泔制", "米泔製"),
+    ("乳制", "乳製"),
+    ("蜜制", "蜜製"),
 ]
 
 

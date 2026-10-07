@@ -354,6 +354,22 @@
     "season_citation": {
       "$ref": "#/$defs/citationId"
     },
+    "season_exception": {
+      "additionalProperties": false,
+      "properties": {
+        "citation": {
+          "$ref": "#/$defs/citationId"
+        },
+        "says": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "citation",
+        "says"
+      ],
+      "type": "object"
+    },
     "season_spares_jun": {
       "type": "boolean"
     },
@@ -396,6 +412,7 @@
     "round_g",
     "season",
     "season_citation",
+    "season_exception",
     "season_spares_jun",
     "severity"
   ],

@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 0.7 (draft) |
+| **Version** | 0.8 (draft) |
 | **Status** | Design for Release E (FR-36 … FR-38; tasks PM-36 … PM-41). **Built: the herb property model (PM-36, §3.6); dose–response, pairings and processing (PM-37, §3.7); the formula's effect, roles and 方解 (PM-38, §4.4); the verification of the library and its first report (PM-39, §5.1); the personalised prescription (PM-40, §6.6); in the app, gated (PM-41, §7.3)** |
 | **Last updated** | 2026-10-07 |
 | **Audience** | Engineers, the clinical content owner, the pharmacy reviewer, a legal adviser (for §7) |
@@ -204,7 +204,7 @@ The diagnosis (patterns, the panel deviation D, the strength k*), the person's p
 ### 6.2 Herbs: 加減
 
 1. **Classical 加減** of the formula whose trigger symptoms the person has (as today).
-2. **Residual 加減**: the greedy step (as today) on the v2 vectors, with a pool narrowed **by the person**: nothing pregnancy-flagged for a pregnancy, nothing an allergy matches, nothing a listed medicine interacts with, nothing toxic unless the level allows it, and — **因人** — no herb whose 氣 deepens the constitution's imbalance (no 寒涼 additions for 陽虛質/氣虛質 unless the residual demands heat-clearing and it is said; no 溫燥 for 陰虛質/濕熱質; no 滋膩 for 痰濕質).
+2. **Residual 加減**: the greedy step (as today) on the v2 vectors, with a pool narrowed **by the person**: nothing pregnancy-flagged for a pregnancy, nothing an allergy matches, nothing a listed medicine interacts with, nothing toxic unless the level allows it, and — **因人** — no herb whose 氣 deepens the constitution's imbalance (no 寒涼 additions for 陽虛質/氣虛質 unless the residual demands heat-clearing and it is said; no 溫燥 for 陰虛質/濕熱質; no 滋膩 for 痰濕質). At most `max_add` herbs are added in all, the classical additions included — two, today's limit (SOP 最多加 2 味).
 3. **Removal** of a listed herb only when it is excluded by safety or the constitution rule, never the 君.
 
 ### 6.3 Amounts
@@ -248,10 +248,10 @@ What the build decided, beyond the sketch above:
 - **Removals are for the person only** — pregnancy (a herb to avoid), an allergy, a medicine a hard rule names — **never for a better fit and never the 君**: a rule that touches the 君 withholds the whole prescription and says why. A classical 加減 may remove a herb, as its book says.
 - **The constitution lowers, it does not remove:** a herb of the formula against the constitution is given at 0.8; no herb of that nature is *added*, except 寒涼 for 陽虛質 or 氣虛質 when the heat that remains is above 0.5 (and the change says so).
 - **Additions are stricter than the sketch:** never a toxic herb (whatever the level), never a herb with a pregnancy flag, never one without a Pharmacopoeia range (it could not be dosed), never one a soft rule or the 木通 identity rule names, never the processed or raw twin of a herb already present (炙甘草 beside 甘草), never a 相惡 or 相反 partner. **A herb is added for what it treats:** candidates are ranked by their benefit alone at the base composition's own scale, and must still help with their burden counted — a herb is never chosen because its burden offsets another herb's excess. An addition records the components it brings back and the 七情 it brings into play (生薑 for 當歸畏生薑 is 佐制 through 相畏).
-- **Amounts** exist only where the bundle carries them (L3): the 君 at the middle of its range (the mean when there are several 君), the others in the formula's proportions, then × severity × age × constitution × season; **the 君 keeps its amount through the season** (有假者反常 — the disease decides it); a toxic herb is never raised; an amount never exceeds the top of its range; a child's or an elder's may fall below the adult bottom, everyone else's is lifted to it; grams are rounded to 0.5 g, or to 0.01 g for a herb whose whole range is under a gram.
+- **Amounts** exist only where the bundle carries them (L3): the 君 at the middle of its range (the mean when there are several 君), the others in the formula's proportions, then × severity × age × constitution × season; **the 君 keeps its amount through the season** (《六元正紀大論》: 發表不遠熱，攻裡不遠寒 — when the treatment needs it, the season does not hold it back); a toxic herb is never raised; an amount never exceeds the top of its range; a child's or an elder's may fall below the adult bottom, everyone else's is lifted to it; grams are rounded to 0.5 g, or to 0.01 g for a herb whose whole range is under a gram.
 - **What comes back** — the base, the changes with their rules, the composition with each amount's factors, the cautions on herbs kept (a soft interaction, a pregnancy caution, an identity to confirm), the 方解 of what is prescribed against the person's own deviation, and the engine, knowledge-base and parameter versions. Storing it with the saved result goes with the page that shows it (PM-41).
 
-Examples on the typical patients: 參苓白朮散 for 脾氣虛 gains 大棗; at seventy every amount is two thirds; 歸脾湯 for someone on anticoagulants loses 人參 and 當歸 (named by the hard rule) and gains 大棗 and 柏子仁 for the heart's blood; 補中益氣湯 in pregnancy keeps 當歸 with a caution and adds nothing flagged. Tests: eight, among them a property over every pattern's typical patient and random people (age, pregnancy, an allergy, a medicine, a constitution, a season — 600 cases in the extended run): nothing the person must not take, no amount above its range, at most three additions, each through its benefit or a pairing, and the same answer twice.
+Examples on the typical patients: 參苓白朮散 for 脾氣虛 gains 大棗; at seventy every amount is two thirds; 歸脾湯 for someone on anticoagulants loses 人參 and 當歸 (named by the hard rule) and gains 大棗 and 柏子仁 for the heart's blood; 補中益氣湯 in pregnancy keeps 當歸 with a caution and adds nothing flagged. Tests: eight, among them a property over every pattern's typical patient and random people (age, pregnancy, an allergy, a medicine, a constitution, a season — 600 cases in the extended run): nothing the person must not take, no amount above its range, at most two additions (`max_add`), each through its benefit or a pairing, and the same answer twice.
 
 ## 7. What a person sees: the gate
 
@@ -308,7 +308,7 @@ Class **C** for the property tables, the pairings, the dose bands and the 三因
 | Question | Default |
 |---|---|
 | ⚑ Amounts for laypeople | Computed for all; shown only at L3 and in a practitioner profile; legal view first (PD-13) |
-| Base of a prescription | Always a classical formula of the library; at most 3 herbs added and 2 removed (today's limits) (PD-16) |
+| Base of a prescription | Always a classical formula of the library; at most 2 herbs added in all (today's `max_add`); a listed herb removed only by a safety rule or the formula's classical 加減, never the 君 (PD-16) |
 | Dose model | Saturating benefit (κ = 1), super-linear burden (γ = 1.5), Pharmacopoeia range as a hard clamp (PD-17) |
 | Pairings | 相須/相使 × 1.2 on shared targets; 相畏/相殺/相惡 × 0.5; 相反 never |
 | Direction of qi | A pattern-level mechanism tag and a fit term, not a new panel dimension |
@@ -330,3 +330,4 @@ PM-36 (herb property model v2), PM-37 (dose–response, pairings, processing in 
 | 0.5 | 2026-10-07 | §5.1: the verification as built and its first report (PM-39); pattern directions in `data/treatment/mechanisms.json` |
 | 0.6 | 2026-10-07 | §6.6: the personalised prescription as built (PM-40); the 三因 rules in `data/treatment/sanyin.json` |
 | 0.7 | 2026-10-07 | §7.3: the prescription in the app, gated (PM-41) |
+| 0.8 | 2026-10-07 | §6.2, §6.6, §10: the limit on additions corrected to the one built and the SOP's (two, `max_add`; the text said three); 發表不遠熱，攻裡不遠寒 (《素問·六元正紀大論》) as the source for sparing the 君 from the season factor — found while checking the learning book against the model (PM-42) |

@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 0.2 (draft) |
+| **Version** | 0.3 (draft) |
 | **Status** | Design for Release E (FR-35, FR-39; tasks PM-35, PM-42, PM-43). **Built: the sources registry and its coverage report (PM-35, §4.1)** |
 | **Last updated** | 2026-10-07 |
 | **Audience** | The clinical content owner, reviewers, engineers |
@@ -108,6 +108,14 @@ As for the existing quotations: a curated table names the record and an **anchor
 
 **Where it lives.** `docs/book/zh-Hant/` as Markdown first; then in the app's Learn section as a book kind, shown in Traditional Chinese whatever the interface language (the Simplified interface links to it with a note, because a Simplified page must hold no Traditional text).
 
+### 6.1 As built (PM-42)
+
+[`docs/book/zh-Hant/`](../../book/zh-Hant/README.md): an index with three conventions (every quotation checked against the corpus; it explains, it does not prescribe; the model is not a physician) and the twelve chapters of the table above, 600 to 1,150 characters each — a few minutes apiece. Each chapter maps the tradition to the model with the model's own numbers (the 八綱 axes, the 臟 0.7 / 腑 0.3 shares of the five-phase function, the quality classes, the score bands, the prior caps, the herb coordinates and their weights, the 三因 factors) and ends with **模型的簡化**, where the model simplifies. **53 quotations from 16 works**, each a one-line blockquote naming its book and chapter.
+
+`scripts/kb/tests/test_book.py` (in `pnpm test:kb`) keeps it so: the index lists the twelve chapters in order; every blockquote is a quotation with its source, and every quotation is part of a **verified** citation of the book and chapter it names; Traditional characters only (Big5-HKSCS, four rare medical characters allowed); no amount in grams, 錢 or 兩 and no instruction to take anything; each chapter 400 to 3,200 characters and with its 模型的簡化.
+
+Writing it against the model found three things, fixed with it: the reason the 君 keeps its amount in every season now has its classical source — 「發表不遠熱，攻裡不遠寒」 (《素問·六元正紀大論》, a new verified quotation, `suwen-071-4`, recorded as `season_exception` in the 三因 table) — in place of a loose reading of 有假者反常; the Traditional text of the 《本草蒙筌》 processing rhyme read 姜制 and 酒制 for 薑製 and 酒製 (OpenCC; corrected in the conversion's fixes); and the prescription design and PD-16 said three herbs could be added, where the model and the SOP add at most two.
+
 ## 7. Decided defaults
 
 **Decided 2026-10-07 — default of this design, revisit with the owner (decision register PD-19, PD-20).**
@@ -129,3 +137,4 @@ PM-35 (sources registry and coverage report), PM-36 … PM-40 (the tables above,
 |---|---|---|
 | 0.1 | 2026-10-07 | Initial design, from the owner's direction of 2026-10-07 |
 | 0.2 | 2026-10-07 | §4.1: the sources registry as built (PM-35) and its first reading |
+| 0.3 | 2026-10-07 | §6.1: the learning book as built (PM-42) |

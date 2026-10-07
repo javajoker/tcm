@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 0.9 (draft) |
+| **Version** | 0.10 (draft) |
 | **Status** | Every item the MVP documents recorded as "to be revisited after the MVP" is answered here with the recommended default; new decisions that came out of the post-MVP design are PD-01 … PD-12 |
 | **Last updated** | 2026-10-07 |
 | **Audience** | Project owner, maintainers, reviewers |
@@ -135,7 +135,7 @@ An *unchanged* decision means the MVP answer still holds and the reason is state
 | PD-13 ⚑ | Reference amounts in a personalised prescription | Computed for everyone; **shown only at L3 (development) and in a practitioner profile**; the public build shows the personalised herbs and the reasons, not grams | [Prescription model §7](design/prescription-model.md) | A legal view on amounts for laypeople in each region |
 | PD-14 ⚑ | A practitioner profile | Proposed: L3 without the developer tools, for licensed practitioners; how a practitioner is recognised is open | [Prescription model §7.1](design/prescription-model.md) | The owner decides the audience and the recognition |
 | PD-15 | Where a prescription is computed | A pure function after `assess`, stored with the saved result; the diagnosis and its replay are unchanged | [Prescription model §6.5](design/prescription-model.md) | — |
-| PD-16 | Base of a prescription | Always a classical formula of the library; at most 3 herbs added and 2 removed | [Prescription model §6.2](design/prescription-model.md) | Reviewers ask for wider 加減 |
+| PD-16 | Base of a prescription | Always a classical formula of the library; at most 2 herbs added in all (today's `max_add`, the SOP's 最多加 2 味); a listed herb removed only by a safety rule or the classical 加減, never the 君 | [Prescription model §6.2](design/prescription-model.md) | Reviewers ask for wider 加減 |
 | PD-17 | Dose model | Saturating benefit, super-linear burden, the Pharmacopoeia range as a hard bound; toxic herbs never raised | [Prescription model §3.3, §6.3](design/prescription-model.md) | Calibration with practitioners |
 | PD-18 | Formula verification failures | Listed for review, never auto-fixed | [Prescription model §5](design/prescription-model.md) | — |
 | PD-19 | New sources | The corpus first; each public-domain addition is a download asked for separately; modern textbooks are bibliography only | [Knowledge base v2 §3](design/knowledge-base-v2.md) | — |
@@ -163,3 +163,4 @@ These revisit three earlier answers: **Q3** (LLM involvement) keeps its substanc
 | 0.7 | 2026-10-06 | Q4: the camera-pulse spike's protocol fixed before any measurement (PM-31); not run |
 | 0.8 | 2026-10-06 | Q4: the tongue-photo spike's protocol fixed and its desk research on datasets done (PM-30); stopped at step 1 |
 | 0.9 | 2026-10-07 | §2.8: decisions PD-13 … PD-27 for Releases E and F (tasks PM-34 … PM-50), from the owner's direction of 2026-10-07; Q3, Q4, Q5 revisited |
+| 0.10 | 2026-10-07 | PD-16 corrected to the limits built and stated by the SOP: two herbs added in all (the text said three added and two removed) |

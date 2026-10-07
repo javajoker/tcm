@@ -123,7 +123,8 @@ SANYIN = {
         {"element": "水", "says": "用寒遠寒 (冬)", "temperature_at_most": -1.0, "factor": 0.85},
     ],
     "season_citation": "suwen-071-3",
-    "season_spares_jun": True,    # 有假者反常: the 君 keeps its amount whatever the season — the disease decides it
+    "season_spares_jun": True,    # 發表不遠熱，攻裡不遠寒: the 君 keeps its amount whatever the season — when the treatment needs it, the season does not hold it back
+    "season_exception": {"says": "發表不遠熱，攻裡不遠寒 — when the treatment needs it, the season does not hold it back: the 君 keeps its amount", "citation": "suwen-071-4"},
     "region": {"rules": [], "says": "西北之氣散而寒之，東南之氣收而溫之 — off until a region pack states a rule", "citation": "suwen-070-6"},
     "general": {"says": "治所以異而病皆愈者，得病之情，知治之大體也", "citation": "suwen-012-2"},
     "round_g": 0.5,
