@@ -8,14 +8,16 @@ from __future__ import annotations
 import re
 
 from .common import DATA, LIB, dump, front_matter, submodule_commits, term
-from .curated.herbs import EFFECT_OVERRIDES, EXTRA, NAME_TO_LIB, OVERLAY, SIQI_CORRECTIONS
+from .curated.herbs import EFFECT_OVERRIDES, EXTRA, NAME_TO_LIB, OVERLAY, SIQI_CORRECTIONS, WUWEI_CORRECTIONS
 from .herb_props import conventions as props_conventions, derive as derive_props
 from .herb_model import (
     FLAVOR_ELEMENT, FLAVOR_EXCESS_HARM, derive_effects, derive_harms, is_toxic, parse_flavors, parse_organs,
     parse_temps, pregnancy_level,
 )
 
-NAME_FIX = {"黃芪": "黃耆", "硃砂": "朱砂"}
+# OpenCC keeps 姜 outside the phrases it knows (生姜 → 生薑, 干姜 → 乾薑); ginger is 薑 in Traditional usage
+NAME_FIX = {"黃芪": "黃耆", "硃砂": "朱砂", "炮姜": "炮薑", "姜半夏": "薑半夏"}
+CORRECTIONS = {"siqi": SIQI_CORRECTIONS, "wuwei": WUWEI_CORRECTIONS}
 
 
 def canonical(name: str) -> str:
@@ -71,14 +73,15 @@ def parse_entries() -> list[dict]:
     return out
 
 
-def corrected_siqi(lib: str, stated: list[str]) -> tuple[list[str], list[str]]:
-    """The entry's 四氣 and data-quality notes: the front matter's value, unless curated/herbs.py corrects it to the 性味 sentence."""
-    if lib not in SIQI_CORRECTIONS:
+def corrected(field: str, lib: str, stated: list[str]) -> tuple[list[str], list[str]]:
+    """The entry's `siqi` or `wuwei` and data-quality notes: the front matter's value, unless curated/herbs.py corrects it to the source's text."""
+    table = CORRECTIONS[field]
+    if lib not in table:
         return stated, []
-    expected, corrected = SIQI_CORRECTIONS[lib]
+    expected, fixed = table[lib]
     if stated != expected:
-        raise ValueError(f"SIQI_CORRECTIONS[{lib}]: the front matter now says {stated}, not {expected}; compare it with the 性味 sentence and update or drop the row")
-    return corrected, [f"siqi {'、'.join(stated)} in the source's front matter corrected to {'、'.join(corrected)}, the nature its 性味 sentence states"]
+        raise ValueError(f"{field.upper()}_CORRECTIONS[{lib}]: the front matter now says {stated}, not {expected}; compare it with the 性味 sentence and update or drop the row")
+    return fixed, [f"{field} {'、'.join(stated)} in the source's front matter corrected to {'、'.join(fixed)}, as its text states"]
 
 
 def dedupe_by_name(herbs: list[dict]) -> list[dict]:
@@ -111,9 +114,10 @@ def build() -> tuple[list[dict], dict[str, str]]:
         seen_lib.add(lib)
         ov = OVERLAY.get(lib)
         organs = parse_organs(e["guijing"])
-        siqi, siqi_dq = corrected_siqi(lib, [term(s) for s in e["siqi"]])
+        siqi, siqi_dq = corrected("siqi", lib, [term(s) for s in e["siqi"]])
+        wuwei, wuwei_dq = corrected("wuwei", lib, [term(w) for w in e["wuwei"]])
         temp = parse_temps(siqi)
-        flavors, dq = parse_flavors([term(w) for w in e["wuwei"]])
+        flavors, dq = parse_flavors(wuwei)
         for f in flavors:
             f["element"] = FLAVOR_ELEMENT[f["flavor"]]
         zhifa = e["zhifa"]
@@ -151,7 +155,7 @@ def build() -> tuple[list[dict], dict[str, str]]:
             "status": "curated-draft" if ov else "derived",
             "props": props,
             "props_rules": props_rules,
-            "data_quality": dq + siqi_dq,
+            "data_quality": dq + siqi_dq + wuwei_dq,
             "source": {"repo": "TCM-Library", "commit": commits.get("TCM-Library"), "path": e["path"], "entry_id": e["entry_id"],
                        "book": term(e["book"])},
         }
@@ -160,6 +164,9 @@ def build() -> tuple[list[dict], dict[str, str]]:
         if herb["name"]["zh-Hant"] == "黃耆":
             herb["aliases"] = ["黃芪"]
         herbs.append(herb)
+    unknown = sorted((set(SIQI_CORRECTIONS) | set(WUWEI_CORRECTIONS)) - seen_lib)
+    if unknown:
+        raise ValueError(f"性味 corrections name no TCM-Library entry: {unknown}")
 
     herbs = dedupe_by_name(herbs)
 

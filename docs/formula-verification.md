@@ -8,7 +8,7 @@ clinical and pharmacy reviewers: nothing here changes the data** (decision PD-18
 
 Checks and thresholds (`data/treatment/prescription.json`): **effect** — the benefit computed from the herbs agrees with the stored `panel_effect` (cosine ≥ 0.9); **own patterns** — for each pattern it is listed under, it corrects part of the typical patient's deviation and ranks among the first 3 of the library; **direction** — where the pattern's treatment asks for 升 · 降 · 宣 · 收 (`data/treatment/mechanisms.json`), the formula points that way (at least 0.05); **roles** — every 君臣佐使 label is supported by a measured reading; **balance** — the burden is at most 0.5 of the benefit (weighted); **safety** — no 十八反 or 十九畏 pair and no 相反; a classical 相惡 inside a formula is listed for review.
 
-**33 formulas; 6 pass every check.** Formulas with a finding, by kind: balance 10 · direction 2 · effect 4 · indication 8 · opposed 2 · role 23.
+**33 formulas; 6 pass every check.** Formulas with a finding, by kind: balance 10 · direction 2 · effect 4 · indication 7 · opposed 2 · role 23.
 
 ## 1. Every formula
 
@@ -25,25 +25,25 @@ Checks and thresholds (`data/treatment/prescription.json`): **effect** — the b
 | 苓桂朮甘湯 | 0.93 | ✗ SP4 痰濕內阻: 15 (6) · 5 % | — | ✗ 3/4 | 0.14 | ✓ |
 | 六味地黃丸 | ✗ 0.88 | KD1 腎陰虛: 1 (2) · 36 % | — | 6/6 | 0.37 | ✓ |
 | 理中丸 | 0.92 | SP2 脾陽虛（脾胃虛寒）: 2 (1) · 26 % | — | ✗ 2/4 | 0.19 | ✓ |
-| 龍膽瀉肝湯 | 0.98 | LV2 肝火上炎: 3 (3) · 24 % | 降 → -0.20 | ✗ 8/10 | ✗ 1.00 | 相惡 1 |
+| 龍膽瀉肝湯 | 0.98 | LV2 肝火上炎: 3 (3) · 24 % | 降 → -0.18 | ✗ 8/10 | ✗ 0.97 | 相惡 1 |
 | 麻黃湯 | 0.99 | EX1 風寒束表（太陽傷寒）: 1 (1) · 56 % | 宣 → +0.48 | 4/4 | 0.17 | ✓ |
-| 麥門冬湯 | ✗ 0.68 | ✗ LG2 肺陰虛: 6 (2) · 12 % | — | ✗ 5/6 | ✗ 1.50 | ✓ |
+| 麥門冬湯 | ✗ 0.68 | ✗ LG2 肺陰虛: 6 (3) · 12 % | — | ✗ 5/6 | ✗ 1.50 | ✓ |
 | 平胃散 | 0.97 | ✗ SP4 痰濕內阻: 5 (4) · 29 % | — | 4/4 | ✗ 0.55 | ✓ |
 | 桑菊飲 | 0.93 | EX3 風熱犯表: 2 (2) · 39 % | 宣 → +0.16 | ✗ 5/8 | 0.30 | ✓ |
 | 三仁湯 | 0.96 | SP5 濕熱蘊結: 2 (2) · 45 % | — | ✗ 5/8 | 0.30 | ✓ |
 | 沙參麥冬湯 | 0.98 | LG2 肺陰虛: 1 (1) · 68 % | — | 7/7 | 0.36 | ✓ |
 | 參苓白朮散 | 0.98 | SP1 脾氣虛: 2 (1) · 70 % | — | 10/10 | 0.09 | ✓ |
-| 腎氣丸 | 0.92 | ✗ KD2 腎陽虛: 6 (6) · 2 % | — | ✗ 5/8 | 0.40 | ✓ |
+| 腎氣丸 | 0.92 | ✗ KD2 腎陽虛: 6 (6) · 2 % | — | ✗ 5/8 | 0.35 | ✓ |
 | 四君子湯 | 0.99 | SP1 脾氣虛: 1 (2) · 73 % | — | ✗ 3/4 | 0.07 | ✓ |
 | 四物湯 | 0.93 | LV3 肝血虛: 1 (1) · 39 % | — | 4/4 | 0.33 | ✓ |
 | 酸棗仁湯 | ✗ 0.79 | ✗ LV3 肝血虛: 5 (2) · 18 % | — | ✗ 4/5 | 0.25 | ✓ |
-| 天王補心丹 | 0.91 | ✗ HT2 心腎不交（陰虛火旺）: 4 (3) · 20 % | ✗ 降 → -0.04 | ✗ 10/13 | 0.48 | ✓ |
+| 天王補心丹 | 0.91 | HT2 心腎不交（陰虛火旺）: 3 (3) · 21 % | ✗ 降 → -0.03 | ✗ 10/13 | 0.41 | ✓ |
 | 溫膽湯 | 0.98 | ✗ HT3 痰熱擾心: 5 (3) · 20 % | — | 8/8 | 0.23 | ✓ |
 | 小柴胡湯 | ✗ 0.74 | — | — | ✗ 5/7 | ✗ 0.77 | 相惡 1 |
 | 逍遙散 | 0.93 | LV1 肝氣鬱結: 3 (4) · 27 % | — | ✗ 7/8 | 0.31 | ✓ |
-| 血府逐瘀湯 | 0.97 | QB2 血瘀: 1 (1) · 69 % | — | 11/11 | 0.45 | ✓ |
+| 血府逐瘀湯 | 0.97 | QB2 血瘀: 1 (1) · 71 % | — | 11/11 | 0.42 | ✓ |
 | 銀翹散 | 0.96 | EX3 風熱犯表: 1 (1) · 53 % | 宣 → +0.20 | ✗ 9/10 | ✗ 0.51 | ✓ |
-| 益胃湯 | 0.97 | SP6 胃陰虛: 2 (3) · 25 % | — | ✗ 4/5 | ✗ 0.65 | ✓ |
+| 益胃湯 | 0.97 | SP6 胃陰虛: 2 (3) · 26 % | — | ✗ 4/5 | ✗ 0.57 | ✓ |
 | 右歸丸 | 0.99 | KD2 腎陽虛: 1 (1) · 37 % | — | ✗ 6/10 | ✗ 0.52 | ✓ |
 | 越鞠丸 | 0.96 | LV1 肝氣鬱結: 2 (2) · 37 % | — | ✗ 4/5 | 0.36 | ✓ |
 | 玉屏風散 | 0.96 | LG1 肺氣虛（衛表不固）: 1 (1) · 25 % | ✗ 收 → +0.23 | 3/3 | 0.15 | ✓ |

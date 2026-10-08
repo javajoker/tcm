@@ -2,8 +2,8 @@
 
 Machine-derived properties (四氣五味歸經, effects, harms) come from the TCM-Library entries; this table adds what
 the structured source does not carry: English names, burden tags (滋膩 苦寒 辛散 …), pregnancy and interaction
-flags, cautions — and corrects a structured 四氣 that disagrees with the source's own text (SIQI_CORRECTIONS). Every flag is a draft
-awaiting pharmacist/practitioner review (SOP D7/D12).
+flags, cautions — and corrects, for any entry, a structured 四氣 or 五味 that disagrees with the source's own text (SIQI_CORRECTIONS,
+WUWEI_CORRECTIONS). Every flag is a draft awaiting pharmacist/practitioner review (SOP D7/D12).
 
 Line format:  lib | English | tags | pregnancy | interactions | toxic | caution (zh-Hant)
   lib          directory name in TCM-Library/library/zhongyao/<category>/<lib>
@@ -161,15 +161,26 @@ def parse() -> dict[str, dict]:
 OVERLAY = parse()
 
 
-# 四氣 that the TCM-Library front matter gets wrong. The build copies `siqi` from each entry's structured front matter (`conditions.siqi`), the
-# library's summary of the 《中國藥典》2025 sentence quoted in the same file; for these herbs the summary disagrees with that sentence, so the
-# record takes the sentence. lib → (what the front matter says, what the 性味 sentence says). The build stops when the front matter no longer
-# says the first (the library was corrected: drop the row); scripts/kb/tests/test_herb_siqi.py checks every curated herb against the sentence.
+# 四氣 and 五味 that the TCM-Library front matter gets wrong, for curated and derived herbs alike. The build copies `siqi` and `wuwei` from each
+# entry's structured front matter (`conditions`), the library's summary of the 《中國藥典》2025 sentence quoted in the same file; for these entries
+# the summary disagrees with that sentence, so the record takes the sentence. lib → (what the front matter says, what the text says), the
+# flavours in the text's order. The build stops when the front matter no longer says the first (the library was corrected: drop the row) or a
+# row names no entry; scripts/kb/tests/test_herb_xingwei.py checks every herb against the sentence.
 SIQI_CORRECTIONS = {
-    "shengjiang": (["溫"], ["微溫"]),   # 「性味辛，微溫」
-    "tusizi": (["溫"], ["平"]),         # 「性味辛、甘，平」
+    "shengjiang": (["溫"], ["微溫"]),       # 「性味辛，微溫」
+    "tusizi": (["溫"], ["平"]),             # 「性味辛、甘，平」
+    "bailian": (["寒"], ["微寒"]),          # 「性味苦、辛，微寒」
+    "yejuhua": (["寒"], ["微寒"]),          # 「性味苦、辛，微寒」
+    "gangbangui": (["寒"], ["微寒"]),       # 「性味酸，微寒」
+    "shuihonghuazi": (["涼"], ["微寒"]),    # 「性味鹹，微寒」 (the same signed warmth, −1)
+    "huangshukuihua": (["涼"], ["寒"]),     # 「性味甘，寒」
+    "xihuangcao": (["涼"], ["寒"]),         # 「性味苦，寒」
 }
-assert set(SIQI_CORRECTIONS) <= set(OVERLAY), "a 四氣 correction for a herb with no overlay row"
+WUWEI_CORRECTIONS = {
+    "dihuang": (["甘", "苦"], ["甘"]),      # 「生地黃：甘，寒」; the record is 生地黃 — 甘、苦 is 鮮地黃's (「鮮地黃：甘、苦，寒」)
+    "huzhang": (["苦"], ["微苦"]),          # 「性味微苦，微寒」
+    "paojiang": (["辛", "苦"], ["辛"]),     # 「性味辛、熱」
+}
 
 
 # Hand-set panel effects for the formula herbs (override the keyword-derived ones). Units: 0.2–0.3 mild,

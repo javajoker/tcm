@@ -2017,7 +2017,9 @@
       "classical_formulas": [
         "如意金黃散"
       ],
-      "data_quality": [],
+      "data_quality": [
+        "siqi 寒 in the source's front matter corrected to 微寒, as its text states"
+      ],
       "dose_g_reference": [
         5.0,
         10.0
@@ -2044,9 +2046,7 @@
         "消癰散結"
       ],
       "harms": {
-        "脾.qi": -0.25,
-        "脾.yang": -0.25,
-        "腎.yang": -0.25
+        "脾.qi": -0.25
       },
       "id": "herb-bailian",
       "interactions": [],
@@ -2062,7 +2062,7 @@
       "pregnancy": "ok-unreviewed",
       "props": {
         "bu_xie": "瀉",
-        "direction": -0.21,
+        "direction": -0.16,
         "five_phase": [
           0.0,
           0.522,
@@ -2078,7 +2078,7 @@
           "心": 0.556,
           "胃": 0.444
         },
-        "yinyang": -0.38
+        "yinyang": -0.2
       },
       "props_rules": {
         "bu_xie": [
@@ -2111,7 +2111,7 @@
         ]
       },
       "siqi": [
-        "寒"
+        "微寒"
       ],
       "slug": "bailian",
       "source": {
@@ -2123,7 +2123,7 @@
       },
       "status": "derived",
       "tags": [],
-      "temperature": -2.0,
+      "temperature": -1.0,
       "toxic": false
     },
     {
@@ -14530,7 +14530,9 @@
         "犀角地黃湯",
         "增液湯"
       ],
-      "data_quality": [],
+      "data_quality": [
+        "wuwei 甘、苦 in the source's front matter corrected to 甘, as its text states"
+      ],
       "dose_g_reference": null,
       "effects": {
         "liuxie.火": -0.5,
@@ -14544,11 +14546,6 @@
           "element": "土",
           "flavor": "甘",
           "weight": 1.0
-        },
-        {
-          "element": "火",
-          "flavor": "苦",
-          "weight": 1.0
         }
       ],
       "functions": [
@@ -14556,7 +14553,7 @@
         "養陰生津"
       ],
       "harms": {
-        "脾.qi": -0.5,
+        "脾.qi": -0.25,
         "脾.yang": -0.25,
         "腎.yang": -0.25
       },
@@ -14575,11 +14572,11 @@
       "pregnancy": "ok-unreviewed",
       "props": {
         "bu_xie": "瀉",
-        "direction": -0.21,
+        "direction": -0.1,
         "five_phase": [
           0.131,
-          0.463,
-          0.3,
+          0.163,
+          0.6,
           0.0,
           0.106
         ],
@@ -14592,7 +14589,7 @@
           "肝": 0.327,
           "腎": 0.265
         },
-        "yinyang": -0.38
+        "yinyang": -0.05
       },
       "props_rules": {
         "bu_xie": [
@@ -19734,7 +19731,8 @@
       "caution": null,
       "classical_formulas": [],
       "data_quality": [
-        "wuwei contains the temperature word 微寒; ignored"
+        "wuwei contains the temperature word 微寒; ignored",
+        "siqi 寒 in the source's front matter corrected to 微寒, as its text states"
       ],
       "dose_g_reference": [
         15.0,
@@ -19757,10 +19755,7 @@
         "清熱解毒",
         "利濕消腫"
       ],
-      "harms": {
-        "脾.yang": -0.25,
-        "腎.yang": -0.25
-      },
+      "harms": {},
       "id": "herb-gangbangui",
       "interactions": [],
       "latin": "Polygonum perfoliatum",
@@ -19775,7 +19770,7 @@
       "pregnancy": "ok-unreviewed",
       "props": {
         "bu_xie": "瀉",
-        "direction": -0.34,
+        "direction": -0.29,
         "five_phase": [
           0.6,
           0.0,
@@ -19791,7 +19786,7 @@
           "肺": 0.556,
           "膀胱": 0.444
         },
-        "yinyang": -0.7
+        "yinyang": -0.52
       },
       "props_rules": {
         "bu_xie": [
@@ -19825,7 +19820,7 @@
         ]
       },
       "siqi": [
-        "寒"
+        "微寒"
       ],
       "slug": "gangbangui",
       "source": {
@@ -19837,7 +19832,7 @@
       },
       "status": "derived",
       "tags": [],
-      "temperature": -2.0,
+      "temperature": -1.0,
       "toxic": false
     },
     {
@@ -29162,7 +29157,8 @@
         "黃葵膠囊"
       ],
       "data_quality": [
-        "wuwei contains the temperature word 寒; ignored"
+        "wuwei contains the temperature word 寒; ignored",
+        "siqi 涼 in the source's front matter corrected to 寒, as its text states"
       ],
       "dose_g_reference": [
         10.0,
@@ -29182,7 +29178,10 @@
         "清利濕熱",
         "消腫解毒"
       ],
-      "harms": {},
+      "harms": {
+        "脾.yang": -0.25,
+        "腎.yang": -0.25
+      },
       "id": "herb-huangshukuihua",
       "interactions": [],
       "latin": "Abelmoschus manihot",
@@ -29197,7 +29196,7 @@
       "pregnancy": "ok-unreviewed",
       "props": {
         "bu_xie": "瀉",
-        "direction": 0.01,
+        "direction": -0.04,
         "five_phase": [
           0.0,
           0.0,
@@ -29213,7 +29212,7 @@
           "腎": 0.444,
           "膀胱": 0.556
         },
-        "yinyang": 0.14
+        "yinyang": -0.04
       },
       "props_rules": {
         "bu_xie": [
@@ -29247,7 +29246,7 @@
         ]
       },
       "siqi": [
-        "涼"
+        "寒"
       ],
       "slug": "huangshukuihua",
       "source": {
@@ -29259,7 +29258,7 @@
       },
       "status": "derived",
       "tags": [],
-      "temperature": -1.0,
+      "temperature": -2.0,
       "toxic": false
     },
     {
@@ -30935,7 +30934,9 @@
         "茵陳蒿湯",
         "複方虎杖燒傷膏"
       ],
-      "data_quality": [],
+      "data_quality": [
+        "wuwei 苦 in the source's front matter corrected to 微苦, as its text states"
+      ],
       "dose_g_reference": [
         9.0,
         15.0
@@ -30953,7 +30954,7 @@
         {
           "element": "火",
           "flavor": "苦",
-          "weight": 1.0
+          "weight": 0.5
         }
       ],
       "functions": [
@@ -31082,7 +31083,7 @@
       "latin": "Pinellia ternata",
       "name": {
         "en": null,
-        "zh-Hant": "姜半夏"
+        "zh-Hant": "薑半夏"
       },
       "organs": [
         "脾",
@@ -48723,7 +48724,9 @@
       "classical_formulas": [
         "理中湯"
       ],
-      "data_quality": [],
+      "data_quality": [
+        "wuwei 辛、苦 in the source's front matter corrected to 辛, as its text states"
+      ],
       "dose_g_reference": [
         3.0,
         9.0
@@ -48736,11 +48739,6 @@
         {
           "element": "金",
           "flavor": "辛",
-          "weight": 1.0
-        },
-        {
-          "element": "火",
-          "flavor": "苦",
           "weight": 1.0
         }
       ],
@@ -48757,7 +48755,7 @@
       "latin": "Zingiber officinale",
       "name": {
         "en": null,
-        "zh-Hant": "炮姜"
+        "zh-Hant": "炮薑"
       },
       "organs": [
         "脾",
@@ -48767,24 +48765,24 @@
       "pregnancy": "ok-unreviewed",
       "props": {
         "bu_xie": "平",
-        "direction": 0.09,
+        "direction": 0.2,
         "five_phase": [
           0.106,
-          0.3,
+          0.0,
           0.294,
-          0.3,
+          0.6,
           0.0
         ],
         "part": "乾薑炮製品",
         "qi_xue": "血",
-        "run_zao": "燥",
+        "run_zao": "平",
         "toxicity": "無毒",
         "tropism": {
           "肝": 0.265,
           "胃": 0.327,
           "脾": 0.408
         },
-        "yinyang": 0.35
+        "yinyang": 0.67
       },
       "props_rules": {
         "bu_xie": [
@@ -48805,7 +48803,7 @@
           "qx.function"
         ],
         "run_zao": [
-          "rz.taste"
+          "rz.even"
         ],
         "toxicity": [
           "tox.text"
@@ -56895,7 +56893,7 @@
         "二陳湯"
       ],
       "data_quality": [
-        "siqi 溫 in the source's front matter corrected to 微溫, the nature its 性味 sentence states"
+        "siqi 溫 in the source's front matter corrected to 微溫, as its text states"
       ],
       "dose_g_reference": [
         3.0,
@@ -59230,7 +59228,8 @@
       "caution": null,
       "classical_formulas": [],
       "data_quality": [
-        "wuwei contains the temperature word 微寒; ignored"
+        "wuwei contains the temperature word 微寒; ignored",
+        "siqi 涼 in the source's front matter corrected to 微寒, as its text states"
       ],
       "dose_g_reference": [
         15.0,
@@ -59317,7 +59316,7 @@
         ]
       },
       "siqi": [
-        "涼"
+        "微寒"
       ],
       "slug": "shuihonghuazi",
       "source": {
@@ -63253,7 +63252,7 @@
         "壽胎丸"
       ],
       "data_quality": [
-        "siqi 溫 in the source's front matter corrected to 平, the nature its 性味 sentence states"
+        "siqi 溫 in the source's front matter corrected to 平, as its text states"
       ],
       "dose_g_reference": [
         6.0,
@@ -67253,7 +67252,9 @@
       "classical_formulas": [
         "溪黃草沖劑"
       ],
-      "data_quality": [],
+      "data_quality": [
+        "siqi 涼 in the source's front matter corrected to 寒, as its text states"
+      ],
       "dose_g_reference": [
         15.0,
         30.0
@@ -67277,7 +67278,9 @@
         "退黃"
       ],
       "harms": {
-        "脾.qi": -0.25
+        "脾.qi": -0.25,
+        "脾.yang": -0.25,
+        "腎.yang": -0.25
       },
       "id": "herb-xihuangcao",
       "interactions": [],
@@ -67294,7 +67297,7 @@
       "pregnancy": "ok-unreviewed",
       "props": {
         "bu_xie": "瀉",
-        "direction": -0.21,
+        "direction": -0.26,
         "five_phase": [
           0.294,
           0.6,
@@ -67311,7 +67314,7 @@
           "肝": 0.408,
           "膽": 0.327
         },
-        "yinyang": -0.51
+        "yinyang": -0.69
       },
       "props_rules": {
         "bu_xie": [
@@ -67345,7 +67348,7 @@
         ]
       },
       "siqi": [
-        "涼"
+        "寒"
       ],
       "slug": "xihuangcao",
       "source": {
@@ -67357,7 +67360,7 @@
       },
       "status": "derived",
       "tags": [],
-      "temperature": -1.0,
+      "temperature": -2.0,
       "toxic": false
     },
     {
@@ -70508,7 +70511,9 @@
       "category": "清熱藥",
       "caution": null,
       "classical_formulas": [],
-      "data_quality": [],
+      "data_quality": [
+        "siqi 寒 in the source's front matter corrected to 微寒, as its text states"
+      ],
       "dose_g_reference": [
         9.0,
         15.0
@@ -70535,9 +70540,7 @@
         "瀉火平肝"
       ],
       "harms": {
-        "脾.qi": -0.25,
-        "脾.yang": -0.25,
-        "腎.yang": -0.25
+        "脾.qi": -0.25
       },
       "id": "herb-yejuhua",
       "interactions": [],
@@ -70553,7 +70556,7 @@
       "pregnancy": "ok-unreviewed",
       "props": {
         "bu_xie": "瀉",
-        "direction": -0.25,
+        "direction": -0.2,
         "five_phase": [
           0.222,
           0.478,
@@ -70569,7 +70572,7 @@
           "心": 0.444,
           "肝": 0.556
         },
-        "yinyang": -0.38
+        "yinyang": -0.21
       },
       "props_rules": {
         "bu_xie": [
@@ -70607,7 +70610,7 @@
         ]
       },
       "siqi": [
-        "寒"
+        "微寒"
       ],
       "slug": "yejuhua",
       "source": {
@@ -70619,7 +70622,7 @@
       },
       "status": "derived",
       "tags": [],
-      "temperature": -2.0,
+      "temperature": -1.0,
       "toxic": false
     },
     {
