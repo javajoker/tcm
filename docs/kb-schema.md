@@ -4,7 +4,7 @@
 |---|---|
 | **Version** | 0.9 (draft) |
 | **Status** | Documents the first-pass `data/` as generated today, plus the files the engine and UI still need (§9) |
-| **Last updated** | 2026-10-07 |
+| **Last updated** | 2026-10-08 |
 | **Audience** | Engine and UI developers, content reviewers, anyone adding or changing knowledge |
 | **Related** | [`data/README.md`](../data/README.md) (contents, provenance, verification status) · [Tech spec §5](tech-spec.md) (delivery) · [Content review](content-review.md) · [SOP](diagnosis-sop.zh-TW.md) (meaning of the models) |
 

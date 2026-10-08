@@ -4,7 +4,7 @@
 |---|---|
 | **Version** | 0.2 |
 | **Status** | **Protocol written and fixed; desk research on datasets done; the spike stops at its first step.** No model has been built, no image has been downloaded, no image of a person has been taken. The hard gates of [§3](#3-hard-gates-and-where-they-stand) are open |
-| **Last updated** | 2026-10-06 |
+| **Last updated** | 2026-10-08 |
 | **Audience** | The owner (approvals, advisors), a legal adviser, a clinical advisor, reviewers |
 | **Related** | [Research tracks §1, §2](../design/research-tracks.md) · [Requirements FR-32](../requirements.md) · [PRD §1.3 Positioning](../../PRD.md#13-positioning) · [Decisions Q4, PD-10, PD-11](../decisions.md) · [Privacy](../../privacy.md) · [Tech spec §11](../../tech-spec.md) |
 

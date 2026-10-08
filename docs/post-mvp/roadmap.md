@@ -2,9 +2,9 @@
 
 | | |
 |---|---|
-| **Version** | 0.3 (draft) |
-| **Status** | Plan; nothing in it is built yet. Decisions are defaults and are recorded in the [decision register](decisions.md) |
-| **Last updated** | 2026-10-05 |
+| **Version** | 0.4 (draft) |
+| **Status** | Plan, and its state on 2026-10-08: **Releases A–F are built where they can be built without people** — 49 of the 54 tasks of `TASKS.md` §PM; the open five need reviewers (PM-22, PM-23), datasets and approvals (PM-30, PM-31) or sign-offs (PM-44). Nothing is released: each feature ships when the gates of its review class are met. §1 below is the starting point as it was when the plan was written; the [project report](../project-report.md) has today's evidence. Decisions are defaults and are recorded in the [decision register](decisions.md) |
+| **Last updated** | 2026-10-08 |
 | **Audience** | Maintainers, reviewers, whoever funds or schedules the work |
 | **Related** | [Post-MVP index](README.md) · [Requirements](requirements.md) · [PRD §4.3, §13](../PRD.md) · [Release process §11](../release-process.md) · [`TASKS.md`](../../TASKS.md) §PM |
 
@@ -246,3 +246,4 @@ These cannot be decided or verified by engineering and are recorded as open unti
 | 0.1 | 2026-10-05 | Initial post-MVP roadmap |
 | 0.2 | 2026-10-07 | Releases E (knowledge and prescription) and F (AI-assisted intake), from the owner's direction of 2026-10-07 |
 | 0.3 | 2026-10-07 | §3.4a, §3.4b, §9: the owner's decisions of 2026-10-07 (second) — 營衛 in the model, learners and practitioners, approvals, Release F's design approved |
+| 0.4 | 2026-10-08 | Status: the state of Releases A–F after the project audit |

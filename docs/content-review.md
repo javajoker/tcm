@@ -4,7 +4,7 @@
 |---|---|
 | **Version** | 0.6 (draft) |
 | **Status** | Proposed process — **no reviewer has been appointed yet** (PRD Q8 blocks milestone M3) |
-| **Last updated** | 2026-10-04 |
+| **Last updated** | 2026-10-08 |
 | **Audience** | Maintainers, clinical and linguistic reviewers |
 | **Related** | [KB schema §8](kb-schema.md) (status model) · [Safety policy](safety-policy.md) · [i18n guide](i18n-guide.md) · [Test plan §4](test-plan.md) (golden cases) · [Release process](release-process.md) (gates) |
 

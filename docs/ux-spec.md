@@ -4,7 +4,7 @@
 |---|---|
 | **Version** | 0.13 (draft) |
 | **Status** | Draft — no UI implemented yet |
-| **Last updated** | 2026-10-06 |
+| **Last updated** | 2026-10-08 |
 | **Derives from** | [PRD v0.3](PRD.md) (FR-1…FR-20, NFRs) · [Diagnosis SOP v0.2](diagnosis-sop.zh-TW.md) (what is asked and shown) · [Tech spec](tech-spec.md) (routes, state, components' data) |
 | **Sibling docs** | [Safety policy](safety-policy.md) owns the **notice wording** · [i18n guide](i18n-guide.md) owns **terminology and copy rules** · [Test plan](test-plan.md) owns usability and accessibility testing |
 

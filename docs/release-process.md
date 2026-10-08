@@ -4,7 +4,7 @@
 |---|---|
 | **Version** | 0.6 (draft) |
 | **Status** | Partly implemented — CI workflow and `scripts/check-release.ts` exist (R-01…R-03); deployment, SBOM and the integration jobs do not yet |
-| **Last updated** | 2026-10-04 |
+| **Last updated** | 2026-10-08 |
 | **Audience** | Maintainers |
 | **Related** | [Tech spec §5, §6, §11](tech-spec.md) · [Test plan §6](test-plan.md) · [Content review §7](content-review.md) · [Safety policy §8](safety-policy.md) · [Privacy](privacy.md) · [`CHECKLIST.md`](../CHECKLIST.md) |
 
@@ -120,7 +120,7 @@ A tag build is promoted only when **all** hold. The checklist form is [`CHECKLIS
 
 - **Static hosting:** Cloudflare Pages ([tech spec TQ1](tech-spec.md#13-open-technical-questions)). Required capabilities: custom response headers (CSP, caching), SPA fallback for `/:lang/*` to `index.html` with a 404 status only for unknown languages, HTTPS with HSTS, Brotli/gzip.
 - **Caching:** hashed assets and `kb/<version>/*` → `Cache-Control: public, max-age=31536000, immutable`; `index.html` and `kb/manifest.json` → `no-cache` (revalidate). A new release changes the KB URL, so users never mix an old app with a new KB.
-- **Headers:** CSP as in the [tech spec §11](tech-spec.md); `X-Content-Type-Options: nosniff`; `Referrer-Policy: no-referrer`; `Permissions-Policy` denying camera/microphone/geolocation (`check-release` rule 11 asserts `camera=()`, `microphone=()` and `geolocation=()` — in a release, and a photo in a development build is chosen with the device's own camera app, so no build asks for the camera); `Cross-Origin-Opener-Policy: same-origin`.
+- **Headers:** CSP as in the [tech spec §11](tech-spec.md); `X-Content-Type-Options: nosniff`; `Referrer-Policy: no-referrer`; `Permissions-Policy` denying camera/microphone/geolocation (`check-release` rule 11 asserts `camera=()`, `microphone=()` and `geolocation=()` — in a release, and a photo in a development build comes through the device's own file chooser and camera app, so no build asks for the camera); `Cross-Origin-Opener-Policy: same-origin`.
 - **Robots:** a public release ships `robots.txt` allowing the site (but not `/kb/`) and the app marks every route except the start page and the sources `noindex` at run time (a result or a step in the flow is personal); a dev build or a closed beta (draft label) is `noindex` in the page and in `robots.txt`, and preview/dev hosts also send `X-Robots-Tag: noindex`.
 - **`/.well-known/security.txt`** with the safety/security report channel.
 - **Smoke tests after deploy:** fetch `/` and `/zh-Hant/`, `/en/`; fetch the manifest and each chunk and verify hashes; run E1 headless against the deployed URL; verify headers.

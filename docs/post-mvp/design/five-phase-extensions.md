@@ -4,7 +4,7 @@
 |---|---|
 | **Version** | 0.5 (draft) |
 | **Status** | Design for Release C (FR-31; tasks PM-26 … PM-29). **PM-26 (the southern hemisphere and the person's choice) is built** ([§4.4](#44-as-built-pm-26)) **PM-27 (the hour near a boundary) is built** ([§5.1](#51-as-built-pm-27)) **PM-29 (the declared 長夏 model) is built** ([§7.1](#71-as-built-pm-29)) and **PM-28 (the astronomy tables regenerated from the official archive) is built** ([§6.1](#61-as-built-pm-28)) |
-| **Last updated** | 2026-10-06 |
+| **Last updated** | 2026-10-07 |
 | **Audience** | Engineers, the clinical content owner (school choices) |
 | **Related** | [Requirements FR-31](../requirements.md#fr-31-five-phase-extensions--release-c--class-n-or-c-by-item--refines-algorithm-spec-14) · [Algorithm spec §9, §14](../../wuxing-algorithm.md) · [PRD FR-18](../../PRD.md#fr-18-birth-based-five-phase-module--p1-new) · [Decisions W-1 … W-7, Q11](../decisions.md) |
 

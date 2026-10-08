@@ -364,7 +364,7 @@ export function checkRelease(distDir: string, opts: CheckOptions = {}): Failure[
     if (header("content-security-policy") !== cspHeader()) fail(11, "_headers: the Content-Security-Policy is missing or is not the policy of the page plus frame-ancestors 'none'");
     if (header("x-content-type-options") !== "nosniff") fail(11, "_headers: X-Content-Type-Options: nosniff is missing");
     if (header("referrer-policy") !== "no-referrer") fail(11, "_headers: Referrer-Policy: no-referrer is missing");
-    // the page never asks for the camera, the microphone or the place — in any build: a photo (PM-50, development profile only) is chosen with the device's own camera app, which the page does not control
+    // the page never asks for the camera, the microphone or the place — in any build: a photo (PM-50, development profile only) comes through the device's own file chooser and camera app, which the page does not control
     const permissions = header("permissions-policy") ?? "";
     for (const feature of ["camera", "microphone", "geolocation"]) if (!permissions.includes(`${feature}=()`)) fail(11, `_headers: Permissions-Policy does not deny ${feature} (${feature}=()): the page never asks for it`);
     if (all?.headers.some(([k]) => k.toLowerCase() === "cache-control")) fail(11, "_headers: /* must not set Cache-Control (Cloudflare combines every matching rule)");

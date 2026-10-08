@@ -4,7 +4,7 @@
 |---|---|
 | **Version** | 0.9 (draft) |
 | **Status** | Design for Release F (FR-40 … FR-42; tasks PM-44 … PM-50). **Approved by the owner on 2026-10-07** (PD-21, PD-25): the mock-provider parts are built first; a privacy redesign and a legal view still come before anything reaches the public |
-| **Last updated** | 2026-10-07 |
+| **Last updated** | 2026-10-08 |
 | **Audience** | The owner, engineers, a privacy and a legal reviewer, the clinical content owner |
 | **Related** | [Research tracks §2, §5](research-tracks.md) · [Tongue-photo spike](../spikes/tongue-photo.md) · [Privacy](../../privacy.md) · [Safety policy](../../safety-policy.md) · [Decisions Q3, Q4, PD-21 … PD-27](../decisions.md) · [Requirements FR-40 … FR-42](../requirements.md) |
 

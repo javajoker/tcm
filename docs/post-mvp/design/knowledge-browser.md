@@ -4,7 +4,7 @@
 |---|---|
 | **Version** | 0.8 (draft) |
 | **Status** | Design for Release B (FR-14, FR-25; tasks PM-13 … PM-16) and Release C (herb browser; PM-24, PM-25; **PM-24, the delivery of the herb data, and PM-25, the herb pages, are built**, [§7.1](#71-as-built-pm-24-delivery), [§7.2](#72-as-built-pm-25-the-herb-pages)). **PM-13 to PM-16 are built** (the shell, the stable ids, search, the page template, pages for all seven kinds, and the comparison of patterns); herbs wait for Release C |
-| **Last updated** | 2026-10-06 |
+| **Last updated** | 2026-10-07 |
 | **Audience** | Engineers, designers, the clinical reviewer |
 | **Related** | [Requirements FR-14, FR-25](../requirements.md#fr-14-knowledge-browser--release-b--class-n-herbs-c-release-c--refines-fr-14) · [PRD §3](../../PRD.md#3-target-users) · [Tech spec §5.3, §8.1](../../tech-spec.md) · [UX spec](../../ux-spec.md) · [Safety policy](../../safety-policy.md) · [i18n guide §5](../../i18n-guide.md) |
 

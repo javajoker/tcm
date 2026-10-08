@@ -4,7 +4,7 @@
 |---|---|
 | **Version** | 0.3 (draft) |
 | **Status** | Draft — the lint (`scripts/check-i18n.ts`) and the catalogs are specified here, not yet implemented |
-| **Last updated** | 2026-10-04 |
+| **Last updated** | 2026-10-08 |
 | **Audience** | Developers writing UI strings, translators, content reviewers |
 | **Related** | [PRD FR-2](PRD.md) · [Tech spec §4.4, §9](tech-spec.md) · [UX spec §9](ux-spec.md) · [KB schema](kb-schema.md) · [`data/glossary.json`](../data/glossary.json) (161 terms, `needs-review`) |
 

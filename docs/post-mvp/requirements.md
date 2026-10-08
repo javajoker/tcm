@@ -4,7 +4,7 @@
 |---|---|
 | **Version** | 0.6 (draft) |
 | **Status** | Proposed requirements for Releases A–F; they enter the [PRD](../PRD.md) FR list as each feature ships (fold-in, [README §2](README.md#2-standing-constraints)) |
-| **Last updated** | 2026-10-05 |
+| **Last updated** | 2026-10-08 |
 | **Audience** | Product, engineering, reviewers |
 | **Related** | [Roadmap](roadmap.md) · [Decision register](decisions.md) · [PRD §6, §7](../PRD.md#6-functional-requirements) · [Privacy](../privacy.md) · [Safety policy](../safety-policy.md) |
 

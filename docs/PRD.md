@@ -3,9 +3,9 @@
 | | |
 |---|---|
 | **Working title** | TCM Self-Assessment App (name TBD) |
-| **Version** | 0.9 (draft) |
+| **Version** | 0.10 (draft) |
 | **Status** | Draft — documentation set complete (M0); open questions resolved with MVP defaults (§14.2), supporting-document proposals confirmed (§14.3); all to be revisited after the MVP — the post-MVP answers are in the [decision register](post-mvp/decisions.md) |
-| **Last updated** | 2026-10-07 |
+| **Last updated** | 2026-10-08 |
 | **Related docs** | [Documentation index](README.md) · [Post-MVP set](post-mvp/README.md) · [Diagnosis SOP v0.2 (繁體中文)](diagnosis-sop.zh-TW.md) · [Algorithm spec](wuxing-algorithm.md) ([繁中](wuxing-algorithm.zh-TW.md)) · [Tech spec](tech-spec.md) · [UI/UX spec](ux-spec.md) · [KB schema](kb-schema.md) · [i18n guide](i18n-guide.md) · [Content review](content-review.md) · [Safety policy](safety-policy.md) · [Privacy](privacy.md) · [Test plan](test-plan.md) · [Release process](release-process.md) · [Tasks](../TASKS.md) · [Checklist](../CHECKLIST.md) · [Knowledge base (`data/`)](../data/README.md) · [Reference sources](../reference/README.md) |
 
 > **Source-of-truth rule.** The diagnosis logic (what is asked, how answers become a pattern and a body panel, how that becomes a
@@ -268,12 +268,12 @@ The KB is **derived from real sources**, never authored from memory or generated
 
 | Area | Files | Records |
 |---|---|---|
-| Citations | `citations.json` | 127 verified quotations |
+| Citations | `citations.json` | 183 verified quotations (and a registry of 91 source works, `sources.json`) |
 | Herbs | `herbs/herbs.json`, `herb-index.json` | 703 (94 curated, 609 derived) |
 | Formulas | `formulas/formulas.json` | 33 with roles, proportions, tiers, modifications, verification |
-| Diagnosis | `symptoms`, `patterns`, `pattern-elements`, `tongue`, `pulse`, `constitutions`, `red-flags`, `panel-schema` | 184 symptoms (incl. 32 tongue, 28 pulse), 23 patterns, 24 pattern elements, 9 constitutions, 28 red flags |
+| Diagnosis | `symptoms`, `patterns`, `pattern-elements`, `tongue`, `pulse`, `constitutions`, `red-flags`, `panel-schema` | 184 symptoms (incl. 32 tongue, 28 pulse), 36 questions, 23 patterns, 27 pattern elements, 9 constitutions, 28 red flags; 營衛 readings (`yingwei.json`) |
 | Five phases | `wuxing/correspondences`, `ganzhi`, `yunqi`, `susceptibility`, `engine-params` | parsed from 《素問》; exported from `packages/wuxing` |
-| Policy | `config/scope-profiles.json`, `safety/rules.json`, `treatment/guidance.json`, `glossary.json` | 2 profiles, 26 safety rules, 31 acupoints, 161 terms |
+| Policy | `config/scope-profiles.json`, `safety/rules.json`, `treatment/guidance.json`, `glossary.json` | 2 profiles (and the learner/practitioner overlay), 26 safety rules, 31 acupoints, 47 foods, 168 terms |
 
 ### 8.3 Sources and licences
 `TCM-Library` (MIT), `TCM-Ancient-Books` (no licence: reference only, short quotations only), `tcm-mkg` (MIT, not yet used), Pharmacopoeia facts as structured data, and the project's own `packages/wuxing`. Non-commercial-only sources (ctext.org) are excluded from the shipped bundle (Q10). The author's earlier BaZi engine is a private repository and is **not** a dependency; the needed algorithm was re-implemented and verified against it numerically.
@@ -359,11 +359,11 @@ Design consequences: the questionnaire is adaptive; the engine exposes per-evide
 | Milestone | Content | Status |
 |---|---|---|
 | **M0 — Docs** | PRD ✔ · Diagnosis SOP ✔ (v0.2) · algorithm spec ✔ · **tech spec ✔ · UI/UX spec ✔ · KB schema ✔ · i18n guide ✔ · content review ✔ · safety policy ✔ · privacy ✔ · test plan ✔ · release process ✔ · contributing ✔ · task list ✔ · checklist ✔** | done — decisions recorded in §14.2–§14.3 |
-| **M1 — Knowledge base** | Reference ingestion, Traditional conversion, **built and validated data set ✔** (127 quotes, 703 herbs, 33 formulas, 23 patterns, 36 questions, 31 acupoints, 484 cities, policy) | built and validated; **all content `draft`, review pending** |
+| **M1 — Knowledge base** | Reference ingestion, Traditional conversion, **built and validated data set ✔** (127 quotes at M1 — 183 now —, 703 herbs, 33 formulas, 23 patterns, 36 questions, 31 acupoints, 484 cities, policy) | built and validated; **all content `draft`, review pending** |
 | **M2 — MVP app** | Responsive UI, bilingual, intake → engine → panel/report (dev builds; no public release) | **technically complete** (2026-10-05): every build task of [`TASKS.md`](../TASKS.md) done; the CI, Lighthouse and deploy workflows are written and have not run |
 | **M3 — Review & hardening** | Practitioner review ([process](content-review.md)), golden-case calibration, a11y/perf passes | not started — needs people (Q8) |
 | **M4 — Beta** | Limited release, feedback loop, weight calibration | — |
-| **Post-MVP A–F** | [Roadmap](post-mvp/roadmap.md): reach and resilience · learn and follow up · breadth · research · knowledge and prescription · AI-assisted intake | planned; designed in [`docs/post-mvp/design/`](post-mvp/README.md); runs in parallel with M3 and never lowers a gate |
+| **Post-MVP A–F** | [Roadmap](post-mvp/roadmap.md): reach and resilience · learn and follow up · breadth · research · knowledge and prescription · AI-assisted intake | **built where they can be built without people** (2026-10-08: 49 of 54 tasks of `TASKS.md` §PM; the five open need reviewers, datasets or sign-offs); nothing released — every feature ships behind the gates of its review class; AI help in development builds only; state and evidence in the [project report](project-report.md) |
 
 Implementation proceeds from [`TASKS.md`](../TASKS.md) with acceptance in [`CHECKLIST.md`](../CHECKLIST.md). One commit per finished task.
 
@@ -457,3 +457,4 @@ The project owner confirmed P1–P10 on 2026-10-04 (to be revisited after the MV
 | 0.7 | 2026-10-07 | §4.3 and §13: Releases E (knowledge and prescription) and F (AI-assisted intake) from the owner's direction of 2026-10-07; requirements FR-35 … FR-42 in the post-MVP set |
 | 0.8 | 2026-10-07 | §1.3, §2.2, §3, §4.3: the owner's decisions of 2026-10-07 (second) — learners and practitioners as primary users with the medication plan behind a declared role; 營衛 in the panel |
 | 0.9 | 2026-10-08 | §Non-goals, dosing: reference amounts shown for study with their note, by default, configurable (PD-30) |
+| 0.10 | 2026-10-08 | §8.2 and §13 brought up to date in the project audit: the knowledge base's counts, the post-MVP releases' state |

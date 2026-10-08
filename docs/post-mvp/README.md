@@ -2,8 +2,8 @@
 
 | | |
 |---|---|
-| **Version** | 0.4 (draft) |
-| **Status** | Plan for Releases A–F: product documents (A-19), twelve design documents (A-20 … A-28; PM-34 for Releases E and F) and two spike protocols. Releases A and B are built, C and D in part, E and F are planned; the implementation tasks are section PM of `TASKS.md` |
+| **Version** | 0.5 (draft) |
+| **Status** | Plan for Releases A–F: product documents (A-19), twelve design documents (A-20 … A-28; PM-34 for Releases E and F) and two spike protocols. Releases A–F are built where they can be built without people (49 of 54 tasks on 2026-10-08; the open five need reviewers, datasets or sign-offs — see the [project report](../project-report.md)); the implementation tasks are section PM of `TASKS.md` |
 | **Last updated** | 2026-10-08 |
 | **Audience** | Maintainers, reviewers, whoever plans the next releases |
 | **Related** | [PRD](../PRD.md) · [Release process](../release-process.md) · [Content review](../content-review.md) · [`TASKS.md`](../../TASKS.md) §PM · [`CHECKLIST.md`](../../CHECKLIST.md) §3 |
@@ -95,3 +95,4 @@ A feature of class N can still contain a class-C part (a knowledge page that sho
 | 0.2 | 2026-10-07 | Releases E and F from the owner's direction of 2026-10-07: three design documents, requirements FR-35 … FR-42, decisions PD-13 … PD-27, tasks PM-34 … PM-50 |
 | 0.3 | 2026-10-07 | The design of 營衛 in the model; the owner's decisions of 2026-10-07 (second) |
 | 0.4 | 2026-10-08 | The AI help impact assessment's draft (PM-44); standing constraint 2 states the approved exception |
+| 0.5 | 2026-10-08 | Status after the project audit |

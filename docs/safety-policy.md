@@ -4,7 +4,7 @@
 |---|---|
 | **Version** | 0.6 (draft) |
 | **Status** | Draft — **all clinical content and wording require physician, pharmacy and legal review before any public release** ([content review](content-review.md)) |
-| **Last updated** | 2026-10-04 |
+| **Last updated** | 2026-10-08 |
 | **Audience** | Developers, content reviewers, whoever answers user reports |
 | **Owns** | Notice **wording and triggers**, the safety-filter semantics, emergency resources, claim limits, incident handling |
 | **Related** | [SOP §0.2, §2, §13](diagnosis-sop.zh-TW.md) (logic) · [`data/config/scope-profiles.json`](../data/config/scope-profiles.json) · [`data/safety/rules.json`](../data/safety/rules.json) · [`data/diagnosis/red-flags.json`](../data/diagnosis/red-flags.json) · [Tech spec §6](tech-spec.md) · [UX spec §4.3, §10](ux-spec.md) · [Privacy](privacy.md) |
