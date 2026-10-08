@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 0.1 (draft for the privacy and legal reviewers) |
+| **Version** | 0.2 (draft for the privacy and legal reviewers) |
 | **Status** | Drafted with task PM-44, from the owner's decisions of 2026-10-07 (PD-21 approved as designed; PD-25 photos in the development profile only). **Not reviewed.** Nothing described here reaches a public build before a privacy reviewer and a legal reviewer have signed §10 |
 | **Last updated** | 2026-10-08 |
 | **Audience** | The owner (controller), a privacy reviewer, a legal reviewer, engineers |
@@ -48,6 +48,10 @@ A **red-flag statement** in the conversation (chest pain, fainting, self-harm �
 | The gateway's host (e.g. Cloudflare Workers) | **Processor** | Runs the gateway; its request logs must be configured to keep no body content |
 | The model provider (Anthropic's API, PD-22) | **Processor** (sub-processor of the owner) | Under a data-processing agreement; region of processing named |
 
+### 3.1 What the adapter does and does not do (PM-49)
+
+The gateway's adapter ([`apps/ai-gateway/src/anthropic.ts`](../../../apps/ai-gateway/src/anthropic.ts)) sends the provider exactly what the request builder gave it — the conversation, the vocabulary, the confirmed ids — as JSON data in delimited blocks, with the rules in the system prompt; nothing of the profile, birth data, notes or history exists in the gateway to be sent. It follows no redirect (the key goes to one host), sends no sampling parameter and no beta header, **never logs**, and reports a failure as a class name only. **Prompt caching** — a provider-side copy of the unchanging prefix (the rules and the vocabulary; no word of a person) for a few minutes — is **off** by default and is a point for the agreement (§7, §9 item 7).
+
 ## 5. Retention
 
 Nothing is retained on the server side by design: the gateway is stateless (a session's turn count lives in memory and is dropped with it); its log lines hold the route, the status, the duration and counts. The provider's retention is set by the agreement (§7). On the device the conversation text is memory-only.
@@ -88,6 +92,7 @@ The project holds no conversation, so access, rectification and erasure requests
 4. Whether the gateway's host can be configured so that no request body appears in any log, and how this is verified at deployment.
 5. Age: whether a self-declared age is sufficient for this processing.
 6. The regimes of [privacy §5](../../privacy.md) — GDPR, Taiwan PDPA, Hong Kong PDPO, PIPL, US state health-privacy laws — for server-side processing of health data with consent.
+7. Whether the provider's **prompt caching** (a provider-side copy of the unchanging prefix, no word of a person, for a few minutes) is acceptable under the zero-retention terms; until then it stays off (`AI_PROMPT_CACHE`).
 
 ## 10. Sign-off
 
@@ -102,3 +107,4 @@ The project holds no conversation, so access, rectification and erasure requests
 | Version | Date | Change |
 |---|---|---|
 | 0.1 | 2026-10-08 | Draft from the owner's decisions of 2026-10-07 (PM-44) |
+| 0.2 | 2026-10-08 | §3.1 what the provider adapter does and does not do (PM-49); open item 7 |

@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 0.7 (draft) |
+| **Version** | 0.8 (draft) |
 | **Status** | Design for Release F (FR-40 … FR-42; tasks PM-44 … PM-50). **Approved by the owner on 2026-10-07** (PD-21, PD-25): the mock-provider parts are built first; a privacy redesign and a legal view still come before anything reaches the public |
 | **Last updated** | 2026-10-07 |
 | **Audience** | The owner, engineers, a privacy and a legal reviewer, the clinical content owner |
@@ -57,6 +57,8 @@ confirm ─► findings into the draft ─► the engine (unchanged) ─► resu
 | **Content-security policy** | `connect-src` gains the gateway's origin **only in builds with AI enabled**, justified in the tech spec |
 
 *Built (PM-45, 2026-10-08):* the protocol, the validator, the questions' wording lint and the mock provider are `@tcm/ai` ([`packages/ai`](../../../packages/ai)); the gateway is [`apps/ai-gateway`](../../../apps/ai-gateway/README.md) — the three routes, HMAC-signed session tokens, budgets per session, per minute and per day, a kill switch, the app's origins only, a body limit, a provider timeout and a log of counts and codes. Its contract tests run with `pnpm check`. The wording rules are in the [i18n guide §5.1](../../i18n-guide.md).
+
+*Built (PM-49, 2026-10-08):* the provider adapter for Anthropic's Messages API, [`apps/ai-gateway/src/anthropic.ts`](../../../apps/ai-gateway/src/anthropic.ts), selected by `AI_PROVIDER=anthropic` (key `ANTHROPIC_API_KEY`, model `AI_MODEL` — default `claude-sonnet-5-5` —, `AI_MAX_TOKENS`, `AI_PROMPT_CACHE` off by default). One request per turn; the answer only through a **forced tool call** whose input schema is the protocol's reply field for field; the conversation, the vocabulary and the confirmed ids as JSON data in delimited blocks with `<`, `>` and `&` escaped (a person's words cannot end a block or pose as the system); the system prompt holds the rules of §4 (findings only from the vocabulary with the person's own words as exact evidence, no diagnosis, pattern, herb, medicine or amount, one short question, a red flag that can only be raised). No redirect is followed, no sampling parameter or beta header is sent, nothing is logged, and an error is a class (`ProviderAuthError` … `ProviderFormatError`) — never a body, a header, the key or a word of the conversation. Contract tests on fixtures in the documented response format and, once the owner has run [`scripts/ai/record.ts`](../../../scripts/ai/record.ts) with a key, on real recordings; the deployment is documented in [`apps/ai-gateway/DEPLOY.md`](../../../apps/ai-gateway/DEPLOY.md) with a Worker template. **Not done by the repository, because it is the owner's:** the provider agreement and key, the deployment, and the real evaluation run (§6).
 
 ## 4. Safety
 
@@ -135,3 +137,4 @@ PM-44 (the owner's decisions and the privacy redesign), PM-45 (the gateway with 
 | 0.5 | 2026-10-08 | §5: configuration, consent and Settings built (PM-46) |
 | 0.6 | 2026-10-08 | §4: the conversation built, with the device's red-flag check (PM-47) |
 | 0.7 | 2026-10-08 | §6: the evaluation harness built (PM-48) |
+| 0.8 | 2026-10-08 | §3: the Anthropic adapter, the deployment notes and the recorder built (PM-49) |

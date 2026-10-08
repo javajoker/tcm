@@ -1,7 +1,9 @@
 // The evaluation harness (PM-48): the committed report of the mock run is current; the pipeline's gates hold; the personas and vignettes are what they say; the gateway path over
 // HTTP gives the same conversation as the mock in process; the design's lines are judged for a real provider.
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
+import { mkdtempSync, readdirSync, readFileSync, rmSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 import type { AddressInfo } from "node:net";
 import { after, test } from "node:test";
 import { LANGS } from "../../packages/ai/src/index.ts";
@@ -62,4 +64,29 @@ test("a real provider is judged on the design's lines; the pipeline's gates hold
   assert.deepEqual(failures(low, false), [], "the lines are not judged for the mock");
   const missed: Run = { ...run, summaries: run.summaries.map((s) => ({ ...s, redFlags: 26 / 27 })) };
   assert.equal(failures(missed, false).filter((x) => /red-flag vignette/.test(x)).length, 3);
+});
+
+test("the recorder: a persona's conversation with a (stubbed) provider writes the conversation and the raw response — never the key — and what it returns is what the gateway would let through", async () => {
+  const { recordingTurn } = await import("./record.ts");
+  const out = mkdtempSync(join(tmpdir(), "tcm-record-"));
+  after(() => rmSync(out, { recursive: true, force: true }));
+  const KEY = "sk-ant-test-0123456789abcdefghij";
+  const seen: string[] = [];
+  const raw = { id: "msg_x", type: "message", role: "assistant", model: "m", stop_reason: "tool_use", content: [{ type: "tool_use", id: "t", name: "report_turn", input: { proposals: [], redFlag: false, done: true } }] };
+  const fetched = (async (url: string | URL, init?: RequestInit) => { seen.push(`${String(url)} ${JSON.stringify(init?.headers)}`); return new Response(JSON.stringify(raw), { headers: { "content-type": "application/json" } }); }) as typeof fetch;
+  const counter = { n: 0 };
+  const turn = recordingTurn({ apiKey: KEY, model: "claude-sonnet-5-5", baseUrl: "https://api.anthropic.com", out, fetch: fetched }, counter);
+  const p = personas("en")[0]!;
+  const result = await converse(p, turn, 3);
+  assert.equal(result.error, null);
+  assert.equal(counter.n, 1);
+  assert.deepEqual(readdirSync(out), ["001-en.json"]);
+  const saved = readFileSync(join(out, "001-en.json"), "utf8");
+  assert.ok(!saved.includes(KEY));
+  const rec = JSON.parse(saved) as { lang: string; messages: { role: string }[]; confirmed: string[]; response: unknown };
+  assert.equal(rec.lang, "en");
+  assert.deepEqual(rec.messages.map((m) => m.role), ["assistant", "person"]);
+  assert.deepEqual(rec.response, raw);
+  assert.match(seen[0]!, /^https:\/\/api\.anthropic\.com\/v1\/messages /);
+  assert.ok(seen[0]!.includes(KEY), "the key goes to the provider, in a header");
 });

@@ -1,0 +1,26 @@
+# A template for deploying the AI help gateway as a Cloudflare Worker (task PM-49; DEPLOY.md). Copy it to wrangler.toml, set the names and origins, and follow DEPLOY.md.
+# Nothing in this file is a secret: the two secrets are set with `npx wrangler secret put`, never written here.
+
+name = "tcm-ai-gateway"
+main = "src/worker.ts"
+compatibility_date = "2026-10-01"
+workers_dev = false                     # serve only on the route below, not on a public *.workers.dev address
+
+# routes = [{ pattern = "ai.example.org/*", zone_name = "example.org" }]
+
+[vars]
+AI_ALLOWED_ORIGINS = "https://app.example.org"      # the app's origin — the only origin served
+AI_PROVIDER = "anthropic"
+AI_MODEL = "claude-sonnet-5-5"
+AI_MODULES = "conversation"
+AI_TURNS_PER_SESSION = "30"
+AI_TURNS_PER_MINUTE = "10"
+AI_TURNS_PER_DAY = "2000"                           # the daily ceiling of one instance: set it from what you are willing to spend
+AI_TIMEOUT_MS = "20000"
+# AI_PROMPT_CACHE = "1"                             # only after checking the provider's caching against the zero-retention terms (DEPLOY.md §2)
+# AI_KILL = "1"                                     # the kill switch: uncomment and deploy, or set it in the dashboard — every module is off at once
+
+# Secrets (not here): AI_SECRET (at least 32 random characters) and ANTHROPIC_API_KEY.
+
+[observability]
+enabled = false                         # decide in DEPLOY.md §4: the gateway's own log lines hold counts and codes only, but the platform may record more

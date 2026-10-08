@@ -4,7 +4,12 @@
 //   AI_ALLOWED_ORIGINS      the app's origins, comma-separated (https://app.example); a request from any other origin is refused
 //   AI_MODULES              the modules on, comma-separated (default: conversation)
 //   AI_KILL                 "1" or "true" turns every module off at once — the kill switch, without a release
-//   AI_PROVIDER             mock (the default; no key) — the provider adapter is task PM-49
+//   AI_PROVIDER             mock (the default; no key) or anthropic (the adapter of src/anthropic.ts; needs ANTHROPIC_API_KEY)
+//   ANTHROPIC_API_KEY       the provider's key (a secret of the host; only with AI_PROVIDER=anthropic)
+//   AI_MODEL                the model (claude-sonnet-5-5)
+//   AI_MAX_TOKENS           the most the model may write in one turn (1024)
+//   AI_PROMPT_CACHE         "1" or "true" lets the provider keep a copy of the unchanging prefix for a few minutes (off: check it against the zero-retention terms first)
+//   ANTHROPIC_BASE_URL      the provider's origin (https://api.anthropic.com); a local one only for tests
 //   AI_SESSION_MINUTES      how long a session token lives (60)
 //   AI_TURNS_PER_SESSION    turns a session may take (30)
 //   AI_TURNS_PER_MINUTE     turns a session may take in one minute (10)
@@ -15,7 +20,16 @@ import { BUILT_MODULES, LIMITS, MODULES } from "@tcm/ai";
 import type { Limits, Module } from "@tcm/ai";
 
 export type Env = Readonly<Record<string, string | undefined>>;
-export type ProviderName = "mock";
+export type ProviderName = "mock" | "anthropic";
+
+/** What the Anthropic adapter needs (src/anthropic.ts). The key is a secret: it is in no log line, no error and no response. */
+export interface AnthropicConfig {
+  readonly apiKey: string;
+  readonly model: string;
+  readonly baseUrl: string;
+  readonly maxTokens: number;
+  readonly promptCache: boolean;
+}
 
 export interface GatewayConfig {
   readonly secret: string;
@@ -23,6 +37,8 @@ export interface GatewayConfig {
   readonly modules: Readonly<Record<Module, boolean>>;
   readonly killed: boolean;
   readonly provider: ProviderName;
+  /** Present exactly when `provider` is `anthropic`. */
+  readonly anthropic?: AnthropicConfig;
   readonly sessionMinutes: number;
   readonly turnsPerSession: number;
   readonly turnsPerMinute: number;
@@ -42,6 +58,19 @@ function int(env: Env, name: string, fallback: number, min: number, max: number)
   return n;
 }
 
+function anthropicFrom(env: Env): AnthropicConfig {
+  const apiKey = env["ANTHROPIC_API_KEY"] ?? "";
+  if (apiKey.length < 20 || /\s/.test(apiKey)) throw new Error("ANTHROPIC_API_KEY must be set (a secret of the host; AI_PROVIDER=anthropic)");
+  const model = env["AI_MODEL"] ?? "claude-sonnet-5-5";
+  if (!/^[A-Za-z0-9][A-Za-z0-9._-]{2,63}$/.test(model)) throw new Error("AI_MODEL is not a model name");
+  const baseUrl = env["ANTHROPIC_BASE_URL"] ?? "https://api.anthropic.com";
+  let url: URL | undefined;
+  try { url = new URL(baseUrl); } catch { url = undefined; }
+  const local = url !== undefined && url.protocol === "http:" && /^(localhost|127\.0\.0\.1)$/.test(url.hostname);
+  if (url === undefined || url.origin !== baseUrl || !(url.protocol === "https:" || local)) throw new Error("ANTHROPIC_BASE_URL must be an https origin (a local http one only for tests)");
+  return { apiKey, model, baseUrl, maxTokens: int(env, "AI_MAX_TOKENS", 1024, 256, 4096), promptCache: /^(1|true)$/i.test(env["AI_PROMPT_CACHE"] ?? "") };
+}
+
 export function configFrom(env: Env): GatewayConfig {
   const secret = env["AI_SECRET"] ?? "";
   if (secret.length < 32) throw new Error("AI_SECRET must be set, at least 32 characters");
@@ -58,13 +87,15 @@ export function configFrom(env: Env): GatewayConfig {
     if (!BUILT_MODULES.includes(m as Module)) throw new Error(`AI_MODULES: ${m} is not built (decision PD-25, task PM-50)`);
   }
   const provider = env["AI_PROVIDER"] ?? "mock";
-  if (provider !== "mock") throw new Error(`AI_PROVIDER: ${provider} is not available (the provider adapter is task PM-49)`);
+  if (provider !== "mock" && provider !== "anthropic") throw new Error(`AI_PROVIDER: ${provider} is not a provider (mock or anthropic)`);
+  const anthropic = provider === "anthropic" ? anthropicFrom(env) : undefined;
   return {
     secret,
     origins,
     modules: { conversation: wanted.includes("conversation"), tongue: false, face: false },
     killed: /^(1|true)$/i.test(env["AI_KILL"] ?? ""),
     provider,
+    ...(anthropic !== undefined ? { anthropic } : {}),
     sessionMinutes: int(env, "AI_SESSION_MINUTES", 60, 5, 24 * 60),
     turnsPerSession: int(env, "AI_TURNS_PER_SESSION", 30, 1, 200),
     turnsPerMinute: int(env, "AI_TURNS_PER_MINUTE", 10, 1, 120),

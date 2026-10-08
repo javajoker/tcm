@@ -1,0 +1,42 @@
+{
+  "id": "msg_01FixtureOnly000000000000",
+  "type": "message",
+  "role": "assistant",
+  "model": "claude-sonnet-5-5",
+  "stop_sequence": null,
+  "usage": {
+    "input_tokens": 7312,
+    "output_tokens": 164
+  },
+  "content": [
+    {
+      "type": "tool_use",
+      "id": "toolu_01FixtureOnly0000000000",
+      "name": "report_turn",
+      "input": {
+        "proposals": [
+          {
+            "id": "S_HEADACHE",
+            "state": "present",
+            "severity": "severe",
+            "confidence": 0.9,
+            "evidence": "最近頭很痛"
+          },
+          {
+            "id": "S_COLD_LIMBS",
+            "state": "present",
+            "confidence": 0.7,
+            "evidence": "手足冰冷"
+          }
+        ],
+        "question": {
+          "text": "流汗的情況怎麼樣？例如沒怎麼動就出汗，或睡著時出汗？",
+          "topic": "sweat"
+        },
+        "redFlag": false,
+        "done": false
+      }
+    }
+  ],
+  "stop_reason": "tool_use"
+}

@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 0.11 (draft) |
+| **Version** | 0.12 (draft) |
 | **Status** | Plan — only `packages/wuxing` (74 tests) and the KB validation/self-test exist today |
 | **Last updated** | 2026-10-06 |
 | **Audience** | Developers, QA, content reviewers |
@@ -152,7 +152,7 @@ Blinded vignettes (written, synthetic) are given to ≥ 3 practitioners **and** 
 
 ### 4.5 AI help's evaluation (PM-48)
 
-The protocol is the design's §6 ([AI-assisted intake](post-mvp/design/ai-assisted-intake.md#6-evaluation-before-any-public-use)); the harness is `scripts/ai/eval.ts`. Scripted personas (the 23 typical patients × three languages) talk through the app's own protocol — the device's red-flag check before each message, the reply validated as the device does — and are scored on recall, precision, the engine's leading pattern on what was extracted, and the 27 red-flag vignettes per language. **In CI** (`pnpm test:scripts`): the mock run, whose report [`docs/ai-evaluation-mock.md`](ai-evaluation-mock.md) must be current, keeps the pipeline's gates (every vignette found, no false alarm on ordinary words, no error), and one persona's conversation through a gateway over HTTP equals the in-process one. **On demand**: a real provider through a deployed gateway, judged on the design's lines per language — a language below a line keeps AI help off. The personas speak the app's own words; personas written by people (paraphrase) come next.
+The protocol is the design's §6 ([AI-assisted intake](post-mvp/design/ai-assisted-intake.md#6-evaluation-before-any-public-use)); the harness is `scripts/ai/eval.ts`. Scripted personas (the 23 typical patients × three languages) talk through the app's own protocol — the device's red-flag check before each message, the reply validated as the device does — and are scored on recall, precision, the engine's leading pattern on what was extracted, and the 27 red-flag vignettes per language. **In CI** (`pnpm test:scripts`): the mock run, whose report [`docs/ai-evaluation-mock.md`](ai-evaluation-mock.md) must be current, keeps the pipeline's gates (every vignette found, no false alarm on ordinary words, no error), and one persona's conversation through a gateway over HTTP equals the in-process one. **On demand**: a real provider through a deployed gateway, judged on the design's lines per language — a language below a line keeps AI help off. **The Anthropic adapter** has contract tests in `apps/ai-gateway/test/anthropic.test.ts`: the request (model, bound, forced tool call, rules, the data in escaped blocks, the key in a header only, no sampling parameter, caching off unless asked), the reply (a tool call of ours; text around it ignored; anything else a format error), the errors as classes with no body, key or word, the abort, and the whole way through the gateway with a rogue reply and a failing provider; fixtures in the documented response format, and recordings from `scripts/ai/record.ts` replayed when present. The personas speak the app's own words; personas written by people (paraphrase) come next.
 
 ### 4.4 The file sync (PM-32)
 
@@ -315,3 +315,4 @@ Blocking: everything except golden concordance (until M3), nightly, and visual-r
 | 0.9 | 2026-10-08 | PM-48: §4.5, AI help's evaluation harness |
 | 0.10 | 2026-10-08 | PM-53: E40, learners and practitioners |
 | 0.11 | 2026-10-08 | PM-54: E41 on the default build; E40 on a roles-mode build; E26 and E36 as the general reader's |
+| 0.12 | 2026-10-08 | §4.5: the Anthropic adapter's contract tests (PM-49) |

@@ -1,0 +1,28 @@
+{
+  "id": "msg_01FixtureOnly000000000000",
+  "type": "message",
+  "role": "assistant",
+  "model": "claude-sonnet-5-5",
+  "stop_sequence": null,
+  "usage": {
+    "input_tokens": 7312,
+    "output_tokens": 164
+  },
+  "content": [
+    {
+      "type": "text",
+      "text": "I'll report what the person said."
+    },
+    {
+      "type": "tool_use",
+      "id": "toolu_01FixtureOnly0000000000",
+      "name": "report_turn",
+      "input": {
+        "proposals": [],
+        "redFlag": false,
+        "done": true
+      }
+    }
+  ],
+  "stop_reason": "tool_use"
+}

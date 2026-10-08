@@ -131,7 +131,7 @@ export interface PersonaResult {
 
 const ratio = (a: number, b: number): number => (b === 0 ? 1 : a / b);
 
-export async function converse(p: Persona, turn: Turn): Promise<PersonaResult> {
+export async function converse(p: Persona, turn: Turn, maxTurns: number = MAX_TURNS): Promise<PersonaResult> {
   const vocabulary = vocabularyIn(p.lang);
   const topicOf = new Map(vocabulary.map((v) => [v.id, v.topic]));
   const sex = p.seed.input.subject.sex;
@@ -141,7 +141,7 @@ export async function converse(p: Persona, turn: Turn): Promise<PersonaResult> {
   const proposed = new Set<string>(), confirmed = new Map<string, Proposal>(), falseAlarms: string[] = [];
   let next = say(unsaid.slice(0, 3));
   let turns = 0, error: string | null = null;
-  while (turns < MAX_TURNS) {
+  while (turns < maxTurns) {
     for (const m of matchRedFlags(next)) if (!falseAlarms.includes(m.id)) falseAlarms.push(m.id);
     messages.push({ role: "person", text: next });
     const request: TurnRequest = { v: PROTOCOL, lang: p.lang, messages: [...messages], vocabulary, confirmed: [...confirmed.keys()] };
