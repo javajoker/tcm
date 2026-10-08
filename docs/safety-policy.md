@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 0.5 (draft) |
+| **Version** | 0.6 (draft) |
 | **Status** | Draft — **all clinical content and wording require physician, pharmacy and legal review before any public release** ([content review](content-review.md)) |
 | **Last updated** | 2026-10-04 |
 | **Audience** | Developers, content reviewers, whoever answers user reports |
@@ -50,7 +50,7 @@ Output levels: **L0** education only · **L1** + diet, safe acupressure points, 
 
 ### 2.1b Learners and practitioners (PM-53; prescription model §7.4)
 
-A reader may declare that they study Chinese medicine or practise it. The role is a **declaration with an attestation** (N-ROLE, §4.1), never a verification: the app has no accounts. For such a reader the release profile is raised for an **adult** (and an adult over 65) to **L3** — amounts, the classical 加減, the medication plan and its reasons — and **nothing else changes**: minors, pregnancy, breastfeeding, the red flags, serious chronic disease, the medicine and allergy conditions, the states and the safety enforcement stay as the release profile has them, so their notices and levels are every role's (`check-release` rule 18). A public build serves the roles only once the L2 and L3 content is reviewed (content review §7).
+Who reads with the **study reference** is the profile's `dose_display` (PD-30): `off` nobody; `roles` a reader who declares that they study Chinese medicine or practise it — a **declaration with an attestation** (N-ROLE, §4.1), never a verification: the app has no accounts —; `all` (the release default) every reader unless they choose *General reader*, for whom the note N-AMOUNTS (§4.2), beside every table of quantities, is the control. For such a reader the release profile is raised for an **adult** (and an adult over 65) to **L3** — amounts, the classical 加減, the medication plan and its reasons — and **nothing else changes**: minors, pregnancy, breastfeeding, the red flags, serious chronic disease, the medicine and allergy conditions, the states and the safety enforcement stay as the release profile has them, so their notices and levels are every role's (`check-release` rule 18). A public build serves the roles only once the L2 and L3 content is reviewed (content review §7).
 
 ### 2.2 Inputs the app must collect to apply this
 
@@ -118,6 +118,7 @@ Buttons: **我已了解，繼續** / *I understand — continue* (primary, one d
 | **N-SUPPRESSED** | any suppressed item | 部分內容因您的情況而未顯示。 | Some content is not shown because of your situation. |
 | **N-SELFOBS** | tongue / pulse used | 舌象與脈象屬自我觀察，在計算中的權重較低。 | Tongue and pulse are self-observed and count for less in the calculation. |
 | **N-PULSE-EDU** | pulse chosen | 脈象需要受過訓練的手指與大量練習才能穩定分辨。您填寫的脈象以較低權重參與計算，結果頁會標示；請勿僅憑自測脈象下結論，也不要因為摸不到而擔心。 | Feeling the pulse reliably takes trained fingers and a lot of practice. What you enter counts for less in the calculation and is marked in the result; please do not draw conclusions from a self-assessed pulse alone, and do not worry if you cannot feel it. |
+| **N-AMOUNTS** | beside every table of reference quantities and every medication plan (PD-30): the formula page, the plan, the practitioner summary and its file, the Learn formula page | 份量僅供學習與醫師輔助參考，不是用藥指示；用於任何人之前，須由合格的醫師親自診察後決定。 | Quantities are for study and as an aid to a practitioner only, not instructions for taking medicine; before any of it is used for anyone, a licensed practitioner examines the person and decides. |
 
 ### 4.3 Labels and permanent text
 
@@ -249,3 +250,4 @@ Vignette suites in the [test plan §3.3](test-plan.md): every red-flag item, eve
 | 0.3 | 2026-10-04 | Notice N-CONFLICT added (contradictory answers); notices of one id are merged (e.g. anticoagulant + other medication → one N-MED) |
 | 0.4 | 2026-10-08 | §3: the red flags during AI help's conversation — checked on the device before sending, A/B answered no asked again, C asks for the profile, the model's flag raises only (PM-47) |
 | 0.5 | 2026-10-08 | §2.1b the roles (learners and practitioners) and N-ROLE, the attestation, in §4.1 (PM-53) |
+| 0.6 | 2026-10-08 | N-AMOUNTS (§4.2): the quantities are for study and as an aid to a practitioner only; §2.1b: who reads with the study reference is configurable, every reader by default (PD-30, PM-54) |

@@ -442,6 +442,7 @@ def scope_profiles() -> dict:
         "wuxing": obj({"bazi_annual": {"enum": [True, False, "opt_in"]}, "bazi_innate": {"enum": [True, False, "opt_in"]}, "enabled": BOOL, "season": BOOL,
                        "season_model": enum("changxia", "tuwang18"), "yunqi": BOOL}),
         "ai": obj({"enabled": BOOL, "endpoint": {"type": ["string", "null"], "pattern": "^https?://[^/?#]+$"}, "modules": obj({"conversation": BOOL, "tongue": BOOL, "face": BOOL})}),
+        "dose_display": enum("off", "roles", "all"),
     })
     level_def = obj({"includes": arr(STR, 1), "name": ref("bilingualNamed")})
     raise_to = obj({"level": ref("level")})

@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 0.10 (draft) |
+| **Version** | 0.11 (draft) |
 | **Status** | Design document; the user-facing statement (§8) needs legal review before release |
 | **Last updated** | 2026-10-07 |
 | **Audience** | Developers, reviewers, whoever writes the public privacy statement |
@@ -53,7 +53,7 @@
 | Feedback marks | match / partly / no, per result, pattern and formula (stored inside the saved result) | Low | Optional calibration export (marks + result summary; the answers only if the user ticks "include my answers") | IndexedDB | Same | Export or delete |
 | Follow-up date | A day the person chose (in 2, 4 or 8 weeks) and, if they said "not now", when — stored inside the saved result | Low | Shows the card on the start page and in History when the day has passed; nothing is sent and no timer runs. A calendar file for that day, if the person asks, holds only a date and the title "time to look again" | IndexedDB | Same | Deleted with the result; included in a backup |
 | Technical | app/KB/engine versions, profile | Low | Reproducibility | Inside saved results | Same | — |
-| Reading role (PM-53) | general reader (absent), learner or practitioner; when, and the version of the attestation agreed to; whether the landing page's offer was answered | Low | Which content a result shows (L3 for a declared learner or practitioner) | `localStorage` key `tcm.prefs` (`role`, `roleOffered`); a result made for a role is stamped with it | Until changed or erased; travels in a backup with the settings | Settings → Who is reading |
+| Reading role (PM-53, PM-54) | learner, practitioner or *general* (the choice to hide the study reference); when, and the version of the attestation agreed to; whether the landing page's offer was answered. Absent: the build's default (the study reference, where it is every reader's) | Low | Which content a result shows (L3 for a declared learner or practitioner) | `localStorage` key `tcm.prefs` (`role`, `roleOffered`); a result made for a role is stamped with it | Until changed or erased; travels in a backup with the settings | Settings → Who is reading |
 | **AI help consent** (Release F; development builds until its gates) | which module (conversation), when, which version of the statement | Low | Records the person's choice; nothing is sent before it | `localStorage` key `tcm.prefs` (`ai`) | Until withdrawn or erased | Settings → AI help: one switch per module |
 | **The conversation** (AI help) | the words the person types and the assistant's questions | **Sensitive (health)** | Proposes findings the person confirms ([AI-assisted intake](post-mvp/design/ai-assisted-intake.md)) | **Memory only** on the device, for the session — never in storage, a backup or a result (words that named a red flag wait there, unsent, while the screening is answered again); **sent**, for the time of each request, to the project's gateway and on to the model provider | None on the gateway (counts only in its log); the provider's zero-retention terms | Do not turn it on; withdraw in Settings; close the page |
 | What travels with each turn (AI help) | the app's own vocabulary of findings in the session's language (public) and the ids already confirmed | Sensitive (health) together with the conversation | Lets the reply name findings from the app's list | Sent with each request; nothing stored | None | As above |
@@ -182,3 +182,4 @@ Since then (post-MVP, [decisions register](post-mvp/decisions.md)): PQ2 and PQ3 
 | 0.8 | 2026-10-08 | AI help (PM-44; PD-21 approved by the owner): inventory rows for the consent, the conversation (memory only on the device; sent per request, kept nowhere), what travels with a turn, the session token and the confirmed findings; the network exception and the one exception to *health data is never transmitted*; consent per module; developer rule 7 and the verification row; the redesign trigger and the impact assessment's draft ([`post-mvp/privacy/ai-help-dpia.md`](post-mvp/privacy/ai-help-dpia.md)); the statement's draft paragraph. To be reviewed with the assessment |
 | 0.9 | 2026-10-08 | The conversation built (PM-47): a message that names a red flag is not sent, and waits in memory; the request carries the whole vocabulary so that it says nothing of the profile |
 | 0.10 | 2026-10-08 | The reading role (PM-53): a low-sensitivity preference, carried in a backup; results stamped with their role |
+| 0.11 | 2026-10-08 | The reading role gains the value *general* (PM-54) |

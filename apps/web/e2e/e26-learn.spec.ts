@@ -100,7 +100,8 @@ test("E26: from a pattern page to a comparison and back; a comparison is real ta
   await expect(page).toHaveURL(new RegExp(`/${lang}/learn/compare\\?ids=SP1,SP2$`));
 });
 
-test("E26: a page about something a person might use puts its cautions first, in the release too, and the release holds only its own formulas", async ({ app, page }) => {
+test("E26: a page about something a person might use puts its cautions first, in the release too, and a general reader's release holds only its own formulas", async ({ app, page }) => {
+  await app.generalReader();
   await app.goto("/learn/formulas/F_GUIZHI");
   const cautions = page.getByRole("region", { name: app.t("learn.page.cautions") });
   await expect(cautions).toBeVisible();

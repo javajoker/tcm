@@ -80,6 +80,7 @@ export interface ScopeProfiles {
         };
       };
       description: string;
+      dose_display: "off" | "roles" | "all";
       features: {
         show_acupoints: boolean;
         show_diet: boolean;
@@ -181,6 +182,7 @@ export interface ScopeProfiles {
         };
       };
       description: string;
+      dose_display: "off" | "roles" | "all";
       features: {
         show_acupoints: boolean;
         show_diet: boolean;

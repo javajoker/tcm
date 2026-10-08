@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 0.4 (draft) |
+| **Version** | 0.5 (draft) |
 | **Status** | Proposed requirements for Releases A–F; they enter the [PRD](../PRD.md) FR list as each feature ships (fold-in, [README §2](README.md#2-standing-constraints)) |
 | **Last updated** | 2026-10-05 |
 | **Audience** | Product, engineering, reviewers |
@@ -182,6 +182,8 @@ The panel holds 營衛 from the classics — 衛氣, 營氣 and the opening and 
 
 The release build serves three roles: **general** (today's levels), **learner** and **practitioner**, the last two declared with an attestation. For an adult without a blocking condition, learners and practitioners see the full medication plan — the composition with its roles and proportions, reference amounts within the Pharmacopoeia range, the classical 加減, and the personalised plan with its quantities and the reason for every change — as study and clinical reference; the safety layer applies to every role unchanged. Acceptance: the general role can never reach L2 or amounts (`check-release`); the attestation's wording is the safety policy's; budgets within the declared raise; three languages; end-to-end tests.
 
+*Refined by the owner on 2026-10-08 (PD-30, PM-54):* the quantities are shown **for study and as an aid to a practitioner only**, with a note saying so beside every table of them; **by default to every reader**, who can choose *General reader*; and **configurable** — the profile's `dose_display` (`all`, `roles`, `off`) narrowed at build time (`APP_DOSE_DISPLAY`). The safety layer and the review gate for public builds stand.
+
 ## 4b. Release F — AI-assisted intake (the owner's direction of 2026-10-07)
 
 *Fewer options to pick, more conversation, and AI looking at the tongue and the face* — as an input aid; the engine still decides. Changes the local-first promise for the people who turn it on (decision PD-21).
@@ -244,3 +246,4 @@ Accounts and server-side sync · e-commerce, herb sales, practitioner marketplac
 | 0.2 | 2026-10-07 | Releases E (FR-35 … FR-39: knowledge base v2, herb and formula model, personalised prescription, the learning book) and F (FR-40 … FR-42: AI-assisted intake), from the owner's direction of 2026-10-07 |
 | 0.3 | 2026-10-07 | FR-43 (營衛 in the model) and FR-44 (learners and practitioners), from the owner's decisions of 2026-10-07 (second) |
 | 0.4 | 2026-10-08 | FR-44 built (PM-53): see prescription model §7.4 as built |
+| 0.5 | 2026-10-08 | FR-44 refined: the quantities by default, with their note, configurable (PD-30, PM-54) |

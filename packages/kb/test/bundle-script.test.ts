@@ -283,3 +283,19 @@ test("a manifest whose reference entry is malformed is refused before anything i
     assert.deepEqual(net.asked, []);
   }
 });
+
+test("APP_DOSE_DISPLAY narrows who reads with the study reference: off builds none, roles builds it and says so in the profile, a widening or an unknown value fails the build", () => {
+  const off = bundle(["--profile", "release"], { ...BETA, APP_DOSE_DISPLAY: "off" });
+  assert.equal(off.manifest.reference, undefined);
+  assert.equal(readdirSync(off.dir).filter((f) => f.includes("reference.")).length, 0);
+  assert.match(off.stdout, /no reference/);
+  const roles = bundle(["--profile", "release"], { ...BETA, APP_DOSE_DISPLAY: "roles" });
+  assert.ok(roles.manifest.reference);
+  const core = JSON.parse(readFileSync(join(roles.dir, roles.manifest.chunks.core.file), "utf8")) as { config: { profile: { dose_display: string } } };
+  assert.equal(core.config.profile.dose_display, "roles");
+  const all = bundle(["--profile", "release"], { ...BETA, APP_DOSE_DISPLAY: "all" });
+  assert.equal((JSON.parse(readFileSync(join(all.dir, all.manifest.chunks.core.file), "utf8")) as typeof core).config.profile.dose_display, "all");
+  for (const value of ["everyone", "ALL"]) assert.throws(() => bundle(["--profile", "release"], { ...BETA, APP_DOSE_DISPLAY: value }), /invalid value/, value);
+  // an empty value is no value
+  assert.ok(bundle(["--profile", "release"], { ...BETA, APP_DOSE_DISPLAY: "" }).manifest.reference);
+});

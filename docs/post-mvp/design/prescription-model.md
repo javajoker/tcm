@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 0.11 (draft) |
+| **Version** | 0.12 (draft) |
 | **Status** | Design for Release E (FR-36 … FR-38; tasks PM-36 … PM-41). **Built: the herb property model (PM-36, §3.6); dose–response, pairings and processing (PM-37, §3.7); the formula's effect, roles and 方解 (PM-38, §4.4); the verification of the library and its first report (PM-39, §5.1); the personalised prescription (PM-40, §6.6); in the app, gated (PM-41, §7.3)** |
 | **Last updated** | 2026-10-07 |
 | **Audience** | Engineers, the clinical content owner, the pharmacy reviewer, a legal adviser (for §7) |
@@ -263,7 +263,7 @@ The output levels of the safety policy decide, as today:
 | L1 | tier A, by name | — | — | — |
 | L2 | tier A and B | ✓ | roles ✓ | — |
 | L3 (development) | all, tier C as study | ✓ | ✓ | ✓ |
-| **Learner, practitioner** (roles, §7.4) | all, tier C as study | ✓ | ✓ | ✓, as "for study and a practitioner's judgement" |
+| **Study reference** (a declared learner or practitioner; **every reader by default**, PD-30) | all, tier C as study | ✓ | ✓ | ✓, with the note "for study and as an aid to a practitioner only" |
 
 **Recommended default (PD-13): amounts are computed for everyone and shown only at L3 and in a practitioner profile.** *Decided by the owner, 2026-10-07: shown to those who declare themselves learners or practitioners (§7.4); a general reader keeps the levels below.* The public release shows the personalised formula — which herbs, which changed and why — but no grams, and every prescription says that a licensed practitioner decides after seeing the person. The owner asked for "medicament for different users"; this gives every user their own composition and reasons, and keeps the grams with a professional, which is the line most jurisdictions draw (prescribing herbal medicine is a regulated act in Taiwan, Hong Kong and the Mainland). **A legal view decides whether amounts may ever reach a layperson**; until then the switch exists only in the profile configuration.
 
@@ -310,6 +310,15 @@ The personalised prescription goes into the practitioner summary (a new section)
 - **The gate.** `check-release` rule 18: the general reader's profile reaches at most L1 and no amount; the reference is checked (hash, name, budget, display list) and allowed without the draft label only once reviewed; every role keeps the blocking cells L0 · blocking, the condition and state cells, the other populations and the enforcement of the general profile; the prescription's messages never in the first load. A test runs the engine on the built knowledge base: a general reader's typical patient at L1 with no amount, a learner's at L3 with amounts, a pregnant learner at L0.
 - **Budget.** All JavaScript 367.6 of 370 KB (the prescription's code and words are now a lazy chunk of the release build, about 17 KB measured; PD-12); the first load 165.2 of 200 KB.
 - **Tests.** 5 unit and 3 integration tests in `@tcm/kb`, 10 web tests, rule 18's seeded cases and the engine check, E40 in four release projects (three languages).
+
+*As built (PM-54, 2026-10-08; the owner's decision PD-30):*
+
+- **The configuration.** The profile's `dose_display` says who reads with the study reference: `off` nobody, `roles` those who declare a learner or practitioner role with the attestation (PM-53 as above), `all` every reader unless they choose to be a general reader — **the data default for the release profile is `all`**. A build narrows it, never widens it: `APP_DOSE_DISPLAY=all|roles|off` or `dose_display` in `APP_OVERRIDES` (`applyOverrides`; `off` builds no reference at all). Each reader chooses in *Settings → Who is reading*; *General reader* stops it for the results made from then on (results already made stay as they were; delete one to remove its quantities).
+- **The note.** N-AMOUNTS of the safety policy — "Quantities are for study and as an aid to a practitioner only, not instructions for taking medicine; before any of it is used for anyone, a licensed practitioner examines the person and decides" — stands beside the composition table of the formula page, at the head of the medication plan, as the first line of the plan's section in the practitioner summary (page and text) and in the file's `notice`, and above the quantities of the Learn formula page. A result says it was made with the study reference only when quantities are in it.
+- **The reader without a choice** reads as a learner (`defaultRoleOf`): no attestation is asked — the note is the control —, the header carries no chip, and the landing page offers nothing. Choosing a practitioner (or a learner again after General reader) shows the attestation (N-ROLE).
+- **Offline and budgets.** Where the build shows the study reference to every reader, the worker's offline copy holds it and its Simplified list, so the product works offline in full; where it does not, the worker lists neither. A reader whose reference could not come reads the general release: the review says so before the result is made, and *Settings* offers *Try again*. A session with the study reference fetches 142.5 KB of knowledge (91.4 KB general + 51.1 KB reference), under a declared budget of 150 KB; all JavaScript is 369.1 of 370 KB.
+- **Unchanged.** The safety layer is every reader's; `check-release` rule 18 still refuses to serve the study reference in a public build before its formulas and herb records are reviewed, and keeps the general profile at L1.
+- **Tests.** The mode in the KB package (override narrowing, the file built or not) and the bundler (`APP_DOSE_DISPLAY`); 18 web tests for both modes; rule 18 and the worker's lists for every mode; E41 on the default build, E40 on a roles-mode build, E26/E36 as the general reader's.
 
 ## 8. Tests
 
@@ -361,3 +370,4 @@ PM-36 (herb property model v2), PM-37 (dose–response, pairings, processing in 
 | 0.9 | 2026-10-07 | §7, §7.4: learners and practitioners — the owner's decision (PD-13, PD-14) and its design (PM-53) |
 | 0.10 | 2026-10-07 | §5.1: the 營衛 finding answered by PM-52 |
 | 0.11 | 2026-10-08 | §7.4 as built: the roles, the reference file, the app, rule 18 (PM-53) |
+| 0.12 | 2026-10-08 | §7.4 as built (PM-54): `dose_display`, the default for every reader, the note N-AMOUNTS, offline and budgets — the owner's decision PD-30 |

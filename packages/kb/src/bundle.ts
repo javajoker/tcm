@@ -89,9 +89,12 @@ export function reachOf(profile: ScopeProfile): Reach {
 type Json = null | boolean | number | string | Json[] | { [k: string]: Json };
 const isObj = (v: unknown): v is { [k: string]: Json } => typeof v === "object" && v !== null && !Array.isArray(v);
 
+/** Who reads with the study reference, from nobody to everybody (PD-30): an override may only move down this list. */
+export const DOSE_DISPLAY: readonly ScopeProfile["dose_display"][] = ["off", "roles", "all"];
+
 /**
  * Merge a build-time override over the selected profile. An override can only RESTRICT: lower a level, raise a notice, switch a feature
- * off, switch `annotate_only` to `suppress_hard`. Anything else throws, listing every violation (a static site cannot trust a loosening).
+ * off, switch `annotate_only` to `suppress_hard`, narrow who reads with the study reference (`dose_display`). Anything else throws, listing every violation (a static site cannot trust a loosening).
  */
 export function applyOverrides(base: ScopeProfile, overrides: unknown): ScopeProfile {
   if (overrides === undefined || overrides === null) return base;
@@ -125,6 +128,10 @@ export function applyOverrides(base: ScopeProfile, overrides: unknown): ScopePro
         else if (on && !features[key]) problems.push(`features.${key}: cannot be switched on (overrides may only restrict)`);
         else features[key] = on;
       }
+    } else if (section === "dose_display") {
+      if (typeof value !== "string" || !(DOSE_DISPLAY as readonly string[]).includes(value)) problems.push("dose_display: invalid value (off, roles or all)");
+      else if (DOSE_DISPLAY.indexOf(value as ScopeProfile["dose_display"]) > DOSE_DISPLAY.indexOf(base.dose_display)) problems.push(`dose_display: ${value} would widen ${base.dose_display} (overrides may only restrict)`);
+      else (next as { dose_display: string }).dose_display = value;
     } else if (section === "safety_enforcement") {
       if (value !== "suppress_hard" && value !== "annotate_only") problems.push("safety_enforcement: invalid value");
       else if (value === "annotate_only" && base.safety_enforcement === "suppress_hard") problems.push("safety_enforcement: annotate_only would loosen suppress_hard");
@@ -235,6 +242,7 @@ function formulaSet(files: DataFiles, reach: Reach, dev: boolean): FormulaSet {
 export function buildReference(files: DataFiles, opts: Pick<BuildOptions, "profile" | "overrides" | "draftLabel">): ReferenceChunk | null {
   if (opts.profile !== "release") return null;
   const base = files.scope.profiles.release;
+  if (applyOverrides(base, opts.overrides).dose_display === "off") return null;                // the build serves nobody the study reference (PD-30)
   const roles = { learner: roleProfile(base, files.scope.roles.learner, opts.overrides), practitioner: roleProfile(base, files.scope.roles.practitioner, opts.overrides) };
   const reach = reachOf(roles.learner);
   if (JSON.stringify(reach) !== JSON.stringify(reachOf(roles.practitioner))) throw new Error("the learner and the practitioner must reach the same content (one reference file serves both)");

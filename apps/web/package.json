@@ -11,7 +11,7 @@
     "preview": "vite preview",
     "test": "vitest run",
     "typecheck": "tsc -p tsconfig.json",
-    "build:e2e": "APP_DRAFT_LABEL=on vite build && APP_PROFILE=dev vite build --outDir dist-dev --emptyOutDir",
+    "build:e2e": "APP_DRAFT_LABEL=on vite build && APP_PROFILE=dev vite build --outDir dist-dev --emptyOutDir && APP_DRAFT_LABEL=on APP_DOSE_DISPLAY=roles vite build --outDir dist-roles --emptyOutDir",
     "test:e2e": "pnpm build:e2e && playwright test",
     "e2e:visual": "pnpm build:e2e && playwright test --project=visual-320 --project=visual-1280"
   },

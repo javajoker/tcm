@@ -59,6 +59,10 @@ PROFILES = {
         "tongue_pulse": {"tongue_zones": True, "tongue_special_signs": True, "pulse_input": True, "pulse_quality_coefficient": 0.5},
         # AI help (Release F; docs/post-mvp/design/ai-assisted-intake.md §3): off in a release until its gates — no module, no gateway (check-release rule 17)
         "ai": {"enabled": False, "endpoint": None, "modules": {"conversation": False, "tongue": False, "face": False}},
+        # Who reads with the study reference — reference quantities, the classical 加減 and the medication plan, for study and as an aid to a practitioner only (the owner's decision of
+        # 2026-10-08, PD-30; docs/post-mvp/design/prescription-model.md §7.4): "all" every reader unless they choose to be a general reader, "roles" only those who declare a role with
+        # the attestation, "off" nobody. A build may restrict it (APP_DOSE_DISPLAY / APP_OVERRIDES), never widen it.
+        "dose_display": "all",
     },
     "dev": {
         "description": "Development default: everything open for every population, condition and state. The 'see a doctor' notices are still shown and acknowledged (flow continues); the safety filter annotates instead of removing.",
@@ -76,6 +80,8 @@ PROFILES = {
         "tongue_pulse": {"tongue_zones": True, "tongue_special_signs": True, "pulse_input": True, "pulse_quality_coefficient": 0.5},
         # the conversation with the local mock gateway (`pnpm --filter @tcm/ai-gateway dev`); the observation of tongue and face is not built (PD-25, PM-50)
         "ai": {"enabled": True, "endpoint": "http://127.0.0.1:8787", "modules": {"conversation": True, "tongue": False, "face": False}},
+        # the development profile reaches L3 for everyone, with no reference file (the study reference is a release build's way to L3)
+        "dose_display": "all",
     },
 }
 

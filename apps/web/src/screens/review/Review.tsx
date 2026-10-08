@@ -5,6 +5,7 @@ import type { MessageKey } from "../../i18n/catalogs.ts";
 import { assessInputOf, toSaved } from "../../app/assessment.ts";
 import { attachPrescription } from "../../app/prescription.ts";
 import { effectiveSeasonModel, effectiveSeasons } from "../../app/seasons.ts";
+import { StudyUnavailable } from "../../role/StudyUnavailable.tsx";
 import { NeedsKnowledge, useLoaded } from "../../app/knowledge.tsx";
 import { Term } from "../../app/Term.tsx";
 import { useApp } from "../../app/store.tsx";
@@ -104,6 +105,7 @@ function Body({ draft, onFinishing, onUnfinish }: { draft: Draft; onFinishing: (
     <>
       <h1>{t.t("intake.review.title")}</h1>
       <p>{t.t("intake.review.intro")}</p>
+      <StudyUnavailable />
       <div style={{ display: "grid", gap: "var(--space-4)" }}>
         <About draft={draft} />
         <Safety draft={draft} />

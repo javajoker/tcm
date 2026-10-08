@@ -124,6 +124,7 @@
         }
       },
       "description": "Development default: everything open for every population, condition and state. The 'see a doctor' notices are still shown and acknowledged (flow continues); the safety filter annotates instead of removing.",
+      "dose_display": "all",
       "features": {
         "show_acupoints": true,
         "show_diet": true,
@@ -225,6 +226,7 @@
         }
       },
       "description": "Default for released builds: restricted output; risky populations and conditions are told to see a doctor and then receive education-level output.",
+      "dose_display": "all",
       "features": {
         "show_acupoints": true,
         "show_diet": true,

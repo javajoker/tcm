@@ -50,6 +50,17 @@ export class App {
   }
 
   async goto(path = "/"): Promise<void> { await this.page.goto(`/${this.lang}${path === "/" ? "/" : path}`); }
+
+  /**
+   * Read as a general reader: Settings → Who is reading → General reader. A build that shows the study reference to every reader by default (PD-30) then gives this person the plain release —
+   * the scenarios that are about that release start here, and the ones about the study reference do not.
+   */
+  async generalReader(): Promise<void> {
+    await this.goto("/settings");
+    const card = this.page.getByRole("region", { name: this.t("common.settings.role.title") });
+    await card.getByRole("radio", { name: this.t("common.settings.role.generalAll") }).click({ force: true });
+    await expect(card.getByRole("radio", { name: this.t("common.settings.role.generalAll") })).toBeChecked();
+  }
   path(): string { return new URL(this.page.url()).pathname.replace(new RegExp(`^/${this.lang}`), "") || "/"; }
 
   /** The landing page: tick the acknowledgement and start. */

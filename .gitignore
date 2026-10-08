@@ -28,6 +28,7 @@ apps/web/.kb/
 review/packs/
 review/candidates/*/
 apps/web/dist-dev/
+apps/web/dist-roles/
 apps/web/e2e/.results/
 apps/web/e2e/.report/
 apps/web/e2e/.fixtures/

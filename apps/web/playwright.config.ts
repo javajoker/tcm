@@ -1,6 +1,6 @@
 // End-to-end scenarios E1–E20 (docs/test-plan.md §5.1) and the visual-regression screenshots (§1, Q-07).
-// Two builds are served the way the host serves them (scripts/serve-dist.ts, a Cloudflare-Pages emulator): the RELEASE build with the closed-beta draft label on (`dist`, :4173) and the DEV build (`dist-dev`, :4174).
-// `pnpm test:e2e` builds both first. Projects: desktop 1280×800 and mobile 375×812, each in zh-Hant and en; scenarios that need the dev profile are in `dev.*.spec.ts`.
+// Three builds are served the way the host serves them (scripts/serve-dist.ts, a Cloudflare-Pages emulator): the RELEASE build with the closed-beta draft label on (`dist`, :4173), the DEV build (`dist-dev`, :4174) and the same release with the study reference shown only to those who declare a role (`dist-roles`, :4179; PD-30), and the AI help gateway with the mock provider (:8787).
+// `pnpm test:e2e` builds all three first. Projects: desktop 1280×800 and mobile 375×812, each in zh-Hant and en; scenarios that need the dev profile are in `dev.*.spec.ts`.
 // Locally `E2E_CHANNEL=chrome` uses the installed Google Chrome instead of the downloaded Chromium.
 import { defineConfig, devices } from "@playwright/test";
 import type { Options } from "./e2e/support/fixtures.ts";
@@ -17,11 +17,11 @@ const sizes = {
 } as const;
 const langs: readonly [string, Lang][] = [["en", "en"], ["zh", "zh-Hant"], ["hans", "zh-Hans"]];
 // Simplified Chinese is derived from the Traditional text (docs/post-mvp/design/simplified-chinese.md): the release build, desktop and mobile, with the scenarios that walk the whole flow and every screen.
-const HANS_SCENARIOS = /E1:|E2:|E5:|E9:|E10:|E11:|E24:|E26:|E27:|E28:|E29:|E30:|E31:|E32:|E33:|E34:|E35:|E36:|E37:|E40:|axe, /;
+const HANS_SCENARIOS = /E1:|E2:|E5:|E9:|E10:|E11:|E24:|E26:|E27:|E28:|E29:|E30:|E31:|E32:|E33:|E34:|E35:|E36:|E37:|E41:|axe, /;
 // AI help (Release F) exists only in the development build: its scenarios run there in Simplified too, on desktop.
 const DEV_HANS_SCENARIOS = /E38:|E39:/;
 // The release scenarios. E22 (offline) has projects of its own: it starts its own server, so that it can stop it, and it needs the service worker that every other scenario keeps out (below).
-const RELEASE_SPECS = /^(?!.*\/(dev\.|visual\.|e22-)).*\.spec\.ts$/;
+const RELEASE_SPECS = /^(?!.*\/(dev\.|visual\.|e22-|e40-)).*\.spec\.ts$/;
 const OFFLINE_SPEC = /e22-offline\.spec\.ts$/;
 
 const projects = (["release", "dev"] as const).flatMap((profile) =>
@@ -49,6 +49,14 @@ const offline = ([["en", "en", 4175], ["hans", "zh-Hans", 4176]] as const).map((
   name: `offline-${short}`,
   testMatch: OFFLINE_SPEC,
   use: { ...sizes.desktop, baseURL: `http://localhost:${port}`, lang: lang as Lang, locale: lang === "en" ? "en-US" : "zh-CN", timezoneId: "Asia/Taipei", serviceWorkers: "allow" as const },
+}));
+
+// The roles-mode build (PD-30: `APP_DOSE_DISPLAY=roles`): the study reference is shown only to those who declare a role; E40 runs on it, and only it. The default build above shows it to every reader (E41).
+const ROLES = "http://localhost:4179";
+const roles = ([["desktop", "en", "en"], ["desktop", "zh", "zh-Hant"], ["desktop", "hans", "zh-Hans"], ["mobile", "zh", "zh-Hant"]] as const).map(([size, short, lang]) => ({
+  name: `roles-${size}-${short}`,
+  testMatch: /e40-roles\.spec\.ts$/,
+  use: { ...sizes[size], baseURL: ROLES, lang: lang as Lang, locale: lang === "en" ? "en-US" : lang === "zh-Hans" ? "zh-CN" : "zh-TW", timezoneId: "Asia/Taipei" },
 }));
 
 // Cross-browser (test plan §5.3): E1, E2, E9 and E10 in Safari's engine (desktop and an iPhone) and in Firefox. They need those browsers installed (`playwright install webkit firefox`), so they only
@@ -79,8 +87,9 @@ export default defineConfig<Options>({
   webServer: [
     { command: "node ../../scripts/serve-dist.ts dist 4173", url: `${RELEASE}/en/`, reuseExistingServer: !process.env.CI, timeout: 60_000 },
     { command: "node ../../scripts/serve-dist.ts dist-dev 4174", url: `${DEV}/en/`, reuseExistingServer: !process.env.CI, timeout: 60_000 },
+    { command: "node ../../scripts/serve-dist.ts dist-roles 4179", url: `${ROLES}/en/`, reuseExistingServer: !process.env.CI, timeout: 60_000 },
     // AI help's gateway with the mock provider, for the development build (Release F): it answers 403 to a request without the app's origin, which tells Playwright it is up
     { command: "node ../ai-gateway/src/node.ts --dev", url: "http://127.0.0.1:8787/v1/config", reuseExistingServer: !process.env.CI, timeout: 60_000 },
   ],
-  projects: [...projects, ...visual, ...offline, ...cross, ...crossOffline],
+  projects: [...projects, ...roles, ...visual, ...offline, ...cross, ...crossOffline],
 });

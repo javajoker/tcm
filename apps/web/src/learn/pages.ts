@@ -204,6 +204,7 @@ export function formulaPage(kb: KnowledgeBase, id: string, t: T): PageModel | nu
     ] },
     { id: "principle", heading: t.t("learn.formula.principle"), blocks: [{ kind: "text", zh: f.principle, en: f.principle_en, status: f.en_status }] },
     { id: "composition", heading: t.t("learn.formula.composition"), blocks: [
+      ...(hasAmounts ? [{ kind: "plain" as const, text: t.t("safety.notice.amounts.text") }] : []),
       { kind: "table", caption: t.t("formula.composition.caption"), head: [t.t("formula.composition.col.role"), t.t("formula.composition.col.herb"), t.t("formula.composition.col.share"), ...(hasAmounts ? [t.t("formula.composition.col.amount")] : [])],
         rows: f.composition.map((r) => [`${t.zh(r.role)} ${t.t(key(`report.role.${ROLE_SLUG[r.role]}`))}`, herb(r.herb, r.name), t.number(r.proportion, { style: "percent", maximumFractionDigits: 0 }), ...(hasAmounts ? [amount(r)] : [])]) },
       { kind: "plain", text: t.t("formula.composition.roleNote") },

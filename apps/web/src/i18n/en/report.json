@@ -345,7 +345,7 @@
   "report.product.stasis": "Blood stasis",
   "report.role.assistant": "Assistant",
   "report.role.envoy": "Envoy",
-  "report.role.made": "This result was made in the role “{role}”: it includes quantities and a medication plan, for study and clinical reference.",
+  "report.role.made": "This result was made with the study reference (reference quantities and a medication plan), for study and as an aid to a practitioner only.",
   "report.role.minister": "Minister",
   "report.role.sovereign": "Sovereign",
   "report.saved": "Saved on this device",

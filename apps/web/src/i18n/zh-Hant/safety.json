@@ -16,6 +16,7 @@
   "safety.notice.acute.text": "您目前的症狀像是剛起的外感。若發燒超過 3 天、體溫 ≥ 39 °C 或症狀加重，請就醫。",
   "safety.notice.allergy.text": "有項目與您登錄的過敏原相符（{allergen}），已{removed_or_marked}。",
   "safety.notice.allergyUnknown.text": "我們無法確認「{text}」是否出現在建議的成分中，請自行核對成分。",
+  "safety.notice.amounts.text": "份量僅供學習與醫師輔助參考，不是用藥指示；用於任何人之前，須由合格的醫師親自診察後決定。",
   "safety.notice.b.body": "您提到「{reason}」。這類情況建議在 24 小時內由醫師評估，請不要等待或自行用藥。您可以繼續使用本應用程式了解一般資訊，部分內容不會顯示。",
   "safety.notice.b.title": "請盡快就醫（24 小時內）",
   "safety.notice.birth.text": "生辰、流年與運氣屬傳統文化的傾向參考，未經臨床驗證；只作為背景，不會改變您的症狀評分，也不應作為任何醫療決定的依據。",

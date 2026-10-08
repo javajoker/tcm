@@ -4,6 +4,7 @@
 import { useMemo, type ReactNode } from "react";
 import type { KnowledgeBase } from "@tcm/kb";
 import { useI18n } from "../i18n/I18nProvider.tsx";
+import { AmountsNote } from "../app/AmountsNote.tsx";
 import { DataTable } from "../screens/result/Panel.tsx";
 import type { SavedAssessment } from "../storage/types.ts";
 import { Card, Chip } from "../ui/index.ts";
@@ -18,6 +19,7 @@ export default function PrescriptionCard({ saved, kb }: { saved: SavedAssessment
   const v = rxView(p, kb, t, rx, saved.role !== undefined);
   return (
     <Card title={v.title} headingLevel={2} id="formula-rx">
+      {v.amounts && v.withheld === null ? <AmountsNote /> : null}
       <p>{v.intro}</p>
       <p className="muted">{v.draft}</p>
       {v.withheld !== null ? <p><strong>{v.withheld}</strong></p> : (

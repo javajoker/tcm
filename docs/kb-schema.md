@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 0.7 (draft) |
+| **Version** | 0.8 (draft) |
 | **Status** | Documents the first-pass `data/` as generated today, plus the files the engine and UI still need (§9) |
 | **Last updated** | 2026-10-07 |
 | **Audience** | Engine and UI developers, content reviewers, anyone adding or changing knowledge |
@@ -284,6 +284,7 @@ Built by `build_prescription.py` from `curated/prescription.py`; read by the eng
 `profiles.{release, dev}`: `{ description, population{key: {level, notice}}, condition{…}, state{…}, features{show_acupoints, show_diet, show_dosage_reference,
 show_formula_modification, show_herb_weights, show_tier_c}, safety_enforcement: "suppress_hard" | "annotate_only" }` · `resolution{effective_level, effective_notice, flow: "continue", …}`.
 Every profile must define **every** dimension key (checked). `dev` must have level `L3` everywhere and keep every `blocking_ack` of `release` (checked).
+`dose_display` (`off` · `roles` · `all`; PM-54, PD-30) — who reads with the study reference: nobody, those who declare a role, every reader unless they choose otherwise; release `all`, dev `all` (it reaches L3 for everyone); a build may narrow it (`applyOverrides`), never widen it.
 `roles: { learner, practitioner }` (PM-53): an overlay over the release profile — `population.{adult, elderly_65_plus}.level` raised (to L3) and the four study `features` switched on, nothing else (schema and `validate_kb`; `roleProfile` in `@tcm/kb` throws on anything that would lower a level or switch a feature off). The bundler applies it to build the reference for learners and practitioners (tech spec §5.2).
 Each profile also has `ai: { enabled, endpoint: origin | null, modules{conversation, tongue, face} }` — AI help (Release F, PM-46): a module needs `enabled` and an `endpoint`; `tongue` and `face` stay off (not built, PD-25); `release` must be all off with no endpoint (checked here and by check-release rule 17). `dev` points at the local mock gateway.
 
@@ -456,3 +457,4 @@ Pharmacopoeia facts are used as structured data. The Sources screen lists each b
 | 0.5 | 2026-10-08 | PM-46: the profiles' `ai` section (§6.1) |
 | 0.6 | 2026-10-08 | PM-47: `safety/red-flag-terms.json` (§6.2b) |
 | 0.7 | 2026-10-08 | PM-53: the roles' overlay in `scope-profiles.json` (§6.1) |
+| 0.8 | 2026-10-08 | PM-54: the profiles' `dose_display` (§6.1) |

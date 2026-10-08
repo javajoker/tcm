@@ -36,6 +36,8 @@ export interface WriteBundleOptions {
   readonly out: string;
   /** Path of a build-time override file (restrict only). */
   readonly overridesPath?: string | undefined;
+  /** Who reads with the study reference (default: APP_DOSE_DISPLAY): `all`, `roles` or `off`; a restriction of the profile's own value, like every override (PD-30). */
+  readonly doseDisplay?: string | undefined;
   /** The closed-beta draft label is on (default: APP_DRAFT_LABEL=on): draft emergency rows may ship; a public build ships only verified ones. */
   readonly draftLabel?: boolean | undefined;
   /** Path of the Simplified dictionary (default: the committed one). */
@@ -58,10 +60,17 @@ export interface WriteBundleResult {
   readonly overBudget: string[];
 }
 
+/** The override file's contents with the dose-display choice merged in; `undefined` when there is neither. */
+export function overridesOf(path: string | undefined, doseDisplay: string | undefined): unknown {
+  const file = path ? (JSON.parse(readFileSync(resolve(path), "utf8")) as Record<string, unknown>) : undefined;
+  if (doseDisplay === undefined || doseDisplay === "") return file;
+  return { ...(file ?? {}), dose_display: doseDisplay };
+}
+
 export function writeBundle(opts: WriteBundleOptions): WriteBundleResult {
   const { profile } = opts;
   const out = resolve(opts.out);
-  const overrides = opts.overridesPath ? (JSON.parse(readFileSync(resolve(opts.overridesPath), "utf8")) as unknown) : undefined;
+  const overrides = overridesOf(opts.overridesPath, opts.doseDisplay ?? process.env.APP_DOSE_DISPLAY);
   const { chunks, reach, herbFiles, bookFile, referenceFile } = buildChunks(readDataFiles(), { profile, overrides, version: "pending", draftLabel: opts.draftLabel ?? process.env.APP_DRAFT_LABEL === "on" });
 
   const serialized: Record<string, string> = {

@@ -16,6 +16,7 @@
   "safety.notice.acute.text": "Your symptoms look like a recent external illness. If fever lasts more than 3 days, reaches 39 °C or worsens, please see a doctor.",
   "safety.notice.allergy.text": "Some items match an allergen you listed ({allergen}) and have been {removed_or_marked}.",
   "safety.notice.allergyUnknown.text": "We cannot confirm whether \"{text}\" appears in the suggested ingredients; please check the ingredients yourself.",
+  "safety.notice.amounts.text": "Quantities are for study and as an aid to a practitioner only, not instructions for taking medicine; before any of it is used for anyone, a licensed practitioner examines the person and decides.",
   "safety.notice.b.body": "You mentioned \"{reason}\". Situations like this should be assessed by a doctor within 24 hours; please do not wait or self-medicate. You can keep using the app for general information, but some content will not be shown.",
   "safety.notice.b.title": "Please see a doctor soon (within 24 hours)",
   "safety.notice.birth.text": "Birth data, the annual cycle and the five periods and six qi are traditional-culture tendency references and are not clinically validated. They are background only: they do not change how your symptoms are scored and must not be the basis of any medical decision.",

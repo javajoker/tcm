@@ -2,7 +2,7 @@
 // reference holds what the role reaches beyond the release profile and is built only where L2 and L3 content may ship; a role's knowledge base merges it.
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { buildChunks, indexKnowledgeBase, reachOf, roleProfile } from "../src/index.ts";
+import { applyOverrides, buildChunks, DOSE_DISPLAY, indexKnowledgeBase, reachOf, roleProfile } from "../src/index.ts";
 import type { ScopeProfile } from "../src/index.ts";
 import { buildFromDisk, readDataFiles } from "../node/fromDisk.ts";
 
@@ -86,4 +86,34 @@ test("a role's knowledge base: the release profile with the overlay, every formu
   const pub = indexKnowledgeBase(buildFromDisk("release", undefined, false).chunks);
   assert.deepEqual(pub.roles, []);
   await assert.rejects(pub.forRole("learner"), /serves no learner/);
+});
+
+test("who reads with the study reference (PD-30): the release profile says everyone; an override may narrow it to those who declare a role or to nobody, never widen it", () => {
+  assert.equal(release.dose_display, "all");
+  assert.equal(files.scope.profiles.dev.dose_display, "all");
+  assert.deepEqual(DOSE_DISPLAY, ["off", "roles", "all"]);
+  assert.equal(applyOverrides(release, { dose_display: "roles" }).dose_display, "roles");
+  assert.equal(applyOverrides(release, { dose_display: "off" }).dose_display, "off");
+  assert.equal(applyOverrides(release, { dose_display: "all" }).dose_display, "all");
+  const narrowed = applyOverrides(release, { dose_display: "roles" });
+  assert.throws(() => applyOverrides(narrowed, { dose_display: "all" }), /would widen roles/);
+  assert.throws(() => applyOverrides(release, { dose_display: "everyone" }), /invalid value/);
+  assert.throws(() => applyOverrides(release, { dose_display: 3 }), /invalid value/);
+});
+
+test("the mode decides whether a reference is built: off serves nobody; roles and all build the same file — only the profile in the core chunk differs", () => {
+  const all = buildFromDisk("release", undefined, true);
+  const roles = buildFromDisk("release", { dose_display: "roles" }, true);
+  const off = buildFromDisk("release", { dose_display: "off" }, true);
+  assert.equal(all.chunks.core.config.profile.dose_display, "all");
+  assert.equal(roles.chunks.core.config.profile.dose_display, "roles");
+  assert.equal(off.chunks.core.config.profile.dose_display, "off");
+  assert.ok(all.referenceFile && roles.referenceFile);
+  assert.deepEqual(roles.referenceFile.formulas, all.referenceFile.formulas);
+  assert.equal(off.referenceFile, null);
+  assert.equal(off.chunks.reference, null);
+  assert.deepEqual(indexKnowledgeBase(off.chunks).roles, [], "a build that serves nobody offers no role");
+  // the general chunks do not depend on the mode but for the profile's own field
+  assert.deepEqual(roles.chunks.formulas, all.chunks.formulas);
+  assert.deepEqual(off.chunks.formulas, all.chunks.formulas);
 });

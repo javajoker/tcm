@@ -16,6 +16,7 @@
   "safety.notice.acute.text": "您目前的症状像是刚起的外感。若发烧超过 3 天、体温 ≥ 39 °C 或症状加重，请就医。",
   "safety.notice.allergy.text": "有项目与您登录的过敏原相符（{allergen}），已{removed_or_marked}。",
   "safety.notice.allergyUnknown.text": "我们无法确认「{text}」是否出现在建议的成分中，请自行核对成分。",
+  "safety.notice.amounts.text": "份量仅供学习与医师辅助参考，不是用药指示；用于任何人之前，须由合格的医师亲自诊察后决定。",
   "safety.notice.b.body": "您提到「{reason}」。这类情况建议在 24 小时内由医师评估，请不要等待或自行用药。您可以继续使用本应用程序了解一般信息，部分内容不会显示。",
   "safety.notice.b.title": "请尽快就医（24 小时内）",
   "safety.notice.birth.text": "生辰、流年与运气属传统文化的倾向参考，未经临床验证；只作为背景，不会改变您的症状评分，也不应作为任何医疗决定的依据。",

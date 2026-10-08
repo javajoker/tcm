@@ -12,8 +12,8 @@
   },
   "language": "en",
   "notice": {
-    "zh-Hant": "由本人使用「中醫自我評估」，依其輸入內容整理而成。 僅供教育參考，不是醫療診斷或處方。",
-    "en": "Prepared by the person using TCM Self-Check from what they entered. Educational reference — not a medical diagnosis or prescription."
+    "zh-Hant": "由本人使用「中醫自我評估」，依其輸入內容整理而成。 僅供教育參考，不是醫療診斷或處方。 份量僅供學習與醫師輔助參考，不是用藥指示；用於任何人之前，須由合格的醫師親自診察後決定。",
+    "en": "Prepared by the person using TCM Self-Check from what they entered. Educational reference — not a medical diagnosis or prescription. Quantities are for study and as an aid to a practitioner only, not instructions for taking medicine; before any of it is used for anyone, a licensed practitioner examines the person and decides."
   },
   "person": {
     "ageYears": 40,

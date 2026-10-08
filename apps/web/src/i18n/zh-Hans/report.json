@@ -344,7 +344,7 @@
   "report.product.stasis": "瘀",
   "report.role.assistant": "佐",
   "report.role.envoy": "使",
-  "report.role.made": "这份结果是以「{role}」身分制作的，内容包括份量与用药方案，供学习与临床参考。",
+  "report.role.made": "这份结果附有学习参考（参考份量与用药方案），仅供学习与医师辅助参考。",
   "report.role.minister": "臣",
   "report.role.sovereign": "君",
   "report.saved": "已保存在此设备",

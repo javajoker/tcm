@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 0.13 (draft) |
+| **Version** | 0.14 (draft) |
 | **Status** | Every item the MVP documents recorded as "to be revisited after the MVP" is answered here with the recommended default; new decisions that came out of the post-MVP design are PD-01 … PD-12 |
 | **Last updated** | 2026-10-07 |
 | **Audience** | Project owner, maintainers, reviewers |
@@ -167,6 +167,14 @@ The ⚑ items PD-13, PD-14, PD-21 and PD-25 were decided by the owner on 2026-10
 | PD-28 | 營衛 in the model | Three dimensions (衛, 營, 開闔), four natures, the sources of 營 and 衛 as a coupling, the 八綱 虛實 axis counting them; where readings disagree, the applicability-weighted mean with a confidence; no pattern added | [營衛 in the model](design/ying-wei.md) | The clinical reviewer moves a weight |
 | PD-29 | Order | Plan (PM-51) → 營衛 (PM-52) → the VSOP87 tables (PM-28) → Release F's mock-provider parts (PM-44 … PM-48) → learners and practitioners in the app (PM-53). PM-49 (the real provider) waits for the owner's key and deployment; PM-50 (photos) for the spike's gates | [Roadmap §4](roadmap.md) | — |
 
+### 2.10 The owner's decision of 2026-10-08
+
+**Decided by the owner, 2026-10-08:** *finish all the coding first; the doses are shown to users for the sake of learning, with a note that they are for study and as an aid to a practitioner only, and the display is configurable.*
+
+| ID | Question | Decision | Design | Revisit when |
+|---|---|---|---|---|
+| PD-30 ✓ | Reference quantities (doses) for study | The **study reference** — reference quantities, the classical 加減 and the medication plan with the reasons — is shown to **every reader by default**, unless they choose *General reader*; it always carries the note **N-AMOUNTS** ("for study and as an aid to a practitioner only, not instructions for taking medicine; a licensed practitioner examines the person and decides") beside every table of quantities, on the formula page, in the plan, in the practitioner summary and its file and on the Learn formula page. **Configurable** three ways: the profile's `dose_display` (`all` · `roles` · `off`, data default `all`), narrowed — never widened — at build time by `APP_DOSE_DISPLAY` or `APP_OVERRIDES`; each reader's own choice in *Settings → Who is reading*; and the existing feature flags. **Unchanged:** the safety layer for every reader (pregnancy, breastfeeding, minors, red flags, serious illness keep their blocking cells), the draft label, and the review gate (`check-release` rule 18: a public build serves no study reference before its formulas and herb records are reviewed). PD-13 and PD-14 stand for the `roles` mode | [Prescription model §7.4](design/prescription-model.md) | A legal view per market before a public launch (advisable, kept as a risk); a clinical or pharmacy reviewer asks for a narrower default |
+
 ## 3. Changelog
 
 | Version | Date | Change |
@@ -184,3 +192,4 @@ The ⚑ items PD-13, PD-14, PD-21 and PD-25 were decided by the owner on 2026-10
 | 0.11 | 2026-10-07 | §2.9: the owner's decisions of 2026-10-07 (second) — PD-13, PD-14, PD-19, PD-21, PD-25 decided; PD-12 extended; PD-28 (營衛 in the model) and PD-29 (order) |
 | 0.12 | 2026-10-07 | PD-12: 370 KB for Release E (the 營衛 block took all JS to 350.1 KB) |
 | 0.13 | 2026-10-08 | PD-12 measured for PM-53: the release build's prescription chunk about 17 KB; all JavaScript 367.6 of 370 KB |
+| 0.14 | 2026-10-08 | §2.10: PD-30 — reference quantities for study, shown by default with their note, configurable (PM-54) |

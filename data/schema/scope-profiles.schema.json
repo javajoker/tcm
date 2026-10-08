@@ -496,6 +496,13 @@
             "description": {
               "type": "string"
             },
+            "dose_display": {
+              "enum": [
+                "off",
+                "roles",
+                "all"
+              ]
+            },
             "features": {
               "additionalProperties": false,
               "properties": {
@@ -758,6 +765,7 @@
             "ai",
             "condition",
             "description",
+            "dose_display",
             "features",
             "population",
             "safety_enforcement",
@@ -941,6 +949,13 @@
             "description": {
               "type": "string"
             },
+            "dose_display": {
+              "enum": [
+                "off",
+                "roles",
+                "all"
+              ]
+            },
             "features": {
               "additionalProperties": false,
               "properties": {
@@ -1203,6 +1218,7 @@
             "ai",
             "condition",
             "description",
+            "dose_display",
             "features",
             "population",
             "safety_enforcement",

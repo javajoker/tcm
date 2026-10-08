@@ -8,15 +8,19 @@ import type { Script } from "@tcm/i18n";
 import { DisplayContext, identity } from "../i18n/display.ts";
 import { useI18n } from "../i18n/I18nProvider.tsx";
 import { IS_DEV_PROFILE } from "./profile.ts";
+import { effectiveRole } from "./role.ts";
 import { Button, Notice, Skeleton } from "../ui/index.ts";
 
 export type Engine = typeof EngineModule;
 export interface Loaded { readonly kb: KnowledgeBase; readonly engine: Engine }
-/** For a learner or a practitioner (PM-53): `active` when the knowledge base is theirs, `unavailable` when this build serves no role or the reference could not come — the general one is used then. */
+/**
+ * How this reader reads (PM-53, PM-54): `active` when the knowledge base is the study reference's, `unavailable` when it should be but the reference could not come — the general one is used
+ * then —, `none` for a general reader or a build that serves nobody the study reference. `byDefault`: the build's default gave the role, the reader did not choose it.
+ */
 export type RoleState = "none" | "active" | "unavailable";
 export type KnowledgeState =
   | { readonly status: "loading" }
-  | { readonly status: "ready"; readonly loaded: Loaded; readonly role: RoleState }
+  | { readonly status: "ready"; readonly loaded: Loaded; readonly role: RoleState; readonly byDefault: boolean }
   | { readonly status: "error"; readonly code: KbErrorCode | "unknown"; readonly offline: boolean };
 
 /** `script` is the script Chinese text is shown in; the data and the engine are the same for both (docs/post-mvp/design/simplified-chinese.md). */
@@ -48,37 +52,39 @@ function loadOnce(load: Loader, attempt: number, script: Script): Promise<Loaded
   return p;
 }
 
-/** The knowledge base of a role: the reference merged in (fetched once), or — where it cannot be had — the general one, said so. */
-async function withRole(loaded: Loaded, role: Role | null): Promise<{ readonly loaded: Loaded; readonly role: RoleState }> {
-  if (role === null) return { loaded, role: "none" };
-  if (!loaded.kb.roles.includes(role)) return { loaded, role: "unavailable" };
+/** The knowledge base of the reader's role: the reference merged in (fetched once), or — where it cannot be had — the general one, said so. */
+async function withRole(loaded: Loaded, declared: Role | "general" | null): Promise<{ readonly loaded: Loaded; readonly role: RoleState; readonly byDefault: boolean }> {
+  const role = effectiveRole(declared, loaded.kb);
+  const byDefault = declared === null;
+  if (role === null) return { loaded, role: "none", byDefault };
+  if (!loaded.kb.roles.includes(role)) return { loaded, role: "unavailable", byDefault };
   try {
-    return { loaded: { ...loaded, kb: await loaded.kb.forRole(role) }, role: "active" };
+    return { loaded: { ...loaded, kb: await loaded.kb.forRole(role) }, role: "active", byDefault };
   } catch {
-    return { loaded, role: "unavailable" };
+    return { loaded, role: "unavailable", byDefault };
   }
 }
 
-export function KnowledgeProvider({ load = defaultLoader, script = "Hant", role = null, children }: {
+export function KnowledgeProvider({ load = defaultLoader, script = "Hant", declared = null, children }: {
   load?: Loader;
   /** The script of Chinese text in the page language; a change loads the knowledge base again with the other display list. */
   script?: Script;
-  /** The reading role (PM-53): a learner or a practitioner reads with the reference for their role merged in; a change makes the knowledge base again (the general one is kept). */
-  role?: Role | null;
+  /** What the reader chose (PM-53, PM-54): a role reads with the study reference merged in, `general` without it, nothing — the build's default (`effectiveRole`); a change makes the knowledge base again (the general one is kept). */
+  declared?: Role | "general" | null;
   children: ReactNode;
 }): ReactNode {
-  // what was loaded or what failed, and for which script and role: a state for another than the page's is "loading" (derived, so no state is set from an effect before the fetch settles)
-  const [settled, setSettled] = useState<{ readonly state: KnowledgeState; readonly script: Script; readonly attempt: number; readonly role: Role | null } | null>(null);
+  // what was loaded or what failed, and for which script and choice: a state for another than the page's is "loading" (derived, so no state is set from an effect before the fetch settles)
+  const [settled, setSettled] = useState<{ readonly state: KnowledgeState; readonly script: Script; readonly attempt: number; readonly declared: Role | "general" | null } | null>(null);
   const [attempt, setAttempt] = useState(0);
-  const state: KnowledgeState = settled !== null && settled.script === script && settled.attempt === attempt && settled.role === role ? settled.state : LOADING;
+  const state: KnowledgeState = settled !== null && settled.script === script && settled.attempt === attempt && settled.declared === declared ? settled.state : LOADING;
   useEffect(() => {
     let cancelled = false;
-    loadOnce(load, attempt, script).then((loaded) => withRole(loaded, role)).then(
-      (r) => { if (!cancelled) setSettled({ state: { status: "ready", loaded: r.loaded, role: r.role }, script, attempt, role }); },
-      (e: unknown) => { if (!cancelled) setSettled({ state: failure(e), script, attempt, role }); },
+    loadOnce(load, attempt, script).then((loaded) => withRole(loaded, declared)).then(
+      (r) => { if (!cancelled) setSettled({ state: { status: "ready", loaded: r.loaded, role: r.role, byDefault: r.byDefault }, script, attempt, declared }); },
+      (e: unknown) => { if (!cancelled) setSettled({ state: failure(e), script, attempt, declared }); },
     );
     return () => { cancelled = true; };
-  }, [attempt, load, script, role]);
+  }, [attempt, load, script, declared]);
   const retry = useCallback(() => { setAttempt((a) => a + 1); }, []);
   // coming back online after a failure: try again without making the user find the button
   useEffect(() => {
@@ -103,10 +109,22 @@ export function useLoadedOptional(): Loaded | null {
   return v !== null && v.state.status === "ready" ? v.state.loaded : null;
 }
 
-/** Whether the knowledge base is a learner's or a practitioner's (PM-53); `none` while it loads. */
+/** How this reader reads (PM-53, PM-54); `none` while the knowledge base loads. */
 export function useRoleState(): RoleState {
   const v = useContext(Ctx);
   return v !== null && v.state.status === "ready" ? v.state.role : "none";
+}
+
+/** Whether the role comes from the build's default and not from the reader's choice. */
+export function useRoleByDefault(): boolean {
+  const v = useContext(Ctx);
+  return v !== null && v.state.status === "ready" && v.state.byDefault;
+}
+
+/** Try the knowledge base and the study reference again (a reference that could not come, for instance offline). */
+export function useRetryKnowledge(): () => void {
+  const v = useContext(Ctx);
+  return v !== null ? v.retry : () => undefined;
 }
 
 /**
@@ -138,7 +156,7 @@ export function KnowledgeOf({ role, children }: { role: Role | null | undefined;
   const { t } = useI18n();
   const loaded = useLoaded();
   const kb = useKnowledgeOf(role);
-  const value = useMemo<Value | null>(() => (kb === null || kb === loaded.kb || outer === null ? null : { state: { status: "ready", loaded: { ...loaded, kb }, role: "active" }, retry: outer.retry }), [kb, loaded, outer]);
+  const value = useMemo<Value | null>(() => (kb === null || kb === loaded.kb || outer === null ? null : { state: { status: "ready", loaded: { ...loaded, kb }, role: "active", byDefault: false }, retry: outer.retry }), [kb, loaded, outer]);
   if (kb === null) return <div role="status" aria-busy="true"><span className="visually-hidden">{t.t("common.loading")}</span><Skeleton width="60%" height="2rem" /><br /><Skeleton /></div>;
   if (value === null) return children;
   return <Ctx.Provider value={value}><DisplayContext.Provider value={kb.zh}>{children}</DisplayContext.Provider></Ctx.Provider>;

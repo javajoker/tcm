@@ -24,11 +24,16 @@ export interface Budgets {
   readonly herbBrowser: number;
   /** The learning book (PM-43): one file in Traditional Chinese, fetched only when someone opens the book — never part of the session figure. */
   readonly book: number;
-  /** The reference for learners and practitioners (PM-53): fetched for those roles only, never part of a general reader's session. */
+  /** The study reference (PM-53, PM-54): its own file, fetched for those who read with it; never part of the session figure above, which is a general reader's. */
   readonly reference: number;
+  /**
+   * A session of a reader who reads with the study reference — the chunks above and the reference (PD-30: by default every reader does, so a whole assessment fetches both): the same
+   * performance concern as the session figure, with the owner's decision to show reference quantities to every reader as its measure (91 KB + 51 KB = 143 KB when declared).
+   */
+  readonly kbSessionStudy: number;
 }
 const KB = 1024;
-export const BUDGETS: Budgets = { initialJs: 200 * KB, lazyJsChunk: 50 * KB, totalJs: 370 * KB, totalCss: 20 * KB, kbSession: 100 * KB, hansList: 30 * KB, herbBrowser: 140 * KB, book: 20 * KB, reference: 60 * KB };
+export const BUDGETS: Budgets = { initialJs: 200 * KB, lazyJsChunk: 50 * KB, totalJs: 370 * KB, totalCss: 20 * KB, kbSession: 100 * KB, hansList: 30 * KB, herbBrowser: 140 * KB, book: 20 * KB, reference: 60 * KB, kbSessionStudy: 150 * KB };
 
 const walk = (dir: string): string[] => readdirSync(dir).flatMap((n) => { const p = join(dir, n); return statSync(p).isDirectory() ? walk(p) : [p]; });
 const gz = (p: string): number => gzipSync(readFileSync(p), { level: 9 }).length;
@@ -81,10 +86,11 @@ export function checkBudgets(distDir: string, budgets: Budgets = BUDGETS): { fai
   over("Simplified display list", m.hansList, budgets.hansList);
   over("herb browser", m.herbBrowser, budgets.herbBrowser);
   over("learning book", m.book, budgets.book);
-  over("reference for learners and practitioners", m.reference, budgets.reference);
+  over("study reference", m.reference, budgets.reference);
+  if (m.reference > 0) over("knowledge base per session with the study reference", m.kbSession + m.reference, budgets.kbSessionStudy);
   for (const c of m.lazy) over(`lazy chunk ${c.file}`, c.bytes, budgets.lazyJsChunk);
   const report = [
-    `initial JS ${kb(m.initialJs)} / ${kb(budgets.initialJs)} · all JS ${kb(m.totalJs)} / ${kb(budgets.totalJs)} · CSS ${kb(m.totalCss)} / ${kb(budgets.totalCss)} · KB per session ${kb(m.kbSession)} / ${kb(budgets.kbSession)} · Simplified list ${kb(m.hansList)} / ${kb(budgets.hansList)}${m.herbBrowser > 0 ? ` · herb browser (on demand) ${kb(m.herbBrowser)} / ${kb(budgets.herbBrowser)}` : ""}${m.book > 0 ? ` · book (on demand) ${kb(m.book)} / ${kb(budgets.book)}` : ""}${m.reference > 0 ? ` · reference for learners and practitioners (on demand) ${kb(m.reference)} / ${kb(budgets.reference)}` : ""}`,
+    `initial JS ${kb(m.initialJs)} / ${kb(budgets.initialJs)} · all JS ${kb(m.totalJs)} / ${kb(budgets.totalJs)} · CSS ${kb(m.totalCss)} / ${kb(budgets.totalCss)} · KB per session ${kb(m.kbSession)} / ${kb(budgets.kbSession)} · Simplified list ${kb(m.hansList)} / ${kb(budgets.hansList)}${m.herbBrowser > 0 ? ` · herb browser (on demand) ${kb(m.herbBrowser)} / ${kb(budgets.herbBrowser)}` : ""}${m.book > 0 ? ` · book (on demand) ${kb(m.book)} / ${kb(budgets.book)}` : ""}${m.reference > 0 ? ` · study reference (on demand) ${kb(m.reference)} / ${kb(budgets.reference)} · session with it ${kb(m.kbSession + m.reference)} / ${kb(budgets.kbSessionStudy)}` : ""}`,
     `${m.lazy.length} lazy chunks, largest: ${m.lazy.slice(0, 3).map((c) => `${c.file.replace(/^assets\//, "")} ${kb(c.bytes)}`).join(", ")}`,
   ];
   return { failures, report };

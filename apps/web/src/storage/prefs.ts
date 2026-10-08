@@ -1,4 +1,4 @@
-import { AI_MODULES, DEFAULT_PREFS, LOCK_IDLE_MINUTES, ROLE_VALUES, SEASON_BASES, SEASON_MODELS, TEXT_SCALES, THEMES, type AiConsent, type AiModule, type Prefs, type RoleChoice } from "./types.ts";
+import { AI_MODULES, DEFAULT_PREFS, LOCK_IDLE_MINUTES, ROLE_CHOICES, SEASON_BASES, SEASON_MODELS, TEXT_SCALES, THEMES, type AiConsent, type AiModule, type Prefs, type RoleChoice } from "./types.ts";
 
 export const PREFS_KEY = "tcm.prefs";
 
@@ -18,7 +18,7 @@ function aiConsents(x: unknown): Prefs["ai"] | undefined {
 
 /** A declared role that is well formed, or none. */
 export function roleChoice(x: unknown): RoleChoice | undefined {
-  if (!isRecord(x) || !(ROLE_VALUES as readonly unknown[]).includes(x["role"]) || !isTime(x["at"]) || typeof x["version"] !== "string" || x["version"].length > 40) return undefined;
+  if (!isRecord(x) || !(ROLE_CHOICES as readonly unknown[]).includes(x["role"]) || !isTime(x["at"]) || typeof x["version"] !== "string" || x["version"].length > 40) return undefined;
   return { role: x["role"] as RoleChoice["role"], at: x["at"], version: x["version"] };
 }
 

@@ -403,6 +403,9 @@ export function checkRelease(distDir: string, opts: CheckOptions = {}): Failure[
     const reach = reachOf(general);
     if (reach.maxLevel !== "L0" && reach.maxLevel !== "L1") fail(18, `the general reader's profile reaches ${reach.maxLevel}: a general reader never reaches L2 or amounts`);
     if (reach.dosage || reach.herbRecords) fail(18, "the general reader's profile can show amounts or herb records");
+    // who reads with the study reference (PD-30): a known mode; "off" serves nobody, so there is no reference to ship
+    if (!["off", "roles", "all"].includes(general.dose_display)) fail(18, `the profile's dose_display is "${String(general.dose_display)}": off, roles or all`);
+    if (general.dose_display === "off" && manifest.reference !== undefined) fail(18, "the profile serves nobody the study reference (dose_display off) but the manifest lists one");
     const rf = manifest.reference;
     if (rf !== undefined) {
       const p = join(dist, "kb", rf.file);

@@ -3,7 +3,7 @@
 | | |
 |---|---|
 | **Working title** | TCM Self-Assessment App (name TBD) |
-| **Version** | 0.8 (draft) |
+| **Version** | 0.9 (draft) |
 | **Status** | Draft — documentation set complete (M0); open questions resolved with MVP defaults (§14.2), supporting-document proposals confirmed (§14.3); all to be revisited after the MVP — the post-MVP answers are in the [decision register](post-mvp/decisions.md) |
 | **Last updated** | 2026-10-07 |
 | **Related docs** | [Documentation index](README.md) · [Post-MVP set](post-mvp/README.md) · [Diagnosis SOP v0.2 (繁體中文)](diagnosis-sop.zh-TW.md) · [Algorithm spec](wuxing-algorithm.md) ([繁中](wuxing-algorithm.zh-TW.md)) · [Tech spec](tech-spec.md) · [UI/UX spec](ux-spec.md) · [KB schema](kb-schema.md) · [i18n guide](i18n-guide.md) · [Content review](content-review.md) · [Safety policy](safety-policy.md) · [Privacy](privacy.md) · [Test plan](test-plan.md) · [Release process](release-process.md) · [Tasks](../TASKS.md) · [Checklist](../CHECKLIST.md) · [Knowledge base (`data/`)](../data/README.md) · [Reference sources](../reference/README.md) |
@@ -70,7 +70,7 @@ attestation; a general reader keeps the education levels; the safety layer appli
 - No Simplified Chinese UI in MVP (data is converted from Simplified sources but only zh-Hant and en are offered).
 - No LLM-generated diagnosis. The diagnostic core is deterministic and explainable (§9, Q3).
 - No fate/fortune prediction. Birth data is used **only** as a bounded, optional tendency prior for the five-phase panel.
-- Dosing: a general reader never sees amounts; amounts and ratios are shown in development and to declared learners and practitioners, for study and clinical reference (FR-10, FR-17, post-MVP FR-44).
+- Dosing: reference amounts and ratios are shown **for study and as an aid to a practitioner only**, always with a note saying so; by default to every reader (who can choose *General reader* to hide them), and **configurable** — to declared learners and practitioners only, or to nobody — by the build (decision PD-30; FR-10, FR-17, post-MVP FR-44). A public build serves them only after the clinical and pharmacy reviews.
 
 ---
 
@@ -456,3 +456,4 @@ The project owner confirmed P1–P10 on 2026-10-04 (to be revisited after the MV
 | 0.6 | 2026-10-05 | Post-MVP document set linked: §4.3 rewritten as releases A–D, §13 milestone statuses brought up to date (M1, M2) with the post-MVP row, FR-14 points to its refinement; the post-MVP answers to the §14.2 questions are in the decision register |
 | 0.7 | 2026-10-07 | §4.3 and §13: Releases E (knowledge and prescription) and F (AI-assisted intake) from the owner's direction of 2026-10-07; requirements FR-35 … FR-42 in the post-MVP set |
 | 0.8 | 2026-10-07 | §1.3, §2.2, §3, §4.3: the owner's decisions of 2026-10-07 (second) — learners and practitioners as primary users with the medication plan behind a declared role; 營衛 in the panel |
+| 0.9 | 2026-10-08 | §Non-goals, dosing: reference amounts shown for study with their note, by default, configurable (PD-30) |

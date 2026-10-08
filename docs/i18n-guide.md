@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 0.2 (draft) |
+| **Version** | 0.3 (draft) |
 | **Status** | Draft — the lint (`scripts/check-i18n.ts`) and the catalogs are specified here, not yet implemented |
 | **Last updated** | 2026-10-04 |
 | **Audience** | Developers writing UI strings, translators, content reviewers |
@@ -148,7 +148,7 @@ Enforced for **all user-visible strings in both languages** (UI catalogs, KB dis
 | you have X / you are X | Labels the person | *leans towards*, *is consistent with*, *tendency* | 「傾向於」「與…相符」 (not 「你是…體質」「您患有…」) |
 | will, guaranteed, certain, proven | False certainty | *may*, *can*, *traditionally* | 「可能」「傳統上」 (not 「一定」「保證」「必然」「已證實」) |
 | destiny, fate, fortune, lucky/unlucky, "your chart says you will" | No fate claims | *birth-based tendency (traditional)* | 「出生資訊的傾向參考」 (not 「命中註定」「運勢」「命格」) |
-| dose, amount (outside dev/L3) | Release shows no amounts | *composition*, *proportions* | 「組成」「比例」 |
+| dose, amount (outside dev/L3) | Release shows no amounts to a general reader; the study reference shows *quantities* (份量) — never *dose* or *dosage* — and always with the note N-AMOUNTS (PD-30) | *composition*, *proportions*; with the study reference: *quantities*, *reference quantities* | 「組成」「比例」；學習參考：「份量」「參考份量」 |
 | natural = safe, "no side effects" | Misleading | state cautions plainly | 「天然無副作用」 is forbidden |
 | fear language ("dangerous", "deadly") outside emergency notices | Tone | calm, specific | 「很危險」「致命」 only in emergency notices |
 
@@ -248,6 +248,7 @@ UI strings, disclaimers and all notices exist in both languages with `reviewed` 
 |---|---|---|
 | 0.1 | 2026-10-04 | Initial guide |
 | 0.2 | 2026-10-08 | §5.1: the assistant's questions (AI help, PM-45) — the rules that apply, the assistant's own, the knowledge base's names, where they are generated |
+| 0.3 | 2026-10-08 | §5: the study reference's wording — quantities, never dose, with N-AMOUNTS (PM-54) |
 
 > **Implementation (K-12).** The glossary rows carry `source`, `alt` and `note`; `source` is the *best-known* basis — the 90 terms the author knows to be the WHO ISTM (2007) wording are `who-istm-2007`, the BaZi / five-periods-and-six-qi / season / calendar glosses are `project`, the rest `textbook` — and **all rows stay `needs-review`**: the bilingual linguistic reviewer verifies the WHO alignment against the standard itself (V-06), which is not in the repository. 22 terms the UI copy needed were added (證型, 氣血, 臟腑, 穴位, 舌象, 中醫師, 惡寒 / 畏寒 kept apart, 自汗, 盜汗 …). `validate_kb` checks the glossary: pinyin with tone marks, alternatives that differ from the main English, and agreement with the names the data files use for the same term (patterns, formulas, constitutions, symptoms) — which found and fixed "coat" → "coating" in the tongue symptoms. `check-i18n` enforces conformance in the catalogs; checking it found an English notice (N-MINOR) that omitted a sentence the Chinese had, now corrected in the safety policy. The glossary popover (`<Term>`) shows the note.
 

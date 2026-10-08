@@ -13,7 +13,7 @@ const KB = 1024;
 const blob = (kb: number): Buffer => randomBytes(kb * KB);
 
 /** A synthetic output: an entry that imports a vendor chunk statically, lazy chunks, css, knowledge-base chunks. */
-function dist(sizes: { entry?: number; vendor?: number; lazy?: number[]; css?: number; kb?: number[]; hans?: number; herbs?: number[]; book?: number } = {}): string {
+function dist(sizes: { entry?: number; vendor?: number; lazy?: number[]; css?: number; kb?: number[]; hans?: number; herbs?: number[]; book?: number; reference?: number } = {}): string {
   const d = mkdtempSync(join(tmpdir(), "tcm-budget-"));
   dirs.push(d);
   mkdirSync(join(d, "assets"), { recursive: true });
@@ -28,6 +28,7 @@ function dist(sizes: { entry?: number; vendor?: number; lazy?: number[]; css?: n
   if (sizes.hans !== undefined) writeFileSync(join(d, "kb", "hans-main.0123456789.txt"), blob(sizes.hans));
   (sizes.herbs ?? []).forEach((k, i) => writeFileSync(join(d, "kb", i === 0 ? "herbs-index.0123456789.json" : `herbs-${(i - 1).toString(16)}.0123456789.json`), blob(k)));
   if (sizes.book !== undefined) writeFileSync(join(d, "kb", "book.0123456789.json"), blob(sizes.book));
+  if (sizes.reference !== undefined) writeFileSync(join(d, "kb", "reference.0123456789.json"), blob(sizes.reference));
   return d;
 }
 const within = (b: number, target: number, tol = 0.1): boolean => Math.abs(b - target * KB) < target * KB * tol + 200;
@@ -60,6 +61,18 @@ test("the learning book is counted apart: never in the session figure, with a bu
   assert.match(checkBudgets(dist({ book: 12 })).report[0]!, /book \(on demand\) \d+\.\d KB \/ 20\.0 KB/);
   assert.doesNotMatch(checkBudgets(dist()).report[0]!, /book/);
   assert.match(checkBudgets(dist({ book: 24 })).failures.join("\n"), /learning book: .* over the 20\.0 KB budget/);
+});
+
+test("the study reference is counted apart from a general reader's session, and together with it for a reader who reads with it — each with a budget", () => {
+  const m = measure(dist({ reference: 50 }));
+  assert.ok(within(m.reference, 50), `reference ${m.reference}`);
+  assert.ok(within(m.kbSession, 40), "the session figure is a general reader's: the chunks without the reference");
+  assert.equal(measure(dist()).reference, 0);
+  assert.match(checkBudgets(dist({ reference: 50 })).report[0]!, /study reference \(on demand\) \d+\.\d KB \/ 60\.0 KB · session with it \d+\.\d KB \/ 150\.0 KB/);
+  assert.doesNotMatch(checkBudgets(dist()).report[0]!, /study reference/);
+  assert.match(checkBudgets(dist({ reference: 70 })).failures.join("\n"), /study reference: .* over the 60\.0 KB budget/);
+  assert.match(checkBudgets(dist({ kb: [60, 40, 20], reference: 55 })).failures.join("\n"), /knowledge base per session with the study reference: .* over the 150\.0 KB budget/);
+  assert.deepEqual(checkBudgets(dist({ reference: 50 })).failures, []);
 });
 
 test("a build inside the budgets passes and says the numbers", () => {

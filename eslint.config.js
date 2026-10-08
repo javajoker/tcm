@@ -23,7 +23,7 @@ const purity = (extraImportPatterns) => ({
 });
 
 export default tseslint.config(
-  { ignores: ["**/node_modules/**", "**/dist/**", "**/dist-dev/**", "**/coverage/**", "apps/web/e2e/.results/**", "apps/web/e2e/.report/**", "apps/web/e2e/__screenshots__/**", "reference/**", "data/**", ".venv/**", "**/*.generated.ts", "packages/kb/src/generated/**", "packages/ai/src/generated/**", "packages/wuxing/src/astro/vsop87-earth.ts"] },
+  { ignores: ["**/node_modules/**", "**/dist/**", "**/dist-dev/**", "**/dist-roles/**", "**/coverage/**", "apps/web/e2e/.results/**", "apps/web/e2e/.report/**", "apps/web/e2e/__screenshots__/**", "reference/**", "data/**", ".venv/**", "**/*.generated.ts", "packages/kb/src/generated/**", "packages/ai/src/generated/**", "packages/wuxing/src/astro/vsop87-earth.ts"] },
   ...tseslint.configs.recommended,
   {
     files: ["**/*.ts", "**/*.tsx"],

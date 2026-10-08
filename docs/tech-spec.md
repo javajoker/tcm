@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 0.12 (draft) |
+| **Version** | 0.13 (draft) |
 | **Status** | Draft — implementation not started (only `packages/wuxing`, `data/` and `scripts/kb` exist) |
 | **Last updated** | 2026-10-06 |
 | **Derives from** | [PRD v0.3](PRD.md) · [Diagnosis SOP v0.2](diagnosis-sop.zh-TW.md) · [Algorithm spec](wuxing-algorithm.md) |
@@ -274,7 +274,7 @@ Measured on the current `data/` (minified JSON, gzip):
 Total KB currently **≈ 143 KB gzip** for everything including all 703 herbs. With pruning (§5.3) a **release** session fetches roughly **55–65 KB gzip**
 (core, tier-A formulas without amounts, citations; no herb records), a **dev** session about 100 KB (plus `herbs-ext` on demand). The 975 KB `herbs.json` is never shipped whole. Per-chunk budgets are asserted by `bundle-data.ts` (fails the build on overrun).
 
-**The reference for learners and practitioners** ✔ (PM-53): `reference.<hash>.json` and `hans-reference.<hash>.txt` — what the role profile reaches beyond the release profile (every tier with amounts and 加減, each pattern's formulas, the herb records and prescription tables, the dose references, both role profiles). Fetched by `kb.forRole(role)` the first time a learner's or practitioner's page needs it, hash-checked, merged by `withReference` into a role's view (`kb.role`, `kb.general()`); part of the knowledge-base version; never in a general reader's session nor in the worker's lists. ≈ 51 KB gzip, budget 60 KB. Only in a release build that may ship L2/L3 content (the draft label, or every formula and herb record reviewed).
+**The reference for learners and practitioners** ✔ (PM-53): `reference.<hash>.json` and `hans-reference.<hash>.txt` — what the role profile reaches beyond the release profile (every tier with amounts and 加減, each pattern's formulas, the herb records and prescription tables, the dose references, both role profiles). Fetched by `kb.forRole(role)` the first time a page of a reader who reads with it needs it, hash-checked, merged by `withReference` into a role's view (`kb.role`, `kb.general()`); part of the knowledge-base version; never in a general reader's session. The worker lists it (and its Simplified list) **only where the profile's `dose_display` is `all`** — then it is every reader's and the product must work offline with it — and otherwise leaves it to the network (`referenceOffline` in `scripts/sw-build.ts`). ≈ 51 KB gzip, budget 60 KB. Only in a release build that may ship L2/L3 content (the draft label, or every formula and herb record reviewed).
 
 ### 5.3 Profile pruning ✔ (task E-03: `packages/kb/src/bundle.ts`, `scripts/bundle-data.ts`)
 
@@ -321,6 +321,7 @@ APP_PROFILE=dev     pnpm --filter web dev|build:dev
 ```
 
 - The profile is injected as a compile-time constant (`__APP_PROFILE__`). `bundle-data.ts` emits **only** the selected profile (§5.3).
+- Who reads with the study reference is the profile's `dose_display` (`all` · `roles` · `off`; the data's release default is `all`, PD-30): `APP_DOSE_DISPLAY` (or `dose_display` in `APP_OVERRIDES`) narrows it at build time and never widens it (`applyOverrides`); `off` builds no reference file. The reader's own choice is a preference (§8.3 `role`).
 - AI help (Release F) follows the profile's `ai` section: `__APP_AI_ENABLED__`, `__APP_AI_ENDPOINT__` (the gateway's origin; `APP_AI_ENDPOINT` may name another for a profile that turns AI help on — https, or a local http origin) and `__APP_AI_CONVERSATION__`. They are scalars so that a release's `__APP_AI_ENABLED__ ? lazy(() => import(…)) : null` is a literal false before chunking: no AI chunk is made (check-release rule 17).
 - "Overridable by environment configuration" (PRD FR-17) means **build-time environment variables** (`APP_PROFILE`, `APP_OVERRIDES` = path to a JSON file merged over the selected profile and re-validated). There is **no runtime override in release**: a static site cannot trust a runtime switch.
 - In `dev` builds only, the developer inspector (`/_dev`) can switch the active *sub-profile cell* (e.g. force L0 for a population) to test resolution; the code is behind `if (__APP_PROFILE__ === "dev")` and tree-shaken from release.
@@ -653,7 +654,7 @@ Colour: one sequential hue per quantity family, never red/green as good/bad; sig
 | Initial JS (gzip) | ≤ 200 KB | React + router + store + shell only; every screen but the landing page is a lazy route; engine and `@tcm/wuxing` load with the first inquiry; asserted by `scripts/check-budgets.ts` in CI (≈ 120 KB today); any lazy chunk ≤ 50 KB, all JS ≤ 260 KB, CSS ≤ 20 KB |
 | All JS (gzip) | ≤ 370 KB (260 for the MVP, +40 for Release A's lazy features, +50 for Release B's, +20 for Release E's) | A bound on growth, not on a visit: nobody downloads it all. Each post-MVP release declares the lazy budgets of its features and raises this figure by that sum ([decision PD-12](post-mvp/decisions.md)); the initial 200 KB and the 50 KB per lazy chunk do not move |
 | LCP / INP (mobile 4G) | ≤ 2.5 s / ≤ 200 ms | Lighthouse CI on the landing and result routes, throttled |
-| KB per session (release) | ≈ 82 KB gz today (budget 100 KB) | §5.2; per-chunk budgets enforced in `bundle-data.ts` (dev: 1.5×), the session total in `check-budgets.ts` |
+| KB per session (release) | ≈ 91 KB gz for a general reader (budget 100 KB); with the study reference — every reader's by default (PD-30) — 142.5 KB (budget 150 KB, `kbSessionStudy` in `check-budgets.ts`) | §5.2; per-chunk budgets enforced in `bundle-data.ts` (dev: 1.5×), the session total in `check-budgets.ts` |
 | Engine time | `assess` ≤ 50 ms p95 on a mid-range phone | micro-benchmarks in `packages/engine/bench`, tracked per release; no allocation in inner loops of noisy-OR and greedy 加減 |
 | Interaction | Answering a question never blocks on the engine | `nextQuestions` runs after the answer is stored; it is incremental and bounded |
 | Fonts | System CJK stacks (PingFang TC / Noto Sans TC / Microsoft JhengHei; serif for citations); optional self-hosted subset later | Avoids multi-MB webfont cost; subsetting is task T-PERF-3 |
@@ -693,3 +694,4 @@ Colour: one sequential hue per quantity family, never red/green as good/bad; sig
 | 0.10 | 2026-10-08 | §6.1, §11: AI help's build constants and the gateway in `connect-src` of a build with AI help only (PM-46) |
 | 0.11 | 2026-10-08 | §2: the web app's side of AI help — the conversation, its memory-only state, the device's checks (PM-47) |
 | 0.12 | 2026-10-08 | §5.2: the reference for learners and practitioners, fetched on demand and merged into a role's view (PM-53) |
+| 0.13 | 2026-10-08 | §5.2, §6.1, §12: `dose_display`, `APP_DOSE_DISPLAY`, the reference in the offline copy where it is every reader's, the session budget with it (PM-54) |

@@ -3,6 +3,7 @@ import type { FormulaRecommendation } from "@tcm/engine";
 import type { Formula, KnowledgeBase } from "@tcm/kb";
 import { useI18n } from "../../i18n/I18nProvider.tsx";
 import type { MessageKey, } from "../../i18n/catalogs.ts";
+import { AmountsNote } from "../../app/AmountsNote.tsx";
 import { CitationChip, CitationChips } from "../../app/citations.tsx";
 import { KnowledgeOf, NeedsKnowledge, useLoaded } from "../../app/knowledge.tsx";
 import { useApp } from "../../app/store.tsx";
@@ -58,6 +59,7 @@ function Detail({ saved, rec, formula, kb }: { saved: SavedAssessment; rec: Form
 
       <div style={{ display: "grid", gap: "var(--space-4)", marginTop: "var(--space-4)" }}>
         <Card title={t.t("formula.composition.title")} headingLevel={2} id="formula-composition">
+          {showAmounts ? <AmountsNote /> : null}
           <DataTable caption={t.t("formula.composition.caption")} head={[t.t("formula.composition.col.role"), t.t("formula.composition.col.herb"), t.t("formula.composition.col.share"), ...(showAmounts ? [t.t("formula.composition.col.amount")] : [])]}
             rows={rec.composition.map((r) => [
               <span key="r"><span lang={t.zhLang}>{t.zh(r.role)}</span> <span className="muted">{t.t(`report.role.${ROLE_SLUG[r.role]}` as MessageKey)}</span></span>,

@@ -57,7 +57,7 @@ function Report({ saved }: { saved: SavedAssessment }): ReactNode {
         <Chip tone={storage === "persistent" ? "plain" : "notice"}>{storage === "persistent" ? `✓ ${t.t("report.saved")}` : `⚠ ${t.t("report.notSaved")}`}</Chip>
       </div>
       <Actions saved={saved} />
-      {saved.role !== undefined ? <p className="muted" data-testid="result-role">{t.t("report.role.made", { role: t.t(`common.settings.role.${saved.role}`) })}</p> : null}
+      {saved.role !== undefined && saved.result.policy.features.dosage ? <p className="muted" data-testid="result-role">{t.t("report.role.made")}</p> : null}       {/* only when quantities are in it: a result held at L0 by pregnancy, say, has none */}
       <nav aria-label={t.t("report.nav.label")} className={styles.chips}>
         {sections.map(([k, anchor]) => <a key={k} href={`#${anchor}`} className={styles.chip}>{t.t(`report.nav.${k}` as MessageKey)}</a>)}
       </nav>

@@ -179,6 +179,9 @@ def validate(load: Loader = load, check_sources: bool = True) -> list[str]:
             err(f"profile {pname}: an AI module is on without AI help enabled and a gateway endpoint")
         if ai["modules"]["tongue"] or ai["modules"]["face"]:
             err(f"profile {pname}: the observation of tongue and face is not built (decision PD-25, task PM-50)")
+    # who reads with the study reference (PD-30): a mode other than "off" needs the roles' overlays to switch the study features on (they do, by the checks below); the development profile reaches L3 for everyone
+    if scope["profiles"]["dev"]["dose_display"] != "all":
+        err("profile dev: dose_display must be all (the development profile opens everything)")
     if scope["profiles"]["release"]["ai"] != {"enabled": False, "endpoint": None, "modules": {"conversation": False, "tongue": False, "face": False}}:
         err("profile release: AI help must be off, with no gateway, until its gates (docs/post-mvp/design/ai-assisted-intake.md §6)")
     # the roles (PM-53): an overlay over the release profile that may only raise an adult's level and switch study features on (the schema admits nothing else)

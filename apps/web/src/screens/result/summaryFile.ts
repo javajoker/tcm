@@ -86,7 +86,12 @@ export function summaryFile(data: SummaryData, saved: SavedAssessment, kb: Knowl
       points: data.recommendations.points.map((x): Coded => ({ id: x.code, label: { "zh-Hant": x.name, en: kb.term(x.name)?.en ?? x.code } })),
     };
   }
-  if (prescription !== null && on("prescription")) out["prescription"] = prescription;
+  if (prescription !== null && on("prescription")) {
+    out["prescription"] = prescription;
+    // the quantities travel with the note that they are for study and as an aid to a practitioner only (safety policy N-AMOUNTS, PD-30)
+    const note = out["notice"] as Label;
+    out["notice"] = { "zh-Hant": `${note["zh-Hant"]} ${zh.t("safety.notice.amounts.text")}`, en: `${note.en ?? ""} ${en.t("safety.notice.amounts.text")}`.trim() };
+  }
   if (options.note !== null && options.note.trim() !== "") out["note"] = options.note;
   return out as SummaryFile;
 }

@@ -54,8 +54,10 @@ export interface Prefs {
   readonly roleOffered?: boolean;
 }
 
-export interface RoleChoice { readonly role: Role; readonly at: number; readonly version: string }
+/** A reader's choice of how to read (PM-53, PM-54): a role with the attestation's version, or `general` — hide the study reference even where the build shows it by default. */
+export interface RoleChoice { readonly role: Role | "general"; readonly at: number; readonly version: string }
 export const ROLE_VALUES = ["learner", "practitioner"] as const satisfies readonly Role[];
+export const ROLE_CHOICES = ["general", ...ROLE_VALUES] as const;
 
 /** The modules of AI help a person can consent to; the observation of tongue and face is not built (PD-25). */
 export type AiModule = "conversation";

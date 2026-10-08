@@ -11,7 +11,8 @@ import { APP_BUILD } from "../src/app/profile.ts";
 import type { Loaded } from "../src/app/knowledge.tsx";
 import { fakeEnvironment, renderApp, testStore } from "./helpers.tsx";
 
-const kb = indexKnowledgeBase(rawChunksFromDisk("release"));
+// the release as a reader who has not declared a role sees it (the study reference is every reader's by default, PD-30: roles.test.tsx and E41 cover that)
+const kb = indexKnowledgeBase(rawChunksFromDisk("release", { dose_display: "roles" }));
 const loaded: Loaded = { kb, engine };
 const go = (path: string): void => { window.history.pushState({}, "", path); };
 afterEach(() => { go("/"); document.documentElement.removeAttribute("data-theme"); document.documentElement.style.removeProperty("--text-scale"); });

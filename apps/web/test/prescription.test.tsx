@@ -131,7 +131,8 @@ describe("the practitioner summary", () => {
     const s = prescriptionSection(saved, devKb, tOf("en"))!;
     expect(s.title).toBe("Modifications for this person (for a practitioner)");
     expect(s.table!.rows.length).toBe(p.composition.length);
-    expect(s.items![0]).toMatch(/^Starting from /);
+    expect(s.items![0]).toBe(tOf("en").t("safety.notice.amounts.text"));                      // the note first: the quantities are for study and as an aid to a practitioner only (PD-30)
+    expect(s.items![1]).toMatch(/^Starting from /);
     expect(prescriptionSection(save(dev, interview(devKb, "HT1"), "rx66666666666666"), devKb, tOf("en"))).toBeNull();
   });
 

@@ -8,7 +8,7 @@ import { join } from "node:path";
 import { after, before, describe, test } from "node:test";
 import { checkRelease, type Failure } from "./check-release.ts";
 import { LANGUAGE_SEGMENTS } from "./deploy-files.ts";
-import { buildFacts, workerSource } from "./sw-build.ts";
+import { buildFacts, parseWorker, workerSource } from "./sw-build.ts";
 
 const root = join(import.meta.dirname, "..");
 let base = "";          // a closed-beta build: draft label on, so noindex
@@ -411,6 +411,30 @@ describe("check-release", () => {
     saveManifest(stray, m);
     assert.match(messages(checkRelease(stray, { draftLabel: true })), /a reference file is in the output but not in the manifest/);
     assert.match(messages(checkRelease(base)), /a public build ships the reference for learners and practitioners before its formulas and herb records are reviewed/);
+  });
+
+  test("18: who reads with the study reference — an unknown mode, and a manifest that lists a reference for a profile that serves nobody", () => {
+    const unknown = copy();
+    edit(unknown, "core", (c) => { c.config.profile.dose_display = "everyone"; });
+    assert.match(messages(checkRelease(unknown, { draftLabel: true })), /dose_display is "everyone": off, roles or all/);
+    const off = copy();
+    edit(off, "core", (c) => { c.config.profile.dose_display = "off"; });
+    assert.match(messages(checkRelease(off, { draftLabel: true })), /serves nobody the study reference \(dose_display off\) but the manifest lists one/);
+  });
+
+  test("13 and 18: the worker's lists hold the study reference and its Simplified list when the build serves it to everyone, and neither when it does not", () => {
+    const m = JSON.parse(readFileSync(join(base, "kb", "manifest.json"), "utf8")) as { reference: { file: string }; variants: { "zh-Hans": { reference: { file: string } } } };
+    const facts = parseWorker(readFileSync(join(base, "sw.js"), "utf8"))!;
+    assert.ok(facts.knowledge.common.includes(`/kb/${m.reference.file}`), "common");
+    assert.ok(facts.knowledge.hans.includes(`/kb/${m.variants["zh-Hans"].reference.file}`), "hans");
+    const roles = copy();
+    edit(roles, "core", (c) => { c.config.profile.dose_display = "roles"; });
+    const f = parseWorker(readFileSync(join(roles, "sw.js"), "utf8"))!;
+    assert.ok(!f.knowledge.common.includes(`/kb/${m.reference.file}`) && !f.knowledge.hans.includes(`/kb/${m.variants["zh-Hans"].reference.file}`), "in the roles mode the worker leaves the reference out");
+    assert.deepEqual(rules(checkRelease(roles, { draftLabel: true })), [], "…and says so consistently");
+    // a worker that still lists the reference although the profile only offers it to those who declare a role is not this build's worker
+    writeFileSync(join(roles, "sw.js"), readFileSync(join(base, "sw.js"), "utf8"));
+    assert.deepEqual(rules(checkRelease(roles, { draftLabel: true })), [13]);
   });
 
   test("18: a general reader's assessment from the built knowledge base reaches L1 and no amount; a learner's reaches L3 with amounts; a pregnant learner stays at L0", async () => {

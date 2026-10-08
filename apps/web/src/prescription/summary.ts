@@ -19,7 +19,8 @@ export function prescriptionSection(saved: SavedAssessment, kb: KnowledgeBase, t
   if (v.withheld !== null) return { id: "rx", title, items: [v.withheld, v.draft, v.footer] };
   return {
     id: "rx", title,
-    items: [v.base, ...v.changes, ...v.cautions, ...v.why, v.draft, v.footer],
+    // N-AMOUNTS first: the quantities are for study and as an aid to a practitioner only (PD-30)
+    items: [...(v.amounts ? [t.t("safety.notice.amounts.text")] : []), v.base, ...v.changes, ...v.cautions, ...v.why, v.draft, v.footer],
     ...(v.amounts ? { table: { caption: rx.t("rx.table.caption"), head: [rx.t("rx.col.role"), rx.t("rx.col.herb"), rx.t("rx.col.grams"), rx.t("rx.col.range"), rx.t("rx.col.why")],
       rows: v.rows.map((r) => [r.role, r.added ? `${r.herb} (${rx.t("rx.added")})` : r.herb, r.grams, r.range, r.why]) } } : {}),
   };
