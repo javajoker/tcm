@@ -54,6 +54,8 @@ SOURCES: list[dict] = [
     src("zhongcangjing", "中藏經", ["theory", "pattern-systems"], book="557", names=("華氏中藏經",), use="Organ patterns (臟腑辨證), cold-heat-deficiency-excess of each organ"),
     src("sanyin", "三因極一病證方論", ["theory", "formulas"], book="558", use="The three classes of causes (內因、外因、不內外因)"),
     src("yixue-yuanliu", "醫學源流論", ["theory", "treatment"], book="418", use="五方異治 and other essays on adapting treatment"),
+    src("zhubing-yuanhou", "諸病源候論", ["theory", "pattern-systems"], book="571", use="巢元方's causes and signs of disease, the Sui classic of pathology (the course's history chapter)"),
+    src("yuanbingshi", "素問玄機原病式", ["theory"], book="426", use="劉完素's theory of fire and heat, the first of the four masters of 金元 (the course's history chapter)"),
     # ── diagnosis ─────────────────────────────────────────────────────────────────────────────────────────────
     src("maijing", "脈經", ["diagnosis"], book="504", use="The pulse classic: positions, the twenty-four pulses"),
     src("binhu-maixue", "瀕湖脈學", ["diagnosis"], book="506", use="The 27 pulses and their yin-yang class (pulse data)"),
@@ -78,6 +80,11 @@ SOURCES: list[dict] = [
     src("piwei-lun", "脾胃論", ["pattern-systems", "formulas"], book="614", use="Spleen and stomach; raising the clear yang (升陽)"),
     src("neiwaishang", "內外傷辨惑論", ["pattern-systems", "formulas"], book="232", names=("內外傷辨",), use="Internal and external damage; the first source of 補中益氣湯"),
     src("danxi-xinfa", "丹溪心法", ["pattern-systems", "formulas"], book="570", use="六鬱; 越鞠丸; a verified quotation"),
+    src("rumen-shiqin", "儒門事親", ["treatment", "pattern-systems"], book="572", use="張從正's school of attacking the pathogen (汗、吐、下) (the course's history chapter)"),
+    src("linzheng-zhinan", "臨證指南醫案", ["pattern-systems"], book="367", use="葉桂's case records: how a master reasons case by case (the course's history and clinical chapters)"),
+    src("waike-zhengzong", "外科正宗", ["pattern-systems", "formulas"], book="230", use="陳實功's surgery: sores and swellings (the course's clinical chapter)"),
+    src("youyou-jicheng", "幼幼集成", ["pattern-systems"], book="155", use="陳復正's paediatrics (the course's clinical chapter)"),
+    src("yinhai-jingwei", "銀海精微", ["pattern-systems"], book="292", use="Ophthalmology (the course's clinical chapter)"),
     # ── materia medica ───────────────────────────────────────────────────────────────────────────────────────
     src("shennong", "神農本草經", ["materia-medica"], book="000", lib=("raw/bencao",), use="The three grades; 七情 (序例); the oldest statements of properties"),
     src("bencaojing-jizhu", "本草經集注", ["materia-medica"], book="002", use="陶弘景's commentary; the 七情 table"),
@@ -106,7 +113,9 @@ SOURCES: list[dict] = [
     # ── formulas ────────────────────────────────────────────────────────────────────────────────────────────────
     src("qianjin-yaofang", "備急千金要方", ["formulas", "prevention"], book="532", use="Tang formulas; 食治"),
     src("qianjin-yifang", "千金翼方", ["formulas"], book="051", use="Tang formulas"),
+    src("zhouhou-beiji", "肘後備急方", ["formulas"], book="075", use="葛洪's handbook of formulas for emergencies (the course's history chapter)"),
     src("waitai-miyao", "外臺秘要", ["formulas"], book="053", use="Tang formula collection"),
+    src("jufang-fahui", "局方發揮", ["formulas", "treatment"], book="357", use="朱震亨's critique of the warming, drying formulas of the 局方 (the course's history chapter)"),
     src("hejiju-fang", "太平惠民和劑局方", ["formulas"], book="059", use="Song official formulary (six formulas of the library)"),
     src("yifang-jijie", "醫方集解", ["formulas"], book="087", use="Formulas by method with explanations (方解); modifications"),
     src("tangtou-gejue", "湯頭歌訣", ["formulas"], book="084", use="The formula rhymes"),

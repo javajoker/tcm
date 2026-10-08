@@ -4,12 +4,12 @@
       "專科": {
         "books": 89,
         "drawn_on": 1,
-        "registered": 1
+        "registered": 2
       },
       "方劑": {
         "books": 88,
         "drawn_on": 4,
-        "registered": 10
+        "registered": 12
       },
       "本草": {
         "books": 47,
@@ -19,7 +19,7 @@
       "綜合": {
         "books": 333,
         "drawn_on": 11,
-        "registered": 23
+        "registered": 28
       },
       "診法": {
         "books": 11,
@@ -29,7 +29,7 @@
       "醫經": {
         "books": 95,
         "drawn_on": 9,
-        "registered": 10
+        "registered": 11
       },
       "針灸": {
         "books": 25,
@@ -47,7 +47,7 @@
         "registered": 0
       }
     },
-    "count": 91,
+    "count": 100,
     "description": "Sources registry: every work the knowledge base draws on or, by its design, should draw on (docs/post-mvp/design/knowledge-base-v2.md), with how the data uses it. Build-time only; never in the bundle.",
     "domains": {
       "acupuncture": {
@@ -91,7 +91,7 @@
     "schema": 1,
     "status_counts": {
       "bibliography": 7,
-      "in-corpus": 76,
+      "in-corpus": 85,
       "not-in-corpus": 8
     },
     "unresolved": []
@@ -338,6 +338,65 @@
       "status": "in-corpus",
       "title": "醫學源流論",
       "use": "五方異治 and other essays on adapting treatment"
+    },
+    {
+      "author": null,
+      "corpus": [
+        {
+          "exists": true,
+          "path": "reference/sources/TCM-Ancient-Books/571-诸病源候论.txt",
+          "repo": "TCM-Ancient-Books"
+        }
+      ],
+      "domains": [
+        "theory",
+        "pattern-systems"
+      ],
+      "drawn_on": false,
+      "edition": {
+        "author": "巢元方",
+        "category": "綜合",
+        "dynasty": "隋",
+        "year": "公元614年"
+      },
+      "era": null,
+      "id": "zhubing-yuanhou",
+      "kind": "classic",
+      "names": [],
+      "quotations": 0,
+      "references": {},
+      "status": "in-corpus",
+      "title": "諸病源候論",
+      "use": "巢元方's causes and signs of disease, the Sui classic of pathology (the course's history chapter)"
+    },
+    {
+      "author": null,
+      "corpus": [
+        {
+          "exists": true,
+          "path": "reference/sources/TCM-Ancient-Books/426-素问玄机原病式.txt",
+          "repo": "TCM-Ancient-Books"
+        }
+      ],
+      "domains": [
+        "theory"
+      ],
+      "drawn_on": false,
+      "edition": {
+        "author": "劉完素",
+        "category": "醫經",
+        "dynasty": "金",
+        "year": "公元1188年"
+      },
+      "era": null,
+      "id": "yuanbingshi",
+      "kind": "classic",
+      "names": [],
+      "quotations": 0,
+      "references": {},
+      "status": "in-corpus",
+      "title": "素問玄機原病式",
+      "use": "劉完素's theory of fire and heat, the first of the four masters of 金元 (the course's history chapter)"
     },
     {
       "author": null,
@@ -1035,6 +1094,153 @@
       "status": "in-corpus",
       "title": "丹溪心法",
       "use": "六鬱; 越鞠丸; a verified quotation"
+    },
+    {
+      "author": null,
+      "corpus": [
+        {
+          "exists": true,
+          "path": "reference/sources/TCM-Ancient-Books/572-儒门事亲.txt",
+          "repo": "TCM-Ancient-Books"
+        }
+      ],
+      "domains": [
+        "treatment",
+        "pattern-systems"
+      ],
+      "drawn_on": false,
+      "edition": {
+        "author": "張從正",
+        "category": "綜合",
+        "dynasty": "金",
+        "year": "公元1127年—1279年"
+      },
+      "era": null,
+      "id": "rumen-shiqin",
+      "kind": "classic",
+      "names": [],
+      "quotations": 0,
+      "references": {},
+      "status": "in-corpus",
+      "title": "儒門事親",
+      "use": "張從正's school of attacking the pathogen (汗、吐、下) (the course's history chapter)"
+    },
+    {
+      "author": null,
+      "corpus": [
+        {
+          "exists": true,
+          "path": "reference/sources/TCM-Ancient-Books/367-临证指南医案.txt",
+          "repo": "TCM-Ancient-Books"
+        }
+      ],
+      "domains": [
+        "pattern-systems"
+      ],
+      "drawn_on": false,
+      "edition": {
+        "author": "葉桂",
+        "category": "方劑",
+        "dynasty": "清",
+        "year": "公元1746年"
+      },
+      "era": null,
+      "id": "linzheng-zhinan",
+      "kind": "classic",
+      "names": [],
+      "quotations": 0,
+      "references": {},
+      "status": "in-corpus",
+      "title": "臨證指南醫案",
+      "use": "葉桂's case records: how a master reasons case by case (the course's history and clinical chapters)"
+    },
+    {
+      "author": null,
+      "corpus": [
+        {
+          "exists": true,
+          "path": "reference/sources/TCM-Ancient-Books/230-外科正宗.txt",
+          "repo": "TCM-Ancient-Books"
+        }
+      ],
+      "domains": [
+        "pattern-systems",
+        "formulas"
+      ],
+      "drawn_on": false,
+      "edition": {
+        "author": "陳實功",
+        "category": "專科",
+        "dynasty": "明",
+        "year": "公元1617年"
+      },
+      "era": null,
+      "id": "waike-zhengzong",
+      "kind": "classic",
+      "names": [],
+      "quotations": 0,
+      "references": {},
+      "status": "in-corpus",
+      "title": "外科正宗",
+      "use": "陳實功's surgery: sores and swellings (the course's clinical chapter)"
+    },
+    {
+      "author": null,
+      "corpus": [
+        {
+          "exists": true,
+          "path": "reference/sources/TCM-Ancient-Books/155-幼幼集成.txt",
+          "repo": "TCM-Ancient-Books"
+        }
+      ],
+      "domains": [
+        "pattern-systems"
+      ],
+      "drawn_on": false,
+      "edition": {
+        "author": "陳復正",
+        "category": "綜合",
+        "dynasty": "清",
+        "year": "公元1750年"
+      },
+      "era": null,
+      "id": "youyou-jicheng",
+      "kind": "classic",
+      "names": [],
+      "quotations": 0,
+      "references": {},
+      "status": "in-corpus",
+      "title": "幼幼集成",
+      "use": "陳復正's paediatrics (the course's clinical chapter)"
+    },
+    {
+      "author": null,
+      "corpus": [
+        {
+          "exists": true,
+          "path": "reference/sources/TCM-Ancient-Books/292-银海精微.txt",
+          "repo": "TCM-Ancient-Books"
+        }
+      ],
+      "domains": [
+        "pattern-systems"
+      ],
+      "drawn_on": false,
+      "edition": {
+        "author": "孫思邈",
+        "category": "綜合",
+        "dynasty": "唐",
+        "year": "公元682年"
+      },
+      "era": null,
+      "id": "yinhai-jingwei",
+      "kind": "classic",
+      "names": [],
+      "quotations": 0,
+      "references": {},
+      "status": "in-corpus",
+      "title": "銀海精微",
+      "use": "Ophthalmology (the course's clinical chapter)"
     },
     {
       "author": null,
@@ -1828,6 +2034,35 @@
       "corpus": [
         {
           "exists": true,
+          "path": "reference/sources/TCM-Ancient-Books/075-肘后备急方.txt",
+          "repo": "TCM-Ancient-Books"
+        }
+      ],
+      "domains": [
+        "formulas"
+      ],
+      "drawn_on": false,
+      "edition": {
+        "author": "葛洪",
+        "category": "綜合",
+        "dynasty": "東晉",
+        "year": "公元317-420年"
+      },
+      "era": null,
+      "id": "zhouhou-beiji",
+      "kind": "classic",
+      "names": [],
+      "quotations": 0,
+      "references": {},
+      "status": "in-corpus",
+      "title": "肘後備急方",
+      "use": "葛洪's handbook of formulas for emergencies (the course's history chapter)"
+    },
+    {
+      "author": null,
+      "corpus": [
+        {
+          "exists": true,
           "path": "reference/sources/TCM-Ancient-Books/053-外台秘要.txt",
           "repo": "TCM-Ancient-Books"
         }
@@ -1851,6 +2086,36 @@
       "status": "in-corpus",
       "title": "外臺秘要",
       "use": "Tang formula collection"
+    },
+    {
+      "author": null,
+      "corpus": [
+        {
+          "exists": true,
+          "path": "reference/sources/TCM-Ancient-Books/357-局方发挥.txt",
+          "repo": "TCM-Ancient-Books"
+        }
+      ],
+      "domains": [
+        "formulas",
+        "treatment"
+      ],
+      "drawn_on": false,
+      "edition": {
+        "author": null,
+        "category": "方劑",
+        "dynasty": null,
+        "year": null
+      },
+      "era": null,
+      "id": "jufang-fahui",
+      "kind": "classic",
+      "names": [],
+      "quotations": 0,
+      "references": {},
+      "status": "in-corpus",
+      "title": "局方發揮",
+      "use": "朱震亨's critique of the warming, drying formulas of the 局方 (the course's history chapter)"
     },
     {
       "author": null,

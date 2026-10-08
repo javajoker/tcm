@@ -3,7 +3,7 @@
 | | |
 |---|---|
 | **Working title** | TCM Self-Assessment App (name TBD) |
-| **Version** | 0.10 (draft) |
+| **Version** | 0.11 (draft) |
 | **Status** | Draft — documentation set complete (M0); open questions resolved with MVP defaults (§14.2), supporting-document proposals confirmed (§14.3); all to be revisited after the MVP — the post-MVP answers are in the [decision register](post-mvp/decisions.md) |
 | **Last updated** | 2026-10-08 |
 | **Related docs** | [Documentation index](README.md) · [Post-MVP set](post-mvp/README.md) · [Diagnosis SOP v0.2 (繁體中文)](diagnosis-sop.zh-TW.md) · [Algorithm spec](wuxing-algorithm.md) ([繁中](wuxing-algorithm.zh-TW.md)) · [Tech spec](tech-spec.md) · [UI/UX spec](ux-spec.md) · [KB schema](kb-schema.md) · [i18n guide](i18n-guide.md) · [Content review](content-review.md) · [Safety policy](safety-policy.md) · [Privacy](privacy.md) · [Test plan](test-plan.md) · [Release process](release-process.md) · [Tasks](../TASKS.md) · [Checklist](../CHECKLIST.md) · [Knowledge base (`data/`)](../data/README.md) · [Reference sources](../reference/README.md) |
@@ -268,7 +268,7 @@ The KB is **derived from real sources**, never authored from memory or generated
 
 | Area | Files | Records |
 |---|---|---|
-| Citations | `citations.json` | 183 verified quotations (and a registry of 91 source works, `sources.json`) |
+| Citations | `citations.json` | 183 verified quotations (and a registry of 100 source works, `sources.json`) |
 | Herbs | `herbs/herbs.json`, `herb-index.json` | 703 (94 curated, 609 derived) |
 | Formulas | `formulas/formulas.json` | 33 with roles, proportions, tiers, modifications, verification |
 | Diagnosis | `symptoms`, `patterns`, `pattern-elements`, `tongue`, `pulse`, `constitutions`, `red-flags`, `panel-schema` | 184 symptoms (incl. 32 tongue, 28 pulse), 36 questions, 23 patterns, 27 pattern elements, 9 constitutions, 28 red flags; 營衛 readings (`yingwei.json`) |
@@ -458,3 +458,4 @@ The project owner confirmed P1–P10 on 2026-10-04 (to be revisited after the MV
 | 0.8 | 2026-10-07 | §1.3, §2.2, §3, §4.3: the owner's decisions of 2026-10-07 (second) — learners and practitioners as primary users with the medication plan behind a declared role; 營衛 in the panel |
 | 0.9 | 2026-10-08 | §Non-goals, dosing: reference amounts shown for study with their note, by default, configurable (PD-30) |
 | 0.10 | 2026-10-08 | §8.2 and §13 brought up to date in the project audit: the knowledge base's counts, the post-MVP releases' state |
+| 0.11 | 2026-10-08 | §8.2: the sources registry holds 100 works, the nine more named by the course and its textbook (PM-55) |
