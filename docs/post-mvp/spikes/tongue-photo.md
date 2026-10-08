@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 0.1 |
+| **Version** | 0.2 |
 | **Status** | **Protocol written and fixed; desk research on datasets done; the spike stops at its first step.** No model has been built, no image has been downloaded, no image of a person has been taken. The hard gates of [§3](#3-hard-gates-and-where-they-stand) are open |
 | **Last updated** | 2026-10-06 |
 | **Audience** | The owner (approvals, advisors), a legal adviser, a clinical advisor, reviewers |
@@ -65,6 +65,10 @@ Done on 2026-10-06 from search results and the pages named below, **read as web 
 
 **What would reopen it.** A named legal adviser's view that the suggestion of features stays within the positioning; a named clinical advisor and a second labeller; and a person's reading, at the sources, of the licence and consent statements of the datasets above (or of others), recorded in this document with the date; then the owner's approval to download one — filename, source and size stated when asked. If no existing dataset passes, new images need an ethics approval and consent, which is a project of its own and is not planned.
 
+## 4a. The AI observation module and this spike (PM-50)
+
+The AI help design (FR-41, [AI-assisted intake](../design/ai-assisted-intake.md)) built **the same idea with a general-purpose vision model behind the project's gateway instead of a trained on-device model**, in the **development profile only** (PD-25). It does not open this spike's gates and nothing here is a result of the spike: no dataset has been downloaded, no practitioner has labelled an image, no accuracy has been measured, and the module's suggestions are confirmed by the person at the quality of a guided self-observation (0.7). What it adds to the spike's ground is **the capture side**: a first quality gate (size, light, contrast, focus, colour; `apps/web/src/ai/photo/quality.ts`) whose thresholds are guesses until this protocol measures **what share of casual phone photos pass it** and tunes it without looking at the model's answers; and the way a photo is handled (no camera permission — the device's own camera app; memory only; metadata removed; sent once on the person's press). Two lines of §2 differ for that module and are the reason it stays in development: *Platform* — the module needs **no** `camera=(self)`, so `Permissions-Policy` keeps `camera=()`; and *an image is sent* — which §1 names as a stop condition for **an on-device classifier** and which the AI help design accepts only for people who opt in, only in development, and only with the legal view, the evaluation and a provider agreement with zero retention for images (DPIA §3.2, §6, §9) before any public use.
+
 ## 5. What a "go" and a "no-go" mean
 
 As for every spike ([research tracks §1](../design/research-tracks.md)): a **go** becomes a requirement with its review class, a privacy and legal review and its own design **before any production code**; the spike's code is not the product. A **no-go** is closed with this report kept, and reopened only by new evidence.
@@ -78,3 +82,4 @@ As for every spike ([research tracks §1](../design/research-tracks.md)): a **go
 | Version | Date | Change |
 |---|---|---|
 | 0.1 | 2026-10-06 | Protocol fixed before any result; desk research on datasets done from web pages, not downloaded, not verified at the sources; stopped at step 1 |
+| 0.2 | 2026-10-08 | §4a: the AI observation module built in the development profile (PM-50) — what it adds (the capture side) and does not (no gate is opened) |

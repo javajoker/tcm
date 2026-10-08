@@ -1,0 +1,23 @@
+{
+  "id": "msg_01FixtureOnly000000000003",
+  "type": "message",
+  "role": "assistant",
+  "model": "claude-sonnet-5-5",
+  "stop_sequence": null,
+  "usage": {
+    "input_tokens": 1538,
+    "output_tokens": 24
+  },
+  "content": [
+    {
+      "type": "tool_use",
+      "id": "toolu_01FixtureOnly0000000003",
+      "name": "report_observation",
+      "input": {
+        "readable": false,
+        "suggestions": []
+      }
+    }
+  ],
+  "stop_reason": "tool_use"
+}

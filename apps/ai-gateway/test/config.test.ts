@@ -9,14 +9,18 @@ const KEY = "sk-ant-test-0123456789abcdefghij";
 
 test("the defaults: the conversation on, the mock provider, the budgets of the design", () => {
   const c = configFrom(ENV);
-  assert.deepEqual(c.modules, { conversation: true, tongue: false, face: false });
+  assert.deepEqual(c.modules, { conversation: true, tongue: false, face: false }, "photos are on only when asked for");
   assert.equal(c.killed, false);
   assert.equal(c.provider, "mock");
   assert.deepEqual([c.sessionMinutes, c.turnsPerSession, c.turnsPerMinute, c.turnsPerDay, c.sessionsPerMinute, c.timeoutMs], [60, 30, 10, 2000, 60, 20_000]);
+  assert.deepEqual([c.photosPerSession, c.photosPerMinute, c.photosPerDay], [6, 3, 300]);
+  assert.deepEqual(configFrom({ ...ENV, AI_MODULES: "conversation, tongue ,face" }).modules, { conversation: true, tongue: true, face: true });
+  assert.deepEqual(configFrom({ ...ENV, AI_MODULES: "face" }).modules, { conversation: false, tongue: false, face: true });
+  assert.deepEqual(configFrom({ ...ENV, AI_PHOTOS_PER_SESSION: "2", AI_PHOTOS_PER_MINUTE: "1", AI_PHOTOS_PER_DAY: "10" }).photosPerDay, 10);
   assert.equal(configFrom({ ...ENV, AI_KILL: "true" }).killed, true);
 });
 
-test("refused: no secret or a short one, no origin or a malformed one, a module that is not built, another provider, a number out of range", () => {
+test("refused: no secret or a short one, no origin or a malformed one, a module that does not exist, another provider, a number out of range", () => {
   const bad: [Record<string, string | undefined>, RegExp][] = [
     [{ AI_SECRET: undefined }, /AI_SECRET/],
     [{ AI_SECRET: "short" }, /AI_SECRET/],
@@ -24,8 +28,11 @@ test("refused: no secret or a short one, no origin or a malformed one, a module 
     [{ AI_ALLOWED_ORIGINS: "https://app.example/path" }, /not an origin/],
     [{ AI_ALLOWED_ORIGINS: "app.example" }, /not an origin/],
     [{ AI_ALLOWED_ORIGINS: "ftp://app.example" }, /not an origin/],
-    [{ AI_MODULES: "conversation,tongue" }, /not built/],
     [{ AI_MODULES: "voice" }, /not a module/],
+    [{ AI_MODULES: "conversation,pulse" }, /not a module/],
+    [{ AI_PHOTOS_PER_SESSION: "0" }, /AI_PHOTOS_PER_SESSION/],
+    [{ AI_PHOTOS_PER_MINUTE: "31" }, /AI_PHOTOS_PER_MINUTE/],
+    [{ AI_PHOTOS_PER_DAY: "-1" }, /AI_PHOTOS_PER_DAY/],
     [{ AI_PROVIDER: "openai" }, /is not a provider/],
     [{ AI_PROVIDER: "anthropic" }, /ANTHROPIC_API_KEY/],
     [{ AI_PROVIDER: "anthropic", ANTHROPIC_API_KEY: "short" }, /ANTHROPIC_API_KEY/],
@@ -39,12 +46,14 @@ test("refused: no secret or a short one, no origin or a malformed one, a module 
   for (const [env, message] of bad) assert.throws(() => configFrom({ ...ENV, ...env }), message, JSON.stringify(env));
 });
 
-test("the development defaults: a random secret each run, the local origins, the mock — and the environment still wins", () => {
+test("the development defaults: a random secret each run, the local origins, the mock, every module — and the environment still wins", () => {
   const a = configFrom(devEnv({}));
   const b = configFrom(devEnv({}));
   assert.notEqual(a.secret, b.secret);
   assert.ok(a.origins.includes("http://localhost:5173") && a.origins.includes("http://127.0.0.1:4174"));
+  assert.deepEqual(a.modules, { conversation: true, tongue: true, face: true });
   assert.equal(configFrom(devEnv({ AI_KILL: "1" })).killed, true);
+  assert.deepEqual(configFrom(devEnv({ AI_MODULES: "conversation" })).modules, { conversation: true, tongue: false, face: false });
 });
 
 test("the Anthropic provider: a key, the default model, a bounded answer, caching off; and the key stays out of what is printed of the configuration", () => {

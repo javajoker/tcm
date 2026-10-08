@@ -58,6 +58,7 @@ export const ROUTES: { pattern: string; url: string; needs: Needs; dev?: true; s
   { pattern: "/result/:id/formula/:fid", url: `/result/${saved.id}/formula/${formulaId}`, needs: "saved" },
   { pattern: "/result/:id", url: `/result/${saved.id}`, needs: "saved" },
   { pattern: "/talk", url: "/talk", needs: "draft", dev: true },               // AI help's conversation (a build with AI help: the development profile)
+  { pattern: "/observe/photo/:module", url: "/observe/photo/tongue", needs: "draft", dev: true },    // …and its photo of the tongue and the face (PM-50)
   { pattern: "/_dev", url: "/_dev", needs: "draft", dev: true },
   { pattern: "/_dev/components", url: "/_dev/components", needs: "nothing", dev: true },
   { pattern: "*", url: "/no-such-page", needs: "nothing" },
@@ -82,8 +83,8 @@ export const STATES: { name: string; url: string; draft: (d: Draft) => Draft }[]
 
 export async function render(lang: "en" | "zh-Hant" | "zh-Hans", url: string, needs: Needs, draft: Draft = finished, extra: readonly SavedAssessment[] = []) {
   const env = fakeEnvironment();
-  // with AI help agreed to (a build with AI help — the tests' development profile): its conversation renders, and every page carries its indicator
-  env.localStorage.setItem("tcm.prefs", JSON.stringify({ disclaimerAck: { version: DISCLAIMER_VERSION, at: 1 }, lang, ai: { conversation: { at: 1, version: AI_STATEMENT_VERSION } } }));
+  // with AI help agreed to (a build with AI help — the tests' development profile): its conversation and its photos render, and every page carries its indicator
+  env.localStorage.setItem("tcm.prefs", JSON.stringify({ disclaimerAck: { version: DISCLAIMER_VERSION, at: 1 }, lang, ai: { conversation: { at: 1, version: AI_STATEMENT_VERSION }, tongue: { at: 1, version: AI_STATEMENT_VERSION }, face: { at: 1, version: AI_STATEMENT_VERSION } } }));
   const t = testStore(env);
   if (needs === "saved") { await t.persistence.putAssessment(saved); await t.persistence.putAssessment(older); for (const e of extra) await t.persistence.putAssessment(e); }
   if (needs === "draft") {

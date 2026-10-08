@@ -19,7 +19,7 @@ const langs: readonly [string, Lang][] = [["en", "en"], ["zh", "zh-Hant"], ["han
 // Simplified Chinese is derived from the Traditional text (docs/post-mvp/design/simplified-chinese.md): the release build, desktop and mobile, with the scenarios that walk the whole flow and every screen.
 const HANS_SCENARIOS = /E1:|E2:|E5:|E9:|E10:|E11:|E24:|E26:|E27:|E28:|E29:|E30:|E31:|E32:|E33:|E34:|E35:|E36:|E37:|E41:|axe, /;
 // AI help (Release F) exists only in the development build: its scenarios run there in Simplified too, on desktop.
-const DEV_HANS_SCENARIOS = /E38:|E39:/;
+const DEV_HANS_SCENARIOS = /E38:|E39:|E42:/;
 // The release scenarios. E22 (offline) has projects of its own: it starts its own server, so that it can stop it, and it needs the service worker that every other scenario keeps out (below).
 const RELEASE_SPECS = /^(?!.*\/(dev\.|visual\.|e22-|e40-)).*\.spec\.ts$/;
 const OFFLINE_SPEC = /e22-offline\.spec\.ts$/;

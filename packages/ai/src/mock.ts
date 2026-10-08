@@ -3,7 +3,7 @@
 // its plain phrasings that no other finding shares — words such as 很, 常常 or "very" left out on both sides; a negation just before the words makes it absent, an intensifier
 // in the clause grades it. It then asks about the first topic, in the order of the ten questions (十問), that no question, confirmed finding or proposal has covered, and says
 // it is done when none is left. It matches the app's own words and understands no paraphrase: it is a test double, not a model.
-import type { Lang, Proposal, Question, Severity, TurnRequest, TurnReply, VocabItem } from "./protocol.ts";
+import type { Lang, ObserveModule, ObserveReply, ObserveRequest, Proposal, Question, Severity, TurnRequest, TurnReply, VocabItem } from "./protocol.ts";
 
 /** The topics in the order the mock asks them: 一問寒熱二問汗，三問頭身四問便，五問飲食六胸腹，七聾八渴俱當辨 — then sleep, mood, spirit, voice, face and the menses. */
 export const TOPIC_ORDER: readonly string[] = ["cold-heat", "sweat", "head-body", "stool-urine", "diet-taste", "chest-abdomen", "ear-eye-throat", "thirst", "sleep", "emotion", "qi-spirit-form", "voice-breath", "face-skin", "menses"];
@@ -109,4 +109,22 @@ export function mockTurn(request: TurnRequest): TurnReply {
   const proposals = last === undefined ? [] : proposalsOf(last.text, request);
   const question = nextQuestion(request, proposals);
   return { proposals, question, redFlag: false, done: question === null };
+}
+
+/**
+ * What the mock "sees" in a photo (PM-50): the same features whatever the picture, so that the flow can be built and tested without a model — the typical picture of a pale, swollen tongue with
+ * tooth marks and a white greasy coating, and of a sallow complexion — those of them that are in the request's vocabulary, none of them exclusive with another. A picture smaller than 4 KB is
+ * "not readable". It looks at no picture and understands nothing: a test double, not a model.
+ */
+const MOCK_SEEN: Readonly<Record<ObserveModule, readonly (readonly [string, number])[]>> = {
+  tongue: [["T_BODY_PALE_SWOLLEN", 0.82], ["T_TOOTHMARK_EDGE", 0.74], ["T_COAT_WHITE_GREASY", 0.66]],
+  face: [["S_FACE_SALLOW", 0.7]],
+};
+const MOCK_MIN_BYTES = 4_096;
+
+export function mockObserve(request: ObserveRequest): ObserveReply {
+  const bytes = Math.floor((request.image.data.length * 3) / 4);
+  if (bytes < MOCK_MIN_BYTES) return { readable: false, suggestions: [] };
+  const known = new Set(request.vocabulary.map((v) => v.id));
+  return { readable: true, suggestions: MOCK_SEEN[request.module].filter(([id]) => known.has(id)).map(([id, confidence]) => ({ id, confidence })) };
 }

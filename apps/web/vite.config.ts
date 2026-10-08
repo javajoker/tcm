@@ -143,6 +143,7 @@ export default defineConfig(({ command }) => {
       __APP_PROFILE__: JSON.stringify(profile), __APP_BUILD__: JSON.stringify(process.env.APP_BUILD_ID ?? "local"),
       // three scalars rather than one object, so that a release build's `if (__APP_AI_ENABLED__)` is a constant false and everything behind it is left out
       __APP_AI_ENABLED__: JSON.stringify(ai.enabled), __APP_AI_ENDPOINT__: JSON.stringify(ai.endpoint), __APP_AI_CONVERSATION__: JSON.stringify(ai.modules.conversation),
+      __APP_AI_TONGUE__: JSON.stringify(ai.modules.tongue), __APP_AI_FACE__: JSON.stringify(ai.modules.face),
     },
     build: { target: "es2022", modulePreload: { polyfill: false }, sourcemap: false },
     css: { modules: { localsConvention: "camelCaseOnly" } },

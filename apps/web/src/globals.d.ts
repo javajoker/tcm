@@ -5,3 +5,6 @@ declare const __APP_BUILD__: string;
 declare const __APP_AI_ENABLED__: boolean;
 declare const __APP_AI_ENDPOINT__: string | null;
 declare const __APP_AI_CONVERSATION__: boolean;
+/** The observation of the tongue and the face by photo (PM-50) is in this build: development profile only. */
+declare const __APP_AI_TONGUE__: boolean;
+declare const __APP_AI_FACE__: boolean;

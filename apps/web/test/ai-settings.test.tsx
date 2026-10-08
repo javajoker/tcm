@@ -7,7 +7,7 @@ import { indexKnowledgeBase } from "@tcm/kb";
 import { rawChunksFromDisk } from "@tcm/kb/node";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { Loaded } from "../src/app/knowledge.tsx";
-import { AI_ENABLED, AI_ENDPOINT } from "../src/ai/build.ts";
+import { AI_ENABLED, AI_ENDPOINT, AI_FACE, AI_TONGUE } from "../src/ai/build.ts";
 import { AI_STATEMENT_VERSION, consentOf, withConsent, withoutConsent } from "../src/ai/consent.ts";
 import { backupPrefs } from "../src/storage/backup/format.ts";
 import { parsePrefs } from "../src/storage/prefs.ts";
@@ -48,7 +48,10 @@ describe("AI help in Settings (development build)", () => {
     const c = await card();
     expect(c.getByRole("table", { name: "What AI help stores and sends" })).toBeInTheDocument();
     expect(c.getByText("Memory only; sent to this service and the AI provider with each question")).toBeInTheDocument();
-    expect(c.getByText("Looking at photos of the tongue and face is not available.")).toBeInTheDocument();
+    expect(c.getByText(/Photos are for adults only and are not saved anywhere/)).toBeInTheDocument();
+    expect(c.getByRole("checkbox", { name: /Tongue: look at a photo/ })).not.toBeChecked();
+    expect(c.getByRole("checkbox", { name: /Face: look at a photo/ })).not.toBeChecked();
+    expect(c.getByText("A photo of the tongue or face")).toBeInTheDocument();
     expect(screen.queryByTestId("ai-on")).toBeNull();
     expect(gatewayCalls()).toEqual([]);
   });
@@ -121,10 +124,97 @@ describe("AI help in Settings (development build)", () => {
   });
 });
 
+const PHOTO_CONFIG = { ...CONFIG, modules: { conversation: true, tongue: true, face: true } };
+const photoBox = async (what: "Tongue" | "Face") => (await card()).getByRole("checkbox", { name: new RegExp(`${what}: look at a photo`) });
+
+describe("the photo of the tongue and of the face in Settings (development build, PM-50)", () => {
+  it("is in this build", () => {
+    expect(AI_TONGUE).toBe(true);
+    expect(AI_FACE).toBe(true);
+  });
+
+  it("each photo module has its own switch and its own statement, and not agreeing changes nothing", async () => {
+    const { store } = await open("/en/settings");
+    await userEvent.click(await photoBox("Tongue"));
+    const dialog = within(screen.getByRole("dialog", { name: "Turn on photo help for your tongue?" }));
+    expect(dialog.getByText(/no longer holds for the photos you choose to send/)).toBeInTheDocument();
+    expect(dialog.getByText(/shrunk on your device, stripped of place, time and camera details, and sent once — when you press Send/)).toBeInTheDocument();
+    expect(dialog.getByText(/Neither this service nor the AI provider keeps the photo, and the app never saves it/)).toBeInTheDocument();
+    expect(dialog.getByText(/No name, birth data, earlier results or notes are sent with it/)).toBeInTheDocument();
+    expect(dialog.getByText("For adults (18 and over) only.")).toBeInTheDocument();
+    expect(dialog.getByText(/have not been checked against practitioners' readings/)).toBeInTheDocument();
+    expect(dialog.getByText(`Statement version: ${AI_STATEMENT_VERSION}`)).toBeInTheDocument();
+    await userEvent.click(dialog.getByRole("button", { name: "Do not turn on" }));
+    expect(await photoBox("Tongue")).not.toBeChecked();
+    expect(store.getState().prefs.ai).toBeUndefined();
+    await userEvent.click(await photoBox("Face"));
+    expect(screen.getByRole("dialog", { name: "Turn on photo help for your face?" })).toBeInTheDocument();
+    await userEvent.click(screen.getByRole("button", { name: "Do not turn on" }));
+    expect(gatewayCalls()).toEqual([]);
+  });
+
+  it("agreeing to the tongue records that module only, shows the indicator, and asks the service about the tongue — not about anything else", async () => {
+    fetchSpy.mockImplementation(() => Promise.resolve(json(PHOTO_CONFIG)));
+    const { store } = await open("/en/settings");
+    await userEvent.click(await photoBox("Tongue"));
+    await userEvent.click(screen.getByRole("button", { name: "Agree and turn on" }));
+    expect(store.getState().prefs.ai).toEqual({ tongue: { at: expect.any(Number), version: AI_STATEMENT_VERSION } });
+    expect(await screen.findByTestId("ai-service-tongue")).toHaveTextContent("Tongue photo: The service is available.");
+    expect(screen.queryByTestId("ai-service")).toBeNull();
+    expect(screen.queryByTestId("ai-service-face")).toBeNull();
+    expect(gatewayCalls()).toEqual([`${AI_ENDPOINT}/v1/config`]);
+    expect(await photoBox("Tongue")).toBeChecked();
+    expect(await photoBox("Face")).not.toBeChecked();
+    expect(await box()).not.toBeChecked();
+    expect(await screen.findByTestId("ai-on")).toBeInTheDocument();
+  });
+
+  it("a photo module the service has switched off is said plainly, with its name", async () => {
+    fetchSpy.mockImplementation(() => Promise.resolve(json({ ...PHOTO_CONFIG, modules: { conversation: true, tongue: true, face: false } })));
+    const env = fakeEnvironment();
+    env.localStorage.setItem("tcm.prefs", JSON.stringify({ lang: "en", ai: { face: { at: 5, version: AI_STATEMENT_VERSION } } }));
+    await open("/en/settings", env);
+    expect(await screen.findByTestId("ai-service-face")).toHaveTextContent("Face photo: The service is switched off for now; the questions work as usual.");
+  });
+
+  it("withdrawing a photo module is one switch and leaves the other modules as they were", async () => {
+    fetchSpy.mockImplementation(() => Promise.resolve(json(PHOTO_CONFIG)));
+    const env = fakeEnvironment();
+    env.localStorage.setItem("tcm.prefs", JSON.stringify({ lang: "en", ai: { conversation: { at: 5, version: AI_STATEMENT_VERSION }, tongue: { at: 6, version: AI_STATEMENT_VERSION } } }));
+    const { store } = await open("/en/settings", env);
+    await screen.findByTestId("ai-service-tongue");
+    await userEvent.click(await photoBox("Tongue"));
+    expect(store.getState().prefs.ai).toEqual({ conversation: { at: 5, version: AI_STATEMENT_VERSION } });
+    expect(screen.queryByTestId("ai-service-tongue")).toBeNull();
+    expect(await screen.findByTestId("ai-on"), "the conversation is still on").toBeInTheDocument();
+    await userEvent.click(await box());
+    expect((await card()).getByText("AI help is off; nothing more is sent.")).toBeInTheDocument();
+    expect(screen.queryByTestId("ai-on")).toBeNull();
+  });
+
+  it("a consent to an earlier statement asks again, per module", async () => {
+    const env = fakeEnvironment();
+    env.localStorage.setItem("tcm.prefs", JSON.stringify({ lang: "en", ai: { tongue: { at: 5, version: "2026-01-01" } } }));
+    await open("/en/settings", env);
+    expect(await photoBox("Tongue")).not.toBeChecked();
+    expect(screen.queryByTestId("ai-on")).toBeNull();
+    expect(gatewayCalls()).toEqual([]);
+  });
+
+  it("is never in a backup, and the photo is never in a preference", () => {
+    const prefs = { ...DEFAULT_PREFS, lang: "en" as const, ...withConsent(DEFAULT_PREFS, "tongue", 7) };
+    expect(consentOf(prefs, "tongue")).toEqual({ at: 7, version: AI_STATEMENT_VERSION });
+    expect(consentOf(prefs, "face")).toBeNull();
+    expect(backupPrefs(prefs)).not.toHaveProperty("ai");
+    expect(Object.keys(prefs.ai ?? {})).toEqual(["tongue"]);
+  });
+});
+
 describe("the consent as data", () => {
   it("is read back only when well formed", () => {
     expect(parsePrefs(JSON.stringify({ ai: { conversation: { at: 5, version: "v" } } })).ai).toEqual({ conversation: { at: 5, version: "v" } });
-    for (const ai of [{ conversation: { at: "5", version: "v" } }, { conversation: { at: 5 } }, { tongue: { at: 5, version: "v" } }, "on", { conversation: true }]) expect(parsePrefs(JSON.stringify({ ai })).ai).toBeUndefined();
+    expect(parsePrefs(JSON.stringify({ ai: { tongue: { at: 5, version: "v" }, face: { at: 6, version: "v" } } })).ai).toEqual({ tongue: { at: 5, version: "v" }, face: { at: 6, version: "v" } });
+    for (const ai of [{ conversation: { at: "5", version: "v" } }, { conversation: { at: 5 } }, { tongue: { at: 5 } }, { pulse: { at: 5, version: "v" } }, "on", { conversation: true }]) expect(parsePrefs(JSON.stringify({ ai })).ai).toBeUndefined();
   });
 
   it("is set and withdrawn per module, and only the current statement's consent counts", () => {

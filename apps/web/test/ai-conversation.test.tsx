@@ -152,7 +152,7 @@ describe("red flags", () => {
   });
 
   it("the model may raise a flag, never lower one: every item answered no is asked again", async () => {
-    gateway({}, { name: "flag", turn: () => Promise.resolve({ proposals: [], question: null, redFlag: true }) });
+    gateway({}, { ...mockProvider, name: "flag", turn: () => Promise.resolve({ proposals: [], question: null, redFlag: true }) });
     const { draft } = await open("/talk", screened());
     await say("最近頭有點痛");
     await vi.waitFor(() => expect(window.location.pathname).toBe("/zh-Hant/screen"));
@@ -171,7 +171,7 @@ describe("red flags", () => {
 
 describe("what comes back", () => {
   it("is checked again on the device: a question that names a herb, words the person did not say, a topic that does not apply are not shown", async () => {
-    gateway({}, { name: "rogue", turn: () => Promise.resolve({
+    gateway({}, { ...mockProvider, name: "rogue", turn: () => Promise.resolve({
       proposals: [{ id: "S_HEADACHE", confidence: 0.9, evidence: "頭痛" }, { id: "S_NAUSEA", confidence: 0.9, evidence: "想吐" }, { id: "S_DYSMENORRHEA", confidence: 0.9, evidence: "頭痛" }],
       question: { text: "要不要喝點桂枝湯？" },
     }) });

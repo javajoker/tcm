@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import { lazy, Suspense, type ReactNode } from "react";
 import { useLocation } from "wouter";
 import { useI18n } from "../../i18n/I18nProvider.tsx";
 import { FlowGuard } from "../../app/FlowGuard.tsx";
@@ -9,6 +9,9 @@ import type { Draft } from "../../storage/types.ts";
 import { Button, Card, LinkButton, Skeleton } from "../../ui/index.ts";
 import { answeredCount } from "../constitution/model.ts";
 import { pulseIds, tongueIds } from "./model.ts";
+
+// AI help's photo of the tongue and the face (PM-50): only in a development build with AI help — the build constant is the condition, so a release makes no chunk for it (check-release rule 17)
+const PhotoEntry = __APP_AI_ENABLED__ ? lazy(() => import("../../ai/PhotoEntry.tsx")) : null;
 
 function Hub({ draft }: { draft: Draft }): ReactNode {
   const { t } = useI18n();
@@ -21,6 +24,7 @@ function Hub({ draft }: { draft: Draft }): ReactNode {
     <Card title={t.t(`observe.hub.${key}`)} headingLevel={2} id={`observe-${key}`}>
       <p>{touched(ids) ? t.plural("observe.hub.status.some", present(ids) || ids.length) : t.t("observe.hub.status.none")}</p>
       <LinkButton href={href} variant={touched(ids) ? "secondary" : "primary"}>{touched(ids) ? t.t("observe.hub.edit") : t.t("observe.hub.start")}</LinkButton>
+      {key === "tongue" && PhotoEntry !== null ? <Suspense fallback={null}><PhotoEntry module="tongue" draft={draft} /></Suspense> : null}
     </Card>
   );
   return (
@@ -29,6 +33,7 @@ function Hub({ draft }: { draft: Draft }): ReactNode {
       <p>{t.t("observe.intro")}</p>
       <div style={{ display: "grid", gap: "var(--space-4)" }}>
         {card("tongue", tongueIds(draft), "/observe/tongue")}
+        {PhotoEntry !== null ? <Suspense fallback={null}><PhotoEntry module="face" draft={draft} /></Suspense> : null}
         {flags.pulse_input ? card("pulse", pulseIds(draft), "/observe/pulse") : null}
         <Card title={t.t("constitution.hub")} headingLevel={2} id="observe-constitution">
           <p>{answeredCount(draft) > 0 ? t.plural("constitution.status.some", answeredCount(draft)) : t.t("constitution.status.none")}</p>

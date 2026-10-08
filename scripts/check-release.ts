@@ -47,8 +47,11 @@ const DEV_APP_MARKERS = ["DEV · ", "Component catalogue", "/_dev", "en-xa", "zh
 /** The personalised prescription's own messages (rule 18): only in a lazy chunk, loaded for a result that holds a plan. */
 const RX_MARKERS = ["rx.title", "rx.changes.title"];
 const DEV_KB_MARKERS = ["annotate_only", "\"sanyin\":"];
-/** What only a build with AI help holds (rule 17): the gateway's routes, the card's and the consent's messages. */
-const AI_MARKERS = ["/v1/intake/turn", "/v1/session", "/v1/config", "ai.settings.title", "ai.consent.title"];
+/**
+ * What only a build with AI help holds (rule 17): the gateway's routes, the card's and the consent's messages; and, for the photo of the tongue and the face (PM-50), the route, the
+ * screen's messages and the browser call that decodes a picture — a release decodes, shrinks and sends no picture.
+ */
+const AI_MARKERS = ["/v1/intake/turn", "/v1/session", "/v1/config", "/v1/observe/", "ai.settings.title", "ai.consent.title", "ai.photo.send", "createImageBitmap"];
 /** Population / condition cells that must always raise a blocking notice in a release configuration (rule 7, safety policy §2). */
 const BLOCKING = [["population", "minor_under_18"], ["population", "pregnant"], ["population", "lactating"], ["condition", "red_flag_A"], ["condition", "red_flag_B"], ["condition", "serious_chronic_disease"]] as const;
 
@@ -361,6 +364,9 @@ export function checkRelease(distDir: string, opts: CheckOptions = {}): Failure[
     if (header("content-security-policy") !== cspHeader()) fail(11, "_headers: the Content-Security-Policy is missing or is not the policy of the page plus frame-ancestors 'none'");
     if (header("x-content-type-options") !== "nosniff") fail(11, "_headers: X-Content-Type-Options: nosniff is missing");
     if (header("referrer-policy") !== "no-referrer") fail(11, "_headers: Referrer-Policy: no-referrer is missing");
+    // the page never asks for the camera, the microphone or the place — in any build: a photo (PM-50, development profile only) is chosen with the device's own camera app, which the page does not control
+    const permissions = header("permissions-policy") ?? "";
+    for (const feature of ["camera", "microphone", "geolocation"]) if (!permissions.includes(`${feature}=()`)) fail(11, `_headers: Permissions-Policy does not deny ${feature} (${feature}=()): the page never asks for it`);
     if (all?.headers.some(([k]) => k.toLowerCase() === "cache-control")) fail(11, "_headers: /* must not set Cache-Control (Cloudflare combines every matching rule)");
     const cache = (path: string): string | undefined => rules.find((r) => r.pattern === path)?.headers.find(([k]) => k.toLowerCase() === "cache-control")?.[1];
     if (cache("/assets/*") !== IMMUTABLE) fail(11, "_headers: /assets/* must be cached as immutable");

@@ -2,7 +2,7 @@
 // start: a missing or short secret, an origin that is not one, a module that is not built, a number out of range.
 //   AI_SECRET               the key that signs session tokens (at least 32 characters; a secret of the host)
 //   AI_ALLOWED_ORIGINS      the app's origins, comma-separated (https://app.example); a request from any other origin is refused
-//   AI_MODULES              the modules on, comma-separated (default: conversation)
+//   AI_MODULES              the modules on, comma-separated (default: conversation; tongue and face look at a photo — development builds only, decision PD-25)
 //   AI_KILL                 "1" or "true" turns every module off at once — the kill switch, without a release
 //   AI_PROVIDER             mock (the default; no key) or anthropic (the adapter of src/anthropic.ts; needs ANTHROPIC_API_KEY)
 //   ANTHROPIC_API_KEY       the provider's key (a secret of the host; only with AI_PROVIDER=anthropic)
@@ -14,6 +14,9 @@
 //   AI_TURNS_PER_SESSION    turns a session may take (30)
 //   AI_TURNS_PER_MINUTE     turns a session may take in one minute (10)
 //   AI_TURNS_PER_DAY        turns one instance serves in a day, all sessions together (2000)
+//   AI_PHOTOS_PER_SESSION   photos a session may send (6)
+//   AI_PHOTOS_PER_MINUTE    photos a session may send in one minute (3)
+//   AI_PHOTOS_PER_DAY       photos one instance serves in a day, all sessions together (300)
 //   AI_SESSIONS_PER_MINUTE  sessions one instance starts in a minute (60)
 //   AI_TIMEOUT_MS           how long the provider has for a reply (20000)
 import { BUILT_MODULES, LIMITS, MODULES } from "@tcm/ai";
@@ -43,6 +46,9 @@ export interface GatewayConfig {
   readonly turnsPerSession: number;
   readonly turnsPerMinute: number;
   readonly turnsPerDay: number;
+  readonly photosPerSession: number;
+  readonly photosPerMinute: number;
+  readonly photosPerDay: number;
   readonly sessionsPerMinute: number;
   readonly timeoutMs: number;
   readonly limits: Limits;
@@ -84,7 +90,7 @@ export function configFrom(env: Env): GatewayConfig {
   const wanted = env["AI_MODULES"] === undefined ? ["conversation"] : list(env["AI_MODULES"]);
   for (const m of wanted) {
     if (!MODULES.includes(m as Module)) throw new Error(`AI_MODULES: ${m} is not a module`);
-    if (!BUILT_MODULES.includes(m as Module)) throw new Error(`AI_MODULES: ${m} is not built (decision PD-25, task PM-50)`);
+    if (!BUILT_MODULES.includes(m as Module)) throw new Error(`AI_MODULES: ${m} is not built`);
   }
   const provider = env["AI_PROVIDER"] ?? "mock";
   if (provider !== "mock" && provider !== "anthropic") throw new Error(`AI_PROVIDER: ${provider} is not a provider (mock or anthropic)`);
@@ -92,7 +98,7 @@ export function configFrom(env: Env): GatewayConfig {
   return {
     secret,
     origins,
-    modules: { conversation: wanted.includes("conversation"), tongue: false, face: false },
+    modules: { conversation: wanted.includes("conversation"), tongue: wanted.includes("tongue"), face: wanted.includes("face") },
     killed: /^(1|true)$/i.test(env["AI_KILL"] ?? ""),
     provider,
     ...(anthropic !== undefined ? { anthropic } : {}),
@@ -100,6 +106,9 @@ export function configFrom(env: Env): GatewayConfig {
     turnsPerSession: int(env, "AI_TURNS_PER_SESSION", 30, 1, 200),
     turnsPerMinute: int(env, "AI_TURNS_PER_MINUTE", 10, 1, 120),
     turnsPerDay: int(env, "AI_TURNS_PER_DAY", 2000, 1, 1_000_000),
+    photosPerSession: int(env, "AI_PHOTOS_PER_SESSION", 6, 1, 50),
+    photosPerMinute: int(env, "AI_PHOTOS_PER_MINUTE", 3, 1, 30),
+    photosPerDay: int(env, "AI_PHOTOS_PER_DAY", 300, 1, 100_000),
     sessionsPerMinute: int(env, "AI_SESSIONS_PER_MINUTE", 60, 1, 10_000),
     timeoutMs: int(env, "AI_TIMEOUT_MS", 20_000, 10, 120_000),
     limits: LIMITS,

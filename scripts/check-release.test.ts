@@ -350,6 +350,9 @@ describe("check-release", () => {
     assert.match(headers((s) => s.replace(/ {2}Content-Security-Policy:.*\n/, "")).join("\n"), /Content-Security-Policy is missing/);
     assert.match(headers((s) => s.replace(/; frame-ancestors 'none'/, "")).join("\n"), /Content-Security-Policy is missing or is not the policy/);
     assert.match(headers((s) => s.replace("nosniff", "sniff")).join("\n"), /nosniff is missing/);
+    assert.match(headers((s) => s.replace("camera=(), ", "camera=(self), ")).join("\n"), /Permissions-Policy does not deny camera \(camera=\(\)\)/);
+    assert.match(headers((s) => s.replace(/ {2}Permissions-Policy:.*\n/, "")).join("\n"), /does not deny microphone/);
+    assert.match(headers((s) => s.replace("geolocation=(), ", "")).join("\n"), /does not deny geolocation/);
     assert.match(headers((s) => s.replace("/*\n", "/*\n  Cache-Control: no-cache\n")).join("\n"), /\/\* must not set Cache-Control/);
     assert.match(headers((s) => s.replace(/(\/assets\/\*\n {2}Cache-Control: )[^\n]*/, "$1no-store")).join("\n"), /\/assets\/\* must be cached as immutable/);
     assert.match(headers((s) => s.replace(/(\/kb\/manifest\.json\n {2}Cache-Control: )[^\n]*/, "$1public, max-age=31536000, immutable")).join("\n"), /manifest\.json must be revalidated/);
@@ -373,11 +376,14 @@ describe("check-release", () => {
     const profile = copy();
     edit(profile, "core", (c) => { c.config.profile.ai = { enabled: true, endpoint: "https://ai.example", modules: { conversation: true, tongue: false, face: false } }; });
     assert.deepEqual(rules(checkRelease(profile, { draftLabel: true })), [17]);
+    const photos = copy();
+    edit(photos, "core", (c) => { c.config.profile.ai = { enabled: true, endpoint: "https://ai.example", modules: { conversation: false, tongue: true, face: true } }; });
+    assert.deepEqual(rules(checkRelease(photos, { draftLabel: true })), [17], "the photo of the tongue and the face is for the development profile only (PD-25)");
     const csp = copy();
     html(csp, (s) => s.replace("connect-src 'self'", "connect-src 'self' https://ai.example"));
     assert.deepEqual(rules(checkRelease(csp, { draftLabel: true })), [17, 5], "and rule 5: the page names another address");
     assert.match(messages(checkRelease(csp, { draftLabel: true })), /may connect to 'self' https:\/\/ai\.example/);
-    for (const marker of ["/v1/intake/turn", "ai.consent.title"]) {
+    for (const marker of ["/v1/intake/turn", "ai.consent.title", "/v1/observe/", "ai.photo.send", "createImageBitmap"]) {
       const code = copy();
       writeFileSync(entryJs(code), `${readFileSync(entryJs(code), "utf8")}\n;fetch(${JSON.stringify(marker)});`); resync(code);
       assert.deepEqual(rules(checkRelease(code, { draftLabel: true })), [17], marker);

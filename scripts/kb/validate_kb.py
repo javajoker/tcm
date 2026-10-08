@@ -173,12 +173,13 @@ def validate(load: Loader = load, check_sources: bool = True) -> list[str]:
     for pname, prof in scope["profiles"].items():
         if prof["tongue_pulse"]["pulse_quality_coefficient"] != qual["by_source"]["pulse"]:
             err(f"profile {pname}: pulse_quality_coefficient differs from scoring-params")
-        # AI help (Release F): a module needs the help on and a gateway; the observation of tongue and face is not built (PD-25); a release has none of it until its gates
+        # AI help (Release F): a module needs the help on and a gateway; the observation of tongue and face by photo (PM-50) exists in the development profile only, until the tongue-photo
+        # spike's gates are met (PD-25); a release has none of it
         ai = prof["ai"]
         if any(ai["modules"].values()) and not (ai["enabled"] and ai["endpoint"]):
             err(f"profile {pname}: an AI module is on without AI help enabled and a gateway endpoint")
-        if ai["modules"]["tongue"] or ai["modules"]["face"]:
-            err(f"profile {pname}: the observation of tongue and face is not built (decision PD-25, task PM-50)")
+        if pname != "dev" and (ai["modules"]["tongue"] or ai["modules"]["face"]):
+            err(f"profile {pname}: the observation of tongue and face by photo is for the development profile only (decision PD-25)")
     # who reads with the study reference (PD-30): a mode other than "off" needs the roles' overlays to switch the study features on (they do, by the checks below); the development profile reaches L3 for everyone
     if scope["profiles"]["dev"]["dose_display"] != "all":
         err("profile dev: dose_display must be all (the development profile opens everything)")

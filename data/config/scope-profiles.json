@@ -89,8 +89,8 @@
         "endpoint": "http://127.0.0.1:8787",
         "modules": {
           "conversation": true,
-          "face": false,
-          "tongue": false
+          "face": true,
+          "tongue": true
         }
       },
       "condition": {

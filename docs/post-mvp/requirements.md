@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 0.5 (draft) |
+| **Version** | 0.6 (draft) |
 | **Status** | Proposed requirements for Releases A–F; they enter the [PRD](../PRD.md) FR list as each feature ships (fold-in, [README §2](README.md#2-standing-constraints)) |
 | **Last updated** | 2026-10-05 |
 | **Audience** | Product, engineering, reviewers |
@@ -194,7 +194,7 @@ A conversation in the person's language proposes findings from the app's vocabul
 
 ### FR-41 AI observation of the tongue and the face — Release F · Class R · refines FR-6, Q4
 
-Photos of the tongue and the face give suggested features from the app's lists, confirmed by the person, at a quality no higher than self-observation. Acceptance: no photo is stored; the tongue-photo spike's gates (legal view, evaluation against practitioners' labels) are met before the module leaves the development profile.
+Photos of the tongue and the face give suggested features from the app's lists, confirmed by the person, at a quality no higher than self-observation. Acceptance: no photo is stored; the tongue-photo spike's gates (legal view, evaluation against practitioners' labels) are met before the module leaves the development profile. *Built in the development profile (PM-50, 2026-10-08):* the device's own camera app or file chooser, a quality gate, the picture shown before it is sent once on Send without metadata, suggestions from the app's own lists confirmed one by one and recorded as a guided self-observation (0.7); a release build has none of it. The evaluation and the legal view are open.
 
 ### FR-42 Configuration, gateway and consent — Release F · Class R · refines G7, G8
 
@@ -247,3 +247,4 @@ Accounts and server-side sync · e-commerce, herb sales, practitioner marketplac
 | 0.3 | 2026-10-07 | FR-43 (營衛 in the model) and FR-44 (learners and practitioners), from the owner's decisions of 2026-10-07 (second) |
 | 0.4 | 2026-10-08 | FR-44 built (PM-53): see prescription model §7.4 as built |
 | 0.5 | 2026-10-08 | FR-44 refined: the quantities by default, with their note, configurable (PD-30, PM-54) |
+| 0.6 | 2026-10-08 | FR-41 built in the development profile (PM-50); the evaluation and the legal view stay open |

@@ -59,9 +59,9 @@ export interface RoleChoice { readonly role: Role | "general"; readonly at: numb
 export const ROLE_VALUES = ["learner", "practitioner"] as const satisfies readonly Role[];
 export const ROLE_CHOICES = ["general", ...ROLE_VALUES] as const;
 
-/** The modules of AI help a person can consent to; the observation of tongue and face is not built (PD-25). */
-export type AiModule = "conversation";
-export const AI_MODULES = ["conversation"] as const satisfies readonly AiModule[];
+/** The modules of AI help a person can consent to: the conversation, and the observation of the tongue and the face by photo (development profile only, until the spike's gates — PD-25). */
+export type AiModule = "conversation" | "tongue" | "face";
+export const AI_MODULES = ["conversation", "tongue", "face"] as const satisfies readonly AiModule[];
 export interface AiConsent { readonly at: number; readonly version: string }
 
 /** The answer to *which hour is nearer the truth* when the birth time is near a change of hour. */

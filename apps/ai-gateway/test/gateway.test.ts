@@ -3,6 +3,7 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 import type { ConfigResponse, ErrorResponse, SessionResponse, TurnResponse } from "@tcm/ai";
+import { mockProvider } from "../src/provider.ts";
 import type { Provider } from "../src/provider.ts";
 import { ORIGIN, harness, said, turnBody } from "./helpers.ts";
 
@@ -16,7 +17,7 @@ test("config: the modules on and the limits, to the app's origin only, never cac
   assert.equal(r.headers.get("access-control-allow-origin"), ORIGIN);
   assert.equal(r.headers.get("cache-control"), "no-store");
   const c = await body<ConfigResponse>(r);
-  assert.deepEqual(c.modules, { conversation: true, tongue: false, face: false });
+  assert.deepEqual(c.modules, { conversation: true, tongue: false, face: false }, "photos are on only when the deployment asks for them");
   assert.equal(c.limits.proposals, 12);
   const other = await h.fetch("/v1/config", { origin: "https://elsewhere.example" });
   assert.deepEqual(await errorOf(other), [403, "origin"]);
@@ -51,6 +52,7 @@ test("a session, then a turn with the mock: proposals with the person's words, t
 
 test("a reply outside the schema is dropped: only what the request allows reaches the app", async () => {
   const rogue: Provider = {
+    ...mockProvider,
     name: "rogue",
     turn: () => Promise.resolve({
       proposals: [
@@ -89,7 +91,7 @@ test("a token: required, signed by this gateway, not expired", async () => {
 
 test("the request: JSON within the size limit and the protocol, or refused before the provider is called", async () => {
   let calls = 0;
-  const counting: Provider = { name: "counting", turn: () => (calls++, Promise.resolve({})) };
+  const counting: Provider = { ...mockProvider, name: "counting", turn: () => (calls++, Promise.resolve({})) };
   const h = harness({}, counting);
   const t = await h.session();
   assert.deepEqual(await errorOf(await h.turn(t, "{not json")), [400, "bad-json"]);
@@ -138,13 +140,13 @@ test("the kill switch: every module off at once, without a release", async () =>
 });
 
 test("the provider fails or is slow: an error code, a turn counted, nothing of the failure passed on", async () => {
-  const failing: Provider = { name: "failing", turn: () => Promise.reject(new TypeError("upstream said: 頭很痛 MARKER-7f3a")) };
+  const failing: Provider = { ...mockProvider, name: "failing", turn: () => Promise.reject(new TypeError("upstream said: 頭很痛 MARKER-7f3a")) };
   const h = harness({}, failing);
   const r = await h.turn(await h.session(), turnBody([said("頭很痛")]));
   assert.deepEqual(await errorOf(r), [502, "provider"]);
   assert.equal(h.log.at(-1)!.exception, "TypeError");
   let aborted = false;
-  const slow: Provider = { name: "slow", turn: (_req, signal) => new Promise(() => signal.addEventListener("abort", () => (aborted = true))) };
+  const slow: Provider = { ...mockProvider, name: "slow", turn: (_req, signal) => new Promise(() => signal.addEventListener("abort", () => (aborted = true))) };
   const s = harness({ AI_TIMEOUT_MS: "20" }, slow);
   assert.deepEqual(await errorOf(await s.turn(await s.session(), turnBody([said("頭痛")]))), [504, "timeout"]);
   assert.ok(aborted, "the provider is told to stop");
@@ -154,6 +156,7 @@ test("no log line holds content: a whole session with marked words, a rogue repl
   const MARK = "MARKER-7f3a";
   let n = 0;
   const provider: Provider = {
+    ...mockProvider,
     name: "mixed",
     turn: (req) => {
       n++;

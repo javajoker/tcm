@@ -25,7 +25,7 @@ import { buildTurnRequest, confirmedIds, vocabularyOf } from "./request.ts";
 
 const SEVERITIES: readonly Severity[] = ["light", "moderate", "severe"];
 const FAILURE: Readonly<Record<Failure, AiKey>> = {
-  off: "ai.talk.error.off", budget: "ai.talk.error.budget", rate: "ai.talk.error.rate", "too-large": "ai.talk.error.long", "bad-request": "ai.talk.error.long",
+  off: "ai.talk.error.off", budget: "ai.talk.error.budget", rate: "ai.talk.error.rate", "too-large": "ai.talk.error.long", "bad-request": "ai.talk.error.long", image: "ai.talk.error.service",
   origin: "ai.talk.error.service", method: "ai.talk.error.service", "not-found": "ai.talk.error.service", "bad-json": "ai.talk.error.service", token: "ai.talk.error.service",
   expired: "ai.talk.error.service", busy: "ai.talk.error.service", provider: "ai.talk.error.service", timeout: "ai.talk.error.service", internal: "ai.talk.error.service",
   unreachable: "ai.talk.error.service",

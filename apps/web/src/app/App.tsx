@@ -45,6 +45,8 @@ const Catalogue = __APP_PROFILE__ === "dev" ? lazy(() => import("../dev/Catalogu
 const Inspector = __APP_PROFILE__ === "dev" ? lazy(() => import("../dev/Inspector.tsx")) : null;
 // AI help's conversation (Release F): only in a build with AI help, by the same rule (check-release rule 17)
 const Conversation = __APP_AI_ENABLED__ ? lazy(() => import("../ai/Conversation.tsx")) : null;
+// …and its photo of the tongue and the face (PM-50), development profile only
+const ObservePhoto = __APP_AI_ENABLED__ ? lazy(() => import("../ai/ObservePhoto.tsx")) : null;
 
 /** What the person sees while a screen's chunk loads: a busy region that says so, with the skeleton of a page. */
 function LoadingScreen(): ReactNode {
@@ -81,6 +83,7 @@ function Screens(): ReactNode {
           <Route path="/result/:id/formula/:fid">{(params) => <FormulaDetail id={params.id} fid={params.fid} />}</Route>
           <Route path="/result/:id">{(params) => <Result id={params.id} />}</Route>
           {Conversation !== null ? <Route path="/talk"><Conversation /></Route> : null}
+          {ObservePhoto !== null ? <Route path="/observe/photo/:module">{(params) => <ObservePhoto module={params.module} />}</Route> : null}
           {Inspector !== null ? <Route path="/_dev"><Suspense fallback={null}><Inspector /></Suspense></Route> : null}
           {Catalogue !== null ? <Route path="/_dev/components"><Suspense fallback={null}><Catalogue /></Suspense></Route> : null}
           <Route><NotFound /></Route>

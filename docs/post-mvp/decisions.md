@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 0.14 (draft) |
+| **Version** | 0.15 (draft) |
 | **Status** | Every item the MVP documents recorded as "to be revisited after the MVP" is answered here with the recommended default; new decisions that came out of the post-MVP design are PD-01 … PD-12 |
 | **Last updated** | 2026-10-07 |
 | **Audience** | Project owner, maintainers, reviewers |
@@ -162,7 +162,7 @@ The ⚑ items PD-13, PD-14, PD-21 and PD-25 were decided by the owner on 2026-10
 | PD-14 ✓ | A practitioner profile | Not a third build: a **role** in the release build (general, learner, practitioner), declared with an attestation; no licence check — the app has no accounts | [Prescription model §7.4](design/prescription-model.md) | An institution wants verified practitioners |
 | PD-19 ✓ | New sources | The owner approves the downloads the plan names: `VSOP87D.ear` (PM-28) and the eight public-domain works of knowledge base v2 §3 when a task needs one — each from a source whose licence fits, with its filename, source and size recorded in the registry | [Knowledge base v2 §3](design/knowledge-base-v2.md) | — |
 | PD-21 ✓ | AI help and the local-first promise | **Approved as designed**: off by default in public builds; opt-in per person and per module with consent; adults; nothing identifying sent; nothing stored. The privacy redesign and a legal view still come before any public use | [AI-assisted intake §2, §5](design/ai-assisted-intake.md) | — |
-| PD-25 ✓ | Photos of tongue and face | As designed: development profile only until the tongue-photo spike's gates | [AI-assisted intake §6](design/ai-assisted-intake.md) | The gates are met |
+| PD-25 ✓ | Photos of tongue and face | As designed: development profile only until the tongue-photo spike's gates. **Built that way (PM-50, 2026-10-08):** the module exists in the `dev` profile, the device's own camera app supplies the photo (no camera permission in any build), nothing is stored, and a release build holds no photo code (check-release rule 17); the validator refuses any other profile with a photo module on | [AI-assisted intake §6](design/ai-assisted-intake.md) | The gates are met |
 | PD-12 (extended) | All-JavaScript budget | Raises stay declared per feature; the owner approved those the next features need — the release build's prescription chunk (PM-53). Release F adds nothing to a release build until it ships publicly | [Roadmap §2](roadmap.md) | — |
 | PD-28 | 營衛 in the model | Three dimensions (衛, 營, 開闔), four natures, the sources of 營 and 衛 as a coupling, the 八綱 虛實 axis counting them; where readings disagree, the applicability-weighted mean with a confidence; no pattern added | [營衛 in the model](design/ying-wei.md) | The clinical reviewer moves a weight |
 | PD-29 | Order | Plan (PM-51) → 營衛 (PM-52) → the VSOP87 tables (PM-28) → Release F's mock-provider parts (PM-44 … PM-48) → learners and practitioners in the app (PM-53). PM-49 (the real provider) waits for the owner's key and deployment; PM-50 (photos) for the spike's gates | [Roadmap §4](roadmap.md) | — |
@@ -193,3 +193,4 @@ The ⚑ items PD-13, PD-14, PD-21 and PD-25 were decided by the owner on 2026-10
 | 0.12 | 2026-10-07 | PD-12: 370 KB for Release E (the 營衛 block took all JS to 350.1 KB) |
 | 0.13 | 2026-10-08 | PD-12 measured for PM-53: the release build's prescription chunk about 17 KB; all JavaScript 367.6 of 370 KB |
 | 0.14 | 2026-10-08 | §2.10: PD-30 — reference quantities for study, shown by default with their note, configurable (PM-54) |
+| 0.15 | 2026-10-08 | PD-25: built as decided — the photo of the tongue and the face exists in the development profile only (PM-50) |
