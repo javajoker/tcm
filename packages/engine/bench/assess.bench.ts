@@ -2,6 +2,7 @@
 //   node bench/assess.bench.ts [--check] [--write-baseline] [--json <file>]
 // --check compares with bench/baseline.json (exit 1 on a violation: over 50 ms p95, or more than 20 % slower relative to the reference workload); --write-baseline records this run.
 // Timing is noisy: each measurement is the median of three rounds, and the baseline is a ratio to a fixed reference workload, not milliseconds.
+// `nextQuestions` takes about 0.1 ms — close to the noise of a single timing — so it is timed in batches of `BATCH` calls and reported per call.
 import { readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { indexKnowledgeBase, type KnowledgeBase } from "@tcm/kb";
@@ -12,6 +13,8 @@ import { interviewOf } from "../test/vignettes.ts";
 import { LIMITS, measureOf, median, violations, type Measure, type Report } from "./stats.ts";
 
 const baselinePath = join(import.meta.dirname, "baseline.json");
+/** Calls of `nextQuestions` per timed sample. */
+const BATCH = 10;
 const NOW = Date.UTC(2026, 9, 4, 12);
 
 /** A fixed, allocation-free workload: the machine's speed in one number. */
@@ -42,7 +45,11 @@ export function runBench(): Report {
   });
   const ref = referenceMs();
   const a = rounds(200, (i) => { assess(kbs[i % 2]!, input(people[i % people.length]!)); });
-  const q = rounds(200, (i) => { const p = people[i % people.length]!; nextQuestions(dev, { sex: p.sex, pregnancy: p.sex === "female" ? "no" : "not-applicable", findings: p.findings, modules: [], context: { course: "chronic" } }, 1); });
+  const batch = rounds(200, (i) => {
+    const p = people[i % people.length]!;
+    for (let k = 0; k < BATCH; k++) nextQuestions(dev, { sex: p.sex, pregnancy: p.sex === "female" ? "no" : "not-applicable", findings: p.findings, modules: [], context: { course: "chronic" } }, 1);
+  });
+  const q: Measure = { p50: batch.p50 / BATCH, p95: batch.p95 / BATCH, max: batch.max / BATCH, runs: batch.runs * BATCH };
   return { referenceMs: ref, assess: { ...a, ratio: a.p95 / ref }, nextQuestions: { ...q, ratio: q.p95 / ref } };
 }
 
