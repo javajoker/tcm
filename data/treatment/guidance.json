@@ -990,11 +990,11 @@
       ],
       "herb": "herb-shengjiang",
       "id": "shengjiang",
-      "nature": "溫",
+      "nature": "微溫",
       "pregnancy_caution": false,
       "rationale": {
-        "en": "Pungent and warm; traditionally used to release the exterior and disperse cold, warm the middle and ease nausea, and resolve phlegm.",
-        "zh-Hant": "味辛、性溫；傳統功效：解表散寒、溫中止嘔、化痰止咳。"
+        "en": "Pungent and slightly warm; traditionally used to release the exterior and disperse cold, warm the middle and ease nausea, and resolve phlegm.",
+        "zh-Hant": "味辛、性微溫；傳統功效：解表散寒、溫中止嘔、化痰止咳。"
       },
       "status": "draft"
     },

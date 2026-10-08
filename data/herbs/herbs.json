@@ -56894,7 +56894,9 @@
         "生薑瀉心湯",
         "二陳湯"
       ],
-      "data_quality": [],
+      "data_quality": [
+        "siqi 溫 in the source's front matter corrected to 微溫, the nature its 性味 sentence states"
+      ],
       "dose_g_reference": [
         3.0,
         10.0
@@ -56937,7 +56939,7 @@
       "pregnancy": "ok-unreviewed",
       "props": {
         "bu_xie": "瀉",
-        "direction": 0.5,
+        "direction": 0.47,
         "five_phase": [
           0.0,
           0.0,
@@ -56954,7 +56956,7 @@
           "胃": 0.265,
           "脾": 0.327
         },
-        "yinyang": 0.57
+        "yinyang": 0.48
       },
       "props_rules": {
         "bu_xie": [
@@ -56987,7 +56989,7 @@
         ]
       },
       "siqi": [
-        "溫"
+        "微溫"
       ],
       "slug": "shengjiang",
       "source": {
@@ -57001,7 +57003,7 @@
       "tags": [
         "辛散"
       ],
-      "temperature": 1.0,
+      "temperature": 0.5,
       "toxic": false
     },
     {
@@ -63250,7 +63252,9 @@
         "五子衍宗丸",
         "壽胎丸"
       ],
-      "data_quality": [],
+      "data_quality": [
+        "siqi 溫 in the source's front matter corrected to 平, the nature its 性味 sentence states"
+      ],
       "dose_g_reference": [
         6.0,
         12.0
@@ -63295,7 +63299,7 @@
       "pregnancy": "ok-unreviewed",
       "props": {
         "bu_xie": "補",
-        "direction": 0.06,
+        "direction": 0.01,
         "five_phase": [
           0.163,
           0.0,
@@ -63312,7 +63316,7 @@
           "脾": 0.265,
           "腎": 0.327
         },
-        "yinyang": 0.48
+        "yinyang": 0.3
       },
       "props_rules": {
         "bu_xie": [
@@ -63346,7 +63350,7 @@
         ]
       },
       "siqi": [
-        "溫"
+        "平"
       ],
       "slug": "tusizi",
       "source": {
@@ -63358,7 +63362,7 @@
       },
       "status": "curated-draft",
       "tags": [],
-      "temperature": 1.0,
+      "temperature": 0.0,
       "toxic": false
     },
     {

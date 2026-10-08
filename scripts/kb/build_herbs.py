@@ -8,7 +8,7 @@ from __future__ import annotations
 import re
 
 from .common import DATA, LIB, dump, front_matter, submodule_commits, term
-from .curated.herbs import EFFECT_OVERRIDES, EXTRA, NAME_TO_LIB, OVERLAY
+from .curated.herbs import EFFECT_OVERRIDES, EXTRA, NAME_TO_LIB, OVERLAY, SIQI_CORRECTIONS
 from .herb_props import conventions as props_conventions, derive as derive_props
 from .herb_model import (
     FLAVOR_ELEMENT, FLAVOR_EXCESS_HARM, derive_effects, derive_harms, is_toxic, parse_flavors, parse_organs,
@@ -71,6 +71,16 @@ def parse_entries() -> list[dict]:
     return out
 
 
+def corrected_siqi(lib: str, stated: list[str]) -> tuple[list[str], list[str]]:
+    """The entry's 四氣 and data-quality notes: the front matter's value, unless curated/herbs.py corrects it to the 性味 sentence."""
+    if lib not in SIQI_CORRECTIONS:
+        return stated, []
+    expected, corrected = SIQI_CORRECTIONS[lib]
+    if stated != expected:
+        raise ValueError(f"SIQI_CORRECTIONS[{lib}]: the front matter now says {stated}, not {expected}; compare it with the 性味 sentence and update or drop the row")
+    return corrected, [f"siqi {'、'.join(stated)} in the source's front matter corrected to {'、'.join(corrected)}, the nature its 性味 sentence states"]
+
+
 def dedupe_by_name(herbs: list[dict]) -> list[dict]:
     """One record per canonical name. Where the source lists the same herb twice (e.g. 穿山甲 in the Pharmacopoeia and again among the
     non-Pharmacopoeia textbook herbs) keep the curated one, else the Pharmacopoeia entry, and note the dropped source on the survivor."""
@@ -101,7 +111,8 @@ def build() -> tuple[list[dict], dict[str, str]]:
         seen_lib.add(lib)
         ov = OVERLAY.get(lib)
         organs = parse_organs(e["guijing"])
-        temp = parse_temps([term(s) for s in e["siqi"]])
+        siqi, siqi_dq = corrected_siqi(lib, [term(s) for s in e["siqi"]])
+        temp = parse_temps(siqi)
         flavors, dq = parse_flavors([term(w) for w in e["wuwei"]])
         for f in flavors:
             f["element"] = FLAVOR_ELEMENT[f["flavor"]]
@@ -123,7 +134,7 @@ def build() -> tuple[list[dict], dict[str, str]]:
             "name": {"zh-Hant": name, "en": (ov or {}).get("en")},
             "category": category,
             "latin": e["latin"],
-            "siqi": [term(s) for s in e["siqi"]],
+            "siqi": siqi,
             "temperature": round(temp, 2),
             "flavors": flavors,
             "organs": organs,
@@ -140,7 +151,7 @@ def build() -> tuple[list[dict], dict[str, str]]:
             "status": "curated-draft" if ov else "derived",
             "props": props,
             "props_rules": props_rules,
-            "data_quality": dq,
+            "data_quality": dq + siqi_dq,
             "source": {"repo": "TCM-Library", "commit": commits.get("TCM-Library"), "path": e["path"], "entry_id": e["entry_id"],
                        "book": term(e["book"])},
         }

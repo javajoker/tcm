@@ -2,7 +2,8 @@
 
 Machine-derived properties (四氣五味歸經, effects, harms) come from the TCM-Library entries; this table adds what
 the structured source does not carry: English names, burden tags (滋膩 苦寒 辛散 …), pregnancy and interaction
-flags, cautions. Every flag is a draft awaiting pharmacist/practitioner review (SOP D7/D12).
+flags, cautions — and corrects a structured 四氣 that disagrees with the source's own text (SIQI_CORRECTIONS). Every flag is a draft
+awaiting pharmacist/practitioner review (SOP D7/D12).
 
 Line format:  lib | English | tags | pregnancy | interactions | toxic | caution (zh-Hant)
   lib          directory name in TCM-Library/library/zhongyao/<category>/<lib>
@@ -158,6 +159,17 @@ def parse() -> dict[str, dict]:
 
 
 OVERLAY = parse()
+
+
+# 四氣 that the TCM-Library front matter gets wrong. The build copies `siqi` from each entry's structured front matter (`conditions.siqi`), the
+# library's summary of the 《中國藥典》2025 sentence quoted in the same file; for these herbs the summary disagrees with that sentence, so the
+# record takes the sentence. lib → (what the front matter says, what the 性味 sentence says). The build stops when the front matter no longer
+# says the first (the library was corrected: drop the row); scripts/kb/tests/test_herb_siqi.py checks every curated herb against the sentence.
+SIQI_CORRECTIONS = {
+    "shengjiang": (["溫"], ["微溫"]),   # 「性味辛，微溫」
+    "tusizi": (["溫"], ["平"]),         # 「性味辛、甘，平」
+}
+assert set(SIQI_CORRECTIONS) <= set(OVERLAY), "a 四氣 correction for a herb with no overlay row"
 
 
 # Hand-set panel effects for the formula herbs (override the keyword-derived ones). Units: 0.2–0.3 mild,

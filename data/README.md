@@ -122,6 +122,11 @@ Every herb carries `source.path` and the submodule commit; every formula carries
 - Script: text shown in Traditional must not contain Simplified forms. `validate_kb` fails on any character that Big5-HKSCS cannot encode outside the fields that keep the Simplified source on purpose (`quote_source_zh_hans`, `*_hans`, source paths, parser anchors). Its first run (PF-02 / K-14) found a Simplified chapter title in `citations.json` and the units and processing notes of the classical amounts (`两`, `去节`…), now converted by the builders. Four genuine Traditional characters lie outside Big5-HKSCS — 髎 (次髎) and 瞤 腨 黅 (五運六氣 quotations) — all in the CJK Unified block and present in the system CJK fonts; they are listed in the validator so that a new one has to be looked at.
 - 穿山甲 appears twice in TCM-Library (the Pharmacopoeia 2025 entry and the textbook's non-Pharmacopoeia list); the build keeps the Pharmacopoeia entry and notes the dropped one in `data_quality` (found by the duplicate-name check, task K-03).
 - A few Pharmacopoeia rows list a temperature word inside 五味 (`wuwei`); these are ignored and recorded in `herbs[].data_quality`.
+- The structured front matter of a `TCM-Library` entry can disagree with the Pharmacopoeia sentence in the same file. 生薑 (`shengjiang_001`) and 菟絲子 (`tusizi_001`)
+  have 四氣 溫 where the text says 「性味辛，微溫」 and 「性味辛、甘，平」; their curated records follow the text (`curated/herbs.py` `SIQI_CORRECTIONS`, noted in
+  `data_quality`), and `scripts/kb/tests/test_herb_siqi.py` checks every curated herb's nature against the 性味 sentence of its source (地黃's source gives a nature for
+  each form; the record is 生地黃). Not corrected yet, in `derived` records: the 四氣 of 白蘞, 野菊花 and 槓板歸 (寒; the text says 微寒), 水紅花子 (涼; 微寒), 黃蜀葵花 and
+  溪黃草 (涼; 寒), and the 五味 of 虎杖 (苦; 微苦) and 炮姜 (辛、苦; 辛).
 - `TCM-Ancient-Books` is GB18030 Simplified Chinese with occasional dropped characters (e.g. 芪 in “黃芪”), which is why composition checks can report partial matches.
 
 ## Review status
