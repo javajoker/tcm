@@ -182,7 +182,7 @@ CITATIONS = [
     ("yixue-xinwu-bagang", "book:601|醫學心悟|寒熱虛實表裏陰陽辨", "病有总要，寒、热、虚、实、表、里、阴、阳，八字而已"),
     ("yixue-xinwu-bafa", "book:601|醫學心悟|醫門八法", "而论治病之方，则又以汗、和、下、消、吐、清、温、补，八法尽之"),
     ("danxi-xinfa-1", "book:570|丹溪心法|能合色脉可以万全", "有诸内者形诸外"),
-    ("bencao-bianxue-18fan-1", "book:031|本草便讀|十八反歌訣", "藻戟遂芫俱战草。诸参辛芍叛藜芦"),
+    ("bencao-bianxue-18fan-1", "book:031|本草便讀|十八反歌訣", "十八反歌贵贱殊。半蒌贝蔹芨攻乌。藻戟遂芫俱战草。诸参辛芍叛藜芦"),   # the whole verse, its four lines
     ("binhu-maixue-sanbu", "book:506|瀕湖脈學|四言舉要", "心肝居左肺脾居右肾与命门居两尺部"),
     # 營衛 in the model (PM-52): the commentaries that read 傷寒論 in 營衛 terms, and the warm-disease texts
     ("zhujie-shanghan-012-1", "book:461|註解傷寒論|辨太陽病脈證並治法上第五", "阴脉弱者，荣气弱也。风并于卫，则卫实而荣虚"),

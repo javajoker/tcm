@@ -110,6 +110,9 @@ test("the appendices come from the data: the safety lists, 十八反 and 十九�
   const shaoyao = /<th scope="row">芍藥<\/th><td>(.*?)<\/td>/.exec(safety)?.[1] ?? "";
   assert.deepEqual([...shaoyao.matchAll(/href="#herb-([a-z_]+)"/g)].map((m) => m[1]).sort(), ["baishao", "chishao"], "芍藥 covers 白芍 and 赤芍");
   assert.ok(safety.includes("本手冊未收"), "a name with no herb of the handbook says so (犀角)");
+  const verse = hb.citations.get(f.safety.incompatibilities.citation)!.quote_zh_hant;
+  assert.equal(verse.split("。").length, 4, "the 十八反 verse is quoted whole: its four lines");
+  assert.ok(safety.includes(`「${verse}」`), "and the safety appendix prints it");
   assert.equal((section(html["zh-Hant"], "app-pairings").match(/<tr><td>/g) ?? []).length, f.pairings.items.filter((p) => p.type !== "相反").length);
   assert.equal((section(html["zh-Hant"], "app-yinjing").match(/<tr><th scope="row">/g) ?? []).length, f.yinjing.channels.length);
   const processing = section(html["zh-Hant"], "app-processing");

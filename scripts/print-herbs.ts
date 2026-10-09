@@ -151,8 +151,10 @@ export function handbook(files: DataFiles = readDataFiles(), reviewed: readonly 
       })).values()],
     };
   });
+  // everything the handbook prints from the data: the herbs, the tables, the passages it quotes and the works it names
   const version = sha16(canonicalJson([herbs.map((h) => [h.detail, h.record.props, h.pairings.map((p) => p.id), h.yinjing, h.band?.citation ?? null]),
-    files.pairings.items, files.processing, files.doseBands.items, files.yinjing.channels, files.safety.incompatibilities, files.glossary.items, conventionsOf(files)]));
+    files.pairings.items, files.processing, files.doseBands.items, files.yinjing.channels, files.safety.incompatibilities, files.glossary.items, conventionsOf(files),
+    files.citations.items, readJson<Sources>(join(root, "data", "sources.json")).items]));
   return { herbs, files, kb, citations: new Map(files.citations.items.map((c) => [c.id, c])), status: statusOf(files, wordsReviewed(reviewed)), version };
 }
 
@@ -486,13 +488,13 @@ function safety(w: Words, hb: Handbook): string {
     group(w, hb, msg(w, "learn.herb.mark.caution"), hb.herbs.filter((h) => h.detail.pregnancy === "caution")),
     `<h2>${msg(w, "handbook.safety.interactions")}</h2>`, ...interactions.map((i) => group(w, hb, msg(w, `formula.interaction.${i}`), hb.herbs.filter((h) => h.detail.interactions.includes(i)))),
     `<h2>${msg(w, "handbook.safety.incompatible")}</h2>`, intro(w, "handbook.safety.incompatible.intro"),
-    `<h3>${msg(w, "handbook.safety.shibafan")}</h3>`,
+    `<h3>${msg(w, "handbook.safety.shibafan")}</h3>`, quote(w, cite),
     `<table class="pairs">${PAIR_COLS}<thead><tr><th scope="col">${msg(w, "handbook.safety.col.herb")}</th><th scope="col">${msg(w, "handbook.safety.col.covers")}</th><th scope="col">${msg(w, "handbook.safety.col.opposes")}</th><th scope="col">${msg(w, "handbook.safety.col.covers")}</th></tr></thead><tbody>`,
     ...inc.shibafan.flatMap((r) => r.opposes.map((o) => `<tr><th scope="row">${cn(w, r.herb)}</th><td>${covered(r.herbs, r.herb)}</td><th scope="row">${cn(w, o)}</th><td>${covered(r.herbs, o)}</td></tr>`)), "</tbody></table>",
     `<h3>${msg(w, "handbook.safety.shijiuwei")}</h3>`,
     `<table class="pairs">${PAIR_COLS}<thead><tr><th scope="col">${msg(w, "handbook.safety.col.herb")}</th><th scope="col">${msg(w, "handbook.safety.col.covers")}</th><th scope="col">${msg(w, "handbook.safety.col.antagonist")}</th><th scope="col">${msg(w, "handbook.safety.col.covers")}</th></tr></thead><tbody>`,
     ...inc.shijiuwei.map((r) => `<tr><th scope="row">${cn(w, r.a)}</th><td>${covered(r.herbs, r.a)}</td><th scope="row">${cn(w, r.b)}</th><td>${covered(r.herbs, r.b)}</td></tr>`), "</tbody></table>",
-    `<p class="note">${msg(w, "handbook.safety.shijiuwei.note")}</p>`, quote(w, cite),
+    `<p class="note">${msg(w, "handbook.safety.shijiuwei.note")}</p>`,
   ].join("\n"));
 }
 
