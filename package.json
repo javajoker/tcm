@@ -54,7 +54,7 @@
     "test:e2e": "pnpm --filter @tcm/web test:e2e"
   },
   "devDependencies": {
-    "@types/node": "^22.10.0",
+    "@types/node": "^26.6.4",
     "eslint": "^9.39.0",
     "eslint-plugin-jsx-a11y": "^6.10.2",
     "eslint-plugin-react-hooks": "^7.1.1",
