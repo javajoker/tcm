@@ -2,9 +2,9 @@
 
 | | |
 |---|---|
-| **Version** | 0.5 (draft) |
-| **Status** | Design for Release E (FR-35, FR-39; tasks PM-35, PM-42, PM-43). **Built: the sources registry and its coverage report (PM-35, §4.1)** |
-| **Last updated** | 2026-10-07 |
+| **Version** | 0.6 (draft) |
+| **Status** | Design for Release E (FR-35, FR-39; tasks PM-35, PM-42, PM-43, PM-56). **Built: the sources registry and its coverage report (PM-35, §4.1)** |
+| **Last updated** | 2026-10-09 |
 | **Audience** | The clinical content owner, reviewers, engineers |
 | **Related** | [Prescription model](prescription-model.md) · [Library expansion](library-expansion.md) · [`reference/README.md`](../../../reference/README.md) · [Content review](../../content-review.md) · [KB schema](../../kb-schema.md) · [Requirements FR-35, FR-39](../requirements.md) |
 
@@ -89,6 +89,8 @@ As for the existing quotations: a curated table names the record and an **anchor
 
 **Language.** Traditional Chinese only (the owner's choice). It is not translated; the English and Simplified interfaces point to it and say so.
 
+*Since PM-56 the chapters are the twelve perspectives of [§6.3](#63-the-courses-companion-pm-56); the table below is the first edition's.*
+
 **Form.** About a dozen short chapters, each one idea, in plain modern Chinese with classical quotations where they carry the idea (taken from the verified quotations). Each chapter maps a piece of the tradition to the piece of the model that implements it, and says where the model simplifies. It explains, never prescribes: no doses, no "take this".
 
 | Chapter | The idea | The model's counterpart |
@@ -120,6 +122,27 @@ Writing it against the model found three things, fixed with it: the reason the �
 
 Learn → the book, from the hub, in every interface: [knowledge browser §7.3](knowledge-browser.md#73-as-built-pm-43-the-learning-book). One file fetched when a reader opens it, Traditional Chinese whatever the interface, a Simplified page that says where the book is; a public build carries the book once it is reviewed. To be shown in Learn, the book now addresses no reader (R2): twenty-two lines with 你 were reworded.
 
+### 6.3 The course's companion (PM-56)
+
+Once the course and its textbook existed ([`docs/course/zh-Hant/`](../../course/zh-Hant/README.md), PM-55), the two works told the same story twice: the book's chapters followed the textbook's topics (陰陽, 五行, the panel, 病因, 四診, 辨證 …), and every chapter of the course explained the model again under「與本 App 對照」. Merging them into one was weighed and set aside — the book is a page of the app, fetched on demand within a 20 KB budget and under its own review gate, while the course is a 200,000-character document — so they became **one set with two jobs**: the course teaches what TCM says, topic by topic; the book reads TCM from other angles and is where the model is explained.
+
+| Chapter | The perspective | The question |
+|---|---|---|
+| 一、以模型讀中醫 (`model`) | The reading | Can TCM be written as a model, and what does that show? |
+| 二、系統：平衡與回饋 (`system`) | System | How do a few pairs of ideas describe a whole person? — 陰陽 as the three rulers, 五行 as categories and transmission |
+| 三、狀態：人體的帳本 (`ledger`) | State | What has to be recorded to say a person is "off"? — the panel, elements entering it, 營衛, where an entry came from |
+| 四、量測：由外知內 (`measurement`) | Measurement | How is the unseen known, and how well? — the four examinations, the quality classes, the red flags first |
+| 五、推理：由證據到證 (`inference`) | Inference | How does a set of findings become a pattern? — scores, required findings, the differential, confidence |
+| 六、時間：一日、一年、一生 (`time`) | Time | What can the day, the season, the year and the birth explain? — the reference panel, capped priors |
+| 七、語言：一個字的分量 (`language`) | Language | What do the words mean, and when the commentators disagree? — the glossary, the three readings of 衛強 |
+| 八、本草：一味藥的座標 (`herbs`) | The herb | Can a herb be a point on a map? — the coordinates, dose saturation, the 七情 |
+| 九、方劑：一首方的分工 (`formulas`) | The formula | Is a formula a list or a team? — the effect, the measured roles, the 方解 in five steps |
+| 十、個人：同病異治 (`person`) | The person | One pattern, different people — 三因制宜, the study reference |
+| 十一、案例：三個人 (`cases`) | Cases | The same rules meeting three typical people (風寒束表, 肝胃不和, 腎陽虛) |
+| 十二、邊界：驗證、安全與倫理 (`limits`) | Limits | How is the model checked, and what can it not do? — self-test, verification, golden cases, the safety layer |
+
+Every chapter has the same four sections — 一個問題, 中醫怎麼看, 模型怎麼寫, 兩相對照 — and ends with **模型的簡化**; `test_book.py` checks the four sections and that the book and the course name each other. The book is shorter than the first edition (10,500 characters, the file 12.7 KB gzip of its 20 KB) with **45 quotations**. In the course, each chapter's「與本 App 對照」now opens with the book's chapter that explains the model (［學習書 第N章］〈title〉) and keeps only the records and the simplification; every pattern, element, formula, constitution, acupoint and food is still named there (`test_course.py`). The route `/learn/book`, the title and the hub's card are unchanged; the chapter ids are new.
+
 ## 7. Decided defaults
 
 **Decided 2026-10-07 — default of this design, revisit with the owner (decision register PD-19, PD-20).**
@@ -144,3 +167,4 @@ PM-35 (sources registry and coverage report), PM-36 … PM-40 (the tables above,
 | 0.3 | 2026-10-07 | §6.1: the learning book as built (PM-42) |
 | 0.4 | 2026-10-07 | §6.2: the book in the app (PM-43) |
 | 0.5 | 2026-10-07 | §7: the owner approved the downloads (PD-19) |
+| 0.6 | 2026-10-09 | §6.3: the book as the course's companion — twelve perspectives (PM-56) |

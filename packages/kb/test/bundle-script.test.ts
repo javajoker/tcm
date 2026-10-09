@@ -220,7 +220,7 @@ test("nothing of the book is fetched with the knowledge base; opening it asks fo
   await assert.rejects(kb.book!.get(), (e: unknown) => e instanceof KbError && e.code === "chunk-hash-mismatch");
   net.damaged.clear();
   const book = await kb.book!.get();
-  assert.equal(book.chapters[1]!.title, "二、陰陽：一把尺");
+  assert.equal(book.chapters[1]!.title, "二、系統：平衡與回饋");
   assert.equal(kb.zh(book.chapters[1]!.title), book.chapters[1]!.title, "the book is never converted");
   await kb.book!.get();
   assert.equal(net.asked.filter((f) => f.startsWith("book.")).length, 2, "kept once it came");

@@ -1,4 +1,5 @@
-// The learning book (PM-43): the Markdown of docs/book/zh-Hant read into the structure the app renders, who carries it, and how the app reads it.
+// The learning book (PM-43, PM-56): the Markdown of docs/book/zh-Hant read into the structure the app renders, who carries it, and how the app reads it. Since PM-56 the book reads
+// TCM from twelve perspectives — each chapter a question, the tradition's view, how the model writes it and the two compared — as the companion of the course in docs/course/zh-Hant.
 import assert from "node:assert/strict";
 import { describe, test } from "node:test";
 import { bookOf, checkBook, memoryBook } from "../src/book.ts";
@@ -11,7 +12,9 @@ import { readDataFiles } from "../node/fromDisk.ts";
 const files = readDataFiles();
 const citations = files.citations.items;
 const book = readBook(citations);
-const IDS = ["model", "yinyang", "wuxing", "panel", "causes", "four-exams", "patterns", "priors", "herbs", "formulas", "sanyin", "safety"];
+const IDS = ["model", "system", "ledger", "measurement", "inference", "time", "language", "herbs", "formulas", "person", "cases", "limits"];
+/** The four sections of every chapter, in order. */
+const PERSPECTIVE = ["一個問題", "中醫怎麼看", "模型怎麼寫", "兩相對照"];
 const textOf = (t: BookText): string => t.map((s) => (typeof s === "string" ? s : "strong" in s ? s.strong : s.text)).join("");
 const allBlocks = (b: BookChunk): BookBlock[] => [...b.contents, ...b.chapters.flatMap((c) => c.blocks)];
 const words = (b: BookBlock): string[] => {
@@ -32,13 +35,14 @@ describe("the book as the repository holds it", () => {
     assert.equal(book.title, "以模型讀中醫——這個 App 怎麼想");
     assert.deepEqual(book.chapters.map((c) => c.id), IDS);
     assert.equal(book.chapters[0]!.title, "一、以模型讀中醫");
-    assert.equal(book.chapters[11]!.title, "十二、安全與邊界");
+    assert.equal(book.chapters[11]!.title, "十二、邊界：驗證、安全與倫理");
   });
 
   test("the contents link every chapter, in order, as chapters of the book; the documents outside the book keep their names and lose their addresses", () => {
     const links = book.contents.flatMap((b) => (b.kind === "table" ? b.rows.flat() : b.kind === "paragraph" ? [b.text] : [])).flat().filter((s): s is { text: string; chapter: string } => typeof s === "object" && "chapter" in s);
     assert.deepEqual(links.map((l) => l.chapter), IDS);
-    assert.equal(links[1]!.text, "二、陰陽：一把尺");
+    assert.equal(links[1]!.text, "二、系統：平衡與回饋");
+    assert.ok(book.contents.some((b) => b.kind === "paragraph" && textOf(b.text).includes("《中醫學系統課程》")), "the contents name the course the book goes with");
     const last = book.contents.at(-1)!;
     assert.equal(last.kind, "paragraph");
     const text = last.kind === "paragraph" ? last.text : [];
@@ -60,19 +64,24 @@ describe("the book as the repository holds it", () => {
     assert.equal(quotes.find((q) => q.text === "發表不遠熱，攻裡不遠寒。")?.citation, "suwen-071-4");
   });
 
-  test("the blocks of every kind the book uses, each in its place: section headings, strong text, lists, tables, the fenced formula", () => {
-    const patterns = book.chapters.find((c) => c.id === "patterns")!;
-    assert.deepEqual(patterns.blocks.filter((b) => b.kind === "heading").map((b) => (b.kind === "heading" ? b.text : "")), ["計分", "鑑別", "信心", "當證型庫裡找不到"]);
-    const code = patterns.blocks.find((b) => b.kind === "code");
+  test("the blocks of every kind the book uses, each in its place: the four sections of a perspective, strong text, lists, tables, the fenced formula", () => {
+    for (const c of book.chapters) {
+      assert.deepEqual(c.blocks.filter((b) => b.kind === "heading").map((b) => (b.kind === "heading" ? b.text : "")), PERSPECTIVE, `${c.id} takes one perspective in four sections`);
+    }
+    const inference = book.chapters.find((c) => c.id === "inference")!;
+    const code = inference.blocks.find((b) => b.kind === "code");
     assert.ok(code?.kind === "code" && code.text.startsWith("得分 = Σ") && code.text.includes("\n百分比"));
-    const yinyang = book.chapters.find((c) => c.id === "yinyang")!;
-    const table = yinyang.blocks.find((b) => b.kind === "table");
+    const system = book.chapters.find((c) => c.id === "system")!;
+    const table = system.blocks.find((b) => b.kind === "table");
     assert.ok(table?.kind === "table");
     assert.deepEqual(table.head.map(textOf), ["尺", "範圍", "讀法"]);
     assert.deepEqual(table.rows.map((r) => textOf(r[0]!)), ["寒熱", "虛實", "表"]);
-    const list = book.chapters.find((c) => c.id === "sanyin")!.blocks.find((b) => b.kind === "list");
+    const list = book.chapters.find((c) => c.id === "person")!.blocks.find((b) => b.kind === "list");
     assert.ok(list?.kind === "list" && list.ordered && list.items.length === 4);
     assert.deepEqual(list.items[0]![0], { strong: "先去掉這個人不能用的藥" });
+    const cases = book.chapters.find((c) => c.id === "cases")!.blocks.find((b) => b.kind === "table");
+    assert.ok(cases?.kind === "table");
+    assert.deepEqual(cases.head.map(textOf), ["", "阿明", "小芳", "陳伯"]);
     for (const c of book.chapters) {
       const last = c.blocks.at(-1)!;
       assert.ok(last.kind === "paragraph" && typeof last.text[0] === "object" && "strong" in last.text[0] && last.text[0].strong.startsWith("模型的簡化"), `${c.id} ends with where the model simplifies`);

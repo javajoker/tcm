@@ -89,23 +89,23 @@ describe("the book in Traditional Chinese", () => {
   });
   it("a chapter: its sections, its tables, its quotations with a link to each one's page, and the way to the next and the previous chapter", async () => {
     const net = counting();
-    const { user } = await open("/zh-Hant/learn/book/yinyang", withBook(net.source));
-    expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent("二、陰陽：一把尺");
-    expect(screen.getAllByRole("heading", { level: 2 }).map((h) => h.textContent)).toEqual(["三把尺", "先看地圖，再定八綱"]);
-    const table = within(screen.getByRole("region", { name: "三把尺" })).getByRole("table");
+    const { user } = await open("/zh-Hant/learn/book/system", withBook(net.source));
+    expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent("二、系統：平衡與回饋");
+    expect(screen.getAllByRole("heading", { level: 2 }).map((h) => h.textContent)).toEqual(["一個問題", "中醫怎麼看", "模型怎麼寫", "兩相對照"]);
+    const table = within(screen.getByRole("region", { name: "模型怎麼寫" })).getByRole("table");
     expect(within(table).getAllByRole("rowheader").map((th) => th.textContent)).toEqual(["寒熱", "虛實", "表"]);
     const figures = article().querySelectorAll("figure");
     expect(figures.length).toBe(4);
-    expect(figures[0]!.querySelector("blockquote")).toHaveTextContent("「病有總要，寒、熱、虛、實、表、裡、陰、陽，八字而已。」");
-    const source = within(figures[0] as HTMLElement).getByRole("link");
+    expect(figures[1]!.querySelector("blockquote")).toHaveTextContent("「病有總要，寒、熱、虛、實、表、裡、陰、陽，八字而已。」");
+    const source = within(figures[1] as HTMLElement).getByRole("link");
     expect(source).toHaveTextContent("《醫學心悟·寒熱虛實表裡陰陽辨》");
     expect(source.getAttribute("href")).toMatch(/^\/zh-Hant\/learn\/quotations\/[a-z0-9-]+$/);
     const nav = screen.getByRole("navigation", { name: "章節" });
     expect(within(nav).getByRole("link", { name: /上一章/ })).toHaveAttribute("href", "/zh-Hant/learn/book/model");
     expect(within(nav).getByRole("link", { name: "回到手冊目錄" })).toHaveAttribute("href", "/zh-Hant/learn/book");
     await user.click(within(nav).getByRole("link", { name: /下一章/ }));
-    expect(await screen.findByRole("heading", { level: 1, name: "三、五行：五個抽屜與生剋" })).toBeInTheDocument();
-    expect(window.location.pathname).toBe("/zh-Hant/learn/book/wuxing");
+    expect(await screen.findByRole("heading", { level: 1, name: "三、狀態：人體的帳本" })).toBeInTheDocument();
+    expect(window.location.pathname).toBe("/zh-Hant/learn/book/ledger");
     expect(net.calls.n, "the file is asked for once").toBe(1);
   });
   it("the first chapter has no previous one and the last no next one; the fenced formula is shown as written", async () => {
@@ -113,11 +113,11 @@ describe("the book in Traditional Chinese", () => {
     expect(within(screen.getByRole("navigation", { name: "章節" })).queryByRole("link", { name: /上一章/ })).toBeNull();
     go("/");
     document.body.innerHTML = "";
-    await open("/zh-Hant/learn/book/safety");
+    await open("/zh-Hant/learn/book/limits");
     expect(within(screen.getByRole("navigation", { name: "章節" })).queryByRole("link", { name: /下一章/ })).toBeNull();
     go("/");
     document.body.innerHTML = "";
-    await open("/zh-Hant/learn/book/patterns");
+    await open("/zh-Hant/learn/book/inference");
     expect(article().querySelector("pre")?.textContent).toMatch(/^得分 = Σ（支持的症狀 × 權重 × 輕重 × 可信度）/);
   });
   it("a chapter the book does not have is the section's own not-found page", async () => {
@@ -141,14 +141,14 @@ describe("the book in Traditional Chinese", () => {
 
 describe("the book in an English interface", () => {
   it("is the same book in Traditional Chinese, marked as such, with a line saying so; the page around it is English", async () => {
-    await open("/en/learn/book/yinyang");
+    await open("/en/learn/book/system");
     const h1 = screen.getByRole("heading", { level: 1 });
-    expect(h1).toHaveTextContent("二、陰陽：一把尺");
+    expect(h1).toHaveTextContent("二、系統：平衡與回饋");
     expect(h1).toHaveAttribute("lang", "zh-Hant");
     expect(screen.getByText("This book is in Traditional Chinese only.")).toBeInTheDocument();
-    expect(article().querySelector("div[lang='zh-Hant'] h2")).toHaveTextContent("三把尺");
+    expect(article().querySelector("div[lang='zh-Hant'] h2")).toHaveTextContent("一個問題");
     expect(screen.getAllByRole("link", { name: "Back to the book's contents" }).map((a) => a.getAttribute("href"))).toEqual(["/en/learn/book", "/en/learn/book"]);
-    expect(within(screen.getByRole("navigation", { name: "Chapters" })).getByRole("link", { name: /Next chapter/ })).toHaveAttribute("href", "/en/learn/book/wuxing");
+    expect(within(screen.getByRole("navigation", { name: "Chapters" })).getByRole("link", { name: /Next chapter/ })).toHaveAttribute("href", "/en/learn/book/ledger");
     expect(article().querySelector("figure a")?.getAttribute("href")).toMatch(/^\/en\/learn\/quotations\//);
   });
 });
@@ -157,16 +157,16 @@ describe("the book in a Simplified interface", () => {
   it("shows no Traditional text: it says where the book is and links to the same page in Traditional Chinese, without fetching the file", async () => {
     const net = counting();
     const which = withBook(net.source, true);
-    const { user } = await open("/zh-Hans/learn/book/yinyang", which);
+    const { user } = await open("/zh-Hans/learn/book/system", which);
     expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent("学习手册：以模型读中医");
     expect(screen.getByText("本手册只有繁体中文版。")).toBeInTheDocument();
     const link = screen.getByRole("link", { name: "改用繁体中文阅读" });
-    expect(link).toHaveAttribute("href", "/zh-Hant/learn/book/yinyang");
+    expect(link).toHaveAttribute("href", "/zh-Hant/learn/book/system");
     expect(traditionalOnScreen()).toEqual([]);
     expect(net.calls.n).toBe(0);
     await user.click(link);
-    expect(await screen.findByRole("heading", { level: 1, name: "二、陰陽：一把尺" })).toBeInTheDocument();
-    expect(window.location.pathname).toBe("/zh-Hant/learn/book/yinyang");
+    expect(await screen.findByRole("heading", { level: 1, name: "二、系統：平衡與回饋" })).toBeInTheDocument();
+    expect(window.location.pathname).toBe("/zh-Hant/learn/book/system");
   });
   it("the contents page and the hub's card hold no Traditional text either, and a chapter the book does not have is not found", async () => {
     await open("/zh-Hans/learn/book", withBook(memoryBook(book), true));
@@ -186,7 +186,7 @@ describe("the book in a Simplified interface", () => {
 
 describe("accessibility", () => {
   it("the contents, a chapter in English and the Simplified page pass axe; no page addresses the reader", async () => {
-    for (const [path, hans] of [["/zh-Hant/learn/book", false], ["/en/learn/book/sanyin", false], ["/zh-Hans/learn/book/sanyin", true]] as const) {
+    for (const [path, hans] of [["/zh-Hant/learn/book", false], ["/en/learn/book/person", false], ["/zh-Hans/learn/book/person", true]] as const) {
       const { container } = await open(path, withBook(memoryBook(book), hans));
       await axeClean(container);
       expect(container.textContent ?? "", path).not.toMatch(/[你妳您]|\byou\b/i);

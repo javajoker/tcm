@@ -2,9 +2,9 @@
 
 | | |
 |---|---|
-| **Version** | 0.8 (draft) |
+| **Version** | 0.9 (draft) |
 | **Status** | Design for Release B (FR-14, FR-25; tasks PM-13 … PM-16) and Release C (herb browser; PM-24, PM-25; **PM-24, the delivery of the herb data, and PM-25, the herb pages, are built**, [§7.1](#71-as-built-pm-24-delivery), [§7.2](#72-as-built-pm-25-the-herb-pages)). **PM-13 to PM-16 are built** (the shell, the stable ids, search, the page template, pages for all seven kinds, and the comparison of patterns); herbs wait for Release C |
-| **Last updated** | 2026-10-07 |
+| **Last updated** | 2026-10-09 |
 | **Audience** | Engineers, designers, the clinical reviewer |
 | **Related** | [Requirements FR-14, FR-25](../requirements.md#fr-14-knowledge-browser--release-b--class-n-herbs-c-release-c--refines-fr-14) · [PRD §3](../../PRD.md#3-target-users) · [Tech spec §5.3, §8.1](../../tech-spec.md) · [UX spec](../../ux-spec.md) · [Safety policy](../../safety-policy.md) · [i18n guide §5](../../i18n-guide.md) |
 
@@ -138,7 +138,7 @@ The data layer of the herb browser exists; the pages (PM-25) are not built yet.
 
 ### 7.3 As built (PM-43: the learning book)
 
-The learning book of [knowledge base v2 §6](knowledge-base-v2.md#6-the-learning-book-fr-39) (PM-42, `docs/book/zh-Hant/`) is the one Learn page that is a work rather than a record: a contents page and twelve chapters, read in order.
+The learning book of [knowledge base v2 §6](knowledge-base-v2.md#6-the-learning-book-fr-39) (PM-42, `docs/book/zh-Hant/`) is the one Learn page that is a work rather than a record: a contents page and twelve chapters, read in order. Since PM-56 the chapters are the twelve perspectives of [knowledge base v2 §6.3](knowledge-base-v2.md#63-the-courses-companion-pm-56) (ids `model` … `limits`); the routes, the card and the file are as built here.
 
 | Piece | What was built |
 |---|---|
@@ -257,3 +257,4 @@ PM-13 (shell, ids, anonymous-context components, search index, print), PM-14 (pa
 | 0.6 | 2026-10-06 | PM-24 built ([§7.1](#71-as-built-pm-24-delivery)): the herb index and sixteen shards, their policy by profile, their Simplified lists, the loader API, rule 15 of the release check. The pages are PM-25 |
 | 0.7 | 2026-10-06 | PM-25 built ([§7.2](#72-as-built-pm-25-the-herb-pages)): the herb list and page, their English words, the three kinds of source line, the async-page device and the focus fix, the decision that the hub's search does not cover herbs; two faults found on the way and fixed |
 | 0.8 | 2026-10-07 | PM-43 built ([§7.3](#73-as-built-pm-43-the-learning-book)): the learning book in Learn — one hash-checked file outside the version, Traditional Chinese in every interface, the Simplified page that points to it, rule 16 of the release check, the book reworded for R2 |
+| 0.9 | 2026-10-09 | §7.3: the book's chapters are now the twelve perspectives (PM-56) |

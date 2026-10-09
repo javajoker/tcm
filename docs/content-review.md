@@ -2,9 +2,9 @@
 
 | | |
 |---|---|
-| **Version** | 0.7 (draft) |
+| **Version** | 0.8 (draft) |
 | **Status** | Proposed process — **no reviewer has been appointed yet** (PRD Q8 blocks milestone M3) |
-| **Last updated** | 2026-10-08 |
+| **Last updated** | 2026-10-09 |
 | **Audience** | Maintainers, clinical and linguistic reviewers |
 | **Related** | [KB schema §8](kb-schema.md) (status model) · [Safety policy](safety-policy.md) · [i18n guide](i18n-guide.md) · [Test plan §4](test-plan.md) (golden cases) · [Release process](release-process.md) (gates) |
 
@@ -58,7 +58,7 @@ One person may hold several roles if qualified; the physician and the TCM clinic
 | **Citations** | `citations.json` | That each quotation actually supports the sentence where it is used (machine verification only proves the text exists) | TCM clinical |
 | **Copy** | UI catalogs, notices, disclaimers | Tone, forbidden wording, clinical accuracy | Linguistic + regulatory (+ physician for notices) |
 | **Glossary / translations** | `glossary.json`, `en` fields | Term choices, WHO conformity, readability | Linguistic |
-| **The learning book** | `docs/book/zh-Hant/` (shown in Learn, PM-43) | That each chapter says what the model does, in plain Traditional Chinese a cultured reader accepts; that each quotation supports its sentence (the build proves only that it exists); no advice, no amount, no second person | Linguistic + TCM clinical |
+| **The learning book** | `docs/book/zh-Hant/` (shown in Learn, PM-43; the course's companion, PM-56) | That each chapter's perspective is fair to the tradition and says what the model does, in plain Traditional Chinese a cultured reader accepts; that each quotation supports its sentence (the build proves only that it exists); no advice, no amount, no second person | Linguistic + TCM clinical |
 | **The course and its textbook** | `docs/course/zh-Hant/` (a document, not in the app; PM-55) | That each chapter teaches correctly at textbook level, in plain Traditional Chinese; that each 白話 explanation renders its excerpt faithfully and each excerpt supports its place (the tests prove only that it exists); that the tables of common patterns, herbs and formulas match the textbooks and the Pharmacopoeia; that the danger signs of chapters 18 and 22 are right and sufficient; the answer key; no advice, no amount, no second person | Linguistic + TCM clinical |
 
 ---
@@ -216,3 +216,4 @@ A release build **must fail** (`check-release.ts`) if a required area has no val
 | 0.5 | 2026-10-08 | §7: L3 for learners and practitioners, and what a public build needs before it serves them (PM-53) |
 | 0.6 | 2026-10-08 | §7: the review gate holds whatever `dose_display` is configured (PM-54) |
 | 0.7 | 2026-10-08 | §3: the course and its textbook (PM-55) — reviewed by a linguist and a TCM clinician |
+| 0.8 | 2026-10-09 | §3: the learning book as the course's companion — each perspective fair to the tradition (PM-56) |

@@ -42,16 +42,16 @@ test("E37: the hub lists the book; it comes in one file when opened, never befor
   expect(asked).toHaveLength(1);
   expect(asked[0]).toMatch(/^book\.[0-9a-f]{10}\.json$/);
   if (lang === "en") await expect(page.getByText(app.t("learn.book.language"))).toBeVisible();
-  await page.locator("main a[href$='/learn/book/yinyang']").first().click();
-  await expect(page.getByRole("heading", { level: 1 })).toHaveText("二、陰陽：一把尺");
+  await page.locator("main a[href$='/learn/book/system']").first().click();
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("二、系統：平衡與回饋");
   await expect(page.getByRole("heading", { level: 1 })).toBeFocused();
-  await expect(page.locator("main figure blockquote").first()).toContainText("八字而已");
+  await expect(page.locator("main figure blockquote").nth(1)).toContainText("八字而已");
   await page.locator("main nav a[rel='next']").click();
-  await expect(page.getByRole("heading", { level: 1 })).toHaveText("三、五行：五個抽屜與生剋");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("三、狀態：人體的帳本");
   await page.locator("main nav a[rel='prev']").click();
-  await expect(page.getByRole("heading", { level: 1 })).toHaveText("二、陰陽：一把尺");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("二、系統：平衡與回饋");
   await page.goBack();
-  await expect(page.getByRole("heading", { level: 1 })).toHaveText("三、五行：五個抽屜與生剋");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("三、狀態：人體的帳本");
   await page.locator("main nav a[href$='/learn/book']").click();
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(CONTENTS);
   expect(asked, "the file once").toHaveLength(1);
@@ -59,14 +59,14 @@ test("E37: the hub lists the book; it comes in one file when opened, never befor
 
 test("E37: a quotation opens its page among the quotations, with the original and how far it has been checked", async ({ app, page, lang }) => {
   test.skip(lang === "zh-Hans", "a Simplified page shows none of the book");
-  await app.goto("/learn/book/sanyin");
+  await app.goto("/learn/book/person");
   const source = page.locator("main figure figcaption a").filter({ hasText: "《素問·六元正紀大論》" }).last();
   await expect(source).toBeVisible();
   await source.click();
   await expect(page).toHaveURL(new RegExp(`/${lang}/learn/quotations/suwen-071-4$`));
   await expect(page.locator("main blockquote")).toContainText("發表不遠熱，攻裡不遠寒");
   await page.goBack();
-  await expect(page.getByRole("heading", { level: 1 })).toHaveText("十一、因人因時因地：同病異治");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("十、個人：同病異治");
 });
 
 test("E37: a deep link opens a chapter in a fresh browser; a chapter the book does not have says so", async ({ browser, baseURL, lang }) => {
@@ -74,7 +74,7 @@ test("E37: a deep link opens a chapter in a fresh browser; a chapter the book do
   const page = await context.newPage();
   await page.goto(`/${lang}/learn/book/herbs`);
   if (lang === "zh-Hans") await expect(page.getByRole("link", { name: "改用繁体中文阅读" })).toHaveAttribute("href", "/zh-Hant/learn/book/herbs");
-  else await expect(page.getByRole("heading", { level: 1 })).toHaveText("九、本草：一味藥的座標");
+  else await expect(page.getByRole("heading", { level: 1 })).toHaveText("八、本草：一味藥的座標");
   await page.goto(`/${lang}/learn/book/no-such-chapter`);
   await expect(page.getByRole("alert")).toContainText(lang === "en" ? "This page is not in the Learn section" : lang === "zh-Hans" ? "学习内容中没有这一页" : "學習內容中沒有這一頁");
   await context.close();
@@ -97,7 +97,7 @@ for (const scheme of ["light", "dark"] as const) {
       await app.goto("/learn/book");
       await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
       await clean(page, `book contents (${scheme})`);
-      await app.goto("/learn/book/sanyin");
+      await app.goto("/learn/book/person");
       await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
       await clean(page, `book chapter (${scheme})`);
     });
