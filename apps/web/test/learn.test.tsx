@@ -29,16 +29,17 @@ async function open(path: string, hans = false) {
 }
 
 describe("the hub", () => {
-  it("says what the section is, offers a search, the learning book and one card per kind that exists, with counts", async () => {
+  it("says what the section is, offers a search, the learning book, the course and one card per kind that exists, with counts", async () => {
     await open("/en/learn");
     expect(screen.getByRole("heading", { level: 1, name: "Learn" })).toBeInTheDocument();
     const cards = within(screen.getByRole("region", { name: "Browse by kind" })).getAllByRole("link");
-    expect(cards.map((c) => c.getAttribute("href"))).toEqual(["/en/learn/book", "/en/learn/patterns", "/en/learn/constitutions", "/en/learn/formulas", "/en/learn/points", "/en/learn/foods", "/en/learn/herbs", "/en/learn/quotations", "/en/learn/terms", "/en/learn/compare"]);
+    expect(cards.map((c) => c.getAttribute("href"))).toEqual(["/en/learn/book", "/en/learn/course", "/en/learn/patterns", "/en/learn/constitutions", "/en/learn/formulas", "/en/learn/points", "/en/learn/foods", "/en/learn/herbs", "/en/learn/quotations", "/en/learn/terms", "/en/learn/compare"]);
     expect(cards[0]).toHaveTextContent(`${kb.book!.chapters.length} chapters`);          // known from the manifest: the card fetches nothing
-    expect(cards[1]).toHaveTextContent(`${kb.patterns.length} entries`);
-    expect(cards[6]).toHaveTextContent(`${kb.herbBrowser!.count} entries`);          // known from the manifest: the card fetches nothing
-    expect(cards[8]).toHaveTextContent(`${kb.glossary.length} entries`);
-    expect(cards[3]).toHaveTextContent(`${kb.formulas.size} entries`);
+    expect(cards[1]).toHaveTextContent("22 chapters");          // the course's chapters, without the answer key and the sources; from the manifest too
+    expect(cards[2]).toHaveTextContent(`${kb.patterns.length} entries`);
+    expect(cards[7]).toHaveTextContent(`${kb.herbBrowser!.count} entries`);          // known from the manifest: the card fetches nothing
+    expect(cards[9]).toHaveTextContent(`${kb.glossary.length} entries`);
+    expect(cards[4]).toHaveTextContent(`${kb.formulas.size} entries`);
     expect(screen.getByRole("search")).toBeInTheDocument();
     expect(document.title).toBe("Learn · TCM Self-Check");
   });

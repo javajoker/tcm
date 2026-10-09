@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 0.7 (draft) |
+| **Version** | 0.8 (draft) |
 | **Status** | Proposed requirements for Releases A–F; they enter the [PRD](../PRD.md) FR list as each feature ships (fold-in, [README §2](README.md#2-standing-constraints)) |
 | **Last updated** | 2026-10-09 |
 | **Audience** | Product, engineering, reviewers |
@@ -176,6 +176,8 @@ A short book in **Traditional Chinese only**, for a reader with a strong groundi
 
 *Refined 2026-10-09 (PM-56), after the course and its textbook (`docs/course/zh-Hant/`, PM-55) were written:* the two are one set with different jobs. The course teaches what TCM says, topic by topic; the book is its **companion volume** and reads TCM from **twelve perspectives** — the reading, the system, the state, measurement, inference, time, language, the herb, the formula, the person, three cases and the limits — each chapter one question, the tradition's view, how the model writes it and the two compared, ending with where the model simplifies. The course's chapters no longer explain the model: they list their records and point to the book's chapter.
 
+*Refined 2026-10-09 (PM-60):* the course is in the app's Learn section too, beside the book — an index and one page at a time, fetched when opened, not part of the offline copy — under a review gate of its own (a public build carries it only once reviewed).
+
 ### FR-43 營衛 in the model — Release E · Class C · refines FR-19, FR-37
 
 The panel holds 營衛 from the classics — 衛氣, 營氣 and the opening and closing of the pores that 衛 governs; the library's 營衛 patterns project onto them, the organs that make 營 and 衛 weaken them a little, the formula herbs act on them as the commentaries state, and the 八綱 deficiency–excess axis counts them. Where the classics disagree, every reading carries an applicability weight; the value is their weighted mean and a confidence says how far they agree. Acceptance: every value traces to verified quotations; the build recomputes the weighted values and checks the weights; the pattern scores and the inquiry are unchanged; the formula verification is regenerated and nothing is tuned to pass; no pattern is added.
@@ -251,3 +253,4 @@ Accounts and server-side sync · e-commerce, herb sales, practitioner marketplac
 | 0.5 | 2026-10-08 | FR-44 refined: the quantities by default, with their note, configurable (PD-30, PM-54) |
 | 0.6 | 2026-10-08 | FR-41 built in the development profile (PM-50); the evaluation and the legal view stay open |
 | 0.7 | 2026-10-09 | FR-39 refined: the book as the course's companion, twelve perspectives (PM-56) |
+| 0.8 | 2026-10-09 | FR-39 refined: the course in Learn beside the book, under a review gate of its own (PM-60) |

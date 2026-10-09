@@ -1,11 +1,12 @@
 // /learn, /learn/<kind>, /learn/<kind>/<id>: one lazy route group (design §3, §7). A kind the section does not hold, or an id the knowledge base does not know, is the section's own not-found page.
-// /learn/book and /learn/book/<chapter> are the learning book (PM-43), which is not a kind of page.
+// /learn/book and /learn/book/<chapter> are the learning book (PM-43), /learn/course and /learn/course/<page> the course (PM-60): works read in order, not kinds of page.
 import type { ReactNode } from "react";
 import { Link } from "wouter";
 import { useI18n } from "../i18n/I18nProvider.tsx";
 import { NeedsKnowledge, useLoaded } from "../app/knowledge.tsx";
 import { usePageTitle } from "../app/usePageTitle.ts";
 import { BookRoute } from "./Book.tsx";
+import { CourseRoute } from "./Course.tsx";
 import { Compare } from "./Compare.tsx";
 import { Hub } from "./Hub.tsx";
 import { HerbList, HerbPage } from "./Herbs.tsx";
@@ -31,6 +32,7 @@ function Body({ type, id }: { type?: string | undefined; id?: string | undefined
   const { kb } = useLoaded();
   if (type === undefined) return <Hub />;
   if (type === "book") return <BookRoute chapter={id} missing={<Missing />} />;
+  if (type === "course") return <CourseRoute page={id} missing={<Missing />} />;
   const info = typeOfPath(type);
   if (info === undefined) return <Missing />;
   if (info.type === "herb") return kb.herbBrowser === null ? <Missing /> : id === undefined ? <HerbList /> : <HerbPage slug={id} missing={<Missing />} />;

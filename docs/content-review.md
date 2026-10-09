@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 0.10 (draft) |
+| **Version** | 0.11 (draft) |
 | **Status** | Proposed process — **no reviewer has been appointed yet** (PRD Q8 blocks milestone M3) |
 | **Last updated** | 2026-10-09 |
 | **Audience** | Maintainers, clinical and linguistic reviewers |
@@ -60,7 +60,7 @@ One person may hold several roles if qualified; the physician and the TCM clinic
 | **Copy** | UI catalogs (`apps/web/src/i18n`, Traditional Chinese and English; the Simplified catalog is generated from the Traditional one), notices, disclaimers | Tone, forbidden wording, clinical accuracy | Linguistic + regulatory (+ physician for the notices, the `safety` namespace) |
 | **Glossary / translations** | `glossary.json`, `en` fields, `safety/name-fold.json` (each character of a herb or food name with its Simplified form, so that an allergy typed in either script is matched) | Term choices, WHO conformity, readability; that every folding pair is right | Linguistic |
 | **The learning book** | `docs/book/zh-Hant/` (shown in Learn, PM-43; the course's companion, PM-56) | That each chapter's perspective is fair to the tradition and says what the model does, in plain Traditional Chinese a cultured reader accepts; that each quotation supports its sentence (the build proves only that it exists); no advice, no amount, no second person | Linguistic + TCM clinical |
-| **The course and its textbook** | `docs/course/zh-Hant/` (a document, not in the app; PM-55) | That each chapter teaches correctly at textbook level, in plain Traditional Chinese; that each 白話 explanation renders its excerpt faithfully and each excerpt supports its place (the tests prove only that it exists); that the tables of common patterns, herbs and formulas match the textbooks and the Pharmacopoeia; that the danger signs of chapters 18 and 22 are right and sufficient; the answer key; no advice, no amount, no second person | Linguistic + TCM clinical |
+| **The course and its textbook** | `docs/course/zh-Hant/` (PM-55; shown in Learn since PM-60 — a public build carries it only once every page is reviewed, `check-release` rule 19) | That each chapter teaches correctly at textbook level, in plain Traditional Chinese; that each 白話 explanation renders its excerpt faithfully and each excerpt supports its place (the tests prove only that it exists); that the tables of common patterns, herbs and formulas match the textbooks and the Pharmacopoeia; that the danger signs of chapters 18 and 22 are right and sufficient; the answer key; no advice, no amount, no second person | Linguistic + TCM clinical |
 
 ---
 
@@ -163,7 +163,7 @@ What must be `reviewed` before each output level is enabled in a **release** bui
 | Level / feature | Required reviewed areas |
 |---|---|
 | **Any release** | Red flags and scope · scope-profile configuration · all notices and disclaimers · UI strings (both languages) · glossary rows used · birth/yunqi/season copy (or the birth module stays off) |
-| **L0** (education) | Patterns and elements in use · symptoms/questions · tongue and pulse content · constitutions and susceptibility · panel model and scoring params · lifestyle/seasonal text · citations used · the learning book, if the build carries it (a public build carries it only once reviewed: `check-release` rule 16) |
+| **L0** (education) | Patterns and elements in use · symptoms/questions · tongue and pulse content · constitutions and susceptibility · panel model and scoring params · lifestyle/seasonal text · citations used · the learning book and the course, if the build carries them (a public build carries each only once reviewed: `check-release` rules 16 and 19) |
 | **L1** (+ diet, acupoints, tier-A formulas without dose) | + treatment guidance (diet, acupoints, pregnancy cautions) · the tier-A formulas (composition, roles, indications) · **the herbs in those formulas** (effects, burdens, flags) · the safety rules those formulas can trigger |
 | **L2** (+ tier B, modification, herb weights) | + tier-B formulas and their herbs · classical modifications · the residual-modification candidate pool · herb weight display text |
 | **L3** (dev only) | None required, but items remain labelled *draft* in the UI |
@@ -226,3 +226,4 @@ A release build **must fail** (`check-release.ts`) if a required area has no val
 | 0.8 | 2026-10-09 | §3: the learning book as the course's companion — each perspective fair to the tradition (PM-56) |
 | 0.9 | 2026-10-09 | §3: the reference quantities and the prescription model's tables, the name folding, the interface text's files; §4.2: every area has a pack, the book and the course as worksheets; §5: records of the texts outside `data/` (the book, the course, the interface text), the book's status read from them, the remaining roles (PM-57) |
 | 0.10 | 2026-10-09 | §4.4: the report of the golden misses read before a session (PM-59) |
+| 0.11 | 2026-10-09 | §3, §7: the course in the app, under its own review gate (PM-60) |

@@ -25,5 +25,8 @@ export const typeOfPath = (path: string): TypeInfo | undefined => AVAILABLE.find
 /** The address of the learning book's contents, or of one of its chapters (PM-43); relative to the language. The book is not a kind of page: it is one work, read in order. */
 export const bookHref = (chapter?: string): string => (chapter === undefined || chapter === "" ? "/learn/book" : `/learn/book/${chapter}`);
 
+/** The address of the course's contents, or of one of its pages (PM-60) — a chapter, the answer key or the sources; like the book, one work read in order. */
+export const courseHref = (page?: string): string => (page === undefined || page === "" ? "/learn/course" : `/learn/course/${page}`);
+
 /** The address of a page or of a list (`/learn/terms/yin-yang`); relative to the language, like every route. */
 export const hrefOf = (type: LearnType, id?: string): string => `/learn/${infoOf(type).path}${id === undefined ? "" : `/${id}`}`;

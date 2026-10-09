@@ -26,6 +26,8 @@ describe("classify", () => {
   });
   test("the knowledge base is fetched on request; the Simplified display lists and catalogue only for Simplified", () => {
     for (const p of ["kb/manifest.json", "kb/core.0123456789.json", "kb/cities.0123456789.json", "kb/book.0123456789.json"]) assert.equal(classify(p), "common", p);          // the book too: read offline in every script that shows it
+    // the course (PM-60) is not part of the offline copy: some 230 KB most readers never open; a page read once stays in the browser's cache
+    for (const p of ["kb/course-index.0123456789.json", "kb/course-yinyang.0123456789.json", "kb/course-qi-blood-fluids.0123456789.json"]) assert.equal(classify(p), "never", p);
     for (const p of ["kb/hans-main.0123456789.txt", "kb/hans-cities.0123456789.txt", "assets/hans-B-z8IZ3g.js"]) assert.equal(classify(p), "hans", p);
     assert.equal(classify("assets/hans.module-AAAAAA.css"), "shell", "only the script chunk is the catalogue");
     for (const p of ["kb/reference.0123456789.json", "kb/hans-reference.0123456789.txt"]) assert.equal(classify(p), "never", `${p}: asked for by those who declared a role only, never in a general reader's offline copy`);

@@ -3,10 +3,11 @@
 // content even if the UI is bypassed. Doses, tier-C formulas, herb weights, internal provenance and the other profile never reach a
 // bundle that cannot use them.
 import type {
-  BookChunk, Citations, Cities, ConstitutionItems, Constitutions, Correspondences, DoseBands, Emergency, Exclusions, NameFold, Formula, Formulas, Glossary, Herb, Herbs, Level, Orientation, Pairings, PanelSchema, PatternElements, Patterns, Prescription, PrescriptionChunk, Processing, ProfileName, Pulse, Questions, Sanyin, Yinjing,
+  BookChunk, Citations, Cities, ConstitutionItems, Constitutions, Correspondences, CourseIndexChunk, CoursePageChunk, DoseBands, Emergency, Exclusions, NameFold, Formula, Formulas, Glossary, Herb, Herbs, Level, Orientation, Pairings, PanelSchema, PatternElements, Patterns, Prescription, PrescriptionChunk, Processing, ProfileName, Pulse, Questions, Sanyin, Yinjing,
   RawKbChunks, RedFlags, ReferenceChunk, ReferenceSource, Role, SafetyRules, ScopeConfig, ScopeProfile, ScopeProfiles, ScoringParams, Susceptibility, Symptoms, Tongue, TreatmentGuidance, Yunqi, FormulasChunk, GuidanceChunk, HerbName, TreatmentCore,
 } from "./types.ts";
 import { memoryBook } from "./book.ts";
+import { memoryCourse } from "./course.ts";
 import { buildHerbBrowser, memorySource, type HerbBrowserChunks } from "./herbs.ts";
 
 /** The parsed contents of data/ (one field per data file), and the learning book. */
@@ -46,6 +47,8 @@ export interface DataFiles {
   readonly sanyin: Sanyin;
   /** The learning book (PM-42, PM-43), read from docs/book/zh-Hant by packages/kb/node/book.ts; absent where a caller has no use for it. */
   readonly book?: BookChunk | null;
+  /** The course (PM-60), read from docs/course/zh-Hant by packages/kb/node/course.ts: its index and its pages; absent where a caller has no use for it. */
+  readonly course?: { readonly index: CourseIndexChunk; readonly pages: readonly CoursePageChunk[] } | null;
 }
 
 export const LEVELS: readonly Level[] = ["L0", "L1", "L2", "L3"];
@@ -284,6 +287,8 @@ export interface BuildResult {
   readonly herbFiles: HerbBrowserChunks | null;
   /** What the bundler writes for the learning book (PM-43); `chunks.book` reads the same from memory. Null when this build carries no book. */
   readonly bookFile: BookChunk | null;
+  /** What the bundler writes for the course (PM-60): the index and the pages; `chunks.course` reads the same from memory. Null when this build carries no course. */
+  readonly courseFiles: { readonly index: CourseIndexChunk; readonly pages: readonly CoursePageChunk[] } | null;
   /** What the bundler writes for learners and practitioners (PM-53); `chunks.reference` reads the same from memory. Null when this build serves no role. */
   readonly referenceFile: ReferenceChunk | null;
 }
@@ -321,6 +326,8 @@ export function buildChunks(files: DataFiles, opts: BuildOptions): BuildResult {
 
   // the learning book (PM-43): every build that labels its content a draft carries it; a public release only a reviewed book — none yet, so no book file at all
   const bookFile = files.book && (dev || opts.draftLabel === true || files.book.status === "reviewed") ? files.book : null;
+  // the course (PM-60): the same gate as the book — every build that labels its content a draft carries it; a public release only a reviewed course, none yet
+  const courseFiles = files.course && (dev || opts.draftLabel === true || files.course.index.status === "reviewed") ? files.course : null;
 
   // the reference for learners and practitioners (PM-53): its own file, for a release build that may ship L2 and L3 content
   const referenceFile = buildReference(files, opts);
@@ -341,9 +348,10 @@ export function buildChunks(files: DataFiles, opts: BuildOptions): BuildResult {
     herbs: herbs ? { items: [...herbs], ...(prescription ? { prescription } : {}) } : null,
     herbBrowser: herbFiles ? memorySource(herbFiles) : null,
     book: bookFile ? memoryBook(bookFile) : null,
+    course: courseFiles ? memoryCourse(courseFiles) : null,
     reference: referenceFile ? memoryReference(referenceFile) : null,
     // the source-script quotation and the repository path are verification aids: dev only
     citations: dev ? files.citations : { ...files.citations, items: files.citations.items.map(({ source_path: _p, quote_source_zh_hans: _q, ...c }) => c) },
   };
-  return { chunks, reach, profile, herbFiles, bookFile, referenceFile };
+  return { chunks, reach, profile, herbFiles, bookFile, courseFiles, referenceFile };
 }

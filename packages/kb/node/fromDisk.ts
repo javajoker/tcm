@@ -5,7 +5,8 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { buildChunks, type BuildResult, type DataFiles } from "../src/bundle.ts";
 import type { Citations, ProfileName, RawKbChunks } from "../src/types.ts";
-import { BOOK_DIR, readBook, type ReviewedUnit } from "./book.ts";
+import { BOOK_DIR, pageIdsOf, readBook, readPages, type ReviewedUnit } from "./book.ts";
+import { COURSE_DIR, readCourse } from "./course.ts";
 
 export const DATA_DIR = join(dirname(fileURLToPath(import.meta.url)), "..", "..", "..", "data");
 
@@ -13,9 +14,11 @@ function read<T>(rel: string): T {
   return JSON.parse(readFileSync(join(DATA_DIR, rel), "utf8")) as T;
 }
 
-/** Every data file, and the learning book read from docs/book/zh-Hant with its quotations resolved against the citations and its status from the review records. */
+/** Every data file, and the learning book and the course read from docs/book/zh-Hant and docs/course/zh-Hant with their quotations resolved against the citations and their status from the review records. */
 export function readDataFiles(): DataFiles {
   const citations = read<Citations>("citations.json");
+  const reviewed = read<{ reviewed: ReviewedUnit[] }>("review/records.json").reviewed;
+  const ids = (dir: string): Map<string, string> => pageIdsOf(readPages(dir).map((p) => p.name));
   return {
     scope: read("config/scope-profiles.json"), symptoms: read("diagnosis/symptoms.json"), questions: read("diagnosis/questions.json"), exclusions: read("diagnosis/exclusions.json"), orientation: read("diagnosis/orientation.json"),
     patterns: read("diagnosis/patterns.json"), elements: read("diagnosis/pattern-elements.json"), constitutions: read("diagnosis/constitutions.json"),
@@ -25,7 +28,8 @@ export function readDataFiles(): DataFiles {
     formulas: read("formulas/formulas.json"), herbs: read("herbs/herbs.json"), citations, cities: read("geo/cities.json"),
     pairings: read("herbs/pairings.json"), processing: read("herbs/processing.json"), doseBands: read("herbs/dose-bands.json"), yinjing: read("herbs/yinjing.json"),
     prescriptionParams: read("treatment/prescription.json"), sanyin: read("treatment/sanyin.json"),
-    book: readBook(citations.items, BOOK_DIR, read<{ reviewed: ReviewedUnit[] }>("review/records.json").reviewed),
+    book: readBook(citations.items, BOOK_DIR, reviewed, ids(COURSE_DIR)),
+    course: readCourse(citations.items, COURSE_DIR, reviewed, ids(BOOK_DIR)),
   };
 }
 

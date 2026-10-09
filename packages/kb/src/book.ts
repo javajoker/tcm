@@ -2,7 +2,13 @@
 // the book and checked against the manifest like every chunk. Pure: this module checks what a file holds and keeps it once read; it fetches nothing and parses no Markdown (the
 // bundler does, in packages/kb/node/book.ts).
 import { KbError } from "./errors.ts";
-import type { Book, BookChunk, BookSource } from "./types.ts";
+import type { Book, BookChunk, BookItem, BookSource, BookText } from "./types.ts";
+
+const nested = (it: BookItem): it is Exclude<BookItem, BookText> => !Array.isArray(it);
+/** A list item's own text. */
+export const itemText = (it: BookItem): BookText => (nested(it) ? it.text : it);
+/** The bullets inside a list item (none for a plain one). */
+export const itemChildren = (it: BookItem): readonly BookText[] => (nested(it) ? it.items : []);
 
 /** A chapter id as the book's file names give it (`02-yinyang.md` → `yinyang`). */
 export const CHAPTER_ID = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;

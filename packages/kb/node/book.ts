@@ -1,13 +1,14 @@
 // The learning book read from its Markdown (tasks PM-42, PM-43; docs/post-mvp/design/knowledge-browser.md §7.3): docs/book/zh-Hant into the structure the app renders. Node-only — the
-// bundler writes the result as one file that the app fetches when a reader opens the book, so the app never parses Markdown. The parser knows exactly the part of Markdown the book uses
-// (a title, section headings, paragraphs with strong text and links, one-line quotations, tables, lists, a fenced block) and refuses anything else: an edit the app could not show fails
-// the build instead of reaching a reader half-shown. Every quotation is resolved to the verified citation it is part of, by the rule scripts/kb/tests/test_book.py checks.
+// bundler writes the result as one file that the app fetches when a reader opens the book, so the app never parses Markdown. The parser knows exactly the part of Markdown the book and the
+// course use (a title, section headings and — since PM-60, for the course — sub-headings, paragraphs with strong text, inline code and links, one-line quotations, tables, lists with one
+// level of bullets inside an item, a fenced block) and refuses anything else: an edit the app could not show fails the build instead of reaching a reader half-shown. Every quotation of the
+// book and of the course is resolved to the verified citation it is part of, by the rule scripts/kb/tests/test_book.py checks; the course's reader (node/course.ts) uses the same parser.
 import { createHash } from "node:crypto";
 import { readdirSync, readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { CHAPTER_ID } from "../src/book.ts";
-import type { BookBlock, BookChunk, BookSpan, BookText, Citation } from "../src/types.ts";
+import type { BookBlock, BookChunk, BookItem, BookSpan, BookText, Citation } from "../src/types.ts";
 
 export const BOOK_DIR = join(dirname(fileURLToPath(import.meta.url)), "..", "..", "..", "docs", "book", "zh-Hant");
 
@@ -37,14 +38,21 @@ export function reviewStatus(target: string, pages: readonly BookPage[], reviewe
   return pages.length > 0 && pages.every((p) => hashes.get(p.name) === pageHash(p.text)) ? "reviewed" : "draft";
 }
 
-const CHAPTER_FILE = /^(\d\d)-(.+)\.md$/;
+export const CHAPTER_FILE = /^(\d\d)-(.+)\.md$/;
 const QUOTE = /^> 「(.+?)」——《(.+?)》\s*$/u;
 /** What starts a block other than a paragraph. */
 const BLOCK_START = /^(#|>|\||```|\d+\. |- )/;
+/** A bullet inside a list item: indented by two to four spaces, the same for every bullet of the item. */
+const SUB_ITEM = /^( {2,4})- (.+)$/;
 
-interface Context {
-  /** Chapter file name → chapter id, for the links between pages. */
+/** What a page is read with: the work it belongs to, the other work of the set, and the citations its quotations are resolved against. */
+export interface Reader {
+  /** The work's folder, for messages (docs/book/zh-Hant). */
+  readonly dir: string;
+  /** Page file name → page id, for the links between pages of the work ("" is the contents, README.md). */
   readonly files: ReadonlyMap<string, string>;
+  /** The other work of the set (the course for the book, the book for the course): a link to one of its pages is kept as a link to that page in the app. */
+  readonly other?: { readonly work: "book" | "course"; readonly prefix: string; readonly files: ReadonlyMap<string, string> };
   readonly citations: readonly Citation[];
 }
 
@@ -61,7 +69,7 @@ function plain(text: string, at: string): string {
   return text.trim();
 }
 
-function inline(text: string, at: string, ctx: Context): BookText {
+function inline(text: string, at: string, ctx: Reader): BookText {
   const out: BookSpan[] = [];
   const push = (s: string): void => {
     if (s === "") return;
@@ -73,10 +81,20 @@ function inline(text: string, at: string, ctx: Context): BookText {
   while (rest.length > 0) {
     const strong = rest.indexOf("**");
     const link = rest.indexOf("[");
-    const next = Math.min(strong < 0 ? Infinity : strong, link < 0 ? Infinity : link);
+    const code = rest.indexOf("`");
+    const next = Math.min(...[strong, link, code].map((n) => (n < 0 ? Infinity : n)));
     if (next === Infinity) { push(rest); break; }
     push(rest.slice(0, next));
     rest = rest.slice(next);
+    if (rest.startsWith("`")) {
+      const end = rest.indexOf("`", 1);
+      if (end < 0) throw new Error(`${at}: \` is not closed`);
+      const inner = rest.slice(1, end);
+      if (inner.trim() === "") throw new Error(`${at}: inline code is not empty`);
+      out.push({ code: inner });
+      rest = rest.slice(end + 1);
+      continue;
+    }
     if (rest.startsWith("**")) {
       const end = rest.indexOf("**", 2);
       if (end < 0) throw new Error(`${at}: ** is not closed`);
@@ -91,19 +109,23 @@ function inline(text: string, at: string, ctx: Context): BookText {
     const [whole, label, href] = m as unknown as [string, string, string];
     if (/[*`<]/.test(label)) throw new Error(`${at}: the text of a link is plain text`);
     const chapter = href === "README.md" ? "" : ctx.files.get(href);
+    const other = ctx.other && href.startsWith(ctx.other.prefix) ? (href === `${ctx.other.prefix}README.md` ? "" : ctx.other.files.get(href.slice(ctx.other.prefix.length))) : undefined;
     if (chapter !== undefined) out.push({ text: label, chapter });
-    // a document outside the book keeps its name; the app does not hold it, so there is nothing to link to
+    // a page of the other work of the set is a page the app may hold too: whoever shows the link checks that this build carries it
+    else if (other !== undefined) out.push({ text: label, chapter: other, work: ctx.other!.work });
+    // a document outside the set keeps its name; the app does not hold it, so there is nothing to link to
     else if (href.startsWith("../") || /^https?:\/\//.test(href)) push(label);
-    else throw new Error(`${at}: the link ${href} is neither a chapter of the book nor a document outside it`);
+    else throw new Error(`${at}: the link ${href} is neither a page of ${ctx.dir} nor a document outside it`);
     rest = rest.slice(whole.length);
   }
   for (const s of out) if (typeof s === "string" && /[*`<]|\]\(/.test(s)) throw new Error(`${at}: a mark the app does not show (*, \`, < or a broken link)`);
   return out;
 }
 
-function parsePage(page: BookPage, ctx: Context): { title: string; blocks: BookBlock[] } {
+/** One page: its title and its blocks. */
+export function parsePage(page: BookPage, ctx: Reader): { title: string; blocks: BookBlock[] } {
   const lines = page.text.replace(/\r\n?/g, "\n").split("\n");
-  const at = (i: number): string => `docs/book/zh-Hant/${page.name}:${i + 1}`;
+  const at = (i: number): string => `${ctx.dir}/${page.name}:${i + 1}`;
   const line = (i: number): string => lines[i] ?? "";
   let i = 0;
   const skipBlank = (): void => { while (i < lines.length && line(i).trim() === "") i++; };
@@ -126,8 +148,11 @@ function parsePage(page: BookPage, ctx: Context): { title: string; blocks: BookB
     } else if (l.startsWith("## ")) {
       blocks.push({ kind: "heading", text: plain(l.slice(3), at(i)) });
       i++;
+    } else if (l.startsWith("### ")) {
+      blocks.push({ kind: "heading", text: plain(l.slice(4), at(i)), level: 3 });
+      i++;
     } else if (l.startsWith("#")) {
-      throw new Error(`${at(i)}: a page has one title (#) and section headings (##), nothing deeper`);
+      throw new Error(`${at(i)}: a page has one title (#), section headings (##) and sub-headings (###), nothing deeper`);
     } else if (l.startsWith(">")) {
       const m = QUOTE.exec(l);
       if (m === null) throw new Error(`${at(i)}: a quotation is one line, > 「text」——《book·chapter》`);
@@ -153,14 +178,28 @@ function parsePage(page: BookPage, ctx: Context): { title: string; blocks: BookB
     } else if (/^(\d+\. |- )/.test(l)) {
       const ordered = /^\d+\. /.test(l);
       const item = ordered ? /^(\d+)\. (.+)$/ : /^()- (.+)$/;
-      const items: BookText[] = [];
+      const items: BookItem[] = [];
+      let start = 1, subIndent = 0;
       for (; i < lines.length && line(i).trim() !== ""; i++) {
+        const sub = SUB_ITEM.exec(line(i));
+        if (sub !== null) {
+          // a bullet inside the item before it: one level, bullets only, every bullet of the item indented alike
+          const last = items.pop();
+          if (last === undefined) throw new Error(`${at(i)}: an indented bullet belongs to an item before it`);
+          if (Array.isArray(last)) subIndent = sub[1]!.length;
+          else if (sub[1]!.length !== subIndent) throw new Error(`${at(i)}: a list holds bullets of one level inside an item, indented alike`);
+          const text = inline(sub[2]!, at(i), ctx);
+          items.push(Array.isArray(last) ? { text: last as BookText, items: [text] } : { ...(last as Exclude<BookItem, BookText>), items: [...(last as Exclude<BookItem, BookText>).items, text] });
+          continue;
+        }
         const m = item.exec(line(i));
-        if (m === null) throw new Error(`${at(i)}: a list holds items of one kind, one per line`);
-        if (ordered && Number(m[1]) !== items.length + 1) throw new Error(`${at(i)}: the items are numbered 1 … in order`);
+        if (m === null) throw new Error(`${at(i)}: a list holds items of one kind, one per line, with bullets of one level inside an item`);
+        // a numbered list goes on from its first number (the course resumes one after a table), one by one
+        if (items.length === 0 && ordered) start = Number(m[1]);
+        if (ordered && Number(m[1]) !== start + items.length) throw new Error(`${at(i)}: the items are numbered ${start} … in order`);
         items.push(inline(m[2]!, at(i), ctx));
       }
-      blocks.push({ kind: "list", ordered, items });
+      blocks.push(ordered && start !== 1 ? { kind: "list", ordered, start, items } : { kind: "list", ordered, items });
     } else if (/^(\s|<|[*+] )/.test(l)) {
       throw new Error(`${at(i)}: indented text, HTML and other list marks are not shown`);
     } else {
@@ -176,7 +215,7 @@ function parsePage(page: BookPage, ctx: Context): { title: string; blocks: BookB
 
 /** The book from its pages: `README.md` is the contents, `NN-<id>.md` the chapters in the order of their numbers, which run from 01 without a gap. `reviewed`: the review records'
  * reviewed units, which give the book its status. */
-export function parseBook(pages: readonly BookPage[], citations: readonly Citation[], reviewed: readonly ReviewedUnit[] = []): BookChunk {
+export function parseBook(pages: readonly BookPage[], citations: readonly Citation[], reviewed: readonly ReviewedUnit[] = [], course: ReadonlyMap<string, string> = new Map()): BookChunk {
   const index = pages.find((p) => p.name === "README.md");
   if (index === undefined) throw new Error("docs/book/zh-Hant has no README.md, the contents");
   const chapters = pages.filter((p) => p !== index).sort((a, b) => (a.name < b.name ? -1 : 1)).map((p, n) => {
@@ -186,7 +225,7 @@ export function parseBook(pages: readonly BookPage[], citations: readonly Citati
     return { page: p, id: m[2]! };
   });
   if (chapters.length === 0) throw new Error("docs/book/zh-Hant has no chapter");
-  const ctx: Context = { files: new Map(chapters.map((c) => [c.page.name, c.id])), citations };
+  const ctx: Reader = { dir: "docs/book/zh-Hant", files: new Map(chapters.map((c) => [c.page.name, c.id])), other: { work: "course", prefix: "../../course/zh-Hant/", files: course }, citations };
   const contents = parsePage(index, ctx);
   return {
     lang: "zh-Hant", status: reviewStatus(BOOK_TARGET, pages, reviewed), title: contents.title, contents: contents.blocks,
@@ -194,8 +233,18 @@ export function parseBook(pages: readonly BookPage[], citations: readonly Citati
   };
 }
 
-/** The book as the repository holds it (`dir`: docs/book/zh-Hant), its quotations resolved against `citations`, its status from the review records' reviewed units. */
-export function readBook(citations: readonly Citation[], dir: string = BOOK_DIR, reviewed: readonly ReviewedUnit[] = []): BookChunk {
-  const pages = readdirSync(dir).filter((n) => n.endsWith(".md")).map((name) => ({ name, text: readFileSync(join(dir, name), "utf8") }));
-  return parseBook(pages, citations, reviewed);
+/** The Markdown pages of a work's folder, in name order. */
+export const readPages = (dir: string): BookPage[] => readdirSync(dir).filter((n) => n.endsWith(".md")).sort().map((name) => ({ name, text: readFileSync(join(dir, name), "utf8") }));
+
+/** Page file name → page id for a work's pages: `NN-<id>.md` → id, another `<name>.md` → name; the contents (README.md) is not among them. */
+export function pageIdsOf(names: readonly string[]): Map<string, string> {
+  return new Map(names.filter((n) => n !== "README.md" && n.endsWith(".md")).map((n) => [n, CHAPTER_FILE.exec(n)?.[2] ?? n.slice(0, -".md".length)]));
+}
+
+/**
+ * The book as the repository holds it (`dir`: docs/book/zh-Hant), its quotations resolved against `citations`, its status from the review records' reviewed units; `course` names the
+ * course's pages (`pageIdsOf`), so that a link to one of them stays a link.
+ */
+export function readBook(citations: readonly Citation[], dir: string = BOOK_DIR, reviewed: readonly ReviewedUnit[] = [], course: ReadonlyMap<string, string> = new Map()): BookChunk {
+  return parseBook(readPages(dir), citations, reviewed, course);
 }

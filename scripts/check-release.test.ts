@@ -91,6 +91,21 @@ function editBook(dir: string, fn: (data: any) => void): void {
   saveManifest(dir, m);
 }
 const bookOf = (dir: string): { file: string; chapters: string[] } => (manifest(dir) as unknown as { book: { file: string; chapters: string[] } }).book;
+type CourseRefs = { index: { file: string; sha256: string }; pages: { id: string; file: string; sha256: string }[] };
+const courseOf = (dir: string): CourseRefs => (manifest(dir) as unknown as { course: CourseRefs }).course;
+/** Rewrite the course's index ("index") or one of its pages and keep its hash in the manifest right, so only the intended rule can fail. */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any -- the tests damage arbitrary JSON shapes
+function editCourse(dir: string, which: string, fn: (data: any) => void): void {
+  const m = manifest(dir) as unknown as { course: CourseRefs };
+  const ref = which === "index" ? m.course.index : m.course.pages.find((p) => p.id === which)!;
+  const file = join(dir, "kb", ref.file);
+  const data = JSON.parse(readFileSync(file, "utf8"));
+  fn(data);
+  const text = JSON.stringify(data);
+  writeFileSync(file, text);
+  ref.sha256 = createHash("sha256").update(text).digest("hex");
+  saveManifest(dir, m);
+}
 const firstShard = (dir: string): string => Object.keys((manifest(dir) as unknown as { herbBrowser: { shards: Record<string, unknown> } }).herbBrowser.shards)[0]!;
 const html = (dir: string, fn: (s: string) => string): void => { writeFileSync(join(dir, "index.html"), fn(readFileSync(join(dir, "index.html"), "utf8"))); resync(dir); };
 const entryJs = (dir: string): string => join(dir, readdirSync(join(dir, "assets")).filter((f) => f.endsWith(".js")).map((f) => `assets/${f}`).sort()[0]!);
@@ -110,10 +125,11 @@ describe("check-release", () => {
   test("a real release build passes with the closed-beta exception and fails only the review gate without it", () => {
     assert.deepEqual(checkRelease(base, { draftLabel: true }), []);
     const f = checkRelease(base);
-    assert.deepEqual(rules(f), [12, 15, 16, 18, 8]);      // the review gate, the draft emergency rows (a public build ships only verified ones), the herbs no sample review has covered, the draft book and the unreviewed reference for learners and practitioners
+    assert.deepEqual(rules(f), [12, 15, 16, 18, 19, 8]);      // the review gate, the draft emergency rows (a public build ships only verified ones), the herbs no sample review has covered, the draft book, the unreviewed reference for learners and practitioners and the draft course
     assert.match(messages(f), /not reviewed/);
     assert.match(messages(f), /a public build shows only herbs a sample review has covered/);
     assert.match(messages(f), /the learning book is "draft"/);
+    assert.match(messages(f), /the course is "draft"/);
   });
 
   test("reviewed content needs no exception", () => {
@@ -728,6 +744,75 @@ describe("check-release", () => {
     assert.match(messages(checkRelease(d).filter((x) => x.rule === 16)), /the learning book is "draft": a public build carries it only once reviewed/);
     editBook(d, (b) => { b.status = "reviewed"; });
     assert.deepEqual(checkRelease(d).filter((x) => x.rule === 16), []);
+  });
+
+  test("19: the closed beta ships the course, a public build ships none, and both are clean", () => {
+    const c = courseOf(base);
+    assert.ok(c !== undefined && c.pages.length === 24 && c.pages[0]!.id === "introduction");
+    assert.equal((manifest(publicBase) as unknown as { course?: unknown }).course, undefined);
+    assert.equal(readdirSync(join(publicBase, "kb")).filter((f) => f.startsWith("course-")).length, 0);
+    assert.deepEqual(checkRelease(base, { draftLabel: true }).filter((f) => f.rule === 19), []);
+    assert.deepEqual(checkRelease(publicBase).filter((f) => f.rule === 19), []);
+  });
+
+  test("19: a course file that is missing, altered, not content-hashed, over its budget or not listed", () => {
+    const missing = copy();
+    rmSync(join(missing, "kb", courseOf(missing).pages[2]!.file));
+    resync(missing);
+    assert.match(messages(checkRelease(missing, { draftLabel: true }).filter((f) => f.rule === 19)), /manifest lists the course's yinyang → course-yinyang\.[0-9a-f]+\.json, which is not in the output/);
+
+    const altered = copy();
+    const f2 = join(altered, "kb", courseOf(altered).index.file);
+    writeFileSync(f2, readFileSync(f2, "utf8").replace("中醫", "中藥"));
+    resync(altered);
+    assert.match(messages(checkRelease(altered, { draftLabel: true }).filter((f) => f.rule === 19)), /the SHA-256 differs from the manifest/);
+
+    const misnamed = copy();
+    const m = manifest(misnamed) as unknown as { course: CourseRefs };
+    const page = m.course.pages[0]!;
+    writeFileSync(join(misnamed, "kb", "course-other.0123456789.json"), readFileSync(join(misnamed, "kb", page.file)));
+    rmSync(join(misnamed, "kb", page.file));
+    page.file = "course-other.0123456789.json";
+    saveManifest(misnamed, m);
+    assert.match(messages(checkRelease(misnamed, { draftLabel: true }).filter((f) => f.rule === 19)), /is not a content-hashed course file named after its page/);
+
+    const big = copy();
+    editCourse(big, "answers", (p) => { p.blocks.push({ kind: "code", text: noiseOf(9000) }); });
+    assert.match(messages(checkRelease(big, { draftLabel: true }).filter((f) => f.rule === 19)), /exceeds the \d+ B budget of a course page/);
+
+    const stray = copy();
+    writeFileSync(join(stray, "kb", "course-extra.0123456789.json"), "{}");
+    resync(stray);
+    assert.match(messages(checkRelease(stray, { draftLabel: true }).filter((f) => f.rule === 19)), /kb\/course-extra\.0123456789\.json is a course file the manifest does not list/);
+  });
+
+  test("19: an index or a page that is not the one the manifest lists, or that quotes a citation the build does not ship", () => {
+    const reordered = copy();
+    editCourse(reordered, "index", (c) => { c.pages.reverse(); });
+    assert.match(messages(checkRelease(reordered, { draftLabel: true }).filter((f) => f.rule === 19)), /is not the course index the manifest lists/);
+
+    const swapped = copy();
+    editCourse(swapped, "yinyang", (p) => { p.id = "wuxing"; });
+    assert.match(messages(checkRelease(swapped, { draftLabel: true }).filter((f) => f.rule === 19)), /is not the course's page yinyang/);
+
+    const unknown = copy();
+    editCourse(unknown, "yinyang", (p) => { const q = p.blocks.find((x: { kind: string }) => x.kind === "quote"); q.citation = "no-such-citation"; });
+    assert.match(messages(checkRelease(unknown, { draftLabel: true }).filter((f) => f.rule === 19)), /the course's yinyang: the quotation 「.+」 names the citation no-such-citation, which this build does not ship/);
+  });
+
+  test("19: a public build carries the course only once it is reviewed", () => {
+    const d = copy();          // the closed-beta build, checked as a public one: the course is a draft
+    assert.match(messages(checkRelease(d).filter((x) => x.rule === 19)), /the course is "draft": a public build carries it only once reviewed/);
+    editCourse(d, "index", (c) => { c.status = "reviewed"; });
+    assert.deepEqual(checkRelease(d).filter((x) => x.rule === 19), []);
+  });
+
+  test("11: the course is cached as immutable", () => {
+    const d = copy();
+    const file = courseOf(d).pages[0]!.file;
+    writeFileSync(join(d, "_headers"), readFileSync(join(d, "_headers"), "utf8").replace(new RegExp(`/kb/${file.replace(".", "\\.")}\\n  Cache-Control: [^\\n]*`), `/kb/${file}\n  Cache-Control: no-cache`));
+    resync(d);
+    assert.match(messages(checkRelease(d, { draftLabel: true }).filter((x) => x.rule === 11)), /the course file \/kb\/course-introduction\.[0-9a-f]+\.json must be cached as immutable/);
   });
 
   test("11: the book is cached as immutable", () => {

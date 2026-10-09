@@ -2,9 +2,9 @@
 
 | | |
 |---|---|
-| **Version** | 0.13 (draft) |
+| **Version** | 0.14 (draft) |
 | **Status** | Draft — no UI implemented yet |
-| **Last updated** | 2026-10-08 |
+| **Last updated** | 2026-10-09 |
 | **Derives from** | [PRD v0.3](PRD.md) (FR-1…FR-20, NFRs) · [Diagnosis SOP v0.2](diagnosis-sop.zh-TW.md) (what is asked and shown) · [Tech spec](tech-spec.md) (routes, state, components' data) |
 | **Sibling docs** | [Safety policy](safety-policy.md) owns the **notice wording** · [i18n guide](i18n-guide.md) owns **terminology and copy rules** · [Test plan](test-plan.md) owns usability and accessibility testing |
 
@@ -74,6 +74,7 @@ Landing ─► Start (profile, birth*) ─► Safety screening ─► Inquiry �
 | S22 | Compare patterns | `/:lang/learn/compare?ids=…` | Two or three patterns side by side: what they share, what tells them apart, and which topics of the assessment bring out the difference; a chooser when fewer than two are named | `patterns`, `symptoms`, `questions` |
 | S23 | Lock screen | any route, while a lock is on and the key is not in memory | Replaces the whole app: a passphrase field, the language and the theme, and the way out (erase) — nothing of the history is rendered or fetched ([design](post-mvp/design/backup-and-data-lock.md#56-as-built-pm-20)) | `meta/lock` |
 | S24 | The learning book | `/:lang/learn/book`, `/:lang/learn/book/:chapter` | The contents and twelve chapters of 以模型讀中醫, read in order: the text on a card, its quotations linked to their pages, the previous and the next chapter. **Traditional Chinese in every interface**: English says so in a line above the text; a Simplified page shows no Traditional text and links to the same page in Traditional Chinese ([design](post-mvp/design/knowledge-browser.md#73-as-built-pm-43-the-learning-book)) | `book` (fetched when opened), `citations` |
+| S27 | The course | `/:lang/learn/course`, `/:lang/learn/course/:page` | The contents and 24 pages of 中醫學系統課程 — the 22 chapters, the answer key, the sources — read in order, as the learning book is: the text on a card with its sub-sections, its quotations linked to their pages, the previous and the next page. **Traditional Chinese in every interface**, as S24; each page fetched when opened and not in the offline copy, so a page not read before says so offline ([design §7.4](post-mvp/design/knowledge-browser.md#74-as-built-pm-60-the-course)) | the course's index and pages |
 | S20 | Developer inspector | `/:lang/_dev` | Dev profile only (see tech spec §8.6) | Everything |
 
 ---
@@ -602,3 +603,4 @@ Testing method and scenarios are in the [test plan](test-plan.md).
 | 0.11 | 2026-10-08 | The reading role: the Settings card, the landing offer, the header's chip, the result's line and the plan's title (PM-53) |
 | 0.12 | 2026-10-08 | The note N-AMOUNTS beside every table of quantities; the card, the review and the result's line for the default reading (PM-54) |
 | 0.13 | 2026-10-08 | S26, the photo of the tongue or the face (development builds); its entries on the observation stage (S08–S10) and the two switches in the AI help card (PM-50) |
+| 0.14 | 2026-10-09 | S27, the course (PM-60); the hub (S21) lists it after the book |

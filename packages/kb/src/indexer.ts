@@ -1,5 +1,6 @@
 import { KbError } from "./errors.ts";
 import { bookOf } from "./book.ts";
+import { courseOf } from "./course.ts";
 import { herbBrowser } from "./herbs.ts";
 import type { Cities, GlossaryTerm, KnowledgeBase, RawKbChunks, ReferenceChunk, Role, TreatmentGuidance } from "./types.ts";
 
@@ -128,6 +129,7 @@ export function indexKnowledgeBase(raw: RawKbChunks, display?: Display, role: Ro
     cities: (() => { let loaded: Promise<Cities> | null = null; return () => (loaded ??= Promise.resolve(typeof raw.cities === "function" ? raw.cities() : raw.cities)); })(),
     herbBrowser: raw.herbBrowser ? herbBrowser(raw.herbBrowser) : null,
     book: raw.book ? bookOf(raw.book) : null,
+    course: raw.course ? courseOf(raw.course) : null,
     citation: (id) => citations.get(id),
     citations: raw.citations.items,
     term: (zh) => terms.get(zh),

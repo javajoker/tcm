@@ -13,7 +13,7 @@ const KB = 1024;
 const blob = (kb: number): Buffer => randomBytes(kb * KB);
 
 /** A synthetic output: an entry that imports a vendor chunk statically, lazy chunks, css, knowledge-base chunks. */
-function dist(sizes: { entry?: number; vendor?: number; lazy?: number[]; css?: number; kb?: number[]; hans?: number; herbs?: number[]; book?: number; reference?: number } = {}): string {
+function dist(sizes: { entry?: number; vendor?: number; lazy?: number[]; css?: number; kb?: number[]; hans?: number; herbs?: number[]; book?: number; course?: number[]; reference?: number } = {}): string {
   const d = mkdtempSync(join(tmpdir(), "tcm-budget-"));
   dirs.push(d);
   mkdirSync(join(d, "assets"), { recursive: true });
@@ -28,6 +28,7 @@ function dist(sizes: { entry?: number; vendor?: number; lazy?: number[]; css?: n
   if (sizes.hans !== undefined) writeFileSync(join(d, "kb", "hans-main.0123456789.txt"), blob(sizes.hans));
   (sizes.herbs ?? []).forEach((k, i) => writeFileSync(join(d, "kb", i === 0 ? "herbs-index.0123456789.json" : `herbs-${(i - 1).toString(16)}.0123456789.json`), blob(k)));
   if (sizes.book !== undefined) writeFileSync(join(d, "kb", "book.0123456789.json"), blob(sizes.book));
+  (sizes.course ?? []).forEach((k, i) => writeFileSync(join(d, "kb", i === 0 ? "course-index.0123456789.json" : `course-page${i}.0123456789.json`), blob(k)));
   if (sizes.reference !== undefined) writeFileSync(join(d, "kb", "reference.0123456789.json"), blob(sizes.reference));
   return d;
 }
@@ -51,6 +52,16 @@ test("the herb browser is counted apart: never in the session figure, with a bud
   assert.match(checkBudgets(dist({ herbs: [30, 5] })).report[0]!, /herb browser \(on demand\) \d+\.\d KB \/ 140\.0 KB/);
   assert.doesNotMatch(checkBudgets(dist()).report[0]!, /herb browser/);
   assert.match(checkBudgets(dist({ herbs: [90, 40, 40] })).failures.join("\n"), /herb browser: .* over the 140\.0 KB budget/);
+});
+
+test("the course is counted apart: its index and pages together, never in the session figure, with a budget of their own", () => {
+  const m = measure(dist({ course: [5, 10, 10] }));
+  assert.ok(within(m.course, 25), `course ${m.course}`);
+  assert.ok(within(m.kbSession, 40), "the session figure is the chunks without the course");
+  assert.equal(measure(dist()).course, 0);
+  assert.match(checkBudgets(dist({ course: [5, 10] })).report[0]!, /course \(on demand\) \d+\.\d KB \/ 260\.0 KB/);
+  assert.doesNotMatch(checkBudgets(dist()).report[0]!, /course/);
+  assert.match(checkBudgets(dist({ course: [200, 70] })).failures.join("\n"), /course: .* over the 260\.0 KB budget/);
 });
 
 test("the learning book is counted apart: never in the session figure, with a budget of its own", () => {
@@ -94,7 +105,7 @@ test("each budget fails on its own, naming what is over", () => {
 });
 
 test("the budgets are the ones of the tech spec, and a custom budget is honoured", () => {
-  assert.deepEqual([BUDGETS.initialJs, BUDGETS.lazyJsChunk, BUDGETS.totalJs, BUDGETS.totalCss, BUDGETS.kbSession, BUDGETS.hansList, BUDGETS.herbBrowser, BUDGETS.book], [200 * KB, 50 * KB, 370 * KB, 20 * KB, 100 * KB, 30 * KB, 140 * KB, 20 * KB]);
+  assert.deepEqual([BUDGETS.initialJs, BUDGETS.lazyJsChunk, BUDGETS.totalJs, BUDGETS.totalCss, BUDGETS.kbSession, BUDGETS.hansList, BUDGETS.herbBrowser, BUDGETS.book, BUDGETS.course], [200 * KB, 50 * KB, 370 * KB, 20 * KB, 100 * KB, 30 * KB, 140 * KB, 20 * KB, 260 * KB]);
   const tight: Budgets = { ...BUDGETS, initialJs: 10 * KB };
   assert.equal(checkBudgets(dist(), tight).failures.length, 1);
 });

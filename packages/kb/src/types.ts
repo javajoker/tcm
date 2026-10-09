@@ -229,21 +229,28 @@ export interface RawKbChunks {
   readonly herbBrowser: HerbBrowserSource | null;
   /** The learning book (PM-43): absent or null when this build carries none. */
   readonly book?: BookSource | null;
+  /** The course (PM-60): absent or null when this build carries none. */
+  readonly course?: CourseSource | null;
   /** The reference for learners and practitioners (PM-53): absent or null when this build serves no role — a public release before the reviews, and the development profile, which reaches L3 for everyone. */
   readonly reference?: ReferenceSource | null;
 }
 
-// ── the learning book (PM-42, PM-43) ────────────────────────────────────────
-/** A run of the book's text: plain, strong, or a link to a chapter of the book (`chapter` is its id; "" is the contents). A link to a document outside the book is kept as its text. */
-export type BookSpan = string | { readonly strong: string } | { readonly text: string; readonly chapter: string };
+// ── the learning book (PM-42, PM-43) and the course (PM-60) ─────────────────
+/**
+ * A run of text: plain, strong, inline code, or a link to a page (`chapter` is its id; "" is the contents) — of the same work, or of the other work of the set when `work` says which
+ * (the book links the course and the course the book; whoever shows the link checks that the build carries that work). A link to a document outside the set is kept as its text.
+ */
+export type BookSpan = string | { readonly strong: string } | { readonly code: string } | { readonly text: string; readonly chapter: string; readonly work?: "book" | "course" };
 export type BookText = readonly BookSpan[];
-/** A block of the book, in the order the page shows it. A quotation names its source as the book writes it and the verified citation it is part of. */
+/** A list item: its text, or its text and the bullets inside it (one level). */
+export type BookItem = BookText | { readonly text: BookText; readonly items: readonly BookText[] };
+/** A block of a page, in the order the page shows it. A heading is a section's (level 2) or a sub-section's (level 3). A quotation names its source as the text writes it and the verified citation it is part of. */
 export type BookBlock =
-  | { readonly kind: "heading"; readonly text: string }
+  | { readonly kind: "heading"; readonly text: string; readonly level?: 3 }
   | { readonly kind: "paragraph"; readonly text: BookText }
   | { readonly kind: "quote"; readonly text: string; readonly source: string; readonly citation: string }
   | { readonly kind: "table"; readonly head: readonly BookText[]; readonly rows: readonly (readonly BookText[])[] }
-  | { readonly kind: "list"; readonly ordered: boolean; readonly items: readonly BookText[] }
+  | { readonly kind: "list"; readonly ordered: boolean; /** The first number of a numbered list that does not start at 1. */ readonly start?: number; readonly items: readonly BookItem[] }
   | { readonly kind: "code"; readonly text: string };
 export interface BookChapter { readonly id: string; readonly title: string; readonly blocks: readonly BookBlock[] }
 /** The book as the bundler writes it: Traditional Chinese only, its contents page (the index of docs/book/zh-Hant) and its chapters in order. */
@@ -260,6 +267,22 @@ export interface BookSource { readonly chapters: readonly string[]; load(): Prom
 /** The book as the app reads it: the file is asked for once, again after a failure. */
 export interface Book { readonly chapters: readonly string[]; get(): Promise<BookChunk> }
 
+/** The course's index (PM-60): its contents page (the index of docs/course/zh-Hant) and the id and title of every page — the 22 chapters, then the answer key and the sources. */
+export interface CourseIndexChunk {
+  readonly lang: "zh-Hant";
+  /** `reviewed` once a review covers every page (content review §3, §5); a public build carries only a reviewed course. */
+  readonly status: "draft" | "reviewed";
+  readonly title: string;
+  readonly contents: readonly BookBlock[];
+  readonly pages: readonly { readonly id: string; readonly title: string }[];
+}
+/** One page of the course, a file of its own: the course is too long to fetch at once. */
+export interface CoursePageChunk { readonly lang: "zh-Hant"; readonly id: string; readonly title: string; readonly blocks: readonly BookBlock[] }
+/** Where the course comes from: its page ids (from the manifest) and its files, each fetched and checked when first asked for. */
+export interface CourseSource { readonly pages: readonly string[]; index(): Promise<CourseIndexChunk>; page(id: string): Promise<CoursePageChunk> }
+/** The course as the app reads it: the index and each page asked for once, again after a failure. */
+export interface Course { readonly pages: readonly string[]; index(): Promise<CourseIndexChunk>; page(id: string): Promise<CoursePageChunk> }
+
 // ── manifest ────────────────────────────────────────────────────────────────
 export interface ChunkRef { readonly file: string; readonly sha256: string; readonly bytes: number }
 /** A Simplified display list (docs/post-mvp/design/simplified-chinese.md): `strings` lines and the SHA-256 (`digest`) of the sorted Traditional strings it is aligned to. */
@@ -273,6 +296,8 @@ export interface Manifest {
   readonly herbBrowser?: { readonly count: number; readonly index: ChunkRef; readonly shards: Readonly<Record<string, ChunkRef>> };
   /** The learning book's file (PM-43), with its chapter ids: absent when the build carries no book. Traditional Chinese only, so it has no Simplified display list. */
   readonly book?: ChunkRef & { readonly chapters: readonly string[] };
+  /** The course's files (PM-60): its index and one file per page, in order: absent when the build carries no course. Traditional Chinese only, never part of the knowledge-base version. */
+  readonly course?: { readonly index: ChunkRef; readonly pages: readonly (ChunkRef & { readonly id: string })[] };
   /** The reference for learners and practitioners (PM-53), with the roles it serves: absent when the build serves none. Part of the knowledge-base version. */
   readonly reference?: ChunkRef & { readonly roles: readonly Role[] };
   /** Display lists for Simplified Chinese: one for the chunks loaded with the knowledge base, one for the lazy city list, and — with the herb browser — one for each of its files. The data itself is never converted. */
@@ -329,6 +354,8 @@ export interface KnowledgeBase {
   readonly herbBrowser: HerbBrowser | null;
   /** The learning book (PM-43): null when this build carries none — a public release before the book has been reviewed. */
   readonly book: Book | null;
+  /** The course (PM-60): null when this build carries none — a public release before the course has been reviewed. */
+  readonly course: Course | null;
   citation(id: string): Citation | undefined;
   /** Every quotation of the bundle, in the data's order (the Learn pages list them). */
   readonly citations: readonly Citation[];

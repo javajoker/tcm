@@ -2,7 +2,7 @@ import { KbError } from "./errors.ts";
 import { chineseStrings, digestInput, newDisplay } from "./hans.ts";
 import { indexKnowledgeBase, SUPPORTED_SCHEMA_VERSION } from "./indexer.ts";
 import { CHAPTER_ID } from "./book.ts";
-import type { BookChunk, BookSource, ChunkRef, Cities, CitationsChunk, CoreChunk, FormulasChunk, GuidanceChunk, HansRef, HerbBrowserSource, HerbIndexChunk, HerbShardChunk, HerbsChunk, KnowledgeBase, Manifest, RawKbChunks, ReferenceChunk, ReferenceSource } from "./types.ts";
+import type { BookChunk, BookSource, ChunkRef, Cities, CitationsChunk, CoreChunk, CourseIndexChunk, CoursePageChunk, CourseSource, FormulasChunk, GuidanceChunk, HansRef, HerbBrowserSource, HerbIndexChunk, HerbShardChunk, HerbsChunk, KnowledgeBase, Manifest, RawKbChunks, ReferenceChunk, ReferenceSource } from "./types.ts";
 
 export interface LoadOptions {
   /** URL (absolute or root-relative) of the directory that holds `manifest.json` and the chunk files, e.g. "/kb". */
@@ -42,6 +42,13 @@ function assertManifest(m: unknown): asserts m is Manifest {
     const sound = typeof book === "object" && book !== null && typeof book.file === "string" && typeof book.sha256 === "string" && Array.isArray(book.chapters) && book.chapters.length > 0 &&
       book.chapters.every((c) => typeof c === "string" && CHAPTER_ID.test(c)) && new Set(book.chapters).size === book.chapters.length;
     if (!sound) throw new KbError("manifest-invalid", "manifest.json: the book entry is not valid");
+  }
+  const course = (m as Manifest).course;
+  if (course !== undefined) {
+    const ref = (r: unknown): boolean => typeof r === "object" && r !== null && typeof (r as ChunkRef).file === "string" && typeof (r as ChunkRef).sha256 === "string";
+    const sound = typeof course === "object" && course !== null && ref(course.index) && Array.isArray(course.pages) && course.pages.length > 0 &&
+      course.pages.every((p) => ref(p) && typeof p.id === "string" && CHAPTER_ID.test(p.id)) && new Set(course.pages.map((p) => p.id)).size === course.pages.length;
+    if (!sound) throw new KbError("manifest-invalid", "manifest.json: the course entry is not valid");
   }
   const reference = (m as Manifest).reference;
   if (reference !== undefined) {
@@ -136,6 +143,16 @@ export async function loadKnowledgeBase(opts: LoadOptions): Promise<KnowledgeBas
   // the learning book (PM-43): one file in Traditional Chinese, fetched and hash-checked when a reader first opens it — never with the knowledge base, and with no display list
   const bk = mf.book;
   const book: BookSource | null = bk === undefined ? null : { chapters: bk.chapters, load: () => chunk<BookChunk>("book", bk) };
+  // the course (PM-60): an index and one file per page, each fetched and hash-checked when a reader first opens it — like the book, never with the knowledge base
+  const cr = mf.course;
+  const course: CourseSource | null = cr === undefined ? null : {
+    pages: cr.pages.map((p) => p.id),
+    index: () => chunk<CourseIndexChunk>("course-index", cr.index),
+    page(id) {
+      const ref = cr.pages.find((p) => p.id === id);
+      return ref === undefined ? Promise.reject(new KbError("chunk-invalid", `course: no page ${id}`)) : chunk<CoursePageChunk>(`course-${id}`, ref);
+    },
+  };
   // the reference for learners and practitioners (PM-53): fetched, hash-checked and paired with its own display list when a learner or a practitioner first needs it — never
   // with the general knowledge base, so a general reader's session holds no amount and no formula beyond the release profile
   const rf = mf.reference;
@@ -147,6 +164,6 @@ export async function loadKnowledgeBase(opts: LoadOptions): Promise<KnowledgeBas
       return ref;
     },
   };
-  const raw: RawKbChunks = { version: manifest.version, schemaVersion: manifest.schema, core, formulas, herbs, citations, guidance, cities, herbBrowser, book, reference };
+  const raw: RawKbChunks = { version: manifest.version, schemaVersion: manifest.schema, core, formulas, herbs, citations, guidance, cities, herbBrowser, book, course, reference };
   return indexKnowledgeBase(raw, display !== null && shown ? display : undefined);
 }

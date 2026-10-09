@@ -4,7 +4,7 @@ import assert from "node:assert/strict";
 import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, test } from "node:test";
-import { bookOf, checkBook, memoryBook } from "../src/book.ts";
+import { bookOf, checkBook, itemChildren, itemText, memoryBook } from "../src/book.ts";
 import { buildChunks } from "../src/bundle.ts";
 import { KbError } from "../src/errors.ts";
 import type { BookBlock, BookChunk, BookText } from "../src/types.ts";
@@ -17,14 +17,14 @@ const book = readBook(citations);
 const IDS = ["model", "system", "ledger", "measurement", "inference", "time", "language", "herbs", "formulas", "person", "cases", "limits"];
 /** The four sections of every chapter, in order. */
 const PERSPECTIVE = ["一個問題", "中醫怎麼看", "模型怎麼寫", "兩相對照"];
-const textOf = (t: BookText): string => t.map((s) => (typeof s === "string" ? s : "strong" in s ? s.strong : s.text)).join("");
+const textOf = (t: BookText): string => t.map((s) => (typeof s === "string" ? s : "strong" in s ? s.strong : "code" in s ? s.code : s.text)).join("");
 const allBlocks = (b: BookChunk): BookBlock[] => [...b.contents, ...b.chapters.flatMap((c) => c.blocks)];
 const words = (b: BookBlock): string[] => {
   switch (b.kind) {
     case "heading": case "code": return [b.text];
     case "quote": return [b.text, b.source];
     case "paragraph": return [textOf(b.text)];
-    case "list": return b.items.map(textOf);
+    case "list": return b.items.flatMap((it) => [itemText(it), ...itemChildren(it)].map(textOf));
     case "table": return [...b.head, ...b.rows.flat()].map(textOf);
   }
 };
@@ -74,10 +74,13 @@ describe("the book as the repository holds it", () => {
   });
 
   test("the contents link every chapter, in order, as chapters of the book; the documents outside the book keep their names and lose their addresses", () => {
-    const links = book.contents.flatMap((b) => (b.kind === "table" ? b.rows.flat() : b.kind === "paragraph" ? [b.text] : [])).flat().filter((s): s is { text: string; chapter: string } => typeof s === "object" && "chapter" in s);
+    const all = book.contents.flatMap((b) => (b.kind === "table" ? b.rows.flat() : b.kind === "paragraph" ? [b.text] : [])).flat().filter((s): s is { text: string; chapter: string; work?: "book" | "course" } => typeof s === "object" && "chapter" in s);
+    const links = all.filter((l) => l.work === undefined);
     assert.deepEqual(links.map((l) => l.chapter), IDS);
     assert.equal(links[1]!.text, "二、系統：平衡與回饋");
     assert.ok(book.contents.some((b) => b.kind === "paragraph" && textOf(b.text).includes("《中醫學系統課程》")), "the contents name the course the book goes with");
+    // the course is the other work of the set: its contents stay a link (PM-60), which the app shows where the build carries the course
+    assert.deepEqual(all.filter((l) => l.work !== undefined).map((l) => [l.work, l.chapter]), [["course", ""]]);
     const last = book.contents.at(-1)!;
     assert.equal(last.kind, "paragraph");
     const text = last.kind === "paragraph" ? last.text : [];
@@ -113,7 +116,7 @@ describe("the book as the repository holds it", () => {
     assert.deepEqual(table.rows.map((r) => textOf(r[0]!)), ["寒熱", "虛實", "表"]);
     const list = book.chapters.find((c) => c.id === "person")!.blocks.find((b) => b.kind === "list");
     assert.ok(list?.kind === "list" && list.ordered && list.items.length === 4);
-    assert.deepEqual(list.items[0]![0], { strong: "先去掉這個人不能用的藥" });
+    assert.deepEqual(itemText(list.items[0]!)[0], { strong: "先去掉這個人不能用的藥" });
     const cases = book.chapters.find((c) => c.id === "cases")!.blocks.find((b) => b.kind === "table");
     assert.ok(cases?.kind === "table");
     assert.deepEqual(cases.head.map(textOf), ["", "阿明", "小芳", "陳伯"]);
@@ -155,7 +158,7 @@ describe("the parser refuses what the app could not show", () => {
   });
 
   test("the blocks: a deeper heading, HTML or an indented line, a table without its separator or with a short row, an unclosed fence, a list out of order", () => {
-    assert.throws(() => parse(chapter("### 小節")), /nothing deeper/);
+    assert.throws(() => parse(chapter("#### 小小節")), /nothing deeper/);
     assert.throws(() => parse(chapter("<b>粗</b>")), /HTML/);
     assert.throws(() => parse(chapter("    縮排")), /indented text/);
     assert.throws(() => parse(chapter("| a | b |\n| c | d |")), /a header row and a separator row/);
@@ -163,14 +166,25 @@ describe("the parser refuses what the app could not show", () => {
     assert.throws(() => parse(chapter("```\n得分")), /the fenced block is not closed/);
     assert.throws(() => parse(chapter("```js\nx\n```")), /no language/);
     assert.throws(() => parse(chapter("1. 甲\n3. 乙")), /numbered 1 … in order/);
+    assert.throws(() => parse(chapter("  - 無所屬")), /indented text|belongs to an item before it/);
+    assert.throws(() => parse(chapter("1. 甲\n   1. 乙")), /bullets of one level inside an item/);
+    assert.throws(() => parse(chapter("- 甲\n  - 乙\n    - 丙")), /bullets of one level inside an item/);
+  });
+
+  test("what the course adds (PM-60): a sub-heading, bullets inside an item, a numbered list that goes on after a table, inline code", () => {
+    assert.deepEqual(parse(chapter("### 小節")).chapters[0]!.blocks[0], { kind: "heading", text: "小節", level: 3 });
+    assert.deepEqual(parse(chapter("1. 甲\n   - 子一\n   - 子二\n2. 乙")).chapters[0]!.blocks[0], { kind: "list", ordered: true, items: [{ text: ["甲"], items: [["子一"], ["子二"]] }, ["乙"]] });
+    assert.deepEqual(parse(chapter("4. 丁\n5. 戊")).chapters[0]!.blocks[0], { kind: "list", ordered: true, start: 4, items: [["丁"], ["戊"]] });
+    assert.deepEqual(parse(chapter("見 `data/citations.json`。")).chapters[0]!.blocks[0], { kind: "paragraph", text: ["見 ", { code: "data/citations.json" }, "。"] });
+    assert.throws(() => parse(chapter("`未完")), /` is not closed/);
   });
 
   test("the text: an unclosed or nested mark, a link to nowhere, a stray mark", () => {
     assert.throws(() => parse(chapter("**未完")), /\*\* is not closed/);
     assert.throws(() => parse(chapter("**[連結](README.md)**")), /strong text holds plain text only/);
-    assert.throws(() => parse(chapter("[別處](02-b.md)")), /neither a chapter of the book nor a document outside it/);
+    assert.throws(() => parse(chapter("[別處](02-b.md)")), /neither a page of docs\/book\/zh-Hant nor a document outside it/);
     assert.throws(() => parse(chapter("單一 *星號")), /a mark the app does not show/);
-    assert.throws(() => parse(chapter("`代碼`")), /a mark the app does not show/);
+    assert.throws(() => parse(chapter("<i>斜</i>")), /HTML/);
     assert.deepEqual(parse(chapter("見[設計](../../x.md)。")).chapters[0]!.blocks[0], { kind: "paragraph", text: ["見設計。"] });
   });
 

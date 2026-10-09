@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 0.10 (draft) |
+| **Version** | 0.11 (draft) |
 | **Status** | Design for Release B (FR-14, FR-25; tasks PM-13 … PM-16) and Release C (herb browser; PM-24, PM-25; **PM-24, the delivery of the herb data, and PM-25, the herb pages, are built**, [§7.1](#71-as-built-pm-24-delivery), [§7.2](#72-as-built-pm-25-the-herb-pages)). **PM-13 to PM-16 are built** (the shell, the stable ids, search, the page template, pages for all seven kinds, and the comparison of patterns); herbs wait for Release C |
 | **Last updated** | 2026-10-09 |
 | **Audience** | Engineers, designers, the clinical reviewer |
@@ -152,6 +152,20 @@ The learning book of [knowledge base v2 §6](knowledge-base-v2.md#6-the-learning
 
 **Not done.** The hub's search does not find the book's chapters (a chapter is read, not looked up; *revisit if learners ask*). The JavaScript budget is nearly spent (all JS 349.3 of 350 KB after this task): the next feature in a release build needs the raise its release declares (decision PD-12).
 
+### 7.4 As built (PM-60: the course)
+
+The course and its textbook (`docs/course/zh-Hant/`, PM-55) are the second work of the set in Learn: a contents page and 24 pages read in order — the 22 chapters, then the answer key and the sources — beside the learning book, whose companion it is (PM-56).
+
+| Piece | What was built |
+|---|---|
+| Delivery | The course is some 200,000 characters, so it is **not one file**: the bundler (`packages/kb/node/course.ts`) writes an index — the contents page and every page's id and title, `kb/course-index.<hash>.json` (5.4 KB gzip, budget 8 KB) — and **one file per page**, `kb/course-<id>.<hash>.json` (7.4–11.4 KB gzip a chapter, 19.0 KB the answer key; budget 24 KB each), all listed in the manifest (`course: { index, pages }`) so the hub and the routes know the pages without a fetch. Each is hash-checked by the loader and asked for once (`kb.course.index()`, `kb.course.page(id)`; a failed one again on the next use), **outside the knowledge-base version** and outside the session figure (`check-budgets`: the course 225.7 of 260 KB, on demand) |
+| The parser | The book's parser (`packages/kb/node/book.ts`), extended with what the course's Markdown uses: `###` sub-headings, bullets inside a list item (one level, every bullet of the item indented alike), a numbered list that goes on after a table (`start`), and inline code; anything else still **fails the build**. Every one of the course's 219 quotations resolves to a verified citation, like the book's, and links to its page among the quotations. A link to the other work of the set stays a link (`work: "book"` / `"course"`), shown as one only where the build carries that work |
+| Who carries it | The book's rule: the dev build and the closed beta (draft label on); a public build only **a reviewed course** — its status is read from the review records (content review §5): reviewed when every page, or the whole text, is reviewed with its current hash by a linguist and a TCM clinician. None yet, so a public build has no course file, no card and no route (`check-release` rule 19) |
+| Routes and pages | `/learn/course` (the contents: the index of `docs/course/zh-Hant`, its table linking every chapter, the answer key, the sources and the book) and `/learn/course/<page>` (`apps/web/src/learn/Course.tsx`): the title, the draft notice, the text on a card with the book's renderer (`Reader.tsx`, now shared: sub-headings, bullets inside an item, code), the previous and the next page, the way back to the contents. The hub lists the course after the book, with its 22 chapters. A page the course does not have is the section's not-found page |
+| Languages | As the book (PD-20): **Traditional Chinese whatever the interface**; English says so in a line above the text; a Simplified page shows no Traditional text — where the course is, and a link to the same page in Traditional Chinese — and fetches nothing |
+| Offline | **Not part of the offline copy** (`sw-build`: the course's files are in no list): 230 KB that most readers never open. A page read once stays in the browser's cache (immutable); offline, a page not read before says so and offers to try again (*the course is not in the offline copy*). *Revisit if learners ask to read it offline* |
+| Tests | `packages/kb/test/course.test.ts` (7: the real course's pages, what it adds to the Markdown, its quotations and links, the page rules, who carries it, the loader); `book.test.ts` (the new grammar and its refusals); `bundle-script.test.ts` (3: public / beta / dev, outside the version, a page and the index fetched once, a malformed manifest entry refused before any fetch); `check-release` rule 19 and rule 11's immutable caching (5 seeded cases); `check-budgets` (the course counted apart); `sw-build` (never cached); `learn-course.test.tsx` (10: the hub, the contents, a chapter with its sub-sections, nested bullets and quotations, the way on, a list that goes on, not-found, a failure and a retry, English, Simplified, axe); **E43** in Chrome on desktop and phone in three languages, axe in both colour schemes |
+
 ## 8. Experience and accessibility
 
 - A page has one `h1`, a *Sources* section, a *Related* section and a short on-page index; focus moves to the heading on navigation (the existing `RouteFocus`).
@@ -259,3 +273,4 @@ PM-13 (shell, ids, anonymous-context components, search index, print), PM-14 (pa
 | 0.8 | 2026-10-07 | PM-43 built ([§7.3](#73-as-built-pm-43-the-learning-book)): the learning book in Learn — one hash-checked file outside the version, Traditional Chinese in every interface, the Simplified page that points to it, rule 16 of the release check, the book reworded for R2 |
 | 0.9 | 2026-10-09 | §7.3: the book's chapters are now the twelve perspectives (PM-56) |
 | 0.10 | 2026-10-09 | §7.3: the book's status is read from the review records (PM-57) |
+| 0.11 | 2026-10-09 | PM-60 built ([§7.4](#74-as-built-pm-60-the-course)): the course in Learn — an index and one file per page, on demand and outside the offline copy; the book's parser extended with the course's Markdown; the review gate (rule 19) |

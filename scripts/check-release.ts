@@ -7,11 +7,12 @@ import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { gzipSync } from "node:zlib";
 import { checkBook } from "../packages/kb/src/book.ts";
+import { checkCourseIndex, checkCoursePage } from "../packages/kb/src/course.ts";
 import { reachOf } from "../packages/kb/src/bundle.ts";
 import { chineseStrings, digestInput } from "../packages/kb/src/hans.ts";
 import { HERB_STATUS, shardOf } from "../packages/kb/src/herbs.ts";
 import { SUPPORTED_SCHEMA_VERSION } from "../packages/kb/src/indexer.ts";
-import type { BookChunk, ChunkRef, CitationsChunk, CoreChunk, FormulasChunk, HansRef, HerbIndexChunk, HerbShardChunk, Manifest, ReferenceChunk, ScopeProfile } from "../packages/kb/src/types.ts";
+import type { BookBlock, BookChunk, ChunkRef, CourseIndexChunk, CitationsChunk, CoreChunk, FormulasChunk, HansRef, HerbIndexChunk, HerbShardChunk, Manifest, ReferenceChunk, ScopeProfile } from "../packages/kb/src/types.ts";
 import { BUDGET_GZ } from "./bundle-data.ts";
 import { initialScripts } from "./check-budgets.ts";
 import { cspHeader, IMMUTABLE, LANGUAGE_SEGMENTS } from "./deploy-files.ts";
@@ -348,6 +349,45 @@ export function checkRelease(distDir: string, opts: CheckOptions = {}): Failure[
     }
   }
 
+  // 19 — the course (PM-60; knowledge-browser design §7.4): its index and its pages, each in the output, content-hashed, within its budget and equal to the manifest; the pages the
+  // manifest names, in order, each the page it claims to be; every quotation one of the citations the build ships; a public build carries the course only once it is reviewed — and
+  // no course file the manifest does not list
+  const cr = manifest.course;
+  const courseFiles = kbFiles.map((f) => rel(dist, f).slice("kb/".length)).filter((f) => f.startsWith("course-"));
+  if (cr === undefined) for (const f of courseFiles) fail(19, `kb/${f} is a course file the manifest does not list`);
+  else {
+    const listed = new Set([cr.index.file, ...cr.pages.map((p) => p.file)]);
+    for (const f of courseFiles) if (!listed.has(f)) fail(19, `kb/${f} is a course file the manifest does not list`);
+    const cited = new Set(chunkFiles.has("citations") ? (JSON.parse(read(chunkFiles.get("citations")!)) as CitationsChunk).items.map((c) => c.id) : []);
+    const quotes = (where: string, blocks: readonly BookBlock[]): void => {
+      for (const b of blocks) if (b.kind === "quote" && !cited.has(b.citation)) fail(19, `the course's ${where}: the quotation 「${b.text}」 names the citation ${b.citation}, which this build does not ship`);
+    };
+    const load = (ref: ChunkRef, name: string, budget: number): unknown => {
+      const p = join(dist, "kb", ref.file);
+      if (!existsSync(p)) { fail(19, `manifest lists the course's ${name} → ${ref.file}, which is not in the output`); return null; }
+      const bytes = readFileSync(p);
+      if (createHash("sha256").update(bytes).digest("hex") !== ref.sha256) fail(19, `kb/${ref.file}: the SHA-256 differs from the manifest`);
+      if (!new RegExp(`^course-${name}\\.[0-9a-f]{8,}\\.json$`).test(ref.file)) fail(19, `kb/${ref.file} is not a content-hashed course file named after its page`);
+      if (gzipSync(bytes).length > budget) fail(19, `kb/${ref.file}: ${gzipSync(bytes).length} B gzip exceeds the ${budget} B budget of a course ${name === "index" ? "index" : "page"}`);
+      try { return JSON.parse(bytes.toString("utf8")) as unknown; } catch { fail(19, `kb/${ref.file} is not JSON`); return null; }
+    };
+    const ids = cr.pages.map((p) => p.id);
+    let index: CourseIndexChunk | null = null;
+    const raw = load(cr.index, "index", BUDGET_GZ.courseIndex);
+    if (raw !== null) {
+      try { index = checkCourseIndex(raw, ids); } catch { fail(19, `kb/${cr.index.file} is not the course index the manifest lists (Traditional Chinese, the pages ${ids.join(", ")})`); }
+    }
+    if (index !== null) {
+      quotes("contents", index.contents);
+      if (!opts.draftLabel && index.status !== "reviewed") fail(19, `the course is "${index.status}": a public build carries it only once reviewed (content review §3), or the closed beta, with --draft-label`);
+    }
+    for (const ref of cr.pages) {
+      const page = load(ref, ref.id, BUDGET_GZ.coursePage);
+      if (page === null) continue;
+      try { quotes(ref.id, checkCoursePage(page, ref.id).blocks); } catch { fail(19, `kb/${ref.file} is not the course's page ${ref.id}`); }
+    }
+  }
+
   // 10 — the attribution notice travels with the app: MIT-licensed material derived into the knowledge base requires its copyright and permission notice to be kept
   if (!existsSync(join(dist, "NOTICE.txt"))) fail(10, "NOTICE.txt is missing: the attribution notice must be shipped with the app");
   else {
@@ -377,6 +417,7 @@ export function checkRelease(distDir: string, opts: CheckOptions = {}): Failure[
     for (const f of hansFiles) if (cache(`/kb/${f}`) !== IMMUTABLE) fail(11, `_headers: the Simplified display list /kb/${f} must be cached as immutable`);
     for (const f of herbFiles) if (cache(`/kb/${f}`) !== IMMUTABLE) fail(11, `_headers: the herb browser file /kb/${f} must be cached as immutable`);
     if (bk !== undefined && cache(`/kb/${bk.file}`) !== IMMUTABLE) fail(11, `_headers: the book /kb/${bk.file} must be cached as immutable`);
+    for (const f of cr === undefined ? [] : [cr.index.file, ...cr.pages.map((p) => p.file)]) if (cache(`/kb/${f}`) !== IMMUTABLE) fail(11, `_headers: the course file /kb/${f} must be cached as immutable`);
     for (const f of [manifest.reference?.file, manifest.variants?.["zh-Hans"]?.reference?.file]) if (f !== undefined && cache(`/kb/${f}`) !== IMMUTABLE) fail(11, `_headers: the reference file /kb/${f} must be cached as immutable`);
   }
   if (existsSync(join(dist, "_redirects"))) {

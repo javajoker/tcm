@@ -15,13 +15,15 @@ export type Part = "shell" | "common" | "hans" | "never";
 /**
  * Which list a file of the build belongs to (`path` has no leading slash). The Simplified display lists and the Simplified catalogue are fetched only for a person who reads Simplified
  * (about 43 KB the others do not download); the catalogue is the lazy chunk Vite names after its module, `hans-<hash>.js` — a rename would put it in the shell (harmless), and
- * `check-release` would say so. The reference for learners and practitioners and its display list are in no list.
+ * `check-release` would say so. The reference for learners and practitioners and its display list are in no list, unless every reader reads with it; the course's files are in none.
  */
 export function classify(path: string, referenceOffline = false): Part {
   if ((NEVER_CACHED as readonly string[]).includes(path) || path.startsWith(".well-known/")) return "never";
   // the study reference (PM-53, PM-54) is every reader's by default in a build that serves it to all (`dose_display: all`), so its copy is part of the offline copy; otherwise it is asked for by
   // those who declared a role only, and the worker leaves it to the network and the browser's cache: a general reader's offline copy then holds no amount and no formula beyond the release profile
   if (/^kb\/(hans-)?reference\.[0-9a-f]+\.(json|txt)$/.test(path)) return !referenceOffline ? "never" : path.startsWith("kb/hans-") ? "hans" : "common";
+  // the course (PM-60): some 230 KB that most readers never open, so it is not part of the offline copy — a page read once stays in the browser's cache (immutable)
+  if (/^kb\/course-[a-z0-9-]+\.[0-9a-f]+\.json$/.test(path)) return "never";
   if (path.startsWith("kb/hans-") || /^assets\/hans-[^/]+\.js$/.test(path)) return "hans";
   if (path.startsWith("kb/")) return "common";
   return "shell";

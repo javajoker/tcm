@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 0.17 (draft) |
+| **Version** | 0.18 (draft) |
 | **Status** | Draft — implementation not started (only `packages/wuxing`, `data/` and `scripts/kb` exist) |
 | **Last updated** | 2026-10-09 |
 | **Derives from** | [PRD v0.3](PRD.md) · [Diagnosis SOP v0.2](diagnosis-sop.zh-TW.md) · [Algorithm spec](wuxing-algorithm.md) |
@@ -653,6 +653,7 @@ Colour: one sequential hue per quantity family, never red/green as good/bad; sig
 | Initial JS (gzip) | ≤ 200 KB | React + router + store + shell only; every screen but the landing page is a lazy route; engine and `@tcm/wuxing` load with the first inquiry; asserted by `scripts/check-budgets.ts` in CI (155.5 KB on 2026-10-09); any lazy chunk ≤ 50 KB, all JS ≤ 260 KB, CSS ≤ 20 KB |
 | All JS (gzip) | ≤ 370 KB (260 for the MVP, +40 for Release A's lazy features, +50 for Release B's, +20 for Release E's) | A bound on growth, not on a visit: nobody downloads it all. Each post-MVP release declares the lazy budgets of its features and raises this figure by that sum ([decision PD-12](post-mvp/decisions.md)); the initial 200 KB and the 50 KB per lazy chunk do not move. **345.0 KB on 2026-10-09** after the size pass of PM-58 (369.2 before): the catalogs' keys written once, and the knowledge base's loader imported by its one function so that the build-time code of `@tcm/kb` stays out |
 | LCP / INP (mobile 4G) | ≤ 2.5 s / ≤ 200 ms | Lighthouse CI on the landing and result routes, throttled |
+| On-demand texts | The learning book ≤ 20 KB (12.7 KB), the course ≤ 260 KB together (225.7 KB: an index ≤ 8 KB and one file per page ≤ 24 KB, PM-60) — each fetched when opened, never part of the session figure; the course is not in the offline copy | `bundle-data.ts` (per file), `check-budgets.ts` (totals), `check-release` rules 16 and 19 |
 | KB per session (release) | ≈ 91 KB gz for a general reader (budget 100 KB); with the study reference — every reader's by default (PD-30) — 142.5 KB (budget 150 KB, `kbSessionStudy` in `check-budgets.ts`) | §5.2; per-chunk budgets enforced in `bundle-data.ts` (dev: 1.5×), the session total in `check-budgets.ts` |
 | Engine time | `assess` ≤ 50 ms p95 on a mid-range phone | micro-benchmarks in `packages/engine/bench`, tracked per release; no allocation in inner loops of noisy-OR and greedy 加減 |
 | Interaction | Answering a question never blocks on the engine | `nextQuestions` runs after the answer is stored; it is incremental and bounded |
@@ -698,3 +699,4 @@ Colour: one sequential hue per quantity family, never red/green as good/bad; sig
 | 0.15 | 2026-10-08 | §2, §6.1: the photo of the tongue and the face (PM-50, development builds only) — the observe routes, the device's capture and quality gate, `stripJpeg`, no camera permission, the build constants |
 | 0.16 | 2026-10-08 | Project audit: §5.2 the chunk sizes and the totals re-measured on the current build |
 | 0.17 | 2026-10-09 | §9: the catalogs as the build writes them; §12: the JavaScript totals after the size pass (PM-58) |
+| 0.18 | 2026-10-09 | §12: the on-demand texts — the book and the course (PM-60) |

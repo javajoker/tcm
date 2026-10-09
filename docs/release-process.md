@@ -2,9 +2,9 @@
 
 | | |
 |---|---|
-| **Version** | 0.6 (draft) |
+| **Version** | 0.7 (draft) |
 | **Status** | Partly implemented — CI workflow and `scripts/check-release.ts` exist (R-01…R-03); deployment, SBOM and the integration jobs do not yet |
-| **Last updated** | 2026-10-08 |
+| **Last updated** | 2026-10-09 |
 | **Audience** | Maintainers |
 | **Related** | [Tech spec §5, §6, §11](tech-spec.md) · [Test plan §6](test-plan.md) · [Content review §7](content-review.md) · [Safety policy §8](safety-policy.md) · [Privacy](privacy.md) · [`CHECKLIST.md`](../CHECKLIST.md) |
 
@@ -93,9 +93,10 @@ Jobs and blocking rules are in the [test plan §6](test-plan.md). The pipeline p
 10. `NOTICE.txt` is shipped and carries the attributions (the MIT permission notice of TCM-Library, the Apache licence statement): material derived from MIT-licensed sources requires its notice to travel with the app.
 12. **Emergency numbers:** a build without the draft label ships only regions whose numbers a regional owner has verified (a dated `verification` record no older than 24 months) and the generic `OTHER` row that lists none; the closed beta may carry the draft rows ([design](post-mvp/design/tap-tempo-and-regions.md)).
 16. **The learning book** ([knowledge browser design](post-mvp/design/knowledge-browser.md) §7.3, PM-43): when the manifest lists it, its one file is in the output, content-hashed, within its budget and equal to the manifest; it is the book the manifest names (Traditional Chinese, the chapters in order); every quotation names a citation the build ships; no book file the manifest does not list; and a build **without the draft label carries it only once it is reviewed** (none yet, so a public build has no book).
+19. **The course** ([knowledge browser design](post-mvp/design/knowledge-browser.md) §7.4, PM-60): when the manifest lists it, its index and each page are in the output, content-hashed and named after their page, within their budgets and equal to the manifest; the index is the one the manifest names (Traditional Chinese, the pages in order) and each page the page it claims to be; every quotation names a citation the build ships; no course file the manifest does not list; and a build **without the draft label carries it only once it is reviewed** (none yet, so a public build has no course).
 18. **Learners and practitioners** ([prescription model §7.4](post-mvp/design/prescription-model.md), PM-53): the general reader's profile reaches at most L1 and shows no amount; the reference file is in the manifest, hash-checked, content-hashed, within its budget, with its display list, cached as immutable — and allowed without the draft label only once every formula and herb record in it is reviewed; the profile's `dose_display` is one of off, roles, all, and `off` has no reference in the manifest; the worker lists the reference only where it is `all`; each role keeps the blocking cells (L0 · blocking), the condition and state cells, the other populations and the safety enforcement of the general profile; the prescription's messages are never in the first load.
 17. **AI help is off** ([AI-assisted intake](post-mvp/design/ai-assisted-intake.md) §6, PM-46): the profile's `ai` section turns no module on and names no gateway; the page's `connect-src` is `'self'` alone; no script holds AI help's client, card or messages (the gateway's routes — the conversation's and the photo's `/v1/observe/` —, `ai.settings.title`, `ai.consent.title`, `ai.photo.send`) or the browser call that decodes a picture (`createImageBitmap`); the profile turns **no** photo module on (PD-25) — with or without the draft label, until AI help's gates are passed.
-11. The host files are present and right: `_headers` (the CSP with `frame-ancestors`, `nosniff`, referrer policy, immutable caching for `/assets/*` and for each chunk of this build (the herb browser's files and the book included), `no-cache` for the manifest, no `Cache-Control` on `/*`), `_redirects` (every language falls back to the app, no catch-all), `404.html`, and an unexpired `security.txt` ([§6](#6-deployment)).
+11. The host files are present and right: `_headers` (the CSP with `frame-ancestors`, `nosniff`, referrer policy, immutable caching for `/assets/*` and for each chunk of this build (the herb browser's files, the book and the course's files included), `no-cache` for the manifest, no `Cache-Control` on `/*`), `_redirects` (every language falls back to the app, no catch-all), `404.html`, and an unexpired `security.txt` ([§6](#6-deployment)).
 
 ---
 
@@ -208,3 +209,4 @@ Issue templates: **Bug**, **Content problem** (item id, KB version, source), **S
 | 0.4 | 2026-10-08 | §4.1 rule 18: learners and practitioners (PM-53) |
 | 0.5 | 2026-10-08 | `APP_DOSE_DISPLAY` and rule 18 for the mode (PM-54) |
 | 0.6 | 2026-10-08 | §4.1 rules 11 and 17: the camera is denied in every build; no photo code or route in a release (PM-50) |
+| 0.7 | 2026-10-09 | §4.1 rule 19: the course (PM-60); rule 11 names its files |

@@ -236,6 +236,57 @@ test("a manifest whose book entry is malformed is refused before anything is fet
   }
 });
 
+// ── the course (PM-60) ──────────────────────────────────────────────────────────────────────────────
+
+test("a public build has no course; the closed beta and the dev build carry its index and its 24 pages, a file each, outside the knowledge-base version", async () => {
+  const pub = bundle(["--profile", "release"], { APP_DRAFT_LABEL: "off" });
+  assert.equal(pub.manifest.course, undefined);
+  assert.equal(readdirSync(pub.dir).filter((f) => f.startsWith("course-")).length, 0);
+  assert.match(pub.stdout, /no course/);
+  assert.equal((await loadKnowledgeBase({ baseUrl: "/kb", fetch: network(pub.dir).fetch })).course, null);
+
+  for (const [profile, env] of [["release", BETA], ["dev", {}]] as const) {
+    const b = bundle(["--profile", profile], env);
+    assert.match(b.manifest.course?.index.file ?? "", /^course-index\.[0-9a-f]{10}\.json$/, profile);
+    assert.equal(b.manifest.course?.pages.length, 24);
+    assert.deepEqual([b.manifest.course?.pages[0]?.id, b.manifest.course?.pages.at(-1)?.id], ["introduction", "sources"]);
+    for (const page of b.manifest.course!.pages) assert.match(page.file, new RegExp(`^course-${page.id}\\.[0-9a-f]{10}\\.json$`));
+    assert.equal(readdirSync(b.dir).filter((f) => f.startsWith("course-")).length, 25);
+    assert.match(b.stdout, /the course in 24 pages/);
+    const expected = createHash("sha256").update([b.manifest.profile, b.manifest.schema, ...Object.values(b.manifest.chunks).map((r) => r.sha256), ...(b.manifest.reference ? [b.manifest.reference.sha256] : [])].join("|")).digest("hex").slice(0, 12);
+    assert.equal(b.manifest.version, expected, "the version is made without the course");
+    assert.equal(JSON.stringify(b.manifest.variants ?? {}).includes("course"), false, "Traditional only: no Simplified list");
+  }
+});
+
+test("nothing of the course is fetched with the knowledge base; a page asks for its own file and the index, each once; a damaged page is refused and asked for again", async () => {
+  const { dir, manifest } = bundle(["--profile", "release"], BETA);
+  const net = network(dir);
+  const kb = await loadKnowledgeBase({ baseUrl: "/kb", fetch: net.fetch });
+  assert.deepEqual(net.asked.filter((f) => f.startsWith("course-")), []);
+  assert.deepEqual(kb.course?.pages, manifest.course?.pages.map((p) => p.id), "the pages are known without a fetch");
+  const yinyang = manifest.course!.pages.find((p) => p.id === "yinyang")!;
+  net.damaged.add(yinyang.file);
+  await assert.rejects(kb.course!.page("yinyang"), (e: unknown) => e instanceof KbError && e.code === "chunk-hash-mismatch");
+  net.damaged.clear();
+  const page = await kb.course!.page("yinyang");
+  assert.equal(page.title, "第三章　陰陽學說");
+  await kb.course!.page("yinyang");
+  assert.equal((await kb.course!.index()).pages.length, 24);
+  assert.deepEqual(net.asked.filter((f) => f.startsWith("course-")).sort(), [manifest.course!.index.file, yinyang.file, yinyang.file].sort(), "one page and the index, kept once they came");
+});
+
+test("a manifest whose course entry is malformed is refused before anything is fetched", async () => {
+  const { dir, manifest } = bundle(["--profile", "release"], BETA);
+  const c = manifest.course!;
+  for (const course of [{ ...c, pages: [] }, { ...c, pages: [{ ...c.pages[0]!, id: "Intro" }] }, { ...c, pages: [c.pages[0]!, c.pages[0]!] }, { pages: c.pages }]) {
+    const net = network(dir);
+    const fetched = (async (url: string) => (url.endsWith("manifest.json") ? new Response(JSON.stringify({ ...manifest, course })) : net.fetch(url))) as unknown as typeof fetch;
+    await assert.rejects(loadKnowledgeBase({ baseUrl: "/kb", fetch: fetched }), (e: unknown) => e instanceof KbError && e.code === "manifest-invalid", JSON.stringify(course).slice(0, 60));
+    assert.deepEqual(net.asked, []);
+  }
+});
+
 test("the reference for learners and practitioners: none in a public build or the dev build; one file in the closed beta, part of the knowledge-base version, with its own Simplified list", async () => {
   for (const [env, profile] of [[{ APP_DRAFT_LABEL: "off" }, "release"], [{}, "dev"]] as const) {
     const b = bundle(["--profile", profile], env);
