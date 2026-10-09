@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 0.9 (draft) |
+| **Version** | 0.10 (draft) |
 | **Status** | Proposed process — **no reviewer has been appointed yet** (PRD Q8 blocks milestone M3) |
 | **Last updated** | 2026-10-09 |
 | **Audience** | Maintainers, clinical and linguistic reviewers |
@@ -97,6 +97,8 @@ Held with the clinical reviewer using the **dev profile's inspector** ([tech spe
 2. The reviewer adjusts presented findings; the inspector shows pattern scores and contributions; disagreements about ranking become **golden cases** (input + expected top patterns + expected suppressed items): the inspector's **Case** tab exports the skeleton, the reviewer corrects `expect`, and the case is saved as `packages/engine/test/golden/G-xxxx.json` with the reviewer's record id in `authoredBy` and a `split` of `tuning` or `held-out` (alternating, decided when the case is written — see [test plan §3.5](test-plan.md)).
 3. Weight changes are made in the curated tables (never in `data/`), the KB is rebuilt, the self-test and the golden cases re-run (`pnpm golden`; the held-out half is only ever read as numbers while tuning).
 4. Each session ends with a recorded list of changes and the new **scoring-params fingerprint**.
+
+Before a session, the reviewers read [the golden misses](golden-misses.md) (PM-59, generated): where each case of the tuning half fails and what would change it, the held-out half in numbers only, and the questions it raises.
 
 Target: ≥ 100 golden cases, ≥ 80 % top-3 concordance on the held-out half ([PRD §11](PRD.md)).
 
@@ -223,3 +225,4 @@ A release build **must fail** (`check-release.ts`) if a required area has no val
 | 0.7 | 2026-10-08 | §3: the course and its textbook (PM-55) — reviewed by a linguist and a TCM clinician |
 | 0.8 | 2026-10-09 | §3: the learning book as the course's companion — each perspective fair to the tradition (PM-56) |
 | 0.9 | 2026-10-09 | §3: the reference quantities and the prescription model's tables, the name folding, the interface text's files; §4.2: every area has a pack, the book and the course as worksheets; §5: records of the texts outside `data/` (the book, the course, the interface text), the book's status read from them, the remaining roles (PM-57) |
+| 0.10 | 2026-10-09 | §4.4: the report of the golden misses read before a session (PM-59) |

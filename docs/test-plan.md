@@ -2,9 +2,9 @@
 
 | | |
 |---|---|
-| **Version** | 0.14 (draft) |
+| **Version** | 0.15 (draft) |
 | **Status** | Plan — only `packages/wuxing` (74 tests) and the KB validation/self-test exist today |
-| **Last updated** | 2026-10-08 |
+| **Last updated** | 2026-10-09 |
 | **Audience** | Developers, QA, content reviewers |
 | **Related** | [PRD §11 metrics](PRD.md) · [SOP App. C](diagnosis-sop.zh-TW.md) · [Tech spec §7, §12](tech-spec.md) · [UX spec §8, §14](ux-spec.md) · [Safety policy §6.3, §9](safety-policy.md) · [Content review §4.4](content-review.md) · [`CHECKLIST.md`](../CHECKLIST.md) |
 
@@ -119,6 +119,8 @@ A vignette is `{ input, expect: { level, notice, suppressed[], mustShow[], mustN
 | Maintenance | A change to weights re-runs the whole set; the diff of outcomes is part of the review request |
 
 > **Implementation (Q-02).** Format and checker: `packages/engine/src/golden.ts` (import as `@tcm/engine/golden`; pure, no file access). Cases: `packages/engine/test/golden/G-xxxx.json` plus `config.json`. Each case adds `split` (`tuning` / `held-out`) and `notes` to the fields above; `input` is JSON (red flags as an array, an optional `birth` switches the birth module on, the clock is fixed); `expect.policy` and `expect.suppressed` are per profile (`{ release?, dev? }`); patterns, formulas, panel signs and confidence are judged on the **dev** profile (the full engine). *Concordance:* the practitioner's `patterns.first` (or, given only `top3`, any of them) must be among the verdict's top three patterns; `formulas.top3` must share a formula with the engine's first three (recommended, then study-only); a panel sign is `+` / `-` / `0` with ±0.5 as the threshold; `mustNotInclude` violations are counted separately. *Running:* `pnpm golden` prints concordance by split (`--held-out-detail` shows per-case detail for the held-out half — use it after tuning, never while tuning; `--strict` exits 1 on a missed target); the engine test always checks structure (ids, known patterns/formulas/symptoms) and enforces the targets only when `config.json` says `"blocking": true` — flip it at M3. *Seed set:* 30 synthetic cases (the typical patient of each of the 23 patterns, plus policy, birth-on and exclusion cases) with `authoredBy: "synthetic"`; the typical-patient seeds are derived mechanically from the question bank, so after any change to the bank or the pattern weights `pnpm golden:reseed --write` re-derives their findings (the engine test fails while they are out of date; expectations, splits and practitioner-agreed cases are never touched; K-07 re-seeded 11); the report states how many are practitioner-agreed (0 until calibration sessions) and the targets are not "met" while that is 0. *Authoring:* the dev inspector's **Case** tab exports the skeleton of a case (without birth data); the practitioner edits `expect`, gives an id and signs it with their review record.
+
+> **The misses, for the reviewers (PM-59).** `node scripts/golden-misses.ts --write` (`pnpm golden:misses`) writes [`golden-misses.md`](golden-misses.md): every miss placed at the step of the engine where it happens — no pattern reaches the threshold of presentation, another pattern is presented, the expected one is presented but not first; for formulas: no verdict, a formula of no presented pattern, the symptom fit, removed by safety or level, ranked after the third. The **tuning** half is shown case by case with the expected pattern's score, where its evidence weight lies (questions, tongue, pulse) and what would have changed the outcome, computed on copies of the case; the **held-out** half only as counts by step, never case by case — `--held-out-detail` prints those to the terminal, after a calibration session has closed. Nothing is tuned by it; `--check` keeps the committed report current (`pnpm test:scripts`), and a test checks that it names no held-out case.
 
 ### 3.6 Knowledge-base tests
 
@@ -319,3 +321,4 @@ Blocking: everything except golden concordance (until M3), nightly, and visual-r
 | 0.12 | 2026-10-08 | §4.5: the Anthropic adapter's contract tests (PM-49) |
 | 0.13 | 2026-10-08 | PM-50: E42, the photo of the tongue and the face (development build); a Simplified development project for it |
 | 0.14 | 2026-10-08 | Project audit: §5.5 the engine benchmark times `nextQuestions` in batches of ten calls and was re-baselined for the 36-question bank; the citation count |
+| 0.15 | 2026-10-09 | §3.5: the report of the golden misses for the reviewers, the held-out half in numbers only (PM-59) |
