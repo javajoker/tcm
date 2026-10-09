@@ -7,12 +7,18 @@ import { readFileSync } from "node:fs";
 import { test } from "node:test";
 import { printHtml } from "./print-editions.ts";
 import {
-  anchorOf, appendicesOf, CATEGORIES, entryHtml, footerOf, handbook, handbookHtml, HANDBOOK_LANGS, marksOf, namespaceHash, pinyinOf, statusOf, strokesOf, wordsFor, wordsReviewed, type HandbookLang,
+  anchorOf, appendicesOf, CATEGORIES, entryHtml, fileOf, footerOf, handbook, handbookHtml, HANDBOOK_LANGS, marksOf, namespaceHash, pinyinOf, statusOf, strokesOf, studyEdition, wordsFor, wordsReviewed,
+  type HandbookLang,
 } from "./print-herbs.ts";
+import { readDataFiles } from "../packages/kb/node/fromDisk.ts";
 
 const hb = handbook();
 const words = Object.fromEntries(HANDBOOK_LANGS.map((l) => [l, wordsFor(l)])) as Record<HandbookLang, ReturnType<typeof wordsFor>>;
 const html = Object.fromEntries(HANDBOOK_LANGS.map((l) => [l, handbookHtml(hb, words[l])])) as Record<HandbookLang, string>;
+const study = studyEdition(hb);
+const studyHtml = Object.fromEntries(HANDBOOK_LANGS.map((l) => [l, handbookHtml(study, words[l])])) as Record<HandbookLang, string>;
+/** Both editions of a language. */
+const both = (l: HandbookLang): readonly [string, string] => [html[l], studyHtml[l]];
 /** The text a reader sees: no tags, no style sheet. */
 const visible = (h: string): string => h.replace(/<style>[\s\S]*?<\/style>/, "").replace(/<title>[\s\S]*?<\/title>/g, "").replace(/<[^>]+>/g, " ");
 const section = (h: string, id: string): string => {
@@ -57,11 +63,48 @@ test("an entry begins with what the record flags — toxicity and its grade, pre
   }
 });
 
-test("nothing about amounts and nothing of the repository: no dose, no weight, no path, no commit", () => {
+test("the standard edition gives no modern quantity — no gram anywhere, the old units only in the classical formulas' compositions — and neither edition anything of the repository", () => {
   for (const l of HANDBOOK_LANGS) {
     const text = visible(html[l]);
-    assert.doesNotMatch(text, /\d+(\.\d+)? ?(mg|g|ml)\b|\d+(\.\d+)? ?(克|毫克|毫升)|[\d一二三四五六七八九十半]+ ?(錢|兩)(?![\u3400-\u9fff])/, `${l}: an amount`);
-    assert.doesNotMatch(html[l], /reference\/sources|TCM-Library|\.md\b|[0-9a-f]{40}|dose_g_reference|typical_g/, `${l}: the repository or a weight`);
+    assert.doesNotMatch(text, /\d+(\.\d+)? ?(mg|g|ml)\b|\d+(\.\d+)? ?(克|毫克|毫升)/, `${l}: a gram in the standard edition`);
+    const outsideTables = visible(html[l].replace(/<table class="roles">[\s\S]*?<\/table>/g, ""));
+    assert.doesNotMatch(outsideTables, /[\d一二三四五六七八九十半]+ ?(錢|兩|斤|升|合|liang|jin|sheng|ge)(?![\u3400-\u9fff])/, `${l}: an amount outside a composition`);
+    for (const h of both(l)) assert.doesNotMatch(h, /reference\/sources|TCM-Library|\.md\b|[0-9a-f]{40}|dose_g_reference|typical_g/, `${l}: the repository or a field name`);
+  }
+});
+
+test("the study edition: what the standard edition gives, with the formulas' reference grams, the herbs' ranges — none for a toxic herb — and the note beside every table of quantities; printed only where the build serves the study reference", () => {
+  assert.equal(study.edition, "study");
+  assert.deepEqual([fileOf("zh-Hant"), fileOf("zh-Hant", "study")], ["herbs-zh-Hant", "herbs-study-zh-Hant"]);
+  const zh = studyHtml["zh-Hant"];
+  assert.ok(zh.includes("草稿・學習版：本版在標準版之外，另列方劑各藥的參考份量（克）與藥材的份量範圍；有毒藥材一律不列克數。"), "the cover says what it is");
+  assert.match(footerOf(study, words["zh-Hant"]), /中藥速查手冊（學習版） · 草稿・未經審核・份量不是用藥指示/);
+  assert.match(footerOf(study, words.en), /study edition · Draft · not reviewed · quantities are not instructions/);
+  // every herb with a range and no toxicity has its line; a toxic herb has the line that says why there is none
+  const ranged = hb.herbs.filter((h) => h.record.dose_g_reference !== null);
+  assert.equal((zh.match(/<p class="qty">/g) ?? []).length, ranged.filter((h) => !h.detail.toxic).length);
+  assert.equal((zh.match(/有毒藥材：本版不列份量範圍，由醫師決定/g) ?? []).length, ranged.filter((h) => h.detail.toxic).length);
+  assert.match(entryHtml(words["zh-Hant"], study, herb("aidicha")), /【參考份量】<\/b>15–30 克（中國藥典（2025年版）一部）/);
+  assert.doesNotMatch(entryHtml(words["zh-Hant"], study, herb("fuzi")), /<p class="qty">/, "附子 is toxic: no range");
+  assert.doesNotMatch(entryHtml(words["zh-Hant"], hb, herb("aidicha")), /參考份量/, "the standard edition has none");
+  // a composition of the study edition gives the reference grams, as the app's formula page gives a learner, and the note above it
+  const guizhi = zh.slice(zh.indexOf('id="formula-F_GUIZHI"'), zh.indexOf("</article>", zh.indexOf('id="formula-F_GUIZHI"')));
+  assert.match(guizhi, /<p class="note amounts">份量僅供學習與醫師輔助參考，不是用藥指示；用於任何人之前，須由合格的醫師親自診察後決定。<\/p>\n<table class="roles">/);
+  assert.match(guizhi, /<a href="#herb-guizhi">桂枝<span class="no">\d+<\/span><\/a><\/td><td>20%<\/td><td>3 兩<\/td><td>約 9 克<\/td>/, "share, the original text's amount, the reference grams");
+  assert.equal((zh.match(/<p class="note amounts">/g) ?? []).length, hb.formulas.length, "the note beside every composition of the study edition");
+  assert.match(zh, /加<a href="#herb-chenpi">陳皮<span class="no">\d+<\/span><\/a>（佐，約 6 克）/, "a 加減's added herb with its grams");
+  // a toxic herb has no figure in grams anywhere: not in a composition, not in a 加減
+  const shenqi = zh.slice(zh.indexOf('id="formula-F_SHENQI"'), zh.indexOf("</article>", zh.indexOf('id="formula-F_SHENQI"')));
+  assert.match(shenqi, /<a href="#herb-fuzi">附子<span class="no">\d+<\/span><\/a> <span class="tox">有毒<\/span><\/td><td>[^<]*<\/td><td>[^<]*<\/td><td><span class="tox">由醫師決定<\/span><\/td>/);
+  assert.match(zh, /加<a href="#herb-fuzi">附子<span class="no">\d+<\/span><\/a> <span class="tox">有毒<\/span>（君），即附子理中丸/);
+  const toxicRows = hb.formulas.flatMap((x) => x.composition).filter((r) => hb.herbs.find((h) => h.record.id === r.herb)?.detail.toxic).length;
+  assert.equal((zh.match(/<span class="tox">由醫師決定<\/span>/g) ?? []).length, toxicRows, "every toxic herb of a composition");
+  // the reader of a build that serves no study reference gets no study edition
+  assert.throws(() => studyEdition(handbook(readDataFiles(), [], { dose_display: "off" })), /no study reference/);
+  for (const l of HANDBOOK_LANGS) {
+    assert.doesNotMatch(visible(studyHtml[l]), /[你妳您]|\byou\b/i, `${l}: second person`);
+    const ids = new Set([...studyHtml[l].matchAll(/ id="([^"]+)"/g)].map((m) => m[1]!));
+    for (const m of studyHtml[l].matchAll(/href="([^"]*)"/g)) assert.ok(m[1]!.startsWith("#") && ids.has(m[1]!.slice(1)), `${l}: ${m[1]} stays inside the study edition`);
   }
 });
 
@@ -142,11 +185,14 @@ test("the part on formulas: how a formula is read — 君臣佐使 with the 素�
       const c = hb.citations.get(id)!;
       assert.ok(visible(p).includes(l === "zh-Hans" ? c.quote_source_zh_hans! : c.quote_zh_hant), `${l}: the passage ${id}`);
     }
-    // nothing quantitative: a composition holds no digit but its herbs' entry numbers (no amount, no proportion), and the part no amount in any unit
+    // a composition gives each herb's share, and a classical formula's the amounts of its original text in the old units, with the note above; no gram anywhere
     const tables = p.match(/<table class="roles">[\s\S]*?<\/table>/g) ?? [];
     assert.equal(tables.length, f.formulas.items.length, `${l}: a composition for every formula`);
-    for (const t of tables) assert.doesNotMatch(visible(t.replace(/<span class="no">\d+<\/span>/g, "")), /\d/, `${l}: a quantity in a composition`);
-    assert.doesNotMatch(visible(p), /\d+(\.\d+)? ?(mg|g|ml|克|毫克|錢|兩|斤|升|合|枚)(?![a-z\u3400-\u9fff])/, `${l}: an amount in the part on formulas`);
+    assert.ok(tables.every((t) => /\d+%/.test(t)), `${l}: the shares`);
+    const classical = f.formulas.items.filter((x) => x.composition.some((r) => r.classical_amount != null)).length;
+    assert.equal(tables.filter((t) => t.includes('<col class="classical">')).length, classical, `${l}: the original amounts for the classical formulas`);
+    assert.equal((p.match(/<p class="note amounts">/g) ?? []).length, classical, `${l}: the note beside each table that gives amounts`);
+    assert.doesNotMatch(visible(p), /\d+(\.\d+)? ?(mg|g|ml|克|毫克)(?![a-z])/, `${l}: a gram in the standard edition's formulas`);
   }
   const zh = part("zh-Hant");
   const sijunzi = zh.slice(zh.indexOf('id="formula-F_SIJUNZI"'), zh.indexOf("</article>", zh.indexOf('id="formula-F_SIJUNZI"')));
@@ -158,6 +204,12 @@ test("the part on formulas: how a formula is read — 君臣佐使 with the 素�
   const mahuang = zh.slice(zh.indexOf('id="formula-F_MAHUANG"'), zh.indexOf("</article>", zh.indexOf('id="formula-F_MAHUANG"')));
   assert.match(mahuang, /<p class="marks">.*含強藥或峻烈藥，僅供學習：含有強藥：麻黃/, "a tier C formula says so first, with its reason");
   assert.ok(visible(mahuang).includes("「無汗而喘者，麻黃湯主之」"), "the classic's own words where the source is a verified clause");
+  // the original amounts in the text's own units: 杏仁七十個 and 大棗十三枚 (one unit in the app's English, two in the text)
+  assert.match(visible(mahuang), /苦杏仁\s*\d+\s*）\s*小毒\s*33%\s*70 個/, "麻黃湯: 杏仁 70 個, marked toxic with its grade");
+  const chaihu = (l: HandbookLang): string => { const x = part(l); return visible(x.slice(x.indexOf('id="formula-F_XIAOCHAIHU"'), x.indexOf("</article>", x.indexOf('id="formula-F_XIAOCHAIHU"')))); };
+  assert.match(chaihu("zh-Hant"), /大棗\s*\d+\s*15%\s*13 枚/, "小柴胡湯: 大棗 13 枚, as the text writes it");
+  assert.match(chaihu("zh-Hans"), /大枣\s*\d+\s*15%\s*13 枚/, "and in the Simplified edition");
+  assert.match(chaihu("en"), /15%\s*13 pc/, "and in the app's English unit");
   assert.ok(visible(zh).includes("加減須由執業中醫師在診察之後決定"));
   assert.ok(zh.indexOf("君臣佐使") < zh.indexOf('id="formula-'), "the explanation comes before the formulas");
   const bohe = entryHtml(words["zh-Hant"], hb, herb("bohe"));
@@ -183,8 +235,9 @@ test("a draft says so on its cover and on every page; the handbook is reviewed o
   assert.equal(namespaceHash({ "zh-Hant": { a: "一「二」", b: { other: "{n} 味" } }, en: { a: 'one "two"', b: { one: "{n} herb", other: "{n} herbs" } } }), "080c24d6f7d9aa8a");
   assert.equal(wordsReviewed([]), false);
   const ns = (n: string) => ({ file: "apps/web/src/i18n", unit: n, hash: namespaceHash({ "zh-Hant": JSON.parse(readFileSync(new URL(`../apps/web/src/i18n/zh-Hant/${n}.json`, import.meta.url), "utf8")), en: JSON.parse(readFileSync(new URL(`../apps/web/src/i18n/en/${n}.json`, import.meta.url), "utf8")) }) });
-  assert.equal(wordsReviewed([ns("handbook"), ns("learn"), ns("formula"), ns("report")]), true);
-  assert.equal(wordsReviewed([ns("handbook"), ns("learn"), ns("formula")]), false, "the report namespace's words for the roles are printed too");
+  assert.equal(wordsReviewed([ns("handbook"), ns("learn"), ns("formula"), ns("report"), ns("safety")]), true);
+  assert.equal(wordsReviewed([ns("handbook"), ns("learn"), ns("formula"), ns("safety")]), false, "the report namespace's words for the roles are printed too");
+  assert.equal(wordsReviewed([ns("handbook"), ns("learn"), ns("formula"), ns("report")]), false, "and the safety namespace's note beside the quantities");
 });
 
 test("printing to PDF with the installed Chrome", { skip: process.env.PRINT_PDF !== "1" && "set PRINT_PDF=1: it needs the installed Chrome and a Traditional Chinese font" }, async () => {

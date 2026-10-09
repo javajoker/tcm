@@ -1,7 +1,7 @@
 // The printed herb handbook (PM-62, PM-63; scripts/print-herbs.ts) against the pages it prints: the same vocabulary tables as the herb list; for every herb in both languages the same
 // words for its category, nature, flavours and channels, the same caution text, functions, formulas and source line as the page model the app builds (herbPage), and the record's flags
 // marked exactly when the page states them; and for every formula the same roles and herbs, cautions, action, reasoning and tier reasons as its page (formulaPage) — all in the knowledge
-// base the closed beta's default reader reads. The handbook keeps copies of the tables (a script cannot import the app); this test keeps them equal.
+// base the closed beta's default reader reads; the study edition's quantities are the page's own (PM-64). The handbook keeps copies of the tables (a script cannot import the app); this test keeps them equal.
 import { createI18n } from "@tcm/i18n";
 import { describe, expect, it } from "vitest";
 import { catalogs, type MessageKey } from "../src/i18n/catalogs.ts";
@@ -12,6 +12,7 @@ import { ROLE_SLUG, SCHOOL_SLUG, tierReason } from "../src/screens/result/words.
 import * as print from "../../../scripts/print-herbs.ts";
 
 const hb = print.handbook();
+const studyHb = print.studyEdition(hb);
 const tFor = (lang: "en" | "zh-Hant") => createI18n<MessageKey>({ ...catalogs, "zh-Hans": {} }, lang, { zh: hb.kb.zh });
 /** The text of the handbook's HTML. */
 const plain = (html: string): string => html.replace(/<[^>]+>/g, "").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, '"').replace(/&amp;/g, "&");
@@ -77,7 +78,14 @@ describe("the handbook prints what the herb pages show", () => {
         expect(entry, where).toContain(lang === "en" ? f.principle_en : f.principle);
         expect(entry, where).toContain(lang === "en" ? f.rationale_en : f.rationale_zh);
         for (const r of f.tier_reasons) expect(entry, where).toContain(tierReason(t, r));
-        expect(entry, where).not.toMatch(/\d+(\.\d+)? ?(g|克|錢|兩)(?![\u3400-\u9fff])/);
+        // the shares as the page gives them; the standard edition gives no gram — the study edition gives each herb's reference quantity as the page gives a learner
+        expect(entry, where).not.toMatch(/\d+(\.\d+)? ?(g|克)(?![a-z\u3400-\u9fff])/);
+        const studyEntry = plain(print.formulaHtml(w, studyHb, f));
+        for (const [i, row] of table.rows.entries()) {
+          expect(entry, where).toContain(row[2] as string);
+          const toxic = hb.herbs.find((h) => h.record.id === f.composition[i]!.herb)?.detail.toxic === true;      // the printed study edition gives no gram for a toxic herb
+          if (!toxic && typeof row[3] === "string" && row[3] !== "—") expect(studyEntry, `${where}: the quantity ${row[3]}`).toContain(row[3]);
+        }
       }
     });
   }

@@ -4,9 +4,12 @@
 // knowledge base records them. The appendices: indexes (pinyin; stroke count in the Traditional edition; Latin and English names), the herbs by nature, flavour and channel, the safety
 // lists (toxicity, pregnancy, interactions, 十八反 and 十九畏), the 七情 table, 引經報使, 炮製, 量效, the model's rules, the glossary, and the works it draws on.
 //   node scripts/print-herbs.ts            write print/herbs-{zh-Hant,zh-Hans,en}.{html,pdf}   (pnpm print:herbs)
+//   node scripts/print-herbs.ts --study    the study edition instead: print/herbs-study-*.{html,pdf}   (pnpm print:herbs:study; PM-64)
 //   node scripts/print-herbs.ts --html     the HTML only (no browser needed)
-// The herbs are those of the closed beta (the release profile with the draft label: every herb, each with its status, and the formulas a release build has). Nothing about amounts: a herb page
-// never carries a dose or a weight (check-release rule 15), and neither does the handbook. Its words are the app's (the `learn` and `formula` catalogs) and its own (`handbook`, checked by
+//   env: APP_OVERRIDES, APP_DOSE_DISPLAY — the build's restrictions, applied as the bundle applies them (scripts/bundle-data.ts)
+// The herbs are those of the closed beta (the release profile with the draft label: every herb, each with its status, and the formulas a release build has). A herb entry gives no amount: a herb
+// page never carries a dose or a weight (check-release rule 15). A formula gives what its page gives every reader — each herb's share, and the original text's amounts in its own units — and
+// only the study edition adds the reference grams and the herbs' ranges, never for a toxic herb (PD-30's study reference, in print). Its words are the app's (the `learn` and `formula` catalogs) and its own (`handbook`, checked by
 // check-i18n, converted to Simplified by build_hans and reviewed with the interface text); the data's Chinese is shown in the edition's script through the Simplified dictionary, as the app
 // shows it. Like the editions of the book and the course, the PDFs are derived and git-ignored, and a draft says so on its cover and on every page.
 import { createHash } from "node:crypto";
@@ -22,13 +25,14 @@ import type { Sources } from "../packages/kb/src/generated/sources.ts";
 import type { Bilingual, Citation, DoseBand, Formula, Herb, HerbDetail, KnowledgeBase, Pairing, ProcessingMethod } from "../packages/kb/src/types.ts";
 import type { ReviewedUnit } from "../packages/kb/node/book.ts";
 import { readDataFiles } from "../packages/kb/node/fromDisk.ts";
+import { overridesOf } from "./bundle-data.ts";
 import { esc, OUT, printHtml } from "./print-editions.ts";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const CATALOG_DIR = join(root, "apps", "web", "src", "i18n");
 /** The review target of the interface text (scripts/kb/review.py `CATALOGS`), and the namespaces the handbook's words come from. */
 export const CATALOGS = "apps/web/src/i18n";
-export const NAMESPACES = ["handbook", "learn", "formula", "report"] as const;
+export const NAMESPACES = ["handbook", "learn", "formula", "report", "safety"] as const;
 
 export type HandbookLang = "zh-Hant" | "zh-Hans" | "en";
 export const HANDBOOK_LANGS: readonly HandbookLang[] = ["zh-Hant", "zh-Hans", "en"];
@@ -95,6 +99,8 @@ export interface HandbookHerb {
   readonly incompatible: readonly { readonly list: "十八反" | "十九畏"; readonly other: string }[];
 }
 export interface Handbook {
+  /** The standard edition gives no modern quantity; the study edition adds the formulas' reference grams and the herbs' ranges (PD-30's study reference, in print). */
+  readonly edition: "standard" | "study";
   /** In the handbook's order: by category as a textbook lists them, then in the data's order (the herb list's order). */
   readonly herbs: readonly HandbookHerb[];
   /** The formulas of the part on formulas, in the formula list's order: 經方 then 時方, each by tier. */
@@ -104,6 +110,8 @@ export interface Handbook {
   readonly files: DataFiles;
   /** The knowledge base the closed beta's default reader reads (PD-30): a learner's where the build serves the study reference to every reader, else a general reader's. */
   readonly kb: KnowledgeBase;
+  /** A learner's knowledge base — the formulas with their reference quantities — where the build serves the study reference at all; the study edition is printed from it. */
+  readonly studyKb: KnowledgeBase | null;
   readonly citations: ReadonlyMap<string, Citation>;
   readonly status: "draft" | "reviewed";
   /** The hash of what the handbook prints from the data: which data an edition is of. */
@@ -138,9 +146,9 @@ export function statusOf(files: DataFiles, textReviewed: boolean): Handbook["sta
 }
 
 /** The handbook from the data as the repository holds it. */
-export function handbook(files: DataFiles = readDataFiles(), reviewed: readonly ReviewedUnit[] = readJson<{ reviewed: ReviewedUnit[] }>(join(root, "data", "review", "records.json")).reviewed): Handbook {
-  // the closed beta: the release profile with its draft label carries every herb in the browser, each with its status
-  const built = buildChunks(files, { profile: "release", version: "handbook", draftLabel: true });
+export function handbook(files: DataFiles = readDataFiles(), reviewed: readonly ReviewedUnit[] = readJson<{ reviewed: ReviewedUnit[] }>(join(root, "data", "review", "records.json")).reviewed, overrides?: unknown): Handbook {
+  // the closed beta: the release profile with its draft label carries every herb in the browser, each with its status (`overrides` narrow it, as at build time)
+  const built = buildChunks(files, { profile: "release", version: "handbook", draftLabel: true, overrides });
   if (built.herbFiles === null) throw new Error("the closed beta carries no herb browser");
   const details = new Map(Object.values(built.herbFiles.shards).flatMap((s) => Object.entries(s.items)));
   const order = new Map(CATEGORIES.map(([zh], i) => [zh, i] as const));
@@ -148,8 +156,8 @@ export function handbook(files: DataFiles = readDataFiles(), reviewed: readonly 
   // the reader: the closed beta's default — a learner, who reads with the study reference, where the build serves it to every reader (dose_display all, PD-30; the app's
   // defaultRoleOf), else a general reader. A learner sees every formula and the classical 加減; the handbook still prints no amount of anything.
   const general = indexKnowledgeBase(built.chunks);
-  const learner = general.config.profile.dose_display === "all" && built.referenceFile !== null;
-  const kb = learner ? indexKnowledgeBase(withReference(built.chunks, built.referenceFile!, "learner"), undefined, "learner", general) : general;
+  const studyKb = built.referenceFile !== null ? indexKnowledgeBase(withReference(built.chunks, built.referenceFile, "learner"), undefined, "learner", general) : null;
+  const kb = general.config.profile.dose_display === "all" && studyKb !== null ? studyKb : general;
   const pairs = incompatiblePairs(kb, files.herbs.items.map((h) => h.id));
   const herbs = inOrder.map(({ h }, k): HandbookHerb => {
     const detail = details.get(h.slug);
@@ -165,17 +173,29 @@ export function handbook(files: DataFiles = readDataFiles(), reviewed: readonly 
       })).values()],
     };
   });
-  const all = [...kb.formulas.values()];
-  const formulas = SCHOOLS.flatMap(([school]) => all.filter((f) => f.school === school).sort((a, b) => a.tier.localeCompare(b.tier)));
-  if (formulas.length !== all.length) throw new Error(`a formula of a school the handbook does not know: ${all.filter((f) => !formulas.includes(f)).map((f) => f.id).join(", ")}`);
+  const formulas = formulasIn(kb);
   // everything the handbook prints from the data: the herbs, the formulas, the tables, the passages it quotes and the works it names
   const version = sha16(canonicalJson([herbs.map((h) => [h.detail, h.record.props, h.pairings.map((p) => p.id), h.yinjing, h.band?.citation ?? null]), files.formulas.items,
     files.pairings.items, files.processing, files.doseBands.items, files.yinjing.channels, files.safety.incompatibilities, files.glossary.items, conventionsOf(files),
     files.citations.items, readJson<Sources>(join(root, "data", "sources.json")).items]));
   return {
-    herbs, formulas, modifications: kb.config.profile.features.show_formula_modification, files, kb, citations: new Map(files.citations.items.map((c) => [c.id, c])),
+    edition: "standard", herbs, formulas, modifications: kb.config.profile.features.show_formula_modification, files, kb, studyKb, citations: new Map(files.citations.items.map((c) => [c.id, c])),
     status: statusOf(files, wordsReviewed(reviewed)), version,
   };
+}
+
+/** The formulas of a knowledge base in the formula list's order: 經方 then 時方, each by tier. */
+function formulasIn(kb: KnowledgeBase): readonly Formula[] {
+  const all = [...kb.formulas.values()];
+  const formulas = SCHOOLS.flatMap(([school]) => all.filter((f) => f.school === school).sort((a, b) => a.tier.localeCompare(b.tier)));
+  if (formulas.length !== all.length) throw new Error(`a formula of a school the handbook does not know: ${all.filter((f) => !formulas.includes(f)).map((f) => f.id).join(", ")}`);
+  return formulas;
+}
+
+/** The study edition: a learner's formulas with their reference grams and the herbs' ranges — printed only where the build serves the study reference (dose_display is not off, PD-30). */
+export function studyEdition(hb: Handbook): Handbook {
+  if (hb.studyKb === null) throw new Error("the build serves no study reference (dose_display is off, or an override takes it away): there is no study edition");
+  return { ...hb, edition: "study", kb: hb.studyKb, formulas: formulasIn(hb.studyKb), modifications: hb.studyKb.config.profile.features.show_formula_modification };
 }
 
 // ── words ───────────────────────────────────────────────────────────────────
@@ -251,6 +271,10 @@ function herbRef(w: Words, hb: Handbook, h: HandbookHerb): string {
 const quote = (w: Words, c: Citation): string =>
   `<figure class="quote"><blockquote>「${cn(w, c.quote_zh_hant)}」</blockquote><figcaption>——《${cn(w, c.book)}·${cn(w, c.chapter)}》</figcaption></figure>`;
 const sourceOf = (w: Words, c: Citation): string => `《${cn(w, c.book)}·${cn(w, c.chapter)}》`;
+/** A number in the edition's language (a quantity: up to three decimals, as the source writes 0.015). */
+const num = (w: Words, x: number): string => esc(w.t.number(x, { maximumFractionDigits: 3 }));
+/** The classical units of the original texts and the key of each one's English name (the app's UNIT_ID); a Chinese edition writes the unit as the text does (枚 is not 個). */
+const UNITS: Readonly<Record<string, string>> = { 兩: "liang", 斤: "jin", 升: "sheng", 合: "ge", 個: "piece", 枚: "piece" };
 /** A label of an entry's line: 【類別】 in Chinese, "Category:" in English. */
 const label = (w: Words, key: string): string => (en(w) ? `<b class="l">${msg(w, key)}:</b> ` : `<b class="l">【${msg(w, key)}】</b>`);
 
@@ -280,6 +304,15 @@ const signed = (v: number): string => `${v > 0 ? "+" : v < 0 ? "−" : "±"}${Ma
 export function directionOf(hb: Handbook, v: number): "up" | "down" | "even" {
   const { up, down } = conventionsOf(hb.files).params.direction_label;
   return v >= up ? "up" : v <= down ? "down" : "even";
+}
+
+/** The study edition's reference quantity of a herb: the range its source entry gives, with the note — and none for a toxic herb, whose quantity a practitioner decides. */
+export function rangeLine(w: Words, h: HandbookHerb): string {
+  const r = h.record.dose_g_reference;
+  if (r === null) return "";
+  if (h.detail.toxic) return `<p class="caution">${label(w, "handbook.study.field.range")}${msg(w, "handbook.study.toxic")}</p>`;
+  const book = h.detail.source.book === "—" ? "" : `${en(w) ? " (" : "（"}${cn(w, h.detail.source.book)}${en(w) ? ")" : "）"}`;
+  return `<p class="qty">${label(w, "handbook.study.field.range")}${msg(w, "handbook.study.range", { from: num(w, r[0]), to: num(w, r[1]) })}${book} <span class="note">${msg(w, "handbook.study.rangeNote")}</span></p>`;
 }
 
 /** The property model's reading of a herb (PM-36): 陰陽 and 升降浮沉 on their scales, the five phases in per cent, 補瀉, 潤燥 and 氣血 in words. */
@@ -339,6 +372,7 @@ export function entryHtml(w: Words, hb: Handbook, h: HandbookHerb): string {
   if (part !== null || d.aliases !== undefined) {
     lines.push(`<p>${part !== null ? `${label(w, "handbook.field.part")}${cn(w, part)}` : ""}${part !== null && d.aliases !== undefined ? " " : ""}${d.aliases !== undefined ? `${label(w, "learn.herb.aliases")}${cnList(w, d.aliases)}` : ""}</p>`);
   }
+  if (hb.edition === "study") { const range = rangeLine(w, h); if (range !== "") lines.push(range); }
   lines.push(modelLine(w, hb, h));
   if (h.pairings.length > 0) {
     // each relation as the source's sentence, which names both herbs; the side that restrains in a 相畏 is its 相殺, as the table's own words have it
@@ -387,9 +421,13 @@ const refs = (w: Words, hb: Handbook, herbs: readonly HandbookHerb[]): string =>
 const group = (w: Words, hb: Handbook, heading: string, herbs: readonly HandbookHerb[]): string =>
   herbs.length === 0 ? "" : `<h3>${heading} <span class="count">${msg(w, "handbook.count", {}, herbs.length)}</span></h3>\n${refs(w, hb, herbs)}`;
 
+const study = (hb: Handbook): boolean => hb.edition === "study";
+/** The edition's title: the study edition says what it is wherever the title stands (the document, the footer). */
+const titleOf = (w: Words, hb: Handbook): string => msg(w, study(hb) ? "handbook.study.title" : "handbook.title");
+
 function cover(w: Words, hb: Handbook): string {
-  return `<section class="cover"><p class="kind">${msg(w, "handbook.kind")}</p><h1>${msg(w, "handbook.title")}</h1><p class="subtitle">${msg(w, "handbook.subtitle", {}, hb.herbs.length)}</p>`
-    + `<p class="status${hb.status === "reviewed" ? " reviewed" : ""}">${msg(w, `handbook.cover.${hb.status}`)}</p>`
+  return `<section class="cover"><p class="kind">${msg(w, study(hb) ? "handbook.study.kind" : "handbook.kind")}</p><h1>${msg(w, "handbook.title")}</h1><p class="subtitle">${msg(w, "handbook.subtitle", {}, hb.herbs.length)}</p>`
+    + `<p class="status${hb.status === "reviewed" ? " reviewed" : ""}">${msg(w, study(hb) ? `handbook.study.cover.${hb.status}` : `handbook.cover.${hb.status}`)}</p>`
     + `<p class="version">${msg(w, "handbook.version", { version: hb.version })}</p></section>`;
 }
 
@@ -404,6 +442,7 @@ function about(w: Words, hb: Handbook): string {
   const items = ["head", "cautions", "facts", "model", "relations", "formulas", "source"].map((k) => `<li>${msg(w, `handbook.about.read.${k}`, { model: appendixNo(w, "model") })}</li>`).join("");
   return [
     `<section class="part" id="about"><h1>${msg(w, "handbook.about.title")}</h1>`,
+    ...(study(hb) ? [`<p class="notice">${msg(w, "handbook.study.about")}</p>`, `<p class="notice">${msg(w, "safety.notice.amounts.text")}</p>`] : []),
     `<p>${msg(w, "handbook.about.what", {}, herbs.length)}</p>`,
     `<p>${msg(w, "handbook.about.sources", { list: sources.join(en(w) ? "; " : "；") })}</p>`,
     `<p>${msg(w, "handbook.about.review", { derived: count("derived"), curated: count("curated-draft"), reviewed: count("reviewed") })}${hb.status === "draft" ? `${en(w) ? " " : ""}${msg(w, "handbook.about.draft")}` : ""}</p>`,
@@ -411,7 +450,7 @@ function about(w: Words, hb: Handbook): string {
     ...(w.lang === "zh-Hans" ? [`<p>${msg(w, "handbook.about.hans")}</p>`] : []),
     `<h2>${msg(w, "handbook.about.safety.title")}</h2>`,
     `<ul class="safety"><li>${msg(w, "handbook.about.safety.recorded")}</li><li>${msg(w, "handbook.about.safety.notRecorded")}</li><li>${msg(w, "handbook.about.safety.allergy")}</li>`,
-    `<li>${msg(w, "handbook.about.safety.practitioner")}</li><li>${msg(w, "handbook.about.safety.incompatible", { safety: appendixNo(w, "safety") })}</li></ul>`,
+    `<li>${msg(w, study(hb) ? "handbook.study.practitioner" : "handbook.about.safety.practitioner")}</li><li>${msg(w, "handbook.about.safety.incompatible", { safety: appendixNo(w, "safety") })}</li></ul>`,
     `<h2>${msg(w, "handbook.about.read.title")}</h2>`, `<p>${msg(w, "handbook.about.read.intro")}</p>`, `<ol class="read">${items}</ol>`,
     `<h2>${msg(w, "handbook.about.model.title")}</h2>`, `<p>${msg(w, "handbook.about.model.text", { model: appendixNo(w, "model") })}</p>`, `<p>${msg(w, "handbook.about.model.scale")}</p>`,
     "</section>",
@@ -470,17 +509,24 @@ export function formulaMarksOf(w: Words, f: Formula): string[] {
   ];
 }
 
-/** A herb of a composition or a 加減: its entry in the handbook, under the name the formula writes when that differs from the record's (芍藥 for 白芍). */
+/** A herb of a composition or a 加減: its entry in the handbook, under the name the formula writes when that differs from the record's (芍藥 for 白芍), and its toxicity marked. */
 function compositionHerb(w: Words, hb: Handbook, id: string, written: string): string {
   const h = herbsById(hb).get(id);
   if (h === undefined) return cn(w, written);
-  return written === h.detail.name["zh-Hant"] ? herbRef(w, hb, h) : `${cn(w, written)}${en(w) ? " (" : "（"}${herbRef(w, hb, h)}${en(w) ? ")" : "）"}`;
+  const grade = GRADES.find(([g]) => g === h.record.props.toxicity);
+  const tox = h.detail.toxic ? ` <span class="tox">${grade !== undefined ? msg(w, `handbook.grade.${grade[1]}`) : msg(w, "learn.herb.mark.toxic")}</span>` : "";
+  return `${written === h.detail.name["zh-Hant"] ? herbRef(w, hb, h) : `${cn(w, written)}${en(w) ? " (" : "（"}${herbRef(w, hb, h)}${en(w) ? ")" : "）"}`}${tox}`;
 }
 
 /** One classical 加減: the signs it is for, the herbs it adds and removes with their roles, the formula it makes, its book and how far it was checked. */
 function modificationHtml(w: Words, hb: Handbook, m: Formula["modifications"][number]): string {
   const signs = m.when_symptoms.map((id) => { const x = hb.kb.symptoms.get(id); return x === undefined ? esc(id) : en(w) ? esc(x.en) : cn(w, x["zh-Hant"]); });
-  const herb = (x: { readonly herb: string; readonly name: string; readonly role?: string }): string => `${compositionHerb(w, hb, x.herb, x.name)}${x.role !== undefined ? `${en(w) ? " (" : "（"}${roleWord(w, x.role)}${en(w) ? ")" : "）"}` : ""}`;
+  const herb = (x: { readonly herb: string; readonly name: string; readonly role?: string; readonly typical_g?: number }): string => {
+    // the study edition's grams, never for a toxic herb (its quantity, processing and preparation are a practitioner's to decide)
+    const grams = hb.edition === "study" && x.typical_g !== undefined && herbsById(hb).get(x.herb)?.detail.toxic !== true ? [msg(w, "formula.composition.amount.g", { g: num(w, x.typical_g) })] : [];
+    const notes = [...(x.role !== undefined ? [roleWord(w, x.role)] : []), ...grams];
+    return `${compositionHerb(w, hb, x.herb, x.name)}${notes.length > 0 ? `${en(w) ? " (" : "（"}${notes.join(en(w) ? ", " : "，")}${en(w) ? ")" : "）"}` : ""}`;
+  };
   const removed = m.remove.map((r) => (typeof r === "string" ? { herb: r, name: hb.kb.herbName(r)?.name["zh-Hant"] ?? r } : r));
   const changes = [
     ...(m.add.length > 0 ? [msg(w, "handbook.modify.add", { herbs: list(w, m.add.map(herb)) })] : []),
@@ -507,11 +553,23 @@ export function formulaHtml(w: Words, hb: Handbook, f: Formula): string {
   lines.push(`<p>${label(w, "handbook.formula.action")}${en(w) ? esc(f.principle_en) : cn(w, f.principle)}</p>`);
   const patterns = f.patterns.flatMap((id) => { const p = hb.kb.patternById.get(id); return p === undefined ? [] : [en(w) && p.name.en !== null ? esc(p.name.en) : cn(w, p.name["zh-Hant"])]; });
   if (patterns.length > 0) lines.push(`<p>${label(w, "handbook.formula.indication")}${list(w, patterns)}</p>`);
-  lines.push(`<table class="roles"><colgroup><col class="role"><col class="herb"><col></colgroup><thead><tr><th scope="col">${msg(w, "handbook.formula.col.role")}</th><th scope="col">${msg(w, "handbook.formula.col.herb")}</th><th scope="col">${msg(w, "handbook.formula.col.functions")}</th></tr></thead><tbody>`
+  // each herb's share (what the app's formula page shows every reader); the original text's amounts in its own units where the knowledge base has them (the 經方); in the study
+  // edition the reference grams — and beside any table of quantities, the note N-AMOUNTS
+  const classical = f.composition.some((r) => r.classical_amount != null);
+  const grams = hb.edition === "study" && f.composition.some((r) => r.typical_g !== undefined);
+  const head = [msg(w, "handbook.formula.col.role"), msg(w, "handbook.formula.col.herb"), msg(w, "formula.composition.col.share"), ...(classical ? [msg(w, "handbook.formula.col.classical")] : []),
+    ...(grams ? [msg(w, "formula.composition.col.amount")] : []), msg(w, "handbook.formula.col.functions")];
+  const cols = ["role", "herb", "share", ...(classical ? ["classical"] : []), ...(grams ? ["grams"] : []), "functions"];
+  if (classical || grams) lines.push(`<p class="note amounts">${msg(w, "safety.notice.amounts.text")}</p>`);
+  lines.push(`<table class="roles"><colgroup>${cols.map((c) => `<col class="${c}">`).join("")}</colgroup><thead><tr>${head.map((x) => `<th scope="col">${x}</th>`).join("")}</tr></thead><tbody>`
     + f.composition.map((r) => {
       const h = herbsById(hb).get(r.herb);
-      return `<tr><th scope="row">${roleWord(w, r.role)}</th><td>${compositionHerb(w, hb, r.herb, r.name)}</td><td>${h !== undefined ? cnList(w, h.detail.functions.slice(0, 3)) : ""}</td></tr>`;
-    }).join("") + "</tbody></table>");
+      const unit = (u: string): string => (en(w) && UNITS[u] !== undefined ? msg(w, `formula.composition.unit.${UNITS[u]!}`) : cn(w, u));
+      const amount = r.classical_amount != null ? msg(w, "formula.composition.amount.classical", { value: num(w, r.classical_amount.value), unit: unit(r.classical_amount.unit) }) : "—";
+      return `<tr><th scope="row">${roleWord(w, r.role)}</th><td>${compositionHerb(w, hb, r.herb, r.name)}</td><td>${esc(w.t.number(r.proportion, { style: "percent", maximumFractionDigits: 0 }))}</td>`
+        + `${classical ? `<td>${amount}</td>` : ""}${grams ? `<td>${h?.detail.toxic === true ? `<span class="tox">${msg(w, "handbook.study.decides")}</span>` : r.typical_g !== undefined ? msg(w, "formula.composition.amount.g", { g: num(w, r.typical_g) }) : "—"}</td>` : ""}`
+        + `<td>${h !== undefined ? cnList(w, h.detail.functions.slice(0, 3)) : ""}</td></tr>`;
+    }).join("") + `</tbody></table><p class="note">${msg(w, "formula.verification.proportion")}</p>`);
   lines.push(`<p>${label(w, "handbook.formula.reasoning")}${en(w) ? esc(f.rationale_en) : cn(w, f.rationale_zh)}</p>`);
   const clause = hb.citations.get(f.source.ref);
   if (clause !== undefined) lines.push(`<p>${label(w, "handbook.formula.text")}「${cn(w, clause.quote_zh_hant)}」——${sourceOf(w, clause)}</p>`);
@@ -530,7 +588,7 @@ function formulasPart(w: Words, hb: Handbook): string {
   const groups = SCHOOLS.map(([school, slug]) => [slug, hb.formulas.filter((f) => f.school === school)] as const).filter(([, fs]) => fs.length > 0);
   return [
     `<section class="part" id="formulas"><h1>${msg(w, "handbook.formulas.part.title")}</h1>`,
-    `<p>${msg(w, "handbook.formulas.part.intro", {}, hb.formulas.length)}</p>`,
+    `<p>${msg(w, study(hb) ? "handbook.study.formulas.intro" : "handbook.formulas.part.intro", {}, hb.formulas.length)}</p>`,
     `<p class="notice">${msg(w, "handbook.formulas.part.cautions")}</p>`, ...(en(w) ? [`<p class="note">${msg(w, "handbook.formulas.part.machine")}</p>`] : []),
     `<h2>${msg(w, "handbook.formulas.what.title")}</h2>`, `<p>${msg(w, "handbook.formulas.what.text")}</p>`,
     `<h2>${msg(w, "handbook.formulas.roles.title")}</h2>`, cite("suwen-074-10"), cite("suwen-074-11"), `<p>${msg(w, "handbook.formulas.roles.intro")}</p>`,
@@ -539,7 +597,7 @@ function formulasPart(w: Words, hb: Handbook): string {
     `<h2>${msg(w, "handbook.formulas.modify.title")}</h2>`, cite("shanghan-016"), `<p>${msg(w, "handbook.formulas.modify.text")}</p>`, `<p>${msg(w, "handbook.formulas.modify.kinds")}</p>`,
     `<p>${msg(w, "handbook.formulas.modify.sanyin")}</p>`,
     ...([["general", "suwen-012-2"], ["person", "suwen-070-5"], ["time", "suwen-071-3"], ["place", "suwen-070-6"]] as const).map(([k, id]) => `<p class="qlabel">${msg(w, `handbook.formulas.sanyin.${k}`)}</p>${cite(id)}`),
-    `<p>${msg(w, "handbook.formulas.modify.model")}</p>`, `<p class="notice">${msg(w, "handbook.formulas.modify.note")}</p>`,
+    `<p>${msg(w, "handbook.formulas.modify.model")}</p>`, `<p class="notice">${msg(w, study(hb) ? "handbook.study.modify.note" : "handbook.formulas.modify.note")}</p>`,
     "</section>",
     ...groups.map(([slug, fs]) => `<section class="formulas" id="formulas-${slug}"><h2>${msg(w, `formula.school.${slug}`)} <span class="count">${msg(w, "handbook.formulas.count", {}, fs.length)}</span></h2>\n${fs.map((f) => formulaHtml(w, hb, f)).join("\n")}</section>`),
   ].join("\n");
@@ -833,7 +891,9 @@ svg.scale { width: 16mm; height: 2.56mm; vertical-align: -0.3mm; margin: 0 0.6mm
 .formula .meta { color: #555; font-size: 8.5pt; margin: 0 0 1mm; }
 .formula p { margin: 0 0 1mm; line-height: 1.55; }
 table.roles { table-layout: fixed; margin: 1.5mm 0 2mm; }
-table.roles col.role { width: 13%; } table.roles col.herb { width: 30%; }
+table.roles col.role { width: 12%; } table.roles col.herb { width: 26%; } table.roles col.share { width: 8%; } table.roles col.classical { width: 11%; } table.roles col.grams { width: 11%; }
+.tox { color: #8b0000; font-size: 0.85em; margin-inline-start: 0.8mm; font-weight: 600; }
+p.amounts { margin: 1.5mm 0 0; }
 table.roles tbody th { white-space: normal; }
 table.rolesIntro tbody th { width: 14%; }
 .modify ul { margin: 0 0 1.5mm; padding-inline-start: 5mm; }
@@ -868,7 +928,7 @@ figure.quote figcaption { text-align: right; color: #444; font-size: 8.5pt; }
 /** The whole edition as one HTML document. */
 export function handbookHtml(hb: Handbook, w: Words): string {
   return [
-    "<!doctype html>", `<html lang="${w.lang}"><head><meta charset="utf-8"><title>${msg(w, "handbook.title")}</title><style>${style(w.lang)}</style></head><body>`,
+    "<!doctype html>", `<html lang="${w.lang}"><head><meta charset="utf-8"><title>${titleOf(w, hb)}</title><style>${style(w.lang)}</style></head><body>`,
     cover(w, hb), about(w, hb), contents(w, hb), body(w, hb), formulasPart(w, hb),
     pinyinIndex(w, hb), ...(w.lang === "zh-Hant" ? [strokeIndex(w, hb)] : []), namesIndex(w, hb), lookup(w, hb), safety(w, hb), pairings(w, hb), yinjing(w, hb), processing(w, hb),
     bands(w, hb), modelRules(w, hb), glossary(w, hb), sources(w, hb),
@@ -878,21 +938,25 @@ export function handbookHtml(hb: Handbook, w: Words): string {
 
 /** The footer Chrome prints on every page: the handbook, its review status and the page number (its template sets its own size and font: the page's styles do not reach it). */
 export function footerOf(hb: Handbook, w: Words): string {
+  const status = msg(w, study(hb) ? `handbook.study.footer.${hb.status}` : `handbook.footer.${hb.status}`);
   return `<div style="width:100%;margin:0 14mm;display:flex;justify-content:space-between;font-size:7.5pt;color:#555;font-family:${FONTS[w.lang].sans.replace(/"/g, "'")}">`
-    + `<span>${msg(w, "handbook.title")} · ${msg(w, `handbook.footer.${hb.status}`)}</span><span><span class="pageNumber"></span> / <span class="totalPages"></span></span></div>`;
+    + `<span>${titleOf(w, hb)} · ${status}</span><span><span class="pageNumber"></span> / <span class="totalPages"></span></span></div>`;
 }
 
-export const fileOf = (lang: HandbookLang): string => `herbs-${lang}`;
+export const fileOf = (lang: HandbookLang, edition: Handbook["edition"] = "standard"): string => (edition === "study" ? `herbs-study-${lang}` : `herbs-${lang}`);
 
 if (import.meta.main) {
   const htmlOnly = process.argv.includes("--html");
-  const hb = handbook();
+  // the build's own restrictions narrow the handbook as they narrow a build; `--study` prints the study edition instead — a deliberate act, refused where the build serves no study reference
+  const general = handbook(undefined, undefined, overridesOf(process.env.APP_OVERRIDES, process.env.APP_DOSE_DISPLAY));
+  const hb = process.argv.includes("--study") ? studyEdition(general) : general;
   mkdirSync(OUT, { recursive: true });
   for (const lang of HANDBOOK_LANGS) {
     const w = wordsFor(lang);
     const html = handbookHtml(hb, w);
-    writeFileSync(join(OUT, `${fileOf(lang)}.html`), html);
-    if (!htmlOnly) writeFileSync(join(OUT, `${fileOf(lang)}.pdf`), await printHtml(html, footerOf(hb, w)));
-    console.log(`print: ${fileOf(lang)} — ${hb.herbs.length} herbs, ${appendicesOf(lang).length} appendices, ${hb.status}, data ${hb.version}${htmlOnly ? " (HTML only)" : ""}`);
+    const file = fileOf(lang, hb.edition);
+    writeFileSync(join(OUT, `${file}.html`), html);
+    if (!htmlOnly) writeFileSync(join(OUT, `${file}.pdf`), await printHtml(html, footerOf(hb, w)));
+    console.log(`print: ${file} — ${hb.herbs.length} herbs, ${hb.formulas.length} formulas, ${appendicesOf(lang).length} appendices, ${hb.edition} edition, ${hb.status}, data ${hb.version}${htmlOnly ? " (HTML only)" : ""}`);
   }
 }

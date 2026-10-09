@@ -17,7 +17,7 @@
   "handbook.about.safety.allergy": "An allergy to a herb rules that herb out.",
   "handbook.about.safety.incompatible": "The whole table of the eighteen incompatibilities and the nineteen antagonisms, with the herbs of this handbook each traditional name covers, is in {safety}; the caution in an entry is the source's own text and may not list them all.",
   "handbook.about.safety.notRecorded": "Where no toxicity, pregnancy caution or interaction is shown, none is recorded; that does not make the herb safe, and none of these records has been reviewed by a professional yet.",
-  "handbook.about.safety.practitioner": "A herb is chosen by a licensed practitioner for the person it is meant for. This handbook only describes the herbs: it gives no doses, and it is not medical advice.",
+  "handbook.about.safety.practitioner": "A herb is chosen by a licensed practitioner for the person it is meant for. This handbook describes the herbs and the formulas: it gives no modern doses (grams), and it is not medical advice.",
   "handbook.about.safety.recorded": "Each entry starts with the cautions on record: toxicity and its grade, pregnancy and possible interactions, the source's own caution, and the herbs the eighteen incompatibilities and the nineteen antagonisms say not to combine it with.",
   "handbook.about.safety.title": "Before use",
   "handbook.about.source": {
@@ -68,8 +68,8 @@
     "one": "{n} herb",
     "other": "{n} herbs"
   },
-  "handbook.cover.draft": "Draft: the herb records in this handbook were compiled from their source entries by the app's own rules and have not been reviewed by a qualified practitioner or a pharmacist. For study only: not medical advice, and no substitute for an examination by a licensed practitioner. The handbook gives no doses.",
-  "handbook.cover.reviewed": "The herb records in this handbook have been reviewed by a qualified practitioner and a pharmacist. For study only: not medical advice, and no substitute for an examination by a licensed practitioner. The handbook gives no doses.",
+  "handbook.cover.draft": "Draft: the herb records in this handbook were compiled from their source entries by the app's own rules and have not been reviewed by a qualified practitioner or a pharmacist. For study only: not medical advice, and no substitute for an examination by a licensed practitioner. The handbook gives no modern doses (grams): for the formulas it gives each herb's share, and for the classical formulas the amounts of the original text, in its old units.",
+  "handbook.cover.reviewed": "The herb records in this handbook have been reviewed by a qualified practitioner and a pharmacist. For study only: not medical advice, and no substitute for an examination by a licensed practitioner. The handbook gives no modern doses (grams): for the formulas it gives each herb's share, and for the classical formulas the amounts of the original text, in its old units.",
   "handbook.field.band": "Small or large use (量效)",
   "handbook.field.caution": "Caution",
   "handbook.field.incompatible": "Not to combine with",
@@ -81,6 +81,7 @@
   "handbook.footer.draft": "Draft · not reviewed · not medical advice",
   "handbook.footer.reviewed": "Reviewed · not medical advice",
   "handbook.formula.action": "Action",
+  "handbook.formula.col.classical": "In the original text",
   "handbook.formula.col.functions": "Its functions in this handbook",
   "handbook.formula.col.herb": "Herb",
   "handbook.formula.col.role": "Role",
@@ -95,16 +96,16 @@
     "other": "{n} formulas"
   },
   "handbook.formulas.here": "in the app: {list}",
-  "handbook.formulas.modify.kinds": "Modification is of three kinds. Of the herbs: adding or removing them; while the sovereign stays, the formula keeps its main action, and when the change is large enough to shift which herb leads, it becomes another formula, often with a name of its own — 四君子湯 with 陳皮 is 異功散, 理中丸 with 附子 is 附子理中丸. Of the proportions: changing how much each herb weighs can shift which leads, too (this handbook gives no quantities). Of the form: the same herbs as a decoction, pills or a powder act faster or more gently.",
+  "handbook.formulas.modify.kinds": "Modification is of three kinds. Of the herbs: adding or removing them; while the sovereign stays, the formula keeps its main action, and when the change is large enough to shift which herb leads, it becomes another formula, often with a name of its own — 四君子湯 with 陳皮 is 異功散, 理中丸 with 附子 is 附子理中丸. Of the proportions: changing how much each herb weighs can shift which leads, too — the shares in each composition are these weights. Of the form: the same herbs as a decoction, pills or a powder act faster or more gently.",
   "handbook.formulas.modify.model": "The app's model works out a person's modification on the same principles: first the formula's classical modifications whose signs the person has; then at most two herbs for what the formula leaves unattended — only curated herbs that are not toxic, carry no pregnancy flag, are not ruled out by the person's allergies or medicines and do not deepen the imbalance of the constitution; a herb is removed only for the person's safety, and never the sovereign. All of it is a draft awaiting the practitioners' review.",
-  "handbook.formulas.modify.note": "Modification is decided by a licensed practitioner after examining the person. The modifications given with each formula are examples from the classics and the textbooks, for study only and not instructions for taking medicine; this handbook gives no doses.",
+  "handbook.formulas.modify.note": "Modification is decided by a licensed practitioner after examining the person. The modifications given with each formula are examples from the classics and the textbooks, for study only and not instructions for taking medicine; this handbook gives no modern doses.",
   "handbook.formulas.modify.sanyin": "Modification follows treatment adapted to person, time and place: for the person — age, constitution and how heavy the illness is; for the time — the season; for the place — the region. In the classics' words:",
   "handbook.formulas.modify.text": "A formula is set for the typical pattern, and a person's pattern is seldom exactly typical. Adding herbs for the accompanying signs the formula does not attend to, and removing herbs that do not suit, on the base of the formula, is modification — what the passage above calls following the signs.",
   "handbook.formulas.modify.title": "Modification: one formula, changed for the person",
   "handbook.formulas.part.cautions": "Each formula starts with the cautions on record: pregnancy, possible interactions, and for the formulas of tiers B and C the tier and its reasons. An allergy to any herb of the composition rules the formula out. A formula is chosen, and its modification decided, by a licensed practitioner for the person it is meant for; this handbook only explains its traditional composition and intent.",
   "handbook.formulas.part.intro": {
-    "one": "This part first explains how a formula is built and read, then gives the {n} formula of the app's knowledge base, set out as a formula textbook sets it: its action, what it is traditionally used for, its composition (sovereign, minister, assistant, envoy, with what each herb does), its reasoning, the classic's words and the classical modifications. It gives no doses, and no proportions of the herbs.",
-    "other": "This part first explains how a formula is built and read, then gives the {n} formulas of the app's knowledge base, each set out as a formula textbook sets it: its action, what it is traditionally used for, its composition (sovereign, minister, assistant, envoy, with what each herb does), its reasoning, the classic's words and the classical modifications. It gives no doses, and no proportions of the herbs."
+    "one": "This part first explains how a formula is built and read, then gives the {n} formula of the app's knowledge base, set out as a formula textbook sets it: its action, what it is traditionally used for, its composition (sovereign, minister, assistant, envoy, each herb's share and functions), its reasoning, the classic's words and the classical modifications. The classical formulas also give the amounts of their original text — in the old units, whose conversion to modern grams is disputed. The handbook gives no modern doses.",
+    "other": "This part first explains how a formula is built and read, then gives the {n} formulas of the app's knowledge base, each set out as a formula textbook sets it: its action, what it is traditionally used for, its composition (sovereign, minister, assistant, envoy, each herb's share and functions), its reasoning, the classic's words and the classical modifications. The classical formulas also give the amounts of their original text — in the old units, whose conversion to modern grams is disputed. The handbook gives no modern doses."
   },
   "handbook.formulas.part.machine": "The English of the formulas' cautions, actions and reasoning is a machine draft, not yet reviewed.",
   "handbook.formulas.part.title": "Formulas: sovereign, minister, assistant, envoy; reasoning; modification",
@@ -245,6 +246,24 @@
     "other": "{n} strokes"
   },
   "handbook.strokes.intro": "By the stroke count of the name's first character, then in character order; the number is the entry's.",
+  "handbook.study.about": "This is the study edition. Beside the standard edition's content it gives two kinds of quantity: each herb's reference quantity in a formula's composition — about so many grams, derived from the textbooks' typical quantities and not yet checked — and a herb entry's reference quantity: the range its source entry gives. A toxic herb has no figure in grams anywhere in this edition, in a formula or in its entry: its quantity, processing and preparation are for a practitioner to decide. How the source says a herb is taken (in a decoction, in pills or powders, externally) and any special preparation are as its text gives them.",
+  "handbook.study.cover.draft": "Draft · study edition: beside what the standard edition gives, this edition gives the reference quantity of each formula herb (grams) and the herbs' ranges — never a figure in grams for a toxic herb. Quantities are for study and as an aid to a practitioner only, not instructions for taking medicine; before any of it is used for anyone, a licensed practitioner examines the person and decides. The herb and formula records have not been reviewed by a qualified practitioner or a pharmacist; this is not medical advice.",
+  "handbook.study.cover.reviewed": "Study edition: beside what the standard edition gives, this edition gives the reference quantity of each formula herb (grams) and the herbs' ranges — never a figure in grams for a toxic herb. Quantities are for study and as an aid to a practitioner only, not instructions for taking medicine; before any of it is used for anyone, a licensed practitioner examines the person and decides. The herb and formula records have been reviewed by a qualified practitioner and a pharmacist; this is still not medical advice.",
+  "handbook.study.decides": "a practitioner decides",
+  "handbook.study.field.range": "Reference quantity",
+  "handbook.study.footer.draft": "Draft · not reviewed · quantities are not instructions for taking medicine",
+  "handbook.study.footer.reviewed": "Reviewed · quantities are not instructions for taking medicine",
+  "handbook.study.formulas.intro": {
+    "one": "This part first explains how a formula is built and read, then gives the {n} formula of the app's knowledge base, set out as a formula textbook sets it: its action, what it is traditionally used for, its composition (sovereign, minister, assistant, envoy, each herb's share, reference quantity and functions), its reasoning, the classic's words and the classical modifications. The reference quantities follow the textbooks' typical quantities — about so many grams, not yet checked; the classical formulas also give the quantities their original text states, in the old units. Quantities are for study and as an aid to a practitioner only, not instructions for taking medicine.",
+    "other": "This part first explains how a formula is built and read, then gives the {n} formulas of the app's knowledge base, each set out as a formula textbook sets it: its action, what it is traditionally used for, its composition (sovereign, minister, assistant, envoy, each herb's share, reference quantity and functions), its reasoning, the classic's words and the classical modifications. The reference quantities follow the textbooks' typical quantities — about so many grams, not yet checked; the classical formulas also give the quantities their original text states, in the old units. Quantities are for study and as an aid to a practitioner only, not instructions for taking medicine."
+  },
+  "handbook.study.kind": "Study edition",
+  "handbook.study.modify.note": "Modification is decided by a licensed practitioner after examining the person. The modifications given with each formula are examples from the classics and the textbooks; the quantities given are for study and as an aid to a practitioner only, not instructions for taking medicine.",
+  "handbook.study.practitioner": "A herb is chosen by a licensed practitioner for the person it is meant for. The quantities of this study edition are for study and as an aid to a practitioner only: not instructions for taking medicine, and not medical advice.",
+  "handbook.study.range": "{from}–{to} g",
+  "handbook.study.rangeNote": "for study and as an aid to a practitioner only",
+  "handbook.study.title": "Chinese Herbs: A Quick Reference — study edition",
+  "handbook.study.toxic": "a toxic herb: this edition gives no range; a practitioner decides",
   "handbook.subtitle": {
     "one": "{n} herb — its nature, flavours, channel tropism, functions and cautions — from the app's knowledge base and its herb property model",
     "other": "{n} herbs — their nature, flavours, channel tropism, functions and cautions — from the app's knowledge base and its herb property model"

@@ -34,6 +34,7 @@
     "golden:misses": "node scripts/golden-misses.ts",
     "print:editions": "node scripts/print-editions.ts",
     "print:herbs": "node scripts/print-herbs.ts",
+    "print:herbs:study": "node scripts/print-herbs.ts --study",
     "test:properties": "node --test packages/engine/test/properties.test.ts",
     "test:properties:nightly": "pnpm --filter @tcm/engine test",
     "bench": "node packages/engine/bench/assess.bench.ts",
