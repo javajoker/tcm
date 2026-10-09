@@ -544,7 +544,8 @@ def review_records() -> dict:
                   "scope": arr(scope, 1)})
     reviewed = obj({"file": STR, "hash": hash16, "records": arr(pattern(r"^REV-\d{4}-\d{4}$"), 1), "unit": STR})
     stale = obj({"current_hash": hash16, "file": STR, "record": pattern(r"^REV-\d{4}-\d{4}$"), "reviewed_hash": hash16, "unit": STR})
-    coverage = obj({"required_roles": arr(arr(role, 1), 1), "reviewed": INT, "units": INT, "whole_file_reviewed": BOOL})
+    roles = arr(arr(role, 1), 1)
+    coverage = obj({"required_roles": roles, "reviewed": INT, "unit_roles": dictionary(roles), "units": INT, "whole_file_reviewed": BOOL}, ["required_roles", "reviewed", "units", "whole_file_reviewed"])
     return {"type": "object", "properties": {
         "_meta": meta({"count": INT, "problems": INT, "status": ref("reviewStatus")}, ["count", "problems", "status"]),
         "coverage": dictionary(coverage), "records": arr(record), "reviewed": arr(reviewed), "stale": arr(stale)},

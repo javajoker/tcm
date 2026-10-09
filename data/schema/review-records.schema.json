@@ -207,6 +207,26 @@
           "reviewed": {
             "type": "integer"
           },
+          "unit_roles": {
+            "additionalProperties": {
+              "items": {
+                "items": {
+                  "enum": [
+                    "tcm-clinical",
+                    "pharmacy",
+                    "physician",
+                    "linguistic",
+                    "legal"
+                  ]
+                },
+                "minItems": 1,
+                "type": "array"
+              },
+              "minItems": 1,
+              "type": "array"
+            },
+            "type": "object"
+          },
           "units": {
             "type": "integer"
           },

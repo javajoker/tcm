@@ -3,7 +3,8 @@
     .venv/bin/python -m scripts.kb.build_review
 
 Runs after every data builder (they regenerate each status from the curated tables, so content that changed after its review is already back to draft) and before validation.
-Invalid records fail the build. With no records the output says so and nothing changes.
+Invalid records fail the build. With no records the output says so and nothing changes. The review targets outside data/ — the learning book, the course and the interface text
+(PM-57) — are read from the repository and covered in records.json only; the book reader derives the book's status from it (packages/kb/node/book.ts).
 """
 from __future__ import annotations
 
@@ -16,10 +17,10 @@ from . import review
 RECORDS = ROOT / "review" / "records"
 
 
-def build(data_dir: Path = DATA, records_dir: Path = RECORDS) -> list[str]:
+def build(data_dir: Path = DATA, records_dir: Path = RECORDS, root: Path = ROOT) -> list[str]:
     """Write the compiled records and apply `reviewed`; returns the problems (empty = fine)."""
     data = review.load_data(data_dir)
-    result = review.compile_records(review.load_records(records_dir), data)
+    result = review.compile_records(review.load_records(records_dir), data, review.load_targets(root))
     for rel, content in review.apply_reviewed(data, result["reviewed_units"]).items():
         dump(data_dir / rel, content)
     dump(data_dir / "review" / "records.json", result["output"])

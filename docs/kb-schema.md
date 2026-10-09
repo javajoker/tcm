@@ -2,9 +2,9 @@
 
 | | |
 |---|---|
-| **Version** | 0.9 (draft) |
+| **Version** | 0.10 (draft) |
 | **Status** | Documents the first-pass `data/` as generated today, plus the files the engine and UI still need (§9) |
-| **Last updated** | 2026-10-08 |
+| **Last updated** | 2026-10-09 |
 | **Audience** | Engine and UI developers, content reviewers, anyone adding or changing knowledge |
 | **Related** | [`data/README.md`](../data/README.md) (contents, provenance, verification status) · [Tech spec §5](tech-spec.md) (delivery) · [Content review](content-review.md) · [SOP](diagnosis-sop.zh-TW.md) (meaning of the models) |
 
@@ -410,7 +410,7 @@ A pattern enters the library only through this checklist ([library expansion des
 | English prose fields ✔ | English rendering of `rationale_zh`, `principle`, `tongue_pulse_note`, `cautions`, the general regimen (`*_en` fields with `en_status`) — done as a machine draft (K-13); the review (V-06) sets `reviewed` | Machine draft + review |
 | `sources.json` ✔ | The sources registry and its coverage report `docs/kb-sources.md` (PM-35; §3.1b). Build-time only | [Knowledge base v2](post-mvp/design/knowledge-base-v2.md) |
 | `review/admission.json` ✔ | The admission records of the pattern library: the original 23, the waivers of their known gaps with reasons, declarations checked against the data, recorded sources and red-flag boundaries (PM-21; §8.4). Build-time only | [Library expansion](post-mvp/design/library-expansion.md) |
-| `review/records.json` ✔ | Review records compiled from `review/records/*.yaml` (K-16): the records, the units they cover (`reviewed`, with content hashes), those whose content changed since (`stale`) and per-file coverage with the roles each file needs | [Content review §5](content-review.md) |
+| `review/records.json` ✔ | Review records compiled from `review/records/*.yaml` (K-16): the records, the units they cover (`reviewed`, with content hashes), those whose content changed since (`stale`) and per-file coverage with the roles each file needs (`unit_roles` where a unit needs more); since PM-57 also the texts outside `data/` — the learning book, the course and the interface text — whose readers take their status from it | [Content review §5](content-review.md) |
 
 ---
 
@@ -459,3 +459,4 @@ Pharmacopoeia facts are used as structured data. The Sources screen lists each b
 | 0.7 | 2026-10-08 | PM-53: the roles' overlay in `scope-profiles.json` (§6.1) |
 | 0.8 | 2026-10-08 | PM-54: the profiles' `dose_display` (§6.1) |
 | 0.9 | 2026-10-08 | PM-50: `tongue` and `face` may be on in the `dev` profile (the photo of the tongue and the face; §6.1) |
+| 0.10 | 2026-10-09 | PM-57: `review/records.json` covers the texts outside `data/` and names a unit's extra roles (`unit_roles`) |

@@ -1,12 +1,14 @@
 // The learning book (PM-43, PM-56): the Markdown of docs/book/zh-Hant read into the structure the app renders, who carries it, and how the app reads it. Since PM-56 the book reads
 // TCM from twelve perspectives — each chapter a question, the tradition's view, how the model writes it and the two compared — as the companion of the course in docs/course/zh-Hant.
 import assert from "node:assert/strict";
+import { readdirSync, readFileSync } from "node:fs";
+import { join } from "node:path";
 import { describe, test } from "node:test";
 import { bookOf, checkBook, memoryBook } from "../src/book.ts";
 import { buildChunks } from "../src/bundle.ts";
 import { KbError } from "../src/errors.ts";
 import type { BookBlock, BookChunk, BookText } from "../src/types.ts";
-import { BOOK_STATUS, citationOf, parseBook, readBook, type BookPage } from "../node/book.ts";
+import { BOOK_DIR, BOOK_TARGET, citationOf, pageHash, parseBook, readBook, reviewStatus, textHash, type BookPage } from "../node/book.ts";
 import { readDataFiles } from "../node/fromDisk.ts";
 
 const files = readDataFiles();
@@ -27,11 +29,44 @@ const words = (b: BookBlock): string[] => {
   }
 };
 
+describe("the book's status comes from the review records (content review §5, PM-57)", () => {
+  const pages: BookPage[] = [{ name: "README.md", text: "# 書\n" }, { name: "01-model.md", text: "# 一、模型\n\n正文。\n" }];
+  const unit = (u: string, hash: string) => ({ file: BOOK_TARGET, unit: u, hash });
+
+  test("a page and the whole text are hashed as scripts/kb/review.py hashes them", () => {
+    // the values scripts/kb/review.py computes: text_hash and units_of_target
+    assert.equal(pageHash("一\r\n二\n"), "088a990ee1fd039f");
+    assert.equal(pageHash("一\n二\n"), "088a990ee1fd039f", "line ends do not count");
+    assert.deepEqual(pages.map((p) => pageHash(p.text)), ["e05bbea045585c9b", "aa58bc11c64ef224"]);
+    assert.equal(textHash(pages), "ae664b72ffda2259");
+    assert.equal(textHash([...pages].reverse()), "ae664b72ffda2259", "in name order, whatever order the pages are read in");
+  });
+
+  test("reviewed when the records name the whole text, or every page, with the hash it has now — a draft otherwise", () => {
+    assert.equal(reviewStatus(BOOK_TARGET, pages, []), "draft");
+    assert.equal(reviewStatus(BOOK_TARGET, pages, [unit("*", "ae664b72ffda2259")]), "reviewed");
+    assert.equal(reviewStatus(BOOK_TARGET, pages, [unit("README.md", "e05bbea045585c9b"), unit("01-model.md", "aa58bc11c64ef224")]), "reviewed");
+    assert.equal(reviewStatus(BOOK_TARGET, pages, [unit("README.md", "e05bbea045585c9b")]), "draft", "a page not reviewed");
+    assert.equal(reviewStatus(BOOK_TARGET, [...pages, { name: "02-system.md", text: "# 二\n" }], [unit("*", "ae664b72ffda2259")]), "draft", "a page added after the review");
+    const edited = pages.map((p) => (p.name === "01-model.md" ? { ...p, text: p.text + "改了。\n" } : p));
+    assert.equal(reviewStatus(BOOK_TARGET, edited, [unit("*", "ae664b72ffda2259"), unit("README.md", "e05bbea045585c9b"), unit("01-model.md", "aa58bc11c64ef224")]), "draft", "a page edited after its review");
+    assert.equal(reviewStatus(BOOK_TARGET, pages, [{ file: "docs/course/zh-Hant", unit: "*", hash: "ae664b72ffda2259" }]), "draft", "another text's record");
+  });
+
+  test("the book read with a record of its current text is reviewed — the build then lets a public release carry it", () => {
+    const real = readBook(citations, BOOK_DIR, []);
+    assert.equal(real.status, "draft");
+    const names = readdirSync(BOOK_DIR).filter((n) => n.endsWith(".md"));
+    const hash = textHash(names.map((name) => ({ name, text: readFileSync(join(BOOK_DIR, name), "utf8") })));
+    assert.equal(readBook(citations, BOOK_DIR, [unit("*", hash)]).status, "reviewed");
+  });
+});
+
 describe("the book as the repository holds it", () => {
   test("a contents page and twelve chapters, in the order of their numbers, in Traditional Chinese and a draft", () => {
     assert.equal(book.lang, "zh-Hant");
-    assert.equal(book.status, "draft");
-    assert.equal(BOOK_STATUS, "draft", "no review record covers a document yet");
+    assert.equal(book.status, "draft", "no review record covers the book yet");
+    assert.equal(files.book?.status, "draft");
     assert.equal(book.title, "以模型讀中醫——這個 App 怎麼想");
     assert.deepEqual(book.chapters.map((c) => c.id), IDS);
     assert.equal(book.chapters[0]!.title, "一、以模型讀中醫");

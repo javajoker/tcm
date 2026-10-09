@@ -1,7 +1,13 @@
-"""Review packs (task K-17, docs/content-review.md §4): everything a reviewer needs to decide one area, with what the engine currently *does* with it written next to the data.
+"""Review packs (tasks K-17, PM-57; docs/content-review.md §4): everything a reviewer needs to decide one area, with what the engine currently *does* with it written next to the data.
 
-    .venv/bin/python -m scripts.review.pack <area> [--out DIR]      area: red-flags | safety-rules | patterns | formulas | all
+    .venv/bin/python -m scripts.review.pack <area> [--out DIR]      area: one of AREAS below, or all
     pnpm review:pack <area>
+
+Areas — the knowledge base: red-flags · safety-rules · patterns (with the 證素) · formulas · symptoms (with the questions, exclusions and first-impression signs) · tongue-pulse ·
+constitutions · panel (the panel model, the scoring parameters and 營衛) · herbs (the curated herbs in full, the derived ones by their rules and a stratified sample, §4.3) ·
+guidance (foods, acupoints, lifestyle) · reference (the prescription model's tables and the reference quantities) · wuxing (the five-phase priors) · citations · glossary (with the
+name folding); outside data/: ui (the interface text) · book (the learning book) · course (the course and its textbook) — the last two as chapter-by-chapter worksheets with
+every quotation and its explanation. Every data file is in the scope of one pack or listed in NOT_IN_A_PACK with the reason (a test checks it).
 
 Writes `<out>/<area>/PACK.md` (default out: review/packs, git-ignored — packs are derived and regenerated from the data) and `<out>/<area>/record-skeleton.yaml`, a review record
 prefilled with the units of the pack and their **current content hashes** (copy it to review/records/ when the reviewer has decided; if changes were agreed, apply them, rebuild and
@@ -13,78 +19,14 @@ from __future__ import annotations
 import argparse
 import sys
 from pathlib import Path
-from typing import Any, Callable
+from typing import Callable
 
-from scripts.kb import oracle, review
 from scripts.kb.common import DATA, ROOT
-from scripts.kb.export_parity_cases import expected as oracle_expected
-from scripts.kb.selftest_patterns import typical_patient
+from scripts.review import areas_kb, areas_text
+from scripts.review.base import Context, Pack, both, cites, header, json_text, table, zh
 
 OUT = ROOT / "review" / "packs"
-
-
-def zh(v: dict[str, Any] | None) -> str:
-    return (v or {}).get("zh-Hant") or ""
-
-
-def both(v: dict[str, Any] | None) -> str:
-    """"zh-Hant · English" for a bilingual name; whichever exists otherwise."""
-    if not v:
-        return ""
-    z, e = v.get("zh-Hant") or "", v.get("en") or ""
-    return f"{z} · {e}" if z and e else z or e
-
-
-def cell(x: Any) -> str:
-    return str(x).replace("|", "\\|").replace("\n", " ")
-
-
-def table(head: list[str], rows: list[list[Any]]) -> str:
-    return "\n".join(["| " + " | ".join(head) + " |", "|" + "---|" * len(head), *("| " + " | ".join(cell(c) for c in r) + " |" for r in rows)]) + "\n"
-
-
-class Context:
-    """The data and the oracle's view of it, loaded once per run."""
-
-    def __init__(self, data_dir: Path = DATA) -> None:
-        self.data = review.load_data(data_dir)
-        self.fingerprint = review.kb_fingerprint(self.data)
-        d = self.data
-        self.patterns = d["diagnosis/patterns.json"]["items"]
-        self.formulas = d["formulas/formulas.json"]["items"]
-        self.herbs = {h["id"]: h for h in d["herbs/herbs.json"]["items"]}
-        self.citations = {c["id"]: c for c in d["citations.json"]["items"]}
-        self.symptoms = {s["id"]: s for s in d["diagnosis/symptoms.json"]["items"]}
-        self.questions = d["diagnosis/questions.json"]["items"]
-        self.rules = d["safety/rules.json"]
-        self.scope = d["config/scope-profiles.json"]
-        self.oracle_ctx = {"params": oracle.params(), "patterns": self.patterns, "elements": d["diagnosis/pattern-elements.json"]["items"],
-                           "formulas": [f for f in self.formulas if f.get("mvp", True)], "herbs": self.herbs, "pool": oracle.modification_pool(self.herbs)}
-
-    def typical(self, pattern_id: str) -> dict[str, Any]:
-        p = next(x for x in self.patterns if x["id"] == pattern_id)
-        findings = typical_patient(p)
-        return {"findings": findings, "expect": oracle_expected(findings, self.oracle_ctx)}
-
-    def units(self, rel: str, *ids: str) -> dict[str, str]:
-        u = review.units_of(rel, self.data[rel])
-        return {i: u[i] for i in (ids or u.keys())}
-
-
-class Pack:
-    def __init__(self, area: str, title: str, reviewers: str, markdown: str, scope: list[tuple[str, dict[str, str]]]) -> None:
-        self.area, self.title, self.reviewers, self.markdown, self.scope = area, title, reviewers, markdown, scope
-
-
-def header(ctx: Context, title: str, reviewers: str, what: list[str]) -> str:
-    return "\n".join([
-        f"# Review pack — {title}", "",
-        f"- **Knowledge-base fingerprint:** `{ctx.fingerprint}` (put it in `kb_version` of the record)",
-        f"- **Reviewers:** {reviewers}",
-        "- **Process:** [content review](../../../docs/content-review.md) §4–§5. Decide each item; changes are applied to the curated tables, the knowledge base is rebuilt, and then the record names the hashes of the final content.",
-        "- **What to look at:**", *[f"  - {w}" for w in what], "",
-        "The *Engine behaviour* sections show what the app does with the data today; they are context for the decision, not part of what is reviewed.", "",
-    ])
+__all__ = ["AREAS", "Context", "NOT_IN_A_PACK", "Pack", "both", "build", "main", "table"]
 
 
 # ── red flags and scope ─────────────────────────────────────────────────────
@@ -92,7 +34,7 @@ def header(ctx: Context, title: str, reviewers: str, what: list[str]) -> str:
 C_CELL = {"RF_C_MINOR": ("population", "minor_under_18"), "RF_C_PREGNANT": ("population", "pregnant"), "RF_C_LACTATING": ("population", "lactating")}
 
 
-def cell_of(rf: dict[str, Any]) -> tuple[str, str]:
+def cell_of(rf: dict) -> tuple[str, str]:
     if rf["level"] == "A":
         return "condition", "red_flag_A"
     if rf["level"] == "B":
@@ -147,7 +89,7 @@ def red_flags(ctx: Context) -> Pack:
 
 # ── safety rules ────────────────────────────────────────────────────────────
 
-def affected(ctx: Context, target: dict[str, Any]) -> str:
+def affected(ctx: Context, target: dict) -> str:
     """What a rule's target selects today, in words (formulas by name; the rest described)."""
     fs = ctx.formulas
     name = lambda f: f"{f['id']} {zh(f['name'])}"          # noqa: E731
@@ -180,11 +122,6 @@ def affected(ctx: Context, target: dict[str, Any]) -> str:
     return json_text(target)
 
 
-def json_text(x: Any) -> str:
-    import json
-    return json.dumps(x, ensure_ascii=False)
-
-
 def safety_rules(ctx: Context) -> Pack:
     rel = "safety/rules.json"
     rows = []
@@ -206,14 +143,6 @@ def safety_rules(ctx: Context) -> Pack:
 
 
 # ── patterns ────────────────────────────────────────────────────────────────
-
-def cites(ctx: Context, ids: list[str]) -> str:
-    out = []
-    for cid in ids:
-        c = ctx.citations.get(cid)
-        out.append(f"- `{cid}` 《{c['book']}》 {c.get('chapter', '')} — {c['quote_zh_hant'][:160]}" if c else f"- `{cid}` (unknown)")
-    return "\n".join(out) + ("\n" if out else "")
-
 
 def asked_by(ctx: Context, symptom_id: str) -> str:
     qs = [q["id"] for q in ctx.questions if any(symptom_id in o["symptoms"] for o in q["options"])]
@@ -251,7 +180,15 @@ def patterns(ctx: Context) -> Pack:
         md += "\n**Citations**\n\n" + cites(ctx, p["citations"])
         flag = " ⚠ **confusable — check the separating symptoms**" if margin < CONFUSABLE_MARGIN else ""
         md += f"\n**Engine behaviour** — the typical patient (every symptom of weight ≥ 2, moderate): this pattern scores **{own:.1f}** (rank {1 + [k for k, _ in ranked].index(p['id'])}); the next is `{rival[0]}` at {rival[1]:.1f}, margin **{margin:.1f}**{flag}. Top three: " + ", ".join(f"`{k}` {v:.1f}" for k, v in ranked[:3]) + ".\n"
-    return Pack("patterns", "patterns (證型)", "TCM clinical", md, [(rel, ctx.units(rel))])
+    els = "diagnosis/pattern-elements.json"
+    md += ("\n---\n\n## The pattern elements (證素, `pattern-elements.json`)\n\nA pattern is also read as location × nature: each element has evidence of its own, and its degree "
+           "(3 · score / 100) moves the panel by its projection. Look at: the location and nature each element stands for, its strongest evidence, and the patterns it is part of.\n\n")
+    md += table(["Id", "Name", "Location × nature", "Strongest evidence (weight)", "Against", "Projection per degree", "Patterns"],
+                [[f"`{e['id']}`", both(e["name"]) if isinstance(e["name"], dict) else e["name"], f"{e['location']} × {e['nature']}",
+                  "、".join(f"{ctx.symptom(s)} ({w})" for s, w in sorted(e["weights"].items(), key=lambda kv: (-kv[1], kv[0]))[:6]),
+                  "、".join(ctx.symptom(s) for s in sorted(e.get("against", {}))) or "—", json_text(e["projection_per_degree"]), ", ".join(e["patterns"])]
+                 for e in ctx.data[els]["items"]])
+    return Pack("patterns", "patterns (證型)", "TCM clinical", md, [(rel, ctx.units(rel)), (els, ctx.units(els))])
 
 
 # ── formulas ────────────────────────────────────────────────────────────────
@@ -288,14 +225,21 @@ def formulas(ctx: Context) -> Pack:
     return Pack("formulas", "formulas (方劑)", "TCM clinical + pharmacy", md, [(rel, ctx.units(rel))])
 
 
-AREAS: dict[str, Callable[[Context], Pack]] = {"red-flags": red_flags, "safety-rules": safety_rules, "patterns": patterns, "formulas": formulas}
+AREAS: dict[str, Callable[[Context], Pack]] = {"red-flags": red_flags, "safety-rules": safety_rules, "patterns": patterns, "formulas": formulas, **areas_kb.AREAS, **areas_text.AREAS}
+
+# The data files no pack covers, and why: they are generated from the others or are not medical content (content review §3).
+NOT_IN_A_PACK = {
+    "geo/cities.json": "place names, coordinates and time zones for the birth-place picker, from GeoNames (CC BY 4.0) — not medical content; always paired with manual entry",
+    "herbs/herb-index.json": "the herb browser's index, generated from herbs/herbs.json (reviewed there)",
+    "sources.json": "the registry of the works the knowledge base draws on, generated from the other files (docs/kb-sources.md)",
+}
 
 
 def skeleton(ctx: Context, pack: Pack) -> str:
     lines = [f"# Record skeleton for the {pack.title} pack — fill in, then copy to review/records/REV-<year>-<nnnn>.yaml.",
              "# The hashes are the CURRENT content. If changes were agreed, apply them, rebuild the knowledge base, regenerate this pack and use its hashes.",
              "id: REV-YYYY-NNNN", f"area: {pack.area}", "reviewer:", "  role: <tcm-clinical | pharmacy | physician | linguistic | legal>", "  name: \"<name, or (withheld)>\"", "  credential: \"<licence number / issuing body>\"",
-             "date: <yyyy-mm-dd>", f"kb_version: \"{ctx.fingerprint}\"", "outcome: <accepted | accepted-with-changes | rejected | deferred>", "scope:"]
+             "date: <yyyy-mm-dd>", f"kb_version: \"{pack.version or ctx.fingerprint}\"", "outcome: <accepted | accepted-with-changes | rejected | deferred>", "scope:"]
     for rel, units in pack.scope:
         lines += [f"  - file: {rel}", "    units:"] + [f"      {_yaml_key(u)}: {h}" for u, h in units.items()]
     lines += ["changes: []", "dissent: []", "notes: \"\"", ""]

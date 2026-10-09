@@ -8,6 +8,7 @@ import unittest
 from pathlib import Path
 
 from scripts.kb import build_review, review, validate_kb
+from scripts.kb.common import ROOT
 from scripts.kb.tests.test_integrity import validate_with
 
 
@@ -164,6 +165,76 @@ class Coverage(unittest.TestCase):
         self.assertEqual(r["output"]["_meta"]["problems"], len(r["problems"]))
 
 
+class Targets(unittest.TestCase):
+    """Review targets outside data/ (PM-57): the learning book, the course and the interface text."""
+
+    def targets(self) -> dict:
+        return {"docs/book/zh-Hant": {"README.md": "# 書\n", "01-model.md": "# 一、模型\n\n正文。\n"},
+                review.CATALOGS: {"common": {"zh-Hant": {"a": "甲"}, "en": {"a": "A"}}, "safety": {"zh-Hant": {"n": "通知"}, "en": {"n": "Notice"}}}}
+
+    def test_a_page_is_hashed_as_its_text_and_line_ends_do_not_count(self):
+        self.assertEqual(review.text_hash("一\r\n二\n"), review.text_hash("一\n二\n"))
+        self.assertNotEqual(review.text_hash("一\n"), review.text_hash("二\n"))
+        self.assertEqual(len(review.text_hash("一")), 16)
+
+    def test_a_targets_units_are_its_pages_and_the_whole_changes_with_any_page(self):
+        t = self.targets()["docs/book/zh-Hant"]
+        u = review.units_of_target(t)
+        self.assertEqual(sorted(u), ["*", "01-model.md", "README.md"])
+        u2 = review.units_of_target({**t, "01-model.md": t["01-model.md"] + "又一句。\n"})
+        self.assertEqual(u["README.md"], u2["README.md"])
+        self.assertNotEqual(u["01-model.md"], u2["01-model.md"])
+        self.assertNotEqual(u["*"], u2["*"])
+
+    def test_a_record_may_name_a_target_and_the_book_needs_a_linguist_and_a_clinician(self):
+        data, targets = sample_data(), self.targets()
+        u = review.units_of_target(targets["docs/book/zh-Hant"])
+        rec = lambda n, role: record(n, role, "docs/book/zh-Hant", u)          # noqa: E731
+        self.assertEqual(review.compile_records([("a.yaml", rec(1, "linguistic"))], data, targets)["reviewed_units"], {})
+        r = review.compile_records([("a.yaml", rec(1, "linguistic")), ("b.yaml", rec(2, "tcm-clinical"))], data, targets)
+        self.assertEqual(r["problems"], [])
+        self.assertEqual(r["reviewed_units"], {"docs/book/zh-Hant": {"*", "01-model.md", "README.md"}})
+        self.assertEqual(r["output"]["coverage"]["docs/book/zh-Hant"], {"units": 2, "reviewed": 2, "whole_file_reviewed": True, "required_roles": [["linguistic"], ["tcm-clinical"]]})
+        self.assertEqual(review.apply_reviewed(data, r["reviewed_units"]), {}, "a target has no status field to set")
+
+    def test_a_page_that_changes_after_its_review_is_stale(self):
+        data, targets = sample_data(), self.targets()
+        u = review.units_of_target(targets["docs/book/zh-Hant"])
+        targets["docs/book/zh-Hant"]["01-model.md"] += "改了。\n"
+        r = review.compile_records([("a.yaml", record(1, "linguistic", "docs/book/zh-Hant", u)), ("b.yaml", record(2, "tcm-clinical", "docs/book/zh-Hant", u))], data, targets)
+        self.assertEqual(r["reviewed_units"], {"docs/book/zh-Hant": {"README.md"}})
+        self.assertEqual(sorted({s["unit"] for s in r["output"]["stale"]}), ["*", "01-model.md"])
+
+    def test_without_the_targets_a_record_that_names_one_is_invalid(self):
+        u = review.units_of_target(self.targets()["docs/book/zh-Hant"])
+        r = review.compile_records([("a.yaml", record(1, "linguistic", "docs/book/zh-Hant", u))], sample_data())
+        self.assertTrue(any("not a review target" in p for p in r["problems"]), r["problems"])
+
+    def test_the_notices_and_the_whole_interface_text_also_need_the_physician(self):
+        data, targets = sample_data(), self.targets()
+        u = review.units_of_target(targets[review.CATALOGS])
+        recs = [(f"{n}.yaml", record(n, role, review.CATALOGS, u)) for n, role in enumerate(["linguistic", "legal"], 1)]
+        self.assertEqual(review.compile_records(recs, data, targets)["reviewed_units"][review.CATALOGS], {"common"})
+        recs.append(("3.yaml", record(3, "physician", review.CATALOGS, u)))
+        r = review.compile_records(recs, data, targets)
+        self.assertEqual(r["reviewed_units"][review.CATALOGS], {"*", "common", "safety"})
+        self.assertEqual(r["output"]["coverage"][review.CATALOGS]["unit_roles"], {"*": [["linguistic"], ["legal"], ["physician"]], "safety": [["linguistic"], ["legal"], ["physician"]]})
+
+    def test_a_mapping_list_is_reviewed_by_name(self):
+        d = {"_meta": {"status": "draft"}, "acupoints": {"合谷": {"code": "LI4", "status": "draft"}}, "foods": {"山藥": {"id": "shanyao", "status": "draft"}}, "general": {}}
+        self.assertEqual(sorted(review.units_of("treatment/guidance.json", d)), ["*", "acupoints/合谷", "foods/山藥"])
+        changed = review.apply_reviewed({"treatment/guidance.json": d}, {"treatment/guidance.json": {"acupoints/合谷"}})["treatment/guidance.json"]
+        self.assertEqual((changed["acupoints"]["合谷"]["status"], changed["foods"]["山藥"]["status"]), ("reviewed", "draft"))
+        self.assertEqual(review.reviewed_by_status({"treatment/guidance.json": changed}), {"treatment/guidance.json": {"acupoints/合谷"}})
+
+    def test_the_real_targets_are_the_book_the_course_and_the_interface_text(self):
+        t = review.load_targets(ROOT)
+        self.assertEqual(sorted(t), sorted([*review.DOCUMENTS, review.CATALOGS]))
+        self.assertIn("README.md", t["docs/book/zh-Hant"])
+        self.assertIn("answers.md", t["docs/course/zh-Hant"])
+        self.assertEqual(set(t[review.CATALOGS]["safety"]), {"zh-Hant", "en"})
+
+
 class Applying(unittest.TestCase):
     def test_reviewed_is_set_only_on_covered_units_that_carry_a_status_and_the_counts_follow(self):
         data = sample_data()
@@ -225,6 +296,8 @@ class RealData(unittest.TestCase):
         self.assertEqual((out["_meta"]["count"], out["reviewed"], out["stale"], out["_meta"]["problems"]), (0, [], [], 0))
         self.assertEqual(out["coverage"]["safety/rules.json"]["required_roles"], [["physician"], ["pharmacy", "tcm-clinical"]])
         self.assertEqual(out["coverage"]["diagnosis/patterns.json"]["units"], 23)
+        # the targets outside data/ are covered too (PM-57): the book's README and 12 chapters, the course's 22 chapters with its README, answer key and sources, 16 namespaces
+        self.assertEqual({t: out["coverage"][t]["units"] for t in [*review.DOCUMENTS, review.CATALOGS]}, {"docs/book/zh-Hant": 13, "docs/course/zh-Hant": 25, review.CATALOGS: 16})
 
     def test_a_status_set_by_hand_is_caught_by_the_validator(self):
         errs = validate_with({"diagnosis/patterns.json": lambda d: d["items"][0].update(status="reviewed")})

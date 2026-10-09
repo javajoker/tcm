@@ -2,6 +2,7 @@
 // bundler writes the result as one file that the app fetches when a reader opens the book, so the app never parses Markdown. The parser knows exactly the part of Markdown the book uses
 // (a title, section headings, paragraphs with strong text and links, one-line quotations, tables, lists, a fenced block) and refuses anything else: an edit the app could not show fails
 // the build instead of reaching a reader half-shown. Every quotation is resolved to the verified citation it is part of, by the rule scripts/kb/tests/test_book.py checks.
+import { createHash } from "node:crypto";
 import { readdirSync, readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -10,13 +11,31 @@ import type { BookBlock, BookChunk, BookSpan, BookText, Citation } from "../src/
 
 export const BOOK_DIR = join(dirname(fileURLToPath(import.meta.url)), "..", "..", "..", "docs", "book", "zh-Hant");
 
-/**
- * How far the book has been reviewed. The review records (content review §5) cover the data files; a document has none yet, so the book is a draft and a public build carries no book
- * (`buildChunks`, and `check-release` rule 16). It becomes `reviewed` only with a record of its linguistic and TCM-clinical review (content review §3).
- */
-export const BOOK_STATUS: BookChunk["status"] = "draft";
+/** Where the review records name the book (scripts/kb/review.py `DOCUMENTS`). */
+export const BOOK_TARGET = "docs/book/zh-Hant";
 
 export interface BookPage { readonly name: string; readonly text: string }
+
+/** One entry of `reviewed` in data/review/records.json: a unit whose valid, current records satisfy the roles its file or text needs. */
+export interface ReviewedUnit { readonly file: string; readonly unit: string; readonly hash: string }
+
+const sha16 = (text: string): string => createHash("sha256").update(text, "utf8").digest("hex").slice(0, 16);
+/** The hash a review record names for a page (scripts/kb/review.py `text_hash`): of its text, line ends "\n". */
+export const pageHash = (text: string): string => sha16(text.replace(/\r\n/g, "\n"));
+/** The hash of the whole text (`target_hash`): over the pages' hashes, `name:hash` lines in name order. */
+export const textHash = (pages: readonly BookPage[]): string =>
+  sha16([...pages].sort((a, b) => (a.name < b.name ? -1 : a.name > b.name ? 1 : 0)).map((p) => `${p.name}:${pageHash(p.text)}`).join("\n"));
+
+/**
+ * How far a text outside data/ has been reviewed (content review §3, §5; PM-57): `reviewed` when the review records name the whole text, or every page, with the hash it has now — so
+ * a page edited after its review makes the text a draft again, whether or not the records were rebuilt since — and `draft` otherwise. The book needs its linguistic and TCM-clinical
+ * review; until then a public build carries no book (`buildChunks`, and `check-release` rule 16).
+ */
+export function reviewStatus(target: string, pages: readonly BookPage[], reviewed: readonly ReviewedUnit[]): BookChunk["status"] {
+  const hashes = new Map(reviewed.filter((u) => u.file === target).map((u) => [u.unit, u.hash]));
+  if (hashes.get("*") === textHash(pages)) return "reviewed";
+  return pages.length > 0 && pages.every((p) => hashes.get(p.name) === pageHash(p.text)) ? "reviewed" : "draft";
+}
 
 const CHAPTER_FILE = /^(\d\d)-(.+)\.md$/;
 const QUOTE = /^> 「(.+?)」——《(.+?)》\s*$/u;
@@ -155,8 +174,9 @@ function parsePage(page: BookPage, ctx: Context): { title: string; blocks: BookB
   return { title, blocks };
 }
 
-/** The book from its pages: `README.md` is the contents, `NN-<id>.md` the chapters in the order of their numbers, which run from 01 without a gap. */
-export function parseBook(pages: readonly BookPage[], citations: readonly Citation[]): BookChunk {
+/** The book from its pages: `README.md` is the contents, `NN-<id>.md` the chapters in the order of their numbers, which run from 01 without a gap. `reviewed`: the review records'
+ * reviewed units, which give the book its status. */
+export function parseBook(pages: readonly BookPage[], citations: readonly Citation[], reviewed: readonly ReviewedUnit[] = []): BookChunk {
   const index = pages.find((p) => p.name === "README.md");
   if (index === undefined) throw new Error("docs/book/zh-Hant has no README.md, the contents");
   const chapters = pages.filter((p) => p !== index).sort((a, b) => (a.name < b.name ? -1 : 1)).map((p, n) => {
@@ -169,13 +189,13 @@ export function parseBook(pages: readonly BookPage[], citations: readonly Citati
   const ctx: Context = { files: new Map(chapters.map((c) => [c.page.name, c.id])), citations };
   const contents = parsePage(index, ctx);
   return {
-    lang: "zh-Hant", status: BOOK_STATUS, title: contents.title, contents: contents.blocks,
+    lang: "zh-Hant", status: reviewStatus(BOOK_TARGET, pages, reviewed), title: contents.title, contents: contents.blocks,
     chapters: chapters.map((c) => { const { title, blocks } = parsePage(c.page, ctx); return { id: c.id, title, blocks }; }),
   };
 }
 
-/** The book as the repository holds it (`dir`: docs/book/zh-Hant), its quotations resolved against `citations`. */
-export function readBook(citations: readonly Citation[], dir: string = BOOK_DIR): BookChunk {
+/** The book as the repository holds it (`dir`: docs/book/zh-Hant), its quotations resolved against `citations`, its status from the review records' reviewed units. */
+export function readBook(citations: readonly Citation[], dir: string = BOOK_DIR, reviewed: readonly ReviewedUnit[] = []): BookChunk {
   const pages = readdirSync(dir).filter((n) => n.endsWith(".md")).map((name) => ({ name, text: readFileSync(join(dir, name), "utf8") }));
-  return parseBook(pages, citations);
+  return parseBook(pages, citations, reviewed);
 }

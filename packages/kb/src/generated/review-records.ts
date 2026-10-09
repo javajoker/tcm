@@ -15,6 +15,9 @@ export interface ReviewRecords {
     [k: string]: {
       required_roles: ("tcm-clinical" | "pharmacy" | "physician" | "linguistic" | "legal")[][];
       reviewed: number;
+      unit_roles?: {
+        [k: string]: ("tcm-clinical" | "pharmacy" | "physician" | "linguistic" | "legal")[][];
+      };
       units: number;
       whole_file_reviewed: boolean;
     };

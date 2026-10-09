@@ -7,6 +7,43 @@
     "status": "draft"
   },
   "coverage": {
+    "apps/web/src/i18n": {
+      "required_roles": [
+        [
+          "linguistic"
+        ],
+        [
+          "legal"
+        ]
+      ],
+      "reviewed": 0,
+      "unit_roles": {
+        "*": [
+          [
+            "linguistic"
+          ],
+          [
+            "legal"
+          ],
+          [
+            "physician"
+          ]
+        ],
+        "safety": [
+          [
+            "linguistic"
+          ],
+          [
+            "legal"
+          ],
+          [
+            "physician"
+          ]
+        ]
+      },
+      "units": 16,
+      "whole_file_reviewed": false
+    },
     "citations.json": {
       "required_roles": [
         [
@@ -115,6 +152,9 @@
       "required_roles": [
         [
           "tcm-clinical"
+        ],
+        [
+          "linguistic"
         ]
       ],
       "reviewed": 0,
@@ -149,6 +189,9 @@
       "required_roles": [
         [
           "tcm-clinical"
+        ],
+        [
+          "linguistic"
         ]
       ],
       "reviewed": 0,
@@ -172,7 +215,33 @@
         ]
       ],
       "reviewed": 0,
-      "units": 0,
+      "units": 14,
+      "whole_file_reviewed": false
+    },
+    "docs/book/zh-Hant": {
+      "required_roles": [
+        [
+          "linguistic"
+        ],
+        [
+          "tcm-clinical"
+        ]
+      ],
+      "reviewed": 0,
+      "units": 13,
+      "whole_file_reviewed": false
+    },
+    "docs/course/zh-Hant": {
+      "required_roles": [
+        [
+          "linguistic"
+        ],
+        [
+          "tcm-clinical"
+        ]
+      ],
+      "reviewed": 0,
+      "units": 25,
       "whole_file_reviewed": false
     },
     "formulas/formulas.json": {
@@ -212,10 +281,13 @@
       "required_roles": [
         [
           "tcm-clinical"
+        ],
+        [
+          "pharmacy"
         ]
       ],
       "reviewed": 0,
-      "units": 0,
+      "units": 5,
       "whole_file_reviewed": false
     },
     "herbs/herb-index.json": {
@@ -245,30 +317,39 @@
       "required_roles": [
         [
           "tcm-clinical"
+        ],
+        [
+          "pharmacy"
         ]
       ],
       "reviewed": 0,
-      "units": 0,
+      "units": 249,
       "whole_file_reviewed": false
     },
     "herbs/processing.json": {
       "required_roles": [
         [
           "tcm-clinical"
+        ],
+        [
+          "pharmacy"
         ]
       ],
       "reviewed": 0,
-      "units": 0,
+      "units": 14,
       "whole_file_reviewed": false
     },
     "herbs/yinjing.json": {
       "required_roles": [
         [
           "tcm-clinical"
+        ],
+        [
+          "pharmacy"
         ]
       ],
       "reviewed": 0,
-      "units": 0,
+      "units": 12,
       "whole_file_reviewed": false
     },
     "safety/emergency.json": {
@@ -284,7 +365,7 @@
     "safety/name-fold.json": {
       "required_roles": [
         [
-          "tcm-clinical"
+          "linguistic"
         ]
       ],
       "reviewed": 0,
@@ -339,23 +420,29 @@
         ]
       ],
       "reviewed": 0,
-      "units": 0,
+      "units": 78,
       "whole_file_reviewed": false
     },
     "treatment/mechanisms.json": {
       "required_roles": [
         [
           "tcm-clinical"
+        ],
+        [
+          "pharmacy"
         ]
       ],
       "reviewed": 0,
-      "units": 0,
+      "units": 7,
       "whole_file_reviewed": false
     },
     "treatment/prescription.json": {
       "required_roles": [
         [
           "tcm-clinical"
+        ],
+        [
+          "pharmacy"
         ]
       ],
       "reviewed": 0,
@@ -366,6 +453,9 @@
       "required_roles": [
         [
           "tcm-clinical"
+        ],
+        [
+          "pharmacy"
         ]
       ],
       "reviewed": 0,
@@ -376,16 +466,22 @@
       "required_roles": [
         [
           "tcm-clinical"
+        ],
+        [
+          "legal"
         ]
       ],
       "reviewed": 0,
-      "units": 0,
+      "units": 5,
       "whole_file_reviewed": false
     },
     "wuxing/engine-params.json": {
       "required_roles": [
         [
           "tcm-clinical"
+        ],
+        [
+          "legal"
         ]
       ],
       "reviewed": 0,
@@ -396,6 +492,9 @@
       "required_roles": [
         [
           "tcm-clinical"
+        ],
+        [
+          "legal"
         ]
       ],
       "reviewed": 0,
@@ -416,6 +515,9 @@
       "required_roles": [
         [
           "tcm-clinical"
+        ],
+        [
+          "legal"
         ]
       ],
       "reviewed": 0,
