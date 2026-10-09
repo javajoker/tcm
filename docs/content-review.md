@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 0.13 (draft) |
+| **Version** | 0.14 (draft) |
 | **Status** | Proposed process — **no reviewer has been appointed yet** (PRD Q8 blocks milestone M3) |
 | **Last updated** | 2026-10-09 |
 | **Audience** | Maintainers, clinical and linguistic reviewers |
@@ -66,9 +66,10 @@ One person may hold several roles if qualified; the physician and the TCM clinic
 
 > **The herb handbook (PM-62).** `pnpm print:herbs` prints the knowledge base's 703 herbs as a quick dictionary in the app's three languages ([`print/`](../print/README.md)). Each entry is the
 > herb's page — the record's flags and the source's caution first — with the property model's reading, its 七情, 引經 and 量效, and the herbs 十八反 and 十九畏 say not to combine it
-> with; nothing about amounts. Its own words are the `handbook` namespace of the interface text (reviewed with it, in the `ui` pack); the rest is the data, reviewed where the data is.
-> It says *reviewed* only when everything it prints is — every herb record and table row, the safety rules, the glossary and its words — and until then it is a draft on its cover and on
-> every page.
+> with; nothing about amounts. A part on formulas (PM-63) explains 君臣佐使, a formula's reasoning and 加減, then gives the library's formulas with their roles, reasoning and classical
+> 加減 — no amount, no proportion. Its own words are the `handbook` namespace of the interface text (reviewed with it, in the `ui` pack); the rest is the data, reviewed where the data is.
+> It says *reviewed* only when everything it prints is — every herb and formula record and table row, the safety rules, the glossary and its words — and until then it is a draft on its
+> cover and on every page. The formulas' 加減 are textbook statements awaiting the TCM clinical review; the explanation of 君臣佐使 and of 加減 is reviewed with the handbook's words.
 
 ---
 
@@ -237,3 +238,4 @@ A release build **must fail** (`check-release.ts`) if a required area has no val
 | 0.11 | 2026-10-09 | §3, §7: the course in the app, under its own review gate (PM-60) |
 | 0.12 | 2026-10-09 | §3: the printable editions print the review status on every page (PM-61) |
 | 0.13 | 2026-10-09 | §3: the herb handbook (PM-62), its words reviewed with the interface text and its status from everything it prints; the pharmacy reviewer checks the 十八反/十九畏 coverage |
+| 0.14 | 2026-10-09 | §3: the handbook's part on formulas (PM-63) and what it waits for |

@@ -130,6 +130,40 @@ test("the appendices come from the data: the safety lists, 十八反 and 十九�
   for (const w of ["中華人民共和國藥典（2025年版）一部", "本草綱目", "神農本草經", "本草蒙筌", "本草便讀"]) assert.ok(works.includes(w), w);
 });
 
+test("the part on formulas: how a formula is read — 君臣佐使 with the 素問's words, the reasoning, 加減 with 隨證 and 三因制宜 — then every formula the default reader sees, roles first to last, its classical 加減, and never a quantity", () => {
+  const f = hb.files;
+  assert.ok(hb.formulas.length === hb.kb.formulas.size && hb.formulas.length === f.formulas.items.length, "the closed beta's default reader (a learner) sees every formula of the library");
+  assert.ok(hb.modifications, "and the classical 加減");
+  const part = (l: HandbookLang): string => html[l].slice(html[l].indexOf('<section class="part" id="formulas">'), html[l].indexOf('<section class="part" id="app-'));
+  for (const l of HANDBOOK_LANGS) {
+    const p = part(l);
+    for (const x of f.formulas.items) assert.equal(p.split(`id="formula-${x.id}"`).length, 2, `${l}: ${x.id} once`);
+    for (const id of ["suwen-074-10", "suwen-074-11", "shanghan-016", "suwen-012-2", "suwen-070-5", "suwen-071-3", "suwen-070-6"]) {
+      const c = hb.citations.get(id)!;
+      assert.ok(visible(p).includes(l === "zh-Hans" ? c.quote_source_zh_hans! : c.quote_zh_hant), `${l}: the passage ${id}`);
+    }
+    // nothing quantitative: a composition holds no digit but its herbs' entry numbers (no amount, no proportion), and the part no amount in any unit
+    const tables = p.match(/<table class="roles">[\s\S]*?<\/table>/g) ?? [];
+    assert.equal(tables.length, f.formulas.items.length, `${l}: a composition for every formula`);
+    for (const t of tables) assert.doesNotMatch(visible(t.replace(/<span class="no">\d+<\/span>/g, "")), /\d/, `${l}: a quantity in a composition`);
+    assert.doesNotMatch(visible(p), /\d+(\.\d+)? ?(mg|g|ml|克|毫克|錢|兩|斤|升|合|枚)(?![a-z\u3400-\u9fff])/, `${l}: an amount in the part on formulas`);
+  }
+  const zh = part("zh-Hant");
+  const sijunzi = zh.slice(zh.indexOf('id="formula-F_SIJUNZI"'), zh.indexOf("</article>", zh.indexOf('id="formula-F_SIJUNZI"')));
+  assert.match(sijunzi, /<tr><th scope="row">君<\/th><td><a href="#herb-renshen">人參/, "the sovereign first, linked to its entry");
+  assert.ok(["臣", "佐", "使"].every((r) => sijunzi.includes(`<th scope="row">${r}</th>`)));
+  assert.ok(visible(sijunzi).includes("人參大補元氣、健脾養胃為君"), "the reasoning as the record gives it");
+  assert.match(sijunzi, /見脘腹痞滿、食後腹脹：加<a href="#herb-chenpi">陳皮.*（佐），即異功散/, "a classical 加減: its signs, the herb added with its role, the formula it makes");
+  assert.equal((zh.match(/<li>見/g) ?? []).length, f.formulas.items.reduce((n, x) => n + x.modifications.length, 0), "every classical 加減");
+  const mahuang = zh.slice(zh.indexOf('id="formula-F_MAHUANG"'), zh.indexOf("</article>", zh.indexOf('id="formula-F_MAHUANG"')));
+  assert.match(mahuang, /<p class="marks">.*含強藥或峻烈藥，僅供學習：含有強藥：麻黃/, "a tier C formula says so first, with its reason");
+  assert.ok(visible(mahuang).includes("「無汗而喘者，麻黃湯主之」"), "the classic's own words where the source is a verified clause");
+  assert.ok(visible(zh).includes("加減須由執業中醫師在診察之後決定"));
+  assert.ok(zh.indexOf("君臣佐使") < zh.indexOf('id="formula-'), "the explanation comes before the formulas");
+  const bohe = entryHtml(words["zh-Hant"], hb, herb("bohe"));
+  assert.match(bohe, /本應用：<a href="#formula-F_YINQIAO">銀翹散<\/a>/, "a herb's formulas link to their entries");
+});
+
 test("a draft says so on its cover and on every page; the handbook is reviewed only when everything it prints is", () => {
   assert.equal(hb.status, "draft", "no herb is reviewed yet");
   assert.match(hb.version, /^[0-9a-f]{16}$/);
@@ -139,17 +173,18 @@ test("a draft says so on its cover and on every page; the handbook is reviewed o
   assert.match(footerOf(hb, words.en), /Draft · not reviewed · not medical advice/);
   const reviewed = <T extends { status: string }>(items: readonly T[]): T[] => items.map((x) => ({ ...x, status: "reviewed" }));
   const f = hb.files;
-  const all = { ...f, herbs: { ...f.herbs, items: reviewed(f.herbs.items) }, pairings: { ...f.pairings, items: reviewed(f.pairings.items) }, processing: { ...f.processing, methods: reviewed(f.processing.methods) },
+  const all = { ...f, herbs: { ...f.herbs, items: reviewed(f.herbs.items) }, formulas: { ...f.formulas, items: reviewed(f.formulas.items) }, pairings: { ...f.pairings, items: reviewed(f.pairings.items) }, processing: { ...f.processing, methods: reviewed(f.processing.methods) },
     doseBands: { ...f.doseBands, items: reviewed(f.doseBands.items) }, glossary: { ...f.glossary, items: reviewed(f.glossary.items) }, safety: { ...f.safety, _meta: { ...f.safety._meta, status: "reviewed" as const } } } as typeof f;
   assert.equal(statusOf(all, true), "reviewed");
   assert.equal(statusOf(all, false), "draft", "its words are reviewed too");
   assert.equal(statusOf({ ...all, glossary: f.glossary }, true), "draft", "and its glossary");
+  assert.equal(statusOf({ ...all, formulas: f.formulas }, true), "draft", "and its formulas");
   // the words: a valid record of the interface text, or of each namespace the handbook prints with, at its current hash (scripts/kb/review.py unit_hash)
   assert.equal(namespaceHash({ "zh-Hant": { a: "一「二」", b: { other: "{n} 味" } }, en: { a: 'one "two"', b: { one: "{n} herb", other: "{n} herbs" } } }), "080c24d6f7d9aa8a");
   assert.equal(wordsReviewed([]), false);
   const ns = (n: string) => ({ file: "apps/web/src/i18n", unit: n, hash: namespaceHash({ "zh-Hant": JSON.parse(readFileSync(new URL(`../apps/web/src/i18n/zh-Hant/${n}.json`, import.meta.url), "utf8")), en: JSON.parse(readFileSync(new URL(`../apps/web/src/i18n/en/${n}.json`, import.meta.url), "utf8")) }) });
-  assert.equal(wordsReviewed([ns("handbook"), ns("learn"), ns("formula")]), true);
-  assert.equal(wordsReviewed([ns("handbook"), ns("learn")]), false, "the formula namespace's interaction words are printed too");
+  assert.equal(wordsReviewed([ns("handbook"), ns("learn"), ns("formula"), ns("report")]), true);
+  assert.equal(wordsReviewed([ns("handbook"), ns("learn"), ns("formula")]), false, "the report namespace's words for the roles are printed too");
 });
 
 test("printing to PDF with the installed Chrome", { skip: process.env.PRINT_PDF !== "1" && "set PRINT_PDF=1: it needs the installed Chrome and a Traditional Chinese font" }, async () => {
