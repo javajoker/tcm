@@ -29,7 +29,8 @@ const LOADING: KnowledgeState = { status: "loading" };
 export type Loader = (script: Script) => Promise<Loaded>;
 
 export const defaultLoader: Loader = async (script) => {
-  const [{ loadKnowledgeBase }, engine] = await Promise.all([import("@tcm/kb"), import("@tcm/engine")]);
+  // the loader's own function only, so that the bundler leaves out what the package exports for the build (buildChunks …) and for tests
+  const [loadKnowledgeBase, engine] = await Promise.all([import("@tcm/kb").then(({ loadKnowledgeBase }) => loadKnowledgeBase), import("@tcm/engine")]);
   // a display list that cannot be used leaves Chinese text in the data's own script (`kb.script` says `Hant`): a reader sees Traditional text, never a broken page
   const kb = await loadKnowledgeBase({ baseUrl: `${import.meta.env.BASE_URL}kb`, script });
   return { kb, engine };

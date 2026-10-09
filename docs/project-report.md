@@ -15,7 +15,7 @@
 > 125 script tests, the full end-to-end matrix (471 of 475 runs passed, 4 skipped by design, none failed), the property suite ×10 and the cross-browser set**.
 > **The product cannot be released to the public yet:** no medical content has been reviewed (0 review records), the golden-case concordance is below its targets, no
 > emergency number is verified, and the legal and privacy sign-offs do not exist. A **closed beta** (draft label on) is technically ready once the owner has set up the
-> hosting. The main engineering constraint is size: **all JavaScript is at 369.2 of 370 KB** and the knowledge base's `core` chunk at 57.5 of 60 KB.
+> hosting. The main engineering constraint is size: **all JavaScript is at 369.2 of 370 KB** (345.0 after the size pass of 2026-10-09, PM-58) and the knowledge base's `core` chunk at 57.5 of 60 KB.
 
 ---
 
@@ -77,7 +77,7 @@ prescription model), `packages/i18n`, `packages/ai` (AI help's protocol and vali
 | **E** Knowledge and prescription | 14 / 14 | Sources registry (91 works); herb property model v2; dose–response, 七情 pairings, processing; formula effect, measured roles and 方解; library verification; personalisation by 三因制宜; the prescription card and practitioner file v2; the learning book 《以模型讀中醫》 in Learn; 營衛 in the model; learners and practitioners; the study reference (quantities, classical 加減, medication plan) shown by default with its note, configurable (PD-30) | General reader: release build at L1. Study reference: closed beta; a public build only once its content is reviewed | Clinical and pharmacy reviews; the legal view on amounts per market |
 | **F** AI-assisted intake | 6 / 7 | The gateway (mock provider, signed session tokens, budgets, kill switch, validated replies, no content logged); consent per module and Settings; the conversation with the device's red-flag check; the evaluation harness; the Anthropic adapter and deployment notes; the photo of the tongue and the face | **Development builds only**; a release build holds none of it (`check-release` rule 17) | PM-44: privacy and legal sign-offs, the provider agreement; the owner's key and deployment; the real evaluation run; the tongue-photo spike's gates |
 
-*After this audit, the same day:* PM-55 added the TCM course and its textbook ([`docs/course/zh-Hant/`](course/zh-Hant/README.md), Traditional Chinese, 22 chapters, 264 hours, an answer key and its sources) and nine works to the sources registry (100); it does not touch the app or its budgets. The task list then stood at **170 of 189**; the course waits for the linguistic and TCM clinical reviews like the learning book. On 2026-10-09 PM-56 made the two one set: the book was rewritten as the course's companion, TCM read from twelve perspectives, and the course's chapters point to it for the model (**171 of 190**).
+*After this audit, the same day:* PM-55 added the TCM course and its textbook ([`docs/course/zh-Hant/`](course/zh-Hant/README.md), Traditional Chinese, 22 chapters, 264 hours, an answer key and its sources) and nine works to the sources registry (100); it does not touch the app or its budgets. The task list then stood at **170 of 189**; the course waits for the linguistic and TCM clinical reviews like the learning book. On 2026-10-09 PM-56 made the two one set: the book was rewritten as the course's companion, TCM read from twelve perspectives, and the course's chapters point to it for the model (**171 of 190**). PM-57 completed the review packs — every data file, the interface text, and the book and the course as worksheets — and lets a review record name the book, the course and the interface text; PM-58 freed 24.2 KB of JavaScript without raising a limit (§4).
 
 ## 3. How it was verified (2026-10-08)
 
@@ -134,7 +134,9 @@ On a macOS laptop with Node 25, Python 3.12, the installed Google Chrome and Pla
 | Learning book (on demand) | 13.8 KB | 20 KB | 69 % |
 | Service worker · boot guard | 2.9 KB · 0.5 KB | 10 KB | — |
 
-All within budget, two of them nearly full: **the next feature of a release build needs room made or a declared raise (PD-12)**, and **the next content wave
+*After PM-58 (2026-10-09):* initial JavaScript **155.5 KB** (78 %), all JavaScript **345.0 KB** (93 %) — the catalogs' keys are written once instead of in every language, and the knowledge base's loader no longer brings the build-time code of `@tcm/kb` with it.
+
+On 2026-10-08 all were within budget, two of them nearly full: **the next feature of a release build needed room made or a declared raise (PD-12)** — PM-58 made 24.2 KB of room —, and **the next content wave
 needs the per-module chunking of the question bank** ([library expansion](post-mvp/design/library-expansion.md)) before it lands.
 
 ## 5. Knowledge base and content

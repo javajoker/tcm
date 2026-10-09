@@ -7,6 +7,7 @@ import react from "@vitejs/plugin-react";
 import { build as viteBuild } from "vite";
 import { defineConfig, type Plugin } from "vitest/config";
 import { writeBundle } from "../../scripts/bundle-data.ts";
+import { CATALOG_FILE, fileOfId, KEYS_ID, keysFileOf, keysModule, LIST_ID, listId, listModule } from "../../scripts/catalog-modules.ts";
 import { cspMeta, headersFile, LANGUAGE_SEGMENTS, notFoundPage, redirectsFile, securityTxt } from "../../scripts/deploy-files.ts";
 import { buildFacts, killWorkerSource, workerSource } from "../../scripts/sw-build.ts";
 
@@ -35,6 +36,31 @@ function kbPlugin(profile: "release" | "dev"): Plugin {
     },
     generateBundle() {
       for (const name of readdirSync(dir)) this.emitFile({ type: "asset", fileName: `kb/${name}`, source: readFileSync(join(dir, name)) });
+    },
+  };
+}
+
+/**
+ * The message catalogs written with each namespace's keys once and each language's messages as a list (scripts/catalog-modules.ts, PM-58): an import of
+ * src/i18n/<language>/<namespace>.json gives the same object, in a fraction of the bytes.
+ */
+function catalogPlugin(): Plugin {
+  return {
+    name: "tcm-catalogs",
+    enforce: "pre",
+    async resolveId(source, importer) {
+      if (source.startsWith(KEYS_ID)) return source;
+      if (importer === undefined || !source.endsWith(".json")) return null;
+      const resolved = await this.resolve(source, importer, { skipSelf: true });
+      return resolved !== null && CATALOG_FILE.test(resolved.id) ? listId(resolved.id) : null;
+    },
+    load(id) {
+      if (id.startsWith(KEYS_ID)) return keysModule(fileOfId(id));
+      if (!id.startsWith(LIST_ID)) return null;
+      const file = fileOfId(id);
+      this.addWatchFile(file);
+      this.addWatchFile(keysFileOf(file));
+      return listModule(file);
     },
   };
 }
@@ -138,14 +164,18 @@ export default defineConfig(({ command }) => {
   const ai = aiBuild(profile);
   const connect = ai.enabled && ai.endpoint !== null ? [ai.endpoint] : [];
   return {
-    plugins: [react(), kbPlugin(profile), cspPlugin(connect), noticePlugin(), robotsPlugin(profile === "dev" || process.env.APP_DRAFT_LABEL === "on"), deployPlugin(profile, profile === "dev" || process.env.APP_DRAFT_LABEL === "on", connect), workerPlugin(profile)],
+    plugins: [catalogPlugin(), react(), kbPlugin(profile), cspPlugin(connect), noticePlugin(), robotsPlugin(profile === "dev" || process.env.APP_DRAFT_LABEL === "on"), deployPlugin(profile, profile === "dev" || process.env.APP_DRAFT_LABEL === "on", connect), workerPlugin(profile)],
     define: {
       __APP_PROFILE__: JSON.stringify(profile), __APP_BUILD__: JSON.stringify(process.env.APP_BUILD_ID ?? "local"),
       // three scalars rather than one object, so that a release build's `if (__APP_AI_ENABLED__)` is a constant false and everything behind it is left out
       __APP_AI_ENABLED__: JSON.stringify(ai.enabled), __APP_AI_ENDPOINT__: JSON.stringify(ai.endpoint), __APP_AI_CONVERSATION__: JSON.stringify(ai.modules.conversation),
       __APP_AI_TONGUE__: JSON.stringify(ai.modules.tongue), __APP_AI_FACE__: JSON.stringify(ai.modules.face),
     },
-    build: { target: "es2022", modulePreload: { polyfill: false }, sourcemap: false },
+    build: {
+      target: "es2022", modulePreload: { polyfill: false }, sourcemap: false,
+      // the chunk that holds the catalogs' keys alone (shared by the catalog of the first load and the Simplified one) is named for what it is
+      rolldownOptions: { output: { chunkFileNames: (chunk) => (chunk.moduleIds.length > 0 && chunk.moduleIds.every((id) => id.startsWith(KEYS_ID)) ? "assets/messages-[hash].js" : "assets/[name]-[hash].js") } },
+    },
     css: { modules: { localsConvention: "camelCaseOnly" } },
     // The whole suite shares the machine with the other packages' tests; a flow that takes half a second alone can take several when 50 workers compete.
     test: { environment: "jsdom", setupFiles: ["./test/setup.ts"], include: ["test/**/*.test.{ts,tsx}", "src/**/*.test.{ts,tsx}"], css: false, testTimeout: 60_000, hookTimeout: 60_000 },

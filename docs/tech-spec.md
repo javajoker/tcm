@@ -2,9 +2,9 @@
 
 | | |
 |---|---|
-| **Version** | 0.16 (draft) |
+| **Version** | 0.17 (draft) |
 | **Status** | Draft — implementation not started (only `packages/wuxing`, `data/` and `scripts/kb` exist) |
-| **Last updated** | 2026-10-08 |
+| **Last updated** | 2026-10-09 |
 | **Derives from** | [PRD v0.3](PRD.md) · [Diagnosis SOP v0.2](diagnosis-sop.zh-TW.md) · [Algorithm spec](wuxing-algorithm.md) |
 | **Sibling docs** | [UI/UX spec](ux-spec.md) · [KB schema](kb-schema.md) · [i18n guide](i18n-guide.md) · [Safety policy](safety-policy.md) · [Privacy](privacy.md) · [Test plan](test-plan.md) · [Release process](release-process.md) |
 
@@ -597,7 +597,7 @@ Tabs: **Policy** (matched cells → effective level/notice), **Scores** (pattern
 
 ## 9. Internationalisation and content rendering
 
-- Two catalogs per namespace (`common`, `intake`, `inquiry`, `observe`, `constitution`, `report`, `formula`, `safety`, `errors`) in `apps/web/src/i18n/{zh-Hant,en}/*.json` (a third, `zh-Hans/*.json`, is **generated** from `zh-Hant` by `pnpm i18n:hans` and loaded lazily), typed via generated key unions; `check-i18n.ts` fails CI on missing or extra keys, placeholder mismatch, and forbidden terms (see [i18n guide](i18n-guide.md)).
+- Two catalogs per namespace (`common`, `intake`, `inquiry`, `observe`, `constitution`, `report`, `formula`, `safety`, `errors`) in `apps/web/src/i18n/{zh-Hant,en}/*.json` (a third, `zh-Hans/*.json`, is **generated** from `zh-Hant` by `pnpm i18n:hans` and loaded lazily), typed via generated key unions; `check-i18n.ts` fails CI on missing or extra keys, placeholder mismatch, and forbidden terms (see [i18n guide](i18n-guide.md)). The JSON files are the source; **the build writes each namespace's keys once** — a module of their own, shared by every language — and each language's messages as a list in that order (`scripts/catalog-modules.ts`, the `tcm-catalogs` plugin of `vite.config.ts`; PM-58), so an import of a catalog gives the same object without every language repeating every key (−21 KB of JavaScript).
 - **KB content** is bilingual per record (`{ "zh-Hant", "en" }`); a missing `en` falls back to zh-Hant and the UI marks it (pinyin shown for terms via the glossary).
 - **Simplified Chinese is display only** ([design](post-mvp/design/simplified-chinese.md)): the knowledge base and the engine always use the data's own (Traditional) script, because Chinese identifiers are matched by value. Text from the data that is *shown* goes through `t.zh(text)` (or `t.localized`, which does): the identity in `zh-Hant` and `en`, the Simplified form in `zh-Hans` through the display list the loader verified. Strings built from several data strings convert each piece; the result is never used as an identifier. What a person types or picks and the rules then match by name (an allergy) is turned back with `kb.traditional` before it is stored. `lang` attributes of Chinese data use `t.zhLang`.
 - **Terms**: every TCM term in UI copy is wrapped in `<Term id="…">` which renders a tooltip/popover from `glossary.json` (Chinese · pinyin · English) and is keyboard- and touch-accessible.
@@ -650,8 +650,8 @@ Colour: one sequential hue per quantity family, never red/green as good/bad; sig
 
 | Budget | Value | How it is met / checked |
 |---|---|---|
-| Initial JS (gzip) | ≤ 200 KB | React + router + store + shell only; every screen but the landing page is a lazy route; engine and `@tcm/wuxing` load with the first inquiry; asserted by `scripts/check-budgets.ts` in CI (≈ 120 KB today); any lazy chunk ≤ 50 KB, all JS ≤ 260 KB, CSS ≤ 20 KB |
-| All JS (gzip) | ≤ 370 KB (260 for the MVP, +40 for Release A's lazy features, +50 for Release B's, +20 for Release E's) | A bound on growth, not on a visit: nobody downloads it all. Each post-MVP release declares the lazy budgets of its features and raises this figure by that sum ([decision PD-12](post-mvp/decisions.md)); the initial 200 KB and the 50 KB per lazy chunk do not move |
+| Initial JS (gzip) | ≤ 200 KB | React + router + store + shell only; every screen but the landing page is a lazy route; engine and `@tcm/wuxing` load with the first inquiry; asserted by `scripts/check-budgets.ts` in CI (155.5 KB on 2026-10-09); any lazy chunk ≤ 50 KB, all JS ≤ 260 KB, CSS ≤ 20 KB |
+| All JS (gzip) | ≤ 370 KB (260 for the MVP, +40 for Release A's lazy features, +50 for Release B's, +20 for Release E's) | A bound on growth, not on a visit: nobody downloads it all. Each post-MVP release declares the lazy budgets of its features and raises this figure by that sum ([decision PD-12](post-mvp/decisions.md)); the initial 200 KB and the 50 KB per lazy chunk do not move. **345.0 KB on 2026-10-09** after the size pass of PM-58 (369.2 before): the catalogs' keys written once, and the knowledge base's loader imported by its one function so that the build-time code of `@tcm/kb` stays out |
 | LCP / INP (mobile 4G) | ≤ 2.5 s / ≤ 200 ms | Lighthouse CI on the landing and result routes, throttled |
 | KB per session (release) | ≈ 91 KB gz for a general reader (budget 100 KB); with the study reference — every reader's by default (PD-30) — 142.5 KB (budget 150 KB, `kbSessionStudy` in `check-budgets.ts`) | §5.2; per-chunk budgets enforced in `bundle-data.ts` (dev: 1.5×), the session total in `check-budgets.ts` |
 | Engine time | `assess` ≤ 50 ms p95 on a mid-range phone | micro-benchmarks in `packages/engine/bench`, tracked per release; no allocation in inner loops of noisy-OR and greedy 加減 |
@@ -697,3 +697,4 @@ Colour: one sequential hue per quantity family, never red/green as good/bad; sig
 | 0.14 | 2026-10-08 | §2: the provider adapter and the deployment notes of the AI gateway (PM-49) |
 | 0.15 | 2026-10-08 | §2, §6.1: the photo of the tongue and the face (PM-50, development builds only) — the observe routes, the device's capture and quality gate, `stripJpeg`, no camera permission, the build constants |
 | 0.16 | 2026-10-08 | Project audit: §5.2 the chunk sizes and the totals re-measured on the current build |
+| 0.17 | 2026-10-09 | §9: the catalogs as the build writes them; §12: the JavaScript totals after the size pass (PM-58) |

@@ -47,7 +47,7 @@
     "check:licenses": "node scripts/licenses.ts check",
     "sbom": "node scripts/licenses.ts sbom sbom.cdx.json",
     "check:hygiene": "node scripts/check-hygiene.ts",
-    "test:scripts": "node --test --test-concurrency=1 scripts/check-release.test.ts scripts/check-i18n.test.ts scripts/check-hygiene.test.ts scripts/licenses.test.ts scripts/smoke.test.ts scripts/check-budgets.test.ts scripts/sw-build.test.ts scripts/verify-formulas.test.ts scripts/astro/gen-vsop87.test.ts scripts/ai/eval.test.ts",
+    "test:scripts": "node --test --test-concurrency=1 scripts/check-release.test.ts scripts/check-i18n.test.ts scripts/check-hygiene.test.ts scripts/licenses.test.ts scripts/smoke.test.ts scripts/check-budgets.test.ts scripts/sw-build.test.ts scripts/verify-formulas.test.ts scripts/catalog-modules.test.ts scripts/astro/gen-vsop87.test.ts scripts/ai/eval.test.ts",
     "test:e2e": "pnpm --filter @tcm/web test:e2e"
   },
   "devDependencies": {

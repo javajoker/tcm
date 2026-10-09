@@ -8,7 +8,7 @@ Reading order for a new contributor: **PRD → Diagnosis SOP → Tech spec → U
 | [PRD](PRD.md) | English | Why the product exists, who it is for, requirements (FR/NFR), scope, risks, decisions | Product requirements and priorities | 0.11 |
 | [Diagnosis SOP](diagnosis-sop.zh-TW.md) | **繁體中文** | What is asked, how answers become a pattern, a body panel and a formula suggestion, with classical sources | **The diagnosis logic** (source of truth) | 0.6 |
 | [Yin-yang / five-phase algorithm](wuxing-algorithm.md) · [繁體中文版](wuxing-algorithm.zh-TW.md) | English · **繁體中文** | The birth + annual + seasonal five-phase mathematics; extraction from the source engine; parameters; verification | The five-phase mathematics | 0.5 |
-| [Technical specification](tech-spec.md) | English | Architecture, packages, data delivery, profiles, engine contract, state, storage, security, performance | Technical decisions and contracts | 0.16 |
+| [Technical specification](tech-spec.md) | English | Architecture, packages, data delivery, profiles, engine contract, state, storage, security, performance | Technical decisions and contracts | 0.17 |
 | [UI/UX specification](ux-spec.md) | English | Screens, flows, components, design tokens, responsive and accessibility rules, copy rules | Interface behaviour and look | 0.13 |
 | [Knowledge-base schema](kb-schema.md) | English | Shape and integrity rules of every `data/` file; planned additions | Data contracts | 0.10 |
 | [i18n, terminology and copy guide](i18n-guide.md) | English | Languages, glossary rules, message catalogs, forbidden wording, translation workflow | Terminology and wording | 0.3 |
