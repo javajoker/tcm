@@ -168,6 +168,7 @@ def course(ctx: Context) -> Pack:
 
 # Where a namespace is shown, when not in every build (scripts/check-i18n.ts).
 SHOWN = {"rx": "only in a build that shows the study reference (PM-41; `dose_display`)", "ai": "only in a development build with AI help (PM-46)",
+         "handbook": "in no build: it is the printed herb handbook's own wording (PM-62; `pnpm print:herbs`), beside the `learn` and `formula` messages it prints with",
          "safety": "the notices: the wording the safety policy owns — **the physician reviews this namespace too**"}
 
 

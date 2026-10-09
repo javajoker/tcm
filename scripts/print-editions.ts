@@ -33,7 +33,7 @@ export interface Edition {
   readonly pages: readonly EditionPage[];
 }
 
-const esc = (s: string): string => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+export const esc = (s: string): string => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 /** The anchor of a page inside its edition ("" is the introduction and contents). */
 export const anchor = (id: string): string => (id === "" ? "contents" : `page-${id}`);
 
@@ -146,7 +146,10 @@ interface PrintBrowser { newPage(): Promise<PrintPage>; close(): Promise<void> }
 interface Chromium { launch(options: { channel: string }): Promise<PrintBrowser> }
 
 /** Print an edition's HTML to PDF with the installed Chrome. */
-export async function printPdf(e: Edition, html: string): Promise<Buffer> {
+export const printPdf = (e: Edition, html: string): Promise<Buffer> => printHtml(html, footerOf(e));
+
+/** Print a document to an A4 PDF with the installed Chrome: the footer on every page, an outline of the headings, tagged (the herb handbook prints through this too). */
+export async function printHtml(html: string, footerTemplate: string): Promise<Buffer> {
   // Playwright is a dependency of the web app (its end-to-end tests), so it is resolved from there; the browser is the installed Chrome — nothing is downloaded
   const require = createRequire(join(root, "apps", "web", "package.json"));
   const pw = (await import(pathToFileURL(require.resolve("@playwright/test")).href)) as { chromium?: Chromium; default?: { chromium: Chromium } };
@@ -156,7 +159,7 @@ export async function printPdf(e: Edition, html: string): Promise<Buffer> {
     const page = await browser.newPage();
     await page.setContent(html, { waitUntil: "load" });
     await page.evaluate("document.fonts.ready.then(() => true)");
-    return await page.pdf({ format: "A4", printBackground: true, preferCSSPageSize: true, displayHeaderFooter: true, headerTemplate: "<div></div>", footerTemplate: footerOf(e), outline: true, tagged: true });
+    return await page.pdf({ format: "A4", printBackground: true, preferCSSPageSize: true, displayHeaderFooter: true, headerTemplate: "<div></div>", footerTemplate, outline: true, tagged: true });
   } finally {
     await browser.close();
   }

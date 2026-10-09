@@ -16,7 +16,7 @@ const json = (file: string): Record<string, unknown> => JSON.parse(readFileSync(
 const gz = (s: string): number => gzipSync(s, { level: 9 }).length;
 
 test("every catalog file is a catalog file, and its keys are those of the Traditional Chinese file of its namespace", () => {
-  assert.equal(files.length, 48, "sixteen namespaces in three languages");
+  assert.equal(files.length, 51, "seventeen namespaces in three languages (the herb handbook's among them, which no build imports)");
   for (const f of files) {
     assert.match(f, CATALOG_FILE);
     assert.equal(keysFileOf(f), join(I18N, "zh-Hant", f.split(/[\\/]/).at(-1)!));

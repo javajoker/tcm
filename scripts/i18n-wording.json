@@ -153,6 +153,16 @@
   "allow": [
     {
       "keys": [
+        "handbook.cover.",
+        "handbook.about.safety.practitioner"
+      ],
+      "rules": [
+        "dose"
+      ],
+      "reason": "The printed herb handbook (PM-62) says that it gives no doses, on its cover and in its notes for use: a negated form, like the disclaimer's"
+    },
+    {
+      "keys": [
         "common.footer.disclaimer",
         "safety.disclaimer.full",
         "report.print.footer",

@@ -11,8 +11,8 @@ const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const catalogDir = join(root, "apps", "web", "src", "i18n");
 const srcDir = join(root, "apps", "web", "src");
 // `rx` (the personalised prescription, PM-41) is loaded only by a build that can show it (apps/web/src/prescription/catalog.ts), never by catalogs.ts, and `ai` (AI help, PM-46) only by a build
-// with AI help (apps/web/src/ai/catalog.ts): they are checked like the others
-const NAMESPACES = ["common", "intake", "inquiry", "observe", "constitution", "report", "feedback", "followup", "formula", "learn", "lock", "trends", "safety", "errors", "rx", "ai"] as const;
+// with AI help (apps/web/src/ai/catalog.ts), and `handbook` (the printed herb handbook, PM-62) by no build at all — scripts/print-herbs.ts prints with it: they are checked like the others
+const NAMESPACES = ["common", "intake", "inquiry", "observe", "constitution", "report", "feedback", "followup", "formula", "learn", "lock", "trends", "safety", "errors", "rx", "ai", "handbook"] as const;
 
 export type Severity = "error" | "warning";
 export interface Issue { readonly severity: Severity; readonly rule: string; readonly key?: string; readonly message: string }
@@ -138,11 +138,14 @@ export function checkStyle(zh: Catalog, en: Catalog): Issue[] {
   return out;
 }
 
+/** The scripts outside the app that print with the catalogs' words (the herb handbook, PM-62): their keys count as used. */
+const PRINTED_BY = [join(root, "scripts", "print-herbs.ts")];
+
 /** Keys the code uses: literal keys, and `namespace.prefix.${…}` template prefixes (any key under such a prefix counts as used). */
 export function usedKeys(): { literal: Set<string>; prefixes: string[] } {
   const literal = new Set<string>(), prefixes: string[] = [];
   const ns = NAMESPACES.join("|");
-  for (const f of walk(srcDir).filter((x) => /\.(ts|tsx)$/.test(x) && !x.includes(`${join("src", "i18n")}`))) {
+  for (const f of [...walk(srcDir).filter((x) => /\.(ts|tsx)$/.test(x) && !x.includes(`${join("src", "i18n")}`)), ...PRINTED_BY]) {
     const text = readFileSync(f, "utf8").replace(/\/\*[\s\S]*?\*\//g, "").replace(/(^|[^:])\/\/.*$/gm, "$1");      // comments are not usage
     for (const m of text.matchAll(new RegExp(`\`((?:${ns})\\.[^\`]*)\``, "g"))) {                       // template literals: the part before `${` is a prefix
       const k = m[1]!;

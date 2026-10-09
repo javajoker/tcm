@@ -2,9 +2,9 @@
 
 | | |
 |---|---|
-| **Version** | 0.2 (draft) |
+| **Version** | 0.3 (draft) |
 | **Status** | Design for Release A (FR-21; tasks PM-01 … PM-03). Revised during PM-01: the first version converted the data; that was unsafe (§3) |
-| **Last updated** | 2026-10-05 |
+| **Last updated** | 2026-10-09 |
 | **Audience** | Engineers, the Mainland-usage reviewer, whoever checks wording |
 | **Related** | [Requirements FR-21](../requirements.md#fr-21-simplified-chinese-interface--release-a--class-l--refines-fr-2-g4-q6) · [i18n guide](../../i18n-guide.md) · [Tech spec §5, §9](../../tech-spec.md) · [Safety policy](../../safety-policy.md) · [Decisions Q6, P7, PD-01, PD-02](../decisions.md) |
 
@@ -84,7 +84,7 @@ bundle-data.ts: for the pruned chunks of a profile, the sorted unique Chinese st
 1. **Precedence for a string:** exact override → phrase override → source Simplified text (when the round trip holds, step 2) → `tw2sp`. The review sheet shows which rule produced each non-mechanical result.
 2. **Source text:** where a record carries Simplified source text (the citations; herbs and formula compositions from the Pharmacopoeia and the source library), the builder uses it if converting it back with `s2twp` reproduces the committed Traditional string. If not, the Traditional string wins, it is converted, and the case is logged for the reviewer.
 3. **Phrase overrides** are applied by splitting the string on the override keys (longest first), converting the remaining segments and inserting the override values as written.
-4. **The dictionary** `scripts/i18n/zh-Hans.dictionary.json` maps every Traditional string that contains Chinese anywhere in `data/` — values and keys, prose and identifiers alike (an identifier is only converted if something *displays* it) — to its Simplified form; strings that do not change are left out. It is keyed by the string itself, so profile pruning, chunking and re-ordering cannot misalign it. It lives next to its builder, not under `data/` (which is the schema-governed knowledge base the engine reads), is committed so a reviewer can diff it, and CI regenerates it and fails on a difference, exactly as for `data/`. Every Chinese string of `data/` has an entry, with the identity as the value where nothing changes or the field keeps a source script, so the bundler can require complete coverage.
+4. **The dictionary** `scripts/i18n/zh-Hans.dictionary.json` maps every Traditional string that contains Chinese anywhere in `data/` — values and keys, prose and identifiers alike (an identifier is only converted if something *displays* it) — to its Simplified form; strings that do not change are left out. It is keyed by the string itself, so profile pruning, chunking and re-ordering cannot misalign it. It lives next to its builder, not under `data/` (which is the schema-governed knowledge base the engine reads), is committed so a reviewer can diff it, and CI regenerates it and fails on a difference, exactly as for `data/`. Every Chinese string of `data/` has an entry, with the identity as the value where nothing changes or the field keeps a source script, so the bundler can require complete coverage. Two build-time files no build shows are left out (`NOT_SHOWN`: the sources registry and the 營衛 readings), except what the printed herb handbook shows of the registry — the title, names, author and era of each work the herb files and the safety rules draw on (`PRINTED`, PM-62) — so that its Simplified edition can name its sources.
 5. **The aligned list** is built by the bundler from the chunks of the profile it is bundling: it collects the unique Chinese strings (values and keys), sorts them with one shared function (UTF-16 code-unit order, implemented once in `@tcm/kb` and used by both sides), writes the Simplified form of each (empty when unchanged) one per line, and records the string count and a SHA-256 of the sorted Traditional list in the manifest. A string absent from the dictionary and not unchanged-by-design is a **build error**: a Chinese string with a Simplified form that the dictionary lacks cannot ship.
 6. **UI catalogues:** the builder writes `apps/web/src/i18n/zh-Hans/<namespace>.json` from the Traditional catalogues with the same precedence. Parameters (`{name}`), tags (`<b>…</b>`) and plural objects are carried over unchanged and checked.
 
@@ -182,3 +182,4 @@ PM-01 (converter, overrides, dictionary, generated catalogues, aligned list in t
 |---|---|---|
 | 0.1 | 2026-10-05 | Initial design; delivery by Simplified variants of the knowledge chunks |
 | 0.2 | 2026-10-05 | Revised while building PM-01: variants of the data rejected because the engine and the safety rules match Chinese identifiers by value (290 data paths hold Chinese; most tables are identifiers); the strings are now converted at display, delivered as an aligned list (23.6 KB gzip, measured) with a digest check |
+| 0.3 | 2026-10-09 | §5.1: the dictionary also holds what the printed herb handbook shows of the sources registry (PM-62) |

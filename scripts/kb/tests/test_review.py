@@ -297,7 +297,7 @@ class RealData(unittest.TestCase):
         self.assertEqual(out["coverage"]["safety/rules.json"]["required_roles"], [["physician"], ["pharmacy", "tcm-clinical"]])
         self.assertEqual(out["coverage"]["diagnosis/patterns.json"]["units"], 23)
         # the targets outside data/ are covered too (PM-57): the book's README and 12 chapters, the course's 22 chapters with its README, answer key and sources, 16 namespaces
-        self.assertEqual({t: out["coverage"][t]["units"] for t in [*review.DOCUMENTS, review.CATALOGS]}, {"docs/book/zh-Hant": 13, "docs/course/zh-Hant": 25, review.CATALOGS: 16})
+        self.assertEqual({t: out["coverage"][t]["units"] for t in [*review.DOCUMENTS, review.CATALOGS]}, {"docs/book/zh-Hant": 13, "docs/course/zh-Hant": 25, review.CATALOGS: 17})
 
     def test_a_status_set_by_hand_is_caught_by_the_validator(self):
         errs = validate_with({"diagnosis/patterns.json": lambda d: d["items"][0].update(status="reviewed")})

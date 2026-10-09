@@ -2,9 +2,9 @@
 
 | | |
 |---|---|
-| **Version** | 0.3 (draft) |
+| **Version** | 0.4 (draft) |
 | **Status** | Draft — the lint (`scripts/check-i18n.ts`) and the catalogs are specified here, not yet implemented |
-| **Last updated** | 2026-10-08 |
+| **Last updated** | 2026-10-09 |
 | **Audience** | Developers writing UI strings, translators, content reviewers |
 | **Related** | [PRD FR-2](PRD.md) · [Tech spec §4.4, §9](tech-spec.md) · [UX spec §9](ux-spec.md) · [KB schema](kb-schema.md) · [`data/glossary.json`](../data/glossary.json) (161 terms, `needs-review`) |
 
@@ -80,7 +80,7 @@ apps/web/src/i18n/
   keys.generated.ts          # union type of keys (generated from zh-Hant)
 ```
 
-`zh-Hant` is the **source** catalog (authoring language); `en` mirrors it. Both are flat JSON per namespace: `{ "intake.age.label": "年齡", … }`. `apps/web/src/i18n/catalogs.ts` merges the namespaces (`common`, `intake`, `inquiry`, `observe`, `constitution`, `report`, `feedback`, `formula`, `learn`, `safety`, `errors`; `learn` is the Learn section, PM-13); the key union is `keyof` the zh-Hant catalog (no generated file is needed). The ESLint rule `i18n/no-literal-strings` (`tools/eslint/`, tested with `pnpm test:tools`) fails on letters in JSX text and in text-bearing attributes (`aria-label`, `title`, `alt`, `placeholder`, `label`, `summary`); `src/i18n/**`, `src/dev/**` (developer-facing) and tests are exempt.
+`zh-Hant` is the **source** catalog (authoring language); `en` mirrors it. Both are flat JSON per namespace: `{ "intake.age.label": "年齡", … }`. `apps/web/src/i18n/catalogs.ts` merges the namespaces (`common`, `intake`, `inquiry`, `observe`, `constitution`, `report`, `feedback`, `formula`, `learn`, `safety`, `errors`; `learn` is the Learn section, PM-13); the key union is `keyof` the zh-Hant catalog (no generated file is needed). Three namespaces are not merged there: `rx` and `ai` are loaded by the builds that show them, and `handbook` by no build — it is the printed herb handbook's own wording (`scripts/print-herbs.ts`, PM-62). `check-i18n` checks every namespace alike and counts the keys the handbook's script uses as used. The ESLint rule `i18n/no-literal-strings` (`tools/eslint/`, tested with `pnpm test:tools`) fails on letters in JSX text and in text-bearing attributes (`aria-label`, `title`, `alt`, `placeholder`, `label`, `summary`); `src/i18n/**`, `src/dev/**` (developer-facing) and tests are exempt.
 
 ### 3.2 Keys
 
@@ -249,6 +249,7 @@ UI strings, disclaimers and all notices exist in both languages with `reviewed` 
 | 0.1 | 2026-10-04 | Initial guide |
 | 0.2 | 2026-10-08 | §5.1: the assistant's questions (AI help, PM-45) — the rules that apply, the assistant's own, the knowledge base's names, where they are generated |
 | 0.3 | 2026-10-08 | §5: the study reference's wording — quantities, never dose, with N-AMOUNTS (PM-54) |
+| 0.4 | 2026-10-09 | §3.1: the `handbook` namespace — the printed herb handbook's words, loaded by no build, checked like the others (PM-62) |
 
 > **Implementation (K-12).** The glossary rows carry `source`, `alt` and `note`; `source` is the *best-known* basis — the 90 terms the author knows to be the WHO ISTM (2007) wording are `who-istm-2007`, the BaZi / five-periods-and-six-qi / season / calendar glosses are `project`, the rest `textbook` — and **all rows stay `needs-review`**: the bilingual linguistic reviewer verifies the WHO alignment against the standard itself (V-06), which is not in the repository. 22 terms the UI copy needed were added (證型, 氣血, 臟腑, 穴位, 舌象, 中醫師, 惡寒 / 畏寒 kept apart, 自汗, 盜汗 …). `validate_kb` checks the glossary: pinyin with tone marks, alternatives that differ from the main English, and agreement with the names the data files use for the same term (patterns, formulas, constitutions, symptoms) — which found and fixed "coat" → "coating" in the tongue symptoms. `check-i18n` enforces conformance in the catalogs; checking it found an English notice (N-MINOR) that omitted a sentence the Chinese had, now corrected in the safety policy. The glossary popover (`<Term>`) shows the note.
 

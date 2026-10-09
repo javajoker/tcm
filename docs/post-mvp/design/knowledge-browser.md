@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 0.11 (draft) |
+| **Version** | 0.12 (draft) |
 | **Status** | Design for Release B (FR-14, FR-25; tasks PM-13 … PM-16) and Release C (herb browser; PM-24, PM-25; **PM-24, the delivery of the herb data, and PM-25, the herb pages, are built**, [§7.1](#71-as-built-pm-24-delivery), [§7.2](#72-as-built-pm-25-the-herb-pages)). **PM-13 to PM-16 are built** (the shell, the stable ids, search, the page template, pages for all seven kinds, and the comparison of patterns); herbs wait for Release C |
 | **Last updated** | 2026-10-09 |
 | **Audience** | Engineers, designers, the clinical reviewer |
@@ -166,6 +166,20 @@ The course and its textbook (`docs/course/zh-Hant/`, PM-55) are the second work 
 | Offline | **Not part of the offline copy** (`sw-build`: the course's files are in no list): 230 KB that most readers never open. A page read once stays in the browser's cache (immutable); offline, a page not read before says so and offers to try again (*the course is not in the offline copy*). *Revisit if learners ask to read it offline* |
 | Tests | `packages/kb/test/course.test.ts` (7: the real course's pages, what it adds to the Markdown, its quotations and links, the page rules, who carries it, the loader); `book.test.ts` (the new grammar and its refusals); `bundle-script.test.ts` (3: public / beta / dev, outside the version, a page and the index fetched once, a malformed manifest entry refused before any fetch); `check-release` rule 19 and rule 11's immutable caching (5 seeded cases); `check-budgets` (the course counted apart); `sw-build` (never cached); `learn-course.test.tsx` (10: the hub, the contents, a chapter with its sub-sections, nested bullets and quotations, the way on, a list that goes on, not-found, a failure and a retry, English, Simplified, axe); **E43** in Chrome on desktop and phone in three languages, axe in both colour schemes |
 
+### 7.5 As built (PM-62: the printed herb handbook)
+
+The herb pages also exist on paper: `pnpm print:herbs` (`scripts/print-herbs.ts`) prints the herbs of the closed beta as a quick dictionary, 《中藥速查手冊》, one A4 PDF in each language of the app ([`print/`](../../../print/README.md)).
+
+| Piece | What was built |
+|---|---|
+| What an entry is | The herb's **page**, from the same record (the herb browser's detail of the release profile with the draft label: every herb, each with its status; the formulas a release build has). **R1 and R7** hold on paper: first the flags the record has, in the list's own marks — toxicity with its grade, 孕婦禁用 or 孕婦慎用, the interactions in the result page's words — or a line that none is recorded; the source's caution as stored; and the herbs 十八反 and 十九畏 say not to combine it with (the engine's own match over the table, by herb). Then the category, nature, flavours, channels, functions, part used and aliases, the formulas (of the app, and the others the source lists) and the source line with the record's review state. The two lines every page repeats — the allergy and the practitioner — are said once in the notes for use, and the footer of every page says *draft · not reviewed · not medical advice* |
+| What it adds | The **property model's reading** (PM-36), which no page shows: 陰陽 and 升降 drawn on a scale from −1 to +1 — the direction with its reading in words, ±0.2 even, as the model's scale defines it — the five phases in per cent, and 補瀉, 潤燥 and 氣血 in words; and, where recorded, the herb's **七情** (the source's sentence; the side that restrains in a 相畏 is its 相殺), its **引經** channels and its **量效** passage. **Never an amount**: no dose, no weight, no temperature number (rule 15's list) |
+| Order and indexes | Entries numbered in the herb list's order (the textbook's categories, then the data's). Appendices: indexes by pinyin (the address, which is the toneless pinyin), by stroke count in the Traditional edition (counted by ICU's stroke collation in Node, so nothing is downloaded; Mainland counts differ for 艹, so the other editions have none), by Latin and English name; the herbs by nature, flavour and channel; the safety lists (toxic by grade, pregnancy, interactions, and 十八反 and 十九畏 with the herbs of the handbook each name covers); the 七情 table; 引經報使; 炮製, with what each method changes in the model; 量效; the rules of the model, with their passages and how the herbs fall; the glossary; the works it draws on |
+| Words and languages | The page's words are the app's catalogs (`learn`, `formula`); the handbook's own are a namespace, `handbook`, that no build loads — `check-i18n` checks it (and counts the script's keys as used), `build_hans` converts it, and it is reviewed with the interface text. The data's Chinese is shown in each edition's script through the Simplified dictionary, which now also holds what the handbook prints of the sources registry. Each edition fails rather than fall back: a key missing in its language, or a Chinese string without its Simplified form, stops the print |
+| Status | *Draft* until everything printed is reviewed — every herb record, every row of its tables, the safety rules, the glossary, and its words (the review records hold the namespaces at their current hashes) |
+| Sizes | Traditional 160 pages (12 MB), Simplified 155, English 192 (14 MB); 22 s for the three with the installed Chrome. Derived and git-ignored |
+| Tests | `scripts/print-herbs.test.ts` (7, and printing with PRINT_PDF=1): every herb once in order, the flags first, nothing about amounts, each script pure, no second person, indexes and links, the appendices from the data, the status. `apps/web/test/handbook.test.ts`: the handbook's tables equal the herb list's, and for every herb in both languages the same words, caution, functions, formulas and source line as `herbPage` |
+
 ## 8. Experience and accessibility
 
 - A page has one `h1`, a *Sources* section, a *Related* section and a short on-page index; focus moves to the heading on navigation (the existing `RouteFocus`).
@@ -274,3 +288,4 @@ PM-13 (shell, ids, anonymous-context components, search index, print), PM-14 (pa
 | 0.9 | 2026-10-09 | §7.3: the book's chapters are now the twelve perspectives (PM-56) |
 | 0.10 | 2026-10-09 | §7.3: the book's status is read from the review records (PM-57) |
 | 0.11 | 2026-10-09 | PM-60 built ([§7.4](#74-as-built-pm-60-the-course)): the course in Learn — an index and one file per page, on demand and outside the offline copy; the book's parser extended with the course's Markdown; the review gate (rule 19) |
+| 0.12 | 2026-10-09 | PM-62 built ([§7.5](#75-as-built-pm-62-the-printed-herb-handbook)): the herb pages printed as a quick dictionary in three languages, with the property model's reading and the appendices |

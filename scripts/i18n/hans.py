@@ -119,12 +119,23 @@ def _walk(node, key: str = "") -> Iterator[tuple[str, bool]]:
             yield from _walk(v, k)
 
 
+# What the printed herb handbook (scripts/print-herbs.ts, PM-62) shows of a file the app never shows: of the sources registry, the title, names, author and era of
+# each work the herb files and the safety rules draw on — the bibliography of the handbook's last appendix, in each of its editions. (Only those: another work's
+# era may hold a word the purity rule cannot tell, such as 乾隆, whose 乾 stays 乾.)
+PRINTED = {"sources.json": lambda d: [[w["title"], *w["names"], w["author"], w["era"], *((w["edition"] or {}).get(k) for k in ("author", "dynasty", "year"))]
+                                      for w in d["items"] if any(f.startswith("herbs/") or f == "safety/rules.json" for f in w["references"])]}
+
+
 def collect(files: list[Path] | None = None) -> dict[str, bool]:
     """Every Chinese string of the data → exempt?  A string that appears anywhere as ordinary text is not exempt."""
     out: dict[str, bool] = {}
     for f in files if files is not None else data_files():
         for s, exempt in _walk(json.loads(f.read_text(encoding="utf-8"))):
             out[s] = out.get(s, True) and exempt
+    if files is None:
+        for rel, shown in PRINTED.items():
+            for s, exempt in _walk(shown(json.loads((DATA / rel).read_text(encoding="utf-8")))):
+                out[s] = out.get(s, True) and exempt
     return out
 
 
