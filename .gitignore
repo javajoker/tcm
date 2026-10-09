@@ -26,6 +26,9 @@ reference/derived/
 __pycache__/
 apps/web/.kb/
 review/packs/
+# the printable editions of the book and the course (scripts/print-editions.ts): derived, regenerated from the texts
+print/*.pdf
+print/*.html
 review/candidates/*/
 apps/web/dist-dev/
 apps/web/dist-roles/

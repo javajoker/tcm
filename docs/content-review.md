@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 0.11 (draft) |
+| **Version** | 0.12 (draft) |
 | **Status** | Proposed process — **no reviewer has been appointed yet** (PRD Q8 blocks milestone M3) |
 | **Last updated** | 2026-10-09 |
 | **Audience** | Maintainers, clinical and linguistic reviewers |
@@ -61,6 +61,8 @@ One person may hold several roles if qualified; the physician and the TCM clinic
 | **Glossary / translations** | `glossary.json`, `en` fields, `safety/name-fold.json` (each character of a herb or food name with its Simplified form, so that an allergy typed in either script is matched) | Term choices, WHO conformity, readability; that every folding pair is right | Linguistic |
 | **The learning book** | `docs/book/zh-Hant/` (shown in Learn, PM-43; the course's companion, PM-56) | That each chapter's perspective is fair to the tradition and says what the model does, in plain Traditional Chinese a cultured reader accepts; that each quotation supports its sentence (the build proves only that it exists); no advice, no amount, no second person | Linguistic + TCM clinical |
 | **The course and its textbook** | `docs/course/zh-Hant/` (PM-55; shown in Learn since PM-60 — a public build carries it only once every page is reviewed, `check-release` rule 19) | That each chapter teaches correctly at textbook level, in plain Traditional Chinese; that each 白話 explanation renders its excerpt faithfully and each excerpt supports its place (the tests prove only that it exists); that the tables of common patterns, herbs and formulas match the textbooks and the Pharmacopoeia; that the danger signs of chapters 18 and 22 are right and sufficient; the answer key; no advice, no amount, no second person | Linguistic + TCM clinical |
+
+> **The printable editions (PM-61).** `pnpm print:editions` prints the learning book and the course as A4 PDFs for teaching ([`print/`](../print/README.md)). The status they print is the one the review records give (§5): while a text is a draft, its edition says so on the cover and on every page, so that a draft is never handed out as a reviewed text; a reviewed edition says it is reviewed, and every edition says it is not medical advice.
 
 ---
 
@@ -227,3 +229,4 @@ A release build **must fail** (`check-release.ts`) if a required area has no val
 | 0.9 | 2026-10-09 | §3: the reference quantities and the prescription model's tables, the name folding, the interface text's files; §4.2: every area has a pack, the book and the course as worksheets; §5: records of the texts outside `data/` (the book, the course, the interface text), the book's status read from them, the remaining roles (PM-57) |
 | 0.10 | 2026-10-09 | §4.4: the report of the golden misses read before a session (PM-59) |
 | 0.11 | 2026-10-09 | §3, §7: the course in the app, under its own review gate (PM-60) |
+| 0.12 | 2026-10-09 | §3: the printable editions print the review status on every page (PM-61) |
