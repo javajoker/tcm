@@ -24173,7 +24173,7 @@
     },
     {
       "category": "補虛藥",
-      "caution": "本品為瀕危野生動物製品，**已禁止貿易與臨床使用**，臨床以鹿茸、淫羊藿等替代",
+      "caution": "本品為瀕危野生動物製品，已禁止貿易與臨床使用，臨床以鹿茸、淫羊藿等替代",
       "classical_formulas": [],
       "data_quality": [],
       "dose_g_reference": null,
@@ -39585,7 +39585,7 @@
     },
     {
       "category": "湧吐藥",
-      "caution": "本品有毒，體虛氣弱及孕婦忌服；**反細辛、芍藥、人參、沙參、玄參、丹參、苦參等（諸參）**",
+      "caution": "本品有毒，體虛氣弱及孕婦忌服；反細辛、芍藥、人參、沙參、玄參、丹參、苦參等（諸參）",
       "classical_formulas": [],
       "data_quality": [],
       "dose_g_reference": [
@@ -49842,7 +49842,7 @@
     },
     {
       "category": "攻毒殺蟲止癢藥",
-      "caution": "本品有毒，**不作內服**；外用不宜大面積、長期使用；孕婦禁用",
+      "caution": "本品有毒，不作內服；外用不宜大面積、長期使用；孕婦禁用",
       "classical_formulas": [],
       "data_quality": [],
       "dose_g_reference": null,
@@ -69190,7 +69190,7 @@
     },
     {
       "category": "祛風濕藥",
-      "caution": "本品有大毒，**內服極微量，須嚴格遵醫囑**；孕婦禁用；不可與酒同服，中毒可致心律失常",
+      "caution": "本品有大毒，內服極微量，須嚴格遵醫囑；孕婦禁用；不可與酒同服，中毒可致心律失常",
       "classical_formulas": [],
       "data_quality": [],
       "dose_g_reference": [
@@ -69412,7 +69412,7 @@
     },
     {
       "category": "祛風濕藥",
-      "caution": "本品含馬兜鈴酸，有腎毒性，**現代不建議內服**；須在醫師指導下使用",
+      "caution": "本品含馬兜鈴酸，有腎毒性，現代不建議內服；須在醫師指導下使用",
       "classical_formulas": [],
       "data_quality": [],
       "dose_g_reference": null,

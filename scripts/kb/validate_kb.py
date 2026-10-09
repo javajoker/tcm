@@ -127,6 +127,12 @@ def validate(load: Loader = load, check_sources: bool = True) -> list[str]:
         if hits:
             err(f"{rel}: Simplified characters in text that is shown in Traditional ({len(hits)}): {sorted(set(hits))[:4]}")
 
+    # the text a herb page and the printed handbook show as it is: the source library's Markdown is not part of it
+    marked = [f"{h['id']}.{k}" for h in load("herbs/herbs.json")["items"] for k in ("caution", "functions", "aliases", "classical_formulas")
+              for s in ([h.get(k)] if isinstance(h.get(k), str) else h.get(k) or []) if re.search(r"\*\*|__|`", s)]
+    if marked:
+        err(f"herbs/herbs.json: Markdown in the text a herb page shows ({len(marked)}): {marked[:4]}")
+
     # ── review: `reviewed` is set by the build from valid records only, never by hand (content review §5)
     from . import review as rv
     records = load("review/records.json")

@@ -165,6 +165,9 @@ class Corruptions(unittest.TestCase):
     def test_orthography_variant_outside_quotations(self):
         self.assertReported({"herbs/herbs.json": lambda d: d["items"][0]["functions"].append("清利溼熱")}, "溼 found outside quotations")
 
+    def test_markdown_in_a_herb_caution(self):
+        self.assertReported({"herbs/herbs.json": lambda d: d["items"].__setitem__(0, {**d["items"][0], "caution": "本品有毒，**不作內服**"})}, "Markdown in the text a herb page shows")
+
     def test_orthography_variant_is_allowed_in_quotations(self):
         def m(d):
             d["items"][0]["quote_zh_hant"] = "秋傷於溼"

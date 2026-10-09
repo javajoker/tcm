@@ -39,7 +39,7 @@ def parse_entries() -> list[dict]:
         note = ""
         m = re.search(r"注意：([^。]+)。", body)
         if m:
-            note = m.group(1)
+            note = m.group(1).replace("**", "")      # the library's Markdown emphasis (5 entries) is not part of the caution's words
         dose = None
         m = re.search(r"用法与用量：\s*([\d\.]+)\s*[～~\-]\s*([\d\.]+)\s*g", body)
         if m:
