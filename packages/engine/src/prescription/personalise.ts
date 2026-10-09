@@ -199,7 +199,7 @@ export function personalise(input: PersonaliseInput): Prescription | null {
   const conflictsWith = (h: Herb, rs: readonly WorkRow[]): boolean => {
     const ids = new Set(rs.map((r) => r.herb));
     if (rs.some((r) => plain(herb(r.herb).name["zh-Hant"]) === plain(h.name["zh-Hant"]))) return true;
-    if (incompatiblePairs(kb, [...rs.map((r) => herb(r.herb).name["zh-Hant"]), h.name["zh-Hant"]]).some(([a, b]) => a === h.name["zh-Hant"] || b === h.name["zh-Hant"])) return true;
+    if (incompatiblePairs(kb, [...rs.map((r) => r.herb), h.id]).some((p) => p.herbs.includes(h.id))) return true;
     return tables.pairings.some((p) => (p.type === "相反" || p.type === "相惡") && ((p.herb === h.id && ids.has(p.other)) || (p.other === h.id && ids.has(p.herb))));
   };
   // the pool: curated, not toxic, no pregnancy flag, with a Pharmacopoeia range (a herb that cannot be dosed is not added), and nothing the person or the constitution excludes

@@ -19,7 +19,7 @@ from __future__ import annotations
 import argparse
 import sys
 from pathlib import Path
-from typing import Callable
+from typing import Any, Callable
 
 from scripts.kb.common import DATA, ROOT
 from scripts.review import areas_kb, areas_text
@@ -135,8 +135,15 @@ def safety_rules(ctx: Context) -> Pack:
     md += "\n## Rules\n\n" + table(["Id", "Severity", "Applies to", "Engine behaviour: affects", "zh-Hant message", "English message", "Citation"], rows)
     inc = ctx.rules["incompatibilities"]
     md += "\n## 十八反 / 十九畏 (`incompatibilities`)\n\n" + str(inc.get("note", "")) + f"  (citation `{inc.get('citation', '—')}`)\n\n**十八反**\n\n"
-    md += table(["Herb", "Opposes"], [[h["herb"], "、".join(h["opposes"])] for h in inc.get("shibafan", [])]) + "\n**十九畏**\n\n"
-    md += table(["A", "B"], [[h["a"], h["b"]] for h in inc.get("shijiuwei", [])])
+    md += ("The safety rules match the herbs of a composition **by id**, against what each name of a row covers in that row: the herb itself, its processed forms and parts, "
+           "standard synonyms, and the herbs whose own Pharmacopoeia caution names the other side. `validate_kb` fails when a caution states a pair no row makes. "
+           "**Check each coverage** — a herb missing here is never stopped; a herb listed wrongly is stopped for nothing.\n\n")
+
+    def covered(row: dict[str, Any], name: str) -> str:
+        ids = row["herbs"].get(name, [])
+        return "、".join(f"{ctx.herbs[i]['name']['zh-Hant']} `{i}`" for i in ids) if ids else "— (no herb of the knowledge base)"
+    md += table(["Herb", "Covers", "Opposes", "Covers"], [[h["herb"], covered(h, h["herb"]), o, covered(h, o)] for h in inc.get("shibafan", []) for o in h["opposes"]]) + "\n**十九畏**\n\n"
+    md += table(["A", "Covers", "B", "Covers"], [[h["a"], covered(h, h["a"]), h["b"], covered(h, h["b"])] for h in inc.get("shijiuwei", [])])
     md += "\n## Pregnancy acupoints\n\n" + "、".join(ctx.rules["pregnancy_acupoints"]) + "\n"
     md += "\n## Dose references\n\n```json\n" + json_text(ctx.rules["dose_references"]) + "\n```\n"
     return Pack("safety-rules", "safety rules", "physician + a second reviewer", md, [(rel, ctx.units(rel))])

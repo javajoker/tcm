@@ -2,6 +2,7 @@
 
 export type ReviewStatus = "derived" | "curated-draft" | "draft" | "reviewed";
 export type CitationId = string;
+export type HerbId = string;
 export type ConstitutionId = string;
 export type RuleId = string;
 
@@ -27,11 +28,17 @@ export interface SafetyRules {
     note: string;
     shibafan: {
       herb: string;
+      herbs: {
+        [k: string]: HerbId[];
+      };
       opposes: string[];
     }[];
     shijiuwei: {
       a: string;
       b: string;
+      herbs: {
+        [k: string]: HerbId[];
+      };
     }[];
   };
   pregnancy_acupoints: string[];

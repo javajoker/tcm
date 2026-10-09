@@ -238,6 +238,16 @@
               "herb": {
                 "type": "string"
               },
+              "herbs": {
+                "additionalProperties": {
+                  "items": {
+                    "$ref": "#/$defs/herbId"
+                  },
+                  "type": "array",
+                  "uniqueItems": true
+                },
+                "type": "object"
+              },
               "opposes": {
                 "items": {
                   "type": "string"
@@ -247,6 +257,7 @@
             },
             "required": [
               "herb",
+              "herbs",
               "opposes"
             ],
             "type": "object"
@@ -262,11 +273,22 @@
               },
               "b": {
                 "type": "string"
+              },
+              "herbs": {
+                "additionalProperties": {
+                  "items": {
+                    "$ref": "#/$defs/herbId"
+                  },
+                  "type": "array",
+                  "uniqueItems": true
+                },
+                "type": "object"
               }
             },
             "required": [
               "a",
-              "b"
+              "b",
+              "herbs"
             ],
             "type": "object"
           },

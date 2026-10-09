@@ -876,6 +876,44 @@ def validate(load: Loader = load, check_sources: bool = True) -> list[str]:
     for name, pt in acu.items():
         if pt["pregnancy_avoid"] and name not in rules["pregnancy_acupoints"]:
             err(f"acupoint {name} is flagged pregnancy_avoid but missing from safety/rules.json pregnancy_acupoints")
+    # 十八反 / 十九畏: the safety rules match a composition's herbs by the ids each name of a row covers in that row. Every pair a herb's own Pharmacopoeia caution
+    # states (「不宜與…同用」, and 藜蘆's 「反…」) must be a pair of a row, or one of the stated exceptions: the table can miss no pair the source states.
+    from .curated.policy import INCOMPATIBILITY_EXCEPTIONS
+    inc = rules["incompatibilities"]
+    herb_by_name = {h["name"]["zh-Hant"]: h["id"] for h in herbs}
+    rows = [(f"十八反 {r['herb']}", [r["herb"], *r["opposes"]], r["herbs"], [(r["herb"], o) for o in r["opposes"]]) for r in inc["shibafan"]]
+    rows += [(f"十九畏 {r['a']}–{r['b']}", [r["a"], r["b"]], r["herbs"], [(r["a"], r["b"])]) for r in inc["shijiuwei"]]
+    listed: set[frozenset[str]] = set()
+    covers: dict[str, set[str]] = {}
+    for where, names, cover, sides in rows:
+        if sorted(cover) != sorted(names):
+            err(f"incompatibilities {where}: `herbs` names {sorted(cover)}, but the row names {sorted(names)}")
+        for name, ids in cover.items():
+            for i in ids:
+                if i not in herb_by_name.values():
+                    err(f"incompatibilities {where}: {name} covers {i}, which is not a herb")
+            if name in herb_by_name and herb_by_name[name] not in ids:
+                err(f"incompatibilities {where}: {name} does not cover the herb {herb_by_name[name]} of that name")
+            covers.setdefault(name, set()).update(ids)
+        for a, b in sides:
+            listed.update(frozenset((x, y)) for x in cover.get(a, []) for y in cover.get(b, []) if x != y)
+
+    def stated(word: str) -> set[str]:
+        """The herbs a word of a caution names: the herb of that name, or what the name of a row (烏頭類, 貝母) covers; nothing for a medicine outside the data."""
+        if word in herb_by_name:
+            return {herb_by_name[word]}
+        return next((set(ids) for name, ids in covers.items() if word == name or word in name), set())
+
+    exceptions = {frozenset(p) for p in INCOMPATIBILITY_EXCEPTIONS}
+    for p in INCOMPATIBILITY_EXCEPTIONS:
+        if not set(p) <= set(herb_by_name.values()):
+            err(f"incompatibilities: the exception {p} names a herb that is not one")
+    for h in herbs:
+        clauses = [*re.finditer(r"不宜與(.+?)同用", h["caution"] or ""), *re.finditer(r"(?:^|；)反(.+?)(?:等|（|；|$)", h["caution"] or "")]
+        for word in (w for m in clauses for w in m.group(1).split("、")):
+            for other in sorted(stated(word)):
+                if frozenset((h["id"], other)) not in listed | exceptions:
+                    err(f"incompatibilities: the caution of {h['id']} says not to combine it with {word}, but no row of 十八反 or 十九畏 pairs it with {other}")
     for c in load("treatment/guidance.json")["general"]["source"]:
         if c not in cit_ids:
             err(f"treatment guidance: unknown citation {c}")

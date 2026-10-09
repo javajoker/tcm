@@ -2,9 +2,9 @@
 
 | | |
 |---|---|
-| **Version** | 0.6 (draft) |
+| **Version** | 0.7 (draft) |
 | **Status** | Draft — **all clinical content and wording require physician, pharmacy and legal review before any public release** ([content review](content-review.md)) |
-| **Last updated** | 2026-10-08 |
+| **Last updated** | 2026-10-09 |
 | **Audience** | Developers, content reviewers, whoever answers user reports |
 | **Owns** | Notice **wording and triggers**, the safety-filter semantics, emergency resources, claim limits, incident handling |
 | **Related** | [SOP §0.2, §2, §13](diagnosis-sop.zh-TW.md) (logic) · [`data/config/scope-profiles.json`](../data/config/scope-profiles.json) · [`data/safety/rules.json`](../data/safety/rules.json) · [`data/diagnosis/red-flags.json`](../data/diagnosis/red-flags.json) · [Tech spec §6](tech-spec.md) · [UX spec §4.3, §10](ux-spec.md) · [Privacy](privacy.md) |
@@ -177,6 +177,11 @@ After formulas are matched (SOP step 10) and before explanation (step 12), `safe
 | Balance | `R_FLAVOR_EXCESS` | A single flavour > 55 % of effective weight |
 | State | `R_LOW_CONFIDENCE` | L0 under low confidence or insufficient information |
 
+`R_SHIBAFAN` matches the herbs of a composition **by id**: each name of a 十八反 or 十九畏 row stands for the herbs the knowledge base lists under it in that row — the herb, its
+processed forms and parts (炙甘草, 法半夏, 人參葉), the synonyms of standard teaching (朴硝 and 牙硝 are 芒硝, 官桂 is 肉桂) and the herbs whose own Pharmacopoeia caution names the
+other side (黨參 and 西洋參 with 藜蘆) — never by the characters of a name, which missed 白芍 and 赤芍 for 芍藥 and caught 燈盞細辛 for 細辛. The build checks the table against
+every herb's caution (`validate_kb`); the coverage is reviewed with the lists.
+
 Known limits to state to reviewers: the 十九畏 list is textbook (unverified); interaction flags on 609 derived herbs are rule-derived; classes are coarse; the filter cannot judge doses; free-text medications are not checked.
 
 ### 6.3 Properties that must always hold (property-tested)
@@ -251,3 +256,4 @@ Vignette suites in the [test plan §3.3](test-plan.md): every red-flag item, eve
 | 0.4 | 2026-10-08 | §3: the red flags during AI help's conversation — checked on the device before sending, A/B answered no asked again, C asks for the profile, the model's flag raises only (PM-47) |
 | 0.5 | 2026-10-08 | §2.1b the roles (learners and practitioners) and N-ROLE, the attestation, in §4.1 (PM-53) |
 | 0.6 | 2026-10-08 | N-AMOUNTS (§4.2): the quantities are for study and as an aid to a practitioner only; §2.1b: who reads with the study reference is configurable, every reader by default (PD-30, PM-54) |
+| 0.7 | 2026-10-09 | `R_SHIBAFAN` matches 十八反 and 十九畏 by herb, each name of a row standing for the herbs it covers there; the build checks the table against every caution |

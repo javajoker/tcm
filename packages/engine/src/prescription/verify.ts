@@ -145,7 +145,8 @@ export function verifyLibrary(input: VerificationInput): FormulaVerification[] {
     const balance = { ratio, pass: ratio <= v.burden_ratio_max };
     if (!balance.pass) findings.push("balance");
 
-    const incompatible = incompatiblePairs(kb, f.composition.map((c) => c.name)).map(([x, y]) => [x, y] as const);
+    const named = (id: string): string => f.composition.find((c) => c.herb === id)?.name ?? id;          // as the formula writes the herb
+    const incompatible = incompatiblePairs(kb, f.composition.map((c) => c.herb)).map((p) => [named(p.herbs[0]), named(p.herbs[1])] as const);
     const opposed = a.action.applied.filter((p) => p.type === "相惡");
     const safety = { incompatible, opposed, pass: incompatible.length === 0 && a.action.conflicts.length === 0 };
     if (!safety.pass) findings.push("safety");

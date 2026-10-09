@@ -31,7 +31,7 @@
 |---|---|---|---|
 | **Content owner** | Project maintainer | Prepares review packs, merges decisions, keeps records, owns releases | Always |
 | **Clinical reviewer (TCM)** | Licensed TCM practitioner with clinical experience; familiar with the classics and with the region's practice (Q1) | Patterns, constitutions, tongue/pulse content, formulas (indications, roles, 加減), treatment guidance, copy that makes clinical statements | L1 and above |
-| **Pharmacy / pharmacology reviewer** | Pharmacist or clinical pharmacologist with Chinese-herb knowledge | Herb effects/burdens flags, pregnancy and interaction flags, toxicity, 十八反/十九畏, dose references, tier outcomes | L1 and above |
+| **Pharmacy / pharmacology reviewer** | Pharmacist or clinical pharmacologist with Chinese-herb knowledge | Herb effects/burdens flags, pregnancy and interaction flags, toxicity, 十八反/十九畏 with the herbs each name of a row covers, dose references, tier outcomes | L1 and above |
 | **Physician reviewer** | Licensed physician (family or emergency medicine) | Red-flag lists A/B/C, scope rules (minors, pregnancy, serious chronic disease), emergency resource text, notice wording | Always (blocks any release) |
 | **Linguistic reviewer** | Bilingual (zh-Hant / en) with TCM terminology skills | Glossary, UI strings, notices, English renderings, translations of quotations | Always |
 | **Regulatory / legal reviewer** | Counsel familiar with health-information rules of the target region | Disclaimers, claim wording, privacy statement, birth-module wording | Before any public release |

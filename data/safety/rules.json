@@ -36,10 +36,45 @@
   },
   "incompatibilities": {
     "citation": "bencao-bianxue-18fan-1",
-    "note": "十九畏 pairs are standard teaching, not verified against the local sources.",
+    "note": "十九畏 pairs are standard teaching, not verified against the local sources. `herbs`: the herbs each name stands for in its row, matched by id.",
     "shibafan": [
       {
         "herb": "烏頭類（附子、川烏、草烏）",
+        "herbs": {
+          "半夏": [
+            "herb-banxia",
+            "herb-fanbanxia",
+            "herb-jiangbanxia",
+            "herb-qingbanxia"
+          ],
+          "烏頭類（附子、川烏、草烏）": [
+            "herb-fuzi",
+            "herb-chuanwu",
+            "herb-caowu",
+            "herb-zhicaowu",
+            "herb-guanbaifu"
+          ],
+          "瓜蔞": [
+            "herb-gualou",
+            "herb-gualouzi",
+            "herb-chaogualouzi",
+            "herb-gualoupi",
+            "herb-tianhuafen"
+          ],
+          "白及": [
+            "herb-baiji"
+          ],
+          "白蘞": [
+            "herb-bailian"
+          ],
+          "貝母": [
+            "herb-chuanbeimu",
+            "herb-zhebeimu",
+            "herb-pingbeimu",
+            "herb-yibeimu",
+            "herb-hubeibeimu"
+          ]
+        },
         "opposes": [
           "半夏",
           "瓜蔞",
@@ -50,6 +85,25 @@
       },
       {
         "herb": "甘草",
+        "herbs": {
+          "大戟": [
+            "herb-jingdaji",
+            "herb-hongdaji"
+          ],
+          "海藻": [
+            "herb-haizao"
+          ],
+          "甘草": [
+            "herb-gancao",
+            "herb-zhigancao"
+          ],
+          "甘遂": [
+            "herb-gansui"
+          ],
+          "芫花": [
+            "herb-yuanhua"
+          ]
+        },
         "opposes": [
           "海藻",
           "大戟",
@@ -59,6 +113,38 @@
       },
       {
         "herb": "藜蘆",
+        "herbs": {
+          "丹參": [
+            "herb-danshen"
+          ],
+          "人參": [
+            "herb-renshen",
+            "herb-hongshen",
+            "herb-renshenye",
+            "herb-xiyangshen",
+            "herb-dangshen"
+          ],
+          "沙參": [
+            "herb-beishashen",
+            "herb-nanshashen"
+          ],
+          "玄參": [
+            "herb-xuanshen"
+          ],
+          "細辛": [
+            "herb-xixin"
+          ],
+          "芍藥": [
+            "herb-baishao",
+            "herb-chishao"
+          ],
+          "苦參": [
+            "herb-kushen"
+          ],
+          "藜蘆": [
+            "herb-lilu"
+          ]
+        },
         "opposes": [
           "人參",
           "沙參",
@@ -73,39 +159,111 @@
     "shijiuwei": [
       {
         "a": "硫黃",
-        "b": "朴硝"
+        "b": "朴硝",
+        "herbs": {
+          "朴硝": [
+            "herb-mangxiao"
+          ],
+          "硫黃": [
+            "herb-liuhuang"
+          ]
+        }
       },
       {
         "a": "水銀",
-        "b": "砒霜"
+        "b": "砒霜",
+        "herbs": {
+          "水銀": [],
+          "砒霜": [
+            "herb-pishi"
+          ]
+        }
       },
       {
         "a": "狼毒",
-        "b": "密陀僧"
+        "b": "密陀僧",
+        "herbs": {
+          "密陀僧": [],
+          "狼毒": [
+            "herb-langdu"
+          ]
+        }
       },
       {
         "a": "巴豆",
-        "b": "牽牛"
+        "b": "牽牛",
+        "herbs": {
+          "巴豆": [
+            "herb-badou",
+            "herb-badoushuang"
+          ],
+          "牽牛": [
+            "herb-qianniuzi"
+          ]
+        }
       },
       {
         "a": "丁香",
-        "b": "鬱金"
+        "b": "鬱金",
+        "herbs": {
+          "丁香": [
+            "herb-dingxiang",
+            "herb-mudingxiang"
+          ],
+          "鬱金": [
+            "herb-yujin"
+          ]
+        }
       },
       {
         "a": "川烏、草烏",
-        "b": "犀角"
+        "b": "犀角",
+        "herbs": {
+          "川烏、草烏": [
+            "herb-chuanwu",
+            "herb-caowu",
+            "herb-zhicaowu"
+          ],
+          "犀角": []
+        }
       },
       {
         "a": "牙硝",
-        "b": "三棱"
+        "b": "三棱",
+        "herbs": {
+          "三棱": [
+            "herb-sanleng"
+          ],
+          "牙硝": [
+            "herb-mangxiao"
+          ]
+        }
       },
       {
         "a": "官桂",
-        "b": "赤石脂"
+        "b": "赤石脂",
+        "herbs": {
+          "官桂": [
+            "herb-rougui"
+          ],
+          "赤石脂": [
+            "herb-chishizhi"
+          ]
+        }
       },
       {
         "a": "人參",
-        "b": "五靈脂"
+        "b": "五靈脂",
+        "herbs": {
+          "五靈脂": [
+            "herb-wulingzhi"
+          ],
+          "人參": [
+            "herb-renshen",
+            "herb-hongshen",
+            "herb-renshenye"
+          ]
+        }
       }
     ]
   },

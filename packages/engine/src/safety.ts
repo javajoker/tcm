@@ -70,7 +70,8 @@ interface Descriptor {
   readonly interactions: readonly string[];
   /** Names an allergy can match (zh-Hant, English, Latin; lower-case for the Latin scripts). */
   readonly names: readonly string[];
-  readonly herbNames: readonly string[];
+  /** The herbs it is or holds, by id: what the rows of 十八反 and 十九畏 are matched against. */
+  readonly herbIds: readonly string[];
 }
 
 function herbNameSet(kb: KnowledgeBase, herbId: string): string[] {
@@ -85,14 +86,14 @@ function describe(kb: KnowledgeBase, c: Candidate): Descriptor {
       const herbs = c.formula.composition.map((x) => x.herb);
       // the herb records' names and the names the formula itself uses (芍藥 where the record says 白芍): both are names the person can see and type
       const hn = [...herbs.flatMap((id) => herbNameSet(kb, id)), ...c.formula.composition.map((x) => x.name)];
-      return { id: c.formula.id, formula: c.formula, pregnancy: c.formula.pregnancy, interactions: c.formula.interactions, names: hn, herbNames: c.formula.composition.map((x) => kb.herbName(x.herb)?.name["zh-Hant"] ?? x.name) };
+      return { id: c.formula.id, formula: c.formula, pregnancy: c.formula.pregnancy, interactions: c.formula.interactions, names: hn, herbIds: herbs };
     }
     case "herb": {
       const h = kb.herbs?.get(c.herbId);
-      return { id: c.herbId, formula: c.formula, pregnancy: h?.pregnancy ?? null, interactions: h?.interactions ?? [], names: herbNameSet(kb, c.herbId), herbNames: [kb.herbName(c.herbId)?.name["zh-Hant"] ?? h?.name["zh-Hant"] ?? c.herbId] };
+      return { id: c.herbId, formula: c.formula, pregnancy: h?.pregnancy ?? null, interactions: h?.interactions ?? [], names: herbNameSet(kb, c.herbId), herbIds: [c.herbId] };
     }
-    case "food": return { id: c.name, formula: null, pregnancy: null, interactions: [], names: [c.name], herbNames: [] };
-    case "acupoint": return { id: c.name, formula: null, pregnancy: null, interactions: [], names: [], herbNames: [] };
+    case "food": return { id: c.name, formula: null, pregnancy: null, interactions: [], names: [c.name], herbIds: [] };
+    case "acupoint": return { id: c.name, formula: null, pregnancy: null, interactions: [], names: [], herbIds: [] };
   }
 }
 
@@ -114,18 +115,27 @@ export function formulaNature(f: Pick<Formula, "panel_effect">): FormulaNature {
 
 // ── incompatible pairs (十八反 / 十九畏) ────────────────────────────────────
 
-/** "烏頭類（附子、川烏、草烏）" → ["烏頭類", "附子", "川烏", "草烏"]: the names a herb entry of the lists can stand for. */
-const tokens = (entry: string): string[] => entry.split(/[（）()、,，/]/).map((t) => t.trim()).filter((t) => t.length > 0);
-const has = (herbNames: readonly string[], entry: string): boolean => tokens(entry).some((t) => herbNames.some((n) => n.includes(t)));
+/** Two herbs that one of the classical lists says not to combine: the list, its own names for them, and the two herbs (by id) in the list's order. */
+export interface IncompatiblePair {
+  readonly list: "十八反" | "十九畏";
+  readonly names: readonly [string, string];
+  readonly herbs: readonly [string, string];
+}
 
-export function incompatiblePairs(kb: KnowledgeBase, herbNames: readonly string[]): [string, string][] {
-  const out: [string, string][] = [];
+/**
+ * The pairs of 十八反 and 十九畏 among a composition's herbs. A name of a row stands for the herbs the knowledge base lists under it in that row (`herbs`: the herb,
+ * its processed forms and parts, the synonyms of standard teaching, and the herbs whose own Pharmacopoeia caution names the other side), so the match is by id —
+ * 芍藥 finds 白芍 and 赤芍, 細辛 does not find 燈盞細辛 — and a herb the table does not list is in no pair.
+ */
+export function incompatiblePairs(kb: KnowledgeBase, herbIds: readonly string[]): IncompatiblePair[] {
+  const present = new Set(herbIds);
+  const out: IncompatiblePair[] = [];
+  const pair = (list: IncompatiblePair["list"], cover: Readonly<Record<string, readonly string[]>>, a: string, b: string): void => {
+    for (const x of cover[a] ?? []) if (present.has(x)) for (const y of cover[b] ?? []) if (y !== x && present.has(y)) out.push({ list, names: [a, b], herbs: [x, y] });
+  };
   const inc = kb.safety.incompatibilities;
-  for (const row of inc.shibafan) {
-    if (!has(herbNames, row.herb)) continue;
-    for (const other of row.opposes) if (has(herbNames, other)) out.push([row.herb, other]);
-  }
-  for (const p of inc.shijiuwei) if (has(herbNames, p.a) && has(herbNames, p.b)) out.push([p.a, p.b]);
+  for (const row of inc.shibafan) for (const other of row.opposes) pair("十八反", row.herbs, row.herb, other);
+  for (const p of inc.shijiuwei) pair("十九畏", p.herbs, p.a, p.b);
   return out;
 }
 
@@ -226,12 +236,8 @@ function targetHits(kb: KnowledgeBase, rule: SafetyRule, c: Candidate, d: Descri
   if ("herb_in_user_allergy_list" in t) return allergyHit;
   if ("flavor_share_over" in t) return c.kind === "formula" && Math.max(0, ...Object.values(c.formula.flavor_profile)) > (t.flavor_share_over as number);
   if ("herb_pairs" in t) {
-    if (c.kind === "formula") return incompatiblePairs(kb, d.herbNames).length > 0;
-    if (c.kind === "herb") {
-      const own = d.herbNames[0] ?? "";
-      const all = [...c.formula.composition.map((x) => kb.herbName(x.herb)?.name["zh-Hant"] ?? x.name), own];
-      return incompatiblePairs(kb, all).some(([p, q]) => has([own], p) || has([own], q));
-    }
+    if (c.kind === "formula") return incompatiblePairs(kb, d.herbIds).length > 0;
+    if (c.kind === "herb") return incompatiblePairs(kb, [...c.formula.composition.map((x) => x.herb), c.herbId]).some((p) => p.herbs.includes(c.herbId));
     return false;
   }
   if ("effect" in t) return t.effect === "tonic" && nature !== null && nature.tonic >= conf.tonic_min;

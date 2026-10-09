@@ -119,15 +119,41 @@ ELDERLY_DOSE_FRACTION = "約 2/3（並注意肝腎功能；教材通則，未核
 PREGNANCY_ACUPOINTS = ["合谷", "三陰交", "血海", "關元", "至陰", "崑崙", "肩井", "次髎", "石門"]
 
 # 十八反 / 十九畏 (cited verse: 《本草便讀》 藻戟遂芫俱戰草，諸參辛芍叛藜蘆)
+# `herbs`: the herbs of the knowledge base each name of a row stands for IN THAT ROW, by id — the safety rules match a composition's herbs by these ids, never by
+# the characters of a name (a name test missed 白芍 and 赤芍 for 芍藥 and caught 燈盞細辛 for 細辛). A herb is listed under a name when it is that herb, a processed form
+# or a part of it (炙甘草 「同甘草」, 制草烏, 法半夏, 巴豆霜, 人參葉, 天花粉 the root of 瓜蔞), a synonym of standard teaching (朴硝 and 牙硝 are 芒硝, 官桂 is 肉桂,
+# 三棱 is written 三稜, 砒霜 is refined from 砒石), or when its own Pharmacopoeia caution names the other side of the row (關白附 「不宜與半夏、瓜蔞、貝母、白蘞、
+# 白及同用」; 黨參 and 西洋參 「不宜與藜蘆同用」, the 諸參 of the verse — but not 五靈脂, so not in that row). validate_kb checks the table against every herb's
+# caution: each pair a caution states is a pair of a row, or one of the stated exceptions there. A draft for the pharmacy and physician review, like the lists.
 SHIBAFAN = [
-    {"herb": "烏頭類（附子、川烏、草烏）", "opposes": ["半夏", "瓜蔞", "貝母", "白蘞", "白及"]},
-    {"herb": "甘草", "opposes": ["海藻", "大戟", "甘遂", "芫花"]},
-    {"herb": "藜蘆", "opposes": ["人參", "沙參", "丹參", "玄參", "苦參", "細辛", "芍藥"]},
+    {"herb": "烏頭類（附子、川烏、草烏）", "opposes": ["半夏", "瓜蔞", "貝母", "白蘞", "白及"], "herbs": {
+        "烏頭類（附子、川烏、草烏）": ["herb-fuzi", "herb-chuanwu", "herb-caowu", "herb-zhicaowu", "herb-guanbaifu"],
+        "半夏": ["herb-banxia", "herb-fanbanxia", "herb-jiangbanxia", "herb-qingbanxia"],
+        "瓜蔞": ["herb-gualou", "herb-gualouzi", "herb-chaogualouzi", "herb-gualoupi", "herb-tianhuafen"],
+        "貝母": ["herb-chuanbeimu", "herb-zhebeimu", "herb-pingbeimu", "herb-yibeimu", "herb-hubeibeimu"],
+        "白蘞": ["herb-bailian"], "白及": ["herb-baiji"]}},
+    {"herb": "甘草", "opposes": ["海藻", "大戟", "甘遂", "芫花"], "herbs": {
+        "甘草": ["herb-gancao", "herb-zhigancao"], "海藻": ["herb-haizao"], "大戟": ["herb-jingdaji", "herb-hongdaji"], "甘遂": ["herb-gansui"], "芫花": ["herb-yuanhua"]}},
+    {"herb": "藜蘆", "opposes": ["人參", "沙參", "丹參", "玄參", "苦參", "細辛", "芍藥"], "herbs": {
+        "藜蘆": ["herb-lilu"], "人參": ["herb-renshen", "herb-hongshen", "herb-renshenye", "herb-xiyangshen", "herb-dangshen"],
+        "沙參": ["herb-beishashen", "herb-nanshashen"], "丹參": ["herb-danshen"], "玄參": ["herb-xuanshen"], "苦參": ["herb-kushen"], "細辛": ["herb-xixin"],
+        "芍藥": ["herb-baishao", "herb-chishao"]}},
 ]
 SHIJIUWEI = [
-    ("硫黃", "朴硝"), ("水銀", "砒霜"), ("狼毒", "密陀僧"), ("巴豆", "牽牛"), ("丁香", "鬱金"), ("川烏、草烏", "犀角"),
-    ("牙硝", "三棱"), ("官桂", "赤石脂"), ("人參", "五靈脂"),
+    {"a": "硫黃", "b": "朴硝", "herbs": {"硫黃": ["herb-liuhuang"], "朴硝": ["herb-mangxiao"]}},
+    {"a": "水銀", "b": "砒霜", "herbs": {"水銀": [], "砒霜": ["herb-pishi"]}},
+    {"a": "狼毒", "b": "密陀僧", "herbs": {"狼毒": ["herb-langdu"], "密陀僧": []}},
+    {"a": "巴豆", "b": "牽牛", "herbs": {"巴豆": ["herb-badou", "herb-badoushuang"], "牽牛": ["herb-qianniuzi"]}},
+    {"a": "丁香", "b": "鬱金", "herbs": {"丁香": ["herb-dingxiang", "herb-mudingxiang"], "鬱金": ["herb-yujin"]}},
+    {"a": "川烏、草烏", "b": "犀角", "herbs": {"川烏、草烏": ["herb-chuanwu", "herb-caowu", "herb-zhicaowu"], "犀角": []}},
+    {"a": "牙硝", "b": "三棱", "herbs": {"牙硝": ["herb-mangxiao"], "三棱": ["herb-sanleng"]}},
+    {"a": "官桂", "b": "赤石脂", "herbs": {"官桂": ["herb-rougui"], "赤石脂": ["herb-chishizhi"]}},
+    {"a": "人參", "b": "五靈脂", "herbs": {"人參": ["herb-renshen", "herb-hongshen", "herb-renshenye"], "五靈脂": ["herb-wulingzhi"]}},
 ]
+# Pairs a Pharmacopoeia caution states that belong to neither list (validate_kb), with the reason
+INCOMPATIBILITY_EXCEPTIONS = {
+    ("herb-laifuzi", "herb-renshen"): "相惡 (人參惡萊菔子): 萊菔子 takes away from 人參's effect; not a pair of 十八反 or 十九畏",
+}
 
 # severity: hard = removed in release (suppress_hard); soft = annotated. action_release: what release does with a hard rule.
 RULES = [

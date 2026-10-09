@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 0.10 (draft) |
+| **Version** | 0.11 (draft) |
 | **Status** | Documents the first-pass `data/` as generated today, plus the files the engine and UI still need (§9) |
 | **Last updated** | 2026-10-09 |
 | **Audience** | Engine and UI developers, content reviewers, anyone adding or changing knowledge |
@@ -299,7 +299,9 @@ Each profile also has `ai: { enabled, endpoint: origin | null, modules{conversat
 | `message` | Bilingual text shown with the item or in the suppressed list |
 | `citation?`, `condition?`, `reference?`, `note?` | Optional theory basis, extra predicate, textbook reference value |
 
-Also: `dose_references` (age fractions for minors, elderly note — never shown as advice), `incompatibilities` (十八反 and 十九畏 pair lists; the 十九畏 list is textbook, unverified),
+Also: `dose_references` (age fractions for minors, elderly note — never shown as advice), `incompatibilities` (十八反 and 十九畏 pair lists; the 十九畏 list is textbook, unverified;
+each row's `herbs` maps every name of the row to the herbs it stands for **in that row**, by id — the herb, its processed forms and parts, the synonyms of standard teaching, and the herbs
+whose own Pharmacopoeia caution names the other side — and the safety rules match a composition by these ids; `validate_kb` fails when a caution states a pair no row makes),
 `pregnancy_acupoints[9]`. `_meta.clinical_review_required` lists what a practitioner must review.
 
 ### 6.2b `safety/red-flag-terms.json` — the words that re-open the screening (AI help, PM-47)
@@ -460,3 +462,4 @@ Pharmacopoeia facts are used as structured data. The Sources screen lists each b
 | 0.8 | 2026-10-08 | PM-54: the profiles' `dose_display` (§6.1) |
 | 0.9 | 2026-10-08 | PM-50: `tongue` and `face` may be on in the `dev` profile (the photo of the tongue and the face; §6.1) |
 | 0.10 | 2026-10-09 | PM-57: `review/records.json` covers the texts outside `data/` and names a unit's extra roles (`unit_roles`) |
+| 0.11 | 2026-10-09 | `safety/rules.json` `incompatibilities`: each row's `herbs`, matched by id (the 十八反 and 十九畏 check missed herbs whose names differ from the list's) |

@@ -165,6 +165,18 @@ class Corruptions(unittest.TestCase):
     def test_orthography_variant_outside_quotations(self):
         self.assertReported({"herbs/herbs.json": lambda d: d["items"][0]["functions"].append("清利溼熱")}, "溼 found outside quotations")
 
+    def test_incompatibilities_miss_a_pair_a_caution_states(self):
+        def m(d):        # 赤芍's caution: 不宜與藜蘆同用
+            next(r for r in d["incompatibilities"]["shibafan"] if r["herb"] == "藜蘆")["herbs"]["芍藥"].remove("herb-chishao")
+        self.assertReported({"safety/rules.json": m}, "the caution of herb-chishao says not to combine it with 藜蘆, but no row of 十八反 or 十九畏 pairs it with herb-lilu")
+
+    def test_incompatibilities_name_an_unknown_herb(self):
+        self.assertReported({"safety/rules.json": lambda d: d["incompatibilities"]["shijiuwei"][0]["herbs"]["硫黃"].append("herb-nothing")}, "covers herb-nothing, which is not a herb")
+
+    def test_incompatibilities_cover_the_names_of_their_row(self):
+        self.assertReported({"safety/rules.json": lambda d: d["incompatibilities"]["shibafan"][1]["herbs"].pop("芫花")}, "`herbs` names")
+        self.assertReported({"safety/rules.json": lambda d: d["incompatibilities"]["shibafan"][1]["herbs"]["甘草"].remove("herb-gancao")}, "甘草 does not cover the herb herb-gancao")
+
     def test_markdown_in_a_herb_caution(self):
         self.assertReported({"herbs/herbs.json": lambda d: d["items"].__setitem__(0, {**d["items"][0], "caution": "本品有毒，**不作內服**"})}, "Markdown in the text a herb page shows")
 

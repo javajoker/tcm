@@ -464,13 +464,14 @@ def safety_rules() -> dict:
     target = {"type": "object", "minProperties": 1, "maxProperties": 1, "properties": {
         k: {} for k in ("herb_pregnancy", "herb_interaction", "formula_tier", "acupoints", "conflict", "herb_in_user_allergy_list", "flavor_share_over", "herb_pairs", "effect", "food_pregnancy_caution",
                         "output_level_max")}, "additionalProperties": False}
+    covered = dictionary(arr(ref("herbId"), unique=True))      # each name of a 十八反 or 十九畏 row → the herbs of the knowledge base it stands for in that row
     rule = obj({"applies_to": applies, "citation": ref("citationId"), "condition": STR, "id": ref("ruleId"), "message": ref("bilingualNamed"), "note": STR, "reference": {"oneOf": [STR, arr(obj({"age": STR, "fraction_of_adult": STR}))]},
                 "severity": enum("hard", "soft"), "target": target}, ["applies_to", "id", "message", "severity", "target"])
     return {"type": "object", "properties": {
         "_meta": meta({"clinical_review_required": arr(STR), "count": INT, "status": ref("reviewStatus")}, ["clinical_review_required", "count", "status"]),
         "rules": arr(rule, 1),
-        "incompatibilities": obj({"citation": ref("citationId"), "note": STR, "shibafan": arr(obj({"herb": STR, "opposes": arr(STR)})),
-                                  "shijiuwei": arr(obj({"a": STR, "b": STR}))}),
+        "incompatibilities": obj({"citation": ref("citationId"), "note": STR, "shibafan": arr(obj({"herb": STR, "opposes": arr(STR), "herbs": covered})),
+                                  "shijiuwei": arr(obj({"a": STR, "b": STR, "herbs": covered}))}),
         "dose_references": obj({"elderly": STR, "minor_fractions": arr(obj({"age": STR, "fraction_of_adult": STR})), "note": STR}),
         "pregnancy_acupoints": arr(STR, 1)},
         "required": ["_meta", "incompatibilities", "pregnancy_acupoints", "rules"], "additionalProperties": False}  # dose_references is pruned from bundles that cannot show doses

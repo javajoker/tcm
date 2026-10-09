@@ -157,18 +157,29 @@ test("the standard formulas of each pattern are not blocked by the direction rul
   }
 });
 
-test("flavour excess is a soft annotation; 十八反/十九畏 pairs are detected by name", () => {
+test("flavour excess is a soft annotation; 十八反/十九畏 pairs are found by herb, each name of a row standing for the herbs it covers there", () => {
   const sour = [...dev.formulas.values()].find((f) => Math.max(...Object.values(f.flavor_profile)) > 0.55);
   if (sour) assert.ok(firedIds(run(dev, subject(), [{ kind: "formula", formula: sour }]).report, sour.id).includes("R_FLAVOR_EXCESS"));
-  assert.deepEqual(incompatiblePairs(dev, ["炙甘草", "海藻", "人參"]), [["甘草", "海藻"]]);
-  assert.deepEqual(incompatiblePairs(dev, ["附子", "半夏"]).length, 1, "烏頭類 includes 附子");
-  assert.deepEqual(incompatiblePairs(dev, ["人參", "藜蘆"]), [["藜蘆", "人參"]]);
-  assert.deepEqual(incompatiblePairs(dev, ["硫黃", "朴硝"]), [["硫黃", "朴硝"]]);
-  assert.deepEqual(incompatiblePairs(dev, ["人參", "黃耆", "白朮"]), []);
-  for (const f of dev.formulas.values()) assert.deepEqual(incompatiblePairs(dev, f.composition.map((c) => dev.herbName(c.herb)!.name["zh-Hant"])), [], `${f.id} contains an incompatible pair`);
+  const pairs = (...ids: string[]): unknown[] => incompatiblePairs(dev, ids).map((p) => [p.list, ...p.names, ...p.herbs]);
+  assert.deepEqual(pairs("herb-zhigancao", "herb-haizao", "herb-renshen"), [["十八反", "甘草", "海藻", "herb-zhigancao", "herb-haizao"]]);
+  assert.deepEqual(pairs("herb-fuzi", "herb-banxia"), [["十八反", "烏頭類（附子、川烏、草烏）", "半夏", "herb-fuzi", "herb-banxia"]]);
+  assert.deepEqual(pairs("herb-renshen", "herb-lilu"), [["十八反", "藜蘆", "人參", "herb-lilu", "herb-renshen"]]);
+  assert.deepEqual(pairs("herb-liuhuang", "herb-mangxiao"), [["十九畏", "硫黃", "朴硝", "herb-liuhuang", "herb-mangxiao"]]);
+  assert.deepEqual(pairs("herb-renshen", "herb-huangqi", "herb-baizhu"), []);
+  // what a match on the characters of a name missed: a name that is not the record's (芍藥, 官桂, 朴硝, 牙硝, 三棱), a processed form or a variety (紅參, 天花粉), a herb whose
+  // own caution names the other side (關白附, 黨參, 西洋參)
+  for (const [a, b] of [["herb-baishao", "herb-lilu"], ["herb-chishao", "herb-lilu"], ["herb-hongshen", "herb-lilu"], ["herb-hongshen", "herb-wulingzhi"], ["herb-xiyangshen", "herb-lilu"],
+    ["herb-dangshen", "herb-lilu"], ["herb-rougui", "herb-chishizhi"], ["herb-mangxiao", "herb-sanleng"], ["herb-tianhuafen", "herb-fuzi"], ["herb-guanbaifu", "herb-banxia"], ["herb-zhigancao", "herb-gansui"]] as const) {
+    assert.equal(incompatiblePairs(dev, [a, b]).length, 1, `${a} with ${b}`);
+  }
+  // and what it caught wrongly: other plants whose names hold the characters, and 西洋參 with 五靈脂, which no caution states
+  for (const [a, b] of [["herb-dengzhanxixin", "herb-lilu"], ["herb-kuxuanshen", "herb-lilu"], ["herb-tubeimu", "herb-fuzi"], ["herb-caowuye", "herb-banxia"], ["herb-xiyangshen", "herb-wulingzhi"]] as const) {
+    assert.deepEqual(incompatiblePairs(dev, [a, b]), [], `${a} with ${b}`);
+  }
+  for (const f of dev.formulas.values()) assert.deepEqual(incompatiblePairs(dev, f.composition.map((c) => c.herb)), [], `${f.id} contains an incompatible pair`);
   const bad: Formula = { ...dev.formulas.get("F_SIJUNZI")!, id: "F_TEST", tier: "A", composition: [
-    { herb: "x1", name: "甘草", role: "君", role_weight: 1, proportion: 0.5, effective_weight: 0.5, note: null },
-    { herb: "x2", name: "海藻", role: "臣", role_weight: 0.6, proportion: 0.5, effective_weight: 0.5, note: null }] };
+    { herb: "herb-gancao", name: "甘草", role: "君", role_weight: 1, proportion: 0.5, effective_weight: 0.5, note: null },
+    { herb: "herb-haizao", name: "海藻", role: "臣", role_weight: 0.6, proportion: 0.5, effective_weight: 0.5, note: null }] };
   const r = run(release, subject(), [{ kind: "formula", formula: bad }]);
   assert.equal(r.report.items[0]!.removed, true);
   assert.equal(r.report.suppressed[0]!.ruleId, "R_SHIBAFAN");
