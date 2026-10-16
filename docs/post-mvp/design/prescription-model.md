@@ -2,9 +2,9 @@
 
 | | |
 |---|---|
-| **Version** | 0.12 (draft) |
+| **Version** | 0.13 (draft) |
 | **Status** | Design for Release E (FR-36 … FR-38; tasks PM-36 … PM-41). **Built: the herb property model (PM-36, §3.6); dose–response, pairings and processing (PM-37, §3.7); the formula's effect, roles and 方解 (PM-38, §4.4); the verification of the library and its first report (PM-39, §5.1); the personalised prescription (PM-40, §6.6); in the app, gated (PM-41, §7.3)** |
-| **Last updated** | 2026-10-08 |
+| **Last updated** | 2026-10-16 |
 | **Audience** | Engineers, the clinical content owner, the pharmacy reviewer, a legal adviser (for §7) |
 | **Related** | [Knowledge base v2](knowledge-base-v2.md) · [AI-assisted intake](ai-assisted-intake.md) · [Requirements FR-36 … FR-38](../requirements.md) · [Decisions PD-13 … PD-18](../decisions.md) · [Diagnosis SOP §12](../../diagnosis-sop.zh-TW.md) · [Safety policy §2](../../safety-policy.md) · [PRD G10](../../PRD.md) |
 
@@ -273,7 +273,7 @@ A third profile beside `dev` and `release`: everything of L3 except the develope
 
 ### 7.2 The practitioner summary and its file
 
-The personalised prescription goes into the practitioner summary (a new section) at the level the profile allows; the summary file gains an optional `prescription` section in a new schema version (2) — version 1 readers are unaffected.
+The personalised prescription goes into the practitioner summary (a new section) at the level the profile allows — `personalise` reads the result's policy: no plan below L2 (a result a condition holds at L1 names its formula only), no quantities below L3, for every reader and every role (fixed 2026-10-16: the plan had ignored the level); the summary file gains an optional `prescription` section in a new schema version (2) — version 1 readers are unaffected.
 
 ### 7.3 As built: in the app (PM-41)
 
@@ -371,3 +371,4 @@ PM-36 (herb property model v2), PM-37 (dose–response, pairings, processing in 
 | 0.10 | 2026-10-07 | §5.1: the 營衛 finding answered by PM-52 |
 | 0.11 | 2026-10-08 | §7.4 as built: the roles, the reference file, the app, rule 18 (PM-53) |
 | 0.12 | 2026-10-08 | §7.4 as built (PM-54): `dose_display`, the default for every reader, the note N-AMOUNTS, offline and budgets — the owner's decision PD-30 |
+| 0.13 | 2026-10-16 | §7: the plan is made at the level the result allows (`personalise` reads the policy's features) — a learner's or a practitioner's result a condition holds at L1 showed the plan with grams |

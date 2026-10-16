@@ -166,3 +166,30 @@ test("property: over every pattern's typical patient and random people, no herb 
     assert.deepEqual(run(shaped, subject), p);
   });
 });
+
+test("made at the level the result's policy allows (design §7): a learner's or a practitioner's result a medicine holds at L1 has no plan; at L3 it has its amounts", async () => {
+  // the typical patient with every other question answered (a release result needs enough information to reach L3)
+  const filled: Record<string, Findings[string]> = { ...typical("SP1") };
+  for (const q of dev.questions) { if (q.requires?.sex === "male") continue; for (const o of q.options) for (const sym of o.symptoms) if (!(sym in filled)) filled[sym] = { state: "absent" }; }
+  const full = (s: Partial<Subject>, kb: typeof release): { a: Assessment; subject: Subject } => {
+    const subject = person(s);
+    return { a: assess(kb, { subject, redFlags: new Set(), findings: filled, context: { course: "chronic" }, options: { now: NOW, birthModule: false } }), subject };
+  };
+  for (const role of ["learner", "practitioner"] as const) {
+    const kb = await release.forRole(role);
+    const plain = full({}, kb);
+    assert.equal(plain.a.policy.level, "L3");
+    const p = run(plain.a, plain.subject, kb)!;
+    assert.ok(p.amounts && p.composition.every((r) => r.amountG !== null), `${role}: the plan with its quantities`);
+    const onMedicine = full({ medications: ["antihypertensive"] }, kb);
+    assert.equal(onMedicine.a.policy.level, "L1");
+    assert.equal(onMedicine.a.policy.features.dosage, false);
+    assert.equal(run(onMedicine.a, onMedicine.subject, kb), null, `${role}: no 加減 and no quantity at L1, as the formula page shows none`);
+  }
+  // an L2 result (no amounts at that level): the 加減 without grams
+  const { a, subject } = assessed("SP1");
+  const l2 = { ...a, policy: { ...a.policy, level: "L2" as const, features: { ...a.policy.features, dosage: false } } };
+  const p = run(l2, subject)!;
+  assert.equal(p.amounts, false);
+  assert.ok(p.composition.every((r) => r.amountG === null));
+});

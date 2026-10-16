@@ -7,6 +7,8 @@
 //   3. the amounts (where the knowledge base carries them): the 君 at the middle of its Pharmacopoeia range and the others in the formula's
 //      proportions, × severity × age × constitution × season (× region, off), a toxic herb never raised, never above its range, rounded
 //   4. the 方解 of what is prescribed, against the person's own deviation
+// It is made at the level the result's policy allows (design §7): the 加減 needs the modification feature (L2 and above), the amounts the dosage feature (L3, or a
+// declared learner or practitioner) — a result a condition holds at L1 (a medicine, an allergy, an acute external illness) has no plan, whoever reads it.
 import type { Formula, Herb, KnowledgeBase, Sanyin } from "@tcm/kb";
 import type { Assessment } from "../assess.ts";
 import { bestScale, cost, dimensionWeight, type PanelVector, type Role, type Strength } from "../formulas.ts";
@@ -113,11 +115,11 @@ const namesOf = (h: Herb): string[] => [h.name["zh-Hant"], ...(h.aliases ?? []),
 
 interface WorkRow { herb: string; role: Role; source: PrescriptionRow["source"]; x: number; base: number | null; note: string | null; weight: number }
 
-/** The personalised prescription (§6), or null where the knowledge base carries no herb records (a release bundle) or nothing is recommended. */
+/** The personalised prescription (§6), or null where the knowledge base carries no herb records (a release bundle), the result's level allows no 加減, or nothing is recommended. */
 export function personalise(input: PersonaliseInput): Prescription | null {
   const { kb, assessment, subject, tables, sanyin } = input;
   const herbs = kb.herbs;
-  if (!herbs) return null;
+  if (!herbs || !assessment.policy.features.modification) return null;
   const rec = assessment.recommendations.formulas.find((r) => !r.studyOnly);
   if (!rec) return null;
   const f: Formula = kb.formulas.get(rec.id)!;
@@ -140,7 +142,7 @@ export function personalise(input: PersonaliseInput): Prescription | null {
   const cRule = sanyin.constitution.find((c) => c.constitution === constitution) ?? null;
 
   const changes: PrescriptionChange[] = [];
-  const amounts = f.composition.every((c) => c.typical_g !== undefined);
+  const amounts = assessment.policy.features.dosage && f.composition.every((c) => c.typical_g !== undefined);
   let rows: WorkRow[] = f.composition.map((c) => {
     const t = typicalDose(herb(c.herb));
     const note = [c.note, c.classical_amount?.processing].filter((x): x is string => typeof x === "string" && x.length > 0).join("；") || null;
