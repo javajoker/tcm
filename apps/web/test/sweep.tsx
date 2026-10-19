@@ -50,6 +50,7 @@ export const ROUTES: { pattern: string; url: string; needs: Needs; dev?: true; s
   { pattern: "/history", url: "/history", needs: "saved" },
   { pattern: "/settings", url: "/settings", needs: "nothing" },
   { pattern: "/sources", url: "/sources", needs: "nothing" },
+  { pattern: "/terms", url: "/terms", needs: "nothing" },
   { pattern: "/learn", url: "/learn", needs: "nothing" },
   { pattern: "/learn/compare", url: "/learn/compare", needs: "nothing" },
   { pattern: "/learn/:type", url: "/learn/terms", needs: "nothing" },

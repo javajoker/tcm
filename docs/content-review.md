@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 0.17 (draft) |
+| **Version** | 0.18 (draft) |
 | **Status** | Proposed process — **no reviewer has been appointed yet** (PRD Q8 blocks milestone M3) |
 | **Last updated** | 2026-10-19 |
 | **Audience** | Maintainers, clinical and linguistic reviewers |
@@ -57,7 +57,7 @@ One person may hold several roles if qualified; the physician and the TCM clinic
 | **Treatment guidance** | `treatment/guidance.json`, pattern `treatment` | Foods, acupoints (location text, cautions, **and where the schematic drawings mark them** — the dev inspector's *Figures* tab shows all of them; the placements are in `apps/web/src/screens/result/figures/acupointSpots.ts`, a web-app file outside the content hash), lifestyle advice, pregnancy cautions | TCM clinical + pharmacy |
 | **Five-phase priors** | `wuxing/*`, `engine-params.json`, wording of birth/yunqi/season copy | Reasonableness of caps and wording; that the content is framed as tendency reference | TCM clinical + regulatory |
 | **Citations** | `citations.json` | That each quotation actually supports the sentence where it is used (machine verification only proves the text exists) | TCM clinical |
-| **Copy** | UI catalogs (`apps/web/src/i18n`, Traditional Chinese and English; the Simplified catalog is generated from the Traditional one — among them `handbook`, the printed herb handbook's words), notices, disclaimers | Tone, forbidden wording, clinical accuracy | Linguistic + regulatory (+ physician for the notices, the `safety` namespace) |
+| **Copy** | UI catalogs (`apps/web/src/i18n`, Traditional Chinese and English; the Simplified catalog is generated from the Traditional one — among them `handbook`, the printed herb handbook's words, and `terms`, the terms of service), notices, disclaimers | Tone, forbidden wording, clinical accuracy; for the terms, what they promise and exclude | Linguistic + regulatory (+ physician for the notices, the `safety` namespace; + a lawyer for the terms of service, PD-36) |
 | **Glossary / translations** | `glossary.json`, `en` fields, `safety/name-fold.json` (each character of a herb or food name with its Simplified form, so that an allergy typed in either script is matched) | Term choices, WHO conformity, readability; that every folding pair is right | Linguistic |
 | **The learning book** | `docs/book/zh-Hant/` (shown in Learn, PM-43; the course's companion, PM-56) | That each chapter's perspective is fair to the tradition and says what the model does, in plain Traditional Chinese a cultured reader accepts; that each quotation supports its sentence (the build proves only that it exists); no advice, no amount, no second person | Linguistic + TCM clinical |
 | **The course and its textbook** | `docs/course/zh-Hant/` (PM-55; shown in Learn since PM-60 — a public build carries it only once every page is reviewed, `check-release` rule 19) | That each chapter teaches correctly at textbook level, in plain Traditional Chinese; that each 白話 explanation renders its excerpt faithfully and each excerpt supports its place (the tests prove only that it exists); that the tables of common patterns, herbs and formulas match the textbooks and the Pharmacopoeia; that the danger signs of chapters 18 and 22 are right and sufficient; the answer key; no advice, no amount, no second person | Linguistic + TCM clinical |
@@ -255,3 +255,4 @@ A release build **must fail** (`check-release.ts`) if a required area has no val
 | 0.15 | 2026-10-09 | §3: the handbook's shares and classical amounts, and its study edition with the reference quantities and what it waits for (PM-64) |
 | 0.16 | 2026-10-19 | §3: the practitioner reference skill (PM-65): what it adds (no content), its words and its instructions, and who reviews them |
 | 0.17 | 2026-10-19 | §3: the owner's decisions on the skill — the practitioner's inline conditions in the scope profiles' review (PD-32), internal use (PD-35) |
+| 0.18 | 2026-10-19 | §3: the terms of service (`terms`) in the interface text, with a lawyer's review (PD-36) |

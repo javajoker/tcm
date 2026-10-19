@@ -13,7 +13,7 @@ after(() => { for (const c of copies) rmSync(c, { recursive: true, force: true }
 function copy(): string {
   const dir = mkdtempSync(join(tmpdir(), "tcm-hygiene-"));
   copies.push(dir);
-  for (const f of [".github/dependabot.yml", ".github/workflows/ci.yml", ".github/workflows/nightly.yml", "scripts/licenses.json", "NOTICE", "data/README.md", "SECURITY.md", "CHANGELOG.md", "CONTRIBUTING.md", "LICENSE", ".github/CODEOWNERS", ".github/pull_request_template.md", ".github/ISSUE_TEMPLATE/config.yml", ".github/ISSUE_TEMPLATE/bug_report.md", ".github/ISSUE_TEMPLATE/safety_report.md"]) {
+  for (const f of [".github/dependabot.yml", ".github/workflows/ci.yml", ".github/workflows/nightly.yml", "scripts/licenses.json", "NOTICE", "TERMS.md", "TERMS.zh-TW.md", "data/README.md", "SECURITY.md", "CHANGELOG.md", "CONTRIBUTING.md", "LICENSE", ".github/CODEOWNERS", ".github/pull_request_template.md", ".github/ISSUE_TEMPLATE/config.yml", ".github/ISSUE_TEMPLATE/bug_report.md", ".github/ISSUE_TEMPLATE/safety_report.md"]) {
     mkdirSync(dirname(join(dir, f)), { recursive: true });
     cpSync(join(root, f), join(dir, f));
   }

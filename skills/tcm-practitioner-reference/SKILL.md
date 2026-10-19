@@ -1,7 +1,7 @@
 ---
 name: tcm-practitioner-reference
 description: Reference TCM formula for a licensed doctor's case, computed by a bundled, deterministic engine from what the doctor describes (age, sex, constitution, complaints, tongue, pulse, medicines, allergies, special needs) and returned with the herbs, their roles, reference grams within the Pharmacopoeia range, the reasons for every change and the safety findings, in Traditional Chinese or English. Use this skill whenever a doctor or TCM practitioner describes a patient and asks for a prescription, herbs and dosages, 開方, 方藥, 處方參考, 用藥參考, 加減, or wants an independent reference to check their own treatment plan against, even if they do not name the skill. Never invent herbs or doses yourself; this skill's script is the only source of the formula, the grams and the rationale.
-license: Apache-2.0 (see LICENSE and NOTICE)
+license: Apache-2.0 (LICENSE, NOTICE); the skill is given out for study and the project's internal use under the terms of service (TERMS.md)
 compatibility: Runs scripts/reference.mjs with Node.js 18 or later; no packages to install, no network access, nothing written or kept.
 ---
 
@@ -10,7 +10,7 @@ compatibility: Runs scripts/reference.mjs with Node.js 18 or later; no packages 
 A doctor describes a patient; you turn the description into a case file, run the bundled script, and give the doctor its report. The report is a **reference** the
 doctor checks their own clinical judgement against — the formula a rule engine reaches from the same facts, with its herbs, grams and reasons. The doctor will usually not
 tell you their own plan, and you should not ask for it: the value of the reference is that it is reached independently. The skill serves the project's internal doctors,
-learners and candidate users.
+learners and candidate users, for study and use within the project, under the terms of service in `TERMS.md` (Traditional Chinese: `TERMS.zh-TW.md`).
 
 ## The one rule that matters
 

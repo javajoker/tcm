@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 0.18 (draft) |
+| **Version** | 0.19 (draft) |
 | **Status** | Every item the MVP documents recorded as "to be revisited after the MVP" is answered here with the recommended default; new decisions that came out of the post-MVP design are PD-01 … PD-12 |
 | **Last updated** | 2026-10-19 |
 | **Audience** | Project owner, maintainers, reviewers |
@@ -197,6 +197,18 @@ users.*
 |---|---|---|---|---|
 | PD-35 ✓ | Who the project serves | The project's **internal doctors, learners and candidate users**: the closed beta (the release profile with its draft label), the practitioner reference skill and the printed editions are made for them. The draft label, the review gates and the safety layer are unchanged; a release outside the project (public, or to doctors elsewhere) waits for a legal view per market — the risk PD-30 already keeps | [PRD §3](../PRD.md#3-target-users) | A release outside the project is planned |
 
+### 2.13 The owner's decisions of 2026-10-19 (second)
+
+**Decided by the owner, 2026-10-19:** *keep the current open-source Apache-2.0 licence; update the notice for study and internal project use only; add terms of service accordingly.*
+
+| ID | Question | Decision | Design | Revisit when |
+|---|---|---|---|---|
+| PD-36 ✓ | The licence, the notice and the terms of use | **The licence stays the Apache License 2.0** (`LICENSE`, unchanged). **The NOTICE states the intended use** — study and use within the project by its internal doctors, learners and candidate users — and says that this is information, not a condition of the licence (Apache-2.0 §4(d): a NOTICE does not modify the License). **The terms of service** govern the use of the project's services (the deployed app, the skill as the project gives it out, the printed editions): who may use them, what they are not (no medical advice, diagnosis or treatment; not a medical device), draft content, the practitioner's responsibility and de-identified cases, acceptable use (study and the project only), the data, the source code's licence untouched, no warranty, limited liability, ending access, changes. In the app: the terms page (`/terms`, three languages, from the `terms` messages) linked from every footer; the landing statement accepts them, and every message of the terms is part of its version, so a change asks everyone again. `TERMS.md` and `TERMS.zh-TW.md` are written from the same messages; the skill carries them. **A draft for legal review (0.1):** the governing law, the courts and the contact are named once a lawyer has reviewed it | [Terms of service](../../TERMS.md) · [UX spec S01, S28](../ux-spec.md) | A lawyer reviews the terms; a release outside the project is planned |
+
+**Note on the licence.** The Apache License lets anyone who receives the source code use, change and share it for any purpose. The NOTICE and the terms can say what the
+project's services are for and bind those who use them; they cannot narrow what the licence grants for the code. A use restricted by licence would need another licence for
+the parts concerned (the knowledge base, for example) — a question for the lawyer reviewing the terms.
+
 ## 3. Changelog
 
 | Version | Date | Change |
@@ -219,3 +231,4 @@ users.*
 | 0.16 | 2026-10-19 | §2.11: the practitioner reference skill (PM-65) — PD-31 applied as the recommended default; PD-32 … PD-34 open |
 | 0.17 | 2026-10-19 | §2.12: the owner's decisions — PD-32 … PD-34 as recommended (PM-66; PD-33 to be built as PM-67) and PD-35, the project serves its internal doctors, learners and candidate users |
 | 0.18 | 2026-10-19 | PD-33 built (PM-67): the finding source `practitioner`, 0.9 |
+| 0.19 | 2026-10-19 | §2.13: PD-36 — the licence stays Apache-2.0, the NOTICE states study and internal project use, terms of service (PM-68) |

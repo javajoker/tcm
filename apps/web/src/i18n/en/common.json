@@ -117,6 +117,7 @@
   "common.footer.nav": "Footer links",
   "common.footer.privacy": "Privacy",
   "common.footer.sources": "Sources",
+  "common.footer.terms": "Terms",
   "common.footer.version": "Version {version}",
   "common.health.ask": "Ask the browser to keep my data",
   "common.health.ask.denied": "The browser did not agree. It decides for itself, often after the app is used regularly or installed. A backup is the sure way to keep your results.",

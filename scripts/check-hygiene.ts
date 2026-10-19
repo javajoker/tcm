@@ -5,7 +5,7 @@ import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
-const REQUIRED = [".github/dependabot.yml", "scripts/licenses.json", "NOTICE", "data/README.md", "SECURITY.md", "CHANGELOG.md", "CONTRIBUTING.md", "LICENSE", ".github/CODEOWNERS", ".github/pull_request_template.md", ".github/ISSUE_TEMPLATE/config.yml", ".github/ISSUE_TEMPLATE/bug_report.md", ".github/ISSUE_TEMPLATE/safety_report.md"];
+const REQUIRED = [".github/dependabot.yml", "scripts/licenses.json", "NOTICE", "TERMS.md", "TERMS.zh-TW.md", "data/README.md", "SECURITY.md", "CHANGELOG.md", "CONTRIBUTING.md", "LICENSE", ".github/CODEOWNERS", ".github/pull_request_template.md", ".github/ISSUE_TEMPLATE/config.yml", ".github/ISSUE_TEMPLATE/bug_report.md", ".github/ISSUE_TEMPLATE/safety_report.md"];
 const read = (root: string, p: string): string => readFileSync(join(root, p), "utf8");
 const checklistOf = (text: string): string[] => [...text.matchAll(/^- \[ \] (.+)$/gm)].map((m) => m[1]!.trim());
 
@@ -51,7 +51,7 @@ export function checkHygiene(rootDir: string): string[] {
 
   // 5. the licence notice names what the data is derived from, and the data README points to it
   const notice = read(root, "NOTICE");
-  for (const needed of ["TCM-Library", "MIT", "Permission is hereby granted", "Apache License", "public domain", "Pharmacopoeia"]) if (!notice.includes(needed)) out.push(`NOTICE does not mention "${needed}"`);
+  for (const needed of ["TCM-Library", "MIT", "Permission is hereby granted", "Apache License", "public domain", "Pharmacopoeia", "FOR STUDY AND INTERNAL PROJECT USE ONLY", "TERMS.md"]) if (!notice.includes(needed)) out.push(`NOTICE does not mention "${needed}"`);
   if (!/NOTICE/.test(read(root, "data/README.md"))) out.push("data/README.md does not refer to NOTICE (the licence statement)");
 
   // 6. every action in every workflow is pinned to a full commit SHA with its version in a comment, and Dependabot is told to keep the pins current

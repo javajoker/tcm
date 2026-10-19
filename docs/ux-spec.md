@@ -2,9 +2,9 @@
 
 | | |
 |---|---|
-| **Version** | 0.14 (draft) |
+| **Version** | 0.15 (draft) |
 | **Status** | Draft — no UI implemented yet |
-| **Last updated** | 2026-10-09 |
+| **Last updated** | 2026-10-19 |
 | **Derives from** | [PRD v0.3](PRD.md) (FR-1…FR-20, NFRs) · [Diagnosis SOP v0.2](diagnosis-sop.zh-TW.md) (what is asked and shown) · [Tech spec](tech-spec.md) (routes, state, components' data) |
 | **Sibling docs** | [Safety policy](safety-policy.md) owns the **notice wording** · [i18n guide](i18n-guide.md) owns **terminology and copy rules** · [Test plan](test-plan.md) owns usability and accessibility testing |
 
@@ -92,7 +92,9 @@ Landing ─► Start (profile, birth*) ─► Safety screening ─► Inquiry �
 │  [ Start assessment ]       │  ← primary, disabled until acknowledged
 │  ☐ I understand this is     │
 │    educational, not medical │
-│    advice  (Read in full ›) │
+│    advice, and I accept the │
+│    terms of service         │
+│    (Read in full ›) (Terms ›)│
 │                             │
 │  ┌ Resume ───────────────┐  │  ← only when a draft exists
 │  │ Inquiry · 8 min ago   │  │
@@ -101,11 +103,12 @@ Landing ─► Start (profile, birth*) ─► Safety screening ─► Inquiry �
 │  What you get · How it works│  3 short cards (panel, reasoning, formulas)
 │  Privacy: stays on device   │
 ├─────────────────────────────┤
-│ Not a diagnosis · Privacy · v1│
+│ Not a diagnosis · Privacy · Sources · Terms · v1│
 └─────────────────────────────┘
 ```
 
-- The acknowledgement stores `{version, time}`; changed disclaimer wording (version bump) re-prompts.
+- The acknowledgement stores `{version, time}`; changed disclaimer wording (version bump) re-prompts. The statement also accepts the **terms of service** (PD-36): every message of
+  the terms is part of the version, so a change of the terms re-prompts too. *Terms* opens S28 — the terms in the page language (`/:lang/terms`), also linked from every footer.
 - "What you get" shows one **sample panel** (static, clearly labelled *example*) so users know what the output looks like.
 - Desktop: two columns (message + start card | sample result preview).
 
@@ -604,3 +607,4 @@ Testing method and scenarios are in the [test plan](test-plan.md).
 | 0.12 | 2026-10-08 | The note N-AMOUNTS beside every table of quantities; the card, the review and the result's line for the default reading (PM-54) |
 | 0.13 | 2026-10-08 | S26, the photo of the tongue or the face (development builds); its entries on the observation stage (S08–S10) and the two switches in the AI help card (PM-50) |
 | 0.14 | 2026-10-09 | S27, the course (PM-60); the hub (S21) lists it after the book |
+| 0.15 | 2026-10-19 | S01: the statement accepts the terms of service; S28, the terms page, and its footer link (PD-36) |

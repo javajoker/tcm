@@ -38,6 +38,7 @@ const Review = lazy(() => import("../screens/review/Review.tsx").then((m) => ({ 
 const Screening = lazy(() => import("../screens/screening/Screening.tsx").then((m) => ({ default: m.Screening })));
 const Settings = lazy(() => import("../screens/settings/Settings.tsx").then((m) => ({ default: m.Settings })));
 const Sources = lazy(() => import("../screens/settings/Sources.tsx").then((m) => ({ default: m.Sources })));
+const Terms = lazy(() => import("../screens/settings/Terms.tsx").then((m) => ({ default: m.Terms })));
 
 // dev-only route. The comparison must be written against the compile-time define itself: a dynamic import behind an imported constant is
 // still emitted as a chunk, whereas a literal condition removes the import (and the whole dev module) from a release build.
@@ -75,6 +76,7 @@ function Screens(): ReactNode {
           <Route path="/history"><History /></Route>
           <Route path="/settings"><Settings /></Route>
           <Route path="/sources"><Sources /></Route>
+          <Route path="/terms"><Terms /></Route>
           <Route path="/learn"><Learn /></Route>
           <Route path="/learn/compare"><Learn compare /></Route>
           <Route path="/learn/:type">{(params) => <Learn type={params.type} />}</Route>

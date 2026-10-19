@@ -1,5 +1,5 @@
 import { useId, useState, type ReactNode } from "react";
-import { useLocation } from "wouter";
+import { Link, useLocation } from "wouter";
 import { useI18n } from "../i18n/I18nProvider.tsx";
 import type { MessageKey } from "../i18n/catalogs.ts";
 import { Button, Card, Chip, ConfirmDialog, Dialog, DialogActions } from "../ui/index.ts";
@@ -97,7 +97,8 @@ export function Landing(): ReactNode {
             <input id="ack" type="checkbox" checked={checked} onChange={(e) => setChecked(e.currentTarget.checked)} />
             <label htmlFor="ack">
               {t.t("intake.landing.ack.label")}{" "}
-              <button type="button" className={styles.link} onClick={() => setDialog("full")}>{t.t("intake.landing.ack.read")}</button>
+              <button type="button" className={styles.link} onClick={() => setDialog("full")}>{t.t("intake.landing.ack.read")}</button>{" "}
+              <Link href="/terms" className={styles.link}>{t.t("intake.landing.ack.terms")}</Link>
             </label>
           </div>
         </div>

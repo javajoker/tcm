@@ -153,6 +153,17 @@
   "allow": [
     {
       "keys": [
+        "terms."
+      ],
+      "rules": [
+        "diagnosis",
+        "prescription",
+        "cure"
+      ],
+      "reason": "The terms of service (PD-36) negate these claims ('do not give medical advice, diagnosis or treatment', 'not as a prescription'); their wording is reviewed with the terms by the regulatory reviewer and a lawyer"
+    },
+    {
+      "keys": [
         "handbook.cover.",
         "handbook.about.safety.practitioner",
         "handbook.formulas.part.intro",

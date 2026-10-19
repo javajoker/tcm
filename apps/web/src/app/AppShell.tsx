@@ -48,6 +48,7 @@ export function AppShell({ children }: { children: ReactNode }): ReactNode {
           <nav aria-label={t.t("common.footer.nav")} className={styles.footerNav}>
             <Link href="/settings#privacy">{t.t("common.footer.privacy")}</Link>
             <Link href="/sources">{t.t("common.footer.sources")}</Link>
+            <Link href="/terms">{t.t("common.footer.terms")}</Link>
             <span>{t.t("common.footer.version", { version: APP_BUILD })}</span>
           </nav>
         </div>

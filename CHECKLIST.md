@@ -89,6 +89,7 @@ _Ticked on 2026-10-05 from local runs (see the [dry run](docs/release-dry-run.md
 - [ ] Beta exception recorded in the release notes if any area is still draft; `APP_DRAFT_LABEL=on`
 - [ ] Physician review of red flags, scope and notices **complete**
 - [ ] Legal sign-off on disclaimers, claims, privacy statement
+- [ ] Terms of service reviewed by a lawyer and made final — the governing law, the courts and the contact named (`TERMS.md`; draft 0.1, PD-36); participants accept them with the landing statement
 - [ ] Usability R3 done; participants informed (consent text)
 - [ ] Release checklist (§5) complete; hosting and headers verified; rollback tested
 
@@ -232,7 +233,7 @@ Each row is accepted when **all** its checks hold and the verifying test or revi
 ### 5.5 Privacy and legal
 - [ ] Privacy tests green; hosting log behaviour confirmed; public privacy statement matches this build
 - [ ] Legal sign-off on disclaimers, claims and store/marketing copy
-- [ ] Attribution and licence screen complete (sources, CC-BY data if any); `NOTICE` current
+- [ ] Attribution and licence screen complete (sources, CC-BY data if any); `NOTICE` current — the licence stays Apache-2.0, the NOTICE states the intended use (study and the project's internal use) and points to the terms of service
 
 ### 5.6 Operations
 - [ ] Headers verified on staging (CSP, caching, `nosniff`, referrer, permissions) — the *Deploy* workflow's smoke test does this against the deployed URL

@@ -32,14 +32,14 @@ test("the instructions as Claude loads them: valid frontmatter, the counts of th
   assert.deepEqual(Object.keys(Object.fromEntries(front.split("\n").map((l) => [l.split(":")[0], 1]))).sort(), ["compatibility", "description", "license", "name"]);
   assert.doesNotMatch(md, /\{\{/, "the counts are filled in");
   assert.match(md, /holds \*\*\d+ patterns and \d+ formulas\*\*/);
-  for (const f of ["references/vocabulary.md", "references/case-format.md", "assets/example-case.json", "scripts/reference.mjs", "LICENSE", "NOTICE"]) assert.ok(read(f).length > 0, f);
+  for (const f of ["references/vocabulary.md", "references/case-format.md", "assets/example-case.json", "scripts/reference.mjs", "LICENSE", "NOTICE", "TERMS.md", "TERMS.zh-TW.md"]) assert.ok(read(f).length > 0, f);
   for (const f of md.match(/`(references|assets|scripts)\/[^`]+`/g) ?? []) assert.ok(read(f.slice(1, -1).split(" ")[0]!).length > 0, `${f} is named and present`);
   assert.equal(read("references/case-format.md"), readFileSync(join(SOURCE, "references", "case-format.md"), "utf8"));
 });
 
 test("the package: the folder at the root of a zip, without the evals", () => {
   const names = execFileSync("python3", ["-c", "import sys, zipfile; print('\\n'.join(zipfile.ZipFile(sys.argv[1]).namelist()))", built.skill], { encoding: "utf8" }).trim().split("\n").sort();
-  assert.deepEqual(names, ["LICENSE", "NOTICE", "SKILL.md", "assets/example-case.json", "references/case-format.md", "references/vocabulary.md", "scripts/kb.json", "scripts/reference.mjs"].map((f) => `${SKILL}/${f}`));
+  assert.deepEqual(names, ["LICENSE", "NOTICE", "SKILL.md", "TERMS.md", "TERMS.zh-TW.md", "assets/example-case.json", "references/case-format.md", "references/vocabulary.md", "scripts/kb.json", "scripts/reference.mjs"].map((f) => `${SKILL}/${f}`));
   assert.ok(built.bytes.skill < 1024 * 1024, "under a megabyte packed");
 });
 

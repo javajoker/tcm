@@ -2,11 +2,11 @@
 
 | | |
 |---|---|
-| **Version** | 0.12 (draft) |
+| **Version** | 0.13 (draft) |
 | **Status** | Design document; the user-facing statement (§8) needs legal review before release |
-| **Last updated** | 2026-10-08 |
+| **Last updated** | 2026-10-19 |
 | **Audience** | Developers, reviewers, whoever writes the public privacy statement |
-| **Related** | [PRD G7, NFR Privacy](PRD.md) · [Tech spec §8.3, §11](tech-spec.md) · [UX spec §4.2, §4.14](ux-spec.md) · [Safety policy](safety-policy.md) · [Algorithm spec §15](wuxing-algorithm.md) |
+| **Related** | [Terms of service](../TERMS.md) (§6, the data) · [PRD G7, NFR Privacy](PRD.md) · [Tech spec §8.3, §11](tech-spec.md) · [UX spec §4.2, §4.14](ux-spec.md) · [Safety policy](safety-policy.md) · [Algorithm spec §15](wuxing-algorithm.md) |
 
 > **Summary.** The app is **local-first**: everything the user enters stays in their browser on their device. There are no accounts, no server that receives answers,
 > no third-party scripts and no analytics in the MVP. The user can see what is stored and erase all of it in one action.
@@ -189,3 +189,4 @@ Since then (post-MVP, [decisions register](post-mvp/decisions.md)): PQ2 and PQ3 
 | 0.10 | 2026-10-08 | The reading role (PM-53): a low-sensitivity preference, carried in a backup; results stamped with their role |
 | 0.11 | 2026-10-08 | The reading role gains the value *general* (PM-54) |
 | 0.12 | 2026-10-08 | The photo of the tongue and the face (PM-50; development builds only, PD-25): inventory rows for the photo (memory only, sent once on Send, shrunk and without metadata), what travels with it and the confirmed features; the consent per module; no camera permission in any build; no photo code in a public build; the draft wording of the photo statement; the verification rows |
+| 0.13 | 2026-10-19 | Related: the terms of service, whose §6 summarises this statement (PD-36) |

@@ -111,6 +111,7 @@
   "common.footer.nav": "页脚链接",
   "common.footer.privacy": "隐私",
   "common.footer.sources": "资料来源",
+  "common.footer.terms": "使用条款",
   "common.footer.version": "版本 {version}",
   "common.health.ask": "请浏览器保留我的资料",
   "common.health.ask.denied": "浏览器没有同意。这由浏览器自行决定，通常取决于您是否经常使用或已安装此应用程序。备份是保留结果最可靠的方法。",

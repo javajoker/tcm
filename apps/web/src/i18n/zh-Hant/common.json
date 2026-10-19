@@ -111,6 +111,7 @@
   "common.footer.nav": "頁尾連結",
   "common.footer.privacy": "隱私",
   "common.footer.sources": "資料來源",
+  "common.footer.terms": "使用條款",
   "common.footer.version": "版本 {version}",
   "common.health.ask": "請瀏覽器保留我的資料",
   "common.health.ask.denied": "瀏覽器沒有同意。這由瀏覽器自行決定，通常取決於您是否經常使用或已安裝此應用程式。備份是保留結果最可靠的方法。",
