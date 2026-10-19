@@ -113,10 +113,13 @@ describe("the reference", () => {
     expect(run({ ...CASE, constitution: { primary: "C_YANGXU" } }).saved!.result.constitution!.result.stated).toBe(true);
   });
 
-  it("the safety policy holds for every case: a medicine or an allergy match gives L1 and no plan; pregnancy, a minor, a red flag or a serious condition give L0 and no formula", () => {
+  it("the safety policy holds for every case: a medicine leaves a declared practitioner at L3 (PD-32) with its notice and without the interacting herbs; pregnancy, a minor, a red flag or a serious condition give L0 and no formula", () => {
     const meds = run(withPerson({ medications: { status: "some", classes: ["antihypertensive"] } })).saved!;
-    expect(meds.result.policy.level).toBe("L1");
-    expect(meds.prescription).toBeUndefined();
+    expect(meds.result.policy.level).toBe("L3");
+    expect(meds.result.policy.notices.map((n) => n.id)).toContain("N-MED");
+    expect(meds.prescription!.amounts).toBe(true);
+    const hard = new Set(kb.safety.rules.flatMap((rule) => { const t = rule.target as { herb_interaction?: string }; const ap = rule.applies_to as { medication_class?: string[] }; return t.herb_interaction && rule.severity === "hard" && ap.medication_class?.includes("antihypertensive") ? [t.herb_interaction] : []; }));
+    for (const row of meds.prescription!.composition) expect(kb.herbs!.get(row.herb)!.interactions.some((i) => hard.has(i)), row.herb).toBe(false);
     for (const c of [withPerson({ pregnancy: "yes" }), withPerson({ age: 8, pregnancy: undefined, lactating: undefined }), { ...CASE, redFlags: ["RF_A_CHEST_PAIN"] }, withPerson({ conditions: { status: "some", items: ["RF_C_KIDNEY"] } })]) {
       const s = run(c).saved!;
       expect(s.result.policy.level, JSON.stringify(c).slice(0, 80)).toBe("L0");
@@ -147,8 +150,16 @@ describe("the reference", () => {
     });
   }
 
-  it("held at L1 by a medicine: the formula by name and composition, and why there is no plan", () => {
+  it("a patient on a medicine: the plan with its quantities, and the line saying why they are still listed", () => {
     const md = reportOf(kb, run(withPerson({ medications: { status: "some", classes: ["antihypertensive"], named: ["amlodipine"] } })));
+    expect(md).toContain("本例列出參考方、加減與參考份量（醫師角色）。");
+    expect(md).toContain("服用藥物（降血壓藥、amlodipine）：依醫師角色仍列出參考份量；相關的藥材已依安全規則移除或標示");
+    expect(md).toMatch(/\| 君 \| 人參 \| \d+(\.5)? 克 \|/);
+  });
+
+  it("a build whose overrides hold the practitioner's conditions back (APP_OVERRIDES): the formula by name and composition, and why there is no plan", async () => {
+    const held = await indexKnowledgeBase(rawChunksFromDisk("release", { condition: { on_other_interacting_medication: { level: "L1" } } })).forRole("practitioner");
+    const md = reportOf(held, runCase(held, withPerson({ medications: { status: "some", classes: ["antihypertensive"], named: ["amlodipine"] } }), NOW));
     expect(md).toContain("本例只列方劑的名稱與組成，不列加減與參考份量：服用藥物（降血壓藥、amlodipine）。");
     expect(md).toMatch(/組成：君：人參、白朮、茯苓；臣：/);
     expect(md).toContain("此等級不列加減與參考份量");

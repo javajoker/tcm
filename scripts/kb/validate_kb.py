@@ -191,7 +191,8 @@ def validate(load: Loader = load, check_sources: bool = True) -> list[str]:
         err("profile dev: dose_display must be all (the development profile opens everything)")
     if scope["profiles"]["release"]["ai"] != {"enabled": False, "endpoint": None, "modules": {"conversation": False, "tongue": False, "face": False}}:
         err("profile release: AI help must be off, with no gateway, until its gates (docs/post-mvp/design/ai-assisted-intake.md §6)")
-    # the roles (PM-53): an overlay over the release profile that may only raise an adult's level and switch study features on (the schema admits nothing else)
+    # the roles (PM-53): an overlay over the release profile that may only raise an adult's level, switch study features on, and (PD-32) raise a condition cell whose notice is
+    # inline — never a blocking one (the schema admits nothing else)
     rank = {"L0": 0, "L1": 1, "L2": 2, "L3": 3}
     release = scope["profiles"]["release"]
     for rname, overlay in scope["roles"].items():
@@ -201,6 +202,11 @@ def validate(load: Loader = load, check_sources: bool = True) -> list[str]:
         for key, on in overlay["features"].items():
             if not on:
                 err(f"role {rname}: features.{key} is false (an overlay only switches study features on)")
+        for key, cell in overlay.get("condition", {}).items():
+            if release["condition"][key]["notice"] == "blocking_ack":
+                err(f"role {rname}: condition.{key} is a blocking cell (a role never raises one)")
+            if rank[cell["level"]] < rank[release["condition"][key]["level"]]:
+                err(f"role {rname}: condition.{key} would lower the release level")
 
     # the words that re-open the screening during AI help's conversation: one entry per red flag (the minor's comes from the age), words in both languages for every A and B item
     terms = load("safety/red-flag-terms.json")["items"]

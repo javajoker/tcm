@@ -55,6 +55,9 @@ const DEV_KB_MARKERS = ["annotate_only", "\"sanyin\":"];
 const AI_MARKERS = ["/v1/intake/turn", "/v1/session", "/v1/config", "/v1/observe/", "ai.settings.title", "ai.consent.title", "ai.photo.send", "createImageBitmap"];
 /** Population / condition cells that must always raise a blocking notice in a release configuration (rule 7, safety policy §2). */
 const BLOCKING = [["population", "minor_under_18"], ["population", "pregnant"], ["population", "lactating"], ["condition", "red_flag_A"], ["condition", "red_flag_B"], ["condition", "serious_chronic_disease"]] as const;
+/** The condition cells a declared practitioner may raise (PD-32): their notice is inline; every other reader keeps the general reader's. */
+const PRACTITIONER_CONDITIONS: readonly string[] = ["on_anticoagulant", "on_other_interacting_medication", "allergy_match", "acute_external_symptoms"];
+const LEVEL_RANK: Readonly<Record<string, number>> = { L0: 0, L1: 1, L2: 2, L3: 3 };
 
 export function checkRelease(distDir: string, opts: CheckOptions = {}): Failure[] {
   const dist = resolve(distDir);
@@ -467,7 +470,14 @@ export function checkRelease(distDir: string, opts: CheckOptions = {}): Failure[
         if (!opts.draftLabel && !reviewed) fail(18, "a public build ships the reference for learners and practitioners before its formulas and herb records are reviewed (content review §7)");
         for (const [role, prof] of Object.entries(ref.roles) as [string, ScopeProfile][]) {
           for (const [dim, key] of BLOCKING) { const c = (prof[dim] as Record<string, { level: string; notice: string }>)[key]!; if (c.level !== "L0" || c.notice !== "blocking_ack") fail(18, `the ${role}'s ${dim}.${key} is ${c.level} · ${c.notice}: the safety layer is every role's`); }
-          for (const dim of ["condition", "state"] as const) if (JSON.stringify(prof[dim]) !== JSON.stringify(general[dim])) fail(18, `the ${role}'s ${dim} cells differ from the general reader's`);
+          if (JSON.stringify(prof.state) !== JSON.stringify(general.state)) fail(18, `the ${role}'s state cells differ from the general reader's`);
+          for (const [key, g] of Object.entries(general.condition) as [string, { level: string; notice: string }][]) {
+            if (BLOCKING.some(([dim, k]) => dim === "condition" && k === key)) continue;                  // checked above: L0 · blocking for every role
+            const c = (prof.condition as Record<string, { level: string; notice: string }>)[key]!;
+            if (role === "practitioner" && PRACTITIONER_CONDITIONS.includes(key)) {
+              if (c.notice !== g.notice || (LEVEL_RANK[c.level] ?? 0) < (LEVEL_RANK[g.level] ?? 0)) fail(18, `the practitioner's condition.${key} is ${c.level} · ${c.notice}: it may only be raised, with the general reader's notice (PD-32)`);
+            } else if (JSON.stringify(c) !== JSON.stringify(g)) fail(18, `the ${role}'s condition.${key} differs from the general reader's (only a declared practitioner raises the inline conditions, PD-32)`);
+          }
           for (const key of Object.keys(general.population) as (keyof ScopeProfile["population"])[]) if (key !== "adult" && key !== "elderly_65_plus" && JSON.stringify(prof.population[key]) !== JSON.stringify(general.population[key])) fail(18, `the ${role}'s population.${key} differs from the general reader's`);
           if (prof.safety_enforcement !== general.safety_enforcement) fail(18, `the ${role}'s safety enforcement is ${prof.safety_enforcement}`);
         }

@@ -446,8 +446,11 @@ def scope_profiles() -> dict:
     })
     level_def = obj({"includes": arr(STR, 1), "name": ref("bilingualNamed")})
     raise_to = obj({"level": ref("level")})
+    # a role's overlay: an adult's levels, the study features, and (PD-32) the condition cells whose notice is inline — never a blocking one
     overlay = obj({"population": obj({"adult": raise_to, "elderly_65_plus": raise_to}),
-                   "features": obj({"show_dosage_reference": BOOL, "show_formula_modification": BOOL, "show_herb_weights": BOOL, "show_tier_c": BOOL})})
+                   "features": obj({"show_dosage_reference": BOOL, "show_formula_modification": BOOL, "show_herb_weights": BOOL, "show_tier_c": BOOL}),
+                   "condition": obj({k: raise_to for k in ("on_anticoagulant", "on_other_interacting_medication", "allergy_match", "acute_external_symptoms")}, [])},
+                  ["features", "population"])
     return {"type": "object", "properties": {
         "_meta": meta({"version": INT}, ["version"]),
         "dimensions": obj({"condition": arr(STR, 7), "population": arr(STR, 5), "state": arr(STR, 3)}),

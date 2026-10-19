@@ -167,7 +167,7 @@ test("property: over every pattern's typical patient and random people, no herb 
   });
 });
 
-test("made at the level the result's policy allows (design §7): a learner's or a practitioner's result a medicine holds at L1 has no plan; at L3 it has its amounts", async () => {
+test("made at the level the result's policy allows (design §7): a learner's result a medicine holds at L1 has no plan; a declared practitioner's reaches L3 (PD-32) and has its amounts, the interacting herbs removed", async () => {
   // the typical patient with every other question answered (a release result needs enough information to reach L3)
   const filled: Record<string, Findings[string]> = { ...typical("SP1") };
   for (const q of dev.questions) { if (q.requires?.sex === "male") continue; for (const o of q.options) for (const sym of o.symptoms) if (!(sym in filled)) filled[sym] = { state: "absent" }; }
@@ -182,9 +182,18 @@ test("made at the level the result's policy allows (design §7): a learner's or 
     const p = run(plain.a, plain.subject, kb)!;
     assert.ok(p.amounts && p.composition.every((r) => r.amountG !== null), `${role}: the plan with its quantities`);
     const onMedicine = full({ medications: ["antihypertensive"] }, kb);
-    assert.equal(onMedicine.a.policy.level, "L1");
-    assert.equal(onMedicine.a.policy.features.dosage, false);
-    assert.equal(run(onMedicine.a, onMedicine.subject, kb), null, `${role}: no 加減 and no quantity at L1, as the formula page shows none`);
+    if (role === "learner") {
+      assert.equal(onMedicine.a.policy.level, "L1");
+      assert.equal(onMedicine.a.policy.features.dosage, false);
+      assert.equal(run(onMedicine.a, onMedicine.subject, kb), null, "a learner: no 加減 and no quantity at L1, as the formula page shows none");
+    } else {
+      assert.equal(onMedicine.a.policy.level, "L3");
+      assert.ok(onMedicine.a.policy.notices.some((n) => n.id === "N-MED"), "the notice of medicines is still shown");
+      const q = run(onMedicine.a, onMedicine.subject, kb)!;
+      assert.ok(q.amounts && q.composition.every((r) => r.amountG !== null), "a practitioner: the plan with its quantities");
+      const hard = new Set(kb.safety.rules.flatMap((rule) => { const t = rule.target as { herb_interaction?: string }; const ap = rule.applies_to as { medication_class?: string[] }; return t.herb_interaction && rule.severity === "hard" && ap.medication_class?.includes("antihypertensive") ? [t.herb_interaction] : []; }));
+      for (const r of q.composition) assert.ok(!kb.herbs!.get(r.herb)!.interactions.some((i) => hard.has(i)), `${r.herb}: an interacting herb is removed`);
+    }
   }
   // an L2 result (no amounts at that level): the 加減 without grams
   const { a, subject } = assessed("SP1");

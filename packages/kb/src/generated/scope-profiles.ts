@@ -249,6 +249,20 @@ export interface ScopeProfiles {
   };
   roles: {
     learner: {
+      condition?: {
+        acute_external_symptoms?: {
+          level: Level;
+        };
+        allergy_match?: {
+          level: Level;
+        };
+        on_anticoagulant?: {
+          level: Level;
+        };
+        on_other_interacting_medication?: {
+          level: Level;
+        };
+      };
       features: {
         show_dosage_reference: boolean;
         show_formula_modification: boolean;
@@ -265,6 +279,20 @@ export interface ScopeProfiles {
       };
     };
     practitioner: {
+      condition?: {
+        acute_external_symptoms?: {
+          level: Level;
+        };
+        allergy_match?: {
+          level: Level;
+        };
+        on_anticoagulant?: {
+          level: Level;
+        };
+        on_other_interacting_medication?: {
+          level: Level;
+        };
+      };
       features: {
         show_dosage_reference: boolean;
         show_formula_modification: boolean;

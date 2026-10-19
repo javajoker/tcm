@@ -1250,6 +1250,61 @@
         "learner": {
           "additionalProperties": false,
           "properties": {
+            "condition": {
+              "additionalProperties": false,
+              "properties": {
+                "acute_external_symptoms": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "level": {
+                      "$ref": "#/$defs/level"
+                    }
+                  },
+                  "required": [
+                    "level"
+                  ],
+                  "type": "object"
+                },
+                "allergy_match": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "level": {
+                      "$ref": "#/$defs/level"
+                    }
+                  },
+                  "required": [
+                    "level"
+                  ],
+                  "type": "object"
+                },
+                "on_anticoagulant": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "level": {
+                      "$ref": "#/$defs/level"
+                    }
+                  },
+                  "required": [
+                    "level"
+                  ],
+                  "type": "object"
+                },
+                "on_other_interacting_medication": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "level": {
+                      "$ref": "#/$defs/level"
+                    }
+                  },
+                  "required": [
+                    "level"
+                  ],
+                  "type": "object"
+                }
+              },
+              "required": [],
+              "type": "object"
+            },
             "features": {
               "additionalProperties": false,
               "properties": {
@@ -1318,6 +1373,61 @@
         "practitioner": {
           "additionalProperties": false,
           "properties": {
+            "condition": {
+              "additionalProperties": false,
+              "properties": {
+                "acute_external_symptoms": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "level": {
+                      "$ref": "#/$defs/level"
+                    }
+                  },
+                  "required": [
+                    "level"
+                  ],
+                  "type": "object"
+                },
+                "allergy_match": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "level": {
+                      "$ref": "#/$defs/level"
+                    }
+                  },
+                  "required": [
+                    "level"
+                  ],
+                  "type": "object"
+                },
+                "on_anticoagulant": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "level": {
+                      "$ref": "#/$defs/level"
+                    }
+                  },
+                  "required": [
+                    "level"
+                  ],
+                  "type": "object"
+                },
+                "on_other_interacting_medication": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "level": {
+                      "$ref": "#/$defs/level"
+                    }
+                  },
+                  "required": [
+                    "level"
+                  ],
+                  "type": "object"
+                }
+              },
+              "required": [],
+              "type": "object"
+            },
             "features": {
               "additionalProperties": false,
               "properties": {

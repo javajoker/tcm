@@ -158,12 +158,20 @@ export type RoleOverlay = ScopeProfiles["roles"]["learner"];
  * build's overrides then apply as to the profile itself: they may only restrict. Throws on an overlay that would lower a level or switch a feature off.
  */
 export function roleProfile(base: ScopeProfile, overlay: RoleOverlay, overrides?: unknown): ScopeProfile {
-  const next = structuredClone(base) as ScopeProfile & { population: Record<string, Cell>; features: Record<string, boolean> };
+  const next = structuredClone(base) as ScopeProfile & { population: Record<string, Cell>; condition: Record<string, Cell>; features: Record<string, boolean> };
   const problems: string[] = [];
   for (const [key, cell] of Object.entries(overlay.population) as [string, { level: Level }][]) {
     const cur = next.population[key];
     if (cur === undefined) problems.push(`population.${key}: unknown cell`);
     else if (rank(cell.level) < rank(cur.level)) problems.push(`population.${key}: ${cell.level} would lower ${cur.level} (a role only raises an adult's level)`);
+    else cur.level = cell.level;
+  }
+  // a declared practitioner's conditions (PD-32): a condition cell whose notice is inline may be raised; a blocking one never, whoever reads
+  for (const [key, cell] of Object.entries(overlay.condition ?? {}) as [string, { level: Level }][]) {
+    const cur = next.condition[key];
+    if (cur === undefined) problems.push(`condition.${key}: unknown cell`);
+    else if (cur.notice === "blocking_ack") problems.push(`condition.${key}: a role never raises a blocking cell`);
+    else if (rank(cell.level) < rank(cur.level)) problems.push(`condition.${key}: ${cell.level} would lower ${cur.level}`);
     else cur.level = cell.level;
   }
   for (const [key, on] of Object.entries(overlay.features) as [string, boolean][]) {

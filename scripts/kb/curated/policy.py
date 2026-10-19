@@ -89,13 +89,18 @@ PROFILES = {
 # Roles (PD-13, PD-14; the owner's decision of 2026-10-07; docs/post-mvp/design/prescription-model.md §7.4): a reader who declares, with an attestation, that they study Chinese
 # medicine or practise it reaches L3 in the release build — the composition with its roles, reference amounts, the classical 加減 and the personalised plan. An overlay over the
 # release profile that may only raise the levels of an adult (and an adult over 65) and switch the study features on: every other cell — minors, pregnancy, breastfeeding, the
-# red flags, serious chronic disease, the medicine and allergy conditions, the states — and the safety enforcement stay the release profile's, so the safety layer does not
-# depend on who reads (validated here and by check-release rule 18).
+# red flags, serious chronic disease, the states — and the safety enforcement stay the release profile's, so the safety layer does not depend on who reads (validated here and
+# by check-release rule 18).
 ROLE_OVERLAY = {
     "population": {"adult": {"level": "L3"}, "elderly_65_plus": {"level": "L3"}},
     "features": {"show_dosage_reference": True, "show_formula_modification": True, "show_herb_weights": True, "show_tier_c": True},
 }
-ROLES = {"learner": ROLE_OVERLAY, "practitioner": ROLE_OVERLAY}
+# The practitioner's condition cells (PD-32, the owner's decision of 2026-10-19): a declared practitioner also reaches L3 when the patient takes a medicine, a formula herb matches
+# an allergy, or the presentation is acute and external — the condition cells whose notice is inline, which hold every other reader at L1. The safety rules still act for the
+# practitioner: an interacting herb, an allergen and a formula a hard rule names are removed (never the 君 — the plan is then withheld), and the notice is shown. A role never
+# raises a blocking cell; the learner keeps the release profile's conditions.
+PRACTITIONER_CONDITIONS = {k: {"level": "L3"} for k in ("on_anticoagulant", "on_other_interacting_medication", "allergy_match", "acute_external_symptoms")}
+ROLES = {"learner": ROLE_OVERLAY, "practitioner": {**ROLE_OVERLAY, "condition": PRACTITIONER_CONDITIONS}}
 
 RESOLUTION = {
     "flow": "continue",

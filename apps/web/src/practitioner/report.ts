@@ -58,6 +58,13 @@ export function reportOf(kb: KnowledgeBase, run: PractitionerRun): string {
   /** A message of the knowledge base in the report's language (names keep their Chinese in English; messages do not need it). */
   const said = (m: { readonly "zh-Hant": string; readonly en: string | null }): string => (t.lang === "en" && m.en ? m.en : t.zh(m["zh-Hant"]));
   safety.push(policy.level === "L3" ? k("practitioner.level.L3") : k(`practitioner.level.${policy.level}` as PKey, { reasons: reasons() }));
+  // a condition the practitioner's role raises (PD-32): the quantities are still listed, and the safety rules still remove or flag the herbs concerned
+  const raised = policy.matched.filter((c) => c.dimension === "condition" && c.level === "L3" && c.notice === "inline");
+  if (raised.length > 0) {
+    const words = raised.filter((c) => !isMedicine(c)).map((c) => k(`practitioner.cell.condition.${c.key}` as PKey));
+    if (raised.some(isMedicine)) words.push(medicines.length > 0 ? k("practitioner.cell.medicines", { list: medicines.join(sep) }) : k(`practitioner.cell.condition.${raised.find(isMedicine)!.key}` as PKey));
+    safety.push(k("practitioner.level.raised", { reasons: words.join(sep) }));
+  }
   const flags = (level: "A" | "B"): string[] => kb.redFlags.filter((f) => f.level === level && saved.input.redFlags.includes(f.id)).map((f) => said(f.text));
   for (const level of ["A", "B"] as const) { const f = flags(level); if (f.length > 0) safety.push(k(`practitioner.redFlag.${level}` as PKey, { items: f.join(sep) })); }
   // what a safety rule removed (what the level leaves out is said by the line above)

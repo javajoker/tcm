@@ -32,6 +32,16 @@ test("an overlay that would lower a level or switch a feature off is refused; th
   assert.equal(reachOf(restricted).dosage, false);
 });
 
+test("a declared practitioner also reaches L3 when the patient takes a medicine, a herb matches an allergy or the presentation is acute and external (PD-32); a blocking cell is never raised", () => {
+  const p = roleProfile(release, files.scope.roles.practitioner);
+  for (const key of ["on_anticoagulant", "on_other_interacting_medication", "allergy_match", "acute_external_symptoms"] as const) assert.deepEqual(p.condition[key], { ...release.condition[key], level: "L3" }, key);
+  for (const key of ["red_flag_A", "red_flag_B", "serious_chronic_disease"] as const) assert.deepEqual(p.condition[key], release.condition[key], key);
+  assert.deepEqual(p.state, release.state);
+  assert.deepEqual(roleProfile(release, overlay).condition, release.condition, "the learner keeps the release profile's conditions");
+  assert.throws(() => roleProfile(release, { ...overlay, condition: { red_flag_A: { level: "L3" } } } as never), /never raises a blocking cell/);
+  assert.throws(() => roleProfile(release, { ...overlay, condition: { allergy_match: { level: "L0" } } }), /would lower L1/);
+});
+
 test("the reference: in the closed beta only — every tier with its amounts, the classical 加減, the herb records with the tables, the dose references, each pattern's formulas", () => {
   const beta = buildFromDisk("release", undefined, true);
   const ref = beta.referenceFile!;

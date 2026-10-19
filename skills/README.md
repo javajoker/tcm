@@ -15,5 +15,7 @@ script — the app's own engine and practitioner pipeline — computes everythin
 - **Try it:** `node dist/skills/tcm-practitioner-reference/scripts/reference.mjs dist/skills/tcm-practitioner-reference/assets/example-case.json` (add `--lang en`).
 - **Install:** in Claude Code, copy the built folder to `~/.claude/skills/` (or a project's `.claude/skills/`); in the Claude apps, add the `.skill` file as a custom skill in
   the settings (capabilities). The script needs Node.js 18 or later where it runs.
-- **Status:** a draft, like the knowledge base it carries — its patterns, formulas, herb records and rules await the clinical and pharmacy reviews. Three questions are the
-  owner's before it goes to doctors outside the project, among them a legal view ([decision register §2.11](../docs/post-mvp/decisions.md#211-the-owners-request-of-2026-10-16)).
+- **Who it is for:** the project's internal doctors, learners and candidate users (PD-35). It goes to no one outside the project before a legal view per market
+  ([decision register §2.12](../docs/post-mvp/decisions.md#212-the-owners-decisions-of-2026-10-19)).
+- **Status:** a draft, like the knowledge base it carries — its patterns, formulas, herb records and rules await the clinical and pharmacy reviews. A patient on a medicine, with
+  an allergy match or with an acute external presentation still gets the plan with its grams, the herbs concerned removed (PD-32).

@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 0.16 (draft) |
+| **Version** | 0.17 (draft) |
 | **Status** | Proposed process — **no reviewer has been appointed yet** (PRD Q8 blocks milestone M3) |
 | **Last updated** | 2026-10-19 |
 | **Audience** | Maintainers, clinical and linguistic reviewers |
@@ -79,7 +79,10 @@ One person may hold several roles if qualified; the physician and the TCM clinic
 > ([design](post-mvp/design/practitioner-reference.md)). It adds no medical content: the result and the plan are the engine's, on the closed beta's knowledge base, under the app's
 > policy for a declared practitioner, and are reviewed where the data and the engine are. Its own words are the `practitioner` namespace of the interface text (reviewed with it,
 > in the `ui` pack), with the practitioner's voice of the few `report` and `rx` lines that address the app's user; its instructions to Claude (`skills/tcm-practitioner-reference/`:
-> how a case is made from a doctor's words and how the report is read) are reviewed by the regulatory reviewer with the claims. The open questions are the owner's (PD-32 … PD-34).
+> how a case is made from a doctor's words and how the report is read) are reviewed by the regulatory reviewer with the claims. The owner decided its open questions on
+> 2026-10-19: a declared practitioner's inline condition cells (a medicine, an allergy match, an acute external presentation) at L3 — part of the scope profiles, so the physician
+> and a second reviewer check them (PD-32); a practitioner's tongue and pulse as a finding source of their own (PD-33); and the project serves its internal doctors, learners and
+> candidate users (PD-34, PD-35).
 
 ---
 
@@ -251,3 +254,4 @@ A release build **must fail** (`check-release.ts`) if a required area has no val
 | 0.14 | 2026-10-09 | §3: the handbook's part on formulas (PM-63) and what it waits for |
 | 0.15 | 2026-10-09 | §3: the handbook's shares and classical amounts, and its study edition with the reference quantities and what it waits for (PM-64) |
 | 0.16 | 2026-10-19 | §3: the practitioner reference skill (PM-65): what it adds (no content), its words and its instructions, and who reviews them |
+| 0.17 | 2026-10-19 | §3: the owner's decisions on the skill — the practitioner's inline conditions in the scope profiles' review (PD-32), internal use (PD-35) |

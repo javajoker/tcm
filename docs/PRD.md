@@ -3,9 +3,9 @@
 | | |
 |---|---|
 | **Working title** | TCM Self-Assessment App (name TBD) |
-| **Version** | 0.11 (draft) |
+| **Version** | 0.12 (draft) |
 | **Status** | Draft — documentation set complete (M0); open questions resolved with MVP defaults (§14.2), supporting-document proposals confirmed (§14.3); all to be revisited after the MVP — the post-MVP answers are in the [decision register](post-mvp/decisions.md) |
-| **Last updated** | 2026-10-08 |
+| **Last updated** | 2026-10-19 |
 | **Related docs** | [Documentation index](README.md) · [Post-MVP set](post-mvp/README.md) · [Diagnosis SOP v0.2 (繁體中文)](diagnosis-sop.zh-TW.md) · [Algorithm spec](wuxing-algorithm.md) ([繁中](wuxing-algorithm.zh-TW.md)) · [Tech spec](tech-spec.md) · [UI/UX spec](ux-spec.md) · [KB schema](kb-schema.md) · [i18n guide](i18n-guide.md) · [Content review](content-review.md) · [Safety policy](safety-policy.md) · [Privacy](privacy.md) · [Test plan](test-plan.md) · [Release process](release-process.md) · [Tasks](../TASKS.md) · [Checklist](../CHECKLIST.md) · [Knowledge base (`data/`)](../data/README.md) · [Reference sources](../reference/README.md) |
 
 > **Source-of-truth rule.** The diagnosis logic (what is asked, how answers become a pattern and a body panel, how that becomes a
@@ -82,6 +82,9 @@ attestation; a general reader keeps the education levels; the safety layer appli
 | **Practitioner** (primary for reference, since 2026-10-07) | Licensed TCM practitioner | Structured intake summary and panel; the medication plan with reference amounts and 加減 reasons, for the practitioner's judgement (practitioner role, FR-44) |
 | **Curious Health-Seeker** (general reader) | Adult, 25–60, chronic "sub-health" complaints (sleep, fatigue, bloating, cold hands/feet …), curious about TCM | Simple questions, plain language, clear next steps, safety; education-level output |
 | **English-speaking User** | Interested in TCM, cannot read classical Chinese | Accurate English terms (with Chinese + pinyin), translated citations |
+
+**Who the project serves (the owner, 2026-10-19):** the project's **internal doctors, learners and candidate users** — the closed beta, the practitioner reference skill included. A release
+outside the project waits for a legal view per market ([decision register PD-35](post-mvp/decisions.md#212-the-owners-decisions-of-2026-10-19)).
 
 ---
 
@@ -459,3 +462,4 @@ The project owner confirmed P1–P10 on 2026-10-04 (to be revisited after the MV
 | 0.9 | 2026-10-08 | §Non-goals, dosing: reference amounts shown for study with their note, by default, configurable (PD-30) |
 | 0.10 | 2026-10-08 | §8.2 and §13 brought up to date in the project audit: the knowledge base's counts, the post-MVP releases' state |
 | 0.11 | 2026-10-08 | §8.2: the sources registry holds 100 works, the nine more named by the course and its textbook (PM-55) |
+| 0.12 | 2026-10-19 | §3: who the project serves — its internal doctors, learners and candidate users (PD-35) |

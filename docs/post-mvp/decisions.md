@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 0.16 (draft) |
+| **Version** | 0.17 (draft) |
 | **Status** | Every item the MVP documents recorded as "to be revisited after the MVP" is answered here with the recommended default; new decisions that came out of the post-MVP design are PD-01 … PD-12 |
 | **Last updated** | 2026-10-19 |
 | **Audience** | Project owner, maintainers, reviewers |
@@ -179,14 +179,23 @@ The ⚑ items PD-13, PD-14, PD-21 and PD-25 were decided by the owner on 2026-10
 
 **Asked by the owner, 2026-10-16:** *an agent or skill set that assists doctors in their practice by generating TCM prescriptions from what they provide — the patient's
 constitution, health concerns and needs, but not their own plan — with the recommended herbs, their quantities and the reasons; in Traditional Chinese and English.* Built
-as PM-65 ([design](design/practitioner-reference.md)) with the recommended defaults below; three questions remain the owner's.
+as PM-65 ([design](design/practitioner-reference.md)) with the recommended defaults below; the three questions it left were decided on 2026-10-19 ([§2.12](#212-the-owners-decisions-of-2026-10-19)).
 
 | ID | Question | Decision | Design | Revisit when |
 |---|---|---|---|---|
 | PD-31 ✓ | How the skill makes its reference | **Applied as the recommended default:** an Agent Skill whose script is the app's own practitioner pipeline — the engine is the only source of patterns, formulas, herbs, grams and reasons; the model maps the doctor's words onto the knowledge base's vocabulary and presents the report; the app's policy for a declared practitioner, unchanged; the doctor's language (Traditional Chinese or English); de-identified cases; never the doctor's own plan | [Practitioner reference §1](design/practitioner-reference.md) | The owner asks for another shape |
-| PD-32 ⚑ | The condition cells for a declared practitioner (a medicine, an allergy match, an acute external presentation hold every reader at L1: no gram) | **Open.** Recommended: L3 for the practitioner role only, the hard removals and the annotations kept; after the physician and pharmacy reviewers accept it | [Practitioner reference §6](design/practitioner-reference.md) | The owner decides; the reviewers are appointed |
-| PD-33 ⚑ | The weight of a practitioner's tongue and pulse (0.7 and 0.5 are a layperson's self-observation) | **Open.** Recommended: a practitioner source class of about 0.9, after calibration on the golden cases and review | [Practitioner reference §6](design/practitioner-reference.md) | The reviewers are appointed |
-| PD-34 ⚑ | Giving the skill to doctors outside the project | **Open.** Recommended: a legal view per market first (a clinician-facing tool that proposes herbs and quantities may be a regulated medical device); until then it is for study and checking within the project | [Practitioner reference §6](design/practitioner-reference.md) | A legal adviser is engaged |
+| PD-32 ✓ | The condition cells for a declared practitioner (a medicine, an allergy match, an acute external presentation hold every reader at L1: no gram) | **Decided 2026-10-19, as recommended:** L3 for the practitioner role only; the safety rules still remove the interacting herb, the allergen and a formula a hard rule names (never the 君: the plan is then withheld) and the notice is shown; a role never raises a blocking cell; the learner keeps L1. Built as PM-66; the physician and pharmacy reviewers check it with the scope profiles | [Practitioner reference §6](design/practitioner-reference.md), [prescription model §7.4](design/prescription-model.md) | The reviewers ask for a narrower rule |
+| PD-33 ✓ | The weight of a practitioner's tongue and pulse (0.7 and 0.5 are a layperson's self-observation) | **Decided 2026-10-19, as recommended:** a finding source of its own, *practitioner*, at 0.9 — a calibrated value awaits practitioner-observed cases and the reviewers. To be built as PM-67 | [Practitioner reference §6](design/practitioner-reference.md) | Practitioner-observed cases exist to calibrate it |
+| PD-34 ✓ | Giving the skill to doctors outside the project | **Decided 2026-10-19:** the project serves its internal doctors, learners and candidate users (PD-35); the skill goes to them, and to no one outside the project before a legal view per market | [Practitioner reference §6](design/practitioner-reference.md) | A release outside the project is planned |
+
+### 2.12 The owner's decisions of 2026-10-19
+
+**Decided by the owner, 2026-10-19:** *follow the recommendations (PD-32 … PD-34) and update the documents; the project works for its internal doctors, learners and candidate
+users.*
+
+| ID | Question | Decision | Design | Revisit when |
+|---|---|---|---|---|
+| PD-35 ✓ | Who the project serves | The project's **internal doctors, learners and candidate users**: the closed beta (the release profile with its draft label), the practitioner reference skill and the printed editions are made for them. The draft label, the review gates and the safety layer are unchanged; a release outside the project (public, or to doctors elsewhere) waits for a legal view per market — the risk PD-30 already keeps | [PRD §3](../PRD.md#3-target-users) | A release outside the project is planned |
 
 ## 3. Changelog
 
@@ -208,3 +217,4 @@ as PM-65 ([design](design/practitioner-reference.md)) with the recommended defau
 | 0.14 | 2026-10-08 | §2.10: PD-30 — reference quantities for study, shown by default with their note, configurable (PM-54) |
 | 0.15 | 2026-10-08 | PD-25: built as decided — the photo of the tongue and the face exists in the development profile only (PM-50) |
 | 0.16 | 2026-10-19 | §2.11: the practitioner reference skill (PM-65) — PD-31 applied as the recommended default; PD-32 … PD-34 open |
+| 0.17 | 2026-10-19 | §2.12: the owner's decisions — PD-32 … PD-34 as recommended (PM-66; PD-33 to be built as PM-67) and PD-35, the project serves its internal doctors, learners and candidate users |

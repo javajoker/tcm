@@ -2,8 +2,8 @@
 
 | | |
 |---|---|
-| **Version** | 0.1 (draft) |
-| **Status** | **Built (PM-65)** — the Agent Skill `tcm-practitioner-reference`, its script and its tests. A draft like the knowledge base it carries; three questions are open for the owner (§6) |
+| **Version** | 0.2 (draft) |
+| **Status** | **Built (PM-65; PM-66 applies the owner's decisions of 2026-10-19, §6; PM-67 is next)** — the Agent Skill `tcm-practitioner-reference`, its script and its tests. A draft like the knowledge base it carries, for the project's internal doctors, learners and candidate users (PD-35) |
 | **Last updated** | 2026-10-19 |
 | **Audience** | The owner, engineers, the clinical and pharmacy reviewers, a legal adviser (§6) |
 | **Related** | [Prescription model §6, §7](prescription-model.md) · [Decision register §2.11](../decisions.md#211-the-owners-request-of-2026-10-16) · [Safety policy](../../safety-policy.md) · [Content review](../../content-review.md) · [`skills/`](../../../skills/README.md) |
@@ -19,7 +19,7 @@
 | | Decision | Why |
 |---|---|---|
 | D1 | **The engine is the only source** of patterns, formulas, herbs, grams and reasons; the language model maps and presents | The engine's output is traceable (every gram has its factors, every change its rule) and passes the safety layer; a model's own prescription has neither, and adding medical content without reviewers is what the project does not do (PM-22, PM-23) |
-| D2 | **The practitioner role of the closed beta**: the release profile with its draft label and the study reference, read as a declared practitioner — the app's policy unchanged | Gates do not move for a feature ([post-MVP README](../README.md) rule 1): an adult without a limiting condition reaches L3; a medicine, an allergy match or an acute external presentation holds a case at L1 (the formula by name); pregnancy, breastfeeding, a minor, a red flag, a serious condition or too little information at L0 |
+| D2 | **The practitioner role of the closed beta**: the release profile with its draft label and the study reference, read as a declared practitioner — the app's own policy for that role | Gates do not move for a feature ([post-MVP README](../README.md) rule 1); the owner then moved one for the role (PD-32): an adult reaches L3, also when the patient takes a medicine, a herb matches an allergy or the presentation is acute and external (the herbs concerned removed); pregnancy, breastfeeding, a minor, a red flag, a serious condition or too little information at L0 |
 | D3 | **An independent reference**: the skill never asks for the doctor's plan | The doctor checks their judgement against something reached from the same facts without it |
 | D4 | **The doctor's language**, Traditional Chinese or English; in English every name keeps its Chinese ("Ginseng (人參)") | The owner's request; practitioners name herbs, patterns and formulas by their Chinese |
 | D5 | **De-identified**: age and sex, never identity; the script reads a case and the knowledge base beside it, fetches nothing, writes nothing, keeps nothing | Health data is the doctor's to hold ([privacy](../../privacy.md)) |
@@ -56,8 +56,8 @@ case.json ──▶ scripts/reference.mjs ──▶ readCase ─▶ draftOf ─�
 
 | Case | Output |
 |---|---|
-| An adult, no medicine, no allergy match, not acute and external, enough information | L3: the formula, the plan with grams within the Pharmacopoeia range and the factor of each, the 加減 with their reasons, the 方解, herb notes |
-| The same patient on any medicine (or an allergy match, or acute and external) | L1: the formula by name and its composition by role; no 加減 and no gram, with the reason (the medicines named) |
+| An adult with enough information | L3: the formula, the plan with grams within the Pharmacopoeia range and the factor of each, the 加減 with their reasons, the 方解, herb notes |
+| The same patient on a medicine (or an allergy match, or acute and external) | L3 as well (PD-32), with a line naming the medicines: a herb that interacts is removed (the plan withheld if it is the 君), a formula a hard rule names is left out — and when every formula that fits is, the report says so — and the notice stands. A build whose overrides hold the condition back gives L1: the formula by name and its composition by role |
 | Pregnancy, breastfeeding, under 18, a serious long-term condition | L0: no formula, with the reason |
 | A red flag | L0: the referral first (level A: emergency care at once; level B: a physician soon) |
 | Too little information (below about 60 % of the core questions) | L0 for low confidence, and the inquiry's questions that would raise it — the skill asks the doctor and runs again |
@@ -72,16 +72,19 @@ Chinese in English; L1, formulas a safety rule removed (named with the rule's wo
 `scripts/build-skill.test.ts` (5): the shipped skill — valid frontmatter with the counts filled in, every named file present, the package's layout, the script's role and build,
 the example case in both languages, exit codes 2 and 3. Engine: `constitution.test.ts` (the stated constitution), `prescription-personalise.test.ts` (the level gate).
 
-## 6. Open questions for the owner
+## 6. The owner's decisions (2026-10-19)
 
-| | Question | Recommendation |
+The three questions the build left were decided as recommended ([decision register §2.12](../decisions.md#212-the-owners-decisions-of-2026-10-19)):
+
+| | Question | Decision |
 |---|---|---|
-| PD-32 ⚑ | The condition cells for a **declared practitioner**: a medicine, an allergy match or an acute external presentation holds every reader's case at L1 — no gram for most real patients | Raise them to L3 for the practitioner role only, keeping the hard removals (an interacting herb, an allergen, never the 君) and the soft annotations; after the physician and pharmacy reviewers accept it |
-| PD-33 ⚑ | The **weight of a practitioner's tongue and pulse**: 0.7 and 0.5 are set for a layperson's self-observation | A practitioner source class (about 0.9), after calibration on the golden cases and the reviewers' acceptance |
-| PD-34 ⚑ | **Giving the skill to doctors** outside the project | A legal view per market first: software that proposes herbs and quantities to a clinician may be a regulated medical device (Taiwan's Medical Devices Act, the EU MDR rule 11; in the US a clinician-facing tool that shows its basis may fall outside the device definition). The NOTICE's "not a medical device" is the app's framing; until the view exists, the skill is for study and checking within the project, like the app's draft |
+| PD-32 ✓ | The condition cells for a **declared practitioner**: a medicine, an allergy match or an acute external presentation held every reader's case at L1 — no gram for most real patients | **Raised to L3 for the practitioner role only (PM-66).** The safety rules still act: the interacting herb and the allergen are removed (never the 君: the plan is then withheld), a formula a hard rule names is left out, the notice is shown; the report names the condition and says the quantities are still listed. A role never raises a blocking cell; the learner keeps L1. `roleProfile`, `validate_kb` and `check-release` rule 18 enforce it; the physician and pharmacy reviewers check it with the scope profiles |
+| PD-33 ✓ | The **weight of a practitioner's tongue and pulse**: 0.7 and 0.5 are set for a layperson's self-observation | **A finding source of its own, *practitioner*, at 0.9 (to be built as PM-67)**: the skill will record the tongue and the pulse the practitioner reports with it. The value awaits calibration on practitioner-observed cases, which do not exist yet, and the reviewers |
+| PD-34 ✓ | **Giving the skill to doctors** outside the project | **Internal only (PD-35):** the project serves its internal doctors, learners and candidate users, and the skill goes to them. Outside the project it waits for a legal view per market — software that proposes herbs and quantities to a clinician may be a regulated medical device (Taiwan's Medical Devices Act, the EU MDR rule 11; in the US a clinician-facing tool that shows its basis may fall outside the device definition) |
 
 ## 7. Changelog
 
 | Version | Date | Change |
 |---|---|---|
 | 0.1 | 2026-10-19 | PM-65 built: the skill, its script and knowledge base, the case format, the vocabulary, the report, the stated constitution; the plan's level gate fixed on the way |
+| 0.2 | 2026-10-19 | §6: the owner's decisions — the practitioner's inline conditions at L3 (PD-32, PM-66), the practitioner's tongue and pulse as a source of their own (PD-33, next: PM-67), internal use (PD-34, PD-35); §1, §4 to match |

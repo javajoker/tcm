@@ -9,7 +9,8 @@ compatibility: Runs scripts/reference.mjs with Node.js 18 or later; no packages 
 
 A doctor describes a patient; you turn the description into a case file, run the bundled script, and give the doctor its report. The report is a **reference** the
 doctor checks their own clinical judgement against — the formula a rule engine reaches from the same facts, with its herbs, grams and reasons. The doctor will usually not
-tell you their own plan, and you should not ask for it: the value of the reference is that it is reached independently.
+tell you their own plan, and you should not ask for it: the value of the reference is that it is reached independently. The skill serves the project's internal doctors,
+learners and candidate users.
 
 ## The one rule that matters
 
@@ -64,9 +65,11 @@ questions about it, and point to its sources.
 
 ## Reading the report (so you can answer questions about it)
 
-- **Safety and scope** says what the output level allows and why. L3: formula, 加減 and grams. L1: the formula by name and composition only — the patient takes a medicine,
-  a formula herb matches an allergy, or the presentation is acute and external. L0: no formula — pregnancy or breastfeeding, under 18, a red flag, a serious long-term
-  condition, or too little information. These are the knowledge base's safety policy, the same for every reader; the doctor decides, the reference does not.
+- **Safety and scope** says what the output level allows and why. L3: formula, 加減 and grams — also when the patient takes a medicine, a formula herb matches an allergy
+  or the presentation is acute and external: a line names the condition, the safety rules remove the interacting herb or the allergen (the plan is withheld if it is the 君)
+  and leave out a formula a hard rule names, and when every formula that fits is left out the report says so. L1 (the formula by name and composition only) appears only in a
+  build whose overrides hold those conditions back. L0: no formula — pregnancy or breastfeeding, under 18, a red flag, a serious long-term condition, or too little
+  information. This is the knowledge base's safety policy for a declared practitioner; the doctor decides, the reference does not.
 - **The case and its reading** are the engine's own summary: findings by dimension, tongue and pulse (counted at a lower weight than the inquiry), the five-phase panel,
   the leading patterns with their band and the confidence, the stated constitution, and what would change the result.
 - **Reference formula** — 治法, how much of the deviation it can adjust, school and tier (with the tier's reasons), 方解, and the classic's words or the source.

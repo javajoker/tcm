@@ -9,7 +9,8 @@ conclusion with citations to classical texts (《黃帝內經》《傷寒論》�
 > (Simplified Chinese, offline use and installation, backup, the local data lock and file sync, the Learn section with the herb browser and the learning book,
 > the practitioner file, follow-up and trends, region packs, the five-phase extensions, the knowledge base v2 and the prescription model, learners and
 > practitioners with the study reference; AI help — conversation and tongue/face photos — in development builds only). **All medical content is still
-> `draft` and unreviewed, and nothing has been published.** What is done, how it was verified and what still needs people: [`docs/project-report.md`](docs/project-report.md).
+> `draft` and unreviewed, and nothing has been published.** The project serves its internal doctors, learners and candidate users (a closed beta); a release outside
+> the project waits for a legal view per market. What is done, how it was verified and what still needs people: [`docs/project-report.md`](docs/project-report.md).
 
 ## What is here
 
@@ -28,8 +29,8 @@ conclusion with citations to classical texts (《黃帝內經》《傷寒論》�
 | [`docs/book/zh-Hant/`](docs/book/zh-Hant/README.md) | 《以模型讀中醫》 — the learning book and the course's companion: TCM from twelve perspectives, in the app and as a printable PDF (`pnpm print:editions`; 繁體中文) | draft, quotations verified |
 | [`docs/course/zh-Hant/`](docs/course/zh-Hant/README.md) | 中醫學系統課程 — a self-contained course with its textbook: 22 chapters, 264 hours, an answer key and its sources; no original needs to be read; in the app and as a printable PDF (`pnpm print:editions`; 繁體中文) | draft, quotations verified |
 | [`print/`](print/README.md) | Printable A4 editions, derived and git-ignored: the learning book and the course for teaching (`pnpm print:editions`), and the herb handbook 《中藥速查手冊》 — the 703 herbs as a quick dictionary, each entry as its page in the app with the property model's reading, a part on formulas (君臣佐使, 方解, 加減, the shares and the classical amounts), indexes and appendices, in 繁體中文, 简体中文 and English (`pnpm print:herbs`); and its study edition with the reference grams, none for a toxic herb (`pnpm print:herbs:study`) | drafts, the status on every page |
-| [`skills/`](skills/README.md) | Agent Skills built from the app: `tcm-practitioner-reference` gives a licensed doctor a reference formula for the case they describe — the herbs, their roles, reference grams within the Pharmacopoeia range and the reasons, in 繁體中文 or English — computed by the app's own engine and practitioner pipeline, bundled with its knowledge base (`pnpm skill:build`) | draft, for study and checking within the project |
-| [`TASKS.md`](TASKS.md) · [`CHECKLIST.md`](CHECKLIST.md) · [`CONTRIBUTING.md`](CONTRIBUTING.md) | Task list (one commit per task) · definition of done and release checklists · how to contribute | 180 of 199 tasks done |
+| [`skills/`](skills/README.md) | Agent Skills built from the app: `tcm-practitioner-reference` gives a licensed doctor a reference formula for the case they describe — the herbs, their roles, reference grams within the Pharmacopoeia range and the reasons, in 繁體中文 or English — computed by the app's own engine and practitioner pipeline, bundled with its knowledge base (`pnpm skill:build`) | draft; for the project's internal doctors, learners and candidate users |
+| [`TASKS.md`](TASKS.md) · [`CHECKLIST.md`](CHECKLIST.md) · [`CONTRIBUTING.md`](CONTRIBUTING.md) | Task list (one commit per task) · definition of done and release checklists · how to contribute | 181 of 200 tasks done |
 | [`data/`](data/README.md) | Knowledge base: 183 verified quotations, 703 herbs, 33 formulas, 23 patterns, 184 symptoms, 36 questions, tongue/pulse, 營衛, scope profiles, safety rules, 484 cities | first pass, review pending |
 | [`scripts/kb`](scripts/kb) · [`scripts/i18n`](scripts/i18n) | Deterministic KB build, validation, pattern self-test, reference diagnosis pipeline · the Simplified-Chinese derivation | done |
 | [`reference/`](reference/README.md) | Source texts and datasets as git submodules | — |

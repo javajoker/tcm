@@ -316,6 +316,20 @@
       }
     },
     "practitioner": {
+      "condition": {
+        "acute_external_symptoms": {
+          "level": "L3"
+        },
+        "allergy_match": {
+          "level": "L3"
+        },
+        "on_anticoagulant": {
+          "level": "L3"
+        },
+        "on_other_interacting_medication": {
+          "level": "L3"
+        }
+      },
       "features": {
         "show_dosage_reference": true,
         "show_formula_modification": true,

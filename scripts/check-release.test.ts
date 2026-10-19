@@ -420,6 +420,12 @@ describe("check-release", () => {
     assert.match(f, /learner's population\.pregnant is L3 · none: the safety layer is every role's/);
     assert.match(f, /practitioner's condition\.red_flag_A is L3/);
     assert.deepEqual(rules(checkRelease(loosened, { draftLabel: true })), [18]);
+    // the inline conditions (PD-32): a declared practitioner may raise them, keeping the notice; no other role
+    const conditions = copy();
+    editReference(conditions, (r) => { r.roles.learner.condition.on_other_interacting_medication.level = "L3"; r.roles.practitioner.condition.allergy_match.notice = "none"; });
+    const fc = messages(checkRelease(conditions, { draftLabel: true }));
+    assert.match(fc, /learner's condition\.on_other_interacting_medication differs from the general reader's \(only a declared practitioner raises the inline conditions, PD-32\)/);
+    assert.match(fc, /practitioner's condition\.allergy_match is L3 · none: it may only be raised, with the general reader's notice/);
     const enforcement = copy();
     editReference(enforcement, (r) => { r.roles.learner.safety_enforcement = "annotate_only"; });
     assert.match(messages(checkRelease(enforcement, { draftLabel: true })), /learner's safety enforcement is annotate_only/);

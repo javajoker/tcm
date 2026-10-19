@@ -2,9 +2,9 @@
 
 | | |
 |---|---|
-| **Version** | 0.7 (draft) |
+| **Version** | 0.8 (draft) |
 | **Status** | Draft — **all clinical content and wording require physician, pharmacy and legal review before any public release** ([content review](content-review.md)) |
-| **Last updated** | 2026-10-09 |
+| **Last updated** | 2026-10-19 |
 | **Audience** | Developers, content reviewers, whoever answers user reports |
 | **Owns** | Notice **wording and triggers**, the safety-filter semantics, emergency resources, claim limits, incident handling |
 | **Related** | [SOP §0.2, §2, §13](diagnosis-sop.zh-TW.md) (logic) · [`data/config/scope-profiles.json`](../data/config/scope-profiles.json) · [`data/safety/rules.json`](../data/safety/rules.json) · [`data/diagnosis/red-flags.json`](../data/diagnosis/red-flags.json) · [Tech spec §6](tech-spec.md) · [UX spec §4.3, §10](ux-spec.md) · [Privacy](privacy.md) |
@@ -50,7 +50,7 @@ Output levels: **L0** education only · **L1** + diet, safe acupressure points, 
 
 ### 2.1b Learners and practitioners (PM-53; prescription model §7.4)
 
-Who reads with the **study reference** is the profile's `dose_display` (PD-30): `off` nobody; `roles` a reader who declares that they study Chinese medicine or practise it — a **declaration with an attestation** (N-ROLE, §4.1), never a verification: the app has no accounts —; `all` (the release default) every reader unless they choose *General reader*, for whom the note N-AMOUNTS (§4.2), beside every table of quantities, is the control. For such a reader the release profile is raised for an **adult** (and an adult over 65) to **L3** — amounts, the classical 加減, the medication plan and its reasons — and **nothing else changes**: minors, pregnancy, breastfeeding, the red flags, serious chronic disease, the medicine and allergy conditions, the states and the safety enforcement stay as the release profile has them, so their notices and levels are every role's (`check-release` rule 18). A public build serves the roles only once the L2 and L3 content is reviewed (content review §7).
+Who reads with the **study reference** is the profile's `dose_display` (PD-30): `off` nobody; `roles` a reader who declares that they study Chinese medicine or practise it — a **declaration with an attestation** (N-ROLE, §4.1), never a verification: the app has no accounts —; `all` (the release default) every reader unless they choose *General reader*, for whom the note N-AMOUNTS (§4.2), beside every table of quantities, is the control. For such a reader the release profile is raised for an **adult** (and an adult over 65) to **L3** — amounts, the classical 加減, the medication plan and its reasons. For a declared **practitioner** the condition cells whose notice is inline are raised to L3 as well — the person takes a medicine, a formula herb matches an allergy, the presentation is acute and external (PD-32, the owner's decision of 2026-10-19): the safety rules still remove the interacting herb, the allergen and a formula a hard rule names, never the 君 (the plan is then withheld), and the notice (N-MED, N-ALLERGY, N-ACUTE) is shown. **Nothing else changes**: minors, pregnancy, breastfeeding, the red flags, serious chronic disease, the states, the learner's conditions and the safety enforcement stay as the release profile has them, so their notices and levels are every role's (`check-release` rule 18). A public build serves the roles only once the L2 and L3 content is reviewed (content review §7).
 
 ### 2.2 Inputs the app must collect to apply this
 
@@ -257,3 +257,4 @@ Vignette suites in the [test plan §3.3](test-plan.md): every red-flag item, eve
 | 0.5 | 2026-10-08 | §2.1b the roles (learners and practitioners) and N-ROLE, the attestation, in §4.1 (PM-53) |
 | 0.6 | 2026-10-08 | N-AMOUNTS (§4.2): the quantities are for study and as an aid to a practitioner only; §2.1b: who reads with the study reference is configurable, every reader by default (PD-30, PM-54) |
 | 0.7 | 2026-10-09 | `R_SHIBAFAN` matches 十八反 and 十九畏 by herb, each name of a row standing for the herbs it covers there; the build checks the table against every caution |
+| 0.8 | 2026-10-19 | §2.1b: a declared practitioner's inline condition cells (a medicine, an allergy match, an acute external presentation) at L3, the safety rules acting as before (PD-32, PM-66) |
