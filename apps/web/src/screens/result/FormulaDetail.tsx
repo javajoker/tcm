@@ -12,7 +12,7 @@ import type { SavedAssessment } from "../../storage/types.ts";
 import { Card, Chip, LinkButton, Skeleton } from "../../ui/index.ts";
 import { matchWord } from "./Advice.tsx";
 import { BilingualName, Prose } from "./shared.tsx";
-import { CHANNELS, COMPOSITION_STATUS, LIUXIE_SLUG, ORGAN_SLUG, PRODUCT_SLUG, ROLE_SLUG, SCHOOL_SLUG, tierReason, UNIT_ID, YINGWEI_SLUG } from "./words.ts";
+import { COMPOSITION_STATUS, dimLabel, ROLE_SLUG, SCHOOL_SLUG, tierReason, UNIT_ID } from "./words.ts";
 import { DataTable } from "./Panel.tsx";
 
 // the personalised prescription (PM-41) — the medication plan of a learner or a practitioner (PM-53): the card, its words and the code that made it are a lazy chunk, loaded only
@@ -20,15 +20,6 @@ import { DataTable } from "./Panel.tsx";
 const PrescriptionCard = lazy(() => import("../../prescription/PrescriptionCard.tsx"));
 
 
-/** Label of a panel dimension (`肺.qi`, `liuxie.濕`, `product.痰`) in the page language. */
-export function dimLabel(t: ReturnType<typeof useI18n>["t"], dim: string): string {
-  const [head, tail] = dim.split(".") as [string, string];
-  if (head === "liuxie" && tail in LIUXIE_SLUG) return t.t(`report.liuxie.${LIUXIE_SLUG[tail as keyof typeof LIUXIE_SLUG]}` as MessageKey);
-  if (head === "product" && tail in PRODUCT_SLUG) return t.t(`report.product.${PRODUCT_SLUG[tail as keyof typeof PRODUCT_SLUG]}` as MessageKey);
-  if (head === "yingwei" && tail in YINGWEI_SLUG) return t.t(`report.yingwei.${YINGWEI_SLUG[tail as keyof typeof YINGWEI_SLUG]}` as MessageKey);
-  if (head in ORGAN_SLUG && (CHANNELS as readonly string[]).includes(tail)) return `${t.t(`report.organ.${ORGAN_SLUG[head as keyof typeof ORGAN_SLUG]}` as MessageKey)} ${t.t(`report.channel.${tail}` as MessageKey)}`;
-  return dim;
-}
 
 function Detail({ saved, rec, formula, kb }: { saved: SavedAssessment; rec: FormulaRecommendation; formula: Formula; kb: KnowledgeBase }): ReactNode {
   const { t } = useI18n();

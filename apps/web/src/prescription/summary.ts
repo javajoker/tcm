@@ -6,14 +6,13 @@ import type { KnowledgeBase } from "@tcm/kb";
 import type { T } from "../i18n/I18nProvider.tsx";
 import type { SummarySection } from "../screens/result/summaryModel.ts";
 import type { SavedAssessment } from "../storage/types.ts";
-import { rxI18n } from "./catalog.ts";
+import { rxI18n, type Rx } from "./catalog.ts";
 import { rxView } from "./view.ts";
 
-/** The section of the summary page and text, or null without a prescription. */
-export function prescriptionSection(saved: SavedAssessment, kb: KnowledgeBase, t: T): SummarySection | null {
+/** The section of the summary page and text, or null without a prescription. `rx`: the prescription's words (the practitioner reference passes them in its reader's voice). */
+export function prescriptionSection(saved: SavedAssessment, kb: KnowledgeBase, t: T, rx: Rx = rxI18n(t.lang, (s) => t.zh(s))): SummarySection | null {
   const p = saved.prescription;
   if (p === undefined) return null;
-  const rx = rxI18n(t.lang, (s) => t.zh(s));
   const v = rxView(p, kb, t, rx, saved.role !== undefined);
   const title = saved.role !== undefined ? rx.t("rx.title.study") : rx.t("rx.summary.title");
   if (v.withheld !== null) return { id: "rx", title, items: [v.withheld, v.draft, v.footer] };

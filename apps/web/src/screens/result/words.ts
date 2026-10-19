@@ -1,4 +1,5 @@
 import type { T } from "../../i18n/I18nProvider.tsx";
+import type { MessageKey } from "../../i18n/catalogs.ts";
 // Values as words (UX spec §4.10): a number on its own invites reading it as a health score. Thresholds on a −3…+3 scale (the panel's channel range);
 // scalars of other ranges are rescaled first. The number stays available in the table and the tooltip.
 export type Level5 = "low" | "somewhatLow" | "normal" | "somewhatHigh" | "high";
@@ -25,6 +26,16 @@ export const SEASON_SLUG = { 春: "spring", 夏: "summer", 長夏: "latesummer",
 export const SCHOOL_SLUG = { 經方: "jingfang", 時方: "shifang" } as const;
 export const COMPOSITION_STATUS = { "verified-against-classical-text": "classical", "verified-against-source-book": "sourceBook", "verified-against-second-source": "secondSource", "partially-verified": "partial" } as const;
 export const ROLE_SLUG = { 君: "sovereign", 臣: "minister", 佐: "assistant", 使: "envoy" } as const;
+
+/** Label of a panel dimension (`肺.qi`, `liuxie.濕`, `product.痰`) in the page language. */
+export function dimLabel(t: T, dim: string): string {
+  const [head, tail] = dim.split(".") as [string, string];
+  if (head === "liuxie" && tail in LIUXIE_SLUG) return t.t(`report.liuxie.${LIUXIE_SLUG[tail as keyof typeof LIUXIE_SLUG]}` as MessageKey);
+  if (head === "product" && tail in PRODUCT_SLUG) return t.t(`report.product.${PRODUCT_SLUG[tail as keyof typeof PRODUCT_SLUG]}` as MessageKey);
+  if (head === "yingwei" && tail in YINGWEI_SLUG) return t.t(`report.yingwei.${YINGWEI_SLUG[tail as keyof typeof YINGWEI_SLUG]}` as MessageKey);
+  if (head in ORGAN_SLUG && (CHANNELS as readonly string[]).includes(tail)) return `${t.t(`report.organ.${ORGAN_SLUG[head as keyof typeof ORGAN_SLUG]}` as MessageKey)} ${t.t(`report.channel.${tail}` as MessageKey)}`;
+  return dim;
+}
 
 /** The classical units of the original texts (兩 斤 升 合 and the counting units) and the key of each one's name in the page language. */
 export const UNIT_ID = { 兩: "liang", 斤: "jin", 升: "sheng", 合: "ge", 個: "piece", 枚: "piece" } as const;

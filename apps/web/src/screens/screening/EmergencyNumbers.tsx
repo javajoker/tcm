@@ -28,9 +28,3 @@ export function EmergencyNumbers({ kb, region, source, onRegion, crisis }: { kb:
     </section>
   );
 }
-
-/** The `{emergency_number}` of the notice text: the region's emergency numbers, or "your local emergency number". */
-export function emergencyNumberText(kb: KnowledgeBase, region: string, local: string): string {
-  const r = kb.emergency.regions.find((x) => x.id === region);
-  return r !== undefined && r.emergency.length > 0 ? r.emergency.map((n) => n.number).join(" / ") : local;
-}

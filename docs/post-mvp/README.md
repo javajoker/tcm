@@ -2,9 +2,9 @@
 
 | | |
 |---|---|
-| **Version** | 0.5 (draft) |
+| **Version** | 0.6 (draft) |
 | **Status** | Plan for Releases A–F: product documents (A-19), twelve design documents (A-20 … A-28; PM-34 for Releases E and F) and two spike protocols. Releases A–F are built where they can be built without people (49 of 54 tasks on 2026-10-08; the open five need reviewers, datasets or sign-offs — see the [project report](../project-report.md)); the implementation tasks are section PM of `TASKS.md` |
-| **Last updated** | 2026-10-08 |
+| **Last updated** | 2026-10-19 |
 | **Audience** | Maintainers, reviewers, whoever plans the next releases |
 | **Related** | [PRD](../PRD.md) · [Release process](../release-process.md) · [Content review](../content-review.md) · [`TASKS.md`](../../TASKS.md) §PM · [`CHECKLIST.md`](../../CHECKLIST.md) §3 |
 
@@ -40,6 +40,7 @@ Design documents (one per feature area, tasks A-20 … A-28 and PM-34 in [`TASKS
 | [Herb, formula and personalised prescription model](design/prescription-model.md) | E | PM-34 |
 | [AI-assisted intake: conversation and observation](design/ai-assisted-intake.md) | F | PM-34 |
 | [營衛 in the model](design/ying-wei.md) | E | PM-51 |
+| [The practitioner reference skill](design/practitioner-reference.md) | E | PM-65 |
 
 Spike protocols and reports (Release D; [how a spike works](design/research-tracks.md#1-how-a-spike-works)):
 
@@ -96,3 +97,4 @@ A feature of class N can still contain a class-C part (a knowledge page that sho
 | 0.3 | 2026-10-07 | The design of 營衛 in the model; the owner's decisions of 2026-10-07 (second) |
 | 0.4 | 2026-10-08 | The AI help impact assessment's draft (PM-44); standing constraint 2 states the approved exception |
 | 0.5 | 2026-10-08 | Status after the project audit |
+| 0.6 | 2026-10-19 | The practitioner reference skill (PM-65) in the design index |

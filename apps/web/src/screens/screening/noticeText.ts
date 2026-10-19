@@ -4,7 +4,12 @@ import type { NoticeRequest } from "@tcm/engine";
 import type { KnowledgeBase } from "@tcm/kb";
 import type { T } from "../../i18n/I18nProvider.tsx";
 import type { MessageKey } from "../../i18n/catalogs.ts";
-import { emergencyNumberText } from "./EmergencyNumbers.tsx";
+
+/** The `{emergency_number}` of the notice text: the region's emergency numbers, or "your local emergency number". */
+export function emergencyNumberText(kb: KnowledgeBase, region: string, local: string): string {
+  const r = kb.emergency.regions.find((x) => x.id === region);
+  return r !== undefined && r.emergency.length > 0 ? r.emergency.map((n) => n.number).join(" / ") : local;
+}
 
 /** Notice id → key stem. Equal to `SLUG` of scripts/sync-notices.ts (a test keeps them so). */
 export const NOTICE_SLUG: Readonly<Record<string, string>> = {

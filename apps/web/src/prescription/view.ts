@@ -5,8 +5,7 @@ import type { AmountFactor, Prescription, PrescriptionChange } from "@tcm/engine
 import type { KnowledgeBase } from "@tcm/kb";
 import type { T } from "../i18n/I18nProvider.tsx";
 import type { MessageKey } from "../i18n/catalogs.ts";
-import { dimLabel } from "../screens/result/FormulaDetail.tsx";
-import { ROLE_SLUG } from "../screens/result/words.ts";
+import { dimLabel, ROLE_SLUG } from "../screens/result/words.ts";
 import type { Rx, RxKey } from "./catalog.ts";
 
 const AGE_SLUG: Readonly<Record<string, string>> = { 新生兒: "newborn", 乳兒: "infant", 幼兒: "child", 學齡兒童: "school", elderly: "elderly" };

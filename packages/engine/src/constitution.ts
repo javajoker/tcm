@@ -33,6 +33,8 @@ export interface ConstitutionResult {
   readonly balanced: "yes" | "basically" | "no" | null;
   /** Every item of every type was answered. */
   readonly complete: boolean;
+  /** Set when a practitioner stated the constitution instead of the questionnaire scoring it (PM-65): no type was scored. */
+  readonly stated?: true;
 }
 
 const isAnswer = (v: unknown): v is number => typeof v === "number" && Number.isInteger(v) && v >= 1 && v <= 5;
@@ -68,6 +70,22 @@ export function scoreConstitution(kb: KnowledgeBase, answers: Readonly<Record<st
   const balanced = balancedLevel === "yes" || balancedLevel === "basically" || balancedLevel === "no" ? balancedLevel : null;
   const primary = leaning[0]?.id ?? (balanced === "yes" || balanced === "basically" ? BALANCED : null);
   return { scores: withLevel, primary, secondary: leaning[primary === leaning[0]?.id ? 1 : 0]?.id ?? null, balanced, complete: withLevel.every((s) => s.answered === s.total) };
+}
+
+/**
+ * The constitution a practitioner states (PM-65), in place of the questionnaire: the stated type is the primary (with an optional second biased type), every type
+ * unscored. It reaches what the questionnaire's result reaches — the safety rule of the allergic constitution, the susceptibility, the prescription's 三因 rules —
+ * and never a pattern score. Throws on a type the knowledge base does not hold, and on a second type that is the first or the balanced type.
+ */
+export function statedConstitution(kb: KnowledgeBase, primary: string, secondary: string | null = null): ConstitutionResult {
+  const types = kb.constitutionItems.types;
+  const known = (id: string): boolean => types.some((t) => t.constitution === id);
+  if (!known(primary)) throw new Error(`unknown constitution: ${primary}`);
+  if (secondary !== null && (!known(secondary) || secondary === primary || secondary === BALANCED || primary === BALANCED)) throw new Error(`a second constitution must be another biased type: ${primary} + ${secondary}`);
+  return {
+    scores: types.map((t) => ({ id: t.constitution, answered: 0, total: t.items.length, raw: 0, converted: null, level: "unscored" })),
+    primary, secondary, balanced: primary === BALANCED ? "yes" : null, complete: false, stated: true,
+  };
 }
 
 export interface SusceptibilityItem { readonly evil: Evil; readonly risk: number; readonly exposure: number; readonly score: number }

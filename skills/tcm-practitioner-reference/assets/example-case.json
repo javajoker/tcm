@@ -1,0 +1,71 @@
+{
+  "lang": "zh-Hant",
+  "date": "2026-10-16",
+  "person": {
+    "age": 45,
+    "sex": "female",
+    "pregnancy": "no",
+    "lactating": false,
+    "medications": {
+      "status": "none"
+    },
+    "allergies": {
+      "status": "none"
+    },
+    "conditions": {
+      "status": "none"
+    }
+  },
+  "constitution": {
+    "primary": "C_QIXU"
+  },
+  "course": "chronic",
+  "findings": {
+    "S_FATIGUE": "moderate",
+    "S_LAZY_SPEAK": "moderate",
+    "S_POOR_APPETITE": "moderate",
+    "S_POSTPRANDIAL_BLOAT": "moderate",
+    "S_LOOSE_STOOL": "moderate",
+    "S_BLAND_MOUTH": "present",
+    "S_FACE_SALLOW": "present",
+    "S_NO_THIRST": "present",
+    "S_PREFER_HOT_FOOD": "present"
+  },
+  "answers": {
+    "Q_COLD": "none",
+    "Q_HEAT": "none",
+    "Q_SWEAT": "none",
+    "Q_HEAD": "none",
+    "Q_BODY": "none",
+    "Q_URINE": "none",
+    "Q_CHEST": "none",
+    "Q_ABDOMEN": "none",
+    "Q_EAR_EYE": "none",
+    "Q_THROAT": "none",
+    "Q_SLEEP": "none",
+    "Q_EMOTION": "none",
+    "Q_MENSES": "none",
+    "Q_VOICE_BREATH": "none",
+    "Q_LIPS_NAILS": "none"
+  },
+  "tongue": {
+    "body": [
+      "T_BODY_PALE"
+    ],
+    "coat": [
+      "T_COAT_THIN_WHITE"
+    ],
+    "signs": [
+      "T_TOOTHMARK_EDGE"
+    ]
+  },
+  "pulse": {
+    "qualities": [
+      "P_THIN",
+      "P_WEAK"
+    ]
+  },
+  "unmapped": [
+    "月經量少色淡"
+  ]
+}

@@ -4,7 +4,7 @@ import { DEFAULT_PROFILE_PARAMS, type BirthInput, type SeasonModel } from "@tcm/
 import type { KnowledgeBase } from "@tcm/kb";
 import { explain, type TraceItem } from "./explain.ts";
 import { normalize, type Conflict } from "./normalize.ts";
-import { scoreConstitution, susceptibilityAt, type ConstitutionBlock } from "./constitution.ts";
+import { scoreConstitution, statedConstitution, susceptibilityAt, type ConstitutionBlock } from "./constitution.ts";
 import { checkConsistency, orient, type ConsistencyFlag, type Orientation } from "./orient.ts";
 import type { PanelResult } from "./panel.ts";
 import { synthesizePanel } from "./panel.ts";
@@ -27,6 +27,8 @@ export interface AssessInput {
   readonly context?: AssessContext;
   /** Answers of the constitution questionnaire (item id → 1…5); absent when the quiz was skipped. */
   readonly constitutionAnswers?: Readonly<Record<string, number>>;
+  /** The constitution a practitioner states (PM-65): used in place of the questionnaire, whose answers are then not scored. */
+  readonly statedConstitution?: { readonly primary: string; readonly secondary?: string };
   readonly options: {
     /** UTC milliseconds — injected; the engine never reads a clock. */
     readonly now: number;
@@ -105,7 +107,8 @@ export function assess(kb: KnowledgeBase, input: AssessInput): Assessment {
   // step 5: the constitution tendency (never part of the score) and the susceptibility to the season
   const basis = reference !== null && input.options.seasons !== undefined && input.options.seasons !== "north" ? input.options.seasons : null;
   const seasonsOff = basis === "off";
-  const constitutionResult = input.constitutionAnswers ? scoreConstitution(kb, input.constitutionAnswers) : null;
+  const constitutionResult = input.statedConstitution ? statedConstitution(kb, input.statedConstitution.primary, input.statedConstitution.secondary ?? null)
+    : input.constitutionAnswers ? scoreConstitution(kb, input.constitutionAnswers) : null;
   const constitution: ConstitutionBlock | null = constitutionResult === null ? null : {
     result: constitutionResult,
     susceptibility: constitutionResult.primary === null ? null : {

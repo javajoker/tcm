@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { assess, scoreConstitution, susceptibilityAt, BALANCED, MIN_ANSWERED_SHARE } from "../src/index.ts";
+import { assess, scoreConstitution, statedConstitution, susceptibilityAt, BALANCED, MIN_ANSWERED_SHARE } from "../src/index.ts";
 import type { AssessInput, Findings, Subject } from "../src/index.ts";
 import { dev, release } from "./kbs.ts";
 import { PARITY } from "./parity.ts";
@@ -162,4 +162,34 @@ test("the allergic constitution reaches the safety rule: tonic items are annotat
   assert.equal(fired(plain), false);
   assert.equal(fired(assess(dev, mk())), false);
   assert.equal(release.constitutionItems.types.length, 9, "both profiles carry the questionnaire");
+});
+
+test("a stated constitution (PM-65): the type a practitioner names, every type unscored, reaching what the questionnaire's result reaches and never a score", () => {
+  const r = statedConstitution(dev, "C_YANGXU", "C_QIXU");
+  assert.equal(r.primary, "C_YANGXU");
+  assert.equal(r.secondary, "C_QIXU");
+  assert.equal(r.stated, true);
+  assert.ok(r.scores.every((s) => s.level === "unscored" && s.converted === null && s.answered === 0));
+  assert.equal(statedConstitution(dev, BALANCED).balanced, "yes");
+  assert.throws(() => statedConstitution(dev, "C_NONE"), /unknown constitution/);
+  assert.throws(() => statedConstitution(dev, "C_YANGXU", "C_YANGXU"), /another biased type/);
+  assert.throws(() => statedConstitution(dev, "C_YANGXU", BALANCED), /another biased type/);
+  const a = assess(dev, base({ statedConstitution: { primary: "C_YANGXU" } }));
+  assert.equal(a.constitution!.result.primary, "C_YANGXU");
+  assert.equal(a.constitution!.susceptibility!.constitution, "C_YANGXU", "the susceptibility to the season, as for a scored one");
+  const without = assess(dev, base());
+  assert.deepEqual(a.patterns, without.patterns, "never a pattern score");
+  assert.deepEqual(a.verdict, without.verdict);
+  const both = assess(dev, base({ statedConstitution: { primary: "C_YINXU" }, constitutionAnswers: answersFor({ C_QIXU: 5 }) }));
+  assert.equal(both.constitution!.result.primary, "C_YINXU", "the statement is used in place of the questionnaire");
+});
+
+test("a stated allergic constitution reaches the safety rule as a scored one does", () => {
+  const typical = PARITY.cases.find((c) => c.id === "typical-SP1")!.findings as Findings;
+  const filled: Record<string, Findings[string]> = { ...typical };
+  for (const q of dev.questions) { if (q.requires?.sex === "male") continue; for (const o of q.options) for (const sym of o.symptoms) if (!(sym in filled)) filled[sym] = { state: "absent" }; }
+  const mk = (stated: string): AssessInput => ({ subject: person(), redFlags: new Set(), findings: filled, context: { course: "chronic" }, options: { now: NOW, birthModule: false }, statedConstitution: { primary: stated } });
+  const fired = (a: ReturnType<typeof assess>): boolean => JSON.stringify(a.recommendations).includes("R_TEBING_CONSTITUTION");
+  assert.equal(fired(assess(dev, mk("C_TEBING"))), true);
+  assert.equal(fired(assess(dev, mk("C_QIXU"))), false);
 });

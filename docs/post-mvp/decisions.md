@@ -2,9 +2,9 @@
 
 | | |
 |---|---|
-| **Version** | 0.15 (draft) |
+| **Version** | 0.16 (draft) |
 | **Status** | Every item the MVP documents recorded as "to be revisited after the MVP" is answered here with the recommended default; new decisions that came out of the post-MVP design are PD-01 … PD-12 |
-| **Last updated** | 2026-10-08 |
+| **Last updated** | 2026-10-19 |
 | **Audience** | Project owner, maintainers, reviewers |
 | **Related** | [Roadmap](roadmap.md) · [Requirements](requirements.md) · [PRD §14](../PRD.md#14-decisions-and-open-questions) · [Tech spec §13](../tech-spec.md#13-open-technical-questions) · [UX spec §15](../ux-spec.md#15-open-design-questions) · [Safety policy §10](../safety-policy.md#10-open-questions) · [Privacy §9](../privacy.md#9-open-questions) · [Release process §13](../release-process.md#13-open-questions) |
 
@@ -175,6 +175,19 @@ The ⚑ items PD-13, PD-14, PD-21 and PD-25 were decided by the owner on 2026-10
 |---|---|---|---|---|
 | PD-30 ✓ | Reference quantities (doses) for study | The **study reference** — reference quantities, the classical 加減 and the medication plan with the reasons — is shown to **every reader by default**, unless they choose *General reader*; it always carries the note **N-AMOUNTS** ("for study and as an aid to a practitioner only, not instructions for taking medicine; a licensed practitioner examines the person and decides") beside every table of quantities, on the formula page, in the plan, in the practitioner summary and its file and on the Learn formula page. **Configurable** three ways: the profile's `dose_display` (`all` · `roles` · `off`, data default `all`), narrowed — never widened — at build time by `APP_DOSE_DISPLAY` or `APP_OVERRIDES`; each reader's own choice in *Settings → Who is reading*; and the existing feature flags. **Unchanged:** the safety layer for every reader (pregnancy, breastfeeding, minors, red flags, serious illness keep their blocking cells), the draft label, and the review gate (`check-release` rule 18: a public build serves no study reference before its formulas and herb records are reviewed). PD-13 and PD-14 stand for the `roles` mode | [Prescription model §7.4](design/prescription-model.md) | A legal view per market before a public launch (advisable, kept as a risk); a clinical or pharmacy reviewer asks for a narrower default |
 
+### 2.11 The owner's request of 2026-10-16
+
+**Asked by the owner, 2026-10-16:** *an agent or skill set that assists doctors in their practice by generating TCM prescriptions from what they provide — the patient's
+constitution, health concerns and needs, but not their own plan — with the recommended herbs, their quantities and the reasons; in Traditional Chinese and English.* Built
+as PM-65 ([design](design/practitioner-reference.md)) with the recommended defaults below; three questions remain the owner's.
+
+| ID | Question | Decision | Design | Revisit when |
+|---|---|---|---|---|
+| PD-31 ✓ | How the skill makes its reference | **Applied as the recommended default:** an Agent Skill whose script is the app's own practitioner pipeline — the engine is the only source of patterns, formulas, herbs, grams and reasons; the model maps the doctor's words onto the knowledge base's vocabulary and presents the report; the app's policy for a declared practitioner, unchanged; the doctor's language (Traditional Chinese or English); de-identified cases; never the doctor's own plan | [Practitioner reference §1](design/practitioner-reference.md) | The owner asks for another shape |
+| PD-32 ⚑ | The condition cells for a declared practitioner (a medicine, an allergy match, an acute external presentation hold every reader at L1: no gram) | **Open.** Recommended: L3 for the practitioner role only, the hard removals and the annotations kept; after the physician and pharmacy reviewers accept it | [Practitioner reference §6](design/practitioner-reference.md) | The owner decides; the reviewers are appointed |
+| PD-33 ⚑ | The weight of a practitioner's tongue and pulse (0.7 and 0.5 are a layperson's self-observation) | **Open.** Recommended: a practitioner source class of about 0.9, after calibration on the golden cases and review | [Practitioner reference §6](design/practitioner-reference.md) | The reviewers are appointed |
+| PD-34 ⚑ | Giving the skill to doctors outside the project | **Open.** Recommended: a legal view per market first (a clinician-facing tool that proposes herbs and quantities may be a regulated medical device); until then it is for study and checking within the project | [Practitioner reference §6](design/practitioner-reference.md) | A legal adviser is engaged |
+
 ## 3. Changelog
 
 | Version | Date | Change |
@@ -194,3 +207,4 @@ The ⚑ items PD-13, PD-14, PD-21 and PD-25 were decided by the owner on 2026-10
 | 0.13 | 2026-10-08 | PD-12 measured for PM-53: the release build's prescription chunk about 17 KB; all JavaScript 367.6 of 370 KB |
 | 0.14 | 2026-10-08 | §2.10: PD-30 — reference quantities for study, shown by default with their note, configurable (PM-54) |
 | 0.15 | 2026-10-08 | PD-25: built as decided — the photo of the tongue and the face exists in the development profile only (PM-50) |
+| 0.16 | 2026-10-19 | §2.11: the practitioner reference skill (PM-65) — PD-31 applied as the recommended default; PD-32 … PD-34 open |

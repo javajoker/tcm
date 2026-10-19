@@ -2,9 +2,9 @@
 
 | | |
 |---|---|
-| **Version** | 0.15 (draft) |
+| **Version** | 0.16 (draft) |
 | **Status** | Proposed process — **no reviewer has been appointed yet** (PRD Q8 blocks milestone M3) |
-| **Last updated** | 2026-10-09 |
+| **Last updated** | 2026-10-19 |
 | **Audience** | Maintainers, clinical and linguistic reviewers |
 | **Related** | [KB schema §8](kb-schema.md) (status model) · [Safety policy](safety-policy.md) · [i18n guide](i18n-guide.md) · [Test plan §4](test-plan.md) (golden cases) · [Release process](release-process.md) (gates) |
 
@@ -74,6 +74,12 @@ One person may hold several roles if qualified; the physician and the TCM clinic
 > **The study edition** (PM-64, `pnpm print:herbs:study`) adds the study reference: each formula's reference grams and each herb's range from its source entry, never a gram for a toxic
 > herb, and the note on amounts beside every table. Its quantities are what the pharmacy and TCM clinical reviewers check in the formulas, the herb records and the reference quantities;
 > until they have, it is a draft for study within the project and is not handed out.
+
+> **The practitioner reference skill (PM-65).** `pnpm skill:build` makes an Agent Skill that gives a licensed doctor a reference formula for a described case
+> ([design](post-mvp/design/practitioner-reference.md)). It adds no medical content: the result and the plan are the engine's, on the closed beta's knowledge base, under the app's
+> policy for a declared practitioner, and are reviewed where the data and the engine are. Its own words are the `practitioner` namespace of the interface text (reviewed with it,
+> in the `ui` pack), with the practitioner's voice of the few `report` and `rx` lines that address the app's user; its instructions to Claude (`skills/tcm-practitioner-reference/`:
+> how a case is made from a doctor's words and how the report is read) are reviewed by the regulatory reviewer with the claims. The open questions are the owner's (PD-32 … PD-34).
 
 ---
 
@@ -244,3 +250,4 @@ A release build **must fail** (`check-release.ts`) if a required area has no val
 | 0.13 | 2026-10-09 | §3: the herb handbook (PM-62), its words reviewed with the interface text and its status from everything it prints; the pharmacy reviewer checks the 十八反/十九畏 coverage |
 | 0.14 | 2026-10-09 | §3: the handbook's part on formulas (PM-63) and what it waits for |
 | 0.15 | 2026-10-09 | §3: the handbook's shares and classical amounts, and its study edition with the reference quantities and what it waits for (PM-64) |
+| 0.16 | 2026-10-19 | §3: the practitioner reference skill (PM-65): what it adds (no content), its words and its instructions, and who reviews them |
