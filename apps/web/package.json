@@ -21,8 +21,8 @@
     "@tcm/i18n": "workspace:*",
     "@tcm/kb": "workspace:*",
     "@tcm/wuxing": "workspace:*",
-    "react": "^19.3.0",
-    "react-dom": "^19.3.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
     "wouter": "^3.13.0",
     "zustand": "^5.0.15"
   },
