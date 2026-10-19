@@ -322,6 +322,7 @@
   "report.pract.quality.guided": "自我觀察",
   "report.pract.quality.inquiry": "自述",
   "report.pract.quality.measured": "量測",
+  "report.pract.quality.practitioner": "醫師觀察",
   "report.pract.quality.pulse": "自測脈象",
   "report.pract.rec": "結果向本人顯示了什麼",
   "report.pract.rec.food": "食物：{name}",

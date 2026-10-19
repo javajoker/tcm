@@ -70,7 +70,8 @@ questions about it, and point to its sources.
   and leave out a formula a hard rule names, and when every formula that fits is left out the report says so. L1 (the formula by name and composition only) appears only in a
   build whose overrides hold those conditions back. L0: no formula — pregnancy or breastfeeding, under 18, a red flag, a serious long-term condition, or too little
   information. This is the knowledge base's safety policy for a declared practitioner; the doctor decides, the reference does not.
-- **The case and its reading** are the engine's own summary: findings by dimension, tongue and pulse (counted at a lower weight than the inquiry), the five-phase panel,
+- **The case and its reading** are the engine's own summary: findings by dimension, the tongue and the pulse as the practitioner's observations (weighted 0.9 — a
+  layperson's self-observation counts 0.7 and 0.5), the five-phase panel,
   the leading patterns with their band and the confidence, the stated constitution, and what would change the result.
 - **Reference formula** — 治法, how much of the deviation it can adjust, school and tier (with the tier's reasons), 方解, and the classic's words or the source.
 - **Medication plan** — the formula personalised by 三因制宜: herbs removed for the person (pregnancy, allergy, an interacting medicine — never the 君; when the 君 itself is

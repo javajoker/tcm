@@ -322,6 +322,7 @@
   "report.pract.quality.guided": "自我观察",
   "report.pract.quality.inquiry": "自述",
   "report.pract.quality.measured": "量测",
+  "report.pract.quality.practitioner": "医师观察",
   "report.pract.quality.pulse": "自测脉象",
   "report.pract.rec": "结果向本人显示了什么",
   "report.pract.rec.food": "食物：{name}",

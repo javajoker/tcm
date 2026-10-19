@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 0.17 (draft) |
+| **Version** | 0.18 (draft) |
 | **Status** | Every item the MVP documents recorded as "to be revisited after the MVP" is answered here with the recommended default; new decisions that came out of the post-MVP design are PD-01 … PD-12 |
 | **Last updated** | 2026-10-19 |
 | **Audience** | Project owner, maintainers, reviewers |
@@ -185,7 +185,7 @@ as PM-65 ([design](design/practitioner-reference.md)) with the recommended defau
 |---|---|---|---|---|
 | PD-31 ✓ | How the skill makes its reference | **Applied as the recommended default:** an Agent Skill whose script is the app's own practitioner pipeline — the engine is the only source of patterns, formulas, herbs, grams and reasons; the model maps the doctor's words onto the knowledge base's vocabulary and presents the report; the app's policy for a declared practitioner, unchanged; the doctor's language (Traditional Chinese or English); de-identified cases; never the doctor's own plan | [Practitioner reference §1](design/practitioner-reference.md) | The owner asks for another shape |
 | PD-32 ✓ | The condition cells for a declared practitioner (a medicine, an allergy match, an acute external presentation hold every reader at L1: no gram) | **Decided 2026-10-19, as recommended:** L3 for the practitioner role only; the safety rules still remove the interacting herb, the allergen and a formula a hard rule names (never the 君: the plan is then withheld) and the notice is shown; a role never raises a blocking cell; the learner keeps L1. Built as PM-66; the physician and pharmacy reviewers check it with the scope profiles | [Practitioner reference §6](design/practitioner-reference.md), [prescription model §7.4](design/prescription-model.md) | The reviewers ask for a narrower rule |
-| PD-33 ✓ | The weight of a practitioner's tongue and pulse (0.7 and 0.5 are a layperson's self-observation) | **Decided 2026-10-19, as recommended:** a finding source of its own, *practitioner*, at 0.9 — a calibrated value awaits practitioner-observed cases and the reviewers. To be built as PM-67 | [Practitioner reference §6](design/practitioner-reference.md) | Practitioner-observed cases exist to calibrate it |
+| PD-33 ✓ | The weight of a practitioner's tongue and pulse (0.7 and 0.5 are a layperson's self-observation) | **Decided 2026-10-19, as recommended:** a finding source of its own, *practitioner*, at 0.9 — a calibrated value awaits practitioner-observed cases and the reviewers. Built as PM-67 | [Practitioner reference §6](design/practitioner-reference.md) | Practitioner-observed cases exist to calibrate it |
 | PD-34 ✓ | Giving the skill to doctors outside the project | **Decided 2026-10-19:** the project serves its internal doctors, learners and candidate users (PD-35); the skill goes to them, and to no one outside the project before a legal view per market | [Practitioner reference §6](design/practitioner-reference.md) | A release outside the project is planned |
 
 ### 2.12 The owner's decisions of 2026-10-19
@@ -218,3 +218,4 @@ users.*
 | 0.15 | 2026-10-08 | PD-25: built as decided — the photo of the tongue and the face exists in the development profile only (PM-50) |
 | 0.16 | 2026-10-19 | §2.11: the practitioner reference skill (PM-65) — PD-31 applied as the recommended default; PD-32 … PD-34 open |
 | 0.17 | 2026-10-19 | §2.12: the owner's decisions — PD-32 … PD-34 as recommended (PM-66; PD-33 to be built as PM-67) and PD-35, the project serves its internal doctors, learners and candidate users |
+| 0.18 | 2026-10-19 | PD-33 built (PM-67): the finding source `practitioner`, 0.9 |

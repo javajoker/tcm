@@ -79,8 +79,8 @@ export interface Policy {
 
 export type Severity = "light" | "moderate" | "severe";
 export type FindingState = "present" | "absent" | "unsure";
-/** Data-quality class of a finding (SOP §4.7); decides the quality coefficient q. */
-export type FindingSource = "inquiry" | "measured" | "guided" | "pulse";
+/** Data-quality class of a finding (SOP §4.7); decides the quality coefficient q. `practitioner`: a tongue or a pulse a practitioner reports (the practitioner reference, PD-33). */
+export type FindingSource = "inquiry" | "measured" | "guided" | "pulse" | "practitioner";
 export type PulsePosition = "L-cun" | "L-guan" | "L-chi" | "R-cun" | "R-guan" | "R-chi";
 
 export interface Finding {

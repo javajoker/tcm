@@ -14,8 +14,10 @@ PARAMS = {
 
     # SOP §4.7: q(s) — data-quality coefficient by the SOURCE of a finding. When a finding carries no explicit source the
     # symptom-id prefix decides (T_ tongue = guided observation, P_ pulse = self-reported pulse, otherwise inquiry).
+    # `practitioner` (PD-33, the owner's decision of 2026-10-19): a tongue or a pulse a practitioner reports in the practitioner reference — trained eyes and
+    # fingers, not a layperson's self-observation; 0.9 until practitioner-observed cases exist to calibrate it.
     "quality": {
-        "by_source": {"inquiry": 1.0, "measured": 0.9, "guided": 0.7, "pulse": 0.5},
+        "by_source": {"inquiry": 1.0, "measured": 0.9, "guided": 0.7, "pulse": 0.5, "practitioner": 0.9},
         "by_prefix": {"T_": "guided", "P_": "pulse"},
         "default_source": "inquiry",
     },

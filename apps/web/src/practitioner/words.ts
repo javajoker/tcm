@@ -20,8 +20,6 @@ export const VOICE: Readonly<Partial<Record<MessageKey, PKey>>> = {
   "report.pract.constitution": "practitioner.voice.constitution",
   "report.pract.symptoms": "practitioner.voice.symptoms",
   "report.pract.observations": "practitioner.voice.observations",
-  "report.pract.quality.guided": "practitioner.voice.qualityGuided",
-  "report.pract.quality.pulse": "practitioner.voice.qualityPulse",
 };
 export const RX_VOICE: Readonly<Partial<Record<RxKey, PKey>>> = {
   "rx.intro": "practitioner.voice.rxIntro",

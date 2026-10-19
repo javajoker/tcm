@@ -66,15 +66,16 @@ export interface ScoringParams {
   };
   quality: {
     by_prefix: {
-      [k: string]: "inquiry" | "measured" | "guided" | "pulse";
+      [k: string]: "inquiry" | "measured" | "guided" | "pulse" | "practitioner";
     };
     by_source: {
       guided: number;
       inquiry: number;
       measured: number;
+      practitioner: number;
       pulse: number;
     };
-    default_source: "inquiry" | "measured" | "guided" | "pulse";
+    default_source: "inquiry" | "measured" | "guided" | "pulse" | "practitioner";
   };
   questionnaire: {
     candidate_pct_floor: number;

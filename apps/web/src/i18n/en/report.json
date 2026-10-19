@@ -323,6 +323,7 @@
   "report.pract.quality.guided": "self-observed",
   "report.pract.quality.inquiry": "reported",
   "report.pract.quality.measured": "measured",
+  "report.pract.quality.practitioner": "practitioner-observed",
   "report.pract.quality.pulse": "self-assessed pulse",
   "report.pract.rec": "What the result showed the person",
   "report.pract.rec.food": "Food: {name}",

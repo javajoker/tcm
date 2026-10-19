@@ -402,7 +402,8 @@
               "inquiry",
               "measured",
               "guided",
-              "pulse"
+              "pulse",
+              "practitioner"
             ]
           },
           "type": "object"
@@ -419,6 +420,9 @@
             "measured": {
               "type": "number"
             },
+            "practitioner": {
+              "type": "number"
+            },
             "pulse": {
               "type": "number"
             }
@@ -427,6 +431,7 @@
             "guided",
             "inquiry",
             "measured",
+            "practitioner",
             "pulse"
           ],
           "type": "object"
@@ -436,7 +441,8 @@
             "inquiry",
             "measured",
             "guided",
-            "pulse"
+            "pulse",
+            "practitioner"
           ]
         }
       },

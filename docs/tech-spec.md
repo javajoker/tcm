@@ -2,9 +2,9 @@
 
 | | |
 |---|---|
-| **Version** | 0.18 (draft) |
+| **Version** | 0.19 (draft) |
 | **Status** | Draft — implementation not started (only `packages/wuxing`, `data/` and `scripts/kb` exist) |
-| **Last updated** | 2026-10-09 |
+| **Last updated** | 2026-10-19 |
 | **Derives from** | [PRD v0.3](PRD.md) · [Diagnosis SOP v0.2](diagnosis-sop.zh-TW.md) · [Algorithm spec](wuxing-algorithm.md) |
 | **Sibling docs** | [UI/UX spec](ux-spec.md) · [KB schema](kb-schema.md) · [i18n guide](i18n-guide.md) · [Safety policy](safety-policy.md) · [Privacy](privacy.md) · [Test plan](test-plan.md) · [Release process](release-process.md) |
 
@@ -300,7 +300,7 @@ The first-pass `data/` does not yet contain everything the engine and UI need. T
 | New file | Purpose | Notes |
 |---|---|---|
 | `data/schema/*.schema.json` | JSON Schema contract (T8) | Validated by Python and used to generate TS types |
-| `data/diagnosis/scoring-params.json` ✔ (task K-01) | Engine parameters (T10): severity factors `{light 0.6, moderate 0.8, severe 1.0}`, quality coefficients `{inquiry 1.0, measured 0.9, guided 0.7, pulse 0.5}`, noisy-OR floor 20, merge threshold 40, tie margin 5, confidence thresholds, 方證 ≥ 60 %, `k` max 3, 加減 limits (add ≤ 2, remove ≤ 1, share 12 %), dimension weights, alignment threshold 0.25 | Today these are constants in `selftest_patterns.py` / `example_pipeline.py` |
+| `data/diagnosis/scoring-params.json` ✔ (task K-01) | Engine parameters (T10): severity factors `{light 0.6, moderate 0.8, severe 1.0}`, quality coefficients `{inquiry 1.0, measured 0.9, guided 0.7, pulse 0.5, practitioner 0.9}` (the last a practitioner's tongue and pulse, PD-33), noisy-OR floor 20, merge threshold 40, tie margin 5, confidence thresholds, 方證 ≥ 60 %, `k` max 3, 加減 limits (add ≤ 2, remove ≤ 1, share 12 %), dimension weights, alignment threshold 0.25 | Today these are constants in `selftest_patterns.py` / `example_pipeline.py` |
 | `data/diagnosis/questions.json` ✔ (task K-05) | **Question bank** for the adaptive inquiry: id, dimension (12), module(s), plain-language prompt (zh-Hant, en), answer options → symptom ids + severity, `core` flag, prerequisite (e.g. female-only, non-pregnant), exclusivity group | Today only the symptom registry exists; the SOP defines ≈ 25 core questions and 8 modules (§4.8) but they are not yet data |
 | `data/diagnosis/exclusions.json` ✔ (task K-06) | Mutually exclusive symptom groups (浮/沉, 遲/數/疾, 便乾/便溏 …) and synonym-split rules (惡寒 ≠ 畏寒) | For SOP §5.3 consistency checks |
 | `data/diagnosis/constitution-items.json` | Own-written 9-type questionnaire items and scoring map (SOP D6) | Needs review; licence-safe |
@@ -700,3 +700,4 @@ Colour: one sequential hue per quantity family, never red/green as good/bad; sig
 | 0.16 | 2026-10-08 | Project audit: §5.2 the chunk sizes and the totals re-measured on the current build |
 | 0.17 | 2026-10-09 | §9: the catalogs as the build writes them; §12: the JavaScript totals after the size pass (PM-58) |
 | 0.18 | 2026-10-09 | §12: the on-demand texts — the book and the course (PM-60) |
+| 0.19 | 2026-10-19 | §8.2: the quality coefficient of a practitioner's tongue and pulse, 0.9 (PD-33, PM-67) |

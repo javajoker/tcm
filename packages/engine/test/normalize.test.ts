@@ -28,6 +28,9 @@ test("severity factor and quality coefficient follow the parameters", () => {
   assert.equal(f("S_NO_THIRST").sev, 1.0, "ungraded present finding counts as 1.0 (SOP §9.5)");
   assert.deepEqual([f("T_BODY_PALE").q, f("T_BODY_PALE").source], [0.7, "guided"]);
   assert.deepEqual([f("P_FLOAT").q, f("P_FLOAT").source], [0.5, "pulse"]);
+  // a tongue and a pulse a practitioner reports (the practitioner reference, PD-33): a source of their own, never a prefix's default
+  const byPractitioner = run({ T_BODY_PALE: { state: "present", source: "practitioner" }, P_WEAK: { state: "present", source: "practitioner" } });
+  for (const id of ["T_BODY_PALE", "P_WEAK"]) assert.deepEqual([byPractitioner.findings.get(id)!.q, byPractitioner.findings.get(id)!.source], [0.9, "practitioner"], id);
   assert.deepEqual([f("S_HEADACHE").q, f("S_HEADACHE").source], [0.9, "measured"], "an explicit source overrides the prefix");
   assert.equal(f("S_EDEMA").sev, 0, "a finding that is not present adds no evidence");
 });

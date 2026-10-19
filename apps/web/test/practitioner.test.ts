@@ -71,7 +71,7 @@ describe("reading a case", () => {
     expect(run(withPerson({ age: 70, pregnancy: undefined, lactating: undefined })).status).toBe("ok");   // not asked of a woman over 60
   });
 
-  it("the draft is the app's: a whole answer as the inquiry records it, a finding as said, the tongue and the pulse as the observation screens record them", () => {
+  it("the draft is the app's: a whole answer as the inquiry records it, a finding as said, the tongue and the pulse as the observation screens record them — as the practitioner's own source (PD-33)", () => {
     const q = kb.questionById.get("Q_COLD")!;
     const c = readCase(kb, { ...CASE, answers: { Q_COLD: ["fear_cold"] }, findings: { S_FATIGUE: "present", S_CONSTIPATION: "absent" } }).value as PractitionerCase;
     const d = draftOf(kb, c, NOW);
@@ -79,12 +79,13 @@ describe("reading a case", () => {
     for (const s of q.options.flatMap((o) => o.symptoms)) expect(d.findings[s], s).toEqual(app.findings[s]);
     expect(d.findings.S_FATIGUE).toEqual({ state: "present", severity: "moderate" });       // a graded finding said present: the app's default severity
     expect(d.findings.S_CONSTIPATION).toEqual({ state: "absent" });
-    expect(d.findings.T_BODY_PALE).toEqual({ state: "present", source: "guided" });
-    expect(d.findings.T_BODY_RED).toEqual({ state: "absent", source: "guided" });            // the other features of an answered category
-    expect(d.findings.T_TOOTHMARK_EDGE).toEqual({ state: "present", source: "guided" });
-    expect(d.findings.P_WEAK).toEqual({ state: "present", source: "pulse" });
+    expect(d.findings.T_BODY_PALE).toEqual({ state: "present", source: "practitioner" });
+    expect(d.findings.T_BODY_RED).toEqual({ state: "absent", source: "practitioner" });      // the other features of an answered category
+    expect(d.findings.T_TOOTHMARK_EDGE).toEqual({ state: "present", source: "practitioner" });
+    expect(d.findings.P_WEAK).toEqual({ state: "present", source: "practitioner" });
+    expect(engine.qualityOf(kb, "P_WEAK", d.findings.P_WEAK!.source)).toBe(0.9);              // trained fingers, not a self-taken pulse (0.5)
     const rate = draftOf(kb, readCase(kb, { ...CASE, pulse: { rate: 96 } }).value!, NOW);
-    expect(rate.findings.P_RAPID).toEqual({ state: "present", source: "measured" });
+    expect(rate.findings.P_RAPID).toEqual({ state: "present", source: "measured" });             // the counted rate stays a measured value
     expect(rate.observe.pulse).toEqual({ rate: 96, rhythm: null, method: "typed" });
   });
 });
@@ -145,6 +146,8 @@ describe("the reference", () => {
       expect(md).toMatch(lang === "en" ? /\| 君 Sovereign \| Ginseng \(人參\) \| 9 g \|/ : /\| 君 \| 人參 \| 9 克 \|/);
       expect(md).toContain(lang === "en" ? "Spleen qi deficiency (脾氣虛)" : "脾氣虛");
       expect(md).toContain(lang === "en" ? "may interact with:" : "可能與下列情況交互作用：");
+      expect(md).toContain(lang === "en" ? "## Tongue and pulse (as the practitioner found them)" : "## 舌象與脈象（醫師所見）");
+      expect(md).toContain(lang === "en" ? "pale tongue [practitioner-observed]" : "舌淡 [醫師觀察]");
       expect(md).not.toMatch(lang === "en" ? /\b(you|your|yours|yourself)\b/i : /[您你]/);
       expect(md).not.toContain("practitioner.");                                                // no key left as a key
     });

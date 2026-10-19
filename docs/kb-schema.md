@@ -2,9 +2,9 @@
 
 | | |
 |---|---|
-| **Version** | 0.11 (draft) |
+| **Version** | 0.12 (draft) |
 | **Status** | Documents the first-pass `data/` as generated today, plus the files the engine and UI still need (§9) |
-| **Last updated** | 2026-10-09 |
+| **Last updated** | 2026-10-19 |
 | **Audience** | Engine and UI developers, content reviewers, anyone adding or changing knowledge |
 | **Related** | [`data/README.md`](../data/README.md) (contents, provenance, verification status) · [Tech spec §5](tech-spec.md) (delivery) · [Content review](content-review.md) · [SOP](diagnosis-sop.zh-TW.md) (meaning of the models) |
 
@@ -96,7 +96,7 @@ One namespace for symptoms (`S_*`, 124), tongue features (`T_*`, 32) and pulses 
 (`cold-heat`, `sweat`, `head-body`, `stool-urine`, `diet-taste`, `chest-abdomen`, `ear-eye-throat`, `thirst`, `sleep`, `emotion`, `menses`, `face-skin`,
 `voice-breath`, `qi-spirit-form`, `tongue`, `pulse`), `zh-Hant`, `en`. Tongue items add `tongue: { category, zone, meaning }` (`category`: `body | shape | special |
 zone-body | coat | zone-coat`; `zone`: `all | tip | center | edge | root`); pulse items add `pulse: { optional: true, quality_coefficient: 0.5 }`.
-The data-quality class is derived from the prefix: `T_` → *guided* (q = 0.7), `P_` → *pulse* (q = 0.5), otherwise *inquiry* (q = 1.0); see [SOP §4.7](diagnosis-sop.zh-TW.md).
+The data-quality class is derived from the prefix: `T_` → *guided* (q = 0.7), `P_` → *pulse* (q = 0.5), otherwise *inquiry* (q = 1.0); see [SOP §4.7](diagnosis-sop.zh-TW.md). A finding may name its source instead: *measured* (q = 0.9, a counted pulse rate) or *practitioner* (q = 0.9, a tongue or a pulse a practitioner reports in the practitioner reference, PD-33).
 
 ### 3.2b `diagnosis/questions.json` — the question bank (36 questions, 8 modules)
 
@@ -177,7 +177,7 @@ Nine constitutions `C_PINGHE, C_QIXU, C_YANGXU, C_YINXU, C_TANSHI, C_SHIRE, C_XU
 
 ### 3.9 `diagnosis/scoring-params.json` — engine parameters (single source)
 
-Shared by the Python oracle (`scripts/kb/oracle.py`) and the TypeScript engine; built from `scripts/kb/curated/params.py` by `build_params.py`; `_meta.schema` = 1. Groups: `severity` (light 0.6 · moderate 0.8 · severe 1.0 · ungraded 1.0) · `quality` (`by_source` inquiry 1.0 / measured 0.9 / guided 0.7 / pulse 0.5, `by_prefix` T_ → guided, P_ → pulse, `default_source`) · `pattern` (`required_any_missing_factor` 0.5, `bands` high 60 / medium 40 / weak 20) · `panel` (`noisy_or_floor` 20, `degree_max` 3, `dimension_weights`, `wuxing_function` 0.7/0.3, `bagang` divisors and weights) · `reconcile` (merge threshold 40, max 3 patterns, mixed threshold 40 with the `nature_groups` of the opposed groups, tie margin 5, confidence grid, differential size) · `formula` (`symptom_fit_min` 0.6, `k_max` 3, `strength_bands`, `role_weights` 君 1.0 / 臣 0.6 / 佐 0.35 / 使 0.15, `modification` limits) · `tier` (bitter-cold 0.45, activating 0.10) · `safety` (`flavor_excess_share` 0.55 and the pattern-direction `conflict` thresholds: axis 0.3, warming 0.3, cooling 0.3, tonic 0.5, attacking 0.8) · `questionnaire` (coverage stop 0.8, max 50, candidate floor 20, core bonus 0.3, module boost 0.25, ≥ 3 answers before ranking by gain, 3 candidate patterns). Role weights and tier limits also drive `build_formulas.py`, and the pulse coefficient is checked against `pulse.json`. All values are draft placeholders (SOP D3).
+Shared by the Python oracle (`scripts/kb/oracle.py`) and the TypeScript engine; built from `scripts/kb/curated/params.py` by `build_params.py`; `_meta.schema` = 1. Groups: `severity` (light 0.6 · moderate 0.8 · severe 1.0 · ungraded 1.0) · `quality` (`by_source` inquiry 1.0 / measured 0.9 / guided 0.7 / pulse 0.5 / practitioner 0.9, `by_prefix` T_ → guided, P_ → pulse, `default_source`) · `pattern` (`required_any_missing_factor` 0.5, `bands` high 60 / medium 40 / weak 20) · `panel` (`noisy_or_floor` 20, `degree_max` 3, `dimension_weights`, `wuxing_function` 0.7/0.3, `bagang` divisors and weights) · `reconcile` (merge threshold 40, max 3 patterns, mixed threshold 40 with the `nature_groups` of the opposed groups, tie margin 5, confidence grid, differential size) · `formula` (`symptom_fit_min` 0.6, `k_max` 3, `strength_bands`, `role_weights` 君 1.0 / 臣 0.6 / 佐 0.35 / 使 0.15, `modification` limits) · `tier` (bitter-cold 0.45, activating 0.10) · `safety` (`flavor_excess_share` 0.55 and the pattern-direction `conflict` thresholds: axis 0.3, warming 0.3, cooling 0.3, tonic 0.5, attacking 0.8) · `questionnaire` (coverage stop 0.8, max 50, candidate floor 20, core bonus 0.3, module boost 0.25, ≥ 3 answers before ranking by gain, 3 candidate patterns). Role weights and tier limits also drive `build_formulas.py`, and the pulse coefficient is checked against `pulse.json`. All values are draft placeholders (SOP D3).
 
 ### 3.10 `diagnosis/panel-schema.json`
 
@@ -463,3 +463,4 @@ Pharmacopoeia facts are used as structured data. The Sources screen lists each b
 | 0.9 | 2026-10-08 | PM-50: `tongue` and `face` may be on in the `dev` profile (the photo of the tongue and the face; §6.1) |
 | 0.10 | 2026-10-09 | PM-57: `review/records.json` covers the texts outside `data/` and names a unit's extra roles (`unit_roles`) |
 | 0.11 | 2026-10-09 | `safety/rules.json` `incompatibilities`: each row's `herbs`, matched by id (the 十八反 and 十九畏 check missed herbs whose names differ from the list's) |
+| 0.12 | 2026-10-19 | `scoring-params.json` `quality.by_source.practitioner` 0.9: the tongue and the pulse a practitioner reports (PD-33) |

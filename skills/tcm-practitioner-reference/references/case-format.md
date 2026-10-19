@@ -66,7 +66,8 @@ Any of these missing makes the script answer with exit code 3 and the list of wh
 - `tongue.signs`: zone features and special signs that are present (`T_TOOTHMARK_EDGE` 舌邊齒痕 …).
 - `pulse.qualities`: the pulses felt. `pulse.rate` gives 數 or 遲 from the number itself, so a rate and `P_RAPID`/`P_SLOW` are not both given. A clearly irregular rhythm is
   the level-B red flag `RF_B_IRREGULAR_PULSE`.
-- The engine counts tongue and pulse at a lower weight than the inquiry, as it does in the app.
+- The engine counts the tongue and the pulse the doctor reports as a practitioner's observations (weight 0.9; the app's guided self-observation counts 0.7 and a self-taken
+  pulse 0.5); a counted rate is a measured value (0.9).
 
 ## Example: from the doctor's words to the case
 

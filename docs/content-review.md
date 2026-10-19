@@ -81,7 +81,7 @@ One person may hold several roles if qualified; the physician and the TCM clinic
 > in the `ui` pack), with the practitioner's voice of the few `report` and `rx` lines that address the app's user; its instructions to Claude (`skills/tcm-practitioner-reference/`:
 > how a case is made from a doctor's words and how the report is read) are reviewed by the regulatory reviewer with the claims. The owner decided its open questions on
 > 2026-10-19: a declared practitioner's inline condition cells (a medicine, an allergy match, an acute external presentation) at L3 — part of the scope profiles, so the physician
-> and a second reviewer check them (PD-32); a practitioner's tongue and pulse as a finding source of their own (PD-33); and the project serves its internal doctors, learners and
+> and a second reviewer check them (PD-32); a practitioner's tongue and pulse as a finding source of their own (PD-33 — its coefficient, 0.9, is part of the scoring parameters' review); and the project serves its internal doctors, learners and
 > candidate users (PD-34, PD-35).
 
 ---

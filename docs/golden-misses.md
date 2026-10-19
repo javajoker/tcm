@@ -1,6 +1,6 @@
 # Golden cases: where the engine misses, and why
 
-> **Generated** by `node scripts/golden-misses.ts --write` from the golden cases (`packages/engine/test/golden`) and the knowledge base as the development profile bundles it (engine 0.1.0, scoring parameters `c4504d83+4c3e3303`). For the clinical reviewers, before a calibration session ([content review §4.4](content-review.md)). **Nothing was tuned to write it:** no weight, no parameter and no case was changed. The held-out half is reported as numbers only ([test plan §3.5](test-plan.md)): its misses are counted by the step at which they happen, never shown case by case, so that a session cannot aim at them; `node scripts/golden-misses.ts --held-out-detail` prints them to the terminal after a session has closed.
+> **Generated** by `node scripts/golden-misses.ts --write` from the golden cases (`packages/engine/test/golden`) and the knowledge base as the development profile bundles it (engine 0.1.0, scoring parameters `a40b9296+4c3e3303`). For the clinical reviewers, before a calibration session ([content review §4.4](content-review.md)). **Nothing was tuned to write it:** no weight, no parameter and no case was changed. The held-out half is reported as numbers only ([test plan §3.5](test-plan.md)): its misses are counted by the step at which they happen, never shown case by case, so that a session cannot aim at them; `node scripts/golden-misses.ts --held-out-detail` prints them to the terminal after a session has closed.
 
 ## 1. Where the set stands
 

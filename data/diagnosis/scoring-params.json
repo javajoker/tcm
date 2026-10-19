@@ -72,6 +72,7 @@
       "guided": 0.7,
       "inquiry": 1.0,
       "measured": 0.9,
+      "practitioner": 0.9,
       "pulse": 0.5
     },
     "default_source": "inquiry"

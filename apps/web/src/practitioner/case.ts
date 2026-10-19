@@ -303,7 +303,10 @@ export function draftOf(kb: KnowledgeBase, c: PractitionerCase, now: number): Dr
   }
   for (const id of c.tongue?.signs ?? []) d = setSign(d, id, true);
   if (c.pulse !== undefined) d = applyPulse(d, kb, { rate: c.pulse.rate ?? null, rhythm: c.pulse.rhythm ?? null, qualities: [...(c.pulse.qualities ?? [])], position: null, ...(c.pulse.rate !== undefined ? { method: "typed" as const } : {}) });
-  return d;
+  // the tongue and the pulse a practitioner reports are a source of their own (PD-33): trained eyes and fingers, not a layperson's guided self-observation or self-taken pulse
+  // (the rate the practitioner counted stays a measured value, as the app records it)
+  const findings2 = Object.fromEntries(Object.entries(d.findings).map(([id, f]) => [id, (id.startsWith("T_") && f.source === "guided") || (id.startsWith("P_") && f.source === "pulse") ? { ...f, source: "practitioner" as const } : f]));
+  return { ...d, findings: findings2 };
 }
 
 /** What the person still lacks before the engine can run (the app's own list: silence is never "no"). */

@@ -249,8 +249,9 @@ def yingwei() -> dict:
 
 def scoring_params() -> dict:
     sev = obj({"light": NUM, "moderate": NUM, "severe": NUM, "ungraded": NUM})
-    quality = obj({"by_source": obj({"inquiry": NUM, "measured": NUM, "guided": NUM, "pulse": NUM}), "by_prefix": dictionary(enum("inquiry", "measured", "guided", "pulse")),
-                   "default_source": enum("inquiry", "measured", "guided", "pulse")})
+    quality = obj({"by_source": obj({"inquiry": NUM, "measured": NUM, "guided": NUM, "pulse": NUM, "practitioner": NUM}),
+                   "by_prefix": dictionary(enum("inquiry", "measured", "guided", "pulse", "practitioner")),
+                   "default_source": enum("inquiry", "measured", "guided", "pulse", "practitioner")})
     pattern_ = obj({"required_any_missing_factor": NUM, "bands": obj({"high": NUM, "medium": NUM, "weak": NUM})})
     panel = obj({"noisy_or_floor": NUM, "degree_max": NUM, "dimension_weights": obj({"organ": NUM, "liuxie": NUM, "product": NUM, "yingwei": NUM, "bagang": NUM}),
                  "wuxing_function": obj({"zang": NUM, "fu": NUM}),
